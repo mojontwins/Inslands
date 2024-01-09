@@ -1,0 +1,34 @@
+package net.minecraft.src;
+
+import java.util.Random;
+
+public class BlockDeadBush extends BlockFlower {
+	protected BlockDeadBush(int i1, int i2) {
+		super(i1, i2);
+		float f3 = 0.4F;
+		this.setBlockBounds(0.5F - f3, 0.0F, 0.5F - f3, 0.5F + f3, 0.8F, 0.5F + f3);
+	}
+
+	protected boolean canThisPlantGrowOnThisBlockID(int var1) {
+		Block block = Block.blocksList[var1];
+		if(block != null && block.canGrowPlants()) return true;
+		
+		return var1 == Block.sand.blockID;
+	}
+
+	public int getBlockTextureFromSideAndMetadata(int i1, int i2) {
+		return this.blockIndexInTexture;
+	}
+
+	public int idDropped(int var1, Random var2) {
+		return Item.stick.shiftedIndex;
+	}
+	
+	public int quantityDropped(Random rand) {
+		return rand.nextInt(3);
+	}
+	
+	public boolean seeThrough() {
+		return true; 
+	}
+}
