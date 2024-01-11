@@ -33,7 +33,7 @@ public class EntityGhast extends EntityFlying implements IMob {
 			this.setEntityDead();
 		}
 
-		this.checkCanDespawn();
+		this.despawnEntity();
 		this.prevAttackCounter = this.attackCounter;
 		double d1 = this.waypointX - this.posX;
 		double d3 = this.waypointY - this.posY;

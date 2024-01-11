@@ -54,6 +54,16 @@ public class ChunkCache implements IBlockAccess {
 		return this.worldObj.worldProvider.lightBrightnessTable[i5];
 	}
 
+	public int getLightBrightnessForSkyBlocks(int i1, int i2, int i3, int i4) {
+		int i5 = this.getSkyBlockTypeBrightness(EnumSkyBlock.Sky, i1, i2, i3);
+		int i6 = this.getSkyBlockTypeBrightness(EnumSkyBlock.Block, i1, i2, i3);
+		if(i6 < i4) {
+			i6 = i4;
+		}
+
+		return i5 << 20 | i6 << 4;
+	}
+
 	public float getLightBrightness(int i1, int i2, int i3) {
 		return this.worldObj.worldProvider.lightBrightnessTable[this.getLightValue(i1, i2, i3)];
 	}
@@ -127,7 +137,8 @@ public class ChunkCache implements IBlockAccess {
 
 	public Material getBlockMaterial(int i1, int i2, int i3) {
 		int i4 = this.getBlockId(i1, i2, i3);
-		return i4 == 0 ? Material.air : Block.blocksList[i4].blockMaterial;
+		Block block = Block.blocksList[i4];
+		return block == null ? Material.air : block.blockMaterial;
 	}
 
 	public WorldChunkManager getWorldChunkManager() {
@@ -142,5 +153,73 @@ public class ChunkCache implements IBlockAccess {
 	public boolean isBlockNormalCube(int i1, int i2, int i3) {
 		Block block4 = Block.blocksList[this.getBlockId(i1, i2, i3)];
 		return block4 == null ? false : block4.blockMaterial.getIsSolid() && block4.renderAsNormalBlock();
+	}
+	
+	public boolean isAirBlock(int i1, int i2, int i3) {
+		Block block4 = Block.blocksList[this.getBlockId(i1, i2, i3)];
+		return block4 == null;
+	}
+	
+	public int getSkyBlockTypeBrightness(EnumSkyBlock enumSkyBlock1, int i2, int i3, int i4) {
+		if(i3 < 0) {
+			i3 = 0;
+		}
+
+		if(i3 >= 256) {
+			i3 = 255;
+		}
+
+		if(i3 >= 0 && i3 < 256 && i2 >= -30000000 && i4 >= -30000000 && i2 < 30000000 && i4 <= 30000000) {
+			int i5;
+			int i6;
+			if(Block.useNeighborBrightness[this.getBlockId(i2, i3, i4)]) {
+				i5 = this.getSpecialBlockBrightness(enumSkyBlock1, i2, i3 + 1, i4);
+				i6 = this.getSpecialBlockBrightness(enumSkyBlock1, i2 + 1, i3, i4);
+				int i7 = this.getSpecialBlockBrightness(enumSkyBlock1, i2 - 1, i3, i4);
+				int i8 = this.getSpecialBlockBrightness(enumSkyBlock1, i2, i3, i4 + 1);
+				int i9 = this.getSpecialBlockBrightness(enumSkyBlock1, i2, i3, i4 - 1);
+				if(i6 > i5) {
+					i5 = i6;
+				}
+
+				if(i7 > i5) {
+					i5 = i7;
+				}
+
+				if(i8 > i5) {
+					i5 = i8;
+				}
+
+				if(i9 > i5) {
+					i5 = i9;
+				}
+
+				return i5;
+			} else {
+				i5 = (i2 >> 4) - this.chunkX;
+				i6 = (i4 >> 4) - this.chunkZ;
+				return this.chunkArray[i5][i6].getSavedLightValue(enumSkyBlock1, i2 & 15, i3, i4 & 15);
+			}
+		} else {
+			return enumSkyBlock1.defaultLightValue;
+		}
+	}
+
+	public int getSpecialBlockBrightness(EnumSkyBlock enumSkyBlock1, int i2, int i3, int i4) {
+		if(i3 < 0) {
+			i3 = 0;
+		}
+
+		if(i3 >= 256) {
+			i3 = 255;
+		}
+
+		if(i3 >= 0 && i3 < 256 && i2 >= -30000000 && i4 >= -30000000 && i2 < 30000000 && i4 <= 30000000) {
+			int i5 = (i2 >> 4) - this.chunkX;
+			int i6 = (i4 >> 4) - this.chunkZ;
+			return this.chunkArray[i5][i6].getSavedLightValue(enumSkyBlock1, i2 & 15, i3, i4 & 15);
+		} else {
+			return enumSkyBlock1.defaultLightValue;
+		}
 	}
 }

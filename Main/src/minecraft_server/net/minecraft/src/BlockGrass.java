@@ -14,8 +14,14 @@ public class BlockGrass extends Block {
 			case 0: return 2;
 			case 1: return 0;
 			default: 
-				Material material6 = blockAccess.getBlockMaterial(x, y + 1, z);
-				return material6 != Material.snow && material6 != Material.builtSnow ? 3 : 68;
+				Block block = Block.blocksList[blockAccess.getBlockId(x, y + 1, z)];
+				
+				if(block == null) return 3;
+				
+				if(block.blockMaterial == Material.snow || block.blockMaterial == Material.builtSnow) return 68;
+				if(block.getRenderType() == 111 && blockAccess.getBlockMetadata(x, y + 1, z) > 0) return 68;
+				
+				return 3;
 		}
 	}
 
@@ -37,24 +43,27 @@ public class BlockGrass extends Block {
 	}
 	*/
 
-	public void updateTick(World world1, int i2, int i3, int i4, Random random5) {
-		if(!world1.multiplayerWorld) {
-			if(world1.getBlockLightValue(i2, i3 + 1, i4) < 4 && Block.lightOpacity[world1.getBlockId(i2, i3 + 1, i4)] > 2) {
-				if(random5.nextInt(4) != 0) {
+	public void updateTick(World world, int x, int y, int z, Random rand) {
+		if(!world.multiplayerWorld) {
+			if(world.getBlockLightValue(x, y + 1, z) < 4 && Block.lightOpacity[world.getBlockId(x, y + 1, z)] > 2) {
+				if(rand.nextInt(4) != 0) {
 					return;
 				}
 
-				world1.setBlockWithNotify(i2, i3, i4, Block.dirt.blockID);
-			} else if(world1.getBlockLightValue(i2, i3 + 1, i4) >= 9) {
-				int i6 = i2 + random5.nextInt(3) - 1;
-				int i7 = i3 + random5.nextInt(5) - 3;
-				int i8 = i4 + random5.nextInt(3) - 1;
-				int i9 = world1.getBlockId(i6, i7 + 1, i8);
-				if(world1.getBlockId(i6, i7, i8) == Block.dirt.blockID && world1.getBlockLightValue(i6, i7 + 1, i8) >= 4 && Block.lightOpacity[i9] <= 2) {
-					world1.setBlockWithNotify(i6, i7, i8, Block.grass.blockID);
+				world.setBlockWithNotify(x, y, z, Block.dirt.blockID);
+			} else if(world.getBlockLightValue(x, y + 1, z) >= 9) {
+				int xx = x + rand.nextInt(3) - 1;
+				int yy = y + rand.nextInt(5) - 3;
+				int zz = z + rand.nextInt(3) - 1;
+				int blockID = world.getBlockId(xx, yy + 1, zz);
+				if(world.getBlockId(xx, yy, zz) == Block.dirt.blockID && world.getBlockLightValue(xx, yy + 1, zz) >= 4 && Block.lightOpacity[blockID] <= 2) {
+					world.setBlockWithNotify(xx, yy, zz, Block.grass.blockID);
 				}
 			}
 
+			if(Seasons.currentSeason == Seasons.AUTUMN && world.isAirBlock(x, y + 1, z) && world.isUnderLeaves(x, y + 1, z)) {
+				world.setBlock(x, y + 1, z, Block.leafPile.blockID);
+			}
 		}
 	}
 

@@ -21,7 +21,7 @@ class PlayerInstance {
 	public PlayerInstance(PlayerManager playerManager1, int i2, int i3) {
 		this.playerManager = playerManager1;
 		this.players = new ArrayList<EntityPlayerMP>();
-		this.blocksToUpdate = new short[10];
+		this.blocksToUpdate = new short[64];
 		this.numBlocksToUpdate = 0;
 		this.chunkX = i2;
 		this.chunkZ = i3;
@@ -93,7 +93,7 @@ class PlayerInstance {
 			this.maxZ = i3;
 		}
 
-		if(this.numBlocksToUpdate < 10) {
+		if(this.numBlocksToUpdate < 64) {
 			short s4 = (short)(i1 << 12 | i3 << 8 | i2);
 
 			for(int i5 = 0; i5 < this.numBlocksToUpdate; ++i5) {
@@ -110,7 +110,7 @@ class PlayerInstance {
 	public void sendPacketToPlayersInInstance(Packet packet1) {
 		for(int i2 = 0; i2 < this.players.size(); ++i2) {
 			EntityPlayerMP entityPlayerMP3 = (EntityPlayerMP)this.players.get(i2);
-			if(entityPlayerMP3.listeningChunks.contains(this.currentChunk)) {
+			if(entityPlayerMP3.listeningChunks.contains(this.currentChunk) && !entityPlayerMP3.loadedChunks.contains(this.currentChunk)) {
 				entityPlayerMP3.playerNetServerHandler.sendPacket(packet1);
 			}
 		}
@@ -156,7 +156,6 @@ class PlayerInstance {
 						i4 = this.numBlocksToUpdate & 255;
 						i5 = this.chunkZ * 16 + (this.numBlocksToUpdate >> 8 & 15);
 						if(Block.isBlockContainer[worldServer1.getBlockId(i3, i4, i5)]) {
-							System.out.println("Sending!");
 							this.updateTileEntity(worldServer1.getBlockTileEntity(i3, i4, i5));
 						}
 					}

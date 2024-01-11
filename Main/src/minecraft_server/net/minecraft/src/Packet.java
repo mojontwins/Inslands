@@ -124,6 +124,32 @@ public abstract class Packet {
 		}
 	}
 
+	public static ItemStack readItemStack(DataInputStream stream) throws IOException {
+		ItemStack itemStack = null;
+		
+		// Read item ID
+		short itemID = stream.readShort();
+		
+		// Read stack size & item damage
+		if(itemID > 0) {
+			byte stackSize = stream.readByte();
+			short itemDamage = stream.readShort();
+			itemStack = new ItemStack(itemID, stackSize, itemDamage);
+		}
+		
+		return itemStack;
+	}
+	
+	public static void writeItemStack(ItemStack itemStack, DataOutputStream stream) throws IOException {
+		if(itemStack == null) {
+			stream.writeShort(-1);
+		} else {
+			stream.writeShort(itemStack.itemID);
+			stream.writeByte(itemStack.stackSize);
+			stream.writeShort(itemStack.getItemDamage());
+		}
+	}
+
 	public abstract void readPacketData(DataInputStream dataInputStream1) throws IOException;
 
 	public abstract void writePacketData(DataOutputStream dataOutputStream1) throws IOException;
@@ -189,6 +215,7 @@ public abstract class Packet {
 		addIdClassMapping(130, true, true, Packet130UpdateSign.class);
 		addIdClassMapping(131, true, false, Packet131MapData.class);
 		addIdClassMapping(200, true, false, Packet200Statistic.class);
+		addIdClassMapping(250, true, true, Packet250CustomPayload.class);
 		addIdClassMapping(255, true, true, Packet255KickDisconnect.class);
 		
 		// Custom

@@ -15,6 +15,10 @@ public class BiomeGenForest extends BiomeGenBase {
 		return 32;
 	}
 	
+	public int getNetherVinesPerChunk() {
+		return 32;
+	}
+	
 	public void prePopulate(World world, Random rand, int x0, int z0) {
 		int x, y, z;
 		
@@ -71,7 +75,25 @@ public class BiomeGenForest extends BiomeGenBase {
 			y = world.getHeightValueUnderWater (x, z) + 1;
 
 			if(Block.coral.canBlockStay(world, x, y, z)) {
-				world.setBlockAndMetadataWithNotify(x, y, z, Block.coral.blockID, rand.nextInt(3));
+				world.setBlockAndMetadataWithNotify(x, y, z, Block.coral.blockID, 8 | rand.nextInt(3));
+			}
+		}
+		
+		// Cave vines
+		for (int i = 0; i < this.getNetherVinesPerChunk(); ++i) {
+			x = chunkX + rand.nextInt(16) + 8;
+			y = rand.nextInt(96);
+			z = chunkZ + rand.nextInt(16) + 8;
+			(new WorldGenCaveVines()).generate(world, rand, x, y, z);
+		}
+		
+		// Generate leaves on autumn
+		if(this.weather != Weather.cold && Seasons.currentSeason == Seasons.AUTUMN) {
+			for(int i = 0; i < 128; i ++) {
+				x = chunkX + rand.nextInt(16) + 8;
+				z = chunkZ + rand.nextInt(16) + 8;
+				y = world.getLandSurfaceHeightValue(x, z);
+				(new WorldGenLeafPile()).generate(world, rand, x, y, z);
 			}
 		}
 	}

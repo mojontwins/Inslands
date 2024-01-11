@@ -10,8 +10,8 @@ public class EmptyChunk extends Chunk {
 		this.neverSave = true;
 	}
 
-	public EmptyChunk(World world1, byte[] b2, int i3, int i4) {
-		super(world1, b2, i3, i4);
+	public EmptyChunk(World world1, byte[] b2, byte[] b3, int i3, int i4) {
+		super(world1, b2, b3, i3, i4);
 		this.neverSave = true;
 	}
 
@@ -21,9 +21,6 @@ public class EmptyChunk extends Chunk {
 
 	public int getHeightValue(int i1, int i2) {
 		return 0;
-	}
-
-	public void func_1014_a() {
 	}
 
 	public void generateHeightMap() {

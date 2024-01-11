@@ -21,6 +21,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
 
+import com.misc.moreresources.MoreResourcesInstaller;
+
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
@@ -254,6 +256,8 @@ public abstract class Minecraft implements Runnable {
 		this.texturePackList = new TexturePackList(this, this.mcDataDir);
 		this.renderEngine = new RenderEngine(this.texturePackList, this.gameSettings);
 		this.fontRenderer = new FontRenderer(this.gameSettings, "/font/default.png", this.renderEngine);
+		
+		// Init ramps (not used)
 		ColorizerWater.setColorRamp(this.renderEngine.getTextureContents("/misc/watercolor.png"));
 		ColorizerGrass.setColorRamp(this.renderEngine.getTextureContents("/misc/grasscolor.png"));
 		ColorizerFoliage.setColorRamp(this.renderEngine.getTextureContents("/misc/foliagecolor.png"));
@@ -309,6 +313,9 @@ public abstract class Minecraft implements Runnable {
 			this.downloadResourcesThread.start();
 		} catch (Exception exception3) {
 		}
+
+		MoreResourcesInstaller moreResourcesInstaller = new MoreResourcesInstaller(this);
+		moreResourcesInstaller.installResources();
 
 		this.checkGLError("Post startup");
 		this.ingameGUI = new GuiIngame(this);
@@ -1418,15 +1425,9 @@ public abstract class Minecraft implements Runnable {
 			chunkProviderLoadOrGenerate7.setCurrentChunkOver(chunkCoordinates6.posX >> 4, chunkCoordinates6.posZ >> 4);
 		}
 
-		/*
-		for(int i10 = -s2; i10 <= s2; i10 += 16) {
-			for(int i8 = -s2; i8 <= s2; i8 += 16) {
-		*/
 		// Preload ALL world
 		for(int i10 = 0; i10 < WorldSize.width; i10 += 16) {
 			for(int i8 = 0 ; i8 < WorldSize.length; i8 += 16) {
-				//this.loadingScreen.setLoadingProgress(i3++ * 100 / i4);
-				//this.theWorld.getBlockId(chunkCoordinates6.posX + i10, 64, chunkCoordinates6.posZ + i8);
 				this.loadingScreen.setLoadingProgress(i3++ * 100 / WorldSize.getTotalChunks());
 				this.theWorld.getBlockId(i10, 64, i8);
 				

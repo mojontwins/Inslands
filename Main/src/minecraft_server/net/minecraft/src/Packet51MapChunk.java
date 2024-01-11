@@ -35,7 +35,7 @@ public class Packet51MapChunk extends Packet {
 		try {
 			deflater9.setInput(b8);
 			deflater9.finish();
-			this.chunk = new byte[i4 * i5 * i6 * 5 / 2];
+			this.chunk = new byte[i4 * i5 * i6 * 3];
 			this.chunkSize = deflater9.deflate(this.chunk);
 		} finally {
 			deflater9.end();
@@ -53,7 +53,7 @@ public class Packet51MapChunk extends Packet {
 		this.chunkSize = dataInputStream1.readInt();
 		byte[] b2 = new byte[this.chunkSize];
 		dataInputStream1.readFully(b2);
-		this.chunk = new byte[this.xSize * this.ySize * this.zSize * 5 / 2];
+		this.chunk = new byte[this.xSize * this.ySize * this.zSize * 3];
 		Inflater inflater3 = new Inflater();
 		inflater3.setInput(b2);
 

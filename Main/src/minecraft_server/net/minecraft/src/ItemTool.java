@@ -2,18 +2,19 @@ package net.minecraft.src;
 
 public class ItemTool extends Item {
 	private Block[] blocksEffectiveAgainst;
-	private float efficiencyOnProperMaterial = 4.0F;
+	protected float efficiencyOnProperMaterial = 4.0F;
 	private int damageVsEntity;
 	protected EnumToolMaterial toolMaterial;
 
-	protected ItemTool(int i1, int i2, EnumToolMaterial enumToolMaterial3, Block[] block4) {
-		super(i1);
+	protected ItemTool(int id, int attackDmg, EnumToolMaterial enumToolMaterial3, Block[] block4, boolean silkTouch) {
+		super(id);
 		this.toolMaterial = enumToolMaterial3;
 		this.blocksEffectiveAgainst = block4;
 		this.maxStackSize = 1;
 		this.setMaxDamage(enumToolMaterial3.getMaxUses());
 		this.efficiencyOnProperMaterial = enumToolMaterial3.getEfficiencyOnProperMaterial();
-		this.damageVsEntity = i2 + enumToolMaterial3.getDamageVsEntity();
+		this.damageVsEntity = attackDmg + enumToolMaterial3.getDamageVsEntity();
+		this.silkTouch = silkTouch;
 	}
 
 	public float getStrVsBlock(ItemStack itemStack1, Block block2) {

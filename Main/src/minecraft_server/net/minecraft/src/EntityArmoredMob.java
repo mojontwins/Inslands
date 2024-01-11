@@ -10,17 +10,20 @@ public class EntityArmoredMob extends EntityMob {
 		this.inventory = new InventoryMob(this, this.getSecondaryInventorySize()); 
 	}
 	
+	@Override
 	public void readEntityFromNBT(NBTTagCompound var1) {
 		super.readEntityFromNBT(var1);
 		NBTTagCompound var2 = var1.getCompoundTag("Inventory");
 		this.inventory.readFromNBT(var2);
 	}
 
+	@Override
 	public void writeEntityToNBT(NBTTagCompound var1) {
 		super.writeEntityToNBT(var1);
 		var1.setTag("Inventory", this.inventory.writeToNBT(new NBTTagCompound()));
 	}
 	
+	@Override
 	public IInventory getIInventory() {
 		return this.inventory;
 	}
@@ -29,6 +32,7 @@ public class EntityArmoredMob extends EntityMob {
 		this.inventory = (InventoryMob) inventory;
 	}
 	
+	@Override
 	protected void damageEntity(int var1) {
 		int var2 = 25 - this.inventory.getTotalArmorValue();
 		int var3 = var1 * var2 + this.carryoverDamage;
@@ -39,5 +43,10 @@ public class EntityArmoredMob extends EntityMob {
 	
 	public int getSecondaryInventorySize() {
 		return 9;
+	}
+
+	@Override
+	public boolean getCanSpawnHere() {
+		return this.worldObj.checkIfAABBIsClear(this.boundingBox) && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).size() == 0 && !this.worldObj.getIsAnyLiquid(this.boundingBox);
 	}
 }

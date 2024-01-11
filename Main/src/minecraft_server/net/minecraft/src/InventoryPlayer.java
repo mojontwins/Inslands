@@ -271,6 +271,16 @@ public class InventoryPlayer implements IInventory {
 		return itemStack2 != null ? itemStack2.getDamageVsEntity(entity1) : 1;
 	}
 
+	public float getExtraKnockbackVsEntity(Entity entity1) {
+		ItemStack itemStack2 = this.getStackInSlot(this.currentItem);
+		return itemStack2 != null ? itemStack2.getExtraKnockbackVsEntity(entity1) : 0.0F;
+	}
+	
+	public int getSwingSpeed() {
+		ItemStack itemStack2 = this.getStackInSlot(this.currentItem);
+		return itemStack2 != null ? itemStack2.getSwingSpeed() : 6;
+	}	
+
 	public boolean canHarvestBlock(Block block, int metadata) {
 		Material material = block.getBlockMaterialBasedOnmetaData(metadata);
 		if(material.getIsHarvestable()) {

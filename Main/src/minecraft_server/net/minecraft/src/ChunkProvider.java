@@ -23,8 +23,10 @@ public class ChunkProvider implements IChunkProvider {
 	}
 	
 	private Chunk getBlankChunk() {
-		Chunk chunk = new Chunk(this.worldObj, new byte[32768], 0, 0);
+		Chunk chunk = new Chunk(this.worldObj, new byte[32768], new byte[32768], 0, 0);
 		chunk.neverSave = true;
+		
+		Block mainLiquid = Block.blocksList[LevelThemeGlobalSettings.levelThemeMainBiome.mainLiquid];
 		
 		if(LevelThemeGlobalSettings.worldTypeID != WorldType.SKY.getId()) {
 			// Fill with water up to y = 63
@@ -32,8 +34,10 @@ public class ChunkProvider implements IChunkProvider {
 				for(int z = 0; z < 16; z ++) {
 					int index = x << 11 | z << 7;
 					for(int y = 0; y < 64; y ++) {
-						chunk.blocks[index ++] =  y < 56 ? (byte)Block.stone.blockID : (byte)LevelThemeGlobalSettings.levelThemeMainBiome.mainLiquid;
+						chunk.blocks[index ++] =  y < 56 ? (byte)Block.stone.blockID : (byte)mainLiquid.blockID;
 					}
+					
+					chunk.blocklightMap.setNibble(x, 63, z, Block.lightValue[mainLiquid.blockID]);
 				}
 			}
 		}
@@ -102,6 +106,10 @@ public class ChunkProvider implements IChunkProvider {
 			Chunk chunk3 = this.chunkCache[WorldSize.coords2hash(i1, i2)];
 			return chunk3 == null ? this.prepareChunk(i1, i2) : chunk3;
 		}
+	}
+	
+	public Chunk justGenerateForHeight(int chunkX, int chunkZ) {
+		return this.chunkProvider.justGenerateForHeight(chunkX, chunkZ);
 	}
 
 	private Chunk loadChunkFromFile(int i1, int i2) {

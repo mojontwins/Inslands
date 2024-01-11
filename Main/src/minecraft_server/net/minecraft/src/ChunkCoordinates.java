@@ -8,6 +8,11 @@ public class ChunkCoordinates implements Comparable<Object> {
 	public ChunkCoordinates() {
 	}
 
+	public ChunkCoordinates(int posX, int posZ) {
+		this.posX = posX;
+		this.posZ = posZ;
+	}
+	
 	public ChunkCoordinates(int i1, int i2, int i3) {
 		this.posX = i1;
 		this.posY = i2;

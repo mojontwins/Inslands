@@ -81,4 +81,8 @@ public class EntitySpider extends EntityMob {
 	public boolean isOnLadder() {
 		return this.isCollidedHorizontally;
 	}
+
+	public float spiderScaleAmount() {
+		return 1.0F;
+	}
 }

@@ -39,4 +39,5 @@ public class InventoryCraftResult implements IInventory {
 	public boolean canInteractWith(EntityPlayer entityPlayer1) {
 		return true;
 	}
+	
 }

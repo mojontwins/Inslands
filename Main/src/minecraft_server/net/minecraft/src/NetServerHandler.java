@@ -22,7 +22,8 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 	private boolean hasMoved = true;
 	private Map<Integer, Short> s_field_10_k = new HashMap<Integer, Short>();
 
-	public NetServerHandler(MinecraftServer minecraftServer1, NetworkManager networkManager2, EntityPlayerMP entityPlayerMP3) {
+	public NetServerHandler(MinecraftServer minecraftServer1, NetworkManager networkManager2,
+			EntityPlayerMP entityPlayerMP3) {
 		this.mcServer = minecraftServer1;
 		this.netManager = networkManager2;
 		networkManager2.setNetHandler(this);
@@ -42,13 +43,16 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 		this.playerEntity.s_func_30002_A();
 		this.sendPacket(new Packet255KickDisconnect(string1));
 		this.netManager.serverShutdown();
-		this.mcServer.configManager.sendPacketToAllPlayers(new Packet3Chat("\u00a7e" + this.playerEntity.username + " left the game."));
+		this.mcServer.configManager
+				.sendPacketToAllPlayers(new Packet3Chat("\u00a7e" + this.playerEntity.username + " left the game."));
 		this.mcServer.configManager.playerLoggedOut(this.playerEntity);
 		this.connectionClosed = true;
 	}
 
 	public void handlePosition(Packet27Position packet27Position1) {
-		this.playerEntity.setMovementType(packet27Position1.getStrafeMovement(), packet27Position1.getForwardMovement(), packet27Position1.isSneaking(), packet27Position1.isInJump(), packet27Position1.getPitchRotation(), packet27Position1.getYawRotation());
+		this.playerEntity.setMovementType(packet27Position1.getStrafeMovement(), packet27Position1.getForwardMovement(),
+				packet27Position1.isSneaking(), packet27Position1.isInJump(), packet27Position1.getPitchRotation(),
+				packet27Position1.getYawRotation());
 	}
 
 	public void handleFlying(Packet10Flying packet10Flying1) {
@@ -56,7 +60,8 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 		double d3;
 		if(!this.hasMoved) {
 			d3 = packet10Flying1.yPosition - this.lastPosY;
-			if(packet10Flying1.xPosition == this.lastPosX && d3 * d3 < 0.01D && packet10Flying1.zPosition == this.lastPosZ) {
+			if (packet10Flying1.xPosition == this.lastPosX && d3 * d3 < 0.01D
+					&& packet10Flying1.zPosition == this.lastPosZ) {
 				this.hasMoved = true;
 			}
 		}
@@ -80,7 +85,8 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 					f4 = packet10Flying1.pitch;
 				}
 
-				if(packet10Flying1.moving && packet10Flying1.yPosition == -999.0D && packet10Flying1.stance == -999.0D) {
+				if (packet10Flying1.moving && packet10Flying1.yPosition == -999.0D
+						&& packet10Flying1.stance == -999.0D) {
 					d27 = packet10Flying1.xPosition;
 					d13 = packet10Flying1.zPosition;
 				}
@@ -99,7 +105,7 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 					this.playerEntity.ridingEntity.updateRiderPosition();
 				}
 
-				this.mcServer.configManager.s_func_613_b(this.playerEntity);
+				this.mcServer.configManager.serverUpdateMountedMovingPlayer(this.playerEntity);
 				this.lastPosX = this.playerEntity.posX;
 				this.lastPosY = this.playerEntity.posY;
 				this.lastPosZ = this.playerEntity.posZ;
@@ -109,7 +115,8 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 
 			if(this.playerEntity.isPlayerSleeping()) {
 				this.playerEntity.onUpdateEntity(true);
-				this.playerEntity.setPositionAndRotation(this.lastPosX, this.lastPosY, this.lastPosZ, this.playerEntity.rotationYaw, this.playerEntity.rotationPitch);
+				this.playerEntity.setPositionAndRotation(this.lastPosX, this.lastPosY, this.lastPosZ,
+						this.playerEntity.rotationYaw, this.playerEntity.rotationPitch);
 				worldServer2.updateEntity(this.playerEntity);
 				return;
 			}
@@ -167,7 +174,9 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 			}
 
 			float f21 = 0.0625F;
-			boolean z22 = worldServer2.getCollidingBoundingBoxes(this.playerEntity, this.playerEntity.boundingBox.copy().getInsetBoundingBox((double)f21, (double)f21, (double)f21)).size() == 0;
+			boolean z22 = worldServer2.getCollidingBoundingBoxes(this.playerEntity,
+					this.playerEntity.boundingBox.copy().getInsetBoundingBox((double) f21, (double) f21, (double) f21))
+					.size() == 0;
 			this.playerEntity.moveEntity(d13, d15, d17);
 			d13 = d5 - this.playerEntity.posX;
 			d15 = d7 - this.playerEntity.posY;
@@ -182,18 +191,23 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 				z23 = true;
 				logger.warning(this.playerEntity.username + " moved wrongly!");
 				System.out.println("Got position " + d5 + ", " + d7 + ", " + d9);
-				System.out.println("Expected " + this.playerEntity.posX + ", " + this.playerEntity.posY + ", " + this.playerEntity.posZ);
+				System.out.println("Expected " + this.playerEntity.posX + ", " + this.playerEntity.posY + ", "
+						+ this.playerEntity.posZ);
 			}
 
 			this.playerEntity.setPositionAndRotation(d5, d7, d9, f11, f12);
-			boolean z24 = worldServer2.getCollidingBoundingBoxes(this.playerEntity, this.playerEntity.boundingBox.copy().getInsetBoundingBox((double)f21, (double)f21, (double)f21)).size() == 0;
+			boolean z24 = worldServer2.getCollidingBoundingBoxes(this.playerEntity,
+					this.playerEntity.boundingBox.copy().getInsetBoundingBox((double) f21, (double) f21, (double) f21))
+					.size() == 0;
 			if(z22 && (z23 || !z24) && !this.playerEntity.isPlayerSleeping()) {
 				this.teleportTo(this.lastPosX, this.lastPosY, this.lastPosZ, f11, f12);
 				return;
 			}
 
-			AxisAlignedBB axisAlignedBB25 = this.playerEntity.boundingBox.copy().expand((double)f21, (double)f21, (double)f21).addCoord(0.0D, -0.55D, 0.0D);
-			if(!this.mcServer.allowFlight && !worldServer2.getIsAnyNonEmptyBlock(axisAlignedBB25) && !this.playerEntity.isCreative) {
+			AxisAlignedBB axisAlignedBB25 = this.playerEntity.boundingBox.copy()
+					.expand((double) f21, (double) f21, (double) f21).addCoord(0.0D, -0.55D, 0.0D);
+			if (!this.mcServer.allowFlight && !worldServer2.getIsAnyNonEmptyBlock(axisAlignedBB25)
+					&& !this.playerEntity.isCreative) {
 				if(d15 >= -0.03125D) {
 					++this.playerInAirTime;
 					if(this.playerInAirTime > 80) {
@@ -207,7 +221,7 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 			}
 
 			this.playerEntity.onGround = packet10Flying1.onGround;
-			this.mcServer.configManager.s_func_613_b(this.playerEntity);
+			this.mcServer.configManager.serverUpdateMountedMovingPlayer(this.playerEntity);
 			this.playerEntity.handleFalling(this.playerEntity.posY - d3, packet10Flying1.onGround);
 		}
 
@@ -219,7 +233,8 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 		this.lastPosY = d3;
 		this.lastPosZ = d5;
 		this.playerEntity.setPositionAndRotation(d1, d3, d5, f7, f8);
-		this.playerEntity.playerNetServerHandler.sendPacket(new Packet13PlayerLookMove(d1, d3 + (double)1.62F, d3, d5, f7, f8, false));
+		this.playerEntity.playerNetServerHandler
+				.sendPacket(new Packet13PlayerLookMove(d1, d3 + (double) 1.62F, d3, d5, f7, f8, false));
 	}
 
 	public void handleBlockDig(Packet14BlockDig packet14BlockDig1) {
@@ -227,7 +242,8 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 		if(packet14BlockDig1.status == 4) {
 			this.playerEntity.dropCurrentItem();
 		} else {
-			boolean z3 = worldServer2.s_field_819_z = worldServer2.worldProvider.worldType != 0 || this.mcServer.configManager.isOp(this.playerEntity.username);
+			boolean z3 = worldServer2.disableSpawnProtection = worldServer2.worldProvider.worldType != 0
+					|| this.mcServer.configManager.isOp(this.playerEntity.username);
 			boolean z4 = false;
 			if(packet14BlockDig1.status == 0) {
 				z4 = true;
@@ -259,14 +275,16 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 
 			if(packet14BlockDig1.status == 0) {
 				if(i20 <= 16 && !z3) {
-					this.playerEntity.playerNetServerHandler.sendPacket(new Packet53BlockChange(i5, i6, i7, worldServer2));
+					this.playerEntity.playerNetServerHandler
+							.sendPacket(new Packet53BlockChange(i5, i6, i7, worldServer2));
 				} else {
 					this.playerEntity.itemInWorldManager.blockClicked(i5, i6, i7, packet14BlockDig1.face);
 				}
 			} else if(packet14BlockDig1.status == 2) {
 				this.playerEntity.itemInWorldManager.blockRemoving(i5, i6, i7);
 				if(worldServer2.getBlockId(i5, i6, i7) != 0) {
-					this.playerEntity.playerNetServerHandler.sendPacket(new Packet53BlockChange(i5, i6, i7, worldServer2));
+					this.playerEntity.playerNetServerHandler
+							.sendPacket(new Packet53BlockChange(i5, i6, i7, worldServer2));
 				}
 			} else if(packet14BlockDig1.status == 3) {
 				double d11 = this.playerEntity.posX - ((double)i5 + 0.5D);
@@ -274,18 +292,20 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 				double d15 = this.playerEntity.posZ - ((double)i7 + 0.5D);
 				double d17 = d11 * d11 + d13 * d13 + d15 * d15;
 				if(d17 < 256.0D) {
-					this.playerEntity.playerNetServerHandler.sendPacket(new Packet53BlockChange(i5, i6, i7, worldServer2));
+					this.playerEntity.playerNetServerHandler
+							.sendPacket(new Packet53BlockChange(i5, i6, i7, worldServer2));
 				}
 			}
 
-			worldServer2.s_field_819_z = false;
+			worldServer2.disableSpawnProtection = false;
 		}
 	}
 
 	public void handlePlace(Packet15Place packet15Place1) {
 		WorldServer worldServer2 = this.mcServer.getWorldManager(this.playerEntity.dimension);
 		ItemStack itemStack3 = this.playerEntity.inventory.getCurrentItem();
-		boolean z4 = worldServer2.s_field_819_z = worldServer2.worldProvider.worldType != 0 || this.mcServer.configManager.isOp(this.playerEntity.username);
+		boolean z4 = worldServer2.disableSpawnProtection = worldServer2.worldProvider.worldType != 0
+				|| this.mcServer.configManager.isOp(this.playerEntity.username);
 		if(packet15Place1.direction == 255) {
 			if(itemStack3 == null) {
 				return;
@@ -308,8 +328,10 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 				i11 = i10;
 			}
 
-			if(this.hasMoved && this.playerEntity.getDistanceSq((double)i5 + 0.5D, (double)i6 + 0.5D, (double)i7 + 0.5D) < 64.0D && (i11 > 16 || z4)) {
-				this.playerEntity.itemInWorldManager.activeBlockOrUseItem(this.playerEntity, worldServer2, itemStack3, i5, i6, i7, i8, xWithinFace, yWithinFace, zWithinFace);
+			if (this.hasMoved && this.playerEntity.getDistanceSq((double) i5 + 0.5D, (double) i6 + 0.5D,
+					(double) i7 + 0.5D) < 64.0D && (i11 > 16 || z4)) {
+				this.playerEntity.itemInWorldManager.activeBlockOrUseItem(this.playerEntity, worldServer2, itemStack3,
+						i5, i6, i7, i8, xWithinFace, yWithinFace, zWithinFace);
 			}
 
 			this.playerEntity.playerNetServerHandler.sendPacket(new Packet53BlockChange(i5, i6, i7, worldServer2));
@@ -346,20 +368,24 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 		}
 
 		this.playerEntity.isChangingQuantityOnly = true;
-		this.playerEntity.inventory.mainInventory[this.playerEntity.inventory.currentItem] = ItemStack.copyItemStack(this.playerEntity.inventory.mainInventory[this.playerEntity.inventory.currentItem]);
-		Slot slot12 = this.playerEntity.craftingInventory.findCurrentItem(this.playerEntity.inventory, this.playerEntity.inventory.currentItem);
+		this.playerEntity.inventory.mainInventory[this.playerEntity.inventory.currentItem] = ItemStack
+				.copyItemStack(this.playerEntity.inventory.mainInventory[this.playerEntity.inventory.currentItem]);
+		Slot slot12 = this.playerEntity.craftingInventory.findCurrentItem(this.playerEntity.inventory,
+				this.playerEntity.inventory.currentItem);
 		this.playerEntity.craftingInventory.updateCraftingResults();
 		this.playerEntity.isChangingQuantityOnly = false;
 		if(!ItemStack.areItemStacksEqual(this.playerEntity.inventory.getCurrentItem(), packet15Place1.itemStack)) {
-			this.sendPacket(new Packet103SetSlot(this.playerEntity.craftingInventory.windowId, slot12.id, this.playerEntity.inventory.getCurrentItem()));
+			this.sendPacket(new Packet103SetSlot(this.playerEntity.craftingInventory.windowId, slot12.id,
+					this.playerEntity.inventory.getCurrentItem()));
 		}
 
-		worldServer2.s_field_819_z = false;
+		worldServer2.disableSpawnProtection = false;
 	}
 
 	public void handleErrorMessage(String string1, Object[] object2) {
 		logger.info(this.playerEntity.username + " lost connection: " + string1);
-		this.mcServer.configManager.sendPacketToAllPlayers(new Packet3Chat("\u00a7e" + this.playerEntity.username + " left the game."));
+		this.mcServer.configManager
+				.sendPacketToAllPlayers(new Packet3Chat("\u00a7e" + this.playerEntity.username + " left the game."));
 		this.mcServer.configManager.playerLoggedOut(this.playerEntity);
 		this.connectionClosed = true;
 	}
@@ -477,7 +503,8 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 	public void handleUseEntity(Packet7UseEntity packet7UseEntity1) {
 		WorldServer worldServer2 = this.mcServer.getWorldManager(this.playerEntity.dimension);
 		Entity entity3 = worldServer2.s_func_6158_a(packet7UseEntity1.targetEntity);
-		if(entity3 != null && this.playerEntity.canEntityBeSeen(entity3) && this.playerEntity.getDistanceSqToEntity(entity3) < 36.0D) {
+		if (entity3 != null && this.playerEntity.canEntityBeSeen(entity3)
+				&& this.playerEntity.getDistanceSqToEntity(entity3) < 36.0D) {
 			if(packet7UseEntity1.isLeftClick == 0) {
 				this.playerEntity.useCurrentItemOnEntity(entity3);
 			} else if(packet7UseEntity1.isLeftClick == 1) {
@@ -498,17 +525,21 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 	}
 
 	public void handleWindowClick(Packet102WindowClick packet102WindowClick1) {
-		if(this.playerEntity.craftingInventory.windowId == packet102WindowClick1.window_Id && this.playerEntity.craftingInventory.getCanCraft(this.playerEntity)) {
-			ItemStack itemStack2 = this.playerEntity.craftingInventory.slotClick(packet102WindowClick1.inventorySlot, packet102WindowClick1.mouseClick, packet102WindowClick1.packetBoolean, this.playerEntity);
+		if (this.playerEntity.craftingInventory.windowId == packet102WindowClick1.window_Id
+				&& this.playerEntity.craftingInventory.getCanCraft(this.playerEntity)) {
+			ItemStack itemStack2 = this.playerEntity.craftingInventory.slotClick(packet102WindowClick1.inventorySlot,
+					packet102WindowClick1.mouseClick, packet102WindowClick1.packetBoolean, this.playerEntity);
 			if(ItemStack.areItemStacksEqual(packet102WindowClick1.itemStack, itemStack2)) {
-				this.playerEntity.playerNetServerHandler.sendPacket(new Packet106Transaction(packet102WindowClick1.window_Id, packet102WindowClick1.action, true));
+				this.playerEntity.playerNetServerHandler.sendPacket(
+						new Packet106Transaction(packet102WindowClick1.window_Id, packet102WindowClick1.action, true));
 				this.playerEntity.isChangingQuantityOnly = true;
 				this.playerEntity.craftingInventory.updateCraftingResults();
 				this.playerEntity.updateHeldItem();
 				this.playerEntity.isChangingQuantityOnly = false;
 			} else {
 				this.s_field_10_k.put(this.playerEntity.craftingInventory.windowId, packet102WindowClick1.action);
-				this.playerEntity.playerNetServerHandler.sendPacket(new Packet106Transaction(packet102WindowClick1.window_Id, packet102WindowClick1.action, false));
+				this.playerEntity.playerNetServerHandler.sendPacket(
+						new Packet106Transaction(packet102WindowClick1.window_Id, packet102WindowClick1.action, false));
 				this.playerEntity.craftingInventory.setCanCraft(this.playerEntity, false);
 				ArrayList<ItemStack> arrayList3 = new ArrayList<ItemStack>();
 
@@ -524,7 +555,9 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 
 	public void handleTransaction(Packet106Transaction packet106Transaction1) {
 		Short short2 = (Short)this.s_field_10_k.get(this.playerEntity.craftingInventory.windowId);
-		if(short2 != null && packet106Transaction1.shortWindowId == short2.shortValue() && this.playerEntity.craftingInventory.windowId == packet106Transaction1.windowId && !this.playerEntity.craftingInventory.getCanCraft(this.playerEntity)) {
+		if (short2 != null && packet106Transaction1.shortWindowId == short2.shortValue()
+				&& this.playerEntity.craftingInventory.windowId == packet106Transaction1.windowId
+				&& !this.playerEntity.craftingInventory.getCanCraft(this.playerEntity)) {
 			this.playerEntity.craftingInventory.setCanCraft(this.playerEntity, true);
 		}
 
@@ -532,12 +565,15 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 
 	public void handleUpdateSign(Packet130UpdateSign packet130UpdateSign1) {
 		WorldServer worldServer2 = this.mcServer.getWorldManager(this.playerEntity.dimension);
-		if(worldServer2.blockExists(packet130UpdateSign1.xPosition, packet130UpdateSign1.yPosition, packet130UpdateSign1.zPosition)) {
-			TileEntity tileEntity3 = worldServer2.getBlockTileEntity(packet130UpdateSign1.xPosition, packet130UpdateSign1.yPosition, packet130UpdateSign1.zPosition);
+		if (worldServer2.blockExists(packet130UpdateSign1.xPosition, packet130UpdateSign1.yPosition,
+				packet130UpdateSign1.zPosition)) {
+			TileEntity tileEntity3 = worldServer2.getBlockTileEntity(packet130UpdateSign1.xPosition,
+					packet130UpdateSign1.yPosition, packet130UpdateSign1.zPosition);
 			if(tileEntity3 instanceof TileEntitySign) {
 				TileEntitySign tileEntitySign4 = (TileEntitySign)tileEntity3;
 				if(!tileEntitySign4.getIsEditAble()) {
-					this.mcServer.logWarning("Player " + this.playerEntity.username + " just tried to change non-editable sign");
+					this.mcServer.logWarning(
+							"Player " + this.playerEntity.username + " just tried to change non-editable sign");
 					return;
 				}
 			}
@@ -550,7 +586,8 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 					z5 = false;
 				} else {
 					for(i6 = 0; i6 < packet130UpdateSign1.signLines[i9].length(); ++i6) {
-						if(ChatAllowedCharacters.allowedCharacters.indexOf(packet130UpdateSign1.signLines[i9].charAt(i6)) < 0) {
+						if (ChatAllowedCharacters.allowedCharacters
+								.indexOf(packet130UpdateSign1.signLines[i9].charAt(i6)) < 0) {
 							z5 = false;
 						}
 					}
@@ -579,6 +616,9 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 
 	}
 
+	public void handleCustomPayload(Packet250CustomPayload par1Packet250CustomPayload) {
+	}
+	
 	// Here come ol' custom stuff
 
 	public void handleSetCreative(Packet99SetCreativeMode var1) {

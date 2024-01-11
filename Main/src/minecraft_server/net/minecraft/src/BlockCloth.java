@@ -36,11 +36,12 @@ public class BlockCloth extends Block {
 	
 	// Use this and save 15 textures in the texture atlas. Note how metadata-color is reversed
 	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z) {
-		int meta = blockAccess.getBlockMetadata(x, y, z);
-		return clothColors[15 - meta];
+		return this.getRenderColor(blockAccess.getBlockMetadata(x, y, z));
 	}
 	
 	public int getRenderColor(int meta) {
 		return clothColors[15 - meta];
 	}
+	
+	
 }

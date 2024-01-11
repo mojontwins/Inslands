@@ -24,7 +24,7 @@ public class WorldType {
 		this.id = par1;
 		worldTypes[par1] = this;
 	}
-
+	
 	public static int getIdByName(String worldType) {
 		if(worldType != null && !"".equals(worldType)) {
 			for(int i = 0; i < worldTypes.length; i ++) {
@@ -92,7 +92,6 @@ public class WorldType {
 		);
 	}
 
-	/** @deprecated */
 	public int getSeaLevel(World var1) {
 		return this.getMinimumSpawnHeight(var1);
 	}

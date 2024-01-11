@@ -55,7 +55,6 @@ public abstract class Entity {
 	protected int maxAir = 300;
 	protected boolean inWater = false;
 	public int heartsLife = 0;
-	public int air = 300;
 	private boolean isFirstUpdate = true;
 	public String skinUrl;
 	public String cloakUrl;
@@ -77,6 +76,7 @@ public abstract class Entity {
 		this.worldObj = world1;
 		this.setPosition(0.0D, 0.0D, 0.0D);
 		this.dataWatcher.addObject(0, (byte)0);
+		this.dataWatcher.addObject(1, (short)300);
 		this.entityInit();
 	}
 
@@ -447,12 +447,14 @@ public abstract class Entity {
 			this.isCollidedVertically = d13 != moveY;
 			this.onGround = d13 != moveY && d13 < 0.0D;
 			this.isCollided = this.isCollidedHorizontally || this.isCollidedVertically;
-			this.updateFallState(moveY, this.onGround);
+			
+			boolean rebound = this.hitGround(moveY, this.onGround);
+			
 			if(d11 != moveX) {
 				this.motionX = 0.0D;
 			}
 
-			if(d13 != moveY) {
+			if(d13 != moveY && rebound == false) {
 				this.motionY = 0.0D;
 			}
 
@@ -499,9 +501,9 @@ public abstract class Entity {
 				for(int i31 = i38; i31 <= i28; ++i31) {
 					for(int i32 = i26; i32 <= i40; ++i32) {
 						for(int i33 = i39; i33 <= i30; ++i33) {
-							int i34 = this.worldObj.getBlockId(i31, i32, i33);
-							if(i34 > 0) {
-								Block.blocksList[i34].onEntityCollidedWithBlock(this.worldObj, i31, i32, i33, this);
+							Block block = Block.blocksList[this.worldObj.getBlockId(i31, i32, i33)];
+							if(block != null) {
+								block.onEntityCollidedWithBlock(this.worldObj, i31, i32, i33, this);
 							}
 						}
 					}
@@ -533,16 +535,19 @@ public abstract class Entity {
 		return true;
 	}
 
-	protected void updateFallState(double d1, boolean z3) {
-		if(z3) {
+	public boolean hitGround(double moveY, boolean onGround) {
+		boolean rebound = false;
+		
+		if(onGround) {
 			if(this.fallDistance > 0.0F) {
-				this.fall(this.fallDistance);
+				rebound = this.fall(this.fallDistance);
 				this.fallDistance = 0.0F;
 			}
-		} else if(d1 < 0.0D) {
-			this.fallDistance = (float)((double)this.fallDistance - d1);
+		} else if(moveY < 0.0D) {
+			this.fallDistance = (float)((double)this.fallDistance - moveY);
 		}
 
+		return rebound;
 	}
 
 	public AxisAlignedBB getBoundingBox() {
@@ -556,11 +561,12 @@ public abstract class Entity {
 
 	}
 
-	protected void fall(float f1) {
+	protected boolean fall(float distance) {
 		if(this.riddenByEntity != null) {
-			this.riddenByEntity.fall(f1);
+			return this.riddenByEntity.fall(distance);
 		}
 
+		return false;
 	}
 
 	public boolean isWet() {
@@ -581,7 +587,8 @@ public abstract class Entity {
 		int i5 = MathHelper.floor_float((float)MathHelper.floor_double(d2));
 		int i6 = MathHelper.floor_double(this.posZ);
 		int i7 = this.worldObj.getBlockId(i4, i5, i6);
-		if(i7 != 0 && Block.blocksList[i7].blockMaterial == material1) {
+		Block block = Block.blocksList[i7];
+		if(block != null && block.blockMaterial == material1) {
 			float f8 = BlockFluid.getPercentAir(this.worldObj.getBlockMetadata(i4, i5, i6)) - 0.11111111F;
 			float f9 = (float)(i5 + 1) - f8;
 			return d2 < (double)f9;
@@ -615,20 +622,27 @@ public abstract class Entity {
 		}
 	}
 
-	public float getEntityBrightness(float f1) {
+	public int getBrightnessForRender(float f1) {
 		int i2 = MathHelper.floor_double(this.posX);
-		double d3 = (this.boundingBox.maxY - this.boundingBox.minY) * 0.66D;
-		int i5 = MathHelper.floor_double(this.posY - (double)this.yOffset + d3);
-		int i6 = MathHelper.floor_double(this.posZ);
-		if(this.worldObj.checkChunksExist(MathHelper.floor_double(this.boundingBox.minX), MathHelper.floor_double(this.boundingBox.minY), MathHelper.floor_double(this.boundingBox.minZ), MathHelper.floor_double(this.boundingBox.maxX), MathHelper.floor_double(this.boundingBox.maxY), MathHelper.floor_double(this.boundingBox.maxZ))) {
-			float f7 = this.worldObj.getLightBrightness(i2, i5, i6);
-			if(f7 < this.entityBrightness) {
-				f7 = this.entityBrightness;
+		int i3 = MathHelper.floor_double(this.posZ);
+		if(this.worldObj.blockExists(i2, 0, i3)) {
+			double d4 = (this.boundingBox.maxY - this.boundingBox.minY) * 0.66D;
+			int i6 = MathHelper.floor_double(this.posY - (double)this.yOffset + d4);
+			return this.worldObj.getLightBrightnessForSkyBlocks(i2, i6, i3, 0);
+		} else {
+			return 0;
+		}
 			}
 
-			return f7;
+	public float getEntityBrightness(float f1) {
+		int i2 = MathHelper.floor_double(this.posX);
+		int i3 = MathHelper.floor_double(this.posZ);
+		if(this.worldObj.blockExists(i2, 0, i3)) {
+			double d4 = (this.boundingBox.maxY - this.boundingBox.minY) * 0.66D;
+			int i6 = MathHelper.floor_double(this.posY - (double)this.yOffset + d4);
+			return this.worldObj.getLightBrightness(i2, i6, i3);
 		} else {
-			return this.entityBrightness;
+			return 0.0F;
 		}
 	}
 
@@ -784,7 +798,7 @@ public abstract class Entity {
 		nBTTagCompound1.setTag("Rotation", this.newFloatNBTList(new float[]{this.rotationYaw, this.rotationPitch}));
 		nBTTagCompound1.setFloat("FallDistance", this.fallDistance);
 		nBTTagCompound1.setShort("Fire", (short)this.fire);
-		nBTTagCompound1.setShort("Air", (short)this.air);
+		nBTTagCompound1.setShort("Air", (short)this.getAir());
 		nBTTagCompound1.setBoolean("OnGround", this.onGround);
 		this.writeEntityToNBT(nBTTagCompound1);
 	}
@@ -815,7 +829,7 @@ public abstract class Entity {
 		this.prevRotationPitch = this.rotationPitch = ((NBTTagFloat)nBTTagList4.tagAt(1)).floatValue;
 		this.fallDistance = nBTTagCompound1.getFloat("FallDistance");
 		this.fire = nBTTagCompound1.getShort("Fire");
-		this.air = nBTTagCompound1.getShort("Air");
+		this.setAir(nBTTagCompound1.getShort("Air"));
 		this.onGround = nBTTagCompound1.getBoolean("OnGround");
 		this.setPosition(this.posX, this.posY, this.posZ);
 		this.setRotation(this.rotationYaw, this.rotationPitch);
@@ -1032,6 +1046,10 @@ public abstract class Entity {
 		return null;
 	}
 
+	public IInventory getIInventory() {
+		return null;
+	}
+	
 	public void setVelocity(double d1, double d3, double d5) {
 		this.motionX = d1;
 		this.motionY = d3;
@@ -1078,6 +1096,14 @@ public abstract class Entity {
 			this.dataWatcher.updateObject(0, (byte)(b3 & ~(1 << i1)));
 		}
 
+	}
+
+	public int getAir() {
+		return this.dataWatcher.getWatchableObjectShort(1);
+	}
+
+	public void setAir(int i1) {
+		this.dataWatcher.updateObject(1, (short)i1);
 	}
 
 	public void onStruckByLightning(EntityLightningBolt entityLightningBolt1) {
@@ -1183,4 +1209,5 @@ public abstract class Entity {
 	public boolean bootsOfLeather() {
 		return false;
 	}
+
 }

@@ -7,6 +7,8 @@ public class WorldSize {
 	public static int width;
 	public static int length;
 	
+	public static int sizeID;
+	
 	private static final String sizeNames[] = new String[] { "small", "normal", "big" };
 	
 	public static void setSize(int xChunks, int zChunks) {
@@ -38,6 +40,8 @@ public class WorldSize {
 		case 1: setSize(16, 16); break;
 		case 2: setSize(32, 32); break;
 		}
+		
+		WorldSize.sizeID = sizeId;
 	}
 
 	public static void setSizeByName(String stringProperty) {

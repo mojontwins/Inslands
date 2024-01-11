@@ -156,12 +156,13 @@ public class Pathfinder {
 					int i9 = this.worldMap.getBlockId(i6, i7, i8);
 					if(i9 > 0) {
 						if(i9 != Block.doorSteel.blockID && i9 != Block.doorWood.blockID) {
-							Material material11 = Block.blocksList[i9].blockMaterial;
+							Block block = Block.blocksList[i9];
+							Material material11 = block == null ? Material.air : block.blockMaterial;
 							if(material11.getIsSolid()) {
 								return 0;
 							}
 
-							if(material11 == Material.water) {
+							if(material11 == Material.water && !(entity1 instanceof IWaterMob)) {
 								return -1;
 							}
 

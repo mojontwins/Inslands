@@ -1,13 +1,19 @@
 package net.minecraft.src;
 
 public class ItemSword extends Item {
-	private int weaponDamage;
+	protected int weaponDamage;
 
-	public ItemSword(int i1, EnumToolMaterial enumToolMaterial2) {
+	public static Block[] canHarvest = new Block[] {
+		Block.leaves,
+		Block.web
+	};
+
+	public ItemSword(int i1, EnumToolMaterial enumToolMaterial2, boolean silkTouch) {
 		super(i1);
 		this.maxStackSize = 1;
 		this.setMaxDamage(enumToolMaterial2.getMaxUses());
 		this.weaponDamage = 4 + enumToolMaterial2.getDamageVsEntity() * 2;
+		this.silkTouch = silkTouch;
 	}
 
 	public float getStrVsBlock(ItemStack itemStack1, Block block2) {
@@ -32,7 +38,10 @@ public class ItemSword extends Item {
 		return true;
 	}
 
-	public boolean canHarvestBlock(Block block1) {
-		return block1.blockID == Block.web.blockID;
+	public boolean canHarvestBlock(Block block) {
+		for(int i = 0; i < canHarvest.length; i ++) {
+			if(block == canHarvest[i]) return true;
+		}
+		return false;
 	}
 }

@@ -41,7 +41,7 @@ public class EntityCreature extends EntityLiving {
 		}
 
 		int i21 = MathHelper.floor_double(this.boundingBox.minY + 0.5D);
-		boolean z3 = this.isInWater();
+		boolean z3 = this.isInWater() && this.triesToFloat();
 		boolean z4 = this.handleLavaMovement();
 		this.rotationPitch = 0.0F;
 		if(this.pathToEntity != null && this.rand.nextInt(100) != 0) {

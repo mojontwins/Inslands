@@ -1,8 +1,8 @@
 package net.minecraft.src;
 
 public class Slot {
-	private final int slotIndex;
-	private final IInventory inventory;
+	public final int slotIndex;
+	public final IInventory inventory;
 	public int id;
 	public int xDisplayPosition;
 	public int yDisplayPosition;
@@ -12,6 +12,24 @@ public class Slot {
 		this.slotIndex = i2;
 		this.xDisplayPosition = i3;
 		this.yDisplayPosition = i4;
+	}
+
+	public void onSlotChange(ItemStack par1ItemStack, ItemStack par2ItemStack) {
+		if (par1ItemStack != null && par2ItemStack != null) {
+			if (par1ItemStack.itemID == par2ItemStack.itemID) {
+				int var3 = par2ItemStack.stackSize - par1ItemStack.stackSize;
+
+				if (var3 > 0) {
+					this.onCrafting(par1ItemStack, var3);
+				}
+			}
+		}
+	}
+
+	protected void onCrafting(ItemStack par1ItemStack, int par2) {
+	}
+
+	protected void onCrafting(ItemStack par1ItemStack) {
 	}
 
 	public void onPickupFromSlot(ItemStack itemStack1) {

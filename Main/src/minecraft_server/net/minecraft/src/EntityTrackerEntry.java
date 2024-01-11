@@ -234,6 +234,9 @@ public class EntityTrackerEntry {
 			} else if(this.trackedEntity instanceof EntityArrow) {
 				EntityLiving entityLiving5 = ((EntityArrow)this.trackedEntity).shootingEntity;
 				return new Packet23VehicleSpawn(this.trackedEntity, 60, entityLiving5 != null ? entityLiving5.entityId : this.trackedEntity.entityId);
+			} else if(this.trackedEntity instanceof EntityThrowablePotion) {
+				EntityLiving entityLiving5 = ((EntityThrowablePotion)this.trackedEntity).thrower;
+				return new Packet23VehicleSpawn(this.trackedEntity, 101, entityLiving5 != null ? entityLiving5.entityId : this.trackedEntity.entityId, ((EntityThrowablePotion)this.trackedEntity).getPotionAsIndex());
 			} else if(this.trackedEntity instanceof EntityPebble) {
 				/*EntityLiving entityLiving5 = ((EntityPebble)this.trackedEntity).thrower;
 				return new Packet23VehicleSpawn(this.trackedEntity, 100, entityLiving5 != null ? entityLiving5.entityId : this.trackedEntity.entityId);*/

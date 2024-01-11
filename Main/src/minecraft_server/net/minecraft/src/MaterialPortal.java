@@ -16,4 +16,8 @@ public class MaterialPortal extends Material {
 	public boolean getIsSolid() {
 		return false;
 	}
+	
+	public boolean blocksMovement() {
+		return false;
+	}
 }

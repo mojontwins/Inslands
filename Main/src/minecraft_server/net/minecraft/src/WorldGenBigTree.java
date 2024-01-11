@@ -18,6 +18,7 @@ public class WorldGenBigTree extends WorldGenerator {
 	int heightLimitLimit = 12;
 	int leafDistanceLimit = 4;
 	int[][] leafNodes;
+	int trunkRadius = 0;
 	int meta;
 	
 	boolean checkIfItFits;
@@ -180,38 +181,47 @@ public class WorldGenBigTree extends WorldGenerator {
 
 	}
 
-	void placeBlockLine(int[] i1, int[] i2, int i3) {
-		int[] i4 = new int[]{0, 0, 0};
-		byte b5 = 0;
+	void placeBlockLine(int[] from, int[] to, int blockID) {
+		// This is a 3d line algorithm
+		int[] coord = new int[]{0, 0, 0};
 
-		byte b6;
-		for(b6 = 0; b5 < 3; ++b5) {
-			i4[b5] = i2[b5] - i1[b5];
-			if(Math.abs(i4[b5]) > Math.abs(i4[b6])) {
-				b6 = b5;
+		// Calculate dx, dy, dz, and find which is the biggest
+		byte mainCmp = 0;
+		for(byte i = 0; i < 3; ++i) {
+			coord[i] = to[i] - from[i];
+			if(Math.abs(coord[i]) > Math.abs(coord[mainCmp])) {
+				mainCmp = i;
 			}
 		}
 
-		if(i4[b6] != 0) {
-			byte b7 = otherCoordPairs[b6];
-			byte b8 = otherCoordPairs[b6 + 3];
-			byte b9;
-			if(i4[b6] > 0) {
-				b9 = 1;
+		// My work: knowing which component displaces the most
+		// (x, y or z) I can select metadata
+		int metadata = mainCmp == 1 ? 0 : (mainCmp == 0 ? 12 : 4); // was: 4:8
+
+		if(coord[mainCmp] != 0) {
+			// Pick up the other component (ie not mainCmp)
+			byte cmp1 = otherCoordPairs[mainCmp];
+			byte cmp2 = otherCoordPairs[mainCmp + 3];
+			byte direction;
+			
+			if(coord[mainCmp] > 0) {
+				direction = 1;
 			} else {
-				b9 = -1;
+				direction = -1;
 			}
 
-			double d10 = (double)i4[b7] / (double)i4[b6];
-			double d12 = (double)i4[b8] / (double)i4[b6];
-			int[] i14 = new int[]{0, 0, 0};
-			int i15 = 0;
+			// How much increase cmp1 and cmp2 in each iteration
+			double dCmp1 = (double)coord[cmp1] / (double)coord[mainCmp];
+			double dCmp2 = (double)coord[cmp2] / (double)coord[mainCmp];
 
-			for(int i16 = i4[b6] + b9; i15 != i16; i15 += b9) {
-				i14[b6] = MathHelper.floor_double((double)(i1[b6] + i15) + 0.5D);
-				i14[b7] = MathHelper.floor_double((double)i1[b7] + (double)i15 * d10 + 0.5D);
-				i14[b8] = MathHelper.floor_double((double)i1[b8] + (double)i15 * d12 + 0.5D);
-				this.world.setBlock(i14[0], i14[1], i14[2], i3);
+			int[] curPos = new int[]{0, 0, 0};
+			int dst = coord[mainCmp] + direction;
+			
+			for(int i = 0; i != dst; i += direction) {
+				curPos[mainCmp] = MathHelper.floor_double((double)(from[mainCmp] + i) + 0.5D);
+				curPos[cmp1] = MathHelper.floor_double((double)from[cmp1] + (double)i * dCmp1 + 0.5D);
+				curPos[cmp2] = MathHelper.floor_double((double)from[cmp2] + (double)i * dCmp2 + 0.5D);
+				world.setBlockAndMetadata(curPos[0], curPos[1], curPos[2], blockID, metadata);
 			}
 
 		}
@@ -234,23 +244,41 @@ public class WorldGenBigTree extends WorldGenerator {
 	}
 
 	void generateTrunk() {
-		int i1 = this.basePos[0];
-		int i2 = this.basePos[1];
-		int i3 = this.basePos[1] + this.height;
-		int i4 = this.basePos[2];
-		int[] i5 = new int[]{i1, i2, i4};
-		int[] i6 = new int[]{i1, i3, i4};
-		this.placeBlockLine(i5, i6, Block.wood.blockID);
-		if(this.trunkSize == 2) {
-			++i5[0];
-			++i6[0];
+		if(this.trunkRadius == 0) {
+			int i1 = this.basePos[0];
+			int i2 = this.basePos[1];
+			int i3 = this.basePos[1] + this.height;
+			int i4 = this.basePos[2];
+			int[] i5 = new int[]{i1, i2, i4};
+			int[] i6 = new int[]{i1, i3, i4};
 			this.placeBlockLine(i5, i6, Block.wood.blockID);
-			++i5[2];
-			++i6[2];
-			this.placeBlockLine(i5, i6, Block.wood.blockID);
-			i5[0] += -1;
-			i6[0] += -1;
-			this.placeBlockLine(i5, i6, Block.wood.blockID);
+			if(this.trunkSize == 2) {
+				++i5[0];
+				++i6[0];
+				this.placeBlockLine(i5, i6, Block.wood.blockID);
+				++i5[2];
+				++i6[2];
+				this.placeBlockLine(i5, i6, Block.wood.blockID);
+				i5[0] += -1;
+				i6[0] += -1;
+				this.placeBlockLine(i5, i6, Block.wood.blockID);
+			}
+		} else {
+			int radius = this.trunkRadius;
+			
+			for(int x = -radius; x <= radius; x ++) {
+				for(int z = -radius; z <= radius; z ++) {
+					if(x * x + z * z <= radius * radius) {
+						int i1 = this.basePos[0] + x;
+						int i2 = this.basePos[1];
+						int i3 = this.basePos[1] + this.height;
+						int i4 = this.basePos[2] + z;
+						int[] i5 = new int[]{i1, i2, i4};
+						int[] i6 = new int[]{i1, i3, i4};
+						this.placeBlockLine(i5, i6, 17);
+					}
+				}
+			}
 		}
 
 	}
@@ -344,6 +372,9 @@ public class WorldGenBigTree extends WorldGenerator {
 
 		this.scaleWidth = scaleY;
 		this.leafDensity = scaleZ;
+	
+		this.trunkRadius = (int)(scaleY - .1);
+		if(this.trunkRadius < 0) this.trunkRadius = 0;
 	}
 
 	public boolean generate(World world, Random rand, int x, int y, int z) {

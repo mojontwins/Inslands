@@ -11,6 +11,8 @@ import java.util.TreeSet;
 
 public class World implements IBlockAccess {
 	private static final int blocksToTickPerFrame = 80;
+	private static final int maxLightingUpdates = 10000000; 	// was 1M, now it's 10M
+	private static final int maxLightingUpdatesPerThick = 1000; // was 500, now it's 1000
 		
 	public boolean scheduledUpdatesAreImmediate;
 	private List<MetadataChunkBlock> lightingToUpdate;
@@ -22,7 +24,7 @@ public class World implements IBlockAccess {
 	private List<TileEntity> entityRemoval;
 	public List<EntityPlayer> playerEntities;
 	public List<Entity> weatherEffects;
-	private final int cloudColour = 0xFFFFFF;
+	private long cloudColour;
 	public int skylightSubtracted;
 	protected int updateLCG;
 	protected final int DIST_HASH_MAGIC;
@@ -35,7 +37,7 @@ public class World implements IBlockAccess {
 	public boolean isNewWorld;
 	public final WorldProvider worldProvider;
 	protected List<IWorldAccess> worldAccesses;
-	protected IChunkProvider chunkProvider;
+	public IChunkProvider chunkProvider;
 	protected final ISaveHandler saveHandler;
 	protected WorldInfo worldInfo;
 	public boolean findingSpawnPoint;
@@ -51,6 +53,7 @@ public class World implements IBlockAccess {
 	private int soundCounter;
 	private List<Entity> entitiesWithinAABBExcludingEntity;
 	public boolean multiplayerWorld;
+	public boolean colouredAthmospherics;
 
 	// Weather
 		
@@ -65,11 +68,13 @@ public class World implements IBlockAccess {
 	public int lastLightningBolt;
 	public int lightningFlash;
 	public int lightningChance = 50000;
-
+	
 	// Blood moon
 	public boolean badMoonDecide;
 	public boolean badMoonText;
 	public boolean nextMoonBad;
+	
+	private int snowTicker = 0;
 	
 	public WorldChunkManager getWorldChunkManager() {
 		return this.worldProvider.worldChunkMgr;
@@ -86,6 +91,7 @@ public class World implements IBlockAccess {
 		this.entityRemoval = new ArrayList<TileEntity>();
 		this.playerEntities = new ArrayList<EntityPlayer>();
 		this.weatherEffects = new ArrayList<Entity>();
+		this.cloudColour = 16777215L;
 		this.skylightSubtracted = 0;
 		this.updateLCG = (new Random()).nextInt();
 		this.DIST_HASH_MAGIC = 1013904223;
@@ -126,6 +132,7 @@ public class World implements IBlockAccess {
 		this.entityRemoval = new ArrayList<TileEntity>();
 		this.playerEntities = new ArrayList<EntityPlayer>();
 		this.weatherEffects = new ArrayList<Entity>();
+		this.cloudColour = 16777215L;
 		this.skylightSubtracted = 0;
 		this.updateLCG = (new Random()).nextInt();
 		this.DIST_HASH_MAGIC = 1013904223;
@@ -153,7 +160,6 @@ public class World implements IBlockAccess {
 		worldProvider2.registerWorld(this);
 		this.chunkProvider = this.getChunkProvider();
 		
-		this.worldInfo.setBloodMoon(false);
 		this.badMoonDecide = false;
 		this.nextMoonBad = false;
 		
@@ -179,6 +185,7 @@ public class World implements IBlockAccess {
 		this.entityRemoval = new ArrayList<TileEntity>();
 		this.playerEntities = new ArrayList<EntityPlayer>();
 		this.weatherEffects = new ArrayList<Entity>();
+		this.cloudColour = 16777215L;
 		this.skylightSubtracted = 0;
 		this.updateLCG = (new Random()).nextInt();
 		this.DIST_HASH_MAGIC = 1013904223;
@@ -203,8 +210,7 @@ public class World implements IBlockAccess {
 		
 		Seasons.dayOfTheYear = -1;
 		this.worldInfo = iSaveHandler1.loadWorldInfo();
-
-		if(this.worldInfo != null) this.worldInfo.setBloodMoon(false);
+		
 		this.badMoonDecide = false;
 		this.nextMoonBad = false;
 
@@ -233,7 +239,7 @@ public class World implements IBlockAccess {
 			this.getInitialSpawnLocation();
 			this.initializeWeather();
 		}
-
+		
 		// Start in mid spring to mid summer
 		if(Seasons.dayOfTheYear < 0) Seasons.dayOfTheYear = this.rand.nextInt(Seasons.SEASON_DURATION) + Seasons.SEASON_DURATION + (Seasons.SEASON_DURATION >> 1);
 		if(LevelThemeGlobalSettings.permaSpring) Seasons.dayOfTheYear = 12;
@@ -361,13 +367,34 @@ public class World implements IBlockAccess {
 	public int getBlockId(int x, int y, int z) {
 		return x >= 0 && z >= 0 && x < WorldSize.width && z < WorldSize.length ? (y < 0 ? 0 : (y >= 128 ? 0 : this.getChunkFromChunkCoords(x >> 4, z >> 4).getBlockID(x & 15, y, z & 15))) : 0;
 	}
+	
+	public int getBlockId(BlockPos blockPos) {
+		return this.getBlockId(blockPos.x, blockPos.y, blockPos.z);
+	}
 
 	public boolean isAirBlock(int i1, int i2, int i3) {
 		return this.getBlockId(i1, i2, i3) == 0;
 	}
+	
+	public boolean isAirBlock(BlockPos blockPos) {
+		return this.isAirBlock(blockPos.x, blockPos.y, blockPos.z);
+	}
+	
+	public boolean isWaterBlock(int i1, int i2, int i3) {
+		Block b = Block.blocksList[this.getBlockId(i1, i2, i3)];
+		return (b != null && b instanceof BlockFluid);
+	}
 
+	public boolean isWaterBlock(BlockPos blockPos) {
+		return this.isWaterBlock(blockPos.x, blockPos.y, blockPos.z);
+	}
+	
 	public boolean blockExists(int x, int y, int z) {
 		return x >= 0 && z >= 0 && x < WorldSize.width && z < WorldSize.length && y >= 0 && y < 128 ? this.chunkExists(x >> 4, z >> 4) : false;
+	}
+	
+	public boolean blockExists(BlockPos blockPos) {
+		return this.blockExists(blockPos.x, blockPos.y, blockPos.z);
 	}
 
 	public boolean doChunksNearChunkExist(int i1, int i2, int i3, int i4) {
@@ -397,7 +424,7 @@ public class World implements IBlockAccess {
 		}
 	}
 
-	private boolean chunkExists(int i1, int i2) {
+	public boolean chunkExists(int i1, int i2) {
 		return this.chunkProvider.chunkExists(i1, i2);
 	}
 
@@ -424,6 +451,11 @@ public class World implements IBlockAccess {
 		}
 	}
 
+
+	public boolean setBlockAndMetadata(BlockPos blockPos, int id, int metadata) {
+		return this.setBlockAndMetadata(blockPos.x, blockPos.y, blockPos.z, id, metadata);
+	}
+
 	public boolean setBlock(int x, int y, int z, int blockID) {
 		if(x >= 0 && z >= 0 && x < WorldSize.width && z < WorldSize.length) {
 			if(y < 0) {
@@ -439,11 +471,24 @@ public class World implements IBlockAccess {
 		}
 	}
 
+	public boolean setBlock(BlockPos blockPos, int id, int metadata) {
+		return this.setBlock(blockPos.x, blockPos.y, blockPos.z, id);
+	}
+	
+	public boolean setBlockAndMetadataColumn(int x, int y, int z, int[] id) {
+		if(y < 0) return false;
+		return this.getChunkFromChunkCoords(x >> 4, z >> 4).setBlockIDAndMetadataColumn(x & 15, y, z & 15, id);
+	}
+
 	public Material getBlockMaterial(int i1, int i2, int i3) {
 		int i4 = this.getBlockId(i1, i2, i3);
 		return i4 == 0 ? Material.air : Block.blocksList[i4].blockMaterial;
 	}
 
+	public Material getBlockMaterial(BlockPos blockPos) {
+		return this.getBlockMaterial(blockPos.x, blockPos.y, blockPos.z);
+	}
+	
 	public int getBlockMetadata(int x, int y, int z) {
 		if(x >= 0 && z >= 0 && x < WorldSize.width && z < WorldSize.length) {
 			if(y < 0) {
@@ -461,6 +506,10 @@ public class World implements IBlockAccess {
 		}
 	}
 
+	public int getBlockMetadata(BlockPos blockPos) {
+		return this.getBlockMetadata(blockPos.x, blockPos.y, blockPos.z);
+	}
+	
 	public void setBlockMetadataWithNotify(int i1, int i2, int i3, int i4) {
 		if(this.setBlockMetadata(i1, i2, i3, i4)) {
 			int i5 = this.getBlockId(i1, i2, i3);
@@ -471,6 +520,10 @@ public class World implements IBlockAccess {
 			}
 		}
 
+	}
+
+	public void setBlockMetadataWithNotify(BlockPos blockPos, int meta) {
+		this.setBlockMetadataWithNotify(blockPos.x, blockPos.y, blockPos.z, meta);
 	}
 
 	public boolean setBlockMetadata(int x, int y, int z, int metadata) {
@@ -491,22 +544,34 @@ public class World implements IBlockAccess {
 		}
 	}
 
-	public boolean setBlockWithNotify(int i1, int i2, int i3, int i4) {
-		if(this.setBlock(i1, i2, i3, i4)) {
-			this.notifyBlockChange(i1, i2, i3, i4);
+	public boolean setBlockMetadata(BlockPos blockPos, int metadata) {
+		return this.setBlockMetadata(blockPos.x, blockPos.y, blockPos.z, metadata);
+	}
+
+	public boolean setBlockWithNotify(int x, int y, int z, int id) {
+		if(this.setBlock(x, y, z, id)) {
+			this.notifyBlockChange(x, y, z, id);
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	public boolean setBlockAndMetadataWithNotify(int i1, int i2, int i3, int i4, int i5) {
-		if(this.setBlockAndMetadata(i1, i2, i3, i4, i5)) {
-			this.notifyBlockChange(i1, i2, i3, i4);
+	public boolean setBlockWithNotify(BlockPos blockPos, int i) {
+		return this.setBlockWithNotify(blockPos.x, blockPos.y, blockPos.z, i);
+	}
+
+	public boolean setBlockAndMetadataWithNotify(int x, int y, int z, int id, int metadata) {
+		if(this.setBlockAndMetadata(x, y, z, id, metadata)) {
+			this.notifyBlockChange(x, y, z, id);
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	public boolean setBlockAndMetadataWithNotify(BlockPos blockPos, int id, int metadata) {
+		return this.setBlockAndMetadataWithNotify(blockPos.x, blockPos.y, blockPos.z, id, metadata);
 	}
 
 	public void markBlockNeedsUpdate(int i1, int i2, int i3) {
@@ -666,10 +731,43 @@ public class World implements IBlockAccess {
 	}
 
 	public int getLandSurfaceHeightValue(int blockX, int blockZ) {
-		Chunk chunk3 = this.getChunkFromChunkCoords(blockX >> 4, blockZ >> 4);
+		Chunk chunk3 = null;
+		if(this.chunkExists(blockX >> 4, blockZ >> 4)) {
+			chunk3 = this.getChunkFromChunkCoords(blockX >> 4, blockZ >> 4);
+		} else {
+			chunk3 = this.chunkProvider.justGenerateForHeight(blockX >> 4, blockZ >> 4);
+		}
 		return chunk3.getLandSurfaceHeightValue(blockX & 15, blockZ & 15);
 	}
 		
+	public boolean isOceanChunk(int chunkX, int chunkZ) {
+		Chunk chunk = null;
+		if(this.chunkExists(chunkX, chunkZ)) {
+			chunk = this.getChunkFromChunkCoords(chunkX, chunkZ);
+		} else {
+			chunk = this.chunkProvider.justGenerateForHeight(chunkX, chunkZ);
+		}
+		return chunk.isOcean;
+	}
+	
+	public boolean isUrbanChunk(int chunkX, int chunkZ) {
+		Chunk chunk = null;
+		if(this.chunkExists(chunkX, chunkZ)) {
+			chunk = this.getChunkFromChunkCoords(chunkX, chunkZ);
+		} else {
+			chunk = this.chunkProvider.justGenerateForHeight(chunkX, chunkZ);
+		}
+		return chunk.isUrbanChunk;
+	}
+
+	public Chunk justGenerateForHeight(int chunkX, int chunkZ) {
+		if(this.chunkExists(chunkX, chunkZ)) {
+			return this.getChunkFromChunkCoords(chunkX, chunkZ);
+		} else {
+			return this.chunkProvider.justGenerateForHeight(chunkX, chunkZ);
+		}
+	}
+	
 	public int getHeightValueUnderWater (int x, int z) {
 		// Start here
 		int y = getHeightValue (x, z);
@@ -704,45 +802,99 @@ public class World implements IBlockAccess {
 		}
 	}
 
-	public int getSavedLightValue(EnumSkyBlock enumSkyBlock1, int x, int y, int z) {
-		if(y < 0) {
-			y = 0;
+	public int getSkyBlockTypeBrightness(EnumSkyBlock enumSkyBlock1, int i2, int i3, int i4) {
+		if(this.worldProvider.hasNoSky && enumSkyBlock1 == EnumSkyBlock.Sky) {
+			return 0;
+		} else {
+			if(i3 < 0) {
+				i3 = 0;
+			}
+
+			if(i3 >= 128) {
+				return enumSkyBlock1.defaultLightValue;
+			} else {
+				int i5 = i2 >> 4;
+				int i6 = i4 >> 4;
+				if(!this.chunkExists(i5, i6)) {
+					return enumSkyBlock1.defaultLightValue;
+				} else if(Block.useNeighborBrightness[this.getBlockId(i2, i3, i4)]) {
+					int i12 = this.getSavedLightValue(enumSkyBlock1, i2, i3 + 1, i4);
+					int i8 = this.getSavedLightValue(enumSkyBlock1, i2 + 1, i3, i4);
+					int i9 = this.getSavedLightValue(enumSkyBlock1, i2 - 1, i3, i4);
+					int i10 = this.getSavedLightValue(enumSkyBlock1, i2, i3, i4 + 1);
+					int i11 = this.getSavedLightValue(enumSkyBlock1, i2, i3, i4 - 1);
+					if(i8 > i12) {
+						i12 = i8;
+					}
+
+					if(i9 > i12) {
+						i12 = i9;
+					}
+
+					if(i10 > i12) {
+						i12 = i10;
+					}
+
+					if(i11 > i12) {
+						i12 = i11;
+					}
+
+					return i12;
+				} else {
+					Chunk chunk7 = this.getChunkFromChunkCoords(i5, i6);
+					return chunk7.getSavedLightValue(enumSkyBlock1, i2 & 15, i3, i4 & 15);
+				}
+			} 
+		}
+	}
+
+	public int getSavedLightValue(EnumSkyBlock enumSkyBlock1, int i2, int i3, int i4) {
+		if(i3 < 0) {
+			i3 = 0;
 		}
 
-		if(y >= 128) {
-			y = 127;
+		if(i3 >= 128) {
+			i3 = 127;
 		}
 
-		if(y >= 0 && y < 128 && x >= 0 && z >= 0 && x < WorldSize.width && z < WorldSize.length) {
-			int i5 = x >> 4;
-			int i6 = z >> 4;
+		if(i3 >= 0 && i3 < 128) {
+			int i5 = i2 >> 4;
+			int i6 = i4 >> 4;
 			if(!this.chunkExists(i5, i6)) {
 				return 0;
 			} else {
 				Chunk chunk7 = this.getChunkFromChunkCoords(i5, i6);
-				return chunk7.getSavedLightValue(enumSkyBlock1, x & 15, y, z & 15);
+				return chunk7.getSavedLightValue(enumSkyBlock1, i2 & 15, i3, i4 & 15);
 			}
 		} else {
 			return enumSkyBlock1.defaultLightValue;
 		}
 	}
 
-	public void setLightValue(EnumSkyBlock enumSkyBlock1, int x, int y, int z, int lightValue) {
-		if(x >= 0 && z >= 0 && x < WorldSize.width && z < WorldSize.length) {
-			if(y >= 0) {
-				if(y < 128) {
-					if(this.chunkExists(x >> 4, z >> 4)) {
-						Chunk chunk6 = this.getChunkFromChunkCoords(x >> 4, z >> 4);
-						chunk6.setLightValue(enumSkyBlock1, x & 15, y, z & 15, lightValue);
+	public void setLightValue(EnumSkyBlock enumSkyBlock1, int i2, int i3, int i4, int i5) {
+		if(i3 >= 0) {
+			if(i3 < 128) {
+				if(this.chunkExists(i2 >> 4, i4 >> 4)) {
+					Chunk chunk6 = this.getChunkFromChunkCoords(i2 >> 4, i4 >> 4);
+					chunk6.setLightValue(enumSkyBlock1, i2 & 15, i3, i4 & 15, i5);
 
 						for(int i7 = 0; i7 < this.worldAccesses.size(); ++i7) {
-							((IWorldAccess)this.worldAccesses.get(i7)).markBlockNeedsUpdate(x, y, z);
+						((IWorldAccess)this.worldAccesses.get(i7)).markBlockNeedsUpdate(i2, i3, i4);
 						}
 
 					}
 				}
 			}
 		}
+
+	public int getLightBrightnessForSkyBlocks(int i1, int i2, int i3, int i4) {
+		int i5 = this.getSkyBlockTypeBrightness(EnumSkyBlock.Sky, i1, i2, i3);
+		int i6 = this.getSkyBlockTypeBrightness(EnumSkyBlock.Block, i1, i2, i3);
+		if(i6 < i4) {
+			i6 = i4;
+		}
+
+		return i5 << 20 | i6 << 4;
 	}
 
 	public float getBrightness(int i1, int i2, int i3, int i4) {
@@ -903,8 +1055,9 @@ public class World implements IBlockAccess {
 					int i35 = this.getBlockId(i8, i9, i10);
 					int i36 = this.getBlockMetadata(i8, i9, i10);
 					Block block37 = Block.blocksList[i35];
-					if((!z4 || block37 == null || block37.getCollisionBoundingBoxFromPool(this, i8, i9, i10) != null) && i35 > 0 && block37.canCollideCheck(i36, z3)) {
-						MovingObjectPosition movingObjectPosition38 = block37.collisionRayTrace(this, i8, i9, i10, vec3D1, vec3D2);
+					if((!z4 || block37 == null || block37.getCollisionBoundingBoxFromPool(this, i8, i9, i10) != null) && i35 > 0 && (block37 == null || block37.canCollideCheck(i36, z3))) {
+						MovingObjectPosition movingObjectPosition38 = null;
+						if(block37 != null) movingObjectPosition38 = block37.collisionRayTrace(this, i8, i9, i10, vec3D1, vec3D2);
 						if(movingObjectPosition38 != null) {
 							return movingObjectPosition38;
 						}
@@ -1048,7 +1201,7 @@ public class World implements IBlockAccess {
 					for(int i11 = i5 - 1; i11 < i6; ++i11) {
 						Block block12 = Block.blocksList[this.getBlockId(i9, i11, i10)];
 						if(block12 != null && !(block12 instanceof BlockFluid)) {
-							block12.getCollidingBoundingBoxes(this, i9, i11, i10, axisAlignedBB2, this.collidingBoundingBoxes);
+							block12.getCollidingBoundingBoxes(this, i9, i11, i10, axisAlignedBB2, this.collidingBoundingBoxes, entity1);
 						}
 					}
 				}
@@ -1073,7 +1226,7 @@ public class World implements IBlockAccess {
 					for(int i11 = i5 - 1; i11 < i6; ++i11) {
 						Block block12 = Block.blocksList[this.getBlockId(i9, i11, i10)];
 						if(block12 != null) {
-							block12.getCollidingBoundingBoxes(this, i9, i11, i10, axisAlignedBB2, this.collidingBoundingBoxes);
+							block12.getCollidingBoundingBoxes(this, i9, i11, i10, axisAlignedBB2, this.collidingBoundingBoxes, entity1);
 						}
 					}
 				}
@@ -1123,9 +1276,30 @@ public class World implements IBlockAccess {
 		f3 *= LevelThemeGlobalSettings.lightMultiplier;
 		
 		f3 = 1.0F - f3;
+
 		return (int)(f3 * 11.0F);
 	}
 
+	public float getSunBrightness(float f1) {
+		//float f2 = this.getCelestialAngle(f1);
+		float f2 = this.getCelestialAngle(f1);
+		float f3 = 1.0F - (MathHelper.cos(f2 * (float)Math.PI * 2.0F) * 2.0F + 0.2F);
+		if(f3 < 0.0F) {
+			f3 = 0.0F;
+		}
+
+		if(f3 > 1.0F) {
+			f3 = 1.0F;
+		}
+
+		f3 = 1.0F - f3;
+		f3 = (float)((double)f3 * (1.0D - (double)(this.getRainStrength(f1) * 5.0F) / 16.0D));
+		f3 = (float)((double)f3 * (1.0D - (double)(this.getWeightedThunderStrength(f1) * 5.0F) / 16.0D));
+		f3 *= LevelThemeGlobalSettings.lightMultiplier;
+		
+		return f3 * 0.8F + 0.2F;
+	}
+	
 	public Vec3D getSkyColor(Entity entity1, float renderPartialTick) {
 		float celestialAngle = this.getCelestialAngle(renderPartialTick);
 		float celestialLight = MathHelper.cos(celestialAngle * (float)Math.PI * 2.0F) * 2.0F + 0.5F;
@@ -1231,7 +1405,7 @@ public class World implements IBlockAccess {
 		if(biome.overrideCloudColor != -1) {
 			cloudColour = biome.overrideCloudColor;
 		} else {
-			cloudColour = this.cloudColour;
+			cloudColour = (int) this.cloudColour;
 		}
 		
 		float f4 = (float)(cloudColour >> 16 & 255L) / 255.0F;
@@ -1265,19 +1439,20 @@ public class World implements IBlockAccess {
 
 	public Vec3D getFogColor(float f1, Entity entity1) {
 		float f2 = this.getCelestialAngle(f1);
-		return this.worldProvider.getFogColor(f2, f1, entity1);
+		return this.worldProvider.getFogColor(f2, f1, entity1, this.colouredAthmospherics);
 	}
 
-	public int findTopSolidBlockUsingBlockMaterial(int i1, int i2) {
-		Chunk chunk3 = this.getChunkFromBlockCoords(i1, i2);
-		int i4 = 127;
-		i1 &= 15;
+	public int findTopSolidBlockUsingBlockMaterial(int x, int z) {
+		Chunk chunk3 = this.getChunkFromBlockCoords(x, z);
+		int y = 127;
+		x &= 15;
+		z &= 15;
 
-		for(i2 &= 15; i4 > 0; --i4) {
-			int i5 = chunk3.getBlockID(i1, i4, i2);
-			Material material6 = i5 == 0 ? Material.air : Block.blocksList[i5].blockMaterial;
-			if(material6.getIsSolid() || material6.getIsLiquid()) {
-				return i4 + 1;
+		for(; y > 0; --y) {
+			Block block = Block.blocksList[chunk3.getBlockID(x, y, z)];
+			if(block == null) continue;
+			if(block.blockMaterial.getIsSolid() || block.blockMaterial.getIsLiquid()) {
+				return y + 1;
 			}
 		}
 
@@ -1884,9 +2059,10 @@ public class World implements IBlockAccess {
 		if(tileEntity4 != null && this.scanningTileEntities) {
 			tileEntity4.invalidate();
 		} else {
-			if(tileEntity4 != null) {
+			// TODO : THIS IS CHEESERY!
+			//if(tileEntity4 != null) {
 				this.loadedTileEntityList.remove(tileEntity4);
-			}
+			//}
 
 			Chunk chunk5 = this.getChunkFromChunkCoords(i1 >> 4, i3 >> 4);
 			if(chunk5 != null) {
@@ -1918,31 +2094,36 @@ public class World implements IBlockAccess {
 	}
 
 	public boolean updatingLighting() {
+		return this.updatingLighting(maxLightingUpdatesPerThick);
+	}
+	
+	public boolean updatingLighting(int maxLightingUpdates) {
+			
 		if(this.lightingUpdatesCounter >= 50) {
 			return false;
 		} else {
 			++this.lightingUpdatesCounter;
 
-			boolean z2;
+			boolean stillUpdating;
 			try {
-				int i1 = 500;
+				int updatesThisTick = maxLightingUpdatesPerThick;
 
 				while(this.lightingToUpdate.size() > 0) {
-					--i1;
-					if(i1 <= 0) {
-						z2 = true;
-						return z2;
+					--updatesThisTick;
+					if(updatesThisTick <= 0) {
+						stillUpdating = true;
+						return stillUpdating;
 					}
 
 					((MetadataChunkBlock)this.lightingToUpdate.remove(this.lightingToUpdate.size() - 1)).recalculateLighting(this);
 				}
 
-				z2 = false;
+				stillUpdating = false;
 			} finally {
 				--this.lightingUpdatesCounter;
 			}
 
-			return z2;
+			return stillUpdating;
 		}
 	}
 
@@ -1950,7 +2131,7 @@ public class World implements IBlockAccess {
 		this.scheduleLightingUpdate(enumSkyBlock1, i2, i3, i4, i5, i6, i7, true);
 	}
 
-	public void scheduleLightingUpdate(EnumSkyBlock enumSkyBlock1, int i2, int i3, int i4, int i5, int i6, int i7, boolean z8) {
+	public void scheduleLightingUpdate(EnumSkyBlock enumSkyBlock1, int x1, int y1, int z1, int x2, int y2, int z2, boolean z8) {
 		if(!this.worldProvider.hasNoSky || enumSkyBlock1 != EnumSkyBlock.Sky) {
 			++lightingUpdatesScheduled;
 
@@ -1959,33 +2140,34 @@ public class World implements IBlockAccess {
 					return;
 				}
 
-				int i9 = (i5 + i2) / 2;
-				int i10 = (i7 + i4) / 2;
-				if(this.blockExists(i9, 64, i10)) {
-					if(this.getChunkFromBlockCoords(i9, i10).getIsChunkRendered()) {
+				int centerX = (x2 + x1) / 2;
+				int centerZ = (z2 + z1) / 2;
+				if(this.blockExists(centerX, 64, centerZ)) {
+					if(this.getChunkFromBlockCoords(centerX, centerZ).getIsChunkRendered()) {
 						return;
 					}
 
-					int i11 = this.lightingToUpdate.size();
+					int updates = this.lightingToUpdate.size();
 					int i12;
+
 					if(z8) {
 						i12 = 5;
-						if(i12 > i11) {
-							i12 = i11;
+						if(i12 > updates) {
+							i12 = updates;
 						}
 
-						for(int i13 = 0; i13 < i12; ++i13) {
-							MetadataChunkBlock metadataChunkBlock14 = (MetadataChunkBlock)this.lightingToUpdate.get(this.lightingToUpdate.size() - i13 - 1);
-							if(metadataChunkBlock14.enumSkyBlock == enumSkyBlock1 && metadataChunkBlock14.insideCurrentArea(i2, i3, i4, i5, i6, i7)) {
+						for(int i = 0; i < i12; ++i) {
+							MetadataChunkBlock metadataChunkBlock14 = (MetadataChunkBlock)this.lightingToUpdate.get(this.lightingToUpdate.size() - i - 1);
+							if(metadataChunkBlock14.enumSkyBlock == enumSkyBlock1 && metadataChunkBlock14.insideCurrentArea(x1, y1, z1, x2, y2, z2)) {
 								return;
 							}
 						}
 					}
 
-					this.lightingToUpdate.add(new MetadataChunkBlock(enumSkyBlock1, i2, i3, i4, i5, i6, i7));
-					i12 = 1000000;
-					if(this.lightingToUpdate.size() > 1000000) {
-						System.out.println("More than " + i12 + " updates, aborting lighting updates");
+					this.lightingToUpdate.add(new MetadataChunkBlock(enumSkyBlock1, x1, y1, z1, x2, y2, z2));
+					
+					if(this.lightingToUpdate.size() > maxLightingUpdates) {
+						System.out.println("More than " + maxLightingUpdates + " updates, aborting lighting updates");
 						this.lightingToUpdate.clear();
 					}
 
@@ -2014,6 +2196,9 @@ public class World implements IBlockAccess {
 	public void tick() {
 		this.updateWeather();
 		long worldTime;
+		
+		// No sleeping here so
+		/*
 		if(this.isAllPlayersFullyAsleep()) {
 			boolean z1 = false;
 			if(this.spawnHostileMobs && this.difficultySetting >= 1) {
@@ -2026,9 +2211,12 @@ public class World implements IBlockAccess {
 				this.wakeUpAllPlayers();
 			}
 		}
+		*/
 
 		SpawnerAnimals.performSpawning(this, this.spawnHostileMobs, this.spawnPeacefulMobs);
 		this.chunkProvider.unload100OldestChunks();
+		
+		/*
 		int i4 = this.calculateSkylightSubtracted(1.0F);
 		if(i4 != this.skylightSubtracted) {
 			this.skylightSubtracted = i4;
@@ -2037,6 +2225,7 @@ public class World implements IBlockAccess {
 				((IWorldAccess)this.worldAccesses.get(i5)).updateAllRenderers();
 			}
 		}
+		*/
 
 		worldTime = this.worldInfo.getWorldTime() + 1L;
 		int hourOfTheDay = (int)(worldTime % 24000L);
@@ -2069,7 +2258,6 @@ public class World implements IBlockAccess {
 		if(hourOfTheDay == Seasons.dayLengthTicks && this.worldInfo.isBloodMoon()) {
 			if (this.badMoonText == false) {
 				this.getWorldAccess(0).showString("Bad Moon Rising");
-				// TODO :: ADD SOUND EFFECT
 			}
 			this.badMoonText = true;
 		} else this.badMoonText = false;
@@ -2081,6 +2269,11 @@ public class World implements IBlockAccess {
 			
 			Seasons.dayOfTheYear ++;
 			Seasons.updateSeasonCounters();
+			
+			// Leaves change colours so
+			for(int i5 = 0; i5 < this.worldAccesses.size(); ++i5) {
+				((IWorldAccess)this.worldAccesses.get(i5)).updateAllRenderers();
+			}
 			
 			if(Seasons.currentSeason != oldCurrentSeason) {
 				if(Seasons.currentSeason == Seasons.WINTER) {
@@ -2269,9 +2462,11 @@ public class World implements IBlockAccess {
 
 			for(x = -radius; x <= radius; ++x) {
 				for(z = -radius; z <= radius; ++z) {
+					if(this.chunkExists(x + x0, z + z0)) {
 					this.positionsToUpdate.add(new ChunkCoordIntPair(x + x0, z + z0));
 				}
 			}
+		}
 		}
 
 		if(this.soundCounter > 0) {
@@ -2304,6 +2499,7 @@ public class World implements IBlockAccess {
 				z += z0;
 				if(blockID == 0 && this.getFullBlockLightValue(x, y, z) <= this.rand.nextInt(8) && this.getSavedLightValue(EnumSkyBlock.Sky, x, y, z) <= 0) {
 					EntityPlayer entityPlayer = this.getClosestPlayer((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, 8.0D);
+					
 					if(entityPlayer != null && entityPlayer.getDistanceSq((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D) > 4.0D) {
 						this.playSoundEffect((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, "ambient.cave.cave", 0.7F, 0.8F + this.rand.nextFloat() * 0.2F);
 						this.soundCounter = this.rand.nextInt(12000) + 6000;
@@ -2311,20 +2507,6 @@ public class World implements IBlockAccess {
 				}
 			}
 
-			/*
-			if(this.rand.nextInt(100000) == 0 && this.raining() && this.thundering()) {
-				this.updateLCG = this.updateLCG * 3 + DIST_HASH_MAGIC;
-				x = this.updateLCG >> 2;
-				z = x0 + (x & 15);
-				i8 = z0 + (x >> 8 & 15);
-				i9 = this.findTopSolidBlockUsingBlockMaterial(z, i8);
-				if(this.canBlockBeRainedOn(z, i9, i8)) {
-					this.addWeatherEffect(new EntityLightningBolt(this, (double)z, (double)i9, (double)i8));
-					this.lastLightningBolt = 2;
-				}
-			}
-			*/
-			
 			// Thunder hits
 			if(this.rand.nextInt(this.lightningChance) == 0 && this.worldInfo.getThundering()) {
 				this.updateLCG = this.updateLCG * 3 + DIST_HASH_MAGIC;
@@ -2357,48 +2539,48 @@ public class World implements IBlockAccess {
 			}
 
 			// Select a top block and cover / uncover with snow
-			if(this.rand.nextInt(4) == 0) {
-				this.updateLCG = this.updateLCG * 3 + this.DIST_HASH_MAGIC;
-				tIndex = this.updateLCG >> 2;
-				x = tIndex & 15;
-				z = tIndex >> 8 & 15;
-				y = this.findTopSolidBlockUsingBlockMaterial(x + x0, z + z0);
-				
-				if(y >= 0 && y < 128 && chunk.getSavedLightValue(EnumSkyBlock.Block, x, y, z) < 10) {
-					int thisBlockID = chunk.getBlockID(x, y, z);
-					blockID = chunk.getBlockID(x, y - 1, z);
+			{
+				this.snowTicker --;
+				if(this.snowTicker <= 0) {
+					this.snowTicker = 6;
+					this.updateLCG = this.updateLCG * 3 + this.DIST_HASH_MAGIC;
+					tIndex = this.updateLCG >> 2;
+					x = tIndex & 15;
+					z = tIndex >> 8 & 15;
 					
 					// Cover if particle decide happens to be "snow"
 					BiomeGenBase biomegenbase = chunk.getBiomeGenAt(x, z);
 					
 					if(!biomegenbase.isPermaFrost()) {
 						int particleType = Weather.particleDecide(biomegenbase, this);
+						y = this.findTopSolidBlockUsingBlockMaterial(x + x0, z + z0);
 						
-						//if (this.worldInfo.getSnowing() && (chunk.getBiomeGenAt(x, z).weather == Weather.cold || (chunk.getBiomeGenAt(x, z).weather == Weather.normal && !this.worldInfo.getRaining()))) {
-						if(particleType == Weather.SNOW) { 
-							// Freeze / drop snow 
+						if(y > 0) {
+							int thisBlockID = chunk.getBlockID(x, y, z);
+							Block thisBlock = Block.blocksList[thisBlockID];
+						
+							blockID = chunk.getBlockID(x, y - 1, z);
+						
+							if(particleType == Weather.SNOW) { 
+								// Freeze / drop snow 
 							
-							if(thisBlockID == 0) {
-								if (Block.snow.canPlaceBlockAt(this, x + x0, y, z + z0)) {
-									this.setBlockWithNotify(x + x0, y, z + z0, Block.snow.blockID);
+								if(thisBlockID == 0 || thisBlockID == Block.leafPile.blockID) {
+									if (Block.snow.canPlaceBlockAt(this, x + x0, y, z + z0)) {
+										this.setBlockWithNotify(x + x0, y, z + z0, Block.snow.blockID);
+									}
+								} else if(thisBlockID == Block.snow.blockID || (thisBlock != null && thisBlock.getRenderType() == 111)) {
+									int meta = chunk.getBlockMetadata(x, y, z);
+									if((meta & 15) < 15) chunk.setBlockMetadata(x, y, z, meta + 1);
 								}
-							} else if(thisBlockID == Block.snow.blockID) {
-								int meta = chunk.getBlockMetadata(x, y, z);
-								if(meta < 15) chunk.setBlockMetadata(x, y, z, meta + 1);
-							}
 		
-							if(blockID == Block.waterStill.blockID && chunk.getBlockMetadata(x, y - 1, z) == 0) {
-								this.setBlockWithNotify(x + x0, y - 1, z + z0, Block.ice.blockID);
-							}
-						} else if (rand.nextBoolean() && Seasons.currentSeason != Seasons.WINTER) {
-							// Unfreeze / remove snow 
+							} else if (rand.nextInt(4) == 0 && (Seasons.currentSeason != Seasons.WINTER || biomegenbase.weather != Weather.cold)) {
+								// Unfreeze / remove snow 
 							
-							if (chunk.getBlockID(x, y, z) == Block.snow.blockID) {
-								this.setBlockWithNotify(x + x0, y, z + z0, 0);
-							}
+								if (thisBlockID == Block.snow.blockID) {
+									//this.setBlockWithNotify(x + x0, y, z + z0, 0);
+									chunk.setBlockID(x, y, z, 0);
+								}
 
-							if (blockID == Block.ice.blockID && chunk.getBlockMetadata(x, y - 1, z) == 0) {
-								this.setBlockWithNotify(x + x0, y - 1, z + z0, Block.waterStill.blockID);
 							}
 						}
 					}
@@ -2647,7 +2829,8 @@ public class World implements IBlockAccess {
 			return this.isBlockGettingPowered(i1, i2, i3);
 		} else {
 			int i5 = this.getBlockId(i1, i2, i3);
-			return i5 == 0 ? false : Block.blocksList[i5].isPoweringTo(this, i1, i2, i3, i4);
+			Block block = Block.blocksList[i5];
+			return block == null ? false : block.isPoweringTo(this, i1, i2, i3, i4);
 		}
 	}
 
@@ -2675,6 +2858,62 @@ public class World implements IBlockAccess {
 		return entityPlayer11;
 	}
 
+	public List<EntityPlayer> getPlayersInRangeFromEntity(Entity entity, double range) {
+		return this.getPlayersInRangeFrom(entity.posX, entity.posY, entity.posZ, range);
+	}
+	
+	public List<EntityPlayer> getPlayersInRangeFrom(double x, double y, double z, double range) {
+		List<EntityPlayer> playersInRange = new ArrayList<EntityPlayer>();
+		double rangeSq = range * range;
+		
+		Iterator<EntityPlayer> iterator = this.playerEntities.iterator();
+		while(iterator.hasNext()) {
+			EntityPlayer entityPlayer = iterator.next();
+			double distanceSq = entityPlayer.getDistanceSq(x, y, z);
+			if(distanceSq < rangeSq) {
+				playersInRange.add(entityPlayer);
+			}
+		}
+		
+		return playersInRange;
+	}
+	
+	public EntityPlayer getClosestPlayerUnderRoof(double x, double y, double z, double range) {
+		double rangeSq = range * range;
+		double minDistanceSq = rangeSq + 1;
+		EntityPlayer closestPlayer = null;
+		
+		Iterator<EntityPlayer> iterator = this.playerEntities.iterator();
+		while(iterator.hasNext()) {
+			EntityPlayer entityPlayer = iterator.next();
+			double distanceSq = entityPlayer.getDistanceSq(x, y, z);
+			if(distanceSq < rangeSq) {
+				if(!this.canBlockSeeTheSky((int)entityPlayer.posX, (int)entityPlayer.posY, (int)entityPlayer.posZ) && minDistanceSq > distanceSq) {
+					closestPlayer = entityPlayer;
+					minDistanceSq = distanceSq;
+				}
+			}
+		}
+		
+		return closestPlayer;
+	}
+	
+	public EntityPlayer getClosestPlayerHorizontal(double d1, double d3, double d5) {
+		double d7 = -1.0D;
+		EntityPlayer entityPlayer9 = null;
+
+		for(int i10 = 0; i10 < this.playerEntities.size(); ++i10) {
+			EntityPlayer entityPlayer11 = (EntityPlayer)this.playerEntities.get(i10);
+			double d12 = entityPlayer11.getDistanceSq(d1, entityPlayer11.posY, d3);
+			if((d5 < 0.0D || d12 < d5 * d5) && (d7 == -1.0D || d12 < d7)) {
+				d7 = d12;
+				entityPlayer9 = entityPlayer11;
+			}
+		}
+
+		return entityPlayer9;
+	}
+
 	public EntityPlayer getPlayerEntityByName(String string1) {
 		for(int i2 = 0; i2 < this.playerEntities.size(); ++i2) {
 			if(string1.equals(((EntityPlayer)this.playerEntities.get(i2)).username)) {
@@ -2686,7 +2925,7 @@ public class World implements IBlockAccess {
 	}
 	
 	public byte[] getChunkData(int i1, int i2, int i3, int i4, int i5, int i6) {
-		byte[] b7 = new byte[i4 * i5 * i6 * 5 / 2];
+		byte[] b7 = new byte[i4 * i5 * i6 * 3];
 		int i8 = i1 >> 4;
 		int i9 = i3 >> 4;
 		int i10 = i1 + i4 - 1 >> 4;
@@ -3059,4 +3298,17 @@ public class World implements IBlockAccess {
 	public void commandSetThunder() {
 		this.worldInfo.setThunderTime(0);
 	}
+
+	public boolean isUnderLeaves(int x, int y, int z) {
+		for(int i = 0; i < 16 && y < 128; i ++) {
+			if(this.getBlockId(x, y, z) == Block.leaves.blockID && this.getBlockMetadata(x, y, z) == 7) return true;
+			y ++;
+		}
+		return false;
+	}
+
+	public BlockState getBlockStateAt(int x0, int y0, int z0) {
+		return new BlockState(this.getBlockId(x0, y0, z0), this.getBlockMetadata(x0, y0, z0), x0, y0, z0);
+	}
+
 }

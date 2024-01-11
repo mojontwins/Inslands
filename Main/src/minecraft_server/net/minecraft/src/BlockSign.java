@@ -109,9 +109,13 @@ public class BlockSign extends BlockContainer {
 		}
 
 		super.onNeighborBlockChange(world, x, y, z, id);
-		}
-
+	}
+	
 	public boolean seeThrough() {
 		return true; 
+	}
+	
+	public boolean getBlocksMovement(IBlockAccess iBlockAccess1, int i2, int i3, int i4) {
+		return true;
 	}
 }

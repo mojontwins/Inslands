@@ -8,7 +8,7 @@ public class ItemCloth extends ItemBlock {
 	}
 
 	public int getIconFromDamage(int i1) {
-		return Block.cloth.getBlockTextureFromSideAndMetadata(2, BlockCloth.getBlockFromDye(i1));
+		return Block.cloth.blockIndexInTexture;
 	}
 
 	public int getPlacedBlockMetadata(int i1) {

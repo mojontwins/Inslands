@@ -7,7 +7,7 @@ import net.minecraft.server.MinecraftServer;
 
 public class WorldServer extends World {
 	public ChunkProviderServer chunkProviderServer;
-	public boolean s_field_819_z = false;
+	public boolean disableSpawnProtection = false;
 	public boolean levelSaving;
 	private MinecraftServer mcServer;
 	private MCHash entityRemoval = new MCHash();
@@ -126,6 +126,7 @@ public class WorldServer extends World {
 		if (snowing != this.worldInfo.getSnowing() || raining != this.worldInfo.getRaining() || thundering != this.worldInfo.getThundering()) {
 			this.mcServer.configManager.sendPacketToAllPlayers(new Packet98UpdateWeather(this.worldInfo.getRaining(), this.worldInfo.getSnowing(), this.worldInfo.getThundering()));
 			}
+
 		}
 
 	protected void badMoonDecide(long worldTime, int hourOfTheDay) {

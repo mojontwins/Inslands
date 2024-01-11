@@ -3,12 +3,12 @@ package net.minecraft.src;
 import java.util.List;
 
 public class EntitySnowball extends Entity {
-	protected int xTileSnowball = -1;
-	protected int yTileSnowball = -1;
-	protected int zTileSnowball = -1;
-	protected int inTileSnowball = 0;
-	protected boolean inGroundSnowball = false;
-	protected int shakeSnowball = 0;
+	protected int xTile = -1;
+	protected int yTile = -1;
+	protected int zTile = -1;
+	protected int inTile = 0;
+	protected boolean inGround = false;
+	protected int shake = 0;
 	protected EntityLiving thrower;
 	protected int ticksInGround;
 	protected int ticksInAir = 0;
@@ -27,11 +27,19 @@ public class EntitySnowball extends Entity {
 		return d1 < d3 * d3;
 	}
 
+	public EntitySnowball(World world1, double d2, double d4, double d6) {
+		super(world1);
+		this.ticksInGround = 0;
+		this.setSize(0.25F, 0.25F);
+		this.setPosition(d2, d4, d6);
+		this.yOffset = 0.0F;
+	}
+	
 	public EntitySnowball(World world1, EntityLiving entityLiving2) {
 		super(world1);
 		this.thrower = entityLiving2;
 		this.setSize(0.25F, 0.25F);
-		this.setLocationAndAngles(entityLiving2.posX, entityLiving2.posY + (double)entityLiving2.getEyeHeight(), entityLiving2.posZ, entityLiving2.rotationYaw, entityLiving2.rotationPitch);	
+		this.setLocationAndAngles(entityLiving2.posX, entityLiving2.posY + (double)entityLiving2.getEyeHeight(), entityLiving2.posZ, entityLiving2.rotationYaw, entityLiving2.rotationPitch);
 		this.posX -= (double)(MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F);
 		this.posY -= (double)0.1F;
 		this.posZ -= (double)(MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F);
@@ -44,13 +52,6 @@ public class EntitySnowball extends Entity {
 		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.5F, 1.0F);
 	}
 
-	public EntitySnowball(World world1, double d2, double d4, double d6) {
-		super(world1);
-		this.ticksInGround = 0;
-		this.setSize(0.25F, 0.25F);
-		this.setPosition(d2, d4, d6);
-		this.yOffset = 0.0F;
-	}
 
 	public void setThrowableHeading(double d1, double d3, double d5, float f7, float f8) {
 		float f9 = MathHelper.sqrt_double(d1 * d1 + d3 * d3 + d5 * d5);
@@ -89,13 +90,13 @@ public class EntitySnowball extends Entity {
 		this.lastTickPosY = this.posY;
 		this.lastTickPosZ = this.posZ;
 		super.onUpdate();
-		if(this.shakeSnowball > 0) {
-			--this.shakeSnowball;
+		if(this.shake > 0) {
+			--this.shake;
 		}
 
-		if(this.inGroundSnowball) {
-			int i1 = this.worldObj.getBlockId(this.xTileSnowball, this.yTileSnowball, this.zTileSnowball);
-			if(i1 == this.inTileSnowball) {
+		if(this.inGround) {
+			int i1 = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
+			if(i1 == this.inTile) {
 				++this.ticksInGround;
 				if(this.ticksInGround == 1200) {
 					this.setEntityDead();
@@ -104,7 +105,7 @@ public class EntitySnowball extends Entity {
 				return;
 			}
 
-			this.inGroundSnowball = false;
+			this.inGround = false;
 			this.motionX *= (double)(this.rand.nextFloat() * 0.2F);
 			this.motionY *= (double)(this.rand.nextFloat() * 0.2F);
 			this.motionZ *= (double)(this.rand.nextFloat() * 0.2F);
@@ -150,15 +151,7 @@ public class EntitySnowball extends Entity {
 		}
 
 		if(movingObjectPosition3 != null) {
-			if(movingObjectPosition3.entityHit != null && movingObjectPosition3.entityHit.attackEntityFrom(this.thrower, 0)) {
-				;
-			}
-
-			for(int i16 = 0; i16 < 8; ++i16) {
-				this.worldObj.spawnParticle("snowballpoof", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
-			}
-
-			this.setEntityDead();
+			this.throwableHitEntity(movingObjectPosition3);
 		}
 
 		this.posX += this.motionX;
@@ -202,26 +195,38 @@ public class EntitySnowball extends Entity {
 		this.setPosition(this.posX, this.posY, this.posZ);
 	}
 
+	public void throwableHitEntity(MovingObjectPosition movingObjectPosition3) {
+		if(movingObjectPosition3.entityHit != null && movingObjectPosition3.entityHit.attackEntityFrom(this.thrower, 0)) {
+			;
+		}
+
+		for(int i16 = 0; i16 < 8; ++i16) {
+			this.worldObj.spawnParticle("snowballpoof", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+		}
+
+		this.setEntityDead();
+	}
+
 	public void writeEntityToNBT(NBTTagCompound nBTTagCompound1) {
-		nBTTagCompound1.setShort("xTile", (short)this.xTileSnowball);
-		nBTTagCompound1.setShort("yTile", (short)this.yTileSnowball);
-		nBTTagCompound1.setShort("zTile", (short)this.zTileSnowball);
-		nBTTagCompound1.setByte("inTile", (byte)this.inTileSnowball);
-		nBTTagCompound1.setByte("shake", (byte)this.shakeSnowball);
-		nBTTagCompound1.setByte("inGround", (byte)(this.inGroundSnowball ? 1 : 0));
+		nBTTagCompound1.setShort("xTile", (short)this.xTile);
+		nBTTagCompound1.setShort("yTile", (short)this.yTile);
+		nBTTagCompound1.setShort("zTile", (short)this.zTile);
+		nBTTagCompound1.setByte("inTile", (byte)this.inTile);
+		nBTTagCompound1.setByte("shake", (byte)this.shake);
+		nBTTagCompound1.setByte("inGround", (byte)(this.inGround ? 1 : 0));
 	}
 
 	public void readEntityFromNBT(NBTTagCompound nBTTagCompound1) {
-		this.xTileSnowball = nBTTagCompound1.getShort("xTile");
-		this.yTileSnowball = nBTTagCompound1.getShort("yTile");
-		this.zTileSnowball = nBTTagCompound1.getShort("zTile");
-		this.inTileSnowball = nBTTagCompound1.getByte("inTile") & 255;
-		this.shakeSnowball = nBTTagCompound1.getByte("shake") & 255;
-		this.inGroundSnowball = nBTTagCompound1.getByte("inGround") == 1;
+		this.xTile = nBTTagCompound1.getShort("xTile");
+		this.yTile = nBTTagCompound1.getShort("yTile");
+		this.zTile = nBTTagCompound1.getShort("zTile");
+		this.inTile = nBTTagCompound1.getByte("inTile") & 255;
+		this.shake = nBTTagCompound1.getByte("shake") & 255;
+		this.inGround = nBTTagCompound1.getByte("inGround") == 1;
 	}
 
 	public void onCollideWithPlayer(EntityPlayer entityPlayer1) {
-		if(this.inGroundSnowball && this.thrower == entityPlayer1 && this.shakeSnowball <= 0 && entityPlayer1.inventory.addItemStackToInventory(new ItemStack(Item.arrow, 1))) {
+		if(this.inGround && this.thrower == entityPlayer1 && this.shake <= 0 && entityPlayer1.inventory.addItemStackToInventory(new ItemStack(Item.arrow, 1))) {
 			this.worldObj.playSoundAtEntity(this, "random.pop", 0.2F, ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
 			entityPlayer1.onItemPickup(this, 1);
 			this.setEntityDead();

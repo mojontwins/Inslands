@@ -128,36 +128,38 @@ public class BlockChest extends BlockContainer {
 
 	public void onBlockRemoval(World world, int x, int y, int z) {
 		TileEntityChest tileEntityChest5 = (TileEntityChest)world.getBlockTileEntity(x, y, z);
-
-		for(int i6 = 0; i6 < tileEntityChest5.getSizeInventory(); ++i6) {
-			ItemStack itemStack7 = tileEntityChest5.getStackInSlot(i6);
-			if(itemStack7 != null) {
-				float f8 = this.rand.nextFloat() * 0.8F + 0.1F;
-				float f9 = this.rand.nextFloat() * 0.8F + 0.1F;
-				float f10 = this.rand.nextFloat() * 0.8F + 0.1F;
-
-				while(itemStack7.stackSize > 0) {
-					int i11 = this.rand.nextInt(21) + 10;
-					if(i11 > itemStack7.stackSize) {
-						i11 = itemStack7.stackSize;
+		if(tileEntityChest5 != null) {
+			for(int i6 = 0; i6 < tileEntityChest5.getSizeInventory(); ++i6) {
+				ItemStack itemStack7 = tileEntityChest5.getStackInSlot(i6);
+				if(itemStack7 != null) {
+					float f8 = this.rand.nextFloat() * 0.8F + 0.1F;
+					float f9 = this.rand.nextFloat() * 0.8F + 0.1F;
+					float f10 = this.rand.nextFloat() * 0.8F + 0.1F;
+	
+					while(itemStack7.stackSize > 0) {
+						int i11 = this.rand.nextInt(21) + 10;
+						if(i11 > itemStack7.stackSize) {
+							i11 = itemStack7.stackSize;
+						}
+	
+						itemStack7.stackSize -= i11;
+						EntityItem entityItem12 = new EntityItem(world, (double)((float)x + f8), (double)((float)y + f9), (double)((float)z + f10), new ItemStack(itemStack7.itemID, i11, itemStack7.getItemDamage()));
+						float f13 = 0.05F;
+						entityItem12.motionX = (double)((float)this.rand.nextGaussian() * f13);
+						entityItem12.motionY = (double)((float)this.rand.nextGaussian() * f13 + 0.2F);
+						entityItem12.motionZ = (double)((float)this.rand.nextGaussian() * f13);
+						world.entityJoinedWorld(entityItem12);
 					}
-
-					itemStack7.stackSize -= i11;
-					EntityItem entityItem12 = new EntityItem(world, (double)((float)x + f8), (double)((float)y + f9), (double)((float)z + f10), new ItemStack(itemStack7.itemID, i11, itemStack7.getItemDamage()));
-					float f13 = 0.05F;
-					entityItem12.motionX = (double)((float)this.rand.nextGaussian() * f13);
-					entityItem12.motionY = (double)((float)this.rand.nextGaussian() * f13 + 0.2F);
-					entityItem12.motionZ = (double)((float)this.rand.nextGaussian() * f13);
-					world.entityJoinedWorld(entityItem12);
 				}
 			}
 		}
-
 		super.onBlockRemoval(world, x, y, z);
 	}
 
 	public boolean blockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer) {
 		Object object6 = (TileEntityChest)world.getBlockTileEntity(x, y, z);
+		String ownerType = ((TileEntityChest)object6).getOwnerEntityType();
+		
 		if(world.isBlockNormalCube(x, y + 1, z)) {
 			return true;
 		} else if(world.getBlockId(x - 1, y, z) == this.blockID && world.isBlockNormalCube(x - 1, y + 1, z)) {
@@ -189,6 +191,12 @@ public class BlockChest extends BlockContainer {
 				return true;
 			} else {
 				entityPlayer.displayGUIChest((IInventory)object6);
+				
+				// If the chest is owned by an entity type, entities of that type may get angry!
+				if(ownerType != null) {
+					this.tileIsOwnedBySomebody(ownerType, world, entityPlayer);
+				}
+				
 				return true;
 			}
 		}
@@ -196,5 +204,21 @@ public class BlockChest extends BlockContainer {
 
 	protected TileEntity getBlockEntity() {
 		return new TileEntityChest();
+	}
+	
+	protected void tileIsOwnedBySomebody(String ownerType, World world, EntityPlayer entityPlayer) {
+		EntityLiving entityLiving = (EntityLiving)EntityList.createEntityByName(ownerType, world);
+		if(entityLiving == null) {
+			return;
+		}
+		
+		entityPlayer.triggerAchievement(AchievementList.chestRobber);
+		entityLiving.somebodyOpenedMyChest(entityPlayer);
+		
+		if("Amazon".equals(ownerType)) {
+			entityPlayer.triggerAchievement(AchievementList.robbedAmazon);
+		} else if("AlphaWitch".equals(ownerType)) {
+			entityPlayer.triggerAchievement(AchievementList.robbedWitch);
+		}
 	}
 }

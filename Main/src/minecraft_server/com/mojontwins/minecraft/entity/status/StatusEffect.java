@@ -37,14 +37,18 @@ public class StatusEffect {
 	 * returns false when the effect has finished.
 	 */
 	public boolean onUpdate (EntityLiving entityLiving) {
+		Status status = Status.statusTypes [statusID];
 		if (duration > 0) {
-			Status status = Status.statusTypes [statusID];
 			if (status.isReady(duration, amplifier)) {
-				status.performEffect(entityLiving, amplifier);
+				status.performEffect(entityLiving, amplifier, duration);
+				if(status.isOneShot()) return false;
 			}
 			duration --;
 			return true;
-		} return false;
+		} else {
+			status.onCompleted(entityLiving, amplifier);
+			return false;
+		}
 	}
 	
 	public void combine (StatusEffect statusEffect) {

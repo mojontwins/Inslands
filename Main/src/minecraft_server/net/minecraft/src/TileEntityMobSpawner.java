@@ -1,5 +1,8 @@
 package net.minecraft.src;
 
+import com.mojontwins.minecraft.icepalace.EntityIceArcher;
+import com.mojontwins.minecraft.icepalace.EntityIceWarrior;
+
 public class TileEntityMobSpawner extends TileEntity {
 	public int delay = -1;
 	protected String mobID = "Pig";
@@ -51,7 +54,14 @@ public class TileEntityMobSpawner extends TileEntity {
 				byte b7 = 4;
 
 				for(int i8 = 0; i8 < b7; ++i8) {
-					EntityLiving entityLiving9 = (EntityLiving)((EntityLiving)EntityList.createEntityByName(this.mobID, this.worldObj));
+					EntityLiving entityLiving9;
+
+					if(this.mobID.equals("Ice")) {
+						entityLiving9 = this.worldObj.rand.nextBoolean() ? new EntityIceWarrior(this.worldObj) : new EntityIceArcher(this.worldObj);
+					} else {
+						entityLiving9 = (EntityLiving)EntityList.createEntityByName(this.mobID, this.worldObj);
+					}
+					
 					if(entityLiving9 == null) {
 						return;
 					}
@@ -61,34 +71,45 @@ public class TileEntityMobSpawner extends TileEntity {
 						this.updateDelay();
 						return;
 					}
+					
+					double d11 = (double)this.xCoord + (this.worldObj.rand.nextDouble() - this.worldObj.rand.nextDouble()) * 4.0D;
+					double d13 = (double)(this.yCoord + this.worldObj.rand.nextInt(3) - 1);
+					double d15 = (double)this.zCoord + (this.worldObj.rand.nextDouble() - this.worldObj.rand.nextDouble()) * 4.0D;
+					
+					// This seems to be needed!
+					int xI = MathHelper.floor(d11);
+					int yI = MathHelper.floor(d13);
+					int zI = MathHelper.floor(d15);
+					if(this.worldObj.isBlockOpaqueCube(xI, yI, zI) || this.worldObj.isBlockOpaqueCube(xI, yI + 1, zI)) {
+						return;
+					}
+					
+					entityLiving9.setLocationAndAngles(d11, d13, d15, this.worldObj.rand.nextFloat() * 360.0F, 0.0F);
+		
+					if(entityLiving9.getCanSpawnHere()) {
+						// Special inits
+						SpawnerAnimals.creatureSpecificInit(entityLiving9, this.worldObj, (int)d11, (int)d13, (int)d15);
+						
+						this.worldObj.entityJoinedWorld(entityLiving9);
 
-					if(entityLiving9 != null) {
-						double d11 = (double)this.xCoord + (this.worldObj.rand.nextDouble() - this.worldObj.rand.nextDouble()) * 4.0D;
-						double d13 = (double)(this.yCoord + this.worldObj.rand.nextInt(3) - 1);
-						double d15 = (double)this.zCoord + (this.worldObj.rand.nextDouble() - this.worldObj.rand.nextDouble()) * 4.0D;
-						entityLiving9.setLocationAndAngles(d11, d13, d15, this.worldObj.rand.nextFloat() * 360.0F, 0.0F);
-						if(entityLiving9.getCanSpawnHere()) {
-							this.worldObj.entityJoinedWorld(entityLiving9);
+						for(int i17 = 0; i17 < 20; ++i17) {
+							d1 = (double)this.xCoord + 0.5D + ((double)this.worldObj.rand.nextFloat() - 0.5D) * 2.0D;
+							d3 = (double)this.yCoord + 0.5D + ((double)this.worldObj.rand.nextFloat() - 0.5D) * 2.0D;
+							d5 = (double)this.zCoord + 0.5D + ((double)this.worldObj.rand.nextFloat() - 0.5D) * 2.0D;
+							this.worldObj.spawnParticle("smoke", d1, d3, d5, 0.0D, 0.0D, 0.0D);
+							this.worldObj.spawnParticle("flame", d1, d3, d5, 0.0D, 0.0D, 0.0D);
+						}
 
-							for(int i17 = 0; i17 < 20; ++i17) {
-								d1 = (double)this.xCoord + 0.5D + ((double)this.worldObj.rand.nextFloat() - 0.5D) * 2.0D;
-								d3 = (double)this.yCoord + 0.5D + ((double)this.worldObj.rand.nextFloat() - 0.5D) * 2.0D;
-								d5 = (double)this.zCoord + 0.5D + ((double)this.worldObj.rand.nextFloat() - 0.5D) * 2.0D;
-								this.worldObj.spawnParticle("smoke", d1, d3, d5, 0.0D, 0.0D, 0.0D);
-								this.worldObj.spawnParticle("flame", d1, d3, d5, 0.0D, 0.0D, 0.0D);
+						entityLiving9.spawnExplosionParticle();
+						this.updateDelay();
+						
+						// Set armor
+						if (entityLiving9 instanceof EntityArmoredMob && this.maxArmorTier > this.minArmorTier && this.maxArmorTier > 0) {
+							InventoryMob inventory = new InventoryMob (entityLiving9);
+							for (int k = 0; k < 4; k ++) {
+								inventory.setArmorItemInSlot(3 - k, ItemArmor.getArmorPieceForTier(this.minArmorTier + this.worldObj.rand.nextInt (1 + this.maxArmorTier - this.minArmorTier), k));
 							}
-
-							entityLiving9.spawnExplosionParticle();
-							this.updateDelay();
-							
-							// Set armor
-							if (entityLiving9 instanceof EntityArmoredMob && this.maxArmorTier > this.minArmorTier && this.maxArmorTier > 0) {
-								InventoryMob inventory = new InventoryMob (entityLiving9);
-								for (int k = 0; k < 4; k ++) {
-									inventory.setArmorItemInSlot(3 - k, ItemArmor.getArmorPieceForTier(this.minArmorTier + this.worldObj.rand.nextInt (1 + this.maxArmorTier - this.minArmorTier), k));
-								}
-								((EntityArmoredMob) entityLiving9).setInventory(inventory);
-							}
+							((EntityArmoredMob) entityLiving9).setInventory(inventory);
 						}
 					}
 				}

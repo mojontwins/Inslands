@@ -219,12 +219,12 @@ public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkPro
 		double d10 = 684.412D;
 		double[] d12 = this.worldObj.getWorldChunkManager().temperature;
 		double[] d13 = this.worldObj.getWorldChunkManager().humidity;
-		this.noise5 = this.noiseGen5.generateNoiseOctaves(this.noise5, i2, i4, i5, i7, 1.121D, 1.121D, 0.5D);
-		this.noise6 = this.noiseGen6.generateNoiseOctaves(this.noise6, i2, i4, i5, i7, 200.0D, 200.0D, 0.5D);
+		this.scaleArray = this.scaleNoise.generateNoiseOctaves(this.scaleArray, i2, i4, i5, i7, 1.121D, 1.121D, 0.5D);
+		this.depthArray = this.depthNoise.generateNoiseOctaves(this.depthArray, i2, i4, i5, i7, 200.0D, 200.0D, 0.5D);
 		d8 *= 2.0D; 	// This makes the difference between overworld & sky dimension
-		this.noise3 = this.noiseGen3.generateNoiseOctaves(this.noise3, (double)i2, (double)i3, (double)i4, i5, i6, i7, d8 / 80.0D, d10 / 160.0D, d8 / 80.0D);
-		this.noise1 = this.noiseGen1.generateNoiseOctaves(this.noise1, (double)i2, (double)i3, (double)i4, i5, i6, i7, d8, d10, d8);
-		this.noise2 = this.noiseGen2.generateNoiseOctaves(this.noise2, (double)i2, (double)i3, (double)i4, i5, i6, i7, d8, d10, d8);
+		this.mainArray = this.mainNoise.generateNoiseOctaves(this.mainArray, (double)i2, (double)i3, (double)i4, i5, i6, i7, d8 / 80.0D, d10 / 160.0D, d8 / 80.0D);
+		this.minLimitArray = this.minLimitNoise.generateNoiseOctaves(this.minLimitArray, (double)i2, (double)i3, (double)i4, i5, i6, i7, d8, d10, d8);
+		this.maxLimitArray = this.maxLimitNoise.generateNoiseOctaves(this.maxLimitArray, (double)i2, (double)i3, (double)i4, i5, i6, i7, d8, d10, d8);
 		int i14 = 0;
 		int i15 = 0;
 		int i16 = 16 / i5;
@@ -240,13 +240,13 @@ public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkPro
 				d25 *= d25;
 				d25 *= d25;
 				d25 = 1.0D - d25;
-				double d27 = (this.noise5[i15] + 256.0D) / 512.0D;
+				double d27 = (this.scaleArray[i15] + 256.0D) / 512.0D;
 				d27 *= d25;
 				if(d27 > 1.0D) {
 					d27 = 1.0D;
 				}
 
-				double d29 = this.noise6[i15] / 8000.0D;
+				double d29 = this.depthArray[i15] / 8000.0D;
 				if(d29 < 0.0D) {
 					d29 = -d29 * 0.3D;
 				}
@@ -274,9 +274,9 @@ public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkPro
 						d36 *= -1.0D;
 					}
 
-					double d38 = this.noise1[i14] / 512.0D;
-					double d40 = this.noise2[i14] / 512.0D;
-					double d42 = (this.noise3[i14] / 10.0D + 1.0D) / 2.0D;
+					double d38 = this.minLimitArray[i14] / 512.0D;
+					double d40 = this.maxLimitArray[i14] / 512.0D;
+					double d42 = (this.mainArray[i14] / 10.0D + 1.0D) / 2.0D;
 					if(d42 < 0.0D) {
 						d34 = d38;
 					} else if(d42 > 1.0D) {
@@ -356,6 +356,7 @@ public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkPro
 	
 	public void generateMapFeatures(int chunkX, int chunkZ) {
 		if (this.mapFeaturesEnabled) {
+			this.mineshaftGenerator.generateStructuresInChunk(this.worldObj, this.rand, chunkX, chunkZ, true);
 		}
 	}
 

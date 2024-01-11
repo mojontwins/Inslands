@@ -32,6 +32,10 @@ public class DataWatcher {
 		return ((Byte)((WatchableObject)this.watchedObjects.get(i1)).getObject()).byteValue();
 	}
 
+	public short getWatchableObjectShort(int i1) {
+		return ((Short)((WatchableObject)this.watchedObjects.get(i1)).getObject()).shortValue();
+	}
+
 	public int getWatchableObjectInt(int i1) {
 		return ((Integer)((WatchableObject)this.watchedObjects.get(i1)).getObject()).intValue();
 	}
@@ -210,4 +214,5 @@ public class DataWatcher {
 		dataTypes.put(ItemStack.class, 5);
 		dataTypes.put(ChunkCoordinates.class, 6);
 	}
+
 }

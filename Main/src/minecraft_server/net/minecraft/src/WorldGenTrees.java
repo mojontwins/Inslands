@@ -3,28 +3,31 @@ package net.minecraft.src;
 import java.util.Random;
 
 public class WorldGenTrees extends WorldGenerator {
-	public boolean generate(World world1, Random random2, int i3, int i4, int i5) {
-		int i6 = random2.nextInt(3) + 4;
+	public boolean generate(World world, Random rand, int x, int y, int z) {
+		int meta = world.getBiomeGenAt(x, z).foliageColorizer;
+		if (meta == 0) meta = 7;	// Seasonal colorizer
+		
+		int i6 = rand.nextInt(3) + 4;
 		boolean z7 = true;
-		if(i4 >= 1 && i4 + i6 + 1 <= 128) {
+		if(y >= 1 && y + i6 + 1 <= 128) {
 			int i8;
 			int i10;
 			int i11;
 			int i12;
-			for(i8 = i4; i8 <= i4 + 1 + i6; ++i8) {
+			for(i8 = y; i8 <= y + 1 + i6; ++i8) {
 				byte b9 = 1;
-				if(i8 == i4) {
+				if(i8 == y) {
 					b9 = 0;
 				}
 
-				if(i8 >= i4 + 1 + i6 - 2) {
+				if(i8 >= y + 1 + i6 - 2) {
 					b9 = 2;
 				}
 
-				for(i10 = i3 - b9; i10 <= i3 + b9 && z7; ++i10) {
-					for(i11 = i5 - b9; i11 <= i5 + b9 && z7; ++i11) {
+				for(i10 = x - b9; i10 <= x + b9 && z7; ++i10) {
+					for(i11 = z - b9; i11 <= z + b9 && z7; ++i11) {
 						if(i8 >= 0 && i8 < 128) {
-							i12 = world1.getBlockId(i10, i8, i11);
+							i12 = world.getBlockId(i10, i8, i11);
 							if(i12 != 0 && i12 != Block.leaves.blockID) {
 								z7 = false;
 							}
@@ -38,31 +41,34 @@ public class WorldGenTrees extends WorldGenerator {
 			if(!z7) {
 				return false;
 			} else {
-				i8 = world1.getBlockId(i3, i4 - 1, i5);
-				if((i8 == Block.grass.blockID || i8 == Block.dirt.blockID) && i4 < 128 - i6 - 1) {
-					world1.setBlock(i3, i4 - 1, i5, Block.dirt.blockID);
+				i8 = world.getBlockId(x, y - 1, z);
+				Block block = Block.blocksList[i8];
+				
+				if(block != null && block.canGrowPlants() && y < 127 - i6) {
+				//if((i8 == Block.grass.blockID || i8 == Block.dirt.blockID) && y < 128 - i6 - 1) {
+					world.setBlock(x, y - 1, z, Block.dirt.blockID);
 
 					int i16;
-					for(i16 = i4 - 3 + i6; i16 <= i4 + i6; ++i16) {
-						i10 = i16 - (i4 + i6);
+					for(i16 = y - 3 + i6; i16 <= y + i6; ++i16) {
+						i10 = i16 - (y + i6);
 						i11 = 1 - i10 / 2;
 
-						for(i12 = i3 - i11; i12 <= i3 + i11; ++i12) {
-							int i13 = i12 - i3;
+						for(i12 = x - i11; i12 <= x + i11; ++i12) {
+							int i13 = i12 - x;
 
-							for(int i14 = i5 - i11; i14 <= i5 + i11; ++i14) {
-								int i15 = i14 - i5;
-								if((Math.abs(i13) != i11 || Math.abs(i15) != i11 || random2.nextInt(2) != 0 && i10 != 0) && !Block.opaqueCubeLookup[world1.getBlockId(i12, i16, i14)]) {
-									world1.setBlock(i12, i16, i14, Block.leaves.blockID);
+							for(int i14 = z - i11; i14 <= z + i11; ++i14) {
+								int i15 = i14 - z;
+								if((Math.abs(i13) != i11 || Math.abs(i15) != i11 || rand.nextInt(2) != 0 && i10 != 0) && !Block.opaqueCubeLookup[world.getBlockId(i12, i16, i14)]) {
+									world.setBlockAndMetadata(i12, i16, i14, Block.leaves.blockID, meta);
 								}
 							}
 						}
 					}
 
 					for(i16 = 0; i16 < i6; ++i16) {
-						i10 = world1.getBlockId(i3, i4 + i16, i5);
+						i10 = world.getBlockId(x, y + i16, z);
 						if(i10 == 0 || i10 == Block.leaves.blockID) {
-							world1.setBlock(i3, i4 + i16, i5, Block.wood.blockID);
+							world.setBlock(x, y + i16, z, Block.wood.blockID);
 						}
 					}
 

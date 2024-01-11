@@ -56,7 +56,8 @@ public class EntityItem extends Entity {
 			f1 = 0.58800006F;
 			int i2 = this.worldObj.getBlockId(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
 			if(i2 > 0) {
-				f1 = Block.blocksList[i2].slipperiness * 0.98F;
+				Block block =  Block.blocksList[i2];
+				f1 = block == null ? 0 : block.slipperiness * 0.98F;
 			}
 		}
 
@@ -115,6 +116,22 @@ public class EntityItem extends Entity {
 
 				if(this.item.itemID == Item.leather.shiftedIndex) {
 					entityPlayer1.triggerAchievement(AchievementList.killCow);
+				}
+				
+				if(this.item.itemID == Item.diamond.shiftedIndex) {
+					entityPlayer1.triggerAchievement(AchievementList.diamonds);
+				}
+				
+				if(this.item.itemID == Item.ruby.shiftedIndex || this.item.itemID == Item.emerald.shiftedIndex) {
+					entityPlayer1.triggerAchievement(AchievementList.currency);
+				}
+				
+				if(this.item.itemID == Block.cryingObsidian.blockID) {
+					entityPlayer1.triggerAchievement(AchievementList.cryingObsidian);
+				}
+				
+				if(this.item.itemID == Item.rottenFlesh.shiftedIndex) {
+					entityPlayer1.triggerAchievement(AchievementList.zombieMeat);
 				}
 
 				this.worldObj.playSoundAtEntity(this, "random.pop", 0.2F, ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);

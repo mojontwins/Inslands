@@ -8,7 +8,7 @@ public class EntityChicken extends EntityAnimal {
 	public float field_756_e;
 	public float field_755_h = 1.0F;
 	public int timeUntilNextEgg;
-
+	
 	public EntityChicken(World world1) {
 		super(world1);
 		this.texture = "/mob/chicken.png";
@@ -48,7 +48,8 @@ public class EntityChicken extends EntityAnimal {
 
 	}
 
-	protected void fall(float f1) {
+	protected boolean fall(float f1) {
+		return false;
 	}
 
 	public void writeEntityToNBT(NBTTagCompound nBTTagCompound1) {
@@ -72,6 +73,10 @@ public class EntityChicken extends EntityAnimal {
 	}
 
 	protected int getDropItemId() {
-		return Item.feather.shiftedIndex;
+		return this.rand.nextBoolean() ? Item.chickenRaw.shiftedIndex : Item.feather.shiftedIndex;
+	}
+	
+	public int getFullHealth() {
+		return 4;
 	}
 }

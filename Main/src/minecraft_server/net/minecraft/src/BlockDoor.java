@@ -46,12 +46,12 @@ public class BlockDoor extends Block {
 	public int getRenderType() {
 		return 7;
 	}
-	
+
 	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
 		this.setBlockBoundsBasedOnState(world, x, y, z);
 		return super.getSelectedBoundingBoxFromPool(world, x, y, z);
 	}
-	
+
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
 		this.setBlockBoundsBasedOnState(world, x, y, z);
 		return super.getCollisionBoundingBoxFromPool(world, x, y, z);
@@ -195,5 +195,10 @@ public class BlockDoor extends Block {
 	
 	public boolean seeThrough() {
 		return true; 
+	}
+	
+	public boolean getBlocksMovement(IBlockAccess par1IBlockAccess, int par2, int par3, int par4) {
+		int var5 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
+		return (var5 & 4) != 0;
 	}
 }

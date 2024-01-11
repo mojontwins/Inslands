@@ -83,92 +83,94 @@ public abstract class BlockFluid extends Block {
 		return 0;
 	}
 
-	private Vec3D getFlowVector(IBlockAccess iBlockAccess1, int i2, int i3, int i4) {
-		Vec3D vec3D5 = Vec3D.createVector(0.0D, 0.0D, 0.0D);
-		int i6 = this.getEffectiveFlowDecay(iBlockAccess1, i2, i3, i4);
+	private Vec3D getFlowVector(IBlockAccess blockAccess, int x, int y, int z) {
+		Vec3D vector = Vec3D.createVector(0.0D, 0.0D, 0.0D);
 
-		for(int i7 = 0; i7 < 4; ++i7) {
-			int i8 = i2;
-			int i10 = i4;
-			if(i7 == 0) {
-				i8 = i2 - 1;
+		int thisFlowDecay = this.getEffectiveFlowDecay(blockAccess, x, y, z);
+
+		for(int side = 0; side < 4; ++side) {
+			int xc = x;
+			int zc = z;
+			if(side == 0) {
+				xc = x - 1;
 			}
 
-			if(i7 == 1) {
-				i10 = i4 - 1;
+			if(side == 1) {
+				zc = z - 1;
 			}
 
-			if(i7 == 2) {
-				++i8;
+			if(side == 2) {
+				++xc;
 			}
 
-			if(i7 == 3) {
-				++i10;
+			if(side == 3) {
+				++zc;
 			}
 
-			int i11 = this.getEffectiveFlowDecay(iBlockAccess1, i8, i3, i10);
-			int i12;
-			if(i11 < 0) {
-				if(!iBlockAccess1.getBlockMaterial(i8, i3, i10).getIsSolid()) {
-					i11 = this.getEffectiveFlowDecay(iBlockAccess1, i8, i3 - 1, i10);
-					if(i11 >= 0) {
-						i12 = i11 - (i6 - 8);
-						vec3D5 = vec3D5.addVector((double)((i8 - i2) * i12), (double)((i3 - i3) * i12), (double)((i10 - i4) * i12));
+			int otherFlowDecay = this.getEffectiveFlowDecay(blockAccess, xc, y, zc);
+			int ratio;
+			if(otherFlowDecay < 0) {
+				if(!blockAccess.getBlockMaterial(xc, y, zc).getIsSolid()) {
+					otherFlowDecay = this.getEffectiveFlowDecay(blockAccess, xc, y - 1, zc);
+					if(otherFlowDecay >= 0) {
+						ratio = otherFlowDecay - (thisFlowDecay - 8);
+						vector = vector.addVector((double)((xc - x) * ratio), (double)((y - y) * ratio), (double)((zc - z) * ratio));
 					}
 				}
-			} else if(i11 >= 0) {
-				i12 = i11 - i6;
-				vec3D5 = vec3D5.addVector((double)((i8 - i2) * i12), (double)((i3 - i3) * i12), (double)((i10 - i4) * i12));
+			} else if(otherFlowDecay >= 0) {
+				ratio = otherFlowDecay - thisFlowDecay;
+				vector = vector.addVector((double)((xc - x) * ratio), (double)((y - y) * ratio), (double)((zc - z) * ratio));
 			}
 		}
 
-		if(iBlockAccess1.getBlockMetadata(i2, i3, i4) >= 8) {
+		if(blockAccess.getBlockMetadata(x, y, z) >= 8) {
 			boolean z13 = false;
-			if(z13 || this.getIsBlockSolid(iBlockAccess1, i2, i3, i4 - 1, 2)) {
+			if(z13 || this.getIsBlockSolid(blockAccess, x, y, z - 1, 2)) {
 				z13 = true;
 			}
 
-			if(z13 || this.getIsBlockSolid(iBlockAccess1, i2, i3, i4 + 1, 3)) {
+			if(z13 || this.getIsBlockSolid(blockAccess, x, y, z + 1, 3)) {
 				z13 = true;
 			}
 
-			if(z13 || this.getIsBlockSolid(iBlockAccess1, i2 - 1, i3, i4, 4)) {
+			if(z13 || this.getIsBlockSolid(blockAccess, x - 1, y, z, 4)) {
 				z13 = true;
 			}
 
-			if(z13 || this.getIsBlockSolid(iBlockAccess1, i2 + 1, i3, i4, 5)) {
+			if(z13 || this.getIsBlockSolid(blockAccess, x + 1, y, z, 5)) {
 				z13 = true;
 			}
 
-			if(z13 || this.getIsBlockSolid(iBlockAccess1, i2, i3 + 1, i4 - 1, 2)) {
+			if(z13 || this.getIsBlockSolid(blockAccess, x, y + 1, z - 1, 2)) {
 				z13 = true;
 			}
 
-			if(z13 || this.getIsBlockSolid(iBlockAccess1, i2, i3 + 1, i4 + 1, 3)) {
+			if(z13 || this.getIsBlockSolid(blockAccess, x, y + 1, z + 1, 3)) {
 				z13 = true;
 			}
 
-			if(z13 || this.getIsBlockSolid(iBlockAccess1, i2 - 1, i3 + 1, i4, 4)) {
+			if(z13 || this.getIsBlockSolid(blockAccess, x - 1, y + 1, z, 4)) {
 				z13 = true;
 			}
 
-			if(z13 || this.getIsBlockSolid(iBlockAccess1, i2 + 1, i3 + 1, i4, 5)) {
+			if(z13 || this.getIsBlockSolid(blockAccess, x + 1, y + 1, z, 5)) {
 				z13 = true;
 			}
 
 			if(z13) {
-				vec3D5 = vec3D5.normalize().addVector(0.0D, -6.0D, 0.0D);
+				vector = vector.normalize().addVector(0.0D, -6.0D, 0.0D);
 			}
 		}
 
-		vec3D5 = vec3D5.normalize();
-		return vec3D5;
+		vector = vector.normalize();
+		
+		return vector;
 	}
 
 	public void velocityToAddToEntity(World world1, int i2, int i3, int i4, Entity entity5, Vec3D vec3D6) {
 		Vec3D vec3D7 = this.getFlowVector(world1, i2, i3, i4);
 		vec3D6.xCoord += vec3D7.xCoord;
-		vec3D6.yCoord += vec3D7.yCoord;
+		if(!(entity5 instanceof IWaterMob)) vec3D6.yCoord += vec3D7.yCoord;
 		vec3D6.zCoord += vec3D7.zCoord;
 	}
 
@@ -228,39 +230,43 @@ public abstract class BlockFluid extends Block {
 		this.checkForHarden(world1, i2, i3, i4);
 	}
 
-	private void checkForHarden(World world1, int i2, int i3, int i4) {
-		if(world1.getBlockId(i2, i3, i4) == this.blockID) {
+	private void checkForHarden(World world, int x, int y, int z) {
+		if(world.getBlockId(x, y, z) == this.blockID) {
 			if(this.blockMaterial == Material.lava) {
-				boolean z5 = false;
-				if(z5 || world1.getBlockMaterial(i2, i3, i4 - 1) == Material.water) {
-					z5 = true;
+				boolean doHarden = false;
+				if(doHarden || world.getBlockMaterial(x, y, z - 1) == Material.water) {
+					doHarden = true;
 				}
 
-				if(z5 || world1.getBlockMaterial(i2, i3, i4 + 1) == Material.water) {
-					z5 = true;
+				if(doHarden || world.getBlockMaterial(x, y, z + 1) == Material.water) {
+					doHarden = true;
 				}
 
-				if(z5 || world1.getBlockMaterial(i2 - 1, i3, i4) == Material.water) {
-					z5 = true;
+				if(doHarden || world.getBlockMaterial(x - 1, y, z) == Material.water) {
+					doHarden = true;
 				}
 
-				if(z5 || world1.getBlockMaterial(i2 + 1, i3, i4) == Material.water) {
-					z5 = true;
+				if(doHarden || world.getBlockMaterial(x + 1, y, z) == Material.water) {
+					doHarden = true;
 				}
 
-				if(z5 || world1.getBlockMaterial(i2, i3 + 1, i4) == Material.water) {
-					z5 = true;
+				if(doHarden || world.getBlockMaterial(x, y + 1, z) == Material.water) {
+					doHarden = true;
 				}
 
-				if(z5) {
-					int i6 = world1.getBlockMetadata(i2, i3, i4);
-					if(i6 == 0) {
-						world1.setBlockWithNotify(i2, i3, i4, Block.obsidian.blockID);
-					} else if(i6 <= 4) {
-						world1.setBlockWithNotify(i2, i3, i4, Block.cobblestone.blockID);
+				if(doHarden) {
+					int metadata = world.getBlockMetadata(x, y, z);
+					if(metadata == 0) {
+						if(world.rand.nextInt(100) == 0) {
+							world.setBlockWithNotify(x, y, z, Block.cryingObsidian.blockID);
+						} else {
+							world.setBlockWithNotify(x, y, z, Block.obsidian.blockID);
+						}
+					} else if(metadata <= 4) {
+						world.setBlockWithNotify(x, y, z, Block.cobblestone.blockID);
 					}
 
-					this.triggerLavaMixEffects(world1, i2, i3, i4);
+					this.triggerLavaMixEffects(world, x, y, z);
 				}
 			}
 
@@ -278,5 +284,9 @@ public abstract class BlockFluid extends Block {
 	
 	public boolean seeThrough() {
 		return true; 
+	}
+	
+	public boolean getBlocksMovement(IBlockAccess iBlockAccess1, int i2, int i3, int i4) {
+		return this.blockMaterial != Material.lava;
 	}
 }

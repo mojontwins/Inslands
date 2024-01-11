@@ -53,5 +53,10 @@ public class BlockMushroom extends BlockFlower {
 		}
 
 	}
+	
+	@Override
+	public int getRenderType() {
+		return 111;
+	}
 
 }

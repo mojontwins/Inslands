@@ -44,4 +44,5 @@ public final class WorldSettings {
 			return 0;
 		}
 	}
+
 }

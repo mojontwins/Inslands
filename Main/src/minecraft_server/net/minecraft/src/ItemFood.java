@@ -5,21 +5,25 @@ import com.mojontwins.minecraft.entity.status.StatusEffect;
 public class ItemFood extends Item {
 	private int healAmount;
 	private boolean isWolfsFavoriteMeat;
+	private boolean isCatsFavoriteMeat;
 
-	public ItemFood(int i1, int i2, boolean z3) {
+	public ItemFood(int i1, int i2, boolean z3, boolean z4) {
 		super(i1);
 		this.healAmount = i2;
 		this.isWolfsFavoriteMeat = z3;
+		this.isCatsFavoriteMeat = z4;
 		this.maxStackSize = 1;
 	}
 
-	public ItemStack onItemRightClick(ItemStack itemStack1, World world2, EntityPlayer entityPlayer3) {
-		if(!entityPlayer3.isCreative) --itemStack1.stackSize;
-		entityPlayer3.heal(this.healAmount);
+	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer) {
+		if(!entityPlayer.isCreative) --itemStack.stackSize;
+		int heal = this.healAmount;
+		if(world.getWorldInfo().isBloodMoon() && rand.nextBoolean()) heal >>= 1;
+		entityPlayer.heal(heal);
 				
-		if(this.status != null) entityPlayer3.addStatusEffect(new StatusEffect(this.status.id, this.statusTime, this.statusAmplifier));
+		if(this.status != null) entityPlayer.addStatusEffect(new StatusEffect(this.status.id, this.statusTime, this.statusAmplifier));
 		
-		return itemStack1;
+		return itemStack;
 	}
 
 	public int getHealAmount() {
@@ -28,5 +32,9 @@ public class ItemFood extends Item {
 
 	public boolean getIsWolfsFavoriteMeat() {
 		return this.isWolfsFavoriteMeat;
+	}
+	
+	public boolean getIsCatsFavoriteMeat() {
+		return this.isCatsFavoriteMeat;
 	}
 }

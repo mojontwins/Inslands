@@ -11,6 +11,7 @@ public class TileEntity {
 	public int yCoord;
 	public int zCoord;
 	protected boolean tileEntityInvalid;
+	private String ownerEntityType = null;
 
 	@SuppressWarnings("unlikely-arg-type")
 	private static void addMapping(Class<?> class0, String string1) {
@@ -26,6 +27,9 @@ public class TileEntity {
 		this.xCoord = nBTTagCompound1.getInteger("x");
 		this.yCoord = nBTTagCompound1.getInteger("y");
 		this.zCoord = nBTTagCompound1.getInteger("z");
+		if(nBTTagCompound1.hasKey("OwnerEntityType")) {
+			this.ownerEntityType = nBTTagCompound1.getString("OwnerEntityType");
+		}
 	}
 
 	public void writeToNBT(NBTTagCompound nBTTagCompound1) {
@@ -37,6 +41,9 @@ public class TileEntity {
 			nBTTagCompound1.setInteger("x", this.xCoord);
 			nBTTagCompound1.setInteger("y", this.yCoord);
 			nBTTagCompound1.setInteger("z", this.zCoord);
+			if(this.ownerEntityType != null) {
+				nBTTagCompound1.setString("OwnerEntityType", this.ownerEntityType);
+			}
 		}
 	}
 
@@ -102,6 +109,10 @@ public class TileEntity {
 		this.tileEntityInvalid = false;
 	}
 
+	public void setOwnerEntityType(String ownerEntityType) {
+		this.ownerEntityType = ownerEntityType;
+	}
+
 	static {
 		addMapping(TileEntityFurnace.class, "Furnace");
 		addMapping(TileEntityChest.class, "Chest");
@@ -111,5 +122,10 @@ public class TileEntity {
 		addMapping(TileEntityMobSpawner.class, "MobSpawner");
 		addMapping(TileEntityNote.class, "Music");
 		addMapping(TileEntityPiston.class, "Piston");
+		addMapping(TileEntityMobSpawnerOneshot.class, "MobSpawnerOneshot");
+	}
+	
+	public String getOwnerEntityType() {
+		return ownerEntityType;
 	}
 }

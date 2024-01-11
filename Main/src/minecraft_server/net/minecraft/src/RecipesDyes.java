@@ -4,6 +4,7 @@ public class RecipesDyes {
 	public void addRecipes(CraftingManager craftingManager1) {
 		for(int i2 = 0; i2 < 16; ++i2) {
 			craftingManager1.addShapelessRecipe(new ItemStack(Block.cloth, 1, BlockCloth.getDyeFromBlock(i2)), new Object[]{new ItemStack(Item.dyePowder, 1, i2), new ItemStack(Item.itemsList[Block.cloth.blockID], 1, 0)});
+			craftingManager1.addShapelessRecipe(new ItemStack(Block.stainedTerracotta, 1, BlockTerracotta.getDyeFromBlock(i2)), new Object[]{new ItemStack(Item.dyePowder, 1, i2), new ItemStack(Item.itemsList[Block.terracotta.blockID], 1, 0)});
 		}
 
 		craftingManager1.addShapelessRecipe(new ItemStack(Item.dyePowder, 2, 11), new Object[]{Block.plantYellow});

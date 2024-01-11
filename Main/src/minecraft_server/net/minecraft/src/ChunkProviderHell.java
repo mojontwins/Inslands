@@ -187,7 +187,8 @@ public class ChunkProviderHell implements IChunkProvider {
 		
 		// Empty block array & new Chunk
 		byte[] blockArray = new byte[32768];
-		Chunk chunk = new Chunk(this.worldObj, blockArray, chunkX, chunkZ);
+		byte[] metadata = new byte[32768];
+		Chunk chunk = new Chunk(this.worldObj, blockArray, metadata, chunkX, chunkZ);
 
 		// Generate terrain for this chunk
 		this.generateTerrain(chunkX, chunkZ, blockArray);
@@ -200,6 +201,19 @@ public class ChunkProviderHell implements IChunkProvider {
 
 		// Done
 		return chunk;	
+	}
+	
+	public Chunk justGenerateForHeight(int chunkX, int chunkZ) {
+		this.rand.setSeed((long)chunkX * 341873128712L + (long)chunkZ * 132897987541L);
+		
+		// Empty block array & new Chunk
+		byte[] blockArray = new byte[32768];
+		byte[] metadata = new byte[32768];
+		Chunk chunk = new Chunk(this.worldObj, blockArray, metadata, chunkX, chunkZ);
+		this.generateTerrain(chunkX, chunkZ, blockArray);
+		this.caveGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
+		
+		return chunk;
 	}
 
 	private double[] initializeNoiseField(double[] d1, int i2, int i3, int i4, int i5, int i6, int i7) {

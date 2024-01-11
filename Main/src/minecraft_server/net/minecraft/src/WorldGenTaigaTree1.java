@@ -39,9 +39,9 @@ public class WorldGenTaigaTree1 extends WorldGenerator {
 			if(!z10) {
 				return false;
 			} else {
-				i11 = world1.getBlockId(i3, i4 - 1, i5);
-				if((i11 == Block.grass.blockID || i11 == Block.dirt.blockID) && i4 < 128 - i6 - 1) {
-					world1.setBlock(i3, i4 - 1, i5, Block.dirt.blockID);
+				Block block = Block.blocksList[i11];
+				if(((block != null && block.canGrowPlants()) || i11 == Block.wood.blockID) && i4 < 128 - i6 - 1) {
+					//world1.setBlock(i3, i4 - 1, i5, Block.dirt.blockID);
 					i18 = 0;
 
 					for(i13 = i4 + i6; i13 >= i4 + i7; --i13) {

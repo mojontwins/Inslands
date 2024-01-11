@@ -68,11 +68,11 @@ public class EntityPig extends EntityAnimal {
 		}
 	}
 
-	protected void fall(float f1) {
-		super.fall(f1);
+	protected boolean fall(float f1) {
+		boolean rebound = super.fall(f1);
 		if(f1 > 5.0F && this.riddenByEntity instanceof EntityPlayer) {
 			((EntityPlayer)this.riddenByEntity).triggerAchievement(AchievementList.flyPig);
 		}
-
+		return rebound;
 	}
 }

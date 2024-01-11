@@ -28,9 +28,11 @@ import net.minecraft.src.LevelThemeGlobalSettings;
 import net.minecraft.src.LevelThemeSettings;
 import net.minecraft.src.NetworkListenThread;
 import net.minecraft.src.Packet4UpdateTime;
+import net.minecraft.src.Packet95UpdateDayOfTheYear;
 import net.minecraft.src.PropertyManager;
 import net.minecraft.src.SaveConverterMcRegion;
 import net.minecraft.src.SaveOldDir;
+import net.minecraft.src.Seasons;
 import net.minecraft.src.ServerCommand;
 import net.minecraft.src.ServerConfigurationManager;
 import net.minecraft.src.ServerGUI;
@@ -78,7 +80,7 @@ public class MinecraftServer implements Runnable, ICommandListener {
 		threadCommandReader1.setDaemon(true);
 		threadCommandReader1.start();
 		ConsoleLogManager.init();
-		logger.info("Starting minecraft server version " + Version.getVersion());
+		logger.info("Starting minecraft server " + Version.getVersion());
 		if(Runtime.getRuntime().maxMemory() / 1024L / 1024L < 512L) {
 			logger.warning("**** NOT ENOUGH RAM!");
 			logger.warning("To start the server with more ram, launch it as \"java -Xmx1024M -Xms1024M -jar minecraft_server.jar\"");
@@ -348,9 +350,13 @@ public class MinecraftServer implements Runnable, ICommandListener {
 					this.configManager.sendPacketToAllPlayersInDimension(new Packet4UpdateTime(worldServer7.getWorldTime()), worldServer7.worldProvider.worldType);
 				}
 
+				int dayOfTheYear = Seasons.dayOfTheYear;
 				worldServer7.tick();
+				if (Seasons.dayOfTheYear != dayOfTheYear) {
+					this.configManager.sendPacketToAllPlayersInDimension(new Packet95UpdateDayOfTheYear(Seasons.dayOfTheYear), worldServer7.worldProvider.worldType);
+				}
 
-				while(worldServer7.updatingLighting()) {
+				while(worldServer7.updatingLighting(this.playersOnline.size() > 0 ? 250 : 2000)) {
 				}
 
 				worldServer7.updateEntities();
@@ -388,7 +394,7 @@ public class MinecraftServer implements Runnable, ICommandListener {
 
 	}
 
-	public void s_func_6022_a(IUpdatePlayerListBox iUpdatePlayerListBox1) {
+	public void addToOnlinePlayerList(IUpdatePlayerListBox iUpdatePlayerListBox1) {
 		this.playersOnline.add(iUpdatePlayerListBox1);
 	}
 

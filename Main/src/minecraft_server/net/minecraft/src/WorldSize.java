@@ -34,13 +34,14 @@ public class WorldSize {
 		return xChunks * zChunks;
 	}
 
-	public static void setSizeById(int a) {
-		switch(a) {
-			case 0: setSize(8, 8); break;
-			case 1: setSize(16, 16); break;
-			case 2: setSize(32, 32); break;
+	public static void setSizeById(int sizeId) {
+		switch(sizeId) {
+		case 0: setSize(8, 8); break;
+		case 1: setSize(16, 16); break;
+		case 2: setSize(32, 32); break;
 		}
-		WorldSize.sizeID = a;
+		
+		WorldSize.sizeID = sizeId;
 	}
 
 	public static void setSizeByName(String stringProperty) {

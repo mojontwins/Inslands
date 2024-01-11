@@ -19,7 +19,7 @@ public class Seasons {
 	private static final int colorizerFog0[] = new int [SEASON_DURATION * 4];
 	
 	World world;
-	public static int dayOfTheYear;
+	public static int dayOfTheYear = 12;
 	public static int currentSeason;
 	public static int prevSeason;
 	public static int nextSeason;

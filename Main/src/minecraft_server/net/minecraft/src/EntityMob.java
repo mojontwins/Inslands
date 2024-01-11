@@ -2,7 +2,8 @@ package net.minecraft.src;
 
 public class EntityMob extends EntityCreature implements IMob {
 	protected int attackStrength = 2;
-
+	Vec3D homingTo = null;
+	
 	public EntityMob(World world1) {
 		super(world1);
 		this.health = 20;
@@ -59,7 +60,7 @@ public class EntityMob extends EntityCreature implements IMob {
 	protected float getBlockPathWeight(int i1, int i2, int i3) {
 		return 0.5F - this.worldObj.getLightBrightness(i1, i2, i3);
 	}
-
+	
 	protected boolean attackEntityAsMob(Entity entity1) {
 		return entity1.attackEntityFrom(this, this.attackStrength);
 	}

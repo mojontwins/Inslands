@@ -1,9 +1,14 @@
 package net.minecraft.src;
 
+import java.util.List;
+
+import com.mojang.minecraft.ocelot.EntityBetaOcelot;
+
 public class EntityCreeper extends EntityMob {
 	int timeSinceIgnited;
 	int lastActiveTime;
-
+	protected static final int fuseDuration = 30;
+	
 	public EntityCreeper(World world1) {
 		super(world1);
 		this.texture = "/mob/creeper.png";
@@ -54,8 +59,8 @@ public class EntityCreeper extends EntityMob {
 				this.timeSinceIgnited = 0;
 			}
 
-			if(this.timeSinceIgnited >= 30) {
-				this.timeSinceIgnited = 30;
+			if(this.timeSinceIgnited >= fuseDuration) {
+				this.timeSinceIgnited = fuseDuration;
 			}
 		}
 
@@ -69,7 +74,23 @@ public class EntityCreeper extends EntityMob {
 		}
 
 	}
-
+	
+	protected void updateEntityActionState() {
+		super.updateEntityActionState();
+		
+		List<Entity> list3 = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(5.0D, 3.0D, 5.0D));
+		for(int i4 = 0; i4 < list3.size(); ++i4) {
+			Entity entity5 = (Entity)list3.get(i4);
+			if(entity5 instanceof EntityBetaOcelot) {
+				this.moveForward = -this.moveSpeed;
+				this.entityToAttack = null;
+				
+				break;
+			}
+		}
+		
+	}
+	
 	protected String getHurtSound() {
 		return "mob.creeper";
 	}
@@ -96,7 +117,7 @@ public class EntityCreeper extends EntityMob {
 
 				this.setCreeperState(1);
 				++this.timeSinceIgnited;
-				if(this.timeSinceIgnited >= 30) {
+				if(this.timeSinceIgnited >= fuseDuration) {
 					if(this.getPowered()) {
 						this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 6.0F);
 					} else {
@@ -130,11 +151,11 @@ public class EntityCreeper extends EntityMob {
 		return Item.gunpowder.shiftedIndex;
 	}
 
-	private int getCreeperState() {
+	protected int getCreeperState() {
 		return this.dataWatcher.getWatchableObjectByte(16);
 	}
 
-	private void setCreeperState(int i1) {
+	protected void setCreeperState(int i1) {
 		this.dataWatcher.updateObject(16, (byte)i1);
 	}
 

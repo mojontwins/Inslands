@@ -18,4 +18,8 @@ public class MaterialLiquid extends Material {
 	public boolean isSolid() {
 		return false;
 	}
+	
+	public boolean blocksMovement() {
+		return false;
+	}
 }

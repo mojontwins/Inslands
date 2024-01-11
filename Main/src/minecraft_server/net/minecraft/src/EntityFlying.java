@@ -5,7 +5,8 @@ public class EntityFlying extends EntityLiving {
 		super(world1);
 	}
 
-	protected void fall(float f1) {
+	protected boolean fall(float f1) {
+		return false;
 	}
 
 	public void moveEntityWithHeading(float f1, float f2) {

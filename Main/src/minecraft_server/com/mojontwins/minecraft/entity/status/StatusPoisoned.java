@@ -9,24 +9,22 @@ public class StatusPoisoned extends Status {
 		super(id, true);
 		this.particleColor = 0x70B433;
 	}
-
-	public StatusPoisoned setName(String name) {
-		this.name = name;
-		return this;
-	}
 	
-	public void performEffect (EntityLiving entityLiving, int amplifier) {
+	@Override
+	public void performEffect (EntityLiving entityLiving, int amplifier, int duration) {
 		// Decrease half a heart
 		if (entityLiving.health > 1) {
 			entityLiving.attackEntityFrom((Entity)null, 1);
 		}
 	}
 	
+	@Override
 	public boolean isReady (int tick, int amplifier) {
 		// Run every 5 ticks
 		return (tick % 5) == 0;
 	}
 
+	@Override
 	public boolean isApplicableTo (EntityLiving entityLiving) {
 		// Zombies can't be poisoned
 		return !(entityLiving instanceof EntityZombie);

@@ -48,8 +48,9 @@ public abstract class WorldProvider {
 		return block != null && block.isOpaqueCube() && this.worldObj.canBlockSeeTheSky(x, y, z);
 	}
 
+	/*
 	public float calculateCelestialAngle(long j1, float f3) {
-		int i4 = LevelThemeGlobalSettings.dayCycle ? (int)(j1 % 24000L) : 6000;
+		int i4 = (int)(j1 % 24000L);
 		float f5 = ((float)i4 + f3) / 24000.0F - 0.25F;
 		if(f5 < 0.0F) {
 			++f5;
@@ -63,6 +64,37 @@ public abstract class WorldProvider {
 		f5 = 1.0F - (float)((Math.cos((double)f5 * Math.PI) + 1.0D) / 2.0D);
 		f5 = f6 + (f5 - f6) / 3.0F;
 		return f5;
+	}
+	*/
+	
+	public float calculateCelestialAngle(long worldTime, float renderPartialTick) {
+		// Thanks for the pointers jonk!
+		float tickWithinCycle = (int)(worldTime % 24000L) + renderPartialTick;
+		
+		boolean isDay = tickWithinCycle < Seasons.dayLengthTicks;
+		
+		float partProgress = isDay ? 
+				(float)tickWithinCycle / (float)Seasons.dayLengthTicks
+			:
+				(float)(tickWithinCycle - Seasons.dayLengthTicks) / (float)Seasons.nightLengthTicks
+		;
+				
+		float dayProgress = isDay ? 
+				partProgress / 2.0F
+			:
+				0.5F + partProgress / 2.0F
+		;
+		
+		dayProgress -= 0.25F;
+		
+		if(dayProgress < 0.0F) dayProgress ++;
+		if(dayProgress > 1.0F) dayProgress --;
+		
+		float f2 = dayProgress;
+		dayProgress = 1.0F - (float)((Math.cos((double)dayProgress * Math.PI) + 1.0D) / 2D);
+		dayProgress = f2 + (dayProgress - f2) / 3F;
+		
+		return dayProgress;
 	}
 
 	public float[] calcSunriseSunsetColors(float f1, float f2) {
@@ -83,7 +115,7 @@ public abstract class WorldProvider {
 		}
 	}
 
-	public Vec3D getFogColor(float f1, float f2, Entity entity1) {
+	public Vec3D getFogColor(float f1, float f2, Entity entity1, boolean colouredAthmospherics) {
 		float f3 = MathHelper.cos(f1 * (float)Math.PI * 2.0F) * 2.0F + 0.5F;
 		if(f3 < 0.0F) {
 			f3 = 0.0F;

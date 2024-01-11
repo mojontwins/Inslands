@@ -13,16 +13,15 @@ public class ItemBigFlower extends ItemBlock {
 	}
 
 	public int getPlacedBlockMetadata(int var1) {
-		System.out.println("placed block metadata " + var1);
 		return var1;
 	}
 
 	public String getItemNameIS(ItemStack var1) {
 		switch(var1.itemDamage) {
-			case 0: return "Red flower petal";
-			case 1: return "Yellow flower petal";
-			case 2: return "Stem";
-			default: return "Big Flower";
+			case 0: return "tile.redFlowerPetal";
+			case 1: return "tile.yellowFlowerPetal";
+			case 2: return "tile.stem";
+			default: return "tile.bigFlower";
 		}
 	}
 }

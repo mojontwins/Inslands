@@ -17,29 +17,29 @@ public class Achievement extends StatBase {
 		this(i1, string2, i3, i4, new ItemStack(block5), achievement6);
 	}
 
-	public Achievement(int i1, String string2, int i3, int i4, ItemStack itemStack5, Achievement achievement6) {
-		super(5242880 + i1, StatCollector.translateToLocal("achievement." + string2));
+	public Achievement(int id, String achievementName, int column, int row, ItemStack itemStack5, Achievement parentAchievement) {
+		super(5242880 + id, StatCollector.translateToLocal("achievement." + achievementName));
 		this.theItemStack = itemStack5;
-		this.achievementDescription = StatCollector.translateToLocal("achievement." + string2 + ".desc");
-		this.displayColumn = i3;
-		this.displayRow = i4;
-		if(i3 < AchievementList.minDisplayColumn) {
-			AchievementList.minDisplayColumn = i3;
+		this.achievementDescription = StatCollector.translateToLocal("achievement." + achievementName + ".desc");
+		this.displayColumn = column;
+		this.displayRow = row;
+		if(column < AchievementList.minDisplayColumn) {
+			AchievementList.minDisplayColumn = column;
 		}
 
-		if(i4 < AchievementList.minDisplayRow) {
-			AchievementList.minDisplayRow = i4;
+		if(row < AchievementList.minDisplayRow) {
+			AchievementList.minDisplayRow = row;
 		}
 
-		if(i3 > AchievementList.maxDisplayColumn) {
-			AchievementList.maxDisplayColumn = i3;
+		if(column > AchievementList.maxDisplayColumn) {
+			AchievementList.maxDisplayColumn = column;
 		}
 
-		if(i4 > AchievementList.maxDisplayRow) {
-			AchievementList.maxDisplayRow = i4;
+		if(row > AchievementList.maxDisplayRow) {
+			AchievementList.maxDisplayRow = row;
 		}
 
-		this.parentAchievement = achievement6;
+		this.parentAchievement = parentAchievement;
 	}
 
 	public Achievement setIndependent() {

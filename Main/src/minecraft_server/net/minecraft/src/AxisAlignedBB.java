@@ -96,6 +96,16 @@ public class AxisAlignedBB {
 		double d17 = this.maxZ + z;
 		return getBoundingBoxFromPool(d7, d9, d11, d13, d15, d17);
 	}
+	
+	public AxisAlignedBB expandEx(double minX, double maxX, double minY, double maxY, double minZ, double maxZ) {
+		double d7 = this.minX - minX;
+		double d9 = this.minY - minY;
+		double d11 = this.minZ - minZ;
+		double d13 = this.maxX + maxX;
+		double d15 = this.maxY + maxY;
+		double d17 = this.maxZ + maxZ;
+		return getBoundingBoxFromPool(d7, d9, d11, d13, d15, d17);
+	}
 
 	public AxisAlignedBB getOffsetBoundingBox(double offsetX, double offsetY, double offsetZ) {
 		return getBoundingBoxFromPool(this.minX + offsetX, this.minY + offsetY, this.minZ + offsetZ, this.maxX + offsetX, this.maxY + offsetY, this.maxZ + offsetZ);

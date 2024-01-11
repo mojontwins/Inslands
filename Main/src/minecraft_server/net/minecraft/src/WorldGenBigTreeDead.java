@@ -299,7 +299,7 @@ public class WorldGenBigTreeDead extends WorldGenerator {
 		int[] i1 = new int[]{this.basePos[0], this.basePos[1] + 2, this.basePos[2]};
 		int[] i2 = new int[]{this.basePos[0], this.basePos[1] + this.heightLimit - 1, this.basePos[2]};
 		int i3 = this.world.getBlockId(this.basePos[0], this.basePos[1] - 1, this.basePos[2]);
-		if(i3 != Block.sand.blockID && i3 != Block.dirt.blockID && i3 != Block.gravel.blockID) {
+		if(i3 != Block.sand.blockID && i3 != Block.dirt.blockID && i3 != Block.gravel.blockID && i3 != Block.terracotta.blockID) {
 			return false;
 		} else {
 			int i4 = this.checkBlockLine(i1, i2);

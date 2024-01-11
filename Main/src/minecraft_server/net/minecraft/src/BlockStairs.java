@@ -5,6 +5,10 @@ import java.util.Random;
 
 public class BlockStairs extends Block {
 	private Block modelBlock;
+	
+	// This class has been modified so...
+	// - You can place stairs upside down.
+	// - You get the stairs block upon breaking.
 
 	protected BlockStairs(int id, Block modelBlock) {
 		super(id, modelBlock.blockIndexInTexture, modelBlock.blockMaterial);
@@ -41,28 +45,55 @@ public class BlockStairs extends Block {
 
 	public void getCollidingBoundingBoxes(World world, int x, int y, int z, AxisAlignedBB aabb, ArrayList<AxisAlignedBB> collidingBoundingBoxes) {
 		int i7 = world.getBlockMetadata(x, y, z);
-		if(i7 == 0) {
-			this.setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 0.5F, 1.0F);
-			super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
-			this.setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-			super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
-		} else if(i7 == 1) {
-			this.setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F);
-			super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
-			this.setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
-			super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
-		} else if(i7 == 2) {
-			this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 0.5F);
-			super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
-			this.setBlockBounds(0.0F, 0.0F, 0.5F, 1.0F, 1.0F, 1.0F);
-			super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
-		} else if(i7 == 3) {
-			this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.5F);
-			super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
-			this.setBlockBounds(0.0F, 0.0F, 0.5F, 1.0F, 0.5F, 1.0F);
-			super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+		boolean upsideDown = (i7 & 8) != 0;
+		i7 &= 7;
+		
+		if(upsideDown) {
+			if(i7 == 0) {
+				this.setBlockBounds(0.0F, 0.5F, 0.0F, 0.5F, 1.0F, 1.0F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+				this.setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+			} else if(i7 == 1) {
+				this.setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+				this.setBlockBounds(0.5F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+			} else if(i7 == 2) {
+				this.setBlockBounds(0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 0.5F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+				this.setBlockBounds(0.0F, 0.0F, 0.5F, 1.0F, 1.0F, 1.0F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+			} else if(i7 == 3) {
+				this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.5F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+				this.setBlockBounds(0.0F, 0.5F, 0.5F, 1.0F, 1.0F, 1.0F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+			}
+		} else {
+			if(i7 == 0) {
+				this.setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 0.5F, 1.0F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+				this.setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+			} else if(i7 == 1) {
+				this.setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+				this.setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+			} else if(i7 == 2) {
+				this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 0.5F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+				this.setBlockBounds(0.0F, 0.0F, 0.5F, 1.0F, 1.0F, 1.0F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+			} else if(i7 == 3) {
+				this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.5F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+				this.setBlockBounds(0.0F, 0.0F, 0.5F, 1.0F, 0.5F, 1.0F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+			}
 		}
-
+		
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	}
 
@@ -74,9 +105,11 @@ public class BlockStairs extends Block {
 		this.modelBlock.onBlockClicked(world, x, y, z, entityPlayer);
 	}
 
+	/*
 	public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int metadata) {
 		this.modelBlock.onBlockDestroyedByPlayer(world, x, y, z, metadata);
 	}
+	*/
 
 	public float getBlockBrightness(IBlockAccess blockAccess, int x, int y, int z) {
 		return this.modelBlock.getBlockBrightness(blockAccess, x, y, z);
@@ -90,13 +123,16 @@ public class BlockStairs extends Block {
 		return this.modelBlock.getRenderBlockPass();
 	}
 
+	/*
 	public int idDropped(int metadata, Random rand) {
+		System.out.println("Dropping " + this.blockID);
 		return this.modelBlock.idDropped(metadata, rand);
 	}
 
 	public int quantityDropped(Random rand) {
 		return this.modelBlock.quantityDropped(rand);
 	}
+	*/
 
 	public int getBlockTextureFromSideAndMetadata(int side, int metadata) {
 		return this.modelBlock.getBlockTextureFromSideAndMetadata(side, metadata);
@@ -139,6 +175,7 @@ public class BlockStairs extends Block {
 		this.modelBlock.onBlockAdded(world, x, y, z);
 	}
 
+	/*
 	public void onBlockRemoval(World world, int x, int y, int z) {
 		this.modelBlock.onBlockRemoval(world, x, y, z);
 	}
@@ -150,7 +187,8 @@ public class BlockStairs extends Block {
 	public void dropBlockAsItem(World world, int x, int y, int z, int metadata) {
 		this.modelBlock.dropBlockAsItem(world, x, y, z, metadata);
 	}
-
+	*/
+	
 	public void onEntityWalking(World world, int x, int y, int z, Entity entity) {
 		this.modelBlock.onEntityWalking(world, x, y, z, entity);
 	}
@@ -163,18 +201,27 @@ public class BlockStairs extends Block {
 		return this.modelBlock.blockActivated(world, x, y, z, entityPlayer);
 	}
 
+	/*
 	public void onBlockDestroyedByExplosion(World world, int x, int y, int z) {
 		this.modelBlock.onBlockDestroyedByExplosion(world, x, y, z);
-		}
-
-	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, Entity par5EntityLiving) {
+	}
+	*/
+	
+	public void onBlockPlaced(World world, int x, int y, int z, int face, float xWithinFace, float yWithinFace, float zWithinFace) {
+		if(face == 0 || (face > 1 && yWithinFace >= 0.5F)) world.setBlockMetadata(x, y, z, 8);
+	}
+	
+	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLiving par5EntityLiving) {
 		int i = MathHelper.floor_double((double)((par5EntityLiving.rotationYaw * 4F) / 360F) + 0.5D) & 3;
+		int meta = par1World.getBlockMetadata(par2, par3, par4);
 
 		switch (i) {
-			case 0: par1World.setBlockMetadataWithNotify(par2, par3, par4, 2); break;
-			case 1: par1World.setBlockMetadataWithNotify(par2, par3, par4, 1); break;
-			case 2: par1World.setBlockMetadataWithNotify(par2, par3, par4, 3); break;
-			case 3: par1World.setBlockMetadataWithNotify(par2, par3, par4, 0); break;
+			case 0: meta |= 2; break;
+			case 1: meta |= 1; break;
+			case 2: meta |= 3; break;
+			case 3: meta |= 0; break;
 		}
+		
+		par1World.setBlockMetadataWithNotify(par2, par3, par4, meta);
 	}
 }

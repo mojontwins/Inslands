@@ -33,7 +33,7 @@ public class BlockSeaweed extends Block {
     }
     
     public void updateTick(World world, int x, int y, int z, Random rand) {
-    	if (rand.nextInt (8) == 0) {
+    	if (rand.nextInt (32) == 0) {
 	    	if (world.getBlockId(x, y + 1, z) == Block.waterStill.blockID && world.getBlockId(x, y + 2, z) == Block.waterStill.blockID ) {
 	    		world.setBlockWithNotify(x, y + 1, z, blockID);
 	    	}

@@ -10,9 +10,9 @@ public class PlayerManager {
 	private PlayerHash playerInstances = new PlayerHash();
 	private List<PlayerInstance> playerInstancesToUpdate = new ArrayList<PlayerInstance>();
 	private MinecraftServer mcServer;
-	private int s_field_28110_e;
+	private int playerDimension;
 	private int playerViewRadius;
-	private final int[][] s_field_22089_e = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+	private final int[][] xzDirectionsConst = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
 	public PlayerManager(MinecraftServer minecraftServer1, int i2, int i3) {
 		if(i3 > 15) {
@@ -22,12 +22,12 @@ public class PlayerManager {
 		} else {
 			this.playerViewRadius = i3;
 			this.mcServer = minecraftServer1;
-			this.s_field_28110_e = i2;
+			this.playerDimension = i2;
 		}
 	}
 
 	public WorldServer getMinecraftServer() {
-		return this.mcServer.getWorldManager(this.s_field_28110_e);
+		return this.mcServer.getWorldManager(this.playerDimension);
 	}
 
 	public void updatePlayerInstances() {
@@ -36,6 +36,14 @@ public class PlayerManager {
 		}
 
 		this.playerInstancesToUpdate.clear();
+		if(this.players.isEmpty()) {
+			WorldServer worldServer3 = this.mcServer.getWorldManager(this.playerDimension);
+			WorldProvider worldProvider2 = worldServer3.worldProvider;
+			if(!worldProvider2.canRespawnHere()) {
+				worldServer3.chunkProviderServer.unloadAllChunks();
+			}
+		}
+
 	}
 
 	private PlayerInstance getPlayerInstance(int i1, int i2, boolean z3) {
@@ -73,7 +81,7 @@ public class PlayerManager {
 		int i8;
 		for(i8 = 1; i8 <= i5 * 2; ++i8) {
 			for(int i9 = 0; i9 < 2; ++i9) {
-				int[] i10 = this.s_field_22089_e[i4++ % 4];
+				int[] i10 = this.xzDirectionsConst[i4++ % 4];
 
 				for(int i11 = 0; i11 < i8; ++i11) {
 					i6 += i10[0];
@@ -86,8 +94,8 @@ public class PlayerManager {
 		i4 %= 4;
 
 		for(i8 = 0; i8 < i5 * 2; ++i8) {
-			i6 += this.s_field_22089_e[i4][0];
-			i7 += this.s_field_22089_e[i4][1];
+			i6 += this.xzDirectionsConst[i4][0];
+			i7 += this.xzDirectionsConst[i4][1];
 			this.getPlayerInstance(i2 + i6, i3 + i7, true).addPlayer(entityPlayerMP1);
 		}
 
@@ -110,13 +118,13 @@ public class PlayerManager {
 		this.players.remove(entityPlayerMP1);
 	}
 
-	private boolean s_func_544_a(int i1, int i2, int i3, int i4) {
+	private boolean isOutsidePlayerViewRadius(int i1, int i2, int i3, int i4) {
 		int i5 = i1 - i3;
 		int i6 = i2 - i4;
 		return i5 >= -this.playerViewRadius && i5 <= this.playerViewRadius ? i6 >= -this.playerViewRadius && i6 <= this.playerViewRadius : false;
 	}
 
-	public void s_func_543_c(EntityPlayerMP entityPlayerMP1) {
+	public void updateMountedMovingPlayer(EntityPlayerMP entityPlayerMP1) {
 		int i2 = (int)entityPlayerMP1.posX >> 4;
 		int i3 = (int)entityPlayerMP1.posZ >> 4;
 		double d4 = entityPlayerMP1.managedPosX - entityPlayerMP1.posX;
@@ -130,11 +138,11 @@ public class PlayerManager {
 			if(i12 != 0 || i13 != 0) {
 				for(int i14 = i2 - this.playerViewRadius; i14 <= i2 + this.playerViewRadius; ++i14) {
 					for(int i15 = i3 - this.playerViewRadius; i15 <= i3 + this.playerViewRadius; ++i15) {
-						if(!this.s_func_544_a(i14, i15, i10, i11)) {
+						if(!this.isOutsidePlayerViewRadius(i14, i15, i10, i11)) {
 							this.getPlayerInstance(i14, i15, true).addPlayer(entityPlayerMP1);
 						}
 
-						if(!this.s_func_544_a(i14 - i12, i15 - i13, i2, i3)) {
+						if(!this.isOutsidePlayerViewRadius(i14 - i12, i15 - i13, i2, i3)) {
 							PlayerInstance playerInstance16 = this.getPlayerInstance(i14 - i12, i15 - i13, false);
 							if(playerInstance16 != null) {
 								playerInstance16.removePlayer(entityPlayerMP1);

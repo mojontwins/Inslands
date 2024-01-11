@@ -1,6 +1,9 @@
 package net.minecraft.src;
 
 public class BlockCoral extends Block {
+	/*
+	 * Coral metadata will be 8, 9, 10 to make it compatible with flowing water.
+	 */
 	public BlockCoral(int id, int blockIndex) {
 		super(id, blockIndex, Material.water); 
 	}
@@ -24,7 +27,7 @@ public class BlockCoral extends Block {
     
     public boolean canBlockStay(World world, int x, int y, int z) {
     	int blockOnTop = world.getBlockId(x, y + 1, z);
-    	if(! (blockOnTop == this.blockID || blockOnTop == Block.waterStill.blockID || blockOnTop == Block.waterMoving.blockID)) return false;
+    	if(! (blockOnTop == Block.waterStill.blockID || blockOnTop == Block.waterMoving.blockID)) return false;
     	return canThisPlantGrowOnThisBlockID(world.getBlockId(x, y - 1, z));
     }
     
@@ -45,7 +48,7 @@ public class BlockCoral extends Block {
     }
     
     public int getBlockTextureFromSideAndMetadata(int side, int meta) {
-    	return this.blockIndexInTexture + meta;
+    	return this.blockIndexInTexture + (meta & 7);
     }
     
 	protected int damageDropped(int var1) {

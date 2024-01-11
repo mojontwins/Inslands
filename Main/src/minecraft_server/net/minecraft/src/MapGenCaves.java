@@ -106,6 +106,7 @@ public class MapGenCaves extends MapGenBase {
 					for(int ix = x1; !isInWater && ix < x2; ++ix) {
 						for(int iz = z1; !isInWater && iz < z2; ++iz) {
 							for(int iy = y2 + 1; !isInWater && iy >= y1 - 1; --iy) {
+								// int idx = (ix * 16 + iz) * 128 + iy;
 								int idx = ix << 11 | iz << 7 | iy; 
 								if(iy >= 0 && iy < 128) {
 									if(data[idx] == Block.waterMoving.blockID || data[idx] == Block.waterStill.blockID) {
@@ -132,7 +133,6 @@ public class MapGenCaves extends MapGenBase {
 								boolean hitSurface = false;
 
 								if(dx * dx + dz * dz < 1.0D) {
-									boolean firstBlock = true;
 									for(int iy = y2 - 1; iy >= y1; --iy) {
 										double dy = ((double)iy + 0.5D - y) / amplitudeVert;
 										
@@ -152,12 +152,7 @@ public class MapGenCaves extends MapGenBase {
 												if(iy < 10) {
 													data[index] = (byte)Block.lavaMoving.blockID;
 												} else {
-													if(firstBlock) {
-														firstBlock = false;
-													}
-													
 													data[index] = 0;
-													
 													if(hitSurface && data[index - 1] == Block.dirt.blockID) {
 														data[index - 1] = (byte)Block.grass.blockID;
 													}

@@ -16,4 +16,6 @@ public interface IChunkProvider {
 	boolean canSave();
 
 	String makeString();
+
+	Chunk justGenerateForHeight(int i, int j);
 }

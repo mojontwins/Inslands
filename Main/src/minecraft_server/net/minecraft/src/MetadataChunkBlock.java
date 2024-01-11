@@ -2,145 +2,147 @@ package net.minecraft.src;
 
 public class MetadataChunkBlock {
 	public final EnumSkyBlock enumSkyBlock;
-	public int field_1298_b;
-	public int field_1304_c;
-	public int field_1303_d;
-	public int field_1302_e;
-	public int field_1301_f;
-	public int field_1300_g;
+	public int x1;
+	public int y1;
+	public int z1;
+	public int x2;
+	public int y2;
+	public int z2;
 
 	public MetadataChunkBlock(EnumSkyBlock enumSkyBlock1, int i2, int i3, int i4, int i5, int i6, int i7) {
 		this.enumSkyBlock = enumSkyBlock1;
-		this.field_1298_b = i2;
-		this.field_1304_c = i3;
-		this.field_1303_d = i4;
-		this.field_1302_e = i5;
-		this.field_1301_f = i6;
-		this.field_1300_g = i7;
+		this.x1 = i2;
+		this.y1 = i3;
+		this.z1 = i4;
+		this.x2 = i5;
+		this.y2 = i6;
+		this.z2 = i7;
 	}
 
 	public void recalculateLighting(World world1) {
-		int i2 = this.field_1302_e - this.field_1298_b + 1;
-		int i3 = this.field_1301_f - this.field_1304_c + 1;
-		int i4 = this.field_1300_g - this.field_1303_d + 1;
-		int i5 = i2 * i3 * i4;
-		if(i5 > 32768) {
+		int width = this.x2 - this.x1 + 1;
+		int height = this.y2 - this.y1 + 1;
+		int length = this.z2 - this.z1 + 1;
+		int volume = width * height * length;
+		if(volume > 32768) {
 			System.out.println("Light too large, skipping!");
 		} else {
-			int i6 = 0;
-			int i7 = 0;
+			int lastXChunk = 0;
+			int lastZChunk = 0;
 			boolean z8 = false;
-			boolean z9 = false;
+			boolean lastDoRelight = false;
 
-			for(int i10 = this.field_1298_b; i10 <= this.field_1302_e; ++i10) {
-				for(int i11 = this.field_1303_d; i11 <= this.field_1300_g; ++i11) {
-					int i12 = i10 >> 4;
-					int i13 = i11 >> 4;
-					boolean z14 = false;
-					if(z8 && i12 == i6 && i13 == i7) {
-						z14 = z9;
+			for(int x = this.x1; x <= this.x2; ++x) {
+				for(int z = this.z1; z <= this.z2; ++z) {
+					int xChunk = x >> 4;
+					int zChunk = z >> 4;
+					boolean doRelight = false;
+					if(z8 && xChunk == lastXChunk && zChunk == lastZChunk) {
+						doRelight = lastDoRelight;
 					} else {
-						z14 = world1.doChunksNearChunkExist(i10, 0, i11, 1);
-						if(z14) {
-							Chunk chunk15 = world1.getChunkFromChunkCoords(i10 >> 4, i11 >> 4);
+						doRelight = world1.doChunksNearChunkExist(x, 0, z, 1);
+						if(doRelight) {
+							Chunk chunk15 = world1.getChunkFromChunkCoords(x >> 4, z >> 4);
 							if(chunk15.getIsChunkRendered()) {
-								z14 = false;
+								doRelight = false;
 							}
 						}
 
-						z9 = z14;
-						i6 = i12;
-						i7 = i13;
+						lastDoRelight = doRelight;
+						lastXChunk = xChunk;
+						lastZChunk = zChunk;
 					}
 
-					if(z14) {
-						if(this.field_1304_c < 0) {
-							this.field_1304_c = 0;
+					if(doRelight) {
+						if(this.y1 < 0) {
+							this.y1 = 0;
 						}
 
-						if(this.field_1301_f >= 128) {
-							this.field_1301_f = 127;
+						if(this.y2 >= 128) {
+							this.y2 = 127;
 						}
 
-						for(int i27 = this.field_1304_c; i27 <= this.field_1301_f; ++i27) {
-							int i16 = world1.getSavedLightValue(this.enumSkyBlock, i10, i27, i11);
-							int i18 = world1.getBlockId(i10, i27, i11);
-							int i19 = Block.lightOpacity[i18];
-							if(i19 == 0) {
-								i19 = 1;
+						for(int y = this.y1; y <= this.y2; ++y) {
+							int lightValue = world1.getSavedLightValue(this.enumSkyBlock, x, y, z);
+							int blockID = world1.getBlockId(x, y, z);
+							int lightOpacity = Block.lightOpacity[blockID];
+							if(lightOpacity == 0) {
+								lightOpacity = 1;
 							}
 
 							int i20 = 0;
 							if(this.enumSkyBlock == EnumSkyBlock.Sky) {
-								if(world1.canExistingBlockSeeTheSky(i10, i27, i11)) {
+								if(world1.canExistingBlockSeeTheSky(x, y, z)) {
 									i20 = 15;
 								}
 							} else if(this.enumSkyBlock == EnumSkyBlock.Block) {
-								i20 = Block.lightValue[i18];
+								i20 = Block.lightValue[blockID];
 							}
 
-							int i21;
-							int i28;
-							if(i19 >= 15 && i20 == 0) {
-								i28 = 0;
+							int lightWest;
+							int newLightValue;
+							if(lightOpacity >= 15 && i20 == 0) {
+								newLightValue = 0;
 							} else {
-								i21 = world1.getSavedLightValue(this.enumSkyBlock, i10 - 1, i27, i11);
-								int i22 = world1.getSavedLightValue(this.enumSkyBlock, i10 + 1, i27, i11);
-								int i23 = world1.getSavedLightValue(this.enumSkyBlock, i10, i27 - 1, i11);
-								int i24 = world1.getSavedLightValue(this.enumSkyBlock, i10, i27 + 1, i11);
-								int i25 = world1.getSavedLightValue(this.enumSkyBlock, i10, i27, i11 - 1);
-								int i26 = world1.getSavedLightValue(this.enumSkyBlock, i10, i27, i11 + 1);
-								i28 = i21;
-								if(i22 > i21) {
-									i28 = i22;
+								lightWest = world1.getSavedLightValue(this.enumSkyBlock, x - 1, y, z);
+								int lightEast = world1.getSavedLightValue(this.enumSkyBlock, x + 1, y, z);
+								int lightBottom = world1.getSavedLightValue(this.enumSkyBlock, x, y - 1, z);
+								int lightTop = world1.getSavedLightValue(this.enumSkyBlock, x, y + 1, z);
+								int lightNorth = world1.getSavedLightValue(this.enumSkyBlock, x, y, z - 1);
+								int lightSouth = world1.getSavedLightValue(this.enumSkyBlock, x, y, z + 1);
+								newLightValue = lightWest;
+								if(lightEast > lightWest) {
+									newLightValue = lightEast;
 								}
 
-								if(i23 > i28) {
-									i28 = i23;
+								if(lightBottom > newLightValue) {
+									newLightValue = lightBottom;
 								}
 
-								if(i24 > i28) {
-									i28 = i24;
+								if(lightTop > newLightValue) {
+									newLightValue = lightTop;
 								}
 
-								if(i25 > i28) {
-									i28 = i25;
+								if(lightNorth > newLightValue) {
+									newLightValue = lightNorth;
 								}
 
-								if(i26 > i28) {
-									i28 = i26;
+								if(lightSouth > newLightValue) {
+									newLightValue = lightSouth;
 								}
 
-								i28 -= i19;
-								if(i28 < 0) {
-									i28 = 0;
+								// Underwater vision googles should pinch here!
+								newLightValue -= lightOpacity;
+								
+								if(newLightValue < 0) {
+									newLightValue = 0;
 								}
 
-								if(i20 > i28) {
-									i28 = i20;
+								if(i20 > newLightValue) {
+									newLightValue = i20;
 								}
 							}
 
-							if(i16 != i28) {
-								world1.setLightValue(this.enumSkyBlock, i10, i27, i11, i28);
-								i21 = i28 - 1;
-								if(i21 < 0) {
-									i21 = 0;
+							if(lightValue != newLightValue) {
+								world1.setLightValue(this.enumSkyBlock, x, y, z, newLightValue);
+								lightWest = newLightValue - 1;
+								if(lightWest < 0) {
+									lightWest = 0;
 								}
 
-								world1.neighborLightPropagationChanged(this.enumSkyBlock, i10 - 1, i27, i11, i21);
-								world1.neighborLightPropagationChanged(this.enumSkyBlock, i10, i27 - 1, i11, i21);
-								world1.neighborLightPropagationChanged(this.enumSkyBlock, i10, i27, i11 - 1, i21);
-								if(i10 + 1 >= this.field_1302_e) {
-									world1.neighborLightPropagationChanged(this.enumSkyBlock, i10 + 1, i27, i11, i21);
+								world1.neighborLightPropagationChanged(this.enumSkyBlock, x - 1, y, z, lightWest);
+								world1.neighborLightPropagationChanged(this.enumSkyBlock, x, y - 1, z, lightWest);
+								world1.neighborLightPropagationChanged(this.enumSkyBlock, x, y, z - 1, lightWest);
+								if(x + 1 >= this.x2) {
+									world1.neighborLightPropagationChanged(this.enumSkyBlock, x + 1, y, z, lightWest);
 								}
 
-								if(i27 + 1 >= this.field_1301_f) {
-									world1.neighborLightPropagationChanged(this.enumSkyBlock, i10, i27 + 1, i11, i21);
+								if(y + 1 >= this.y2) {
+									world1.neighborLightPropagationChanged(this.enumSkyBlock, x, y + 1, z, lightWest);
 								}
 
-								if(i11 + 1 >= this.field_1300_g) {
-									world1.neighborLightPropagationChanged(this.enumSkyBlock, i10, i27, i11 + 1, i21);
+								if(z + 1 >= this.z2) {
+									world1.neighborLightPropagationChanged(this.enumSkyBlock, x, y, z + 1, lightWest);
 								}
 							}
 						}
@@ -152,36 +154,36 @@ public class MetadataChunkBlock {
 	}
 
 	public boolean insideCurrentArea(int i1, int i2, int i3, int i4, int i5, int i6) {
-		if(i1 >= this.field_1298_b && i2 >= this.field_1304_c && i3 >= this.field_1303_d && i4 <= this.field_1302_e && i5 <= this.field_1301_f && i6 <= this.field_1300_g) {
+		if(i1 >= this.x1 && i2 >= this.y1 && i3 >= this.z1 && i4 <= this.x2 && i5 <= this.y2 && i6 <= this.z2) {
 			return true;
 		} else {
 			byte b7 = 1;
-			if(i1 >= this.field_1298_b - b7 && i2 >= this.field_1304_c - b7 && i3 >= this.field_1303_d - b7 && i4 <= this.field_1302_e + b7 && i5 <= this.field_1301_f + b7 && i6 <= this.field_1300_g + b7) {
-				int i8 = this.field_1302_e - this.field_1298_b;
-				int i9 = this.field_1301_f - this.field_1304_c;
-				int i10 = this.field_1300_g - this.field_1303_d;
-				if(i1 > this.field_1298_b) {
-					i1 = this.field_1298_b;
+			if(i1 >= this.x1 - b7 && i2 >= this.y1 - b7 && i3 >= this.z1 - b7 && i4 <= this.x2 + b7 && i5 <= this.y2 + b7 && i6 <= this.z2 + b7) {
+				int i8 = this.x2 - this.x1;
+				int i9 = this.y2 - this.y1;
+				int i10 = this.z2 - this.z1;
+				if(i1 > this.x1) {
+					i1 = this.x1;
 				}
 
-				if(i2 > this.field_1304_c) {
-					i2 = this.field_1304_c;
+				if(i2 > this.y1) {
+					i2 = this.y1;
 				}
 
-				if(i3 > this.field_1303_d) {
-					i3 = this.field_1303_d;
+				if(i3 > this.z1) {
+					i3 = this.z1;
 				}
 
-				if(i4 < this.field_1302_e) {
-					i4 = this.field_1302_e;
+				if(i4 < this.x2) {
+					i4 = this.x2;
 				}
 
-				if(i5 < this.field_1301_f) {
-					i5 = this.field_1301_f;
+				if(i5 < this.y2) {
+					i5 = this.y2;
 				}
 
-				if(i6 < this.field_1300_g) {
-					i6 = this.field_1300_g;
+				if(i6 < this.z2) {
+					i6 = this.z2;
 				}
 
 				int i11 = i4 - i1;
@@ -190,12 +192,12 @@ public class MetadataChunkBlock {
 				int i14 = i8 * i9 * i10;
 				int i15 = i11 * i12 * i13;
 				if(i15 - i14 <= 2) {
-					this.field_1298_b = i1;
-					this.field_1304_c = i2;
-					this.field_1303_d = i3;
-					this.field_1302_e = i4;
-					this.field_1301_f = i5;
-					this.field_1300_g = i6;
+					this.x1 = i1;
+					this.y1 = i2;
+					this.z1 = i3;
+					this.x2 = i4;
+					this.y2 = i5;
+					this.z2 = i6;
 					return true;
 				}
 			}

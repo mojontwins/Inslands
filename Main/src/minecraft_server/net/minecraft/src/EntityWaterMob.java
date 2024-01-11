@@ -1,6 +1,6 @@
 package net.minecraft.src;
 
-public class EntityWaterMob extends EntityCreature implements IAnimals {
+public class EntityWaterMob extends EntityCreature implements IAnimals, IWaterMob {
 	public EntityWaterMob(World world1) {
 		super(world1);
 	}

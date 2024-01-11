@@ -14,4 +14,8 @@ public class EntityGiantZombie extends EntityMob {
 	protected float getBlockPathWeight(int i1, int i2, int i3) {
 		return this.worldObj.getLightBrightness(i1, i2, i3) - 0.5F;
 	}
+
+	public int getFullHealth() {
+		return 100;
+	}
 }

@@ -43,7 +43,7 @@ public class ChunkProviderLoadOrGenerate implements IChunkProvider {
 		return this.provideChunk(i1, i2);
 	}
 
-	public Chunk provideChunk(int chunkX, int chunkZ) {
+	public Chunk provideChunk(int chunkX, int chunkZ) { 
 		if(chunkX == this.lastQueriedChunkXPos && chunkZ == this.lastQueriedChunkZPos && this.lastQueriedChunk != null) {
 			return this.lastQueriedChunk;
 		} else if(!this.worldObj.findingSpawnPoint && !this.canChunkExist(chunkX, chunkZ)) {
@@ -75,7 +75,11 @@ public class ChunkProviderLoadOrGenerate implements IChunkProvider {
 					this.chunks[i5].onChunkLoad();
 				}
 
-				if(!this.chunks[i5].isTerrainPopulated && this.chunkExists(chunkX + 1, chunkZ + 1) && this.chunkExists(chunkX, chunkZ + 1) && this.chunkExists(chunkX + 1, chunkZ)) {
+				if( !this.chunks[i5].isTerrainPopulated && 
+					this.chunkExists(chunkX + 1, chunkZ + 1) && 
+					this.chunkExists(chunkX, chunkZ + 1) && 
+					this.chunkExists(chunkX + 1, chunkZ)
+				) {
 					this.populate(this, chunkX, chunkZ);
 				}
 
@@ -112,6 +116,10 @@ public class ChunkProviderLoadOrGenerate implements IChunkProvider {
 			this.lastQueriedChunk = this.chunks[i5];
 			return this.chunks[i5];
 		}
+	}
+	
+	public Chunk justGenerateForHeight(int chunkX, int chunkZ) {
+		return this.provideChunk(chunkX, chunkZ);
 	}
 
 	private Chunk getChunkAt(int posX, int posZ) {

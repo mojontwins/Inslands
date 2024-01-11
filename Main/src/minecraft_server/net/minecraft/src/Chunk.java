@@ -9,10 +9,12 @@ import java.util.Random;
 
 public class Chunk {
 	public static boolean isLit;
+	
 	public byte[] blocks;
+	public byte[] data;
+	
 	public boolean isChunkLoaded;
 	public World worldObj;
-	public NibbleArray data;
 	public NibbleArray skylightMap;
 	public NibbleArray blocklightMap;
 	public byte[] heightMap;
@@ -29,9 +31,31 @@ public class Chunk {
 	public boolean hasEntities;
 	public long lastSaveTime;
 	public BiomeGenBase [] biomeGenCache = null;
+	public boolean hasBuilding = false;
+	public boolean hasRoad = false;
+	public boolean isOcean = false;
+	public boolean hasUnderwaterRuin = false;
+	public boolean hasFeature = false;
+	public boolean isUrbanChunk = false;
+	public int baseHeight = 0;
+	public int roadVariation = 0;
+	public boolean gotBlocks = false;
+
+	// For custom features during "populate"
+	public int chestX;
+	public int chestY = -1;
+	public int chestZ;
+	
+	public int specialX;
+	public int specialY = -1;
+	public int specialZ;
+	
+	Building building = null;
+	
+	public boolean beingDecorated = false;
 
 	@SuppressWarnings("unchecked")
-	public Chunk(World world1, int i2, int i3) {
+	public Chunk(World world, int chunkX, int chunkZ) {
 		this.chunkTileEntityMap = new HashMap<ChunkPosition, TileEntity>();
 		this.chunkSpecialEntityMap = new HashMap<ChunkPosition, EntityBlockEntity>();
 		this.entities = (List<Entity> []) new List[8];
@@ -39,24 +63,24 @@ public class Chunk {
 		this.isModified = false;
 		this.hasEntities = false;
 		this.lastSaveTime = 0L;
-		this.worldObj = world1;
-		this.xPosition = i2;
-		this.zPosition = i3;
+		this.worldObj = world;
+		this.xPosition = chunkX;
+		this.zPosition = chunkZ;
 		this.heightMap = new byte[256];
 		this.landSurfaceHeightMap = new byte[256];
-
+		
 		for(int i4 = 0; i4 < this.entities.length; ++i4) {
 			this.entities[i4] = new ArrayList<Entity>();
 		}
 
 	}
 
-	public Chunk(World world1, byte[] b2, int i3, int i4) {
-		this(world1, i3, i4);
-		this.blocks = b2;
-		this.data = new NibbleArray(b2.length);
-		this.skylightMap = new NibbleArray(b2.length);
-		this.blocklightMap = new NibbleArray(b2.length);
+	public Chunk(World world, byte[] blocks, byte[] metadata, int chunkX, int chunkZ) {
+		this(world, chunkX, chunkZ);
+		this.blocks = blocks;
+		this.data = metadata;
+		this.skylightMap = new NibbleArray(blocks.length);
+		this.blocklightMap = new NibbleArray(blocks.length);
 	}
 
 	public boolean isAtLocation(int i1, int i2) {
@@ -66,16 +90,13 @@ public class Chunk {
 	public int getHeightValue(int i1, int i2) {
 		return this.heightMap[i2 << 4 | i1] & 255;
 	}
-
+	
 	public int getLandSurfaceHeightValue(int i1, int i2) {
 		return this.landSurfaceHeightMap[i2 << 4 | i1] & 255;
 	}
 	
 	public void setLandSurfaceHeightValue(int i1, int i2, int value) {
 		this.landSurfaceHeightMap[i2 << 4 | i1] = (byte)value;
-	}
-
-	public void func_1014_a() {
 	}
 
 	public void generateHeightMap() {
@@ -98,14 +119,15 @@ public class Chunk {
 		this.lowestBlockHeight = i1;
 		this.isModified = true;
 	}
-
+	
 	public void generateLandSurfaceHeightMap() {
 		int index = 0;
 		for(int z = 0; z < 16; z ++) {
 			for(int x = 0; x < 16; x ++) {
 				int y = 127;
 				int baseColumn = x << 11 | z << 7 | y;
-				while(this.blocks[baseColumn] != Block.stone.blockID && y > 0) { y --; baseColumn --; }
+				// Changed: not just air but also any non opaque block.
+				while(Block.lightOpacity[this.blocks[baseColumn] & 255] < 255 && y > 0) { y --; baseColumn --; }
 				this.landSurfaceHeightMap[index ++] = (byte)y;
 			}
 		}
@@ -198,15 +220,15 @@ public class Chunk {
 
 	private void propagateSkylightOcclusion(int i1, int i2) {
 		int i3 = this.getHeightValue(i1, i2);
-		int i4 = this.xPosition * 16 + i1;
-		int i5 = this.zPosition * 16 + i2;
-		this.func_1020_f(i4 - 1, i5, i3);
-		this.func_1020_f(i4 + 1, i5, i3);
-		this.func_1020_f(i4, i5 - 1, i3);
-		this.func_1020_f(i4, i5 + 1, i3);
+		int i4 = this.xPosition << 4 | i1;
+		int i5 = this.zPosition << 4 | i2;
+		this.propagateSkylightToNeighbor(i4 - 1, i5, i3);
+		this.propagateSkylightToNeighbor(i4 + 1, i5, i3);
+		this.propagateSkylightToNeighbor(i4, i5 - 1, i3);
+		this.propagateSkylightToNeighbor(i4, i5 + 1, i3);
 	}
 
-	private void func_1020_f(int i1, int i2, int i3) {
+	private void propagateSkylightToNeighbor(int i1, int i2, int i3) {
 		int i4 = this.worldObj.getHeightValue(i1, i2);
 		if(i4 > i3) {
 			this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, i1, i3, i2, i1, i4, i2);
@@ -218,74 +240,92 @@ public class Chunk {
 
 	}
 
-	private void relightBlock(int i1, int i2, int i3) {
-		int i4 = this.heightMap[i3 << 4 | i1] & 255;
-		int i5 = i4;
-		if(i2 > i4) {
-			i5 = i2;
+	/*
+	 * This method relights a column from the sky after setting block at x, y, z.
+	 */
+	private void relightBlock(int x, int y, int z) {
+		int columnHeight = this.heightMap[z << 4 | x] & 255;
+
+		// If we just set a block higher than the cur. block height...
+		int newHeight = columnHeight;
+		if(y > columnHeight) {
+			newHeight = y;
 		}
 
-		for(int i6 = i1 << 11 | i3 << 7; i5 > 0 && Block.lightOpacity[this.blocks[i6 + i5 - 1] & 255] == 0; --i5) {
+		// But, if blocks beneath the new height are not opaque, lower the value until an opaque block is found
+		for(int idx = x << 11 | z << 7; newHeight > 0 && Block.lightOpacity[this.blocks[idx + newHeight - 1] & 255] == 0; --newHeight) {
 		}
 
-		if(i5 != i4) {
-			this.worldObj.markBlocksDirtyVertical(i1, i3, i5, i4);
-			this.heightMap[i3 << 4 | i1] = (byte)i5;
-			int i7;
-			int i8;
-			int i9;
-			if(i5 < this.lowestBlockHeight) {
-				this.lowestBlockHeight = i5;
+		// newHeight is now at the topmost opaque block.
+		// If the stored height and the new height are different...
+		if(newHeight != columnHeight) {
+			// Relight from the sky and mark dirty:
+			this.worldObj.markBlocksDirtyVertical(x, z, newHeight, columnHeight);
+
+			// Store new height
+			this.heightMap[z << 4 | x] = (byte)newHeight;
+			
+			if(newHeight < this.lowestBlockHeight) {
+				this.lowestBlockHeight = newHeight;
 			} else {
-				i7 = 127;
+				int cy = 127;
 
-				for(i8 = 0; i8 < 16; ++i8) {
-					for(i9 = 0; i9 < 16; ++i9) {
-						if((this.heightMap[i9 << 4 | i8] & 255) < i7) {
-							i7 = this.heightMap[i9 << 4 | i8] & 255;
+				for(int cx = 0; cx < 16; ++cx) {
+					for(int cz = 0; cz < 16; ++cz) {
+						if((this.heightMap[cz << 4 | cx] & 255) < cy) {
+							cy = this.heightMap[cz << 4 | cx] & 255;
 						}
 					}
 				}
 
-				this.lowestBlockHeight = i7;
+				this.lowestBlockHeight = cy;
 			}
 
-			i7 = this.xPosition * 16 + i1;
-			i8 = this.zPosition * 16 + i3;
-			if(i5 < i4) {
-				for(i9 = i5; i9 < i4; ++i9) {
-					this.skylightMap.setNibble(i1, i9, i3, 15);
+			int xAbs = this.xPosition << 4 | x; 
+			int zAbs = this.zPosition << 4 | z;
+
+			if(newHeight < columnHeight) {
+				for(int yy = newHeight; yy < columnHeight; ++yy) {
+					this.skylightMap.setNibble(x, yy, z, 15);
 				}
 			} else {
-				this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, i7, i4, i8, i7, i5, i8);
+				this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, xAbs, columnHeight, zAbs, xAbs, newHeight, zAbs);
 
-				for(i9 = i4; i9 < i5; ++i9) {
-					this.skylightMap.setNibble(i1, i9, i3, 0);
+				for(int yy = columnHeight; yy < newHeight; ++yy) {
+					this.skylightMap.setNibble(x, yy, z, 0);
 				}
 			}
 
-			i9 = 15;
+			int storedHeight = newHeight;
 
-			int i10;
-			for(i10 = i5; i5 > 0 && i9 > 0; this.skylightMap.setNibble(i1, i5, i3, i9)) {
-				--i5;
-				int i11 = Block.lightOpacity[this.getBlockID(i1, i5, i3)];
-				if(i11 == 0) {
-					i11 = 1;
+			for(int l = 15; newHeight > 0 && l > 0; ) {				
+				// Decrease height
+				--newHeight;
+
+				int lightOpacity = Block.lightOpacity[this.getBlockID(x, newHeight, z)];
+				
+				if(lightOpacity == 0) {
+					lightOpacity = 1;
 				}
 
-				i9 -= i11;
-				if(i9 < 0) {
-					i9 = 0;
+				// Decrease light intensity
+				l -= lightOpacity;
+
+				if(l < 0) {
+					l = 0;
 				}
+				
+				// Write light value
+				this.skylightMap.setNibble(x, newHeight, z, l);
 			}
 
-			while(i5 > 0 && Block.lightOpacity[this.getBlockID(i1, i5 - 1, i3)] == 0) {
-				--i5;
+			while(newHeight > 0 && Block.lightOpacity[this.getBlockID(x, newHeight - 1, z)] == 0) {
+				--newHeight;
 			}
 
-			if(i5 != i10) {
-				this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, i7 - 1, i5, i8 - 1, i7 + 1, i10, i8 + 1);
+			// If some blocks changed their light value, propagate...
+			if(newHeight != storedHeight) {
+				this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, xAbs - 1, newHeight, zAbs - 1, xAbs + 1, storedHeight, zAbs + 1);
 			}
 
 			this.isModified = true;
@@ -297,100 +337,74 @@ public class Chunk {
 	}
 
 	public boolean setBlockIDWithMetadata(int x, int y, int z, int id, int metadata) {
-		byte b6 = (byte)id;
-		int i7 = this.heightMap[z << 4 | x] & 255;
-		int i8 = this.blocks[x << 11 | z << 7 | y] & 255;
-		if(i8 == id && this.data.getNibble(x, y, z) == metadata) {
+		int height = this.heightMap[z << 4 | x] & 255;
+		int index = x << 11 | z << 7 | y;
+		int existingId = this.blocks[index] & 255;
+		if(existingId == id && this.data[index] == metadata) {
 			return false;
 		} else {
-			int i9 = (this.xPosition << 4) | x;
-			int x0 = (this.zPosition << 4) | z;
+			int absX = (this.xPosition << 4) | x;
+			int absZ = (this.zPosition << 4) | z;
 			
-			Block block = Block.blocksList[i8];
-			this.blocks[x << 11 | z << 7 | y] = (byte)(b6 & 255);
+			Block block = Block.blocksList[existingId];
+			
+			// Write new block ID
+			this.blocks[x << 11 | z << 7 | y] = (byte)id;
+			
+			// Call `onRemoval` from removed block, if applies.
 			if(block != null && !this.worldObj.multiplayerWorld) {
-				block.onBlockRemoval(this.worldObj, i9, y, x0);
+				block.onBlockRemoval(this.worldObj, absX, y, absZ);
 			}
 
-			this.data.setNibble(x, y, z, metadata);
+			// Write new metadata
+			this.data[index] = (byte)metadata;
+
+			// If there's a sky, skylight may need to be recalculated.			
 			if(!this.worldObj.worldProvider.hasNoSky) {
-				if(Block.lightOpacity[b6 & 255] != 0) {
-					if(y >= i7) {
+
+				// If block is not 100% transparent
+				if(Block.lightOpacity[id] != 0) {
+
+					// And set above current topmost block
+					if(y >= height) {
+						// Relight from just above this new block
 						this.relightBlock(x, y + 1, z);
 					}
-				} else if(y == i7 - 1) {
-					this.relightBlock(x, y, z);
+				} else {
+					// Set a 100% transparent block
+
+					// If it is replacing the topmost block, relight from here.
+					if(y == height - 1) {
+						this.relightBlock(x, y, z);
+					}
 				}
 
-				this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, i9, y, x0, i9, y, x0);
+				// Anyways schedule a lighting update of type "Sky" for this postion
+				this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, absX, y, absZ, absX, y, absZ);
 			}
 
-			this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Block, i9, y, x0, i9, y, x0);
+			// Schedule a lighting update of type "Block" for this potion
+			this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Block, absX, y, absZ, absX, y, absZ);
+			
+			// Propagate skylight occlusion
 			this.propagateSkylightOcclusion(x, z);
-			this.data.setNibble(x, y, z, metadata);
 			
 			block = Block.blocksList[id];
 			if(block != null) {
-				block.onBlockAdded(this.worldObj, i9, y, x0);
+				block.onBlockAdded(this.worldObj, absX, y, absZ);
 			}
 
 			this.isModified = true;
 			return true;
 		}
 	}
-
-	public boolean setBlockIDColumn(int x, int y, int z, int[] id) {
-		// Column is bottom to top ordered
-		
-		int xWorld = (this.xPosition << 4) | x;
-		int zWorld = (this.zPosition << 4) | z;
-		
-		int height = this.heightMap[z << 4 | x] & 255;
-		
-		int index = x << 11 | z << 7 | y;
-		int y0 = y;
-		
-		// Write blocks
-		for(int i = 0; i < id.length; i ++) {
-			int b = id[i];
-			if(b >= 0) {
-				this.blocks[index ++] = (byte) b;
-				this.data.setNibble(x, y ++, z, 0);
-			} else {
-				// A negative value is the count for a run
-				int c = -b;
-				i ++;
-				b = id[i];
-				while (c -- > 0) {
-					this.blocks[index ++] = (byte) b;
-					this.data.setNibble(x, y ++, z, 0);
-				}
-			}
-			
-			if(y == 128) break;
-		}
-		
-		// The topmost block
-		y --;
-		
-		// Relight top
-		if (y >= height) this.relightBlock(x, y + 1, z);
-		
-		this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, xWorld, y0, zWorld, xWorld, y, zWorld);
-		this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Block, xWorld, y0, zWorld, xWorld, y, zWorld);
-		this.propagateSkylightOcclusion(x, z);
-		
-		this.isModified = true;
-		
-		return true;
-	}
 	
 	public boolean setBlockIDAndMetadataColumn(int x, int y, int z, int[] id) {
 		// Column is bottom to top ordered
 		// Metadata is encoded as a most significant byte
 
-		int xWorld = (this.xPosition << 4) | x;
-		int zWorld = (this.zPosition << 4) | z;
+		int absX = (this.xPosition << 4) | x;
+		int absZ = (this.zPosition << 4) | z;
 		
 		int height = this.heightMap[z << 4 | x] & 255;
 		
@@ -401,20 +415,42 @@ public class Chunk {
 		for(int i = 0; i < id.length; i ++) {
 			int b = id[i];
 			if(b >= 0) {
-				this.data.setNibble(x, y ++, z, (b >> 8) & 15);
+				this.data[index] = (byte)((b >> 8) & 0xff);
+				
+				// Call `onRemoval` from removed block, if applies.
+				Block block = Block.blocksList[this.blocks[index] & 255];
+				if(block != null && !this.worldObj.multiplayerWorld) {
+					block.onBlockRemoval(this.worldObj, absX, y, absZ);
+				}
+				
 				this.blocks[index ++] = (byte) (b & 255);
-			} else {
+				y ++;
+			} else if(b < -1) {
 				// A negative value is the count for a run
 				int c = -b;
 				i ++;
 				b = id[i];
-				byte m = (byte) ((b >> 8) & 15);
-				byte b0 = (byte) (b & 255);
-				while (c -- > 0) {
-					this.data.setNibble(x, y ++, z, m);
-					this.blocks[index ++] = b0;
-				}
-			}
+				if(b == -1) {
+					index += c;
+				} else {
+					byte m = (byte) ((b >> 8) & 255);
+					byte b0 = (byte) (b & 255);
+					while (c -- > 0) {
+						this.data[index] = m;
+						
+						// Call `onRemoval` from removed block, if applies.
+						Block block = Block.blocksList[this.blocks[index] & 255];
+						if(block != null && !this.worldObj.multiplayerWorld) {
+							block.onBlockRemoval(this.worldObj, absX, y, absZ);
+						}
+						
+						this.blocks[index ++] = b0;
+						y ++;
+					}
+				} 
+			} else {
+				y ++;
+			};
 			if(y == 128) break;
 		}
 		
@@ -424,8 +460,8 @@ public class Chunk {
 		// Relight top
 		if (y >= height) this.relightBlock(x, y + 1, z);
 		
-		this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, xWorld, y0, zWorld, xWorld, y, zWorld);
-		this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Block, xWorld, y0, zWorld, xWorld, y, zWorld);
+		this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, absX, y0, absZ, absX, y, absZ);
+		this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Block, absX, y0, absZ, absX, y, absZ);
 		this.propagateSkylightOcclusion(x, z);
 		
 		this.isModified = true;
@@ -434,54 +470,21 @@ public class Chunk {
 	}
 
 	public boolean setBlockID(int x, int y, int z, int id) {
-		byte b5 = (byte)id;
-		int i6 = this.heightMap[z << 4 | x] & 255;
-		int i7 = this.blocks[x << 11 | z << 7 | y] & 255;
-		if(i7 == id) {
-			return false;
-		} else {
-			int i8 = (this.xPosition << 4) | x;
-			int i9 = (this.zPosition << 4) | z;
-			this.blocks[x << 11 | z << 7 | y] = b5;
-			
-			Block block = Block.blocksList[i7];
-			if(block != null) {
-				block.onBlockRemoval(this.worldObj, i8, y, i9);
-			}
-
-			this.data.setNibble(x, y, z, 0);
-			if(Block.lightOpacity[id] != 0) {
-				if(y >= i6) {
-					this.relightBlock(x, y + 1, z);
-				}
-			} else if(y == i6 - 1) {
-				this.relightBlock(x, y, z);
-			}
-
-			this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, i8, y, i9, i8, y, i9);
-			this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Block, i8, y, i9, i8, y, i9);
-			this.propagateSkylightOcclusion(x, z);
-			
-			block = Block.blocksList[id];
-			if(block != null && !this.worldObj.multiplayerWorld) {
-				block.onBlockAdded(this.worldObj, i8, y, i9);
-			}
-
-			this.isModified = true;
-			return true;
-		}
+		return this.setBlockIDWithMetadata(x, y, z, id, 0);
 	}
 
-	public int getBlockMetadata(int i1, int i2, int i3) {
-		return this.data.getNibble(i1, i2, i3);
+	public int getBlockMetadata(int x, int y, int z) {
+		return this.data[x << 11 | z << 7 | y] & 0xff;
 	}
 
-	public void setBlockMetadata(int i1, int i2, int i3, int i4) {
+	public void setBlockMetadata(int x, int y, int z, int meta) {
 		this.isModified = true;
-		this.data.setNibble(i1, i2, i3, i4);
+		this.data[x << 11 | z << 7 | y] = (byte)meta;
 	}
 
 	public int getSavedLightValue(EnumSkyBlock enumSkyBlock1, int i2, int i3, int i4) {
+		if(i3 < 0) return 0;
+		if(i3 > 127) return 15;
 		return enumSkyBlock1 == EnumSkyBlock.Sky ? this.skylightMap.getNibble(i2, i3, i4) : (enumSkyBlock1 == EnumSkyBlock.Block ? this.blocklightMap.getNibble(i2, i3, i4) : 0);
 	}
 
@@ -569,7 +572,7 @@ public class Chunk {
 			}
 
 			BlockContainer blockContainer7 = (BlockContainer)Block.blocksList[i6];
-			blockContainer7.onBlockAdded(this.worldObj, this.xPosition * 16 + i1, i2, this.zPosition * 16 + i3);
+			blockContainer7.onBlockAdded(this.worldObj, this.xPosition << 4 | i1, i2, this.zPosition << 4 | i3);
 			tileEntity5 = (TileEntity)this.chunkTileEntityMap.get(chunkPosition4);
 		}
 
@@ -591,7 +594,7 @@ public class Chunk {
 			}
 			
 			BlockEntity blockEntity = (BlockEntity)block;
-			blockEntity.onBlockAdded(this.worldObj, this.xPosition * 16 + x, y, this.zPosition * 16 + z);
+			blockEntity.onBlockAdded(this.worldObj, this.xPosition << 4 | x, y, this.zPosition << 4 | z);
 			entity = this.chunkSpecialEntityMap.get(chunkPosition);
 		}
 		
@@ -606,9 +609,9 @@ public class Chunk {
 	}
 
 	public void addTileEntity(TileEntity tileEntity1) {
-		int i2 = tileEntity1.xCoord - this.xPosition * 16;
+		int i2 = tileEntity1.xCoord - (this.xPosition << 4);
 		int i3 = tileEntity1.yCoord;
-		int i4 = tileEntity1.zCoord - this.zPosition * 16;
+		int i4 = tileEntity1.zCoord - (this.zPosition << 4);
 		this.setChunkBlockTileEntity(i2, i3, i4, tileEntity1);
 		if(this.isChunkLoaded) {
 			this.worldObj.loadedTileEntityList.add(tileEntity1);
@@ -617,9 +620,9 @@ public class Chunk {
 	}
 	
 	public void addSpecialEntity(EntityBlockEntity entity) {
-		int x = entity.xTile - this.xPosition * 16;;
+		int x = entity.xTile - (this.xPosition << 4);
 		int y = entity.yTile;
-		int z = entity.zTile - this.zPosition * 16;;
+		int z = entity.zTile - (this.zPosition << 4);
 		this.setChunkBlockEntity(x, y, z, entity);
 		
 		this.hasEntities = true;
@@ -648,9 +651,9 @@ public class Chunk {
 	public void setChunkBlockTileEntity(int i1, int i2, int i3, TileEntity tileEntity4) {
 		ChunkPosition chunkPosition5 = new ChunkPosition(i1, i2, i3);
 		tileEntity4.worldObj = this.worldObj;
-		tileEntity4.xCoord = this.xPosition * 16 + i1;
+		tileEntity4.xCoord = this.xPosition << 4 | i1;
 		tileEntity4.yCoord = i2;
-		tileEntity4.zCoord = this.zPosition * 16 + i3;
+		tileEntity4.zCoord = this.zPosition << 4 | i3;
 		if(this.getBlockID(i1, i2, i3) != 0 && Block.blocksList[this.getBlockID(i1, i2, i3)] instanceof BlockContainer) {
 			tileEntity4.validate();
 			this.chunkTileEntityMap.put(chunkPosition5, tileEntity4);
@@ -811,12 +814,13 @@ public class Chunk {
 		}
 
 		this.generateHeightMap();
+		this.generateLandSurfaceHeightMap();
 
 		for(i9 = i2; i9 < i5; ++i9) {
 			for(i10 = i4; i10 < i7; ++i10) {
-				i11 = (i9 << 11 | i10 << 7 | i3) >> 1;
-				i12 = (i6 - i3) / 2;
-				System.arraycopy(b1, i8, this.data.data, i11, i12);
+				i11 = i9 << 11 | i10 << 7 | i3;
+				i12 = i6 - i3;
+				System.arraycopy(b1, i8, this.data, i11, i12);
 				i8 += i12;
 			}
 		}
@@ -849,8 +853,8 @@ public class Chunk {
 		if(i9 * i10 * i11 == this.blocks.length) {
 			System.arraycopy(this.blocks, 0, b1, i8, this.blocks.length);
 			i8 += this.blocks.length;
-			System.arraycopy(this.data.data, 0, b1, i8, this.data.data.length);
-			i8 += this.data.data.length;
+			System.arraycopy(this.data, 0, b1, i8, this.data.length);
+			i8 += this.data.length;
 			System.arraycopy(this.blocklightMap.data, 0, b1, i8, this.blocklightMap.data.length);
 			i8 += this.blocklightMap.data.length;
 			System.arraycopy(this.skylightMap.data, 0, b1, i8, this.skylightMap.data.length);
@@ -872,9 +876,9 @@ public class Chunk {
 
 			for(i12 = i2; i12 < i5; ++i12) {
 				for(i13 = i4; i13 < i7; ++i13) {
-					i14 = (i12 << 11 | i13 << 7 | i3) >> 1;
-					i15 = (i6 - i3) / 2;
-					System.arraycopy(this.data.data, i14, b1, i8, i15);
+					i14 = i12 << 11 | i13 << 7 | i3;
+					i15 = i6 - i3;
+					System.arraycopy(this.data, i14, b1, i8, i15);
 					i8 += i15;
 				}
 			}
@@ -915,7 +919,7 @@ public class Chunk {
 	
 	public void refreshCaches() {
 		BiomeGenBase biomeGen [] = null;
-		biomeGen = this.worldObj.getWorldChunkManager().loadBlockGeneratorData(biomeGen, this.xPosition * 16, this.zPosition * 16, 16, 16);
+		biomeGen = this.worldObj.getWorldChunkManager().loadBlockGeneratorData(biomeGen, this.xPosition << 4, this.zPosition << 4, 16, 16);
 		this.biomeGenCache = biomeGen.clone();
 	}
 	
@@ -925,5 +929,55 @@ public class Chunk {
 			this.refreshCaches();
 		}
 		return this.biomeGenCache [x << 4 | z];
+	}
+
+	public boolean setBlockIDWithMetadataNoLights(int x, int y, int z, int id, int metadata) {
+		int index = x << 11 | z << 7 | y;
+		int existingId = this.blocks[index] & 255;
+		if(existingId == id && this.data[index] == metadata) {
+			return false;
+		} else {
+			int absX = (this.xPosition << 4) | x;
+			int absZ = (this.zPosition << 4) | z;
+			
+			Block block = Block.blocksList[existingId];
+			
+			// Write new block ID
+			this.blocks[x << 11 | z << 7 | y] = (byte)id;
+			
+			// Call `onRemoval` from removed block, if applies.
+			if(block != null && !this.worldObj.multiplayerWorld) {
+				block.onBlockRemoval(this.worldObj, absX, y, absZ);
+			}
+
+			// Write new metadata
+			this.data[index] = (byte)metadata;
+
+			block = Block.blocksList[id];
+			if(block != null) {
+				block.onBlockAdded(this.worldObj, absX, y, absZ);
+			}
+
+			this.isModified = true;
+			return true;
+		}
+	}
+
+	public void clearAllLights() {
+		this.skylightMap = new NibbleArray(this.blocks.length);
+	}
+
+	public void cacheBiomes(BiomeGenBase[] biomesForGeneration) {
+		for(int x = 0; x < 16; x ++) {
+			for(int z = 0; z < 16; z ++) {
+				this.biomeGenCache[z | x << 4] = biomesForGeneration[z + x * 21];
+			}
+		}
+		
+	}
+
+	public void setMetadata(byte[] metadata) {
+		// TODO Auto-generated method stub
+		
 	}
 }

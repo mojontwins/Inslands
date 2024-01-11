@@ -1,6 +1,7 @@
 package net.minecraft.src;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class EntityZombie extends EntityArmoredMob {
@@ -16,13 +17,45 @@ public class EntityZombie extends EntityArmoredMob {
 	protected boolean chasingDoor = false;
 	
 	protected int doorBreakTime;
+	protected String texturePrefix;
+	
 	public EntityZombie(World world1) {
 		super(world1);
-		this.texture = "/mob/zombie.png";
+		this.texture = "/mob/zombie1.png";
+		this.texturePrefix = "zombie";
 		this.moveSpeed = 0.5F;
 		this.attackStrength = 5;
+		this.scoreValue = 15;
+		this.health = this.getFullHealth();
+	}
+	
+	protected int getMaxTextureVariations() {
+		return 5;
 	}
 
+	@Override
+	protected void entityInit() {
+		super.entityInit();
+		this.dataWatcher.addObject(16, (byte)0);
+		this.setTextureVariation((byte) (1 + rand.nextInt(this.getMaxTextureVariations())));
+	}
+	
+	public void setTextureVariation(byte variation) {
+		this.dataWatcher.updateObject(16, variation);
+	}
+	
+	public byte getTextureVariation() {
+		return this.dataWatcher.getWatchableObjectByte(16);
+	}
+		
+	@Override
+	public String getEntityTexture() {
+		if(this.getMaxTextureVariations() > 1) {
+			return "/mob/" + this.texturePrefix + this.dataWatcher.getWatchableObjectByte(16) + ".png";		
+		} else return this.texture;
+	}
+	
+	@Override
 	public void onLivingUpdate() {
 		if(this.worldObj.isDaytime() && this.burnsOnDaylight()) {
 			float f1 = this.getEntityBrightness(1.0F);
@@ -33,7 +66,7 @@ public class EntityZombie extends EntityArmoredMob {
 
 		// Door interaction
 		if (!this.chasingDoor) {
-			if(this.worldObj.difficultySetting >= 2 || rand.nextInt(4) == 0) {
+			if(this.worldObj.worldInfo.isBloodMoon() || rand.nextInt(4) == 0) {
 				if(this.isCollidedHorizontally) {
 					PathEntity pathEntity = this.pathToEntity;
 					if(pathEntity != null && !pathEntity.isFinished()) {
@@ -75,7 +108,6 @@ public class EntityZombie extends EntityArmoredMob {
 			
 			if(--this.doorBreakTime == 0) {
 				this.worldObj.setBlockWithNotify(doorPosX, doorPosY, doorPosZ, 0);
-				System.out.println("CRACK!");
 				worldObj.playSoundAtEntity(this, "mob.zombie.woodbreak", 2.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
 			}
 		}
@@ -89,34 +121,27 @@ public class EntityZombie extends EntityArmoredMob {
 		return blockDoor;
 	}
 	
+	@Override
 	protected Entity findPlayerToAttack() {
-		// My zombies will also attack pigmen.
-		// But first of all they will be attracted by EntityMeatBlock
-		
 		// Find close entities of type EntityMeatBlock
-		List<Entity> list = this.worldObj.getEntitiesWithinAABB(EntityMeatBlock.class, this.boundingBox.expand(16.0D, 4.0D, 16.0D));
+		List<Entity> list = this.worldObj.getEntitiesWithinAABB(EntityMeatBlock.class, this.boundingBox.expand(24.0D, 6.0D, 24.0D));
 		Collections.sort(list, new AttackableTargetSorter(this));
 		if(list.size() > 0) return list.get(0);
 		
-		EntityPlayer entityPlayer1 = this.worldObj.getClosestPlayerToEntity(this, 16.0D);
+		EntityPlayer entityPlayer1 = this.worldObj.getClosestPlayerToEntity(this, 16.0D); 
 		if(entityPlayer1 != null && !entityPlayer1.isCreative && this.canEntityBeSeen(entityPlayer1)) return entityPlayer1;
 		
-		// Find close entities of type EntityAmazon
-		//list = this.worldObj.getEntitiesWithinAABB(EntityAmazon.class, this.boundingBox.expand(16.0D, 4.0D, 16.0D));
-		
-		// Find close entities of type EntityPigman
-		/*
-		list.addAll(this.worldObj.getEntitiesWithinAABB(EntityPigman.class, this.boundingBox.expand(16.0D, 4.0D, 16.0D)));
-		list.addAll(this.worldObj.getEntitiesWithinAABB(EntityCowman.class, this.boundingBox.expand(16.0D, 4.0D, 16.0D)));
+		// Find close entities of type EntityAmazon, EntityPigman/EntityCowman, etc
+		list = this.worldObj.getEntitiesWithinAABB(ISentient.class, this.boundingBox.expand(16.0D, 4.0D, 16.0D));
 		Collections.sort(list, new AttackableTargetSorter(this));
-		*/
-		/*
+		
+		// Return closest
 		Iterator<Entity> iterator = list.iterator();		
 		while(iterator.hasNext()) {
 			EntityLiving entityLiving = (EntityLiving)iterator.next();
 			if(this.isValidTarget(entityLiving)) return entityLiving;
 		}
-		*/
+		
 		return null;
 	}
 	
@@ -136,35 +161,84 @@ public class EntityZombie extends EntityArmoredMob {
 		return true;
 	}
 
+	@Override
 	public void readEntityFromNBT(NBTTagCompound var1) {
 		super.readEntityFromNBT(var1);
-		//byte textureVariation = 1;
+		byte textureVariation = 1;
 		if(var1.hasKey("TextureVariation")) {
-			//textureVariation = var1.getByte("TextureVariation");
+			textureVariation = var1.getByte("TextureVariation");
 		} else {
-			//System.out.println("Importing old level, overrode texture variation for " + this.getClass() + " with default.");
+			System.out.println("Importing old level, overrode texture variation for " + this.getClass() + " with default.");
 		}
-		//this.setTextureVariation(textureVariation);
+		this.setTextureVariation(textureVariation);
 	}
 
+	@Override
 	public void writeEntityToNBT(NBTTagCompound var1) {
 		super.writeEntityToNBT(var1);
-		//var1.setByte("TextureVariation", this.getTextureVariation());
+		var1.setByte("TextureVariation", this.getTextureVariation());
 	}
 	
+	@Override
 	protected String getLivingSound() {
 		return "mob.zombie";
 	}
 
+	@Override
 	protected String getHurtSound() {
 		return "mob.zombiehurt";
 	}
 
+	@Override
 	protected String getDeathSound() {
 		return "mob.zombiedeath";
 	}
 
+	@Override
 	protected int getDropItemId() {
-		return Item.feather.shiftedIndex;
+		return this.rand.nextInt(6) == 0 ? Item.rottenFlesh.shiftedIndex : Item.feather.shiftedIndex;
+	}
+	
+	@Override
+	public int getFullHealth() {
+		return 20;
+	}
+	
+	// Zombies take half damage during blood moons
+	@Override
+	public boolean attackEntityFrom(Entity entity, int damage) {
+		if(this.worldObj.worldInfo.isBloodMoon() && entity instanceof EntityPlayer) damage >>= 1;
+		return super.attackEntityFrom(entity, damage);
+	}
+	
+	// Will fetch you if you are hiding!
+	@Override
+	protected void updateEntityActionState() {
+		super.updateEntityActionState();
+
+		if(this.worldObj.getWorldInfo().isBloodMoon()) {
+			if(this.entityToAttack == null) {
+				if(this.homingTo != null) {
+					this.pathToEntity = this.worldObj.getEntityPathToXYZ(this, (int)this.homingTo.xCoord, (int)this.homingTo.yCoord, (int)this.homingTo.zCoord, 32.0F);
+				} else {
+					EntityPlayer closestPlayer = this.worldObj.getClosestPlayerUnderRoof(this.posX, this.posY, this.posZ, 64.0D); 
+					if(closestPlayer != null) {
+						this.homingTo = Vec3D.createVectorHelper(closestPlayer.posX, closestPlayer.posY, closestPlayer.posZ);
+					}
+				}
+			}
+		} else {
+			this.homingTo = null;
+		}
+	}
+	
+	@Override
+	public void onDeath(Entity entity) {
+		if(entity instanceof EntityPlayer) {
+			EntityPlayer entityPlayer = (EntityPlayer) entity;
+			entityPlayer.triggerAchievement(AchievementList.zombie);
+		}
+		
+		super.onDeath(entity);
 	}
 }

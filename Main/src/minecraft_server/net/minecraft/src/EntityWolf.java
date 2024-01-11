@@ -11,7 +11,7 @@ public class EntityWolf extends EntityAnimal {
 	private boolean isCuqui;
 	private float timeWolfIsShaking;
 	private float prevTimeWolfIsShaking;
-
+	
 	public EntityWolf(World world1) {
 		super(world1);
 		this.texture = "/mob/wolf.png";
@@ -237,6 +237,7 @@ public class EntityWolf extends EntityAnimal {
 
 	}
 
+	@Override
 	protected boolean isMovementCeased() {
 		return this.getIsSitting() || this.isCuqui;
 	}
@@ -250,6 +251,8 @@ public class EntityWolf extends EntityAnimal {
 		if(!super.attackEntityFrom((Entity)entity1, i2)) {
 			return false;
 		} else {
+			if(entity1 instanceof EntityPlayer && ((EntityPlayer)entity1).isCreative) return true;
+			
 			if(!this.isWolfTamed() && !this.isWolfAngry()) {
 				if(entity1 instanceof EntityPlayer) {
 					this.setWolfAngry(true);
@@ -453,5 +456,9 @@ public class EntityWolf extends EntityAnimal {
 			this.dataWatcher.updateObject(16, (byte)(b2 & -5));
 		}
 
+	}
+	
+	public int getFullHealth() {
+		return 8;
 	}
 }

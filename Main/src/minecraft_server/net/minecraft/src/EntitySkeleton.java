@@ -1,12 +1,11 @@
 package net.minecraft.src;
 
 public class EntitySkeleton extends EntityArmoredMob {
-	boolean burnsInWinter = true;
-
 	public EntitySkeleton(World world1) {
 		super(world1);
 		this.texture = "/mob/skeleton.png";
 		this.inventory.setInventorySlotContents(0, new ItemStack(Item.bow));
+		this.health = this.getFullHealth();
 	}
 
 	protected String getLivingSound() {
@@ -25,7 +24,7 @@ public class EntitySkeleton extends EntityArmoredMob {
 		if(this.worldObj.isDaytime()) {
 			float f1 = this.getEntityBrightness(1.0F);
 			if(f1 > 0.5F && this.worldObj.canBlockSeeTheSky(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)) && this.rand.nextFloat() * 30.0F < (f1 - 0.4F) * 2.0F) {
-				if(burnsInWinter || Seasons.currentSeason != Seasons.WINTER) this.fire = 300;
+				if(this.burnsInWinter() || Seasons.currentSeason == Seasons.SUMMER || Seasons.currentSeason == Seasons.SPRING) this.fire = 300;
 			}
 		}
 
@@ -83,5 +82,14 @@ public class EntitySkeleton extends EntityArmoredMob {
 
 	public ItemStack getHeldItem() {
 		return this.inventory.getHeldItem();
+	}
+	
+	public boolean burnsInWinter() {
+		return true;
+	}
+	
+	@Override
+	public int getFullHealth() {
+		return 20;
 	}
 }

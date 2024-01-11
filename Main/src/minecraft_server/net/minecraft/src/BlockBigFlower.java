@@ -10,22 +10,35 @@ public class BlockBigFlower extends Block {
 		super(id, blockIndexInTexture, material);
 	}
 	
+	@Override
 	public int getBlockTextureFromSideAndMetadata(int side, int metadata) {
 		switch(metadata) {
 			case 0: return 11 * 16 + 13;
 			case 1: return 11 * 16 + 14;
 			case 2:
-				if(side < 2) return 71;
-				return 11 * 16 + 15;
+				if(side < 2) return 21;
+				return 20;
 			default: return this.blockIndexInTexture;
 		}
 	}
 
+	@Override
 	public Material getBlockMaterialBasedOnmetaData(int meta) {
 		return meta == 2 ? Material.wood : Material.leaves;
 	}
 	
+	@Override
 	protected int damageDropped(int i1) {
 		return i1;
+	}
+	
+	@Override
+	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z) {
+		return this.getRenderColor(blockAccess.getBlockMetadata(x, y, z));
+	}
+
+	@Override
+	public int getRenderColor(int meta) {
+		return meta == 2 ? 0x88FF88 : 0xFFFFFF;
 	}
 }

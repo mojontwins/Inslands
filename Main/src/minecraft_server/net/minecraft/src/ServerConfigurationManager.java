@@ -89,8 +89,8 @@ public class ServerConfigurationManager {
 		this.getPlayerManager(entityPlayerMP1.dimension).addPlayer(entityPlayerMP1);
 	}
 
-	public void s_func_613_b(EntityPlayerMP entityPlayerMP1) {
-		this.getPlayerManager(entityPlayerMP1.dimension).s_func_543_c(entityPlayerMP1);
+	public void serverUpdateMountedMovingPlayer(EntityPlayerMP entityPlayerMP1) {
+		this.getPlayerManager(entityPlayerMP1.dimension).updateMountedMovingPlayer(entityPlayerMP1);
 	}
 
 	public void playerLoggedOut(EntityPlayerMP entityPlayerMP1) {
@@ -532,10 +532,7 @@ public class ServerConfigurationManager {
 
 	public void joinNewPlayerManager(EntityPlayerMP entityPlayerMP1, WorldServer worldServer2) {
 		entityPlayerMP1.playerNetServerHandler.sendPacket(new Packet4UpdateTime(worldServer2.getWorldTime()));
-		if(worldServer2.raining()) {
-			entityPlayerMP1.playerNetServerHandler.sendPacket(new Packet70Bed(1));
-		}
-
+		entityPlayerMP1.playerNetServerHandler.sendPacket(new Packet70Bed(worldServer2.worldInfo.getRaining(), worldServer2.worldInfo.getSnowing(), worldServer2.worldInfo.getThundering()));
 	}
 
 	public void s_func_30008_g(EntityPlayerMP entityPlayerMP1) {
@@ -551,4 +548,8 @@ public class ServerConfigurationManager {
 		}
 
 	}	
+	
+	public int getMaxConnectedPlayers() {
+		return this.playerEntities.size();
+	}
 }

@@ -115,12 +115,12 @@ public class BlockFlowing extends BlockFluid {
 
 	private void flowIntoBlock(World world1, int i2, int i3, int i4, int i5) {
 		if(this.liquidCanDisplaceBlock(world1, i2, i3, i4)) {
-			int i6 = world1.getBlockId(i2, i3, i4);
-			if(i6 > 0) {
+			Block block = Block.blocksList[world1.getBlockId(i2, i3, i4)];
+			if(block != null) {
 				if(this.blockMaterial == Material.lava) {
 					this.triggerLavaMixEffects(world1, i2, i3, i4);
 				} else {
-					Block.blocksList[i6].dropBlockAsItem(world1, i2, i3, i4, world1.getBlockMetadata(i2, i3, i4));
+					block.dropBlockAsItem(world1, i2, i3, i4, world1.getBlockMetadata(i2, i3, i4));
 				}
 			}
 
@@ -223,7 +223,9 @@ public class BlockFlowing extends BlockFluid {
 			if(i5 == 0) {
 				return false;
 			} else {
-				Material material6 = Block.blocksList[i5].blockMaterial;
+				Block block = Block.blocksList[i5];
+				if(block == null) return false;
+				Material material6 = block.blockMaterial;
 				return material6.getIsSolid();
 			}
 		} else {
@@ -264,4 +266,8 @@ public class BlockFlowing extends BlockFluid {
 	public boolean seeThrough() {
 		return true; 
 	}	
+	
+	public boolean getBlocksMovement(IBlockAccess iBlockAccess1, int i2, int i3, int i4) {
+		return this.blockMaterial != Material.lava;
+	}
 }

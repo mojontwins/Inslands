@@ -15,7 +15,7 @@ public class PlayerListBox extends JList<Object> implements IUpdatePlayerListBox
 
 	public PlayerListBox(MinecraftServer minecraftServer1) {
 		this.mcServer = minecraftServer1;
-		minecraftServer1.s_func_6022_a(this);
+		minecraftServer1.addToOnlinePlayerList(this);
 	}
 
 	public void update() {

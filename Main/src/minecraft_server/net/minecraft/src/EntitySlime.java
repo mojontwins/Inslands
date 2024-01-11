@@ -3,7 +3,7 @@ package net.minecraft.src;
 public class EntitySlime extends EntityLiving implements IMob {
 	public float squishFactor;
 	public float prevSquishFactor;
-	private int slimeJumpDelay = 0;
+	protected int slimeJumpDelay = 0;
 
 	public EntitySlime(World world1) {
 		super(world1);
@@ -66,7 +66,7 @@ public class EntitySlime extends EntityLiving implements IMob {
 	}
 
 	protected void updateEntityActionState() {
-		this.checkCanDespawn();
+		this.despawnEntity();
 		EntityPlayer entityPlayer1 = this.worldObj.getClosestPlayerToEntity(this, 16.0D);
 		if(entityPlayer1 != null) {
 			this.faceEntity(entityPlayer1, 10.0F, 20.0F);

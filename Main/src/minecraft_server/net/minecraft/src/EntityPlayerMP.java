@@ -16,6 +16,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 	public List<ChunkCoordIntPair> loadedChunks = new LinkedList<ChunkCoordIntPair>();
 	public Set<ChunkCoordIntPair> listeningChunks = new HashSet<ChunkCoordIntPair>();
 	private int lastHealth = -99999999;
+	private int lastFreezeLevel = -99999999;
 	private int ticksOfInvuln = 60;
 	private ItemStack[] playerInventory = new ItemStack[]{null, null, null, null, null};
 	private int currentWindowId = 0;
@@ -188,6 +189,11 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 			this.lastHealth = this.health;
 		}
 
+		if(this.freezeLevel != this.lastFreezeLevel) {
+			this.playerNetServerHandler.sendPacket(new Packet94FreezeLevel(this.freezeLevel));
+			this.lastFreezeLevel = this.freezeLevel;
+		}
+
 	}
 
 	private void getTileEntityInfo(TileEntity tileEntity1) {
@@ -270,11 +276,12 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		this.playerNetServerHandler.teleportTo(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
 	}
 
-	protected void updateFallState(double d1, boolean z3) {
+	public boolean hitGround(double d1, boolean z3) {
+		return false;
 	}
 
 	public void handleFalling(double d1, boolean z3) {
-		super.updateFallState(d1, z3);
+		super.hitGround(d1, z3);
 	}
 
 	private void getNextWidowId() {

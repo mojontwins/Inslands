@@ -16,7 +16,8 @@ public class ChunklProviderInfdev extends ChunkProviderGenerate {
 		this.infNoise3 = new NoiseGeneratorOctavesInfdev(this.rand, 8);
 	}
 	
-	public void generateTerrain(int chunkX, int chunkZ, byte[] blocks, BiomeGenBase[] biomes, double[] temperatures) {
+	@Override
+	public void generateTerrain(int chunkX, int chunkZ, byte[] blocks) {
 		for(int xSection = 0; xSection < 4; ++xSection) {
 			for(int zSection = 0; zSection < 4; ++zSection) {
 				double[][] terrainNoise = new double[33][4];
@@ -54,7 +55,7 @@ public class ChunklProviderInfdev extends ChunkProviderGenerate {
 							int indexInBlockArray = x + (xSection << 2) << 11 | 0 + (zSection << 2) << 7 | (ySection << 2) + y;
 
 							for(z = 0; z < 4; ++z) {
-								BiomeGenBase biome = biomes[(x + (xSection << 2)) << 4 | (z + (zSection << 2))];
+								BiomeGenBase biome = this.biomesForGeneration[(x + (xSection << 2)) << 4 | (z + (zSection << 2))];
 								
 								double zScalingFactor = (double)z / 4.0D;
 								double volume = volNoise1 + (volNoise2 - volNoise1) * zScalingFactor;

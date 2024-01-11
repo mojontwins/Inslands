@@ -17,4 +17,8 @@ public class MaterialTransparent extends Material {
 	public boolean getIsSolid() {
 		return false;
 	}
+	
+	public boolean blocksMovement() {
+		return false;
+	}
 }

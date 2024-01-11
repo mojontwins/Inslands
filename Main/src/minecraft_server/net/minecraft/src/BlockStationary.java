@@ -54,4 +54,8 @@ public class BlockStationary extends BlockFluid {
 	private boolean isFlammable(World world, int x, int y, int z) {
 		return world.getBlockMaterial(x, y, z).getBurning();
 	}
+	
+	public boolean getBlocksMovement(IBlockAccess iBlockAccess1, int i2, int i3, int i4) {
+		return this.blockMaterial != Material.lava;
+	}
 }

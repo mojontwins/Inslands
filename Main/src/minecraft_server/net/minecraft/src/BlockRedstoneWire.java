@@ -364,7 +364,7 @@ public class BlockRedstoneWire extends Block {
 			return false;
 		} else {
 			int i6 = iBlockAccess0.getBlockMetadata(i1, i2, i3);
-			return i4 == ModelBed.field_22279_b[i6 & 3];
+			return i4 == ModelBed.footInvisibleFaceRemap[i6 & 3];
 		}
 	}
 }

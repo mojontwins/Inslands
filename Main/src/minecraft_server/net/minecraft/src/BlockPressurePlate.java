@@ -152,4 +152,8 @@ public class BlockPressurePlate extends Block {
 	public int getMobilityFlag() {
 		return 1;
 	}
+	
+	public boolean getBlocksMovement(IBlockAccess par1IBlockAccess, int par2, int par3, int par4) {
+		return true;
+	}
 }

@@ -169,6 +169,14 @@ public final class ItemStack {
 		return Item.itemsList[this.itemID].getDamageVsEntity(entity1);
 	}
 
+	public float getExtraKnockbackVsEntity(Entity entity1) {
+		return Item.itemsList[this.itemID].getExtraKnockbackVsEntity(entity1);
+	}
+	
+	public int getSwingSpeed() {
+		return Item.itemsList[this.itemID].getSwingSpeed();
+	}
+
 	public boolean canHarvestBlock(Block block1) {
 		return Item.itemsList[this.itemID].canHarvestBlock(block1);
 	}
@@ -223,5 +231,19 @@ public final class ItemStack {
 
 	public boolean isStackEqual(ItemStack itemStack1) {
 		return this.itemID == itemStack1.itemID && this.stackSize == itemStack1.stackSize && this.itemDamage == itemStack1.itemDamage;
+	}
+
+	public static boolean areItemStacksCompatibleForTrading(ItemStack fromRecipe, ItemStack itemStack) {
+		if(fromRecipe == null && itemStack == null) return true;
+		
+		if(fromRecipe != null && itemStack != null) {
+			if(fromRecipe.stackSize <= itemStack.stackSize && 
+					fromRecipe.itemID == itemStack.itemID &&
+					fromRecipe.itemDamage == itemStack.itemDamage) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

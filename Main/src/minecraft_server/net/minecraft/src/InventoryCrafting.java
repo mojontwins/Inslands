@@ -70,4 +70,5 @@ public class InventoryCrafting implements IInventory {
 	public boolean canInteractWith(EntityPlayer entityPlayer1) {
 		return true;
 	}
+
 }

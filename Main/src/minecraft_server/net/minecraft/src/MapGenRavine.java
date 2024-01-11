@@ -5,10 +5,10 @@ import java.util.Random;
 public class MapGenRavine extends MapGenBase {
 	// Those are in fact very specialized forms of caves
 	
-    private float field_35627_a[];
+    private float ravineW[];
 
     public MapGenRavine() {
-        field_35627_a = new float[1024];
+        ravineW = new float[1024];
     }
 
     protected void generateRavine(World par1World, long par1, int par3, int par4, byte par5ArrayOfByte[], double par6, double par8, double par10, float par12, float par13, float par14, int par15, int par16, double par17) {
@@ -37,7 +37,7 @@ public class MapGenRavine extends MapGenBase {
                 f2 = 1.0F + random.nextFloat() * random.nextFloat() * 1.0F;
             }
 
-            field_35627_a[j] = f2 * f2;
+            ravineW[j] = f2 * f2;
         }
 
         for (; par15 < par16; par15++) {
@@ -111,7 +111,8 @@ public class MapGenRavine extends MapGenBase {
             for (int j1 = (int) d4; !flag1 && j1 < k; j1++) {
                 for (int l1 = (int) d6; !flag1 && l1 < i1; l1++) {
                     for (int i2 = l + 1; !flag1 && i2 >= d5 - 1; i2--) {
-                        int j2 = (j1 * 16 + l1) * 128 + i2;
+                        //int j2 = (j1 * 16 + l1) * 128 + i2;
+                    	int j2 = j1 << 11 | l1 << 7 | i2;
 
                         if (i2 < 0 || i2 >= 128) {
                             continue;
@@ -154,7 +155,7 @@ public class MapGenRavine extends MapGenBase {
 
                         double d10 = (((double)i3 + 0.5D) - par8) / d3;
 
-                        if ((d8 * d8 + d9 * d9) * (double)field_35627_a[i3] + (d10 * d10) / 6D < 1.0D) {
+                        if ((d8 * d8 + d9 * d9) * (double)ravineW[i3] + (d10 * d10) / 6D < 1.0D) {
                             int byte0 = par5ArrayOfByte[l2] & 0xff;
 
                             if (byte0 == Block.grass.blockID || byte0 == Block.dirtPath.blockID || byte0 == Block.sand.blockID) {
@@ -166,7 +167,15 @@ public class MapGenRavine extends MapGenBase {
                         		byte0 == Block.dirtPath.blockID || byte0 == Block.sand.blockID || byte0 == Block.cobblestone.blockID ||
                         		byte0 == Block.stairSingle.blockID || byte0 == Block.stairDouble.blockID) {
                             */
-                            if(byte0 != 0 && byte0 != Block.waterMoving.blockID && byte0 != Block.waterStill.blockID && byte0 != Block.lavaMoving.blockID && byte0 != Block.lavaStill.blockID) {
+                            if(
+                            		byte0 != 0 && 
+                            		byte0 != Block.waterMoving.blockID && 
+                            		byte0 != Block.waterStill.blockID && 
+                            		byte0 != Block.lavaMoving.blockID && 
+                            		byte0 != Block.lavaStill.blockID && 
+                            		byte0 != Block.ice.blockID &&
+                            		byte0 != Block.packedIce.blockID
+                            ) {
                                 if (i3 < 10) {
                                     par5ArrayOfByte[l2] = (byte)Block.lavaMoving.blockID;
                                 } else {

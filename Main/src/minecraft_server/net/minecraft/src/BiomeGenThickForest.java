@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.ocelot.EntityBetaOcelot;
+
 public class BiomeGenThickForest extends BiomeGenForest {
 	public BiomeGenThickForest() {
 		super();
@@ -16,6 +18,7 @@ public class BiomeGenThickForest extends BiomeGenForest {
 		this.yellowFlowersAttempts = 24;
 		
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityWolf.class, 2));
+		this.spawnableCreatureList.add(new SpawnListEntry(EntityBetaOcelot.class, 5, true));
 	}
 	
 	public int getAlgaeAmount() {
@@ -23,6 +26,10 @@ public class BiomeGenThickForest extends BiomeGenForest {
 	}
 	
 	public int getCoralAmount() {
+		return 64;
+	}
+	
+	public int getNetherVinesPerChunk() {
 		return 64;
 	}
 	
@@ -37,7 +44,7 @@ public class BiomeGenThickForest extends BiomeGenForest {
 	public WorldGenerator getBigTreeGen(Random rand) {
 		if(rand.nextInt(64) == 0) return new WorldGenHugeTrees(16 + rand.nextInt(16));
 		if(rand.nextBoolean()) {
-			return new WorldGenFir(5+rand.nextInt(5), true);
+			return new WorldGenPineTree(); // WorldGenFir(5+rand.nextInt(5), true);
 		} else {
 			return new WorldGenCypress(5+rand.nextInt(5));
 		}
@@ -85,5 +92,10 @@ public class BiomeGenThickForest extends BiomeGenForest {
 			z = chunkZ + rand.nextInt(16) + 8;
 			(new WorldGenFlowers(Block.blueFlower.blockID)).generate(world, rand, x, y, z);
 		}
+	}
+	
+	@Override
+	public boolean isHumid() {
+		return true;
 	}
 }
