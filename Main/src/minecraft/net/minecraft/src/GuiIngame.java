@@ -43,14 +43,18 @@ public class GuiIngame extends Gui {
 			this.renderVignette(brightness, i6, i7);
 		}
 
+		if(this.mc.thePlayer.freezeLevel > 0.0D) this.renderFreezeFrame(brightness, i6, i7);
+
 		ItemStack itemStack9 = this.mc.thePlayer.inventory.armorItemInSlot(3);
 		if(!this.mc.gameSettings.thirdPersonView && itemStack9 != null && itemStack9.itemID == Block.pumpkin.blockID) {
 			this.renderPumpkinBlur(i6, i7);
 		}
 
+		if(!this.mc.thePlayer.isStatusActive(Status.statusDizzy)) {
 		float f10 = this.mc.thePlayer.prevTimeInPortal + (this.mc.thePlayer.timeInPortal - this.mc.thePlayer.prevTimeInPortal) * f1;
 		if(f10 > 0.0F) {
 			this.renderPortalOverlay(f10, i6, i7);
+		}
 		}
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -217,6 +221,9 @@ public class GuiIngame extends Gui {
 			string21 = Seasons.getStringForGui();
 			this.drawString(fontRenderer8, string21, i6 - fontRenderer8.getStringWidth(string21) - 2, 42, 14737632);
 			
+			string21 = "F: " + this.mc.thePlayer.freezeLevel;
+			this.drawString(fontRenderer8, string21, i6 - fontRenderer8.getStringWidth(string21) - 2, 52, 14737632);
+			
 			GL11.glPopMatrix();
 		} else {
 			fontRenderer8.drawStringWithShadow("Minecraft " + Version.getVersion(), 2, 2, 0xFFFFFF);
@@ -334,6 +341,27 @@ public class GuiIngame extends Gui {
 		tessellator4.addVertexWithUV(0.0D, (double)i3, -90.0D, 0.0D, 1.0D);
 		tessellator4.addVertexWithUV((double)i2, (double)i3, -90.0D, 1.0D, 1.0D);
 		tessellator4.addVertexWithUV((double)i2, 0.0D, -90.0D, 1.0D, 0.0D);
+		tessellator4.addVertexWithUV(0.0D, 0.0D, -90.0D, 0.0D, 0.0D);
+		tessellator4.draw();
+		GL11.glDepthMask(true);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	}
+	
+	private void renderFreezeFrame(float brightness, int width, int height) {
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(false);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		//GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
+		float f =(float)this.mc.thePlayer.freezeLevel / 256.0F;
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, f/2);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.mc.renderEngine.getTexture("/seasons/frozen.png"));
+		Tessellator tessellator4 = Tessellator.instance;
+		tessellator4.startDrawingQuads();
+		tessellator4.addVertexWithUV(0.0D, (double)height, -90.0D, 0.0D, 1.0D);
+		tessellator4.addVertexWithUV((double)width, (double)height, -90.0D, 1.0D, 1.0D);
+		tessellator4.addVertexWithUV((double)width, 0.0D, -90.0D, 1.0D, 0.0D);
 		tessellator4.addVertexWithUV(0.0D, 0.0D, -90.0D, 0.0D, 0.0D);
 		tessellator4.draw();
 		GL11.glDepthMask(true);

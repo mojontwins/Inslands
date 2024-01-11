@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.misc.bo3import.WorldGenBo3Tree;
+
 public class BiomeGenBase {
 	public static final BiomeGenBase biomeDefault = new BiomeGenBase().setBiomeName("Default Alpha");
 	
@@ -32,7 +34,8 @@ public class BiomeGenBase {
 	protected List<SpawnListEntry> spawnableCreatureList = new ArrayList<SpawnListEntry>();
 	protected List<SpawnListEntry> spawnableWaterCreatureList = new ArrayList<SpawnListEntry>();
 	private boolean enableSnow;
-	private boolean enableRain = true;
+	
+	public WorldGenBo3Tree bo3Tree = new WorldGenBo3Tree();
 
 	protected BiomeGenBase() {
 		this.spawnableMonsterList.add(new SpawnListEntry(EntitySpider.class, 10));
@@ -104,7 +107,13 @@ public class BiomeGenBase {
 	// Set this to a different colour so leaves are tinted differently for this biome.
 	// This is an index to an array in BlockLeaves.
 	public int foliageColorizer = 0;
+	public float maxHeight = 1.0F;
+	public float minHeight = 0.0F;
 
+	private boolean enableRain;
+
+	// Unused, as of yet.
+	//private boolean canSpawnLightningBolt = true;;
 	
 	public BiomeGenBase setWeather(Weather weather) {
 		this.weather = weather;
@@ -191,6 +200,10 @@ public class BiomeGenBase {
 		return biomeLookupTable[var4 + var5 * 64];
 	}
 	
+	// Called during generation
+	public void generate(Random rand, int y0, Chunk chunk) {
+	}
+	
 	// Called before standard population (i.e. gen lakes etc).
 	public void prePopulate(World world, Random rand, int x0, int z0) {
 	}
@@ -222,6 +235,91 @@ public class BiomeGenBase {
 
 	public boolean canSpawnLightningBolt() {
 		return this.enableSnow ? false : this.enableRain;
+	}
+	
+		
+	public void replaceBlocksForBiome(IChunkProvider generator, World world, Random rand, int chunkX, int chunkZ, int x, int z, byte[] blocks, byte[] metadata, int seaLevel, double sandNoise, double gravelNoise, double stoneNoise) {
+		boolean generateSand = sandNoise + rand.nextDouble() * 0.2D > 0.0D;
+		boolean generateGravel = gravelNoise + rand.nextDouble() * 0.2D > 3.0D;
+		int height = (int)(stoneNoise / 3.0D + 3.0D + rand.nextDouble() * 0.25D);
+
+		int stoneHeight = -1;
+		byte topBlock = this.getTopBlock(rand);
+		byte fillerBlock = this.fillerBlock;
+
+		for(int y = 127; y >= 0; --y) {
+			int index = x << 11 | z << 7 | y; // (x * 16 + z) * 128 + y
+			
+			if(y <= 0 + rand.nextInt(5) && !(generator instanceof ChunkProviderSky)) {
+				blocks[index] = (byte)Block.bedrock.blockID;
+			} else {
+				byte blockID = blocks[index];
+				byte meta = metadata[index];
+				if(blockID == 0) {
+					stoneHeight = -1;
+				} else if(blockID == Block.stone.blockID && meta == 0) {
+					if(stoneHeight == -1) {
+						if(height <= 0) {
+							topBlock = 0;
+							fillerBlock = (byte)Block.stone.blockID;
+						} else if(y >= seaLevel - 4 && y <= seaLevel + 1 && !(generator instanceof ChunkProviderSky)) {
+							topBlock = this.topBlock;
+							fillerBlock = this.fillerBlock;
+							if(generateGravel) {
+								topBlock = 0;
+							}
+							
+							if(this.genBeaches) {
+								if(generateGravel) {
+									fillerBlock = (byte)Block.gravel.blockID;
+								}
+
+								if(generateSand) {
+									topBlock = (byte)Block.sand.blockID;
+									fillerBlock = (byte)Block.sand.blockID;
+								}
+							}
+						}
+
+						if(y < seaLevel && topBlock == 0 && !(generator instanceof ChunkProviderSky)) {
+							if(this.weather == Weather.cold) {
+								topBlock = (byte)Block.ice.blockID;
+							} else {
+								topBlock = (byte)Block.waterStill.blockID;
+							}
+						}
+
+						stoneHeight = height;
+						if(y >= seaLevel - 1 || generator instanceof ChunkProviderSky) {
+							blocks[index] = topBlock;
+						} else {
+							blocks[index] = fillerBlock;
+						}
+					} else if(stoneHeight > 0) {
+						--stoneHeight;
+						blocks[index] = fillerBlock;
+						if(stoneHeight == 0 && fillerBlock == this.sandstoneGenTriggerer()) {
+							stoneHeight = rand.nextInt(4);
+							fillerBlock = this.sandstoneGenBlock();
+						}
+					}
+				} else if(blockID == Block.waterStill.blockID && y == seaLevel - 1 && this.weather == Weather.cold) {
+					blocks[index] = (byte)Block.ice.blockID;
+				}
+			}
+		}
+	}
+	
+	public byte sandstoneGenTriggerer() {
+		return (byte)Block.sand.blockID;
+	}
+	
+	public byte sandstoneGenBlock() {
+		return (byte)Block.sandStone.blockID;
+	}
+
+	public boolean isHumid() {
+		return false;
 	}
 
 	static {

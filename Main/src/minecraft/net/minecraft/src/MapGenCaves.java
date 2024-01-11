@@ -153,7 +153,6 @@ public class MapGenCaves extends MapGenBase {
 													data[index] = (byte)Block.lavaMoving.blockID;
 												} else {
 													data[index] = 0;
-													
 													if(hitSurface && data[index - 1] == Block.dirt.blockID) {
 														data[index - 1] = (byte)Block.grass.blockID;
 													}

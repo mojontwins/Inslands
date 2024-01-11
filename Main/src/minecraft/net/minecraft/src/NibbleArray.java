@@ -33,4 +33,15 @@ public class NibbleArray {
 	public boolean isValid() {
 		return this.data != null;
 	}
+	
+	public byte[] asByteArray() {
+		byte[] result = new byte[this.data.length * 2];
+		int idx = 0;
+		for(int i = 0; i < this.data.length; i ++) {
+			result[idx++] = (byte)(this.data[i] & 15);
+			result[idx++] = (byte)((this.data[i] >> 4) & 15);
+		}
+		
+		return result;
+	}
 }

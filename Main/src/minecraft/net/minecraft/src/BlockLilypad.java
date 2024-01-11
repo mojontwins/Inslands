@@ -1,12 +1,13 @@
 package net.minecraft.src;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class BlockLilypad extends Block {
 
 	public BlockLilypad(int id, int blockIndex) {
 		super(id, blockIndex, Material.plants);
-		this.setTickOnLoad(true);
+		// this.setTickOnLoad(true);
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.015625F, 1.0F);
 	}
 
@@ -51,4 +52,10 @@ public class BlockLilypad extends Block {
     public int getRenderType() {
     	return 23;
     }
+    
+    public void getCollidingBoundingBoxes(World world1, int i2, int i3, int i4, AxisAlignedBB axisAlignedBB5, ArrayList<AxisAlignedBB> arrayList6, Entity entity) {
+    	if(entity == null || !(entity instanceof EntityBoat)) {
+			super.getCollidingBoundingBoxes(world1, i2, i3, i4, axisAlignedBB5, arrayList6, entity);
+		}
+	}
 }

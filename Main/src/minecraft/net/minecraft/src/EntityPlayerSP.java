@@ -156,7 +156,7 @@ public class EntityPlayerSP extends EntityPlayer {
 	public void displayGUIDispenser(TileEntityDispenser tileEntityDispenser1) {
 		this.mc.displayGuiScreen(new GuiDispenser(this.inventory, tileEntityDispenser1));
 	}
-
+	
 	public void onItemPickup(Entity entity1, int i2) {
 		this.mc.effectRenderer.addEffect(new EntityPickupFX(this.mc.theWorld, entity1, this, -0.5F));
 	}
@@ -275,4 +275,5 @@ public class EntityPlayerSP extends EntityPlayer {
 
 		return false;
 	}
+
 }

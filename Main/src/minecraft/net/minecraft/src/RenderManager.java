@@ -6,6 +6,41 @@ import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
 
+import com.benimatic.twilightforest.EntityTFRedcap;
+import com.benimatic.twilightforest.EntityTFWraith;
+import com.benimatic.twilightforest.ModelTFRedcap;
+import com.benimatic.twilightforest.RenderTFWraith;
+import com.bigbang87.deadlymonsters.EntityHauntedCow;
+import com.bigbang87.deadlymonsters.ModelHauntedCow;
+import com.bigbang87.deadlymonsters.RenderHauntedCow;
+import com.chocolatin.betterdungeons.EntityPirate;
+import com.chocolatin.betterdungeons.EntityPirateArcher;
+import com.chocolatin.betterdungeons.EntityPirateBoss;
+import com.chocolatin.betterdungeons.ModelArcher;
+import com.chocolatin.betterdungeons.ModelHuman;
+import com.chocolatin.betterdungeons.RenderHuman;
+import com.hippoplatimus.pistons.EntityMovingPiston;
+import com.hippoplatimus.pistons.MovingPistonRenderer;
+import com.mojang.minecraft.ocelot.EntityBetaOcelot;
+import com.mojang.minecraft.ocelot.EntityCatBlack;
+import com.mojang.minecraft.ocelot.EntityCatRed;
+import com.mojang.minecraft.ocelot.EntityCatSiamese;
+import com.mojang.minecraft.ocelot.ModelOcelot;
+import com.mojang.minecraft.ocelot.RenderOcelot;
+import com.mojang.minecraft.witch.EntityAlphaWitch;
+import com.mojang.minecraft.witch.RenderWitch;
+import com.mojontwins.minecraft.amazonvillage.EntityAmazon;
+import com.mojontwins.minecraft.amazonvillage.RenderAmazon;
+import com.mojontwins.minecraft.icepalace.EntityIceArcher;
+import com.mojontwins.minecraft.icepalace.EntityIceBall;
+import com.mojontwins.minecraft.icepalace.EntityIceBoss;
+import com.mojontwins.minecraft.icepalace.EntityIceWarrior;
+import com.mojontwins.minecraft.icepalace.ModelIceBoss;
+import com.mojontwins.minecraft.icepalace.RenderIceBall;
+import com.mojontwins.minecraft.icepalace.RenderIceBoss;
+import com.mojontwins.minecraft.oceanruins.EntityTriton;
+import com.mojontwins.minecraft.oceanruins.RenderTriton;
+
 public class RenderManager {
 	private Map<Class<?>, Render> entityRenderMap = new HashMap<Class<?>, Render>();
 	public static RenderManager instance = new RenderManager();
@@ -44,9 +79,9 @@ public class RenderManager {
 		this.entityRenderMap.put(EntityPainting.class, new RenderPainting());
 		this.entityRenderMap.put(EntityArrow.class, new RenderArrow());
 		this.entityRenderMap.put(EntitySnowball.class, new RenderSnowball(Item.snowball.getIconFromDamage(0)));
-		this.entityRenderMap.put(EntityPebble.class, new RenderSnowball(Item.pebble.getIconFromDamage(0)));
 		this.entityRenderMap.put(EntityEgg.class, new RenderSnowball(Item.egg.getIconFromDamage(0)));
 		this.entityRenderMap.put(EntityFireball.class, new RenderFireball());
+		this.entityRenderMap.put(EntityIceBall.class, new RenderIceBall());
 		this.entityRenderMap.put(EntityItem.class, new RenderItem());
 		this.entityRenderMap.put(EntityTNTPrimed.class, new RenderTNTPrimed());
 		this.entityRenderMap.put(EntityFallingSand.class, new RenderFallingSand());
@@ -54,6 +89,49 @@ public class RenderManager {
 		this.entityRenderMap.put(EntityBoat.class, new RenderBoat());
 		this.entityRenderMap.put(EntityFish.class, new RenderFish());
 		this.entityRenderMap.put(EntityLightningBolt.class, new RenderLightningBolt());
+
+		// Release vanilla
+		this.entityRenderMap.put(EntityMooshroom.class, new RenderMooshroom(new ModelCow(), 0.7F));
+
+		// Mine
+		this.entityRenderMap.put(EntityPebble.class, new RenderSnowball(Item.pebble.getIconFromDamage(0)));
+		this.entityRenderMap.put(EntityThrowablePotion.class, new RenderThrowablePotion());
+		this.entityRenderMap.put(EntityIceSkeleton.class, new RenderBiped(new ModelSkeleton(), 0.5F));
+		this.entityRenderMap.put(EntityZombieAlex.class, new RenderZombie(new ModelZombie(), 0.5F, "zombie_alex"));
+		this.entityRenderMap.put(EntityDrowned.class, new RenderZombie(new ModelZombie(), 0.5F, "drowned"));
+		this.entityRenderMap.put(EntityHusk.class, new RenderZombie(new ModelZombie(), 0.5F, "husk"));
+		this.entityRenderMap.put(EntityCityHusk.class, new RenderZombie(new ModelZombie(), 0.5F, "zombie"));
+		this.entityRenderMap.put(EntityToxicZombie.class, new RenderZombie(new ModelZombie(), 0.5F, "zombie"));
+		this.entityRenderMap.put(EntityBuilderZombie.class, new RenderZombie(new ModelZombie(), 0.5F, "zombie"));
+		this.entityRenderMap.put(EntityExplodingZombie.class, new RenderExplodingZombie(new ModelZombie(), 0.5F));
+		this.entityRenderMap.put(EntityAlphaWitch.class, new RenderWitch());
+		this.entityRenderMap.put(EntityBetaOcelot.class, new RenderOcelot(new ModelOcelot(), 0.5F));
+		this.entityRenderMap.put(EntityCatBlack.class, new RenderOcelot(new ModelOcelot(), 0.5F));
+		this.entityRenderMap.put(EntityCatRed.class, new RenderOcelot(new ModelOcelot(), 0.5F));
+		this.entityRenderMap.put(EntityCatSiamese.class, new RenderOcelot(new ModelOcelot(), 0.5F));
+		this.entityRenderMap.put(EntityAmazon.class, new RenderAmazon());
+		
+		// Twilight Forest
+		this.entityRenderMap.put(EntityTFRedcap.class, new RenderBiped(new ModelTFRedcap(), 0.625F));
+		this.entityRenderMap.put(EntityTFWraith.class, new RenderTFWraith(new ModelZombie(), 0.5F));
+		
+		// Better Dungeons
+		this.entityRenderMap.put(EntityPirate.class, new RenderHuman(new ModelHuman(), 0.5F));
+		this.entityRenderMap.put(EntityPirateArcher.class, new RenderBiped(new ModelArcher(), 0.5F));
+		this.entityRenderMap.put(EntityPirateBoss.class, new RenderBiped(new ModelArcher(), 0.5F));
+		
+		// Classic pistons
+		this.entityRenderMap.put(EntityMovingPiston.class, new MovingPistonRenderer());
+		
+		// More stuff
+		this.entityRenderMap.put(EntityTriton.class, new RenderTriton());
+		this.entityRenderMap.put(EntityHauntedCow.class, new RenderHauntedCow(new ModelHauntedCow(), 0.7F));
+		
+		// Ice palace
+		this.entityRenderMap.put(EntityIceWarrior.class,  new RenderHuman(new ModelHuman(), 0.5F));
+		this.entityRenderMap.put(EntityIceArcher.class,  new RenderBiped(new ModelArcher(), 0.5F));
+		this.entityRenderMap.put(EntityIceBoss.class,  new RenderIceBoss(new ModelIceBoss(), 0.5F));
+				
 		Iterator<Render> iterator1 = this.entityRenderMap.values().iterator();
 
 		while(iterator1.hasNext()) {

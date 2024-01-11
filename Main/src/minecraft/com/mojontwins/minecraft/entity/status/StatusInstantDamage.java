@@ -10,14 +10,17 @@ public class StatusInstantDamage extends Status {
 		this.particleColor = 0xFF0000;
 	}
 	
-	public void performEffect (EntityLiving entityLiving, int amplifier) {
+	@Override
+	public void performEffect (EntityLiving entityLiving, int amplifier, int duration) {
 		entityLiving.attackEntityFrom((Entity)null, 6);
 	}
 	
+	@Override
 	public boolean isReady (int tick, int amplifier) {
 		return true;
 	}
 	
+	@Override
 	public boolean isOneShot() {
 		return true;
 	}

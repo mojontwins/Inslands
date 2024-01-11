@@ -48,4 +48,5 @@ public class InventoryLargeChest implements IInventory {
 	public boolean canInteractWith(EntityPlayer entityPlayer1) {
 		return this.upperChest.canInteractWith(entityPlayer1) && this.lowerChest.canInteractWith(entityPlayer1);
 	}
+	
 }

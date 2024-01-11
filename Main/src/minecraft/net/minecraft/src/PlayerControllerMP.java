@@ -195,7 +195,7 @@ public class PlayerControllerMP extends PlayerController {
 		return itemStack7;
 	}
 
-	public void func_20086_a(int i1, EntityPlayer entityPlayer2) {
+	public void onCraftGuiClosed(int i1, EntityPlayer entityPlayer2) {
 		if(i1 != -9999) {
 			;
 		}

@@ -101,7 +101,7 @@ public class EntityFireball extends Entity {
 
 		for(int i8 = 0; i8 < list5.size(); ++i8) {
 			Entity entity9 = (Entity)list5.get(i8);
-			if(entity9.canBeCollidedWith() && (entity9 != this.shootingEntity || this.ticksInAir >= 25)) {
+			if(entity9.canBeCollidedWith() && (entity9 != this.shootingEntity || this.ticksInAir >= this.minTicksInAir())) {
 				float f10 = 0.3F;
 				AxisAlignedBB axisAlignedBB11 = entity9.boundingBox.expand((double)f10, (double)f10, (double)f10);
 				MovingObjectPosition movingObjectPosition12 = axisAlignedBB11.raytrace(vec3D15, vec3D2);
@@ -120,15 +120,7 @@ public class EntityFireball extends Entity {
 		}
 
 		if(movingObjectPosition3 != null) {
-			if(!this.worldObj.multiplayerWorld) {
-				if(movingObjectPosition3.entityHit != null && movingObjectPosition3.entityHit.attackEntityFrom(this.shootingEntity, 0)) {
-					;
-				}
-
-				this.worldObj.newExplosion((Entity)null, this.posX, this.posY, this.posZ, 1.0F, true);
-			}
-
-			this.setEntityDead();
+			this.throwableHitEntity(movingObjectPosition3);
 		}
 
 		this.posX += this.motionX;
@@ -172,6 +164,18 @@ public class EntityFireball extends Entity {
 		this.motionZ *= (double)f17;
 		this.worldObj.spawnParticle("smoke", this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
 		this.setPosition(this.posX, this.posY, this.posZ);
+	}
+
+	protected  void throwableHitEntity(MovingObjectPosition movingObjectPosition3) {
+		if(!this.worldObj.multiplayerWorld) {
+			if(movingObjectPosition3.entityHit != null && movingObjectPosition3.entityHit.attackEntityFrom(this.shootingEntity, 0)) {
+				;
+			}
+
+			this.worldObj.newExplosion((Entity)null, this.posX, this.posY, this.posZ, 1.0F, true);
+		}
+
+		this.setEntityDead();		
 	}
 
 	public void writeEntityToNBT(NBTTagCompound nBTTagCompound1) {
@@ -230,5 +234,9 @@ public class EntityFireball extends Entity {
 
 	public int getBrightnessForRender(float f1) {
 		return 15728880;
+	}
+	
+	public int minTicksInAir() {
+		return 25;
 	}
 }

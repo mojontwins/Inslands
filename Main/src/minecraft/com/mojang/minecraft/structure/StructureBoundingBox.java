@@ -86,6 +86,10 @@ public class StructureBoundingBox {
 	public boolean isVecInside(int i1, int i2, int i3) {
 		return i1 >= this.minX && i1 <= this.maxX && i3 >= this.minZ && i3 <= this.maxZ && i2 >= this.minY && i2 <= this.maxY;
 	}
+	
+	public boolean isVecInsideHorizontally(int i1, int i2, int i3) {
+		return i1 >= this.minX && i1 <= this.maxX && i3 >= this.minZ && i3 <= this.maxZ && i2 >= 0 && i2 <= 127;
+	}
 
 	public int getXSize() {
 		return this.maxX - this.minX + 1;

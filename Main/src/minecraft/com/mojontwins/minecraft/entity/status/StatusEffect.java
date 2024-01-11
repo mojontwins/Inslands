@@ -40,7 +40,7 @@ public class StatusEffect {
 		Status status = Status.statusTypes [statusID];
 		if (duration > 0) {
 			if (status.isReady(duration, amplifier)) {
-				status.performEffect(entityLiving, amplifier);
+				status.performEffect(entityLiving, amplifier, duration);
 				if(status.isOneShot()) return false;
 			}
 			duration --;

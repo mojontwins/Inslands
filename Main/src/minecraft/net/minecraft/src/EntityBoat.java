@@ -200,7 +200,7 @@ public class EntityBoat extends Entity {
 				this.motionZ += this.riddenByEntity.motionZ * 0.2D;
 			}
 
-			d21 = 0.4D;
+			d21 = 0.5D;
 			if(this.motionX < -d21) {
 				this.motionX = -d21;
 			}
@@ -246,10 +246,11 @@ public class EntityBoat extends Entity {
 				}
 			}
 
-			if(this.isCollidedHorizontally && d6 > 0.15D) {
+			if(this.isCollidedHorizontally && d6 > 0.2D) {
 				if(!this.worldObj.multiplayerWorld) {
 					this.setEntityDead();
 
+					/*
 					int i22;
 					for(i22 = 0; i22 < 3; ++i22) {
 						this.dropItemWithOffset(Block.planks.blockID, 1, 0.0F);
@@ -258,6 +259,8 @@ public class EntityBoat extends Entity {
 					for(i22 = 0; i22 < 2; ++i22) {
 						this.dropItemWithOffset(Item.stick.shiftedIndex, 1, 0.0F);
 					}
+					*/
+					this.dropItemWithOffset(Item.boat.shiftedIndex, 1, 0.0F);
 				}
 			} else {
 				this.motionX *= (double)0.99F;
@@ -302,12 +305,23 @@ public class EntityBoat extends Entity {
 				}
 			}
 
-			for(i24 = 0; i24 < 4; ++i24) {
-				int i25 = MathHelper.floor_double(this.posX + ((double)(i24 % 2) - 0.5D) * 0.8D);
-				int i26 = MathHelper.floor_double(this.posY);
-				int i20 = MathHelper.floor_double(this.posZ + ((double)(i24 / 2) - 0.5D) * 0.8D);
-				if(this.worldObj.getBlockId(i25, i26, i20) == Block.snow.blockID) {
-					this.worldObj.setBlockWithNotify(i25, i26, i20, 0);
+			for(int xz = 0; xz < 4; ++xz) {
+				int x = MathHelper.floor_double(this.posX + ((double)(xz % 2) - 0.5D) * 0.8D);
+				int z = MathHelper.floor_double(this.posZ + ((double)(xz / 2) - 0.5D) * 0.8D);
+				
+				for(int y0 = 0; y0 < 2; y0 ++) {
+					int y = MathHelper.floor_double(this.posY) + y0;
+					
+					int blockID = this.worldObj.getBlockId(x, y, z);
+					int meta = this.worldObj.getBlockMetadata(x, y, z);
+					
+					if(blockID == Block.snow.blockID) {
+						this.worldObj.setBlockWithNotify(x, y, z, 0);
+					} else if(blockID == Block.lilyPad.blockID) { 
+						this.worldObj.playAuxSFX(2001, x, y, z, blockID);
+						Block.blocksList[blockID].dropBlockAsItem(this.worldObj, x, y, z, meta);
+						this.worldObj.setBlockWithNotify(x, y, z, 0);
+					}
 				}
 			}
 

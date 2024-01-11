@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class BlockStairs extends Block {
 	private Block modelBlock;
-
+	
 	// This class has been modified so...
 	// - You can place stairs upside down.
 	// - You get the stairs block upon breaking.
@@ -71,29 +71,29 @@ public class BlockStairs extends Block {
 				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
 			}
 		} else {
-		if(i7 == 0) {
-			this.setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 0.5F, 1.0F);
-			super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
-			this.setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-			super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
-		} else if(i7 == 1) {
-			this.setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F);
-			super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
-			this.setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
-			super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
-		} else if(i7 == 2) {
-			this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 0.5F);
-			super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
-			this.setBlockBounds(0.0F, 0.0F, 0.5F, 1.0F, 1.0F, 1.0F);
-			super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
-		} else if(i7 == 3) {
-			this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.5F);
-			super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
-			this.setBlockBounds(0.0F, 0.0F, 0.5F, 1.0F, 0.5F, 1.0F);
-			super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+			if(i7 == 0) {
+				this.setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 0.5F, 1.0F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+				this.setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+			} else if(i7 == 1) {
+				this.setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+				this.setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+			} else if(i7 == 2) {
+				this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 0.5F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+				this.setBlockBounds(0.0F, 0.0F, 0.5F, 1.0F, 1.0F, 1.0F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+			} else if(i7 == 3) {
+				this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.5F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+				this.setBlockBounds(0.0F, 0.0F, 0.5F, 1.0F, 0.5F, 1.0F);
+				super.getCollidingBoundingBoxes(world, x, y, z, aabb, collidingBoundingBoxes);
+			}
 		}
-		}
-
+		
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	}
 
@@ -188,7 +188,7 @@ public class BlockStairs extends Block {
 		this.modelBlock.dropBlockAsItem(world, x, y, z, metadata);
 	}
 	*/
-
+	
 	public void onEntityWalking(World world, int x, int y, int z, Entity entity) {
 		this.modelBlock.onEntityWalking(world, x, y, z, entity);
 	}

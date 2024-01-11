@@ -5,10 +5,14 @@ import java.util.Random;
 public class BlockSapling extends BlockFlower {
 	protected BlockSapling(int i1, int i2) {
 		super(i1, i2);
+		this.setMyBlockBounds();
+	}
+	
+	public void setMyBlockBounds() {
 		float f3 = 0.4F;
 		this.setBlockBounds(0.5F - f3, 0.0F, 0.5F - f3, 0.5F + f3, f3 * 2.0F, 0.5F + f3);
 	}
-
+	
 	public void updateTick(World world1, int i2, int i3, int i4, Random random5) {
 		if(!world1.multiplayerWorld) {
 			super.updateTick(world1, i2, i3, i4, random5);
@@ -52,5 +56,10 @@ public class BlockSapling extends BlockFlower {
 
 	protected int damageDropped(int i1) {
 		return i1 & 3;
+	}
+	
+	@Override
+	public int getRenderType() {
+		return 111;
 	}
 }

@@ -51,7 +51,8 @@ public class NetClientHandler extends NetHandler {
 		double d2 = (double)packet21PickupSpawn1.xPosition / 32.0D;
 		double d4 = (double)packet21PickupSpawn1.yPosition / 32.0D;
 		double d6 = (double)packet21PickupSpawn1.zPosition / 32.0D;
-		EntityItem entityItem8 = new EntityItem(this.worldClient, d2, d4, d6, new ItemStack(packet21PickupSpawn1.itemID, packet21PickupSpawn1.count, packet21PickupSpawn1.itemDamage));
+		EntityItem entityItem8 = new EntityItem(this.worldClient, d2, d4, d6, new ItemStack(packet21PickupSpawn1.itemID,
+				packet21PickupSpawn1.count, packet21PickupSpawn1.itemDamage));
 		entityItem8.motionX = (double)packet21PickupSpawn1.rotation / 128.0D;
 		entityItem8.motionY = (double)packet21PickupSpawn1.pitch / 128.0D;
 		entityItem8.motionZ = (double)packet21PickupSpawn1.roll / 128.0D;
@@ -87,7 +88,10 @@ public class NetClientHandler extends NetHandler {
 				entityToSpawn = new EntitySnowball(this.worldClient, posX, posY, posZ);
 				break;
 			case 63:
-				entityToSpawn = new EntityFireball(this.worldClient, posX, posY, posZ, (double)packet23VehicleSpawn1.motionXencoded / 8000.0D, (double)packet23VehicleSpawn1.motionYencoded / 8000.0D, (double)packet23VehicleSpawn1.motionZencoded / 8000.0D);
+			entityToSpawn = new EntityFireball(this.worldClient, posX, posY, posZ,
+					(double) packet23VehicleSpawn1.motionXencoded / 8000.0D,
+					(double) packet23VehicleSpawn1.motionYencoded / 8000.0D,
+					(double) packet23VehicleSpawn1.motionZencoded / 8000.0D);
 				packet23VehicleSpawn1.throwerEntityId = 0;
 				break;
 			case 62:
@@ -113,7 +117,8 @@ public class NetClientHandler extends NetHandler {
 				break;
 				
 			case 101:
-				entityToSpawn = new EntityThrowablePotion(this.worldClient, posX, posY, posZ, packet23VehicleSpawn1.metadata);
+			entityToSpawn = new EntityThrowablePotion(this.worldClient, posX, posY, posZ,
+					packet23VehicleSpawn1.metadata);
 				break;
 		}
 
@@ -141,7 +146,9 @@ public class NetClientHandler extends NetHandler {
 						break;
 				}
 
-				((Entity)entityToSpawn).setVelocity((double)packet23VehicleSpawn1.motionXencoded / 8000.0D, (double)packet23VehicleSpawn1.motionYencoded / 8000.0D, (double)packet23VehicleSpawn1.motionZencoded / 8000.0D);
+				((Entity) entityToSpawn).setVelocity((double) packet23VehicleSpawn1.motionXencoded / 8000.0D,
+						(double) packet23VehicleSpawn1.motionYencoded / 8000.0D,
+						(double) packet23VehicleSpawn1.motionZencoded / 8000.0D);
 			}
 		}
 
@@ -169,15 +176,20 @@ public class NetClientHandler extends NetHandler {
 	}
 
 	public void handleEntityPainting(Packet25EntityPainting packet25EntityPainting1) {
-		EntityPainting entityPainting2 = new EntityPainting(this.worldClient, packet25EntityPainting1.xPosition, packet25EntityPainting1.yPosition, packet25EntityPainting1.zPosition, packet25EntityPainting1.direction, packet25EntityPainting1.title);
+		EntityPainting entityPainting2 = new EntityPainting(this.worldClient, packet25EntityPainting1.xPosition,
+				packet25EntityPainting1.yPosition, packet25EntityPainting1.zPosition, packet25EntityPainting1.direction,
+				packet25EntityPainting1.title);
 		this.worldClient.addEntityToLookup(packet25EntityPainting1.entityId, entityPainting2);
 	}
 
 	public void handleEntityVelocity(Packet28EntityVelocity packet28EntityVelocity1) {
 		Entity entity2 = this.getEntityByID(packet28EntityVelocity1.entityId);
-if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " + entity2.getClass() + " > " + packet28EntityVelocity1.motionY )	;	
+		if (entity2 instanceof EntitySnowball)
+			System.out.println("HandleVelocity for " + entity2.getClass() + " > " + packet28EntityVelocity1.motionY);
 		if(entity2 != null) {
-			entity2.setVelocity((double)packet28EntityVelocity1.motionX / 8000.0D, (double)packet28EntityVelocity1.motionY / 8000.0D, (double)packet28EntityVelocity1.motionZ / 8000.0D);
+			entity2.setVelocity((double) packet28EntityVelocity1.motionX / 8000.0D,
+					(double) packet28EntityVelocity1.motionY / 8000.0D,
+					(double) packet28EntityVelocity1.motionZ / 8000.0D);
 		}
 	}
 
@@ -195,7 +207,8 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 		double d6 = (double)packet20NamedEntitySpawn1.zPosition / 32.0D;
 		float f8 = (float)(packet20NamedEntitySpawn1.rotation * 360) / 256.0F;
 		float f9 = (float)(packet20NamedEntitySpawn1.pitch * 360) / 256.0F;
-		EntityOtherPlayerMP entityOtherPlayerMP10 = new EntityOtherPlayerMP(this.mc.theWorld, packet20NamedEntitySpawn1.name);
+		EntityOtherPlayerMP entityOtherPlayerMP10 = new EntityOtherPlayerMP(this.mc.theWorld,
+				packet20NamedEntitySpawn1.name);
 		entityOtherPlayerMP10.prevPosX = entityOtherPlayerMP10.lastTickPosX = (double)(entityOtherPlayerMP10.serverPosX = packet20NamedEntitySpawn1.xPosition);
 		entityOtherPlayerMP10.prevPosY = entityOtherPlayerMP10.lastTickPosY = (double)(entityOtherPlayerMP10.serverPosY = packet20NamedEntitySpawn1.yPosition);
 		entityOtherPlayerMP10.prevPosZ = entityOtherPlayerMP10.lastTickPosZ = (double)(entityOtherPlayerMP10.serverPosZ = packet20NamedEntitySpawn1.zPosition);
@@ -203,7 +216,8 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 		if(i11 == 0) {
 			entityOtherPlayerMP10.inventory.mainInventory[entityOtherPlayerMP10.inventory.currentItem] = null;
 		} else {
-			entityOtherPlayerMP10.inventory.mainInventory[entityOtherPlayerMP10.inventory.currentItem] = new ItemStack(i11, 1, 0);
+			entityOtherPlayerMP10.inventory.mainInventory[entityOtherPlayerMP10.inventory.currentItem] = new ItemStack(
+					i11, 1, 0);
 		}
 
 		entityOtherPlayerMP10.setPositionAndRotation(d2, d4, d6, f8, f9);
@@ -235,7 +249,8 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 			double d5 = (double)entity2.serverPosY / 32.0D;
 			double d7 = (double)entity2.serverPosZ / 32.0D;
 			float f9 = packet30Entity1.rotating ? (float)(packet30Entity1.yaw * 360) / 256.0F : entity2.rotationYaw;
-			float f10 = packet30Entity1.rotating ? (float)(packet30Entity1.pitch * 360) / 256.0F : entity2.rotationPitch;
+			float f10 = packet30Entity1.rotating ? (float) (packet30Entity1.pitch * 360) / 256.0F
+					: entity2.rotationPitch;
 			entity2.setPositionAndRotation2(d3, d5, d7, f9, f10, 3);
 		}
 	}
@@ -285,7 +300,8 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 	}
 
 	public void handleMultiBlockChange(Packet52MultiBlockChange packet52MultiBlockChange1) {
-		Chunk chunk2 = this.worldClient.getChunkFromChunkCoords(packet52MultiBlockChange1.xPosition, packet52MultiBlockChange1.zPosition);
+		Chunk chunk2 = this.worldClient.getChunkFromChunkCoords(packet52MultiBlockChange1.xPosition,
+				packet52MultiBlockChange1.zPosition);
 		int i3 = packet52MultiBlockChange1.xPosition * 16;
 		int i4 = packet52MultiBlockChange1.zPosition * 16;
 
@@ -304,19 +320,27 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 	}
 
 	public void handleMapChunk(Packet51MapChunk packet51MapChunk1) {
-		this.worldClient.invalidateBlockReceiveRegion(packet51MapChunk1.xPosition, packet51MapChunk1.yPosition, packet51MapChunk1.zPosition, packet51MapChunk1.xPosition + packet51MapChunk1.xSize - 1, packet51MapChunk1.yPosition + packet51MapChunk1.ySize - 1, packet51MapChunk1.zPosition + packet51MapChunk1.zSize - 1);
-		this.worldClient.setChunkData(packet51MapChunk1.xPosition, packet51MapChunk1.yPosition, packet51MapChunk1.zPosition, packet51MapChunk1.xSize, packet51MapChunk1.ySize, packet51MapChunk1.zSize, packet51MapChunk1.chunk);
+		this.worldClient.invalidateBlockReceiveRegion(packet51MapChunk1.xPosition, packet51MapChunk1.yPosition,
+				packet51MapChunk1.zPosition, packet51MapChunk1.xPosition + packet51MapChunk1.xSize - 1,
+				packet51MapChunk1.yPosition + packet51MapChunk1.ySize - 1,
+				packet51MapChunk1.zPosition + packet51MapChunk1.zSize - 1);
+		this.worldClient.setChunkData(packet51MapChunk1.xPosition, packet51MapChunk1.yPosition,
+				packet51MapChunk1.zPosition, packet51MapChunk1.xSize, packet51MapChunk1.ySize, packet51MapChunk1.zSize,
+				packet51MapChunk1.chunk);
 	}
 
 	public void handleBlockChange(Packet53BlockChange packet53BlockChange1) {
-		this.worldClient.setBlockAndMetadataAndInvalidate(packet53BlockChange1.xPosition, packet53BlockChange1.yPosition, packet53BlockChange1.zPosition, packet53BlockChange1.type, packet53BlockChange1.metadata);
+		this.worldClient.setBlockAndMetadataAndInvalidate(packet53BlockChange1.xPosition,
+				packet53BlockChange1.yPosition, packet53BlockChange1.zPosition, packet53BlockChange1.type,
+				packet53BlockChange1.metadata);
 	}
 
 	public void handleKickDisconnect(Packet255KickDisconnect packet255KickDisconnect1) {
 		this.netManager.networkShutdown("disconnect.kicked", new Object[0]);
 		this.disconnected = true;
 		this.mc.changeWorld1((World)null);
-		this.mc.displayGuiScreen(new GuiConnectFailed("disconnect.disconnected", "disconnect.genericReason", new Object[]{packet255KickDisconnect1.reason}));
+		this.mc.displayGuiScreen(new GuiConnectFailed("disconnect.disconnected", "disconnect.genericReason",
+				new Object[] { packet255KickDisconnect1.reason }));
 	}
 
 	public void handleErrorMessage(String string1, Object[] object2) {
@@ -348,7 +372,8 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 		}
 
 		if(entity2 != null) {
-			this.worldClient.playSoundAtEntity(entity2, "random.pop", 0.2F, ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
+			this.worldClient.playSoundAtEntity(entity2, "random.pop", 0.2F,
+					((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
 			this.mc.effectRenderer.addEffect(new EntityPickupFX(this.mc.theWorld, entity2, (Entity)object3, -0.5F));
 			this.worldClient.removeEntityFromWorld(packet22Collect1.collectedEntityId);
 		}
@@ -384,7 +409,8 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 		if(entity2 != null) {
 			if(packet17Sleep1.field_22046_e == 0) {
 				EntityPlayer entityPlayer3 = (EntityPlayer)entity2;
-				entityPlayer3.sleepInBedAt(packet17Sleep1.field_22044_b, packet17Sleep1.field_22048_c, packet17Sleep1.field_22047_d);
+				entityPlayer3.sleepInBedAt(packet17Sleep1.field_22044_b, packet17Sleep1.field_22048_c,
+						packet17Sleep1.field_22047_d);
 			}
 
 		}
@@ -395,7 +421,8 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 			this.addToSendQueue(new Packet1Login(this.mc.session.username, 14));
 		} else {
 			try {
-				URL uRL2 = new URL("http://www.minecraft.net/game/joinserver.jsp?user=" + this.mc.session.username + "&sessionId=" + this.mc.session.sessionId + "&serverId=" + packet2Handshake1.username);
+				URL uRL2 = new URL("http://www.minecraft.net/game/joinserver.jsp?user=" + this.mc.session.username
+						+ "&sessionId=" + this.mc.session.sessionId + "&serverId=" + packet2Handshake1.username);
 				BufferedReader bufferedReader3 = new BufferedReader(new InputStreamReader(uRL2.openStream()));
 				String string4 = bufferedReader3.readLine();
 				bufferedReader3.close();
@@ -406,7 +433,8 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 				}
 			} catch (Exception exception5) {
 				exception5.printStackTrace();
-				this.netManager.networkShutdown("disconnect.genericReason", new Object[]{"Internal client error: " + exception5.toString()});
+				this.netManager.networkShutdown("disconnect.genericReason",
+						new Object[] { "Internal client error: " + exception5.toString() });
 			}
 		}
 
@@ -444,8 +472,10 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 	}
 
 	public void handleSpawnPosition(Packet6SpawnPosition packet6SpawnPosition1) {
-		this.mc.thePlayer.setPlayerSpawnCoordinate(new ChunkCoordinates(packet6SpawnPosition1.xPosition, packet6SpawnPosition1.yPosition, packet6SpawnPosition1.zPosition));
-		this.mc.theWorld.getWorldInfo().setSpawn(packet6SpawnPosition1.xPosition, packet6SpawnPosition1.yPosition, packet6SpawnPosition1.zPosition);
+		this.mc.thePlayer.setPlayerSpawnCoordinate(new ChunkCoordinates(packet6SpawnPosition1.xPosition,
+				packet6SpawnPosition1.yPosition, packet6SpawnPosition1.zPosition));
+		this.mc.theWorld.getWorldInfo().setSpawn(packet6SpawnPosition1.xPosition, packet6SpawnPosition1.yPosition,
+				packet6SpawnPosition1.zPosition);
 	}
 
 	public void handleAttachEntity(Packet39AttachEntity packet39AttachEntity1) {
@@ -469,7 +499,8 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 	}
 
 	private Entity getEntityByID(int i1) {
-		return (Entity)(i1 == this.mc.thePlayer.entityId ? this.mc.thePlayer : this.worldClient.getEntityFromLookup(i1));
+		return (Entity) (i1 == this.mc.thePlayer.entityId ? this.mc.thePlayer
+				: this.worldClient.getEntityFromLookup(i1));
 	}
 
 	public void handleHealth(Packet8UpdateHealth packet8UpdateHealth1) {
@@ -479,7 +510,8 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 	public void handleRespawnPacket(Packet9Respawn packet9Respawn1) {
 		if(packet9Respawn1.dimension != this.mc.thePlayer.dimension) {
 			this.field_1210_g = false;
-			this.worldClient = new WorldClient(this, new WorldSettings(0L, 0, false, false, WorldType.DEFAULT), packet9Respawn1.dimension);
+			this.worldClient = new WorldClient(this, new WorldSettings(0L, 0, false, false, WorldType.DEFAULT),
+					packet9Respawn1.dimension);
 			this.worldClient.multiplayerWorld = true;
 			this.mc.changeWorld1(this.worldClient);
 			this.mc.thePlayer.dimension = packet9Respawn1.dimension;
@@ -490,28 +522,32 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 	}
 
 	public void handleExplosion(Packet60Explosion packet60Explosion1) {
-		Explosion explosion2 = new Explosion(this.mc.theWorld, (Entity)null, packet60Explosion1.explosionX, packet60Explosion1.explosionY, packet60Explosion1.explosionZ, packet60Explosion1.explosionSize, packet60Explosion1.blockID);
+		Explosion explosion2 = new Explosion(this.mc.theWorld, (Entity) null, packet60Explosion1.explosionX,
+				packet60Explosion1.explosionY, packet60Explosion1.explosionZ, packet60Explosion1.explosionSize,
+				packet60Explosion1.blockID);
 		explosion2.destroyedBlockPositions = packet60Explosion1.destroyedBlockPositions;
 		explosion2.doEffects(true);
 	}
 
-	public void handleOpenWindow(Packet100OpenWindow packet100OpenWindow1) {
-		if(packet100OpenWindow1.inventoryType == 0) {
-			InventoryBasic inventoryBasic2 = new InventoryBasic(packet100OpenWindow1.windowTitle, packet100OpenWindow1.slotsCount);
+	public void handleOpenWindow(Packet100OpenWindow packet) {
+		if (packet.inventoryType == 0) {
+			InventoryBasic inventoryBasic2 = new InventoryBasic(packet.windowTitle,
+					packet.slotsCount);
 			this.mc.thePlayer.displayGUIChest(inventoryBasic2);
-			this.mc.thePlayer.craftingInventory.windowId = packet100OpenWindow1.windowId;
-		} else if(packet100OpenWindow1.inventoryType == 2) {
+			this.mc.thePlayer.craftingInventory.windowId = packet.windowId;
+		} else if (packet.inventoryType == 2) {
 			TileEntityFurnace tileEntityFurnace3 = new TileEntityFurnace();
 			this.mc.thePlayer.displayGUIFurnace(tileEntityFurnace3);
-			this.mc.thePlayer.craftingInventory.windowId = packet100OpenWindow1.windowId;
-		} else if(packet100OpenWindow1.inventoryType == 3) {
+			this.mc.thePlayer.craftingInventory.windowId = packet.windowId;
+		} else if (packet.inventoryType == 3) {
 			TileEntityDispenser tileEntityDispenser4 = new TileEntityDispenser();
 			this.mc.thePlayer.displayGUIDispenser(tileEntityDispenser4);
-			this.mc.thePlayer.craftingInventory.windowId = packet100OpenWindow1.windowId;
-		} else if(packet100OpenWindow1.inventoryType == 1) {
+			this.mc.thePlayer.craftingInventory.windowId = packet.windowId;
+		} else if (packet.inventoryType == 1) {
 			EntityPlayerSP entityPlayerSP5 = this.mc.thePlayer;
-			this.mc.thePlayer.displayWorkbenchGUI(MathHelper.floor_double(entityPlayerSP5.posX), MathHelper.floor_double(entityPlayerSP5.posY), MathHelper.floor_double(entityPlayerSP5.posZ));
-			this.mc.thePlayer.craftingInventory.windowId = packet100OpenWindow1.windowId;
+			this.mc.thePlayer.displayWorkbenchGUI(MathHelper.floor_double(entityPlayerSP5.posX),
+					MathHelper.floor_double(entityPlayerSP5.posY), MathHelper.floor_double(entityPlayerSP5.posZ));
+			this.mc.thePlayer.craftingInventory.windowId = packet.windowId;
 		}
 
 	}
@@ -519,15 +555,18 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 	public void handleSetSlot(Packet103SetSlot packet103SetSlot1) {
 		if(packet103SetSlot1.windowId == -1) {
 			this.mc.thePlayer.inventory.setItemStack(packet103SetSlot1.myItemStack);
-		} else if(packet103SetSlot1.windowId == 0 && packet103SetSlot1.itemSlot >= 36 && packet103SetSlot1.itemSlot < 45) {
+		} else if (packet103SetSlot1.windowId == 0 && packet103SetSlot1.itemSlot >= 36
+				&& packet103SetSlot1.itemSlot < 45) {
 			ItemStack itemStack2 = this.mc.thePlayer.inventorySlots.getSlot(packet103SetSlot1.itemSlot).getStack();
-			if(packet103SetSlot1.myItemStack != null && (itemStack2 == null || itemStack2.stackSize < packet103SetSlot1.myItemStack.stackSize)) {
+			if (packet103SetSlot1.myItemStack != null
+					&& (itemStack2 == null || itemStack2.stackSize < packet103SetSlot1.myItemStack.stackSize)) {
 				packet103SetSlot1.myItemStack.animationsToGo = 5;
 			}
 
 			this.mc.thePlayer.inventorySlots.putStackInSlot(packet103SetSlot1.itemSlot, packet103SetSlot1.myItemStack);
 		} else if(packet103SetSlot1.windowId == this.mc.thePlayer.craftingInventory.windowId) {
-			this.mc.thePlayer.craftingInventory.putStackInSlot(packet103SetSlot1.itemSlot, packet103SetSlot1.myItemStack);
+			this.mc.thePlayer.craftingInventory.putStackInSlot(packet103SetSlot1.itemSlot,
+					packet103SetSlot1.myItemStack);
 		}
 
 	}
@@ -545,7 +584,8 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 				container2.func_20113_a(packet106Transaction1.shortWindowId);
 			} else {
 				container2.func_20110_b(packet106Transaction1.shortWindowId);
-				this.addToSendQueue(new Packet106Transaction(packet106Transaction1.windowId, packet106Transaction1.shortWindowId, true));
+				this.addToSendQueue(new Packet106Transaction(packet106Transaction1.windowId,
+						packet106Transaction1.shortWindowId, true));
 			}
 		}
 
@@ -561,8 +601,10 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 	}
 
 	public void handleUpdateSign(Packet130UpdateSign packet130UpdateSign1) {
-		if(this.mc.theWorld.blockExists(packet130UpdateSign1.xPosition, packet130UpdateSign1.yPosition, packet130UpdateSign1.zPosition)) {
-			TileEntity tileEntity2 = this.mc.theWorld.getBlockTileEntity(packet130UpdateSign1.xPosition, packet130UpdateSign1.yPosition, packet130UpdateSign1.zPosition);
+		if (this.mc.theWorld.blockExists(packet130UpdateSign1.xPosition, packet130UpdateSign1.yPosition,
+				packet130UpdateSign1.zPosition)) {
+			TileEntity tileEntity2 = this.mc.theWorld.getBlockTileEntity(packet130UpdateSign1.xPosition,
+					packet130UpdateSign1.yPosition, packet130UpdateSign1.zPosition);
 			if(tileEntity2 instanceof TileEntitySign) {
 				TileEntitySign tileEntitySign3 = (TileEntitySign)tileEntity2;
 
@@ -578,8 +620,10 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 
 	public void handleUpdateProgressBar(Packet105UpdateProgressbar packet105UpdateProgressbar1) {
 		this.registerPacket(packet105UpdateProgressbar1);
-		if(this.mc.thePlayer.craftingInventory != null && this.mc.thePlayer.craftingInventory.windowId == packet105UpdateProgressbar1.windowId) {
-			this.mc.thePlayer.craftingInventory.setFurnaceTime(packet105UpdateProgressbar1.progressBar, packet105UpdateProgressbar1.progressBarValue);
+		if (this.mc.thePlayer.craftingInventory != null
+				&& this.mc.thePlayer.craftingInventory.windowId == packet105UpdateProgressbar1.windowId) {
+			this.mc.thePlayer.craftingInventory.setFurnaceTime(packet105UpdateProgressbar1.progressBar,
+					packet105UpdateProgressbar1.progressBarValue);
 		}
 
 	}
@@ -587,7 +631,8 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 	public void handlePlayerInventory(Packet5PlayerInventory packet5PlayerInventory1) {
 		Entity entity2 = this.getEntityByID(packet5PlayerInventory1.entityID);
 		if(entity2 != null) {
-			entity2.outfitWithItem(packet5PlayerInventory1.slot, packet5PlayerInventory1.itemID, packet5PlayerInventory1.itemDamage);
+			entity2.outfitWithItem(packet5PlayerInventory1.slot, packet5PlayerInventory1.itemID,
+					packet5PlayerInventory1.itemDamage);
 		}
 
 	}
@@ -597,7 +642,8 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 	}
 
 	public void handleNotePlay(Packet54PlayNoteBlock packet54PlayNoteBlock1) {
-		this.mc.theWorld.playNoteAt(packet54PlayNoteBlock1.xLocation, packet54PlayNoteBlock1.yLocation, packet54PlayNoteBlock1.zLocation, packet54PlayNoteBlock1.instrumentType, packet54PlayNoteBlock1.pitch);
+		this.mc.theWorld.playNoteAt(packet54PlayNoteBlock1.xLocation, packet54PlayNoteBlock1.yLocation,
+				packet54PlayNoteBlock1.zLocation, packet54PlayNoteBlock1.instrumentType, packet54PlayNoteBlock1.pitch);
 	}
 
 	public void handleBed(Packet70Bed packet70Bed1) {
@@ -607,19 +653,20 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 		}
 
 		/*
-		if(i2 == 1) {
-			this.worldClient.getWorldInfo().setRaining(true);
-			this.worldClient.setRainStrength(1.0F);
-		} else if(i2 == 2) {
-			this.worldClient.getWorldInfo().setRaining(false);
-			this.worldClient.setRainStrength(0.0F);
-		}*/
+		 * if(i2 == 1) { this.worldClient.getWorldInfo().setRaining(true);
+		 * this.worldClient.setRainStrength(1.0F); } else if(i2 == 2) {
+		 * this.worldClient.getWorldInfo().setRaining(false);
+		 * this.worldClient.setRainStrength(0.0F); }
+		 */
 		
 		// This is encoded differently to vanilla
 		if (i2 == 1) {
-			this.worldClient.getWorldInfo().setRaining(packet70Bed1.raining); this.worldClient.setRainStrength(packet70Bed1.raining ? 1.0F : 0.0F);
-			this.worldClient.getWorldInfo().setSnowing(packet70Bed1.snowing); this.worldClient.setSnowingStrength(packet70Bed1.snowing ? 1.0F : 0.0F);
-			this.worldClient.getWorldInfo().setThundering(packet70Bed1.thundering); this.worldClient.setThunderingStrength(packet70Bed1.thundering ? 1.0F : 0.0F);
+			this.worldClient.getWorldInfo().setRaining(packet70Bed1.raining);
+			this.worldClient.setRainStrength(packet70Bed1.raining ? 1.0F : 0.0F);
+			this.worldClient.getWorldInfo().setSnowing(packet70Bed1.snowing);
+			this.worldClient.setSnowingStrength(packet70Bed1.snowing ? 1.0F : 0.0F);
+			this.worldClient.getWorldInfo().setThundering(packet70Bed1.thundering);
+			this.worldClient.setThunderingStrength(packet70Bed1.thundering ? 1.0F : 0.0F);
 		}
 
 	}
@@ -634,11 +681,14 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 	}
 
 	public void handleDoorChange(Packet61DoorChange packet61DoorChange1) {
-		this.mc.theWorld.playAuxSFX(packet61DoorChange1.field_28050_a, packet61DoorChange1.field_28053_c, packet61DoorChange1.field_28052_d, packet61DoorChange1.field_28051_e, packet61DoorChange1.field_28049_b);
+		this.mc.theWorld.playAuxSFX(packet61DoorChange1.field_28050_a, packet61DoorChange1.field_28053_c,
+				packet61DoorChange1.field_28052_d, packet61DoorChange1.field_28051_e,
+				packet61DoorChange1.field_28049_b);
 	}
 
 	public void handleStatistic(Packet200Statistic packet200Statistic1) {
-		((EntityClientPlayerMP)this.mc.thePlayer).func_27027_b(StatList.getOneShotStat(packet200Statistic1.field_27052_a), packet200Statistic1.field_27051_b);
+		((EntityClientPlayerMP) this.mc.thePlayer).func_27027_b(
+				StatList.getOneShotStat(packet200Statistic1.field_27052_a), packet200Statistic1.field_27051_b);
 	}
 
 	public void handleUpdateWeather(Packet98UpdateWeather var1) {
@@ -650,7 +700,8 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 	public void handleSetCreative(Packet99SetCreativeMode var1) {
 		EntityPlayerSP thePlayer = this.mc.thePlayer;
 		thePlayer.isCreative = var1.isCreative;
-		if (!thePlayer.isCreative) thePlayer.isFlying = false;
+		if (!thePlayer.isCreative)
+			thePlayer.isFlying = false;
 	}
 	
 	public void handleBadMoonDecide(Packet96BadMoonDecide packet) {
@@ -664,7 +715,11 @@ if (entity2 instanceof EntitySnowball) System.out.println("HandleVelocity for " 
 	}
 	
 	public void handleFreezeLevel(Packet94FreezeLevel packet) {
-		//this.mc.thePlayer.freezeLevel = packet.freezeLevel;
+		this.mc.thePlayer.freezeLevel = packet.freezeLevel;
+	}
+
+	public void handleCustomPayload(Packet250CustomPayload par1Packet250CustomPayload) {
+
 	}
 	
 	public boolean isServerHandler() {

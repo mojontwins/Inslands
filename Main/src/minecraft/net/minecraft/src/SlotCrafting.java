@@ -32,6 +32,14 @@ public class SlotCrafting extends Slot {
 			this.thePlayer.addStat(AchievementList.buildBetterPickaxe, 1);
 		} else if(itemStack1.itemID == Item.swordWood.shiftedIndex) {
 			this.thePlayer.addStat(AchievementList.buildSword, 1);
+		} else if(itemStack1.itemID == Item.bootsLeather.shiftedIndex) {
+			this.thePlayer.addStat(AchievementList.bootsOfLeather, 1);
+		} else if(itemStack1.itemID == Item.slingshot.shiftedIndex) {
+			this.thePlayer.addStat(AchievementList.bangBang, 1);
+		} else if(itemStack1.itemID == Item.pirateCrown.shiftedIndex) {
+			this.thePlayer.addStat(AchievementList.pirateCrown, 1);
+		} else if(itemStack1.itemID == Block.fleshBlock.blockID) {
+			this.thePlayer.addStat(AchievementList.meatBlock, 1);
 		}
 
 		for(int i2 = 0; i2 < this.craftMatrix.getSizeInventory(); ++i2) {

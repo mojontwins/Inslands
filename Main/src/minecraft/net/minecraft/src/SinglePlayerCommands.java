@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.StringTokenizer;
 
+import com.misc.bo3import.WorldGenBo3Tree;
+
 import net.minecraft.client.Minecraft;
 
 public class SinglePlayerCommands {
@@ -53,6 +55,7 @@ public class SinglePlayerCommands {
 	 */
 	
 	private Minecraft mc;
+	private WorldGenBo3Tree bo3Tree = new WorldGenBo3Tree(true);
 	
 	public SinglePlayerCommands(Minecraft mc) {
 		this.mc = mc;
@@ -134,7 +137,15 @@ public class SinglePlayerCommands {
 						int z = (int)this.mc.thePlayer.posZ + this.mc.theWorld.rand.nextInt(8) - 4;
 						System.out.println ("Attempting to spawn @ " + x + " " + y + " " + z);
 						entity.setLocationAndAngles((double)x, (double)y, (double)z, this.mc.theWorld.rand.nextFloat() * 360.0F, 0.0F);
-						//if(entity instanceof EntityTrader) ((EntityTrader)entity).fillTradingRecipeList(this.mc.theWorld, false);
+						
+						SpawnerAnimals.creatureSpecificInit(entity, this.mc.theWorld, x, y, z);
+						
+						if(idx == 3 && entity instanceof IMobWithLevel) {
+							try {
+								int level = Integer.parseInt(tokens[2]);
+								if(level < ((IMobWithLevel)entity).getMaxLevel()) ((IMobWithLevel)entity).setLevel(level);
+							} catch (Exception e) { }
+						}
 
 						this.mc.ingameGUI.addChatMessage("Spawned " + tokens [1] + " @ " + x + " " + y + " " + z);
 						this.mc.theWorld.entityJoinedWorld(entity);
@@ -157,21 +168,28 @@ public class SinglePlayerCommands {
 			} else if ("/thunder".equals(cmd)) {
 				this.mc.theWorld.worldInfo.setThunderTime(0);
 			} else if ("/setDay".equals(cmd)) {
-				/*
+
 				try {
 					int day = Integer.parseInt(tokens[1]);
 					int dayWithinYear = day % (4 * Seasons.SEASON_DURATION);
-					long currentYear = this.mc.theWorld.worldTime / (4 * Seasons.SEASON_DURATION);
-					int currentDayWithinYear = (int)(this.mc.theWorld.worldTime % (4 * Seasons.SEASON_DURATION));
+					long currentYear = this.mc.theWorld.getWorldTime() / (4 * Seasons.SEASON_DURATION);
+					int currentDayWithinYear = (int)(this.mc.theWorld.getWorldTime() % (4 * Seasons.SEASON_DURATION));
 					if(currentDayWithinYear > dayWithinYear) currentYear ++;
-					this.mc.theWorld.worldTime = currentYear * (4 * Seasons.SEASON_DURATION) + dayWithinYear;
+					
+					this.mc.theWorld.setWorldTime(currentYear * (4 * Seasons.SEASON_DURATION) + dayWithinYear);
+					
 					Seasons.dayOfTheYear = dayWithinYear;
 					Seasons.updateSeasonCounters();
+					
+					for(int i5 = 0; i5 < this.mc.theWorld.worldAccesses.size(); ++i5) {
+						((IWorldAccess)this.mc.theWorld.worldAccesses).updateAllRenderers();
+					}
+					
 					this.mc.ingameGUI.addChatMessage("Day set to " + dayWithinYear + ": " + Seasons.seasonNames[Seasons.currentSeason] + ", day " + Seasons.dayOfTheSeason);
 				} catch (Exception e) {
 					this.mc.ingameGUI.addChatMessage("Wrong day");
 				}
-				*/
+
 			} else if ("/give".equals(cmd)) {
 				// /give id quantity
 				if(idx > 2) {
@@ -200,6 +218,23 @@ public class SinglePlayerCommands {
 						this.mc.theWorld.entityJoinedWorld(entityItem13);
 					} catch (Exception e) { }
 
+				}
+			} else if ("/bo3tree".equals(cmd)) {
+				try {
+					int x = Integer.parseInt(tokens[1]);
+					int z = Integer.parseInt(tokens[2]);
+					int y = this.mc.theWorld.getLandSurfaceHeightValue(x, z);
+					String treeShape = tokens[3];
+					
+					bo3Tree.setTreeName(treeShape);
+					
+					if(bo3Tree.generate(this.mc.theWorld, this.mc.theWorld.rand, x, y, z)) {
+						this.mc.ingameGUI.addChatMessage("Spawned Bo3 tree " + treeShape + " @ " + x + " " + y + "  " + z);
+					} else {
+						this.mc.ingameGUI.addChatMessage("Could not spawn " + treeShape); 
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		}

@@ -84,11 +84,14 @@ public class RenderItem extends Render {
 			float f26;
 			if(this.colorItemFromDamage) {
 				i23 = Item.itemsList[itemStack10.itemID].getColorFromDamage(itemStack10.getItemDamage());
+				
 				f24 = (float)(i23 >> 16 & 255) / 255.0F;
 				f25 = (float)(i23 >> 8 & 255) / 255.0F;
 				f26 = (float)(i23 & 255) / 255.0F;
 				float f27 = entityItem1.getEntityBrightness(f9);
+				
 				GL11.glColor4f(f24 * f27, f25 * f27, f26 * f27, 1.0F);
+				tessellator15.setColorOpaque_F(f24, f25, f26);
 			}
 
 			for(i23 = 0; i23 < b13; ++i23) {
@@ -102,6 +105,7 @@ public class RenderItem extends Render {
 
 				GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
 				tessellator15.startDrawingQuads();
+				
 				tessellator15.setNormal(0.0F, 1.0F, 0.0F);
 				tessellator15.addVertexWithUV((double)(0.0F - f21), (double)(0.0F - f22), 0.0D, (double)f16, (double)f19);
 				tessellator15.addVertexWithUV((double)(f20 - f21), (double)(0.0F - f22), 0.0D, (double)f17, (double)f19);

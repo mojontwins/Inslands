@@ -74,9 +74,11 @@ public class RenderLiving extends Render {
 			this.renderEquippedItems(entityLiving1, f9);
 			float f25 = entityLiving1.getEntityBrightness(f9);
 			int i18 = this.getColorMultiplier(entityLiving1, f25, f9);
+			
 			OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
+			
 			if((i18 >> 24 & 255) > 0 || entityLiving1.hurtTime > 0 || entityLiving1.deathTime > 0) {
 				GL11.glDisable(GL11.GL_TEXTURE_2D);
 				GL11.glDisable(GL11.GL_ALPHA_TEST);
@@ -125,6 +127,7 @@ public class RenderLiving extends Render {
 		OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
+		
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glPopMatrix();
 		this.passSpecialRender(entityLiving1, d2, d4, d6);

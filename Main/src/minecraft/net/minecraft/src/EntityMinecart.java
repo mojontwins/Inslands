@@ -810,4 +810,5 @@ public class EntityMinecart extends Entity implements IInventory {
 	public boolean canInteractWith(EntityPlayer entityPlayer1) {
 		return this.isDead ? false : entityPlayer1.getDistanceSqToEntity(this) <= 64.0D;
 	}
+
 }

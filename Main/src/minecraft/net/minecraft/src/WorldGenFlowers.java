@@ -4,13 +4,19 @@ import java.util.Random;
 
 public class WorldGenFlowers extends WorldGenerator {
 	private int plantBlockId;
+	private int plantMeta;
 	private Block plantBlock;
 
-	public WorldGenFlowers(int i1) {
-		this.plantBlockId = i1;
-		this.plantBlock = Block.blocksList[i1];
+	public WorldGenFlowers(int blockID) {
+		this(blockID, 0);
 	}
-
+	
+	public WorldGenFlowers(int blockID, int meta) {
+		this.plantBlockId = blockID;
+		this.plantBlock = Block.blocksList[blockID];
+		this.plantMeta = meta;
+	}
+	
 	public boolean generate(World world, Random rand, int x, int y, int z) {
 		for(int i6 = 0; i6 < 64; ++i6) {
 			int i7 = x + rand.nextInt(8) - rand.nextInt(8);
@@ -25,7 +31,7 @@ public class WorldGenFlowers extends WorldGenerator {
 					}
 				}
 				
-				world.setBlock(i7, i8, i9, this.plantBlockId);
+				world.setBlockAndMetadata(i7, i8, i9, this.plantBlockId, this.plantMeta);
 			}
 		}
 

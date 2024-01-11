@@ -11,7 +11,7 @@ public class EntityWolf extends EntityAnimal {
 	private boolean isCuqui;
 	private float timeWolfIsShaking;
 	private float prevTimeWolfIsShaking;
-
+	
 	public EntityWolf(World world1) {
 		super(world1);
 		this.texture = "/mob/wolf.png";
@@ -237,6 +237,7 @@ public class EntityWolf extends EntityAnimal {
 
 	}
 
+	@Override
 	protected boolean isMovementCeased() {
 		return this.getIsSitting() || this.isCuqui;
 	}

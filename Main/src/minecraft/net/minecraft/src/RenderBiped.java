@@ -18,6 +18,7 @@ public class RenderBiped extends RenderLiving {
 		this.modelArmorChestplate.aimedBow = this.modelBipedMain.aimedBow;
 	}
 
+
 	protected void renderEquippedItems(EntityLiving entityLiving1, float f2) {
 		ItemStack itemStack3 = entityLiving1.getHeldItem();
 		if(itemStack3 != null) {

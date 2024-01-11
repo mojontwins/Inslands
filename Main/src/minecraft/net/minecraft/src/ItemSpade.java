@@ -18,7 +18,11 @@ public class ItemSpade extends ItemTool {
 	}
 
 	public boolean canHarvestBlock(Block block1) {
-		return block1 == Block.snow ? true : block1 == Block.blockSnow;
+		if(block1 == Block.snow || block1 == Block.blockSnow) return true;
+		
+		if(block1.getRenderType() == 111) return true;
+		
+		return false;
 	}
 	
 	public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side) {

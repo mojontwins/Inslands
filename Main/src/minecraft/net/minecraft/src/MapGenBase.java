@@ -5,23 +5,23 @@ import java.util.Random;
 public class MapGenBase {
 	protected int range = 8;
 	protected Random rand = new Random();
-	protected World world;
 
-	public void generate(IChunkProvider iChunkProvider1, World world2, int i3, int i4, byte[] b5) {
-		int i6 = this.range;
-		this.rand.setSeed(world2.getRandomSeed());
-		long j7 = this.rand.nextLong() / 2L * 2L + 1L;
-		long j9 = this.rand.nextLong() / 2L * 2L + 1L;
+	public void generate(IChunkProvider iChunkProvider, World world, int chunkX, int chunkZ, byte[] blockArray) {
+		int range = this.range;
+		this.rand.setSeed(world.getRandomSeed());
+		long prime1 = this.rand.nextLong() / 2L * 2L + 1L;
+		long prime2 = this.rand.nextLong() / 2L * 2L + 1L;
 
-		for(int i11 = i3 - i6; i11 <= i3 + i6; ++i11) {
-			for(int i12 = i4 - i6; i12 <= i4 + i6; ++i12) {
-				this.rand.setSeed((long)i11 * j7 + (long)i12 * j9 ^ world2.getRandomSeed());
-				this.recursiveGenerate(world2, i11, i12, i3, i4, b5);
+		for(int cx = chunkX - range; cx <= chunkX + range; ++cx) {
+			for(int cz = chunkZ - range; cz <= chunkZ + range; ++cz) {
+				
+				// Call recursiveGenerate for each chunk surronding chunkX, chunkZ in range.				
+				this.rand.setSeed((long)cx * prime1 + (long)cz * prime2 ^ world.getRandomSeed());
+				this.recursiveGenerate(world, cx, cz, chunkX, chunkZ, blockArray);
 			}
 		}
 
 	}
-
 	protected void recursiveGenerate(World world1, int i2, int i3, int i4, int i5, byte[] b6) {
 	}
 	

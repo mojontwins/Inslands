@@ -28,7 +28,7 @@ public class TexturePackList {
 
 		this.currentTexturePack = minecraft1.gameSettings.skin;
 		this.updateAvaliableTexturePacks();
-		this.selectedTexturePack.func_6482_a();
+		this.selectedTexturePack.readZipFile();
 	}
 
 	public boolean setTexturePack(TexturePackBase texturePackBase1) {
@@ -40,7 +40,7 @@ public class TexturePackList {
 			this.selectedTexturePack = texturePackBase1;
 			this.mc.gameSettings.skin = this.currentTexturePack;
 			this.mc.gameSettings.saveOptions();
-			this.selectedTexturePack.func_6482_a();
+			this.selectedTexturePack.readZipFile();
 			return true;
 		}
 	}
@@ -64,7 +64,7 @@ public class TexturePackList {
 							TexturePackCustom texturePackCustom8 = new TexturePackCustom(file6);
 							texturePackCustom8.field_6488_d = string7;
 							this.field_6538_d.put(string7, texturePackCustom8);
-							texturePackCustom8.func_6485_a(this.mc);
+							texturePackCustom8.readTexturePackInfo(this.mc);
 						}
 
 						TexturePackBase texturePackBase12 = (TexturePackBase)this.field_6538_d.get(string7);
@@ -89,7 +89,7 @@ public class TexturePackList {
 
 		while(iterator10.hasNext()) {
 			TexturePackBase texturePackBase11 = (TexturePackBase)iterator10.next();
-			texturePackBase11.func_6484_b(this.mc);
+			texturePackBase11.closeTexturePack(this.mc);
 			this.field_6538_d.remove(texturePackBase11.field_6488_d);
 		}
 

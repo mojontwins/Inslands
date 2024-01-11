@@ -16,6 +16,8 @@ public class BlockFire extends Block {
 		this.setBurnRate(Block.fence.blockID, 5, 20);
 		this.setBurnRate(Block.stairCompactPlanks.blockID, 5, 20);
 		this.setBurnRate(Block.wood.blockID, 5, 5);
+		this.setBurnRate(Block.chippedWood.blockID, 5, 5);
+		this.setBurnRate(Block.hollowLog.blockID, 5, 5);
 		this.setBurnRate(Block.leaves.blockID, 30, 60);
 		this.setBurnRate(Block.bookShelf.blockID, 30, 20);
 		this.setBurnRate(Block.tnt.blockID, 15, 100);
@@ -54,12 +56,13 @@ public class BlockFire extends Block {
 
 	// Reinstated old fire spread for b1.5
 	public void updateTick(World world, int x, int y, int z, Random rand) {
-		boolean var6 = world.getBlockId(x, y - 1, z) == Block.bloodStone.blockID;
+		int blockIDBeneath = world.getBlockId(x, y - 1, z);
+		boolean superFuelBeneath = blockIDBeneath == Block.bloodStone.blockID || blockIDBeneath == Block.blockCoal.blockID;
 		if(!this.canPlaceBlockAt(world, x, y, z)) {
 			world.setBlockWithNotify(x, y, z, 0);
 		}
 
-		if(!var6 && world.raining() && (world.canBlockBeRainedOn(x, y, z) || world.canBlockBeRainedOn(x - 1, y, z) || world.canBlockBeRainedOn(x + 1, y, z) || world.canBlockBeRainedOn(x, y, z - 1) || world.canBlockBeRainedOn(x, y, z + 1))) {
+		if(!superFuelBeneath && (world.raining() || world.snowing()) && (world.canBlockBeRainedOn(x, y, z) || world.canBlockBeRainedOn(x - 1, y, z) || world.canBlockBeRainedOn(x + 1, y, z) || world.canBlockBeRainedOn(x, y, z - 1) || world.canBlockBeRainedOn(x, y, z + 1))) {
 			world.setBlockWithNotify(x, y, z, 0);
 		} else {
 			int i6 = world.getBlockMetadata(x, y, z);
@@ -68,12 +71,12 @@ public class BlockFire extends Block {
 			}
 
 			world.scheduleBlockUpdate(x, y, z, this.blockID, this.tickRate());
-			if(!var6 && !this.canNeighborBurn(world, x, y, z)) {
+			if(!superFuelBeneath && !this.canNeighborBurn(world, x, y, z)) {
 				if(!world.isBlockNormalCube(x, y - 1, z) || i6 > 3) {
 					world.setBlockWithNotify(x, y, z, 0);
 				}
 
-			} else if(!var6 && !this.canBlockCatchFire(world, x, y - 1, z) && i6 == 15 && rand.nextInt(4) == 0) {
+			} else if(!superFuelBeneath && !this.canBlockCatchFire(world, x, y - 1, z) && i6 == 15 && rand.nextInt(4) == 0) {
 				world.setBlockWithNotify(x, y, z, 0);
 			} else {
 				if(i6 % 2 == 0 && i6 > 2) {
@@ -94,8 +97,12 @@ public class BlockFire extends Block {
 									}
 	
 									int i12 = this.getChanceOfNeighborsEncouragingFire(world, i8, i10, i9);
+									if(world.raining() || world.snowing()) i12 >>= 1;
+									if(world.getBiomeGenAt(i8, i9).isHumid()) i12 >>= 1;
 									if(i12 > 0 && rand.nextInt(i11) <= i12) {
-										world.setBlockWithNotify(i8, i10, i9, this.blockID); 
+										if(!(world.raining() || world.snowing()) || !world.canBlockBeRainedOn(i8, i10, i9)) {
+											world.setBlockWithNotify(i8, i10, i9, this.blockID); 
+										}
 									}
 								}
 							}

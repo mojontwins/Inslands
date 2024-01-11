@@ -71,19 +71,19 @@ public class WorldChunkManager {
 	}
 
 	// Calculate which biome
-	public BiomeGenBase[] loadBlockGeneratorData(BiomeGenBase[] biomeGenArray, int xPos, int zPos, int width, int height) {
-		if(biomeGenArray == null || biomeGenArray.length < width * height) {
-			biomeGenArray = new BiomeGenBase[width * height];
+	public BiomeGenBase[] loadBlockGeneratorData(BiomeGenBase[] biomeGenArray, int xPos, int zPos, int width, int length) {
+		if(biomeGenArray == null || biomeGenArray.length < width * length) {
+			biomeGenArray = new BiomeGenBase[width * length];
 		}
 
-		this.temperature = this.ngo1.generateNoiseOctaves(this.temperature, (double)xPos, (double)zPos, width, height, 0.02500000037252903D, 0.02500000037252903D, 0.25D);
-		this.humidity = this.ngo2.generateNoiseOctaves(this.humidity, (double)xPos, (double)zPos, width, height, 0.05000000074505806D, 0.05000000074505806D, 0.3333333333333333D);
-		this.variation = this.ngo3.generateNoiseOctaves(this.variation, (double)xPos, (double)zPos, width, height, 0.25D, 0.25D, 0.5882352941176471D);
+		this.temperature = this.ngo1.generateNoiseOctaves(this.temperature, (double)xPos, (double)zPos, width, length, 0.02500000037252903D, 0.02500000037252903D, 0.25D);
+		this.humidity = this.ngo2.generateNoiseOctaves(this.humidity, (double)xPos, (double)zPos, width, length, 0.05000000074505806D, 0.05000000074505806D, 0.3333333333333333D);
+		this.variation = this.ngo3.generateNoiseOctaves(this.variation, (double)xPos, (double)zPos, width, length, 0.25D, 0.25D, 0.5882352941176471D);
 		
 		int biomeIndex = 0;
 
 		for(int x = 0; x < width; ++x) {
-			for(int z = 0; z < height; ++z) {
+			for(int z = 0; z < length; ++z) {
 				BiomeGenBase biome;
 				double temperature;
 				double humidity;

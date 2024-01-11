@@ -143,7 +143,6 @@ public class ItemRenderer {
 		int i15 = this.mc.theWorld.getLightBrightnessForSkyBlocks(MathHelper.floor_double(entityPlayerSP3.posX), MathHelper.floor_double(entityPlayerSP3.posY), MathHelper.floor_double(entityPlayerSP3.posZ), 0);
 		int i8 = i15 % 65536;
 		int i9 = i15 / 65536;
-		//System.out.println ("LIGHT ITEM " + i8 + " " + i9);
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)i8 / 1.0F, (float)i9 / 1.0F);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		

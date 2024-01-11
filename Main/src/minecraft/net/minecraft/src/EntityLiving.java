@@ -5,6 +5,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import com.mojang.minecraft.entityHelpers.EntityJumpHelper;
+import com.mojang.minecraft.entityHelpers.EntityLookHelper;
+import com.mojang.minecraft.entityHelpers.EntityMoveHelper;
+import com.mojang.minecraft.entityHelpers.EntitySenses;
+import com.mojang.minecraft.entityHelpers.PathNavigate;
 import com.mojontwins.minecraft.entity.status.Status;
 import com.mojontwins.minecraft.entity.status.StatusEffect;
 
@@ -67,9 +72,20 @@ public abstract class EntityLiving extends Entity {
 	protected int numTicksToChaseTarget = 0;
 	public boolean isStopped = false;
 	
+	// To simulate "new AI" STILL UNUSED
+	protected float AImoveSpeed;
+	protected EntityLookHelper lookHelper;
+	protected EntityMoveHelper moveHelper;
+	protected EntityJumpHelper jumpHelper;
+	protected PathNavigate navigator;
+	protected EntitySenses entitySenses;
+	protected EntityLiving attackTarget;
+	protected EntityLiving entityLivingToAttack = null;
+	
 	protected HashMap<Integer,StatusEffect> activeStatusEffectsMap;
-
+	
 	public Entity lastAttackingEntity = null;
+	public boolean isBlinded = false;
 
 	public EntityLiving(World world1) {
 		super(world1);
@@ -80,6 +96,11 @@ public abstract class EntityLiving extends Entity {
 		this.rotationYaw = (float)(Math.random() * (double)(float)Math.PI * 2.0D);
 		this.rotationYawHead = this.rotationYaw;
 		this.stepHeight = 0.5F;
+		
+		this.lookHelper = new EntityLookHelper(this);
+		this.moveHelper = new EntityMoveHelper(this);
+		this.jumpHelper = new EntityJumpHelper(this);
+		this.navigator = new PathNavigate(this, world1, 16.0F);
 		
 		this.activeStatusEffectsMap = new HashMap<Integer,StatusEffect>();
 	}
@@ -389,7 +410,7 @@ public abstract class EntityLiving extends Entity {
 				} else if(z3) {
 					this.worldObj.playSoundAtEntity(this, this.getHurtSound(), this.getSoundVolume(), (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
 				}
-
+				
 				this.lastAttackingEntity = entity1;
 
 				return true;
@@ -470,23 +491,44 @@ public abstract class EntityLiving extends Entity {
 		return 0;
 	}
 
-	protected void fall(float f1) {
-		super.fall(f1);
-		int i2 = (int)Math.ceil((double)(f1 - 3.0F));
-		if(i2 > 0) {
+	protected boolean fall(float distance) {
+		boolean rebound = super.fall(distance);
+		
+		int i2 = (int)Math.ceil((double)(distance - 3.0F));
+		
+		int x = MathHelper.floor_double(this.posX);
+		int y = MathHelper.floor_double(this.posY - (double)0.2F - (double)this.yOffset);
+		int z = MathHelper.floor_double(this.posZ);
+		
+		int i3 = this.worldObj.getBlockId(x, y, z);
+		int meta = this.worldObj.getBlockMetadata(x, y, z);
+		
+		if(i3 == Block.slimeBlock.blockID) {
+			this.motionY = -(this.motionY * 0.9D);
+			rebound = true;
+		} else if(i3 == Block.snow.blockID && meta >= 8 || i3 == Block.blockSnow.blockID) {
+			this.motionY = 0;
+			rebound = true;
+		} else if(i2 > 0) {
 			this.attackEntityFrom((Entity)null, i2);
-			int i3 = this.worldObj.getBlockId(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY - (double)0.2F - (double)this.yOffset), MathHelper.floor_double(this.posZ));
-			if(i3 > 0) {
-				StepSound stepSound4 = Block.blocksList[i3].stepSound;
+		}
+		
+		if(i3 > 2 || (i3 > 0 && rebound)) {
+			Block block = Block.blocksList[i3];
+			if (block != null) {
+				StepSound stepSound4 = block.stepSound;
 				this.worldObj.playSoundAtEntity(this, stepSound4.getStepSound(), stepSound4.getVolume() * 0.5F, stepSound4.getPitch() * 0.75F);
 			}
 		}
+		
+		if(this.isFlying()) this.distanceWalkedModified = 0;
 
+		return rebound;
 	}
 
 	public void moveEntityWithHeading(float f1, float f2) {
 		double d3;
-		if(this.isInWater()) {
+		if(this.isInWater() && (!(this instanceof EntityPlayer) || !((EntityPlayer)this).divingHelmetOn())) {
 			d3 = this.posY;
 			this.moveFlying(f1, f2, 0.02F);
 			this.moveEntity(this.motionX, this.motionY, this.motionZ);
@@ -531,7 +573,7 @@ public abstract class EntityLiving extends Entity {
 				}
 			}
 
-			if(this.isOnLadder()) {
+			if(this.isOnLadder()) { 
 				float f10 = 0.15F;
 				if(this.motionX < (double)(-f10)) {
 					this.motionX = (double)(-f10);
@@ -665,6 +707,7 @@ public abstract class EntityLiving extends Entity {
 			--this.newPosRotationIncrements;
 			this.setPosition(d1, d3, d5);
 			this.setRotation(this.rotationYaw, this.rotationPitch);
+			
 			List<AxisAlignedBB> list9 = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.getInsetBoundingBox(8.0D / 256D, 0.0D, 8.0D / 256D));
 			if(list9.size() > 0) {
 				double d10 = 0.0D;
@@ -691,7 +734,14 @@ public abstract class EntityLiving extends Entity {
 			this.rotationYawHead = this.rotationYaw;
 		}
 
-		boolean z14 = this.isInWater();
+		boolean z14;
+		
+		if(this instanceof EntityPlayer) {
+			z14 = this.isInWater() && !((EntityPlayer)this).divingHelmetOn();
+		} else {
+			z14 = this.isInWater();
+		}
+		
 		boolean z2 = this.handleLavaMovement();
 		if(this.isJumping) {
 			if(z14) {
@@ -785,14 +835,14 @@ public abstract class EntityLiving extends Entity {
 		}
 
 		if(this.triesToFloat()) {
-		boolean z3 = this.isInWater();
-		boolean z4 = this.handleLavaMovement();
-		if(z3 || z4) {
-			this.isJumping = this.rand.nextFloat() < 0.8F;
-		}
+			boolean z3 = this.isInWater();
+			boolean z4 = this.handleLavaMovement();
+			if(z3 || z4) {
+				this.isJumping = this.rand.nextFloat() < 0.8F;
+			}
 		}
 	}
-
+	
 	public boolean triesToFloat() {
 		return true; 
 	}
@@ -957,7 +1007,7 @@ public abstract class EntityLiving extends Entity {
 	
 	// Status effects
 	
-		public void updateStatusEffects () {
+	public void updateStatusEffects () {
 		if(activeStatusEffectsMap.size() == 0) return; 
 		
 		Iterator<Integer> it = activeStatusEffectsMap.keySet().iterator();
@@ -1024,6 +1074,12 @@ public abstract class EntityLiving extends Entity {
 	}    
 	
 	public void addStatusEffect (StatusEffect statusEffect) {
+		if(statusEffect.statusID == Status.statusDizzy.id) {
+			if(this instanceof EntityPlayer) {
+				((EntityPlayer)this).triggerAchievement(AchievementList.gotDizzy);
+			}
+		}
+		
 		if (Status.statusTypes[statusEffect.statusID].isApplicableTo(this)) {
 			if (activeStatusEffectsMap.containsKey(Integer.valueOf(statusEffect.statusID))) {
 				((StatusEffect)activeStatusEffectsMap.get(Integer.valueOf(statusEffect.statusID))).combine(statusEffect);
@@ -1032,16 +1088,67 @@ public abstract class EntityLiving extends Entity {
 			}
 		}
 	}
-	
+
 	public int getFullHealth() {
 		return 10;
 	}
-
-	// If true, can only spawn in city chunks
-	public boolean isUrban() {
-		return false;
-	}	
 	
+	public float getAIMoveSpeed() {
+		return this.AImoveSpeed;
+	}
+
+	public void setAIMoveSpeed(float par1) {
+		this.AImoveSpeed = par1;
+		this.setMoveForward(par1);
+	}
+	
+	public void setMoveForward(float par1) {
+		this.moveForward = par1;
+	}
+	
+	public void setJumping(boolean par1) {
+		this.isJumping = par1;
+	}
+
+	public EntityLookHelper getLookHelper() {
+		return this.lookHelper;
+	}
+
+	public EntityMoveHelper getMoveHelper() {
+		return this.moveHelper;
+	}
+
+	public EntityJumpHelper getJumpHelper() {
+		return this.jumpHelper;
+	}
+
+	public PathNavigate getNavigator() {
+		return this.navigator;
+	}
+
+	public EntityLiving getAttackTarget() {
+		return attackTarget;
+	}
+
+	public void setAttackTarget(EntityLiving attackTarget) {
+		this.attackTarget = attackTarget;
+	}
+
+	public EntitySenses getEntitySenses() {
+		return entitySenses;
+	}
+
+	public void setEntitySenses(EntitySenses entitySenses) {
+		this.entitySenses = entitySenses;
+	}
+	
+	/*
+	 * Override this if you want your mobs to get angry or do something about this!
+	 */
+	public void somebodyOpenedMyChest(EntityPlayer entityPlayer) {
+		
+	}
+
 	public boolean isChild() {
 		// TODO Auto-generated method stub
 		return false;

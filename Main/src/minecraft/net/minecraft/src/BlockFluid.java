@@ -170,7 +170,7 @@ public abstract class BlockFluid extends Block {
 	public void velocityToAddToEntity(World world1, int i2, int i3, int i4, Entity entity5, Vec3D vec3D6) {
 		Vec3D vec3D7 = this.getFlowVector(world1, i2, i3, i4);
 		vec3D6.xCoord += vec3D7.xCoord;
-		vec3D6.yCoord += vec3D7.yCoord;
+		if(!(entity5 instanceof IWaterMob)) vec3D6.yCoord += vec3D7.yCoord;
 		vec3D6.zCoord += vec3D7.zCoord;
 	}
 
@@ -230,39 +230,43 @@ public abstract class BlockFluid extends Block {
 		this.checkForHarden(world1, i2, i3, i4);
 	}
 
-	private void checkForHarden(World world1, int i2, int i3, int i4) {
-		if(world1.getBlockId(i2, i3, i4) == this.blockID) {
+	private void checkForHarden(World world, int x, int y, int z) {
+		if(world.getBlockId(x, y, z) == this.blockID) {
 			if(this.blockMaterial == Material.lava) {
-				boolean z5 = false;
-				if(z5 || world1.getBlockMaterial(i2, i3, i4 - 1) == Material.water) {
-					z5 = true;
+				boolean doHarden = false;
+				if(doHarden || world.getBlockMaterial(x, y, z - 1) == Material.water) {
+					doHarden = true;
 				}
 
-				if(z5 || world1.getBlockMaterial(i2, i3, i4 + 1) == Material.water) {
-					z5 = true;
+				if(doHarden || world.getBlockMaterial(x, y, z + 1) == Material.water) {
+					doHarden = true;
 				}
 
-				if(z5 || world1.getBlockMaterial(i2 - 1, i3, i4) == Material.water) {
-					z5 = true;
+				if(doHarden || world.getBlockMaterial(x - 1, y, z) == Material.water) {
+					doHarden = true;
 				}
 
-				if(z5 || world1.getBlockMaterial(i2 + 1, i3, i4) == Material.water) {
-					z5 = true;
+				if(doHarden || world.getBlockMaterial(x + 1, y, z) == Material.water) {
+					doHarden = true;
 				}
 
-				if(z5 || world1.getBlockMaterial(i2, i3 + 1, i4) == Material.water) {
-					z5 = true;
+				if(doHarden || world.getBlockMaterial(x, y + 1, z) == Material.water) {
+					doHarden = true;
 				}
 
-				if(z5) {
-					int i6 = world1.getBlockMetadata(i2, i3, i4);
-					if(i6 == 0) {
-						world1.setBlockWithNotify(i2, i3, i4, Block.obsidian.blockID);
-					} else if(i6 <= 4) {
-						world1.setBlockWithNotify(i2, i3, i4, Block.cobblestone.blockID);
+				if(doHarden) {
+					int metadata = world.getBlockMetadata(x, y, z);
+					if(metadata == 0) {
+						if(world.rand.nextInt(100) == 0) {
+							world.setBlockWithNotify(x, y, z, Block.cryingObsidian.blockID);
+						} else {
+							world.setBlockWithNotify(x, y, z, Block.obsidian.blockID);
+						}
+					} else if(metadata <= 4) {
+						world.setBlockWithNotify(x, y, z, Block.cobblestone.blockID);
 					}
 
-					this.triggerLavaMixEffects(world1, i2, i3, i4);
+					this.triggerLavaMixEffects(world, x, y, z);
 				}
 			}
 

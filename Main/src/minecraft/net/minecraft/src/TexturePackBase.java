@@ -11,16 +11,16 @@ public abstract class TexturePackBase {
 	public String secondDescriptionLine;
 	public String field_6488_d;
 
-	public void func_6482_a() {
+	public void readZipFile() {
 	}
 
 	public void closeTexturePackFile() {
 	}
 
-	public void func_6485_a(Minecraft minecraft1) throws IOException {
+	public void readTexturePackInfo(Minecraft minecraft1) throws IOException {
 	}
 
-	public void func_6484_b(Minecraft minecraft1) {
+	public void closeTexturePack(Minecraft minecraft1) {
 	}
 
 	public void bindThumbnailTexture(Minecraft minecraft1) {

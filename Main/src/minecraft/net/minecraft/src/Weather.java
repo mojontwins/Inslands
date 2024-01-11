@@ -6,10 +6,12 @@ public class Weather {
 	public static final int RAIN = 1;
 	public static final int SNOW = 2;
 	
-	public static Weather cold = new Weather();
-	public static Weather normal = new Weather();
-	public static Weather hot = new Weather();
-	public static Weather desert = new Weather();
+	public static Weather cold = new Weather().setName("Cold");
+	public static Weather normal = new Weather().setName("Normal");
+	public static Weather hot = new Weather().setName("Hot");
+	public static Weather desert = new Weather().setName("Desertic");
+	
+	public String name = "Weather";
 	
 	public static int[] snowingMinTimeToStop = new int[] {12000, 6000, 6000, 8000};
 	public static int[] snowingMaxTimeToStop = new int[] {28000, 16000, 12000, 12000};
@@ -75,5 +77,10 @@ public class Weather {
 			}
 		}
 		return 0;
+	}
+	
+	public Weather setName(String name) {
+		this.name = name;
+		return this;
 	}
 }

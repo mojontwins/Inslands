@@ -33,7 +33,7 @@ public class TexturePackCustom extends TexturePackBase {
 		return string1;
 	}
 
-	public void func_6485_a(Minecraft minecraft1) throws IOException {
+	public void readTexturePackInfo(Minecraft minecraft1) throws IOException {
 		ZipFile zipFile2 = null;
 		InputStream inputStream3 = null;
 
@@ -75,7 +75,7 @@ public class TexturePackCustom extends TexturePackBase {
 
 	}
 
-	public void func_6484_b(Minecraft minecraft1) {
+	public void closeTexturePack(Minecraft minecraft1) {
 		if(this.texturePackThumbnail != null) {
 			minecraft1.renderEngine.deleteTexture(this.texturePackName);
 		}
@@ -96,7 +96,7 @@ public class TexturePackCustom extends TexturePackBase {
 
 	}
 
-	public void func_6482_a() {
+	public void readZipFile() {
 		try {
 			this.texturePackZipFile = new ZipFile(this.texturePackFile);
 		} catch (Exception exception2) {

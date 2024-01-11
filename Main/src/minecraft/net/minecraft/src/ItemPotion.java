@@ -11,6 +11,7 @@ public class ItemPotion extends Item {
 	public static final int SLOWNESS = Status.statusSlowness.id;
 	public static final int AUTOHEALING = Status.statusAutoHealing.id;
 	public static final int INSTANTDAMAGE = Status.statusInstantDamage.id;
+	public static final int DIZZY = Status.statusDizzy.id;
 	
 	protected ItemPotion(int i1, int potionColorMultiplier, int potionType) {
 		super(i1);

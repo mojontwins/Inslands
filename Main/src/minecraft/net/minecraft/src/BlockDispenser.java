@@ -101,6 +101,7 @@ public class BlockDispenser extends BlockContainer {
 		if(itemStack12 == null) {
 			world1.playAuxSFX(1001, i2, i3, i4, 0);
 		} else {
+			Item item = itemStack12.getItem();
 			if(itemStack12.itemID == Item.arrow.shiftedIndex) {
 				EntityArrow entityArrow19 = new EntityArrow(world1, d13, d15, d17);
 				entityArrow19.setArrowHeading((double)b9, (double)0.1F, (double)b10, 1.1F, 6.0F);
@@ -121,6 +122,11 @@ public class BlockDispenser extends BlockContainer {
 				EntityPebble entitySnowball23 = new EntityPebble(world1, d13, d15, d17);
 				entitySnowball23.setThrowableHeading((double)b9, (double)0.1F, (double)b10, 1.1F, 6.0F);
 				world1.entityJoinedWorld(entitySnowball23);
+				world1.playAuxSFX(1002, i2, i3, i4, 0);
+			} else if(item != null && item instanceof ItemPotion) {
+				EntityThrowablePotion entityThrowablePotion = new EntityThrowablePotion(world1, d13, d15, d17, (ItemPotion)item);
+				entityThrowablePotion.setThrowableHeading((double)b9, (double)0.1F, (double)b10, 1.1F, 6.0F);
+				world1.entityJoinedWorld(entityThrowablePotion);
 				world1.playAuxSFX(1002, i2, i3, i4, 0);
 			} else {
 				EntityItem entityItem24 = new EntityItem(world1, d13, d15 - 0.3D, d17, itemStack12);

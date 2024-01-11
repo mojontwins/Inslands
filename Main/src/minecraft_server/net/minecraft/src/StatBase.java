@@ -55,11 +55,11 @@ public class StatBase {
 		return this.statName;
 	}
 
-	static NumberFormat func_27083_i() {
+	static NumberFormat getNumberFormat() {
 		return numberFormat;
 	}
 
-	static DecimalFormat func_27081_j() {
+	static DecimalFormat getDecimalFormat() {
 		return decimalFormat;
 	}
 }

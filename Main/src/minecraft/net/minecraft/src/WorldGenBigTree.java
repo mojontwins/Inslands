@@ -245,24 +245,24 @@ public class WorldGenBigTree extends WorldGenerator {
 
 	void generateTrunk() {
 		if(this.trunkRadius == 0) {
-		int i1 = this.basePos[0];
-		int i2 = this.basePos[1];
-		int i3 = this.basePos[1] + this.height;
-		int i4 = this.basePos[2];
-		int[] i5 = new int[]{i1, i2, i4};
-		int[] i6 = new int[]{i1, i3, i4};
-		this.placeBlockLine(i5, i6, Block.wood.blockID);
-		if(this.trunkSize == 2) {
-			++i5[0];
-			++i6[0];
+			int i1 = this.basePos[0];
+			int i2 = this.basePos[1];
+			int i3 = this.basePos[1] + this.height;
+			int i4 = this.basePos[2];
+			int[] i5 = new int[]{i1, i2, i4};
+			int[] i6 = new int[]{i1, i3, i4};
 			this.placeBlockLine(i5, i6, Block.wood.blockID);
-			++i5[2];
-			++i6[2];
-			this.placeBlockLine(i5, i6, Block.wood.blockID);
-			i5[0] += -1;
-			i6[0] += -1;
-			this.placeBlockLine(i5, i6, Block.wood.blockID);
-		}
+			if(this.trunkSize == 2) {
+				++i5[0];
+				++i6[0];
+				this.placeBlockLine(i5, i6, Block.wood.blockID);
+				++i5[2];
+				++i6[2];
+				this.placeBlockLine(i5, i6, Block.wood.blockID);
+				i5[0] += -1;
+				i6[0] += -1;
+				this.placeBlockLine(i5, i6, Block.wood.blockID);
+			}
 		} else {
 			int radius = this.trunkRadius;
 			

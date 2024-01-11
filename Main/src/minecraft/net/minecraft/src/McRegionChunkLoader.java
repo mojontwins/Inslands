@@ -32,6 +32,7 @@ public class McRegionChunkLoader implements IChunkLoader {
 				}
 
 				chunk6.removeUnknownBlocks();
+				chunk6.generateLandSurfaceHeightMap();
 				return chunk6;
 			}
 		} else {

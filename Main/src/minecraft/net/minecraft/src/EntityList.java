@@ -3,6 +3,26 @@ package net.minecraft.src;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.benimatic.twilightforest.EntityTFRedcap;
+import com.benimatic.twilightforest.EntityTFSwarmSpider;
+import com.benimatic.twilightforest.EntityTFWraith;
+import com.bigbang87.deadlymonsters.EntityHauntedCow;
+import com.chocolatin.betterdungeons.EntityPirate;
+import com.chocolatin.betterdungeons.EntityPirateArcher;
+import com.chocolatin.betterdungeons.EntityPirateBoss;
+import com.chocolatin.betterdungeons.EntitySecretBoss;
+import com.hippoplatimus.pistons.EntityMovingPiston;
+import com.mojang.minecraft.ocelot.EntityBetaOcelot;
+import com.mojang.minecraft.ocelot.EntityCatBlack;
+import com.mojang.minecraft.ocelot.EntityCatRed;
+import com.mojang.minecraft.ocelot.EntityCatSiamese;
+import com.mojang.minecraft.witch.EntityAlphaWitch;
+import com.mojontwins.minecraft.amazonvillage.EntityAmazon;
+import com.mojontwins.minecraft.icepalace.EntityIceArcher;
+import com.mojontwins.minecraft.icepalace.EntityIceBoss;
+import com.mojontwins.minecraft.icepalace.EntityIceWarrior;
+import com.mojontwins.minecraft.oceanruins.EntityTriton;
+
 public class EntityList {
 	private static Map<String,Class<?>> stringToClassMapping = new HashMap<String,Class<?>>();
 	private static Map<Class<?>,String> classToStringMapping = new HashMap<Class<?>,String>();
@@ -108,5 +128,57 @@ public class EntityList {
 		// Mine
 		addMapping(EntityMeatBlock.class, "MeatBlock", 100);
 		addMapping(EntityPebble.class, "Pebble", 101);
+		addMapping(EntityIceSkeleton.class, "IceSkeleton", 102);
+		addMapping(EntityHusk.class, "Husk", 103);
+		addMapping(EntityDrowned.class, "Drowned", 104);
+		addMapping(EntityZombieAlex.class, "ZombieAlex", 105);
+		addMapping(EntityCityHusk.class, "CityHusk", 106);
+		addMapping(EntityToxicZombie.class, "ToxicZombie", 107);
+		addMapping(EntityExplodingZombie.class, "ExplodingZombie", 108);
+		addMapping(EntityBuilderZombie.class, "BuilderZombie", 109);
+		addMapping(EntityElementalCreeper.class, "ElementalCreeper", 110);
+		addMapping(EntityChickenBlack.class, "ChickenBlack", 111);
+		addMapping(EntityAlphaWitch.class, "AlphaWitch", 112);
+		addMapping(EntityThrowablePotion.class, "ThrowablePotion", 113);
+		addMapping(EntityColdCow.class, "ColdCow", 114);
+		addMapping(EntityBetaOcelot.class, "BetaOcelot", 115);
+		addMapping(EntityCatBlack.class, "BlackCat", 116);
+		addMapping(EntityCatRed.class, "RedCat", 117);
+		addMapping(EntityCatSiamese.class, "SiameseCat", 118);
+		addMapping(EntityAmazon.class, "Amazon", 120);
+		
+		// Vanilla Release
+		addMapping(EntityMooshroom.class, "MooshroomCow", 96);
+		
+		// Twilight Forest
+		addMapping(EntityTFRedcap.class, "Redcap", 30);
+		addMapping(EntityTFSwarmSpider.class, "SwarmSpider", 31);
+		addMapping(EntityTFWraith.class, "TwilightWraith", 32);
+		
+		// Better Dungeons
+		addMapping(EntityPirate.class, "PirateArmored", 70);
+		addMapping(EntityPirateArcher.class, "PirateArcher", 71);
+		addMapping(EntityPirateBoss.class, "PirateBoss", 72);
+		addMapping(EntitySecretBoss.class, "SlimeBoss", 73);
+		
+		// Classic pistons
+		addMapping(EntityMovingPiston.class, "MovingPiston", 119);
+		
+		// More stuff
+		addMapping(EntityTriton.class, "Triton", 120);
+		addMapping(EntityHauntedCow.class, "HauntedCow", 121);
+		
+		// Ice palace
+		addMapping(EntityIceWarrior.class, "IceWarrior", 122);
+		addMapping(EntityIceArcher.class, "IceArcher", 123);
+		addMapping(EntityIceBoss.class, "IceBoss", 124);
+		
+		addMapping(EntityPigZombieVolcanoes.class, "PigZombieVolcanoes", 125);
+		
+		// Trading
+		/*
+		addMapping(EntityPigman.class, "Pigman", 126);
+		addMapping(EntityCowman.class, "Cowman", 127);
+		*/
 	}
 }

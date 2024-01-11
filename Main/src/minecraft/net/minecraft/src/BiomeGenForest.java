@@ -86,5 +86,15 @@ public class BiomeGenForest extends BiomeGenBase {
 			z = chunkZ + rand.nextInt(16) + 8;
 			(new WorldGenCaveVines()).generate(world, rand, x, y, z);
 		}
+		
+		// Generate leaves on autumn
+		if(this.weather != Weather.cold && Seasons.currentSeason == Seasons.AUTUMN) {
+			for(int i = 0; i < 128; i ++) {
+				x = chunkX + rand.nextInt(16) + 8;
+				z = chunkZ + rand.nextInt(16) + 8;
+				y = world.getLandSurfaceHeightValue(x, z);
+				(new WorldGenLeafPile()).generate(world, rand, x, y, z);
+			}
+		}
 	}
 }

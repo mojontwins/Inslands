@@ -131,14 +131,18 @@ public class WorldGenDungeons extends WorldGenerator {
 							world.setBlockWithNotify(xx, y, zz, Block.chest.blockID);
 							TileEntityChest tileEntityChest = (TileEntityChest)world.getBlockTileEntity(xx, y, zz);
 
-							for (int j = 0; j < 8 + this.maxDungeonTier; j ++) {
-								ItemStack var18 = this.pickChestLootItem(rand);
-								if(var18 != null) {
-									tileEntityChest.setInventorySlotContents(rand.nextInt(tileEntityChest.getSizeInventory()), var18);
-								}
-								}
+							if(tileEntityChest != null) {
+								for (int j = 0; j < 8 + this.maxDungeonTier; j ++) {
+									ItemStack var18 = this.pickChestLootItem(rand);
+									if(var18 != null) {
+										tileEntityChest.setInventorySlotContents(rand.nextInt(tileEntityChest.getSizeInventory()), var18);
+									}
+								}	
 
-							++ chests;
+								++ chests;
+							} else {
+								world.setBlockWithNotify(xx, y, zz, 0);
+							}
 						}
 					}
 				}

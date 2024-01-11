@@ -66,6 +66,7 @@ public class ChunkLoader implements IChunkLoader {
 				}
 
 				chunk7.removeUnknownBlocks();
+				chunk7.generateLandSurfaceHeightMap();
 				return chunk7;
 			} catch (Exception exception8) {
 				exception8.printStackTrace();
@@ -107,11 +108,12 @@ public class ChunkLoader implements IChunkLoader {
 
 	public static void storeChunkInCompound(Chunk chunk0, World world1, NBTTagCompound nBTTagCompound2) {
 		world1.checkSessionLock();
+		nBTTagCompound2.setBoolean("NewFormat", true);
 		nBTTagCompound2.setInteger("xPos", chunk0.xPosition);
 		nBTTagCompound2.setInteger("zPos", chunk0.zPosition);
 		nBTTagCompound2.setLong("LastUpdate", world1.getWorldTime());
 		nBTTagCompound2.setByteArray("Blocks", chunk0.blocks);
-		nBTTagCompound2.setByteArray("Data", chunk0.data.data);
+		nBTTagCompound2.setByteArray("Data", chunk0.data);
 		nBTTagCompound2.setByteArray("SkyLight", chunk0.skylightMap.data);
 		nBTTagCompound2.setByteArray("BlockLight", chunk0.blocklightMap.data);
 		nBTTagCompound2.setByteArray("HeightMap", chunk0.heightMap);
@@ -170,15 +172,19 @@ public class ChunkLoader implements IChunkLoader {
 		int i3 = nBTTagCompound1.getInteger("zPos");
 		Chunk chunk4 = new Chunk(world0, i2, i3);
 		chunk4.blocks = nBTTagCompound1.getByteArray("Blocks");
-		chunk4.data = new NibbleArray(nBTTagCompound1.getByteArray("Data"));
+		if(nBTTagCompound1.getBoolean("NewFormat")) {
+			chunk4.data = nBTTagCompound1.getByteArray("Data");
+		} else {
+			System.out.println ("Converting chunk metadata from old format");
+			NibbleArray temp = new NibbleArray(nBTTagCompound1.getByteArray("Data"));
+			chunk4.data = temp.asByteArray();
+			chunk4.isModified = true; 		// So it gets saved right away
+		}
 		chunk4.skylightMap = new NibbleArray(nBTTagCompound1.getByteArray("SkyLight"));
 		chunk4.blocklightMap = new NibbleArray(nBTTagCompound1.getByteArray("BlockLight"));
 		chunk4.heightMap = nBTTagCompound1.getByteArray("HeightMap");
 		chunk4.isTerrainPopulated = nBTTagCompound1.getBoolean("TerrainPopulated");
-		if(!chunk4.data.isValid()) {
-			chunk4.data = new NibbleArray(chunk4.blocks.length);
-		}
-
+		
 		if(chunk4.heightMap == null || !chunk4.skylightMap.isValid()) {
 			chunk4.heightMap = new byte[256];
 			chunk4.skylightMap = new NibbleArray(chunk4.blocks.length);
@@ -187,7 +193,6 @@ public class ChunkLoader implements IChunkLoader {
 
 		if(!chunk4.blocklightMap.isValid()) {
 			chunk4.blocklightMap = new NibbleArray(chunk4.blocks.length);
-			chunk4.func_1014_a();
 		}
 
 		NBTTagList nBTTagList5 = nBTTagCompound1.getTagList("Entities");
@@ -227,7 +232,7 @@ public class ChunkLoader implements IChunkLoader {
 				}
 			}
 		}
-
+		
 		return chunk4;
 	}
 

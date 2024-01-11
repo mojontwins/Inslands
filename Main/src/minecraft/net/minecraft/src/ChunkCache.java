@@ -155,6 +155,11 @@ public class ChunkCache implements IBlockAccess {
 		return block4 == null ? false : block4.blockMaterial.getIsSolid() && block4.renderAsNormalBlock();
 	}
 	
+	public boolean isAirBlock(int i1, int i2, int i3) {
+		Block block4 = Block.blocksList[this.getBlockId(i1, i2, i3)];
+		return block4 == null;
+	}
+	
 	public int getSkyBlockTypeBrightness(EnumSkyBlock enumSkyBlock1, int i2, int i3, int i4) {
 		if(i3 < 0) {
 			i3 = 0;

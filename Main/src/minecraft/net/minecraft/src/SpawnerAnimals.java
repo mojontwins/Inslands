@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.mojang.minecraft.witch.EntityAlphaWitch;
+
 public final class SpawnerAnimals {
 	private static Set<ChunkCoordIntPair> eligibleChunksForSpawning = new HashSet<ChunkCoordIntPair>();
 	protected static final Class<?>[] nightSpawnEntities = new Class[]{EntitySpider.class, EntityZombie.class, EntitySkeleton.class};
@@ -197,12 +199,24 @@ public final class SpawnerAnimals {
 		return entityLiving;
 	}
 
-	private static void creatureSpecificInit(EntityLiving entityLiving, World world, float xF, float yF, float zF) {
-		if(entityLiving instanceof EntitySpider) {
+	protected static void creatureSpecificInit(EntityLiving entityLiving, World world, float xF, float yF, float zF) {
+		if(entityLiving instanceof EntityPig) {
+			if(world.rand.nextInt(128) == 0) {
+				EntityLiving entityRider = spawnSpecial(new EntityHusk(world), world, xF, yF, zF, entityLiving.rotationYaw, 0.0F);
+				entityRider.mountEntity(entityLiving);
+			} 
+		} else if(entityLiving instanceof EntityCow) {
+			if(world.rand.nextInt(128) == 0) {
+				EntityLiving entityRider = spawnSpecial(new EntityHusk(world), world, xF, yF, zF, entityLiving.rotationYaw, 0.0F);
+				entityRider.mountEntity(entityLiving);
+			} 
+		} else if(entityLiving instanceof EntitySpider) {
 			EntityLiving entityRider = null;
-			switch(world.rand.nextInt(100)) {
+			switch(world.rand.nextInt(128)) {
 				case 0: entityRider = new EntitySkeleton(world); break;
 				case 1: entityRider = new EntityZombie(world); break;
+				case 2: entityRider = new EntityZombieAlex(world); break;
+				case 3: entityRider = new EntityHusk(world); break;
 			}
 			
 			if(entityRider != null) {
@@ -211,6 +225,13 @@ public final class SpawnerAnimals {
 			}
 		} else if(entityLiving instanceof EntitySheep) {
 			((EntitySheep)entityLiving).setFleeceColor(EntitySheep.getRandomFleeceColor(world.rand));
+		} else if(entityLiving instanceof EntityAlphaWitch) {
+			((EntityAlphaWitch)entityLiving).fillInventory();
+		} else if(entityLiving instanceof IMobWithLevel) {
+			int metadata = world.getBlockMetadata((int)xF, (int)yF, (int)zF);
+			IMobWithLevel mobWithLevel = (IMobWithLevel)entityLiving;
+			int level = metadata == 0 ? world.rand.nextInt(mobWithLevel.getMaxLevel()) : metadata & 7;
+			mobWithLevel.setLevel(level);
 		} 
 
 	}

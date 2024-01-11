@@ -30,10 +30,19 @@ public class BiomeGenDesert extends BiomeGenBase {
 		this.weather = Weather.desert;
 		
 		this.spawnableCreatureList.clear();
+		this.spawnableCreatureList.add(new SpawnListEntry(EntityChickenBlack.class, 10));
+		
+		this.spawnableMonsterList.clear();
+		this.spawnableMonsterList.add(new SpawnListEntry(EntityHusk.class, 25));
+		this.spawnableMonsterList.add(new SpawnListEntry(EntitySpider.class, 10));
+		this.spawnableMonsterList.add(new SpawnListEntry(EntitySkeleton.class, 10));
+		this.spawnableMonsterList.add(new SpawnListEntry(EntityCreeper.class, 10));
+		this.spawnableMonsterList.add(new SpawnListEntry(EntitySlime.class, 10));
+		
 	}
 	
 	public String getPreferedSpawner() {
-		return "Zombie";
+		return "Husk";
 	}
 	
 	public int getPreferedSpawnerChance() {
@@ -77,6 +86,14 @@ public class BiomeGenDesert extends BiomeGenBase {
 			y = 12 + rand.nextInt(48);
 			z = z0 + rand.nextInt(16);
 			(new WorldGenMinable(Block.oreEmerald.blockID, 7)).generate(world, rand, x, y, z);
+		}
+		
+		// Generate tall grass on high ground
+		for(i = 0; i < 16; ++i) {
+			x = x0 + rand.nextInt(16) + 8;
+			y = rand.nextInt(32) + 96;
+			z = z0 + rand.nextInt(16) + 8;
+			(new WorldGenDesertFlowers(Block.tallGrass.blockID, 0x10, 0x90)).generate(world, rand, x, y, z);
 		}
 	}
 }

@@ -7,6 +7,6 @@ final class StatTypeTime implements IStatType {
 		double d6 = d4 / 60.0D;
 		double d8 = d6 / 24.0D;
 		double d10 = d8 / 365.0D;
-		return d10 > 0.5D ? StatBase.func_27081_j().format(d10) + " y" : (d8 > 0.5D ? StatBase.func_27081_j().format(d8) + " d" : (d6 > 0.5D ? StatBase.func_27081_j().format(d6) + " h" : (d4 > 0.5D ? StatBase.func_27081_j().format(d4) + " m" : d2 + " s")));
+		return d10 > 0.5D ? StatBase.getDecimalFormat().format(d10) + " y" : (d8 > 0.5D ? StatBase.getDecimalFormat().format(d8) + " d" : (d6 > 0.5D ? StatBase.getDecimalFormat().format(d6) + " h" : (d4 > 0.5D ? StatBase.getDecimalFormat().format(d4) + " m" : d2 + " s")));
 	}
 }

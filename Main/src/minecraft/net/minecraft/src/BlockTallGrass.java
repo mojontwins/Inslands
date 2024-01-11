@@ -3,41 +3,84 @@ package net.minecraft.src;
 import java.util.Random;
 
 public class BlockTallGrass extends BlockFlower {
+	public static int[] tallGrassColor = new int [] {
+		0xFFFFFF,
+		0xFAF3A4, 
+		0xA76E1F
+	};
+	
 	protected BlockTallGrass(int var1, int var2) {
 		super(var1, var2);
+		this.setMyBlockBounds();
+	}
+
+	@Override 
+	public void setMyBlockBounds() {
 		float var3 = 0.4F;
 		this.setBlockBounds(0.5F - var3, 0.0F, 0.5F - var3, 0.5F + var3, 0.8F, 0.5F + var3);
 	}
 
-	public int getBlockTextureFromSideAndMetadata(int i1, int i2) {
-		//return i2 == 1 ? this.blockIndexInTexture : (i2 == 2 ? this.blockIndexInTexture + 16 : (i2 == 0 ? this.blockIndexInTexture + 16 : this.blockIndexInTexture));
-		return i2 <= 1 ? this.blockIndexInTexture : 15 * 16 + 10;
-	}
-
-	/*
-	public int colorMultiplier(IBlockAccess iBlockAccess1, int i2, int i3, int i4) {
-		int i5 = iBlockAccess1.getBlockMetadata(i2, i3, i4);
-		if(i5 == 0) {
-			return 0xFFFFFF;
+	@Override
+	public int idDropped(int meta, Random random2) {
+		meta >>= 4;		// Bits 4-7  
+		meta &= 7; 		// Ignore bit 7 (which marks "double height"
+		if(meta == 0) {
+			return random2.nextInt(8) == 0 ? Item.seeds.shiftedIndex : -1;
+		} else if(meta < 3) {
+			return random2.nextInt(3) > 0 ? Block.tallGrass.blockID : -1;
 		} else {
-			long j6 = (long)(i2 * 3129871 + i4 * 6129781 + i3);
-			j6 = j6 * j6 * 42317861L + j6 * 11L;
-			i2 = (int)((long)i2 + (j6 >> 14 & 31L));
-			i3 = (int)((long)i3 + (j6 >> 19 & 31L));
-			i4 = (int)((long)i4 + (j6 >> 24 & 31L));
-			iBlockAccess1.getWorldChunkManager().getBiomesForGeneration(i2, i4, 1, 1);
-			double d8 = iBlockAccess1.getWorldChunkManager().temperature[0];
-			double d10 = iBlockAccess1.getWorldChunkManager().humidity[0];
-			return ColorizerGrass.getGrassColor(d8, d10);
+			return -1;
 		}
 	}
-	*/
-
-	public int idDropped(int i1, Random random2) {
-		return random2.nextInt(8) == 0 ? Item.seeds.shiftedIndex : -1;
+	
+	@Override
+	protected int damageDropped(int meta) {
+		meta >>= 4;		// Bits 4-7  
+		meta &= 7; 		// Ignore bit 7 (which marks "double height"
+		if(meta == 1 || meta == 2) return 16;
+		return 0;
+	}
+	
+	@Override
+	public int getRenderType() {
+		return 111;
 	}
 	
 	public boolean seeThrough() {
 		return true; 
-	}	
+	}
+	
+	@Override
+	public int getBlockTextureFromSideAndMetadata(int side, int meta) {
+		return meta == 0 ? 13 * 16 + 13 : 15 * 16 + 10;
+	}
+	
+	@Override
+	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z) {
+		return this.getRenderColor(blockAccess.getBlockMetadata(x, y, z));
+	}
+
+	@Override
+	public int getRenderColor(int meta) {
+		return tallGrassColor[(meta >> 4) & 7];
+	}
+	
+	@Override
+	public boolean canBlockStay(World world, int x, int y, int z) {
+		int grassType = (world.getBlockMetadata(x, y, z) >> 4) & 7;
+		
+		switch(grassType) {
+		case 0: 
+			return super.canBlockStay(world, x, y, z);
+			
+		default:
+			int blockID = world.getBlockId(x, y - 1, z);
+			Block block = Block.blocksList[blockID];
+			
+			if(block != null && block.canGrowPlants()) return true;
+			if(blockID == Block.sand.blockID || blockID == Block.terracotta.blockID || blockID == Block.stainedTerracotta.blockID) return true;
+			
+			return false;
+		}
+	}
 }

@@ -7,16 +7,19 @@ public class BlockFlower extends Block {
 		super(i1, Material.plants);
 		this.blockIndexInTexture = i2;
 		this.setTickOnLoad(true);
-		float f3 = 0.2F;
-		this.setBlockBounds(0.5F - f3, 0.0F, 0.5F - f3, 0.5F + f3, f3 * 3.0F, 0.5F + f3);
+		this.setMyBlockBounds();
 	}
 
+	public void setMyBlockBounds() {
+		float var3 = 0.4F;
+		this.setBlockBounds(0.5F - var3, 0.0F, 0.5F - var3, 0.5F + var3, 0.8F, 0.5F + var3);
+	}
+	
 	public boolean canPlaceBlockAt(World world1, int i2, int i3, int i4) {
 		return super.canPlaceBlockAt(world1, i2, i3, i4) && this.canThisPlantGrowOnThisBlockID(world1.getBlockId(i2, i3 - 1, i4));
 	}
 
 	protected boolean canThisPlantGrowOnThisBlockID(int i1) {
-		//return i1 == Block.grass.blockID || i1 == Block.dirt.blockID || i1 == Block.tilledField.blockID;
 		Block block = Block.blocksList[i1];
 		return block != null && block.canGrowPlants();
 	}
@@ -30,14 +33,14 @@ public class BlockFlower extends Block {
 		this.checkFlowerChange(world1, i2, i3, i4);
 	}
 
-	protected final void checkFlowerChange(World world1, int i2, int i3, int i4) {
-		if(!this.canBlockStay(world1, i2, i3, i4)) {
-			this.dropBlockAsItem(world1, i2, i3, i4, world1.getBlockMetadata(i2, i3, i4));
-			world1.setBlockWithNotify(i2, i3, i4, 0);
-		}
+    protected void checkFlowerChange(World world, int x, int y, int z) {
+        if (!this.canBlockStay(world, x, y, z)) {
+            this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z));
+            world.setBlockWithNotify(x, y, z, 0);
+        }
 
-	}
-
+    }
+	
 	public boolean canBlockStay(World world1, int i2, int i3, int i4) {
 		return (world1.getFullBlockLightValue(i2, i3, i4) >= 8 || world1.canBlockSeeTheSky(i2, i3, i4)) && this.canThisPlantGrowOnThisBlockID(world1.getBlockId(i2, i3 - 1, i4));
 	}
@@ -55,10 +58,27 @@ public class BlockFlower extends Block {
 	}
 
 	public int getRenderType() {
-		return 1;
+		return 111;
 	}
 	
 	public boolean seeThrough() {
 		return true; 
-	}	
+	}
+	
+	@Override	
+	public void harvestBlock(World world, EntityPlayer entityPlayer, int x, int y, int z, int metadata) {
+		if(this.getRenderType() == 111 && (metadata & 15) > 0) {
+			int itemID = Item.snowball.shiftedIndex;
+			float f8 = 0.7F;
+			double d9 = (double)(world.rand.nextFloat() * f8) + (double)(1.0F - f8) * 0.5D;
+			double d11 = (double)(world.rand.nextFloat() * f8) + (double)(1.0F - f8) * 0.5D;
+			double d13 = (double)(world.rand.nextFloat() * f8) + (double)(1.0F - f8) * 0.5D;
+			EntityItem entityItem15 = new EntityItem(world, (double)x + d9, (double)y + d11, (double)z + d13, new ItemStack(itemID, 1, 0));
+			entityItem15.delayBeforeCanPickup = 10;
+			world.entityJoinedWorld(entityItem15);
+			world.setBlockWithNotify(x, y, z, 0);
+			entityPlayer.addStat(StatList.mineBlockStatArray[this.blockID], 1);
+		} 
+		super.harvestBlock(world, entityPlayer, x, y, z, metadata);
+	}
 }

@@ -1,5 +1,8 @@
 package net.minecraft.src;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.Minecraft;
@@ -9,6 +12,8 @@ public class GuiChat extends GuiScreen {
 	private int updateCounter = 0;
 	private static final String allowedCharacters = ChatAllowedCharacters.allowedCharacters;
 	private SinglePlayerCommands singlePlayerCommands;
+	private static List<String> previousInputs = new ArrayList<String>();
+	private int previousInputsCursor = 0;
 
 	public GuiChat(Minecraft mc) {
 		this.mc = mc;
@@ -17,6 +22,7 @@ public class GuiChat extends GuiScreen {
 		
 	public void initGui() {
 		Keyboard.enableRepeatEvents(true);
+		this.previousInputsCursor = GuiChat.previousInputs.size();
 	}
 
 	public void onGuiClosed() {
@@ -30,6 +36,23 @@ public class GuiChat extends GuiScreen {
 	protected void keyTyped(char c1, int i2) {
 		if(i2 == 1) {
 			this.mc.displayGuiScreen((GuiScreen)null);
+		} else if(i2 == 200 || i2 == 208) {
+			// Navigate older messages
+			int curCursor = this.previousInputsCursor;
+			if(GuiChat.previousInputs.size() > 0) {
+				if(i2 == 200) {
+					curCursor --;
+					if(curCursor < 0) curCursor = 0;
+				} else {
+					curCursor ++;
+					if(curCursor > GuiChat.previousInputs.size() - 1) curCursor = GuiChat.previousInputs.size() - 1; 
+				}
+				
+				if(curCursor != this.previousInputsCursor) {
+					this.previousInputsCursor = curCursor;
+					this.message = GuiChat.previousInputs.get(previousInputsCursor);
+				}
+			}
 		} else if(i2 == 28) {
 			String string3 = this.message.trim();
 			if(string3.length() > 0) {
@@ -41,6 +64,8 @@ public class GuiChat extends GuiScreen {
 				} else {
 					this.singlePlayerCommands.executeCommand(this.message.trim());
 				}
+				
+				GuiChat.previousInputs.add(string3);
 			}
 
 			this.mc.displayGuiScreen((GuiScreen)null);

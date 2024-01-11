@@ -24,7 +24,7 @@ public class TexturePackDefault extends TexturePackBase {
 
 	}
 
-	public void func_6484_b(Minecraft minecraft1) {
+	public void closeTexturePack(Minecraft minecraft1) {
 		if(this.texturePackThumbnail != null) {
 			minecraft1.renderEngine.deleteTexture(this.texturePackName);
 		}

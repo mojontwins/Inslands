@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 public abstract class GuiContainer extends GuiScreen {
-	private static RenderItem itemRenderer = new RenderItem();
+	protected static RenderItem itemRenderer = new RenderItem();
 	public int xSize = 176;
 	public int ySize = 166;
 	public Container inventorySlots;
@@ -167,7 +167,7 @@ public abstract class GuiContainer extends GuiScreen {
 
 	public void onGuiClosed() {
 		if(this.mc.thePlayer != null) {
-			this.mc.playerController.func_20086_a(this.inventorySlots.windowId, this.mc.thePlayer);
+			this.mc.playerController.onCraftGuiClosed(this.inventorySlots.windowId, this.mc.thePlayer);
 		}
 	}
 

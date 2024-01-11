@@ -104,4 +104,5 @@ public class TileEntityDispenser extends TileEntity implements IInventory {
 	public boolean canInteractWith(EntityPlayer entityPlayer1) {
 		return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : entityPlayer1.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
 	}
+	
 }

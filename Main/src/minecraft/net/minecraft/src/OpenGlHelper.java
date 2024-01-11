@@ -12,11 +12,11 @@ public class OpenGlHelper {
 	public static void initializeTextures() {
 		useMultitextureARB = GLContext.getCapabilities().GL_ARB_multitexture && !GLContext.getCapabilities().OpenGL13;
 		if(useMultitextureARB) {
-			defaultTexUnit = 33984;
-			lightmapTexUnit = 33985;
+			defaultTexUnit = GL13.GL_TEXTURE0;
+			lightmapTexUnit = GL13.GL_TEXTURE1;
 		} else {
-			defaultTexUnit = 33984;
-			lightmapTexUnit = 33985;
+			defaultTexUnit = GL13.GL_TEXTURE0;
+			lightmapTexUnit = GL13.GL_TEXTURE1;
 		}
 
 	}

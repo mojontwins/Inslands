@@ -32,6 +32,7 @@ public class Material {
 	public static final Material slime = (new Material(MapColor.foliageColor)).setIsTranslucent();
 	public static final Material flesh = (new Material(MapColor.tntColor)).setNoPushMobility();
 	public static final Material vine = new Material(MapColor.grassColor);
+	public static final Material bone = (new Material(MapColor.iceColor));
 	private boolean canBurn;
 	private boolean groundCover;
 	private boolean isOpaque;

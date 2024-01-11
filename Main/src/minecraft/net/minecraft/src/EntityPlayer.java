@@ -46,7 +46,8 @@ public abstract class EntityPlayer extends EntityLiving {
 	public boolean enableCheats = true; // CHANGE THIS!
 	public boolean enableCraftingGuide = false;
 	public boolean isSprinting = false;
-
+	public int freezeLevel = 0;
+	
 	public EntityPlayer(World world1) {
 		super(world1);
 		this.inventorySlots = new ContainerPlayer(this.inventory, !world1.multiplayerWorld);
@@ -184,8 +185,8 @@ public abstract class EntityPlayer extends EntityLiving {
 	public void onLivingUpdate() {
 		
 		if(this.posY <= -8.0D) {
-			this.posY = -8.0D;
-			this.motionY = 0.0D;
+			//this.posY = -8.0D;
+			//this.motionY = 0.0D;
 			this.attackEntityFrom((Entity)null, 4);
 		}
 		
@@ -219,6 +220,81 @@ public abstract class EntityPlayer extends EntityLiving {
 					Entity entity5 = (Entity)list3.get(i4);
 					if(!entity5.isDead) {
 						this.collideWithPlayer(entity5);
+					}
+				}
+			}
+
+			// Freeze
+			if(!this.worldObj.multiplayerWorld) {
+				if(this.isCreative || this.worldObj.difficultySetting <= 1) {
+					this.freezeLevel = 0;
+				} else {
+					if(this.ticksExisted % 20 == 0 /*&& this.world.freeze*/) {
+						// New freeze logic which works like this:
+						// During Winter on Cold biomes, increase freezeLevel.
+						// Covered and in proximity of a fire block, decrease freezeLevel.
+						// If freezeLevel goes above 200, decrease life once per two seconds.
+						int x = (int)this.posX; 
+						int y = (int)this.posY;
+						int z = (int)this.posZ;
+						
+						BiomeGenBase biomeGen = this.worldObj.getBiomeGenAt(x, z);
+						
+						if(this.freezeLevel > 0 && Seasons.currentSeason != Seasons.WINTER && Seasons.dayOfTheYear < 23) {
+							this.freezeLevel -= 4;				
+						} else if(this.freezeLevel > 0 && !this.worldObj.canBlockSeeTheSky(x, y, z)) {
+							// Indoors, recover with a fireplace
+							if(this.worldObj.getIsAnyBlockID(this.boundingBox.expand(8, 4, 8), Block.fire.blockID)) {
+								this.triggerAchievement(AchievementList.warmed);
+								this.freezeLevel -= 10;
+							} else if(this.worldObj.getIsAnyBlockID(this.boundingBox.expand(2, 2, 2), Block.stoneOvenActive.blockID)) { 
+								this.triggerAchievement(AchievementList.warmedByOven);
+								this.freezeLevel -= 4;
+							} else if(this.moveForward != 0 || this.moveStrafing != 0) {
+								this.freezeLevel --;
+							} else if (biomeGen.weather == Weather.cold) {
+								this.freezeLevel ++;
+							}
+						} else {
+							
+							int particle = Weather.particleDecide(biomeGen, this.worldObj);
+							if(
+									!this.isCreative && 
+									(Seasons.currentSeason == Seasons.WINTER || Seasons.dayOfTheYear >= 23) && 
+									biomeGen.weather == Weather.cold && 
+									this.worldObj.canBlockSeeTheSky(x, y, z)
+							) {
+								this.freezeLevel ++;
+								
+								if(!this.worldObj.isDaytime()) {
+									this.freezeLevel ++;
+								} 
+								
+								if (particle == Weather.RAIN || particle == Weather.SNOW) {
+									this.freezeLevel ++;
+								}
+								
+								if(this.isInsideOfMaterial(Material.water)) {
+									this.freezeLevel += 8;
+								}
+								
+								if(freezeLevel > 100) this.triggerAchievement(AchievementList.gotChilly);
+								
+								if(this.dressedInRags()) this.freezeLevel -= 2;
+							}
+						}	
+						
+					}
+					
+					if(this.freezeLevel < 0.0) {
+						this.freezeLevel = 0;
+					}
+					
+					if(this.freezeLevel > 200.0) {
+						if(this.ticksExisted % 40 == 0) this.attackEntityFrom((Entity)null, 1);
+					}
+					if(this.freezeLevel > 256) {
+						this.freezeLevel = 256;
 					}
 				}
 			}
@@ -263,6 +339,12 @@ public abstract class EntityPlayer extends EntityLiving {
 			this.addStat(StatList.mobKillsStat, 1);
 		}
 
+	}
+	
+	protected int decreaseAirSupply(int i1) {
+		ItemStack itemStack = this.inventory.armorItemInSlot(3);
+		if(itemStack != null && itemStack.itemID == Block.divingHelmet.blockID && this.rand.nextInt(5) != 0) return i1;
+		return super.decreaseAirSupply(i1);
 	}
 
 	public void dropCurrentItem() {
@@ -345,6 +427,7 @@ public abstract class EntityPlayer extends EntityLiving {
 		this.isFlying = nBTTagCompound1.getBoolean("isFlying");
 		this.enableCheats = nBTTagCompound1.getBoolean("enableCheats");
 		this.enableCraftingGuide = nBTTagCompound1.getBoolean("enableCraftingGuide");
+		this.freezeLevel = nBTTagCompound1.getInteger("freezeLevel");
 	}
 
 	public void writeEntityToNBT(NBTTagCompound nBTTagCompound1) {
@@ -364,6 +447,7 @@ public abstract class EntityPlayer extends EntityLiving {
 		nBTTagCompound1.setBoolean("isFlying", this.isFlying);
 		nBTTagCompound1.setBoolean("enableCheats", this.enableCheats);
 		nBTTagCompound1.setBoolean("enableCraftingGuide", this.enableCraftingGuide);
+		nBTTagCompound1.setInteger("freezeLevel", this.freezeLevel);
 	}
 
 	public void displayGUIChest(IInventory iInventory1) {
@@ -371,7 +455,7 @@ public abstract class EntityPlayer extends EntityLiving {
 
 	public void displayWorkbenchGUI(int i1, int i2, int i3) {
 	}
-
+	
 	public void onItemPickup(Entity entity1, int i2) {
 	}
 
@@ -833,12 +917,12 @@ public abstract class EntityPlayer extends EntityLiving {
 
 	}
 
-	protected void fall(float f1) {
+	protected boolean fall(float f1) {
 		if(f1 >= 2.0F) {
 			this.addStat(StatList.distanceFallenStat, (int)Math.round((double)f1 * 100.0D));
 		}
 
-		super.fall(f1);
+		return super.fall(f1);
 	}
 
 	public void onKillEntity(EntityLiving entityLiving1) {
@@ -846,6 +930,9 @@ public abstract class EntityPlayer extends EntityLiving {
 			this.triggerAchievement(AchievementList.killEnemy);
 		}
 
+		if(entityLiving1 instanceof com.chocolatin.betterdungeons.EntitySecretBoss) {
+			this.triggerAchievement(AchievementList.slimeBoss);
+		}
 	}
 
 	public int getItemIcon(ItemStack itemStack1) {
@@ -878,11 +965,43 @@ public abstract class EntityPlayer extends EntityLiving {
 		return this.inventory.armorInventory[i].getItem();
 	}
 	
+	public boolean dressedInRags() {
+		return this.getInventoryItem(3) == Item.helmetRags && (
+					this.getInventoryItem(2) == Item.plateRags ||
+					this.getInventoryItem(1) == Item.legsRags
+				);
+	}
+	
 	public boolean dressedAsAPirate() {
-		return this.getInventoryItem(3) == Item.helmetPirate &&
+		boolean arrr =
+				this.getInventoryItem(3) == Item.helmetPirate &&
 				this.getInventoryItem(2) == Item.platePirate &&
 				this.getInventoryItem(1) == Item.legsPirate &&
 				this.getInventoryItem(0) == Item.bootsPirate;
+		
+		if(arrr) this.triggerAchievement(AchievementList.pirateDress);
+		
+		return arrr;
+	}
+	
+	public boolean wearingGold() {
+		boolean oink = 
+				this.getInventoryItem(3) == Item.helmetGold ||
+				this.getInventoryItem(2) == Item.plateGold ||
+				this.getInventoryItem(1) == Item.legsGold || 
+				this.getInventoryItem(0) == Item.bootsGold;
+		
+		return oink;
+	}
+	
+	public boolean bootsOfLeather() {
+		return this.getInventoryItem(0) == Item.bootsLeather ||
+				this.getInventoryItem(0) == Item.bootsPirate;
+	}
+	
+	public boolean divingHelmetOn() {
+		ItemStack itemStack = this.inventory.armorItemInSlot(3);
+		return itemStack != null && itemStack.itemID == Block.divingHelmet.blockID;
 	}
 
 	public boolean isDontCheckSpawnCoordinates() {
@@ -896,4 +1015,5 @@ public abstract class EntityPlayer extends EntityLiving {
 	public int getFullHealth() {
 		return 20;
 	}
+
 }

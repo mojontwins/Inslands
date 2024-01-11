@@ -9,37 +9,40 @@ public class BlockSnow extends Block {
 		this.setTickOnLoad(true);
 	}
 
+	@Override
 	public void setBlockBoundsForItemRender() {
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
 	}
 	
+	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z) {
 		int meta = blockAccess.getBlockMetadata(x, y, z) & 15;
 		float height = (float)(meta + 1) / 16.0F;
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, height, 1.0F);
 	}
 	
+	@Override
 	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
 		this.setBlockBoundsBasedOnState(world, x, y, z);
 		return super.getSelectedBoundingBoxFromPool(world, x, y, z);
 	}
 	
+	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
-		/*
-		this.setBlockBoundsBasedOnState(world, x, y, z);
-		return super.getCollisionBoundingBoxFromPool(world, x, y, z);
-		*/
 		return null;
 	}
 
+	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
 
+	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
 
+	@Override
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
 		Block block = Block.blocksList[world.getBlockId(x, y - 1, z)];
 		if(block == null) return false;
@@ -48,6 +51,7 @@ public class BlockSnow extends Block {
 		return world.getBlockMaterial(x, y - 1, z).getIsSolid();
 	}
 
+	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, int id) {
 		this.canSnowStay(world, x, y, z);
 	}
@@ -62,41 +66,40 @@ public class BlockSnow extends Block {
 		}
 	}
 
-	public void harvestBlock(World world, int x, int y, int z, int metadata) {
-		int i6 = Item.snowball.shiftedIndex;
-		float f7 = 0.7F;
-		double d8 = (double)(world.rand.nextFloat() * f7) + (double)(1.0F - f7) * 0.5D;
-		double d10 = (double)(world.rand.nextFloat() * f7) + (double)(1.0F - f7) * 0.5D;
-		double d12 = (double)(world.rand.nextFloat() * f7) + (double)(1.0F - f7) * 0.5D;
-		EntityItem entityItem14 = new EntityItem(world, (double)x + d8, (double)y + d10, (double)z + d12, new ItemStack(i6));
-		entityItem14.delayBeforeCanPickup = 10;
-		world.entityJoinedWorld(entityItem14);
-		world.setBlockWithNotify(x, y, z, 0);
+	@Override	
+	public void harvestBlock(World world1, EntityPlayer entityPlayer2, int i3, int i4, int i5, int i6) {
+		int i7 = Item.snowball.shiftedIndex;
+		float f8 = 0.7F;
+		double d9 = (double)(world1.rand.nextFloat() * f8) + (double)(1.0F - f8) * 0.5D;
+		double d11 = (double)(world1.rand.nextFloat() * f8) + (double)(1.0F - f8) * 0.5D;
+		double d13 = (double)(world1.rand.nextFloat() * f8) + (double)(1.0F - f8) * 0.5D;
+		EntityItem entityItem15 = new EntityItem(world1, (double)i3 + d9, (double)i4 + d11, (double)i5 + d13, new ItemStack(i7, 1, 0));
+		entityItem15.delayBeforeCanPickup = 10;
+		world1.entityJoinedWorld(entityItem15);
+		world1.setBlockWithNotify(i3, i4, i5, 0);
+		entityPlayer2.addStat(StatList.mineBlockStatArray[this.blockID], 1);
 	}
 
+	@Override
 	public int idDropped(int metadata, Random rand) {
 		return Item.snowball.shiftedIndex;
 	}
 
+	@Override
 	public int quantityDropped(Random rand) {
 		return 0;
 	}
 
+	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		if(world.getSavedLightValue(EnumSkyBlock.Block, x, y, z) > 11) {
 			this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z));
 			world.setBlockWithNotify(x, y, z, 0);
 		}
 
-		}
-
-	/*
-	public boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side) {
-		Material material6 = blockAccess.getBlockMaterial(x, y, z);
-		return side == 1 ? true : (material6 == this.material ? false : super.shouldSideBeRendered(blockAccess, x, y, z, side));
 	}
-	*/
-
+	
+	@Override
 	public void onEntityCollidedWithBlock(World var1, int var2, int var3, int var4, Entity var5) {
 		var5.setInSnow();
 	}

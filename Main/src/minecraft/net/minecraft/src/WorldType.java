@@ -92,7 +92,6 @@ public class WorldType {
 		);
 	}
 
-	/** @deprecated */
 	public int getSeaLevel(World var1) {
 		return this.getMinimumSpawnHeight(var1);
 	}

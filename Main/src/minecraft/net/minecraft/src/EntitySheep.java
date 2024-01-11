@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class EntitySheep extends EntityAnimal {
 	public static final float[][] fleeceColorTable = new float[][]{{1.0F, 1.0F, 1.0F}, {0.95F, 0.7F, 0.2F}, {0.9F, 0.5F, 0.85F}, {0.6F, 0.7F, 0.95F}, {0.9F, 0.9F, 0.2F}, {0.5F, 0.8F, 0.1F}, {0.95F, 0.7F, 0.8F}, {0.3F, 0.3F, 0.3F}, {0.6F, 0.6F, 0.6F}, {0.3F, 0.6F, 0.7F}, {0.7F, 0.4F, 0.9F}, {0.2F, 0.4F, 0.8F}, {0.5F, 0.4F, 0.3F}, {0.4F, 0.5F, 0.2F}, {0.8F, 0.3F, 0.3F}, {0.1F, 0.1F, 0.1F}};
-
+	
 	public EntitySheep(World world1) {
 		super(world1);
 		this.texture = "/mob/sheep.png";
@@ -46,8 +46,6 @@ public class EntitySheep extends EntityAnimal {
 	}
 
 	public boolean interact(EntityPlayer entityPlayer1) {
-		// Softlocked for b1.6.6: Use shears to obtain cloth
-		/*
 		ItemStack itemStack2 = entityPlayer1.inventory.getCurrentItem();
 		if(itemStack2 != null && itemStack2.itemID == Item.shears.shiftedIndex && !this.getSheared()) {
 			if(!this.worldObj.multiplayerWorld) {
@@ -64,7 +62,6 @@ public class EntitySheep extends EntityAnimal {
 
 			itemStack2.damageItem(1, entityPlayer1);
 		}
-		*/
 
 		return false;
 	}

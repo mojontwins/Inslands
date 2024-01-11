@@ -36,19 +36,23 @@ public abstract class Render {
 		float f13 = ((float)i10 + 15.99F) / 256.0F;
 		float f14 = (float)i11 / 256.0F;
 		float f15 = ((float)i11 + 15.99F) / 256.0F;
+		
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float)d2, (float)d4, (float)d6);
 		float f16 = entity1.width * 1.4F;
 		GL11.glScalef(f16, f16, f16);
 		this.loadTexture("/terrain.png");
+		
 		Tessellator tessellator17 = Tessellator.instance;
 		float f18 = 0.5F;
 		float f19 = 0.0F;
 		float f20 = entity1.height / f16;
 		float f21 = (float)(entity1.posY - entity1.boundingBox.minY);
+		
 		GL11.glRotatef(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
 		GL11.glTranslatef(0.0F, 0.0F, -0.3F + (float)((int)f20) * 0.02F);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		
 		float f22 = 0.0F;
 		int i23 = 0;
 		tessellator17.startDrawingQuads();

@@ -447,12 +447,14 @@ public abstract class Entity {
 			this.isCollidedVertically = d13 != moveY;
 			this.onGround = d13 != moveY && d13 < 0.0D;
 			this.isCollided = this.isCollidedHorizontally || this.isCollidedVertically;
-			this.updateFallState(moveY, this.onGround);
+			
+			boolean rebound = this.hitGround(moveY, this.onGround);
+			
 			if(d11 != moveX) {
 				this.motionX = 0.0D;
 			}
 
-			if(d13 != moveY) {
+			if(d13 != moveY && rebound == false) {
 				this.motionY = 0.0D;
 			}
 
@@ -533,16 +535,19 @@ public abstract class Entity {
 		return true;
 	}
 
-	protected void updateFallState(double d1, boolean z3) {
-		if(z3) {
+	public boolean hitGround(double moveY, boolean onGround) {
+		boolean rebound = false;
+		
+		if(onGround) {
 			if(this.fallDistance > 0.0F) {
-				this.fall(this.fallDistance);
+				rebound = this.fall(this.fallDistance);
 				this.fallDistance = 0.0F;
 			}
-		} else if(d1 < 0.0D) {
-			this.fallDistance = (float)((double)this.fallDistance - d1);
+		} else if(moveY < 0.0D) {
+			this.fallDistance = (float)((double)this.fallDistance - moveY);
 		}
 
+		return rebound;
 	}
 
 	public AxisAlignedBB getBoundingBox() {
@@ -556,11 +561,12 @@ public abstract class Entity {
 
 	}
 
-	protected void fall(float f1) {
+	protected boolean fall(float distance) {
 		if(this.riddenByEntity != null) {
-			this.riddenByEntity.fall(f1);
+			return this.riddenByEntity.fall(distance);
 		}
 
+		return false;
 	}
 
 	public boolean isWet() {
@@ -1203,4 +1209,5 @@ public abstract class Entity {
 	public boolean bootsOfLeather() {
 		return false;
 	}
+
 }

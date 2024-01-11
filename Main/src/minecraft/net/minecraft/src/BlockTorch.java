@@ -24,8 +24,17 @@ public class BlockTorch extends Block {
 		return 2;
 	}
 
-	private boolean canPlaceTorchOn(World world1, int i2, int i3, int i4) {
-		return world1.isBlockNormalCube(i2, i3, i4) || world1.getBlockId(i2, i3, i4) == Block.fence.blockID;
+	private boolean canPlaceTorchOn(World world, int x, int y, int z) {
+		if(world.isBlockNormalCube(x, y, z)) return true;
+		int blockID = world.getBlockId(x, y, z);
+		int metadata = world.getBlockMetadata(x, y, z);
+		return 	blockID == Block.fence.blockID || 
+				blockID == Block.streetLanternFence.blockID ||
+				blockID == Block.fenceIron.blockID ||
+				blockID == Block.hollowLog.blockID ||
+				blockID == Block.chippedWood.blockID ||
+				(blockID == Block.stairSingle.blockID && (metadata & 8) != 0) ||
+				(Block.blocksList[blockID] instanceof BlockStairs && (metadata & 8) != 0);
 	}
 
 	public boolean canPlaceBlockAt(World world1, int i2, int i3, int i4) {

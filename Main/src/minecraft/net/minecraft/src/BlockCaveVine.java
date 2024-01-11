@@ -170,19 +170,6 @@ public class BlockCaveVine extends Block {
 		return this.canBePlacedOn(par1World.getBlockId(par2, par3 + 1, par4));
 	}
 
-	// Not as complex as a colorizer, but allows for some freedom!
-	@Override
-	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z) {
-		int meta = blockAccess.getBlockMetadata(x, y, z) & 7;
-		if(meta == 7) return Seasons.getLeavesColorForToday();
-		return BlockLeaves.fixedColors[meta];
-	}
-	
-	@Override
-	public int getRenderColor(int meta) {
-		return BlockLeaves.fixedColors[meta];
-	}
-
 	/**
 	 * Lets the block know when one of its neighbor changes. Doesn't know which
 	 * neighbor changed (coordinates passed are their own) Args: x, y, z, neighbor

@@ -13,6 +13,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.glu.GLU;
 
+import com.mojontwins.minecraft.entity.status.Status;
+
 public class EntityRenderer {
 	public static boolean anaglyphEnable = false;
 	public static int anaglyphField;
@@ -57,7 +59,7 @@ public class EntityRenderer {
 	float fogColorBlue;
 	private float fogColor2;
 	private float fogColor1;
-
+	
 	float rainXCoords[] = new float[1024];
 	float rainYCoords[] = new float[1024];
 
@@ -172,7 +174,11 @@ public class EntityRenderer {
 		EntityLiving entityLiving2 = this.mc.renderViewEntity;
 		float f3 = 70.0F;
 		if(entityLiving2.isInsideOfMaterial(Material.water)) {
-			f3 = 60.0F;
+			if(this.mc.thePlayer.divingHelmetOn()) {
+				f3 = 50.0F;
+			} else {
+				f3 = 60.0F;				
+			}
 		}
 
 		if(entityLiving2.health <= 0) {
@@ -327,9 +333,13 @@ public class EntityRenderer {
 		if(f4 > 0.0F) {
 			float f5 = 5.0F / (f4 * f4 + 5.0F) - f4 * 0.04F;
 			f5 *= f5;
-			GL11.glRotatef(((float)this.rendererUpdateCount + f1) * 20.0F, 0.0F, 1.0F, 1.0F);
+			float multiplier = 20.0F;
+			
+			if(this.mc.thePlayer.isStatusActive(Status.statusDizzy)) multiplier = 7.0F;
+			
+			GL11.glRotatef(((float)this.rendererUpdateCount + f1) * multiplier, 0.0F, 1.0F, 1.0F);
 			GL11.glScalef(1.0F / f5, 1.0F, 1.0F);
-			GL11.glRotatef(-((float)this.rendererUpdateCount + f1) * 20.0F, 0.0F, 1.0F, 1.0F);
+			GL11.glRotatef(-((float)this.rendererUpdateCount + f1) * multiplier, 0.0F, 1.0F, 1.0F);
 		}
 
 		this.orientCamera(f1);
@@ -412,13 +422,11 @@ public class EntityRenderer {
 				}
 
 				// Set up night vision with code somewhat stolen from r1.5.2!
-				/*
 				if(this.mc.thePlayer.divingHelmetOn() && this.mc.thePlayer.isInsideOfMaterial(Material.water)) {
 					float nVB = 0.5F;					
 					float fNV = 1.0F / f12;					
 					f12 = f12 * (1.0F - nVB) + f12 * fNV * nVB;
 				}
-				*/
 				
 				if(f12 > 1.0F) {
 					f12 = 1.0F;
@@ -722,7 +730,7 @@ public class EntityRenderer {
 		World world = this.mc.theWorld;
 		
 		float f1 = this.mc.theWorld.getRainStrength(1.0F);
-		if(!this.mc.gameSettings.fancyGraphics) {
+		if(!this.mc.gameSettings.fancyGraphics && !this.mc.gameSettings.clearWaters) {
 			f1 /= 2.0F;
 		}
 
@@ -749,7 +757,7 @@ public class EntityRenderer {
 				
 				int i18 = world3.findTopSolidBlockUsingBlockMaterial(i16, i17);
 				int i19 = world3.getBlockId(i16, i18 - 1, i17);
-				if(i18 <= i5 + b7 && i18 >= i5 - b7 && world3.getWorldChunkManager().getBiomeGenAt(i16, i17).canSpawnLightningBolt()) {
+				if(i18 <= i5 + b7 && i18 >= i5 - b7 /*&& world3.getWorldChunkManager().getBiomeGenAt(i16, i17).canSpawnLightningBolt()*/) {
 					float f20 = this.random.nextFloat();
 					float f21 = this.random.nextFloat();
 					if(i19 > 0) {
@@ -978,14 +986,35 @@ public class EntityRenderer {
 			this.fogColorGreen = 0.1F;
 			this.fogColorBlue = 0.0F;
 		}
+		
+		// Blindness, ported back from r1.2.5
+		double d14 = (entityLiving3.lastTickPosY + (entityLiving3.posY - entityLiving3.lastTickPosY) * (double)f1);
+		if(entityLiving3.isStatusActive(Status.statusBlind)) {
+			int i16 = entityLiving3.getActiveStatusEffect(Status.statusBlind).duration;
+			if(i16 < 20) {
+				d14 *= (double)(1.0F - (float)i16 / 20.0F);
+			} else {
+				d14 = 0.0D;
+			}
+		}
 
+		if(d14 < 1.0D) {
+			if(d14 < 0.0D) {
+				d14 = 0.0D;
+			}
+
+			d14 *= d14;
+			this.fogColorRed = (float)((double)this.fogColorRed * d14);
+			this.fogColorGreen = (float)((double)this.fogColorGreen * d14);
+			this.fogColorBlue = (float)((double)this.fogColorBlue * d14);
+		}
+		
 		f12 = this.fogColor2 + (this.fogColor1 - this.fogColor2) * f1;
 		this.fogColorRed *= f12;
 		this.fogColorGreen *= f12;
 		this.fogColorBlue *= f12;
 		
-		// Night vision
-		/*
+		// Night vision, ported back from r1.5.2
 		if(((EntityPlayer)entityLiving3).divingHelmetOn()) {
 			float nVB = 0.5F;
 			
@@ -997,7 +1026,6 @@ public class EntityRenderer {
 			this.fogColorGreen = this.fogColorGreen * (1.0F - nVB) + this.fogColorGreen * fNV * nVB;
 			this.fogColorBlue  = this.fogColorBlue  * (1.0F - nVB) + this.fogColorBlue  * fNV * nVB;
 		}
-		*/
 
 		if(this.mc.gameSettings.anaglyph) {
 			float f13 = (this.fogColorRed * 30.0F + this.fogColorGreen * 59.0F + this.fogColorBlue * 11.0F) / 100.0F;
@@ -1013,42 +1041,67 @@ public class EntityRenderer {
 
 	private void setupFog(int i1, float f2) {
 		EntityLiving entityLiving3 = this.mc.renderViewEntity;
+		
 		GL11.glFog(GL11.GL_FOG_COLOR, this.func_908_a(this.fogColorRed, this.fogColorGreen, this.fogColorBlue, 1.0F));
 		GL11.glNormal3f(0.0F, -1.0F, 0.0F);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		if(this.cloudFog) {
-			GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
-			GL11.glFogf(GL11.GL_FOG_DENSITY, 0.1F);
-			if(this.mc.gameSettings.anaglyph) {
+		
+		// Blindness, ported back from r1.2.5
+		if(entityLiving3.isStatusActive(Status.statusBlind)) {
+			float f6 = 5.0F;
+			int i7 = entityLiving3.getActiveStatusEffect(Status.statusBlind).duration;
+			if(i7 < 20) {
+				f6 = 5.0F + (this.farPlaneDistance - 5.0F) * (1.0F - (float)i7 / 20.0F);
 			}
-		} else if(entityLiving3.isInsideOfMaterial(Material.water)) {
-			GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
-			GL11.glFogf(GL11.GL_FOG_DENSITY, 0.1F);
-			if(this.mc.gameSettings.anaglyph) {
-			}
-		} else if(entityLiving3.isInsideOfMaterial(Material.lava)) {
-			GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
-			GL11.glFogf(GL11.GL_FOG_DENSITY, 2.0F);
-			if(this.mc.gameSettings.anaglyph) {
-			}
-		} else {
+
 			GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_LINEAR);
-			GL11.glFogf(GL11.GL_FOG_START, this.farPlaneDistance * 0.25F);
-			GL11.glFogf(GL11.GL_FOG_END, this.farPlaneDistance);
 			if(i1 < 0) {
 				GL11.glFogf(GL11.GL_FOG_START, 0.0F);
-				GL11.glFogf(GL11.GL_FOG_END, this.farPlaneDistance * 0.8F);
+				GL11.glFogf(GL11.GL_FOG_END, f6 * 0.8F);
+			} else {
+				GL11.glFogf(GL11.GL_FOG_START, f6 * 0.25F);
+				GL11.glFogf(GL11.GL_FOG_END, f6);
 			}
 
 			if(GLContext.getCapabilities().GL_NV_fog_distance) {
 				GL11.glFogi(34138, 34139);
 			}
-
-			if(this.mc.theWorld.worldProvider.isNether) {
-				GL11.glFogf(GL11.GL_FOG_START, 0.0F);
+		} else {
+			
+			if(this.cloudFog) {
+				GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
+				GL11.glFogf(GL11.GL_FOG_DENSITY, 0.1F);
+				if(this.mc.gameSettings.anaglyph) {
+				}
+			} else if(entityLiving3.isInsideOfMaterial(Material.water) && !((EntityPlayer)entityLiving3).divingHelmetOn()) {
+				GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
+				GL11.glFogf(GL11.GL_FOG_DENSITY, 0.1F);
+				if(this.mc.gameSettings.anaglyph) {
+				}
+			} else if(entityLiving3.isInsideOfMaterial(Material.lava)) {
+				GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
+				GL11.glFogf(GL11.GL_FOG_DENSITY, 2.0F);
+				if(this.mc.gameSettings.anaglyph) {
+				}
+			} else {
+				GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_LINEAR);
+				GL11.glFogf(GL11.GL_FOG_START, this.farPlaneDistance * 0.25F);
+				GL11.glFogf(GL11.GL_FOG_END, this.farPlaneDistance);
+				if(i1 < 0) {
+					GL11.glFogf(GL11.GL_FOG_START, 0.0F);
+					GL11.glFogf(GL11.GL_FOG_END, this.farPlaneDistance * 0.8F);
+				}
+	
+				if(GLContext.getCapabilities().GL_NV_fog_distance) {
+					GL11.glFogi(34138, 34139);
+				}
+	
+				if(this.mc.theWorld.worldProvider.isNether) {
+					GL11.glFogf(GL11.GL_FOG_START, 0.0F);
+				}
 			}
 		}
-
+		
 		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 		GL11.glColorMaterial(GL11.GL_FRONT, GL11.GL_AMBIENT);
 	}

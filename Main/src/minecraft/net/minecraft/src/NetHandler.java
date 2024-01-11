@@ -235,4 +235,9 @@ public abstract class NetHandler {
 	public void handleFiniteWorldSettings(Packet93FiniteWorldSettings packet) {
 		this.registerPacket(packet);
 	}
+	
+	public void handleCustomPayload(Packet250CustomPayload packet250CustomPayload) {
+		this.registerPacket(packet250CustomPayload);
+	}
+
 }

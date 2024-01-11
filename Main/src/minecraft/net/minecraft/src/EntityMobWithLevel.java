@@ -1,6 +1,6 @@
 package net.minecraft.src;
 
-public class EntityMobWithLevel extends EntityMob {
+public class EntityMobWithLevel extends EntityMob implements IMobWithLevel {
 	public EntityMobWithLevel(World world) {
 		super(world);
 	}
@@ -19,7 +19,7 @@ public class EntityMobWithLevel extends EntityMob {
 	public void setLvl(int lvl) {
 		this.dataWatcher.updateObject(16, (byte)lvl);
 	}
-
+	
 	public EntityMobWithLevel(World world, int level) {
 		super(world);
 		this.setLvl(level);
@@ -31,5 +31,9 @@ public class EntityMobWithLevel extends EntityMob {
 
 	public void setLevel(int level) {
 		this.setLvl(level);
+	}
+
+	public int getMaxLevel() {
+		return 5;
 	}
 }

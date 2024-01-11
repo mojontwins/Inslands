@@ -187,7 +187,8 @@ public class ChunkProviderHell implements IChunkProvider {
 		
 		// Empty block array & new Chunk
 		byte[] blockArray = new byte[32768];
-		Chunk chunk = new Chunk(this.worldObj, blockArray, chunkX, chunkZ);
+		byte[] metadata = new byte[32768];
+		Chunk chunk = new Chunk(this.worldObj, blockArray, metadata, chunkX, chunkZ);
 
 		// Generate terrain for this chunk
 		this.generateTerrain(chunkX, chunkZ, blockArray);
@@ -207,7 +208,8 @@ public class ChunkProviderHell implements IChunkProvider {
 		
 		// Empty block array & new Chunk
 		byte[] blockArray = new byte[32768];
-		Chunk chunk = new Chunk(this.worldObj, blockArray, chunkX, chunkZ);
+		byte[] metadata = new byte[32768];
+		Chunk chunk = new Chunk(this.worldObj, blockArray, metadata, chunkX, chunkZ);
 		this.generateTerrain(chunkX, chunkZ, blockArray);
 		this.caveGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
 		

@@ -73,4 +73,5 @@ public class InventoryBasic implements IInventory {
 	public boolean canInteractWith(EntityPlayer entityPlayer1) {
 		return true;
 	}
+
 }

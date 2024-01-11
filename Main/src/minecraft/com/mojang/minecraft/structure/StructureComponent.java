@@ -9,6 +9,7 @@ import net.minecraft.src.ChunkPosition;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemDoor;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.Material;
 import net.minecraft.src.TileEntityChest;
 import net.minecraft.src.WeightedRandom;
 import net.minecraft.src.WeightedRandomChoice;
@@ -75,9 +76,100 @@ public abstract class StructureComponent {
 			}
 		}
 		
-		return countSolid > (float)countAll * 0.60F;
+		return countSolid > (float)countAll * this.getMostlySolidPercent();
 	}
 	
+	protected float getFractionSolidInBoundingBox(World world1, StructureBoundingBox structureBoundingBox) {
+		int i3 = Math.max(this.boundingBox.minX - 1, structureBoundingBox.minX);
+		int i4 = Math.max(this.boundingBox.minY - 1, structureBoundingBox.minY);
+		int i5 = Math.max(this.boundingBox.minZ - 1, structureBoundingBox.minZ);
+		int i6 = Math.min(this.boundingBox.maxX + 1, structureBoundingBox.maxX);
+		int i7 = Math.min(this.boundingBox.maxY + 1, structureBoundingBox.maxY);
+		int i8 = Math.min(this.boundingBox.maxZ + 1, structureBoundingBox.maxZ);
+		
+		int countSolid = 0;
+		int countAll = 0;
+		for(int x = i3; x < i6; x ++) {
+			for(int y = i4; y < i7; y ++) {
+				for(int z = i5; z < i8; z ++) {
+					++ countAll;
+					if(world1.isBlockOpaqueCube(x, y, z)) ++ countSolid;
+				}
+			}
+		}
+		
+		return (float)countSolid / (float)countAll;
+	}
+	
+	protected float getFractionExposed(World world1, StructureBoundingBox structureBoundingBox) {
+		int i3 = Math.max(this.boundingBox.minX - 1, structureBoundingBox.minX);
+		int i5 = Math.max(this.boundingBox.minZ - 1, structureBoundingBox.minZ);
+		int i6 = Math.min(this.boundingBox.maxX + 1, structureBoundingBox.maxX);
+		int i7 = Math.min(this.boundingBox.maxY + 1, structureBoundingBox.maxY);
+		int i8 = Math.min(this.boundingBox.maxZ + 1, structureBoundingBox.maxZ);
+		
+		int contSeeTheSky = 0;
+		int countAll = 0;
+		for(int x = i3; x < i6; x ++) {
+			for(int z = i5; z < i8; z ++) {
+				++ countAll;
+				if(world1.canBlockSeeTheSky(x, i7, z)) ++ contSeeTheSky;
+			}
+		}
+		
+		return (float)contSeeTheSky / (float)countAll;
+	}
+	
+	public float getMostlySolidPercent() {
+		return 0.6F;
+	}
+	
+	/* 
+	 * Checks if air below the bottom wall of the BB
+	 */
+	protected boolean isFullAirBelowStructureBoundingBox(World world, StructureBoundingBox structureBoundingBox) {
+		int x1 = Math.max(this.boundingBox.minX - 1, structureBoundingBox.minX);
+		int z1 = Math.max(this.boundingBox.minZ - 1, structureBoundingBox.minZ);
+		int x2 = Math.min(this.boundingBox.maxX + 1, structureBoundingBox.maxX);
+		int z2 = Math.min(this.boundingBox.maxZ + 1, structureBoundingBox.maxZ);
+		
+		int y = structureBoundingBox.minY - 1;
+		
+		for(int x = x1; x <= x2; x ++) {
+			for(int z = z1; z <= z2; z++) {
+				Block block = Block.blocksList[world.getBlockId(x, y, z)];
+				if(block != null && block.isOpaqueCube()) return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	protected float getAirRatioBelowStructureBoundingBox(World world, StructureBoundingBox structureBoundingBox) {
+		int x1 = Math.max(this.boundingBox.minX - 1, structureBoundingBox.minX);
+		int z1 = Math.max(this.boundingBox.minZ - 1, structureBoundingBox.minZ);
+		int x2 = Math.min(this.boundingBox.maxX + 1, structureBoundingBox.maxX);
+		int z2 = Math.min(this.boundingBox.maxZ + 1, structureBoundingBox.maxZ);
+		
+		int y = Math.max(this.boundingBox.minY - 1, structureBoundingBox.minY);
+		
+		int totalBlocks = 0; 
+		int nonOpaque = 0;
+	
+		for(int x = x1; x <= x2; x ++) {
+			for(int z = z1; z <= z2; z++) {
+				Block block = Block.blocksList[world.getBlockId(x, y, z)]; 
+				if(block == null || !block.isOpaqueCube()) nonOpaque ++;
+				totalBlocks ++;
+			}
+		}
+		
+		return (float)nonOpaque / (float)totalBlocks;
+	}
+	
+	/* 
+	 * Checks if liquid in any of the 6 "walls" of the BB 
+	 */
 	protected boolean isLiquidInStructureBoundingBox(World world1, StructureBoundingBox structureBoundingBox2) {
 		int i3 = Math.max(this.boundingBox.minX - 1, structureBoundingBox2.minX);
 		int i4 = Math.max(this.boundingBox.minY - 1, structureBoundingBox2.minY);
@@ -134,6 +226,62 @@ public abstract class StructureComponent {
 		return false;
 	}
 
+	/* 
+	 * Checks if air in any of the 6 "walls" of the BB and calculates ratio
+	 */
+	protected float getAirRatioInStructureBoundingBox(World world1, StructureBoundingBox structureBoundingBox2) {
+		int i3 = Math.max(this.boundingBox.minX - 1, structureBoundingBox2.minX);
+		int i4 = Math.max(this.boundingBox.minY - 1, structureBoundingBox2.minY);
+		int i5 = Math.max(this.boundingBox.minZ - 1, structureBoundingBox2.minZ);
+		int i6 = Math.min(this.boundingBox.maxX + 1, structureBoundingBox2.maxX);
+		int i7 = Math.min(this.boundingBox.maxY + 1, structureBoundingBox2.maxY);
+		int i8 = Math.min(this.boundingBox.maxZ + 1, structureBoundingBox2.maxZ);
+
+		int totalBlocks = 0; 
+		int nonOpaque = 0;
+		
+		int i9;
+		int i10;
+		int i11;
+		for(i9 = i3; i9 <= i6; ++i9) {
+			for(i10 = i5; i10 <= i8; ++i10) {
+				i11 = world1.getBlockId(i9, i4, i10);
+				if(i11 == 0) nonOpaque ++;
+				totalBlocks ++;
+
+				i11 = world1.getBlockId(i9, i7, i10);
+				if(i11 == 0) nonOpaque ++;
+				totalBlocks ++;
+			}
+		}
+
+		for(i9 = i3; i9 <= i6; ++i9) {
+			for(i10 = i4; i10 <= i7; ++i10) {
+				i11 = world1.getBlockId(i9, i10, i5);
+				if(i11 == 0) nonOpaque ++;
+				totalBlocks ++;
+
+				i11 = world1.getBlockId(i9, i10, i8);
+				if(i11 == 0) nonOpaque ++;
+				totalBlocks ++;
+			}
+		}
+
+		for(i9 = i5; i9 <= i8; ++i9) {
+			for(i10 = i4; i10 <= i7; ++i10) {
+				i11 = world1.getBlockId(i3, i10, i9);
+				if(i11 == 0) nonOpaque ++;
+				totalBlocks ++;
+
+				i11 = world1.getBlockId(i6, i10, i9);
+				if(i11 == 0) nonOpaque ++;
+				totalBlocks ++;
+			}
+		}
+
+		return (float)nonOpaque / (float)totalBlocks;
+	}
+	
 	protected int getXWithOffset(int i1, int i2) {
 		switch(this.coordBaseMode) {
 		case 0:
@@ -320,11 +468,38 @@ public abstract class StructureComponent {
 		return i2;
 	}
 
-	protected void placeBlockAtCurrentPosition(World world1, int i2, int i3, int i4, int i5, int i6, StructureBoundingBox structureBoundingBox7) {
+	protected void placeBlockAtCurrentPosition(World world, int blockID, int metadata, int x, int y, int z, StructureBoundingBox structureBoundingBox) {
+		int xAbs = this.getXWithOffset(x, z);
+		int yAbs = this.getYWithOffset(y);
+		int zAbs = this.getZWithOffset(x, z);
+		if(structureBoundingBox.isVecInside(xAbs, yAbs, zAbs)) {
+			world.setBlockAndMetadata(xAbs, yAbs, zAbs, blockID, metadata);
+		}
+	}
+	
+	protected void placeBlockAtCurrentPositionIfNextToSolid(World world, int blockID, int metadata, int x, int y, int z, StructureBoundingBox structureBoundingBox) {
+		int xAbs = this.getXWithOffset(x, z);
+		int yAbs = this.getYWithOffset(y);
+		int zAbs = this.getZWithOffset(x, z);
+		if(structureBoundingBox.isVecInside(xAbs, yAbs, zAbs)) {
+			if(
+					world.getBlockId(xAbs - 1, yAbs, zAbs) != 0 ||
+					world.getBlockId(xAbs + 1, yAbs, zAbs) != 0 ||
+					world.getBlockId(xAbs, yAbs, zAbs - 1) != 0 ||
+					world.getBlockId(xAbs, yAbs, zAbs + 1) != 0 ||
+					world.getBlockId(xAbs, yAbs - 1, zAbs) != 0 ||
+					world.getBlockId(xAbs, yAbs + 1, zAbs) != 0
+			) {
+				world.setBlockAndMetadata(xAbs, yAbs, zAbs, blockID, metadata);
+			}
+		}
+	}
+
+	protected void placeBlockAtCurrentPositionNoVertClip(World world1, int i2, int i3, int i4, int i5, int i6, StructureBoundingBox structureBoundingBox7) {
 		int i8 = this.getXWithOffset(i4, i6);
 		int i9 = this.getYWithOffset(i5);
 		int i10 = this.getZWithOffset(i4, i6);
-		if(structureBoundingBox7.isVecInside(i8, i9, i10)) {
+		if(structureBoundingBox7.isVecInsideHorizontally(i8, i9, i10)) {
 			world1.setBlockAndMetadata(i8, i9, i10, i2, i3);
 		}
 	}
@@ -335,16 +510,55 @@ public abstract class StructureComponent {
 		int i8 = this.getZWithOffset(i2, i4);
 		return !structureBoundingBox5.isVecInside(i6, i7, i8) ? 0 : world1.getBlockId(i6, i7, i8);
 	}
+	
+	protected Material getBlockMaterialAtCurrentPosition(World world1, int i2, int i3, int i4, StructureBoundingBox structureBoundingBox5) {
+		int i6 = this.getXWithOffset(i2, i4);
+		int i7 = this.getYWithOffset(i3);
+		int i8 = this.getZWithOffset(i2, i4);
+		return !structureBoundingBox5.isVecInside(i6, i7, i8) ? Material.air : world1.getBlockMaterial(i6, i7, i8);
+	}
+	
+	protected int getBlockIdAtCurrentPositionNoVertClip(World world1, int i2, int i3, int i4, StructureBoundingBox structureBoundingBox5) {
+		int i6 = this.getXWithOffset(i2, i4);
+		int i7 = this.getYWithOffset(i3);
+		int i8 = this.getZWithOffset(i2, i4);
+		return !structureBoundingBox5.isVecInsideHorizontally(i6, i7, i8) ? -1 : world1.getBlockId(i6, i7, i8);
+	}
 
-	protected void fillWithBlocks(World world1, StructureBoundingBox structureBoundingBox2, int i3, int i4, int i5, int i6, int i7, int i8, int i9, int i10, boolean z11) {
-		for(int i12 = i4; i12 <= i7; ++i12) {
-			for(int i13 = i3; i13 <= i6; ++i13) {
-				for(int i14 = i5; i14 <= i8; ++i14) {
-					if(!z11 || this.getBlockIdAtCurrentPosition(world1, i13, i12, i14, structureBoundingBox2) != 0) {
-						if(i12 != i4 && i12 != i7 && i13 != i3 && i13 != i6 && i14 != i5 && i14 != i8) {
-							this.placeBlockAtCurrentPosition(world1, i10, 0, i13, i12, i14, structureBoundingBox2);
+	protected boolean canBlockSeeTheSky(World world, int x, int y, int z, StructureBoundingBox structureBoundingBox) {
+		int xx = this.getXWithOffset(x, z);
+		int yy = this.getYWithOffset(y);
+		int zz = this.getZWithOffset(x, z);
+		return !structureBoundingBox.isVecInside(xx, yy, zz) ? false: world.canBlockSeeTheSky(xx, yy, zz);
+	}
+	
+	protected void fillWithBlocks(World world, StructureBoundingBox structureBoundingBox, int x1, int y1, int z1, int x2, int y2, int z2, int blockID1, int blockID2, boolean z11) {
+		for(int y = y1; y <= y2; ++y) {
+			for(int x = x1; x <= x2; ++x) {
+				for(int z = z1; z <= z2; ++z) {
+					if(!z11 || this.getBlockIdAtCurrentPosition(world, x, y, z, structureBoundingBox) != 0) {
+						if(y != y1 && y != y2 && x != x1 && x != x2 && z != z1 && z != z2) {
+							this.placeBlockAtCurrentPosition(world, blockID2, 0, x, y, z, structureBoundingBox);
 						} else {
-							this.placeBlockAtCurrentPosition(world1, i9, 0, i13, i12, i14, structureBoundingBox2);
+							this.placeBlockAtCurrentPosition(world, blockID1, 0, x, y, z, structureBoundingBox);
+						}
+					}
+				}
+			}
+		}
+
+	}
+	
+	protected void fillWithBlocksIfRock(World world, StructureBoundingBox structureBoundingBox, int x1, int y1, int z1, int x2, int y2, int z2, int blockID1, int blockID2, boolean z11) {
+		for(int y = y1; y <= y2; ++y) {
+			for(int x = x1; x <= x2; ++x) {
+				for(int z = z1; z <= z2; ++z) {
+					Material material = this.getBlockMaterialAtCurrentPosition(world, x, y, z, structureBoundingBox);
+					if(material == Material.rock || material == Material.clay) {
+						if(y != y1 && y != y2 && x != x1 && x != x2 && z != z1 && z != z2) {
+							this.placeBlockAtCurrentPosition(world, blockID2, 0, x, y, z, structureBoundingBox);
+						} else {
+							this.placeBlockAtCurrentPosition(world, blockID1, 0, x, y, z, structureBoundingBox);
 						}
 					}
 				}
@@ -366,13 +580,13 @@ public abstract class StructureComponent {
 
 	}
 
-	protected void fillWithRandomizedBlocks(World world1, StructureBoundingBox structureBoundingBox2, int i3, int i4, int i5, int i6, int i7, int i8, boolean z9, Random random10, StructurePieceBlockSelector structurePieceBlockSelector11) {
-		for(int i12 = i4; i12 <= i7; ++i12) {
-			for(int i13 = i3; i13 <= i6; ++i13) {
-				for(int i14 = i5; i14 <= i8; ++i14) {
-					if(!z9 || this.getBlockIdAtCurrentPosition(world1, i13, i12, i14, structureBoundingBox2) != 0) {
-						structurePieceBlockSelector11.selectBlocks(random10, i13, i12, i14, i12 == i4 || i12 == i7 || i13 == i3 || i13 == i6 || i14 == i5 || i14 == i8);
-						this.placeBlockAtCurrentPosition(world1, structurePieceBlockSelector11.getSelectedBlockId(), structurePieceBlockSelector11.getSelectedBlockMetaData(), i13, i12, i14, structureBoundingBox2);
+	protected void fillWithRandomizedBlocks(World world, StructureBoundingBox structureBoundingBox, int x1, int y1, int z1, int x2, int y2, int z2, boolean onlyReplace, Random rand, StructurePieceBlockSelector blockSelector) {
+		for(int y = y1; y <= y2; ++y) {
+			for(int x = x1; x <= x2; ++x) {
+				for(int z = z1; z <= z2; ++z) {
+					if(!onlyReplace || this.getBlockIdAtCurrentPosition(world, x, y, z, structureBoundingBox) != 0) {
+						blockSelector.selectBlocks(rand, x, y, z, y == y1 || y == y2 || x == x1 || x == x2 || z == z1 || z == z2);
+						this.placeBlockAtCurrentPosition(world, blockSelector.getSelectedBlockId(), blockSelector.getSelectedBlockMetaData(), x, y, z, structureBoundingBox);
 					}
 				}
 			}
@@ -397,11 +611,16 @@ public abstract class StructureComponent {
 
 	}
 
-	protected void randomlyPlaceBlock(World world1, StructureBoundingBox structureBoundingBox2, Random random3, float f4, int i5, int i6, int i7, int i8, int i9) {
-		if(random3.nextFloat() < f4) {
-			this.placeBlockAtCurrentPosition(world1, i8, i9, i5, i6, i7, structureBoundingBox2);
+	protected void randomlyPlaceBlock(World world, StructureBoundingBox structureBoundingBox, Random rand, float chance, int x, int y, int z, int blockID, int meta) {
+		if(rand.nextFloat() < chance) {
+			this.placeBlockAtCurrentPosition(world, blockID, meta, x, y, z, structureBoundingBox);
 		}
+	}
 
+	protected void randomlyPlaceBlockIfNextToSolid(World world, StructureBoundingBox structureBoundingBox, Random rand, float chance, int x, int y, int z, int blockID, int meta) {
+		if(rand.nextFloat() < chance) {
+			this.placeBlockAtCurrentPositionIfNextToSolid(world, blockID, meta, x, y, z, structureBoundingBox);
+		}
 	}
 
 	protected void randomlyRareFillWithBlocks(World world1, StructureBoundingBox structureBoundingBox2, int i3, int i4, int i5, int i6, int i7, int i8, int i9, boolean z10) {

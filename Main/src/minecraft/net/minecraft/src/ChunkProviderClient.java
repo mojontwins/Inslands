@@ -13,7 +13,7 @@ public class ChunkProviderClient implements IChunkProvider {
 	private World worldObj;
 
 	public ChunkProviderClient(World world1) {
-		this.blankChunk = new EmptyChunk(world1, new byte[32768], 0, 0);
+		this.blankChunk = new EmptyChunk(world1, new byte[32768], new byte[32768], 0, 0);
 		this.worldObj = world1;
 	}
 
@@ -40,7 +40,8 @@ public class ChunkProviderClient implements IChunkProvider {
 	public Chunk prepareChunk(int i1, int i2) {
 		ChunkCoordIntPair chunkCoordIntPair3 = new ChunkCoordIntPair(i1, i2);
 		byte[] b4 = new byte[32768];
-		Chunk chunk5 = new Chunk(this.worldObj, b4, i1, i2);
+		byte[] b5 = new byte[32768];
+		Chunk chunk5 = new Chunk(this.worldObj, b4, b5, i1, i2);
 		Arrays.fill(chunk5.skylightMap.data, (byte)-1);
 		this.chunkMapping.put(chunkCoordIntPair3, chunk5);
 		chunk5.isChunkLoaded = true;

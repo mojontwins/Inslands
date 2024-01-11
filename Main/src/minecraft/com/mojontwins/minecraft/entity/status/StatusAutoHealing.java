@@ -10,7 +10,8 @@ public class StatusAutoHealing extends Status {
 		this.particleColor = 0xD24343;
 	}
 	
-	public void performEffect (EntityLiving entityLiving, int amplifier) {
+	@Override
+	public void performEffect(EntityLiving entityLiving, int amplifier, int duration) {
 		// Increase half a heart - decrease for zombies!
 		if(entityLiving instanceof EntityZombie) {
 			if(entityLiving.health > 1) {
@@ -21,12 +22,14 @@ public class StatusAutoHealing extends Status {
 		}
 	}
 	
-	public boolean isReady (int tick, int amplifier) {
+	@Override
+	public boolean isReady(int tick, int amplifier) {
 		// Run every 10 ticks
 		return (tick % 10) == 0;
 	}
 
-	public boolean isApplicableTo (EntityLiving entityLiving) {
+	@Override
+	public boolean isApplicableTo(EntityLiving entityLiving) {
 		// Zombies can't be poisoned
 		return !(entityLiving instanceof EntityZombie);
 	}

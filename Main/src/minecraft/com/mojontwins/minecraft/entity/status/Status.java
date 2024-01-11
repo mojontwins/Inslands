@@ -14,8 +14,10 @@ public class Status {
 	// Default status
 	public static Status statusPoisoned = new StatusPoisoned(getNewStatusId(), true);
 	public static Status statusSlowness = new StatusSlowness(getNewStatusId(), true);
-	public static Status statusAutoHealing = new StatusAutoHealing(getNewStatusId(), true);
+	public static Status statusAutoHealing = new StatusAutoHealing(getNewStatusId(), false);
 	public static Status statusInstantDamage = new StatusInstantDamage(getNewStatusId(), true);
+	public static Status statusDizzy = new StatusDizzy(getNewStatusId(), true);
+	public static Status statusBlind = new StatusBlind(getNewStatusId(), true);
 	
 	/*
 	 * Class constructor needs an id and a boolean isBadEffect.
@@ -44,20 +46,20 @@ public class Status {
 	/*
 	 * Override this method with your own to perform the effect
 	 */
-	public void performEffect (EntityLiving entityLiving, int amplifier) {    	
+	public void performEffect(EntityLiving entityLiving, int amplifier, int duration) {    	
 	}
 	
 	/*
 	 *  Override this method with your own to decide if the effect is ready
 	 */
-	public boolean isReady (int tick, int amplifier) {    	
+	public boolean isReady(int tick, int amplifier) {    	
 		return true;
 	}
 	
 	/*
 	 *  Override this method with your own to decide if the effect is applicable to this entity
 	 */
-	public boolean isApplicableTo (EntityLiving entityLiving) {
+	public boolean isApplicableTo(EntityLiving entityLiving) {
 		return true;
 	}
 	

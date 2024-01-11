@@ -23,7 +23,8 @@ public class RenderEngine {
 	private HashMap<String,Object> textureContentsMap = new HashMap<String, Object>();
 	private HashMap<Integer,BufferedImage> textureNameToImageMap = new HashMap<Integer,BufferedImage>();
 	private IntBuffer singleIntBuffer = GLAllocation.createDirectIntBuffer(1);
-	private ByteBuffer imageData = GLAllocation.createDirectByteBuffer(1048576);
+	//private ByteBuffer imageData = GLAllocation.createDirectByteBuffer(1048576);
+	private ByteBuffer imageData = GLAllocation.createDirectByteBuffer(1920*1080*4);
 	private List<TextureFX> textureList = new ArrayList<TextureFX>();
 	private Map<String,ThreadDownloadImageData> urlToImageDataMap = new HashMap<String,ThreadDownloadImageData>();
 	private GameSettings options;

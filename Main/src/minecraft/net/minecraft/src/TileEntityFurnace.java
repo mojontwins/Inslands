@@ -177,11 +177,24 @@ public class TileEntityFurnace extends TileEntity implements IInventory {
 			return 0;
 		} else {
 			int i2 = itemStack1.getItem().shiftedIndex;
-			return i2 < 256 && Block.blocksList[i2].blockMaterial == Material.wood ? 300 : (i2 == Item.stick.shiftedIndex ? 100 : (i2 == Item.coal.shiftedIndex ? 1600 : (i2 == Item.bucketLava.shiftedIndex ? 20000 : (i2 == Block.sapling.blockID ? 100 : 0))));
+			//return i2 < 256 && Block.blocksList[i2].blockMaterial == Material.wood ? 300 : (i2 == Item.stick.shiftedIndex ? 100 : (i2 == Item.coal.shiftedIndex ? 1600 : (i2 == Item.bucketLava.shiftedIndex ? 20000 : (i2 == Block.sapling.blockID ? 100 : 0))));
+
+			if(i2 == Block.woodenSpikes.blockID) return 3000;
+			if(i2 < 256 && Block.blocksList[i2].blockMaterial == Material.wood) return 300;
+			if(i2 == Item.stick.shiftedIndex) return 100;
+			if(i2 == Item.coal.shiftedIndex) return 1600;
+			if(i2 == Item.bucketLava.shiftedIndex) return 20000;
+			if(i2 == Block.blockCoal.blockID) return 16000;
+			if(i2 == Block.driedKelpBlock.blockID) return 1200;
+			if(i2 == Item.driedKelp.shiftedIndex) return 120;
+			if(i2 == Block.sapling.blockID) return 100;
+			
+			return 0;
 		}
 	}
 
 	public boolean canInteractWith(EntityPlayer entityPlayer1) {
 		return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : entityPlayer1.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
 	}
+	
 }

@@ -25,6 +25,7 @@ public class TileEntityRenderer {
 	private TileEntityRenderer() {
 		this.specialRendererMap.put(TileEntitySign.class, new TileEntitySignRenderer());
 		this.specialRendererMap.put(TileEntityMobSpawner.class, new TileEntityMobSpawnerRenderer());
+		this.specialRendererMap.put(TileEntityMobSpawnerOneshot.class, new TileEntityMobSpawnerOneshotRenderer());
 		this.specialRendererMap.put(TileEntityPiston.class, new TileEntityRendererPiston());
 		Iterator<TileEntitySpecialRenderer> iterator1 = this.specialRendererMap.values().iterator();
 

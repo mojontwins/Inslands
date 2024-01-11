@@ -12,41 +12,61 @@ import net.minecraft.src.MapGenBase;
 import net.minecraft.src.World;
 
 public abstract class MapGenStructure extends MapGenBase {
+	protected World world;
 	protected HashMap<Long,StructureStart> coordMap = new HashMap<Long,StructureStart>();
 
 	public void generate(ChunkProviderGenerate iChunkProvider1, World world2, int i3, int i4, byte[] b5) {
 		super.generate(iChunkProvider1, world2, i3, i4, b5);
 	}
 
-	protected void recursiveGenerate(World world1, int i2, int i3, int i4, int i5, byte[] b6) {
-		if(!this.coordMap.containsKey(ChunkCoordIntPair.chunkXZ2Long(i2, i3))) {
+	protected void recursiveGenerate(World world, int cX, int cZ, int chunkX, int chunkZ, byte[] blockArray) {
+		// chunkX, chunkZ is the chunk being generated.
+		// cX, cZ is the chunk being iterated from all chunks surrounding chunkX, chunkZ within a +-8 range.
+		
+		// First check if this chunk isn't already in the structure starts coordinate map.
+		if(!this.coordMap.containsKey(ChunkCoordIntPair.chunkXZ2Long(cX, cZ))) {
+			
+			// It's not...
 			this.rand.nextInt();
-			if(this.canSpawnStructureAtCoords(i2, i3)) {
-				StructureStart structureStart7 = this.getStructureStart(i2, i3);
-				this.coordMap.put(ChunkCoordIntPair.chunkXZ2Long(i2, i3), structureStart7);
+			
+			// Can the structure spawn at cX, cZ?
+			if(this.canSpawnStructureAtCoords(world, cX, cZ)) {
+				
+				// Generate a new structureStart at cX, cZ and add to the list.
+				StructureStart structureStart = this.getStructureStart(cX, cZ);
+				this.coordMap.put(ChunkCoordIntPair.chunkXZ2Long(cX, cZ), structureStart);
 			}
 
 		}
 	}
 
-	public boolean generateStructuresInChunk(World world1, Random random2, int i3, int i4, boolean mostlySolid) {
-		int i5 = (i3 << 4) + 8;
-		int i6 = (i4 << 4) + 8;
-		boolean z7 = false;
-		Iterator<StructureStart> iterator8 = this.coordMap.values().iterator();
+	/*
+	 * This method is called on population. If a StructureStart was generated within a +-8 range, draw the parts pertaining to this chunk
+	 */
+	public boolean generateStructuresInChunk(World world, Random rand, int chunkX, int chunkZ, boolean mostlySolid) {
+		int x0 = (chunkX << 4) + 8;
+		int z0 = (chunkZ << 4) + 8;
+		boolean spawnedAny = false;
+		
+		Iterator<StructureStart> iterator = this.coordMap.values().iterator();
 
-		while(iterator8.hasNext()) {
-			StructureStart structureStart9 = (StructureStart)iterator8.next();
-			if(structureStart9.isSizeableStructure() && structureStart9.getBoundingBox().intersectsWith(i5, i6, i5 + 15, i6 + 15)) {
-				structureStart9.generateStructure(world1, random2, new StructureBoundingBox(i5, i6, i5 + 15, i6 + 15), mostlySolid);
-				z7 = true;
+		while(iterator.hasNext()) {
+			// Get one of the existing structures
+			StructureStart structureStart = (StructureStart)iterator.next();
+			
+			// If parts of this structure overlap this chunk...
+			if(structureStart.isSizeableStructure() && structureStart.getBoundingBox().intersectsWith(x0, z0, x0 + 15, z0 + 15)) {
+				
+				// Generate parts of this structure overlapping this chunk
+				structureStart.generateStructure(world, rand, new StructureBoundingBox(x0, z0, x0 + 15, z0 + 15), mostlySolid);
+				spawnedAny = true;
 			}
 		}
 
-		return z7;
+		return spawnedAny;
 	}
 
-	public boolean func_40483_a(int i1, int i2, int i3) {
+	public boolean hasStructureAt(int i1, int i2, int i3) {
 		Iterator<StructureStart> iterator4 = this.coordMap.values().iterator();
 
 		while(true) {
@@ -73,7 +93,7 @@ public abstract class MapGenStructure extends MapGenBase {
 	}
 
 	public ChunkPosition getNearestInstance(World world1, int i2, int i3, int i4) {
-		this.world = world1;
+		
 		this.rand.setSeed(world1.getRandomSeed());
 		long j5 = this.rand.nextLong();
 		long j7 = this.rand.nextLong();
@@ -137,7 +157,7 @@ public abstract class MapGenStructure extends MapGenBase {
 		return null;
 	}
 
-	protected abstract boolean canSpawnStructureAtCoords(int i1, int i2);
+	protected abstract boolean canSpawnStructureAtCoords(World world, int x, int z);
 
 	protected abstract StructureStart getStructureStart(int i1, int i2);
 }

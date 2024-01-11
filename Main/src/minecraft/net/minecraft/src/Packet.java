@@ -215,6 +215,7 @@ public abstract class Packet {
 		addIdClassMapping(130, true, true, Packet130UpdateSign.class);
 		addIdClassMapping(131, true, false, Packet131MapData.class);
 		addIdClassMapping(200, true, false, Packet200Statistic.class);
+		addIdClassMapping(250, true, true, Packet250CustomPayload.class);
 		addIdClassMapping(255, true, true, Packet255KickDisconnect.class);
 		
 		// Custom

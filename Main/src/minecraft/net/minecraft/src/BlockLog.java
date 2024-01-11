@@ -15,6 +15,11 @@ public class BlockLog extends Block {
 		super(i1, Material.wood);
 		this.blockIndexInTexture = 20;
 	}
+	
+	protected BlockLog(int i1, Material m) {
+		super(i1, m);
+		this.blockIndexInTexture = 20;
+	}
 
 	public int quantityDropped(Random random1) {
 		return 1;

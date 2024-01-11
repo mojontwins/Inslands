@@ -15,6 +15,12 @@ class SlotArmor extends Slot {
 	}
 
 	public boolean isItemValid(ItemStack itemStack1) {
-		return itemStack1.getItem() instanceof ItemArmor ? ((ItemArmor)itemStack1.getItem()).armorType == this.armorType : (itemStack1.getItem().shiftedIndex == Block.pumpkin.blockID ? this.armorType == 0 : false);
+		return itemStack1.getItem() instanceof ItemArmor ? 
+				((ItemArmor)itemStack1.getItem()).armorType == this.armorType 
+			: 
+				(itemStack1.getItem().shiftedIndex == Block.pumpkin.blockID || itemStack1.getItem().shiftedIndex == Block.divingHelmet.blockID ? 
+						this.armorType == 0 
+					: 
+						false);
 	}
 }

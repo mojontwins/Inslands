@@ -44,10 +44,10 @@ public enum EnumOptions {
 		return null;
 	}
 
-	private EnumOptions(String string3, boolean z4, boolean z5) {
-		this.enumString = string3;
-		this.enumFloat = z4;
-		this.enumBoolean = z5;
+	private EnumOptions(String caption, boolean isFloat, boolean isBoolean) {
+		this.enumString = caption;
+		this.enumFloat = isFloat;
+		this.enumBoolean = isBoolean;
 	}
 
 	public boolean getEnumFloat() {

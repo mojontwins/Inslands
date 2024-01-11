@@ -1,7 +1,5 @@
 package net.minecraft.src;
 
-import java.util.Random;
-
 public class BlockSand extends Block {
 	public static boolean fallInstantly = false;
 
@@ -9,6 +7,7 @@ public class BlockSand extends Block {
 		super(id, blockIndex, Material.sand);
 	}
 
+	/*
 	public void onBlockAdded(World world, int x, int y, int z) {
 		world.scheduleBlockUpdate(x, y, z, this.blockID, this.tickRate());
 	}
@@ -20,7 +19,24 @@ public class BlockSand extends Block {
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		this.tryToFall(world, x, y, z);
 	}
+	
+	public int tickRate() {
+		return 3;
+	}
 
+	*/
+	
+	// Non-ticking version
+	@Override
+	public void onBlockAdded(World world, int x, int y, int z) {
+		this.tryToFall(world, x, y, z);
+	}
+	
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, int id) {
+		this.tryToFall(world, x, y, z);
+	}
+	
 	private void tryToFall(World world, int x, int y, int z) {
 		if(canFallBelow(world, x, y - 1, z) && y >= 0) {
 			byte b8 = 32;
@@ -40,10 +56,6 @@ public class BlockSand extends Block {
 			}
 		}
 
-	}
-
-	public int tickRate() {
-		return 3;
 	}
 
 	public static boolean canFallBelow(World world0, int i1, int i2, int i3) {

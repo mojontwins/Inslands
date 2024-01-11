@@ -95,7 +95,7 @@ public class PlayerController {
 		return entityPlayer5.craftingInventory.slotClick(i2, i3, z4, entityPlayer5);
 	}
 
-	public void func_20086_a(int i1, EntityPlayer entityPlayer2) {
+	public void onCraftGuiClosed(int i1, EntityPlayer entityPlayer2) {
 		entityPlayer2.craftingInventory.onCraftGuiClosed(entityPlayer2);
 		entityPlayer2.craftingInventory = entityPlayer2.inventorySlots;
 	}
