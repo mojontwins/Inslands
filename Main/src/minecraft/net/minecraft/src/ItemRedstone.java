@@ -1,8 +1,12 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemRedstone extends Item {
 	public ItemRedstone(int i1) {
 		super(i1);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabRedstone;
 	}
 
 	public boolean onItemUse(ItemStack itemStack1, EntityPlayer entityPlayer2, World world3, int i4, int i5, int i6, int i7) {

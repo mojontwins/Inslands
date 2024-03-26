@@ -9,6 +9,7 @@ import net.minecraft.src.BiomeGenMesa;
 import net.minecraft.src.BiomeGenRocky;
 import net.minecraft.src.Block;
 import net.minecraft.src.Chunk;
+import net.minecraft.src.ChunkProviderSky;
 import net.minecraft.src.IChunkProvider;
 import net.minecraft.src.TileEntityMobSpawnerOneshot;
 import net.minecraft.src.World;
@@ -233,6 +234,7 @@ public class FeatureVolcano extends FeatureDynamicSchematic {
 	@Override
 	public boolean shouldSpawn(IChunkProvider chunkProvider, World world, Random rand, BiomeGenBase biome, int chunkX,
 			int chunkZ) {
+		if(chunkProvider instanceof ChunkProviderSky) return false;
 		return biome instanceof BiomeGenRocky || biome instanceof BiomeGenMangrove || biome instanceof BiomeGenMesa;
 	}
 	

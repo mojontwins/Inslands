@@ -13,7 +13,7 @@ final class J_JsonFieldNodeSelector extends J_LeafFunctor {
 		return map1.containsKey(this.field_27066_a);
 	}
 
-	public String func_27060_a() {
+	public String description() {
 		return "\"" + this.field_27066_a.getText() + "\"";
 	}
 
@@ -31,7 +31,7 @@ final class J_JsonFieldNodeSelector extends J_LeafFunctor {
 	}
 
 	@SuppressWarnings("unchecked")
-	public boolean func_27058_a(Object object1) {
+	public boolean checkType(Object object1) {
 		return this.func_27065_a((Map<J_JsonStringNode,J_JsonNode>)object1);
 	}
 }

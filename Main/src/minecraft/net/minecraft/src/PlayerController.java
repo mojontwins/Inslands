@@ -91,7 +91,7 @@ public class PlayerController {
 		entityPlayer1.attackTargetEntityWithCurrentItem(entity2);
 	}
 
-	public ItemStack func_27174_a(int i1, int i2, int i3, boolean z4, EntityPlayer entityPlayer5) {
+	public ItemStack windowClick(int i1, int i2, int i3, boolean z4, EntityPlayer entityPlayer5) {
 		return entityPlayer5.craftingInventory.slotClick(i2, i3, z4, entityPlayer5);
 	}
 
@@ -122,5 +122,11 @@ public class PlayerController {
 		this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
 	
 		return stackSize;
+	}
+
+	public void sendSlotPacket(ItemStack itemStack, int var5) {
+	}
+
+	public void sendSetItemStackCreative(ItemStack itemStack) {
 	}
 }

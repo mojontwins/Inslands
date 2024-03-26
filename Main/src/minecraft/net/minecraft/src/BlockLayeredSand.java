@@ -2,9 +2,13 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockLayeredSand extends Block {
 	public BlockLayeredSand(int id, int blockIndex) {
 		super(id, blockIndex, Material.sand);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 	
 	public void setBlockBoundsForItemRender() {

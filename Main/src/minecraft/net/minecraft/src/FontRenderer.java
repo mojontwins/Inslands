@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 import org.lwjgl.opengl.GL11;
 
 public class FontRenderer {
+	public static final int FONT_HEIGHT = 8;
 	private int[] charWidth = new int[256];
 	public int fontTextureName = 0;
 	private int fontDisplayLists;

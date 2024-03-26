@@ -12,7 +12,7 @@ public class GuiDispenser extends GuiContainer {
 		this.fontRenderer.drawString("Inventory", 8, this.ySize - 96 + 2, 4210752);
 	}
 
-	protected void drawGuiContainerBackgroundLayer(float f1) {
+	protected void drawGuiContainerBackgroundLayer(int x, int y, float f1) {
 		int i2 = this.mc.renderEngine.getTexture("/gui/trap.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(i2);

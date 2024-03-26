@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockFurnace extends BlockContainer {
 	private Random furnaceRand = new Random();
 	private final boolean isActive;
@@ -11,6 +13,8 @@ public class BlockFurnace extends BlockContainer {
 		super(i1, Material.rock);
 		this.isActive = z2;
 		this.blockIndexInTexture = 45;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	public int idDropped(int i1, Random random2) {

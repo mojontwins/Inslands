@@ -30,6 +30,7 @@ public class GuiCreateWorld extends GuiScreen {
 	private int sizeId = 1;
 	
 	private final String sizeStrings[] = new String[] { "small", "normal", "big" };
+	private boolean generateCities;
 
 	public GuiCreateWorld(GuiScreen par1GuiScreen) {
 		this.parentGuiScreen = par1GuiScreen;
@@ -168,7 +169,14 @@ public class GuiCreateWorld extends GuiScreen {
 				LevelThemeGlobalSettings.loadThemeById(this.themeId);
 				LevelThemeGlobalSettings.worldTypeID = this.worldType;
 				WorldSize.setSizeById(this.sizeId);
-				this.mc.startWorld(this.folderName, this.textboxWorldName.getText(), new WorldSettings(var8, this.mc.gameSettings.isCreative ? 1 : 0, this.generateStructures, false, WorldType.worldTypes[this.worldType]));
+				this.mc.startWorld(this.folderName, this.textboxWorldName.getText(), new WorldSettings(
+						var8, 
+						this.mc.gameSettings.isCreative ? 1 : 0, 
+						this.generateStructures, 
+						false, 
+						this.generateCities,
+						WorldType.worldTypes[this.worldType])
+				);
 				this.mc.displayGuiScreen((GuiScreen)null);
 				
 			} else if(par1GuiButton.id == 3) {

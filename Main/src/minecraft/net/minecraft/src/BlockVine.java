@@ -2,9 +2,13 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockVine extends Block {
 	public BlockVine(int par1, int par2) {
         super(par1, par2, Material.vine);
+        
+        this.displayOnCreativeTab = CreativeTabs.tabDeco;
     }
 
 	public boolean findForbiddenBlock(int blockID) {

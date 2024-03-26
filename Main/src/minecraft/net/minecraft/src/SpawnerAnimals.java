@@ -32,13 +32,9 @@ public final class SpawnerAnimals {
 				int z0 = MathHelper.floor_double(entityPlayer4.posZ / 16.0D);
 				byte radius = 8;
 
-				int xx, zz;
 				for(int x = -radius; x <= radius; ++x) {
 					for(int z = -radius; z <= radius; ++z) {
-						xx = x + x0; zz = z + z0;
-						if(xx >= 0 && xx < WorldSize.xChunks && zz >= 0 && zz < WorldSize.zChunks) {
-							eligibleChunksForSpawning.add(new ChunkCoordIntPair(xx, zz));
-						}
+						eligibleChunksForSpawning.add(new ChunkCoordIntPair(x + x0, z + z0));
 					}
 				}
 			}
@@ -117,10 +113,14 @@ public final class SpawnerAnimals {
 
 								while(iterator16.hasNext()) {
 									SpawnListEntry spawnListEntry17 = (SpawnListEntry)iterator16.next();
+
 									i40 -= spawnListEntry17.spawnRarityRate;
 									if(i40 < 0) {
-										mobToSpawn = spawnListEntry17;
-										break;
+										// Urban mobs only spawn in cities
+										if(!spawnListEntry17.isUrban || spawningChunk.hasBuilding || spawningChunk.hasRoad) {
+											mobToSpawn = spawnListEntry17;
+											break;
+										}
 									}
 								}
 
@@ -134,6 +134,8 @@ public final class SpawnerAnimals {
 						int spawnedCount = 0;
 
 						int spawningAttempts = 3;
+						
+						//System.out.println("Biome " + biomeGen + " Mob to spawn " + mobToSpawn.entityClass);
 
 						for(int spawningAttempt = 0; spawningAttempt < spawningAttempts; ++spawningAttempt) {
 							int x1 = x0;
@@ -164,8 +166,14 @@ public final class SpawnerAnimals {
 												return totalSpawned;
 											}
 
-											entityLiving.setLocationAndAngles((double)xF, (double)yF, (double)zF, world.rand.nextFloat() * 360.0F, 0.0F);
+											/*
+											if (world.getBlockMaterial(x1, y1, z1).getIsLiquid() != entityLiving.getCanSpawnOnWater()) {
+												continue;
+											}
+											*/
 
+											entityLiving.setLocationAndAngles((double)xF, (double)yF, (double)zF, world.rand.nextFloat() * 360.0F, 0.0F);
+											
 											if(entityLiving.getCanSpawnHere()) {
 												++spawnedCount;
 												world.entityJoinedWorld(entityLiving);
@@ -192,24 +200,42 @@ public final class SpawnerAnimals {
 	private static boolean canCreatureTypeSpawnAtLocation(EnumCreatureType enumCreatureType0, World world1, int i2, int i3, int i4) {
 		return enumCreatureType0.getCreatureMaterial() == Material.water ? world1.getBlockMaterial(i2, i3, i4).getIsLiquid() && !world1.isBlockNormalCube(i2, i3 + 1, i4) : world1.isBlockNormalCube(i2, i3 - 1, i4) && !world1.isBlockNormalCube(i2, i3, i4) && !world1.getBlockMaterial(i2, i3, i4).getIsLiquid() && !world1.isBlockNormalCube(i2, i3 + 1, i4);
 	}
-
+	
 	private static EntityLiving spawnSpecial(EntityLiving entityLiving, World world, float posX, float posY, float posZ, float rotationYaw, float rotationPitch) {
 		entityLiving.setLocationAndAngles(posX, posY, posZ, rotationYaw, rotationPitch);
 		world.entityJoinedWorld(entityLiving);
 		return entityLiving;
 	}
+	
+	/*
+	private static void setupTrader(EntityTrader entityTrader, World world, boolean specialTrader) {
+		entityTrader.fillTradingRecipeList(world, specialTrader);
+	}
+	*/
 
 	protected static void creatureSpecificInit(EntityLiving entityLiving, World world, float xF, float yF, float zF) {
 		if(entityLiving instanceof EntityPig) {
 			if(world.rand.nextInt(128) == 0) {
 				EntityLiving entityRider = spawnSpecial(new EntityHusk(world), world, xF, yF, zF, entityLiving.rotationYaw, 0.0F);
 				entityRider.mountEntity(entityLiving);
-			} 
+			} else if(world.rand.nextInt(32) == 0) {
+				/*
+				EntityLiving entityRider = spawnSpecial(new EntityPigman(world), world, xF, yF, zF, entityLiving.rotationYaw, 0.0F);
+				setupTrader((EntityTrader)entityRider, world, false);
+				entityRider.mountEntity(entityLiving);
+				*/
+			}
 		} else if(entityLiving instanceof EntityCow) {
 			if(world.rand.nextInt(128) == 0) {
 				EntityLiving entityRider = spawnSpecial(new EntityHusk(world), world, xF, yF, zF, entityLiving.rotationYaw, 0.0F);
 				entityRider.mountEntity(entityLiving);
-			} 
+			} else if(world.rand.nextInt(32) == 0) {
+				/*
+				EntityLiving entityRider = spawnSpecial(new EntityCowman(world), world, xF, yF, zF, entityLiving.rotationYaw, 0.0F);
+				setupTrader((EntityTrader)entityRider, world, false);
+				entityRider.mountEntity(entityLiving);
+				*/
+			}
 		} else if(entityLiving instanceof EntitySpider) {
 			EntityLiving entityRider = null;
 			switch(world.rand.nextInt(128)) {
@@ -232,7 +258,7 @@ public final class SpawnerAnimals {
 			IMobWithLevel mobWithLevel = (IMobWithLevel)entityLiving;
 			int level = metadata == 0 ? world.rand.nextInt(mobWithLevel.getMaxLevel()) : metadata & 7;
 			mobWithLevel.setLevel(level);
-		} 
+		}
 
 	}
 

@@ -70,7 +70,7 @@ public class WorldGenBo3Tree extends WorldGenerator {
 		schematic.setOrthoAngle(rand.nextInt(4));
 
 		if (forceSpawn || schematic.canSpawnHere(world, x, y, z)) {
-			schematic.render(world, x, y, z);
+			schematic.render(world, rand, x, y, z);
 			return true;
 		}
 
@@ -128,7 +128,7 @@ public class WorldGenBo3Tree extends WorldGenerator {
 					// Put in pool
 					treePool.put(schematic.toString(), schematic);
 
-					System.out.println("Added " + schematic.toString());
+					// System.out.println("Added " + schematic.toString());
 
 					return FileVisitResult.CONTINUE;
 				}

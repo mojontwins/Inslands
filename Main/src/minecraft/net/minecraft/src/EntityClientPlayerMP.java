@@ -101,8 +101,9 @@ public class EntityClientPlayerMP extends EntityPlayerSP {
 
 	}
 
-	public void dropCurrentItem() {
+	public EntityItem dropCurrentItem() {
 		this.sendQueue.addToSendQueue(new Packet14BlockDig(4, 0, 0, 0, 0));
+		return null;
 	}
 
 	private void sendInventoryChanged() {

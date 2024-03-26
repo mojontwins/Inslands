@@ -1,11 +1,15 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockChain extends Block {
 	public BlockChain(int i1, int i2, Material material3) {
 		super(i1, i2, material3);
 		float f3 = 0.2F;
 		this.setTickOnLoad(false);
 		this.setBlockBounds(0.5F - f3, 0.0F, 0.5F - f3, 0.5F + f3, 1.0F, 0.5F + f3);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 	
 	@Override

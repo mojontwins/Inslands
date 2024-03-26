@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemMinecart extends Item {
 	public int minecartType;
 
@@ -7,6 +9,8 @@ public class ItemMinecart extends Item {
 		super(i1);
 		this.maxStackSize = 1;
 		this.minecartType = i2;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabTransport;
 	}
 
 	public boolean onItemUse(ItemStack itemStack1, EntityPlayer entityPlayer2, World world3, int i4, int i5, int i6, int i7) {

@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockSapling extends BlockFlower {
 	protected BlockSapling(int i1, int i2) {
 		super(i1, i2);
@@ -11,6 +13,8 @@ public class BlockSapling extends BlockFlower {
 	public void setMyBlockBounds() {
 		float f3 = 0.4F;
 		this.setBlockBounds(0.5F - f3, 0.0F, 0.5F - f3, 0.5F + f3, f3 * 2.0F, 0.5F + f3);
+
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 	
 	public void updateTick(World world1, int i2, int i3, int i4, Random random5) {

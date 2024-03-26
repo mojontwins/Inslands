@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockHaystack extends Block {
 	
 	// This block will be rendered using renderAxisOriented, which means that:
@@ -8,6 +10,8 @@ public class BlockHaystack extends Block {
 
 	protected BlockHaystack(int id, int blockIndexInTexture) {
 		super(id, blockIndexInTexture, Material.grass);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 	
 	public int getBlockTextureFromSideAndMetadata(int side, int metadata) {

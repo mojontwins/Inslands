@@ -7,7 +7,7 @@ final class J_JsonObjectNodeSelector extends J_LeafFunctor {
 		return EnumJsonNodeType.OBJECT == j_JsonNode1.getType();
 	}
 
-	public String func_27060_a() {
+	public String description() {
 		return "A short form object";
 	}
 
@@ -23,7 +23,7 @@ final class J_JsonObjectNodeSelector extends J_LeafFunctor {
 		return this.getFields((J_JsonNode)object1);
 	}
 
-	public boolean func_27058_a(Object object1) {
+	public boolean checkType(Object object1) {
 		return this.func_27070_a((J_JsonNode)object1);
 	}
 }

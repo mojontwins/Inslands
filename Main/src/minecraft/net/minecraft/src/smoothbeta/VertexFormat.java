@@ -1,0 +1,116 @@
+package net.minecraft.src.smoothbeta;
+
+import org.lwjgl.opengl.GL11;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class VertexFormat {
+    private final Map<String, VertexFormatElement> elementMap;
+    private final int vertexSizeByte;
+
+    public VertexFormat(Map<String, VertexFormatElement> elementMap) {
+        this.elementMap = elementMap;
+        int i = 0;
+        for (VertexFormatElement vertexFormatElement : elementMap.values())
+            i += vertexFormatElement.getByteLength();
+        this.vertexSizeByte = i;
+    }
+
+    public String toString() {
+        return "format: " + this.elementMap.size() + " elements: " + this.elementMap.entrySet().stream().map(Object::toString).collect(Collectors.joining(" "));
+    }
+
+    public int getVertexSizeByte() {
+        return this.vertexSizeByte;
+    }
+
+    public List<String> getAttributeNames() {
+        return new ArrayList<>(this.elementMap.keySet());
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+        VertexFormat vertexFormat = (VertexFormat)o;
+        if (this.vertexSizeByte != vertexFormat.vertexSizeByte) {
+            return false;
+        }
+        return this.elementMap.equals(vertexFormat.elementMap);
+    }
+
+    public int hashCode() {
+        return this.elementMap.hashCode();
+    }
+
+    public enum DrawMode {
+        LINES(4, 2, 2, false),
+        LINE_STRIP(5, 2, 1, true),
+        DEBUG_LINES(1, 2, 2, false),
+        DEBUG_LINE_STRIP(3, 2, 1, true),
+        TRIANGLES(4, 3, 3, false),
+        TRIANGLE_STRIP(5, 3, 1, true),
+        TRIANGLE_FAN(6, 3, 1, true),
+        QUADS(4, 4, 4, false);
+
+        public final int glMode;
+        public final int firstVertexCount;
+        public final int additionalVertexCount;
+        public final boolean shareVertices;
+
+        DrawMode(int glMode, int firstVertexCount, int additionalVertexCount, boolean shareVertices) {
+            this.glMode = glMode;
+            this.firstVertexCount = firstVertexCount;
+            this.additionalVertexCount = additionalVertexCount;
+            this.shareVertices = shareVertices;
+        }
+
+        public int getIndexCount(int vertexCount) {
+            switch (this) {
+                case LINE_STRIP:
+                case DEBUG_LINES:
+                case DEBUG_LINE_STRIP:
+                case TRIANGLES:
+                case TRIANGLE_STRIP:
+                case TRIANGLE_FAN: {
+                    return vertexCount;
+                }
+                case LINES:
+                case QUADS: {
+                    return vertexCount / 4 * 6;
+                }
+            }
+            return vertexCount;
+        }
+    }
+
+    public enum IndexType {
+        BYTE(GL11.GL_UNSIGNED_BYTE, 1),
+        SHORT(GL11.GL_UNSIGNED_SHORT, 2),
+        INT(GL11.GL_UNSIGNED_INT, 4);
+
+        public final int glType;
+        public final int size;
+
+        IndexType(int glType, int size) {
+            this.glType = glType;
+            this.size = size;
+        }
+
+        public static IndexType smallestFor(int indexCount) {
+            if ((indexCount & 0xFFFF0000) != 0) {
+                return INT;
+            }
+            if ((indexCount & 0xFF00) != 0) {
+                return SHORT;
+            }
+            return BYTE;
+        }
+    }
+}

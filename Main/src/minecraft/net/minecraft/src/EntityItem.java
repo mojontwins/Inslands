@@ -143,4 +143,8 @@ public class EntityItem extends Entity {
 
 		}
 	}
+	
+	public void makeOld() {
+		this.age = 4800;
+	}
 }

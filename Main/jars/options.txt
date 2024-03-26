@@ -2,7 +2,7 @@ music:1.0
 sound:1.0
 invertYMouse:false
 mouseSensitivity:0.5
-viewDistance:1
+viewDistance:2
 guiScale:0
 bobView:true
 anaglyph3d:false
@@ -10,6 +10,8 @@ advancedOpengl:true
 fpsLimit:0
 difficulty:2
 fancyGraphics:false
+hand:true
+threadedLighting:false
 clearWaters:true
 ao:false
 skin:Default
@@ -18,6 +20,7 @@ FOV:0
 gammaSetting0.0
 colouredAthmosphericstrue
 displayMode:DEFAULT
+meltBuild:true
 key_key.forward:17
 key_key.left:30
 key_key.back:31

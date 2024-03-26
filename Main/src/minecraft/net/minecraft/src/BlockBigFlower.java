@@ -1,5 +1,9 @@
 package net.minecraft.src;
 
+import java.util.List;
+
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockBigFlower extends Block {
 	// Uses metadata to represent three different blocks:
 	// meta 0 is red petal block
@@ -8,6 +12,7 @@ public class BlockBigFlower extends Block {
 
 	protected BlockBigFlower(int id, int blockIndexInTexture, Material material) {
 		super(id, blockIndexInTexture, material);
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 	
 	@Override
@@ -40,5 +45,12 @@ public class BlockBigFlower extends Block {
 	@Override
 	public int getRenderColor(int meta) {
 		return meta == 2 ? 0x88FF88 : 0xFFFFFF;
+	}
+	
+	@Override
+	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
+		for(int i = 0; i < 3; i ++) {
+			par3List.add(new ItemStack(par1, 1, i));
+		}
 	}
 }

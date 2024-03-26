@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-final class J_JsonArray extends J_JsonRootNode {
+public final class J_JsonArray extends J_JsonRootNode {
 	private final List<J_JsonNode> elements;
 
-	J_JsonArray(Iterable<?> iterable1) {
+	public J_JsonArray(Iterable<?> iterable1) {
 		this.elements = asList(iterable1);
 	}
 

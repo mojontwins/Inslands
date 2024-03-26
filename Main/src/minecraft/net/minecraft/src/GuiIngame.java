@@ -36,25 +36,29 @@ public class GuiIngame extends Gui {
 		FontRenderer fontRenderer8 = this.mc.fontRenderer;
 		this.mc.entityRenderer.setupOverlayRendering();
 		GL11.glEnable(GL11.GL_BLEND);
-
+		
 		float brightness = this.mc.thePlayer.getEntityBrightness(f1);
 		
 		if(Minecraft.isFancyGraphicsEnabled()) {
 			this.renderVignette(brightness, i6, i7);
 		}
-
+		
 		if(this.mc.thePlayer.freezeLevel > 0.0D) this.renderFreezeFrame(brightness, i6, i7);
 
 		ItemStack itemStack9 = this.mc.thePlayer.inventory.armorItemInSlot(3);
-		if(!this.mc.gameSettings.thirdPersonView && itemStack9 != null && itemStack9.itemID == Block.pumpkin.blockID) {
-			this.renderPumpkinBlur(i6, i7);
+		if(!this.mc.gameSettings.thirdPersonView && itemStack9 != null) {
+			if(itemStack9.itemID == Block.pumpkin.blockID) {
+				this.renderPumpkinBlur(i6, i7);
+			} else if(itemStack9.itemID == Block.divingHelmet.blockID) {
+				this.renderDivingHelmetBlur(i6, i7);
+			}
 		}
 
 		if(!this.mc.thePlayer.isStatusActive(Status.statusDizzy)) {
-		float f10 = this.mc.thePlayer.prevTimeInPortal + (this.mc.thePlayer.timeInPortal - this.mc.thePlayer.prevTimeInPortal) * f1;
-		if(f10 > 0.0F) {
-			this.renderPortalOverlay(f10, i6, i7);
-		}
+			float f10 = this.mc.thePlayer.prevTimeInPortal + (this.mc.thePlayer.timeInPortal - this.mc.thePlayer.prevTimeInPortal) * f1;
+			if(f10 > 0.0F) {
+				this.renderPortalOverlay(f10, i6, i7);
+			}
 		}
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -320,6 +324,26 @@ public class GuiIngame extends Gui {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 
+	private void renderDivingHelmetBlur(int i1, int i2) {
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(false);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glDisable(GL11.GL_ALPHA_TEST);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.mc.renderEngine.getTexture("/misc/divinghelmetblur.png"));
+		Tessellator tessellator3 = Tessellator.instance;
+		tessellator3.startDrawingQuads();
+		tessellator3.addVertexWithUV(0.0D, (double)i2, -90.0D, 0.0D, 1.0D);
+		tessellator3.addVertexWithUV((double)i1, (double)i2, -90.0D, 1.0D, 1.0D);
+		tessellator3.addVertexWithUV((double)i1, 0.0D, -90.0D, 1.0D, 0.0D);
+		tessellator3.addVertexWithUV(0.0D, 0.0D, -90.0D, 0.0D, 0.0D);
+		tessellator3.draw();
+		GL11.glDepthMask(true);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+	}
+	
 	private void renderVignette(float f1, int i2, int i3) {
 		f1 = 1.0F - f1;
 		if(f1 < 0.0F) {

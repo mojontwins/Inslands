@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockRail extends Block {
 	private final boolean isPowered;
 
@@ -18,6 +20,8 @@ public class BlockRail extends Block {
 		super(i1, i2, Material.circuits);
 		this.isPowered = z3;
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabTransport;
 	}
 
 	public boolean getIsPowered() {

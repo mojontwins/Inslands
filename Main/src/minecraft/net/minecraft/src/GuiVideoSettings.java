@@ -7,10 +7,10 @@ public class GuiVideoSettings extends GuiScreen {
 	private static EnumOptions[] videoOptions = new EnumOptions[]{
 			EnumOptions.DISPLAY_MODES,
 			EnumOptions.GRAPHICS, 
-
-			EnumOptions.RENDER_DISTANCE, 	
+			
+			EnumOptions.RENDER_DISTANCE, 
 			EnumOptions.AMBIENT_OCCLUSION,
-			 
+			
 			EnumOptions.FRAMERATE_LIMIT, 
 			EnumOptions.GAMMA,
 			
@@ -20,8 +20,12 @@ public class GuiVideoSettings extends GuiScreen {
 			EnumOptions.FOV,
 			EnumOptions.VIEW_BOBBING, 
 			
-			EnumOptions.GUI_SCALE, 
-			EnumOptions.ADVANCED_OPENGL};
+			EnumOptions.GUI_SCALE, 		
+			EnumOptions.HAND,
+			
+			EnumOptions.ADVANCED_OPENGL,
+			EnumOptions.THREADED_LIGHT
+	};
 
 	public GuiVideoSettings(GuiScreen guiScreen1, GameSettings gameSettings2) {
 		this.parentGuiScreen = guiScreen1;

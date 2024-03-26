@@ -3,6 +3,8 @@ package net.minecraft.src;
 import java.util.List;
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockPressurePlate extends Block {
 	private EnumMobType triggerMobType;
 
@@ -12,6 +14,7 @@ public class BlockPressurePlate extends Block {
 		this.setTickOnLoad(true);
 		float f5 = 0.0625F;
 		this.setBlockBounds(f5, 0.0F, f5, 1.0F - f5, 0.03125F, 1.0F - f5);
+		this.displayOnCreativeTab = CreativeTabs.tabRedstone;
 	}
 
 	public int tickRate() {

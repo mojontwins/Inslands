@@ -8,7 +8,7 @@ public final class J_JsonNodeSelector {
 	}
 
 	public boolean func_27356_a(Object object1) {
-		return this.field_27359_a.func_27058_a(object1);
+		return this.field_27359_a.checkType(object1);
 	}
 
 	public Object func_27357_b(Object object1) {
@@ -20,7 +20,7 @@ public final class J_JsonNodeSelector {
 	}
 
 	String func_27358_a() {
-		return this.field_27359_a.func_27060_a();
+		return this.field_27359_a.description();
 	}
 
 	public String toString() {

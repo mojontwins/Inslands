@@ -63,6 +63,7 @@ selectWorld.gameMode.creative.line2=destroy blocks instantly.
 selectWorld.mapFeatures.info=Villages, dungeons etc
 generator.default=Normal
 generator.sky=Sky
+generator.infdev=Infdev 415
 
 multiplayer.title=Play Multiplayer
 multiplayer.connect=Connect
@@ -150,6 +151,8 @@ options.colouredAthmospherics=Coloured fog/sky
 options.displayModes=Display
 options.gamma=Gamma Correction
 options.meltBuild=Dynamic ice/snow
+options.hand=Delayed arm
+options.threaded_light=Threaded lighting
 
 performance.max=Max FPS
 performance.balanced=Balanced
@@ -748,3 +751,18 @@ item.battleAxeWood.name=Beginner's Battle axe
 item.knifeWood.name=Beginner's knife
 item.cryingObsidianWand.name=Crying Obsidian Wand
 item.pirateCrown.name=Pirate crown
+
+itemGroup.buildingBlocks=Building Blocks
+itemGroup.decorations=Decoration Blocks
+itemGroup.redstone=Redstone
+itemGroup.transportation=Transportation
+itemGroup.misc=Miscellaneous
+itemGroup.search=Search Items
+itemGroup.food=Foodstuffs
+itemGroup.tools=Tools
+itemGroup.combat=Combat
+itemGroup.brewing=Potions
+itemGroup.materials=Materials
+itemGroup.inventory=Survival Inventory
+
+inventory.binSlot=Destroy Item

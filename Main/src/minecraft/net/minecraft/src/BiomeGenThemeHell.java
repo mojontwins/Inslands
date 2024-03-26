@@ -55,5 +55,14 @@ public class BiomeGenThemeHell extends BiomeGenBase {
 			z = chunkZ + rand.nextInt(16);
 			(new WorldGenMinable(Block.regolith.blockID, 32)).generate(world, rand, x, y, z);
 		}	
+		
+		if(rand.nextInt(16) == 0) {
+			x = chunkX + rand.nextInt(16) + 8;
+			y = rand.nextInt(rand.nextInt(120) + 8);
+			z = chunkZ + rand.nextInt(16) + 8;
+			if(y < 64 || rand.nextInt(10) == 0) {
+				(new WorldGenLakes(Block.lavaMoving.blockID)).generate(world, rand, x, y, z);
+			}
+		}
 	}
 }

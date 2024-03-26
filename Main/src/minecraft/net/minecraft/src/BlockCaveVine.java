@@ -2,11 +2,15 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockCaveVine extends Block {
 	public BlockCaveVine(int par1) {
 		super(par1, Material.vine);
-		this.blockIndexInTexture = 11*16+3;
+		this.blockIndexInTexture = 11*16+2;
 		this.setLightValue(0.5F);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	/**

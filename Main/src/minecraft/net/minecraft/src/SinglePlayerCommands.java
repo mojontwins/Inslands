@@ -146,7 +146,7 @@ public class SinglePlayerCommands {
 								if(level < ((IMobWithLevel)entity).getMaxLevel()) ((IMobWithLevel)entity).setLevel(level);
 							} catch (Exception e) { }
 						}
-
+						
 						this.mc.ingameGUI.addChatMessage("Spawned " + tokens [1] + " @ " + x + " " + y + " " + z);
 						this.mc.theWorld.entityJoinedWorld(entity);
 						spawned = true;
@@ -157,10 +157,8 @@ public class SinglePlayerCommands {
 					} 
 				}
 			} else if ("/nextMoonBad".equals(cmd)) {
-				/*
 				this.mc.theWorld.nextMoonBad = true;
 				this.mc.ingameGUI.addChatMessage("Next moon will be blood moon");
-				*/
 			} else if ("/snow".equals(cmd)) {
 				this.mc.theWorld.worldInfo.setSnowingTime(0);
 			} else if ("/rain".equals(cmd)) {
@@ -221,17 +219,31 @@ public class SinglePlayerCommands {
 				}
 			} else if ("/bo3tree".equals(cmd)) {
 				try {
-					int x = Integer.parseInt(tokens[1]);
-					int z = Integer.parseInt(tokens[2]);
-					int y = this.mc.theWorld.getLandSurfaceHeightValue(x, z);
-					String treeShape = tokens[3];
+					String treeShape = null;
+					int x = 0, y = 0, z = 0;
 					
-					bo3Tree.setTreeName(treeShape);
+					if (idx == 4) {
+						x = Integer.parseInt(tokens[1]);
+						z = Integer.parseInt(tokens[2]);
+						y = this.mc.theWorld.getLandSurfaceHeightValue(x, z);
+						
+						treeShape = tokens[3];
+					} else if (idx == 2) {
+						x = this.mc.objectMouseOver.blockX;
+						y = this.mc.objectMouseOver.blockY + 1;
+						z = this.mc.objectMouseOver.blockZ;
+						
+						treeShape = tokens[1];
+					}
 					
-					if(bo3Tree.generate(this.mc.theWorld, this.mc.theWorld.rand, x, y, z)) {
-						this.mc.ingameGUI.addChatMessage("Spawned Bo3 tree " + treeShape + " @ " + x + " " + y + "  " + z);
-					} else {
-						this.mc.ingameGUI.addChatMessage("Could not spawn " + treeShape); 
+					if (treeShape != null) {
+						bo3Tree.setTreeName(treeShape);
+						
+						if(bo3Tree.generate(this.mc.theWorld, this.mc.theWorld.rand, x, y, z)) {
+							this.mc.ingameGUI.addChatMessage("Spawned Bo3 tree " + treeShape + " @ " + x + " " + y + "  " + z);
+						} else {
+							this.mc.ingameGUI.addChatMessage("Could not spawn " + treeShape); 
+						}
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

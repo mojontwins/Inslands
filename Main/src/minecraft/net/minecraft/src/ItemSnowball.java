@@ -1,9 +1,13 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemSnowball extends Item {
 	public ItemSnowball(int i1) {
 		super(i1);
 		this.maxStackSize = 16;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabMisc;
 	}
 
 	public ItemStack onItemRightClick(ItemStack itemStack1, World world2, EntityPlayer entityPlayer3) {

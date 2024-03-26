@@ -5,7 +5,7 @@ final class J_JsonStringNodeSelector extends J_LeafFunctor {
 		return EnumJsonNodeType.STRING == j_JsonNode1.getType();
 	}
 
-	public String func_27060_a() {
+	public String description() {
 		return "A short form string";
 	}
 
@@ -21,7 +21,7 @@ final class J_JsonStringNodeSelector extends J_LeafFunctor {
 		return this.func_27073_b((J_JsonNode)object1);
 	}
 
-	public boolean func_27058_a(Object object1) {
+	public boolean checkType(Object object1) {
 		return this.func_27072_a((J_JsonNode)object1);
 	}
 }

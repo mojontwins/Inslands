@@ -60,10 +60,11 @@ public class GuiCreativeInventory extends GuiScreen {
 				if(block == Block.redstoneRepeaterIdle) continue;
 				if(block == Block.portal) continue;
 				if(block instanceof BlockSign) continue;
+				if(block == Block.classicPiston || block == Block.classicStickyPiston) continue;
 				
-				if(block == Block.cloth) {
+				if(block == Block.cloth || block == Block.stainedTerracotta) {
 					for (int j = 0; j < 16; j ++) {
-						this.itemsList.add(new ItemStack (Block.cloth.blockID, 1, j));
+						this.itemsList.add(new ItemStack (block.blockID, 1, j));
 					}
 				} else if(block instanceof BlockStep) {
 					for (int j = 0; j < 4; j ++ ) {
@@ -71,11 +72,19 @@ public class GuiCreativeInventory extends GuiScreen {
 					}
 				} else if(block instanceof BlockCoral) {
 					for (int j = 0; j < 3; j ++ ) {
-						this.itemsList.add(new ItemStack (Block.coral, 1, j));
+						this.itemsList.add(new ItemStack (Block.coral, 1,  8 | j));
 					}
 				} else if(block instanceof BlockBigFlower) {
 					for (int j = 0; j < 3; j ++ ) {
-						this.itemsList.add(new ItemStack (Block.bigFlower, 1, 8 | j));
+						this.itemsList.add(new ItemStack (Block.bigFlower, 1,  j));
+					}
+				} else if(block == Block.grass) {
+					for (int j = 0; j < 2; j ++ ) {
+						this.itemsList.add(new ItemStack (Block.grass, 1, j));
+					}
+				} else if(block == Block.ice) {
+					for (int j = 0; j < 2; j ++ ) {
+						this.itemsList.add(new ItemStack (Block.ice, 1, j));
 					}
 				} else if(block instanceof BlockBigMushroom) {
 					this.itemsList.add(new ItemStack (block, 1, 14));
@@ -88,7 +97,7 @@ public class GuiCreativeInventory extends GuiScreen {
 		// Fill items
 		for (int i = 256; i < Item.itemsList.length; i ++) {
 			Item item = Item.itemsList[i];
-			if (item != null) {
+			if (item != null && item.isShowInCreative()) {
 				// Softlocked stuff
 				if(item.softLocked()) continue;
 				

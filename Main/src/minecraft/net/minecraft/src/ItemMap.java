@@ -1,9 +1,13 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemMap extends ItemMapBase {
 	protected ItemMap(int i1) {
 		super(i1);
 		this.setMaxStackSize(1);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabMisc;
 	}
 
 	public static MapData getMPMapData(short s0, World world1) {

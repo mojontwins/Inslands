@@ -1,10 +1,14 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemFishingRod extends Item {
 	public ItemFishingRod(int i1) {
 		super(i1);
 		this.setMaxDamage(64);
 		this.setMaxStackSize(1);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabTools;
 	}
 
 	public boolean isFull3D() {

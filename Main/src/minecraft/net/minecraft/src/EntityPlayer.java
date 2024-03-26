@@ -347,15 +347,15 @@ public abstract class EntityPlayer extends EntityLiving {
 		return super.decreaseAirSupply(i1);
 	}
 
-	public void dropCurrentItem() {
-		this.dropPlayerItemWithRandomChoice(this.inventory.decrStackSize(this.inventory.currentItem, 1), false);
+	public EntityItem dropCurrentItem() {
+		return this.dropPlayerItemWithRandomChoice(this.inventory.decrStackSize(this.inventory.currentItem, 1), false);
 	}
 
-	public void dropPlayerItem(ItemStack itemStack1) {
-		this.dropPlayerItemWithRandomChoice(itemStack1, false);
+	public EntityItem dropPlayerItem(ItemStack itemStack1) {
+		return this.dropPlayerItemWithRandomChoice(itemStack1, false);
 	}
 
-	public void dropPlayerItemWithRandomChoice(ItemStack itemStack1, boolean z2) {
+	public EntityItem dropPlayerItemWithRandomChoice(ItemStack itemStack1, boolean z2) {
 		if(itemStack1 != null) {
 			EntityItem entityItem3 = new EntityItem(this.worldObj, this.posX, this.posY - (double)0.3F + (double)this.getEyeHeight(), this.posZ, itemStack1);
 			entityItem3.delayBeforeCanPickup = 40;
@@ -382,7 +382,11 @@ public abstract class EntityPlayer extends EntityLiving {
 
 			this.joinEntityItemWithWorld(entityItem3);
 			this.addStat(StatList.dropStat, 1);
+			
+			return entityItem3;
 		}
+		
+		return null;
 	}
 
 	protected void joinEntityItemWithWorld(EntityItem entityItem1) {

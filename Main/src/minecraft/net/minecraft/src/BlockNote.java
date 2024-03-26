@@ -1,8 +1,12 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockNote extends BlockContainer {
 	public BlockNote(int i1) {
 		super(i1, 74, Material.wood);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabRedstone;
 	}
 
 	public int getBlockTextureFromSide(int i1) {
@@ -29,8 +33,11 @@ public class BlockNote extends BlockContainer {
 			return true;
 		} else {
 			TileEntityNote tileEntityNote6 = (TileEntityNote)world1.getBlockTileEntity(i2, i3, i4);
-			tileEntityNote6.changePitch();
-			tileEntityNote6.triggerNote(world1, i2, i3, i4);
+			if(tileEntityNote6 != null) {
+				tileEntityNote6.changePitch();
+				tileEntityNote6.triggerNote(world1, i2, i3, i4);
+			}
+
 			return true;
 		}
 	}
@@ -38,7 +45,10 @@ public class BlockNote extends BlockContainer {
 	public void onBlockClicked(World world1, int i2, int i3, int i4, EntityPlayer entityPlayer5) {
 		if(!world1.multiplayerWorld) {
 			TileEntityNote tileEntityNote6 = (TileEntityNote)world1.getBlockTileEntity(i2, i3, i4);
-			tileEntityNote6.triggerNote(world1, i2, i3, i4);
+			if(tileEntityNote6 != null) {
+				tileEntityNote6.triggerNote(world1, i2, i3, i4);
+			}
+
 		}
 	}
 

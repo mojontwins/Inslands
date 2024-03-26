@@ -188,9 +188,9 @@ public class PlayerControllerMP extends PlayerController {
 		entityPlayer1.useCurrentItemOnEntity(entity2);
 	}
 
-	public ItemStack func_27174_a(int i1, int i2, int i3, boolean z4, EntityPlayer entityPlayer5) {
+	public ItemStack windowClick(int i1, int i2, int i3, boolean z4, EntityPlayer entityPlayer5) {
 		short s6 = entityPlayer5.craftingInventory.func_20111_a(entityPlayer5.inventory);
-		ItemStack itemStack7 = super.func_27174_a(i1, i2, i3, z4, entityPlayer5);
+		ItemStack itemStack7 = super.windowClick(i1, i2, i3, z4, entityPlayer5);
 		this.netClientHandler.addToSendQueue(new Packet102WindowClick(i1, i2, i3, z4, itemStack7, s6));
 		return itemStack7;
 	}
@@ -207,4 +207,21 @@ public class PlayerControllerMP extends PlayerController {
 		this.netClientHandler.addToSendQueue(new Packet97SetInventorySlot(this.currentPlayerItem, (short)item.shiftedIndex, (byte)stackSize, (short)itemDamage));
 		return stackSize;
 	}
+	
+	@Override
+	public void sendSlotPacket(ItemStack itemStack1, int i2) {
+		if(this.mc.thePlayer.isCreative) {
+			this.netClientHandler.addToSendQueue(new Packet107CreativeSetSlot(i2, itemStack1));
+		}
+	}
+	
+	@Override
+	public void sendSetItemStackCreative(ItemStack itemStack1) {
+		if(this.mc.thePlayer.isCreative && itemStack1 != null) {
+			this.netClientHandler.addToSendQueue(new Packet107CreativeSetSlot(-1, itemStack1));
+		}
+
+	}
+	
+	
 }

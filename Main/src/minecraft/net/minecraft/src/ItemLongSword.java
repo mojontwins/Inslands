@@ -1,11 +1,13 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemLongSword extends ItemSword {
 
 	public ItemLongSword(int i1, EnumToolMaterial enumToolMaterial2, boolean silkTouch) {
 		super(i1, enumToolMaterial2, silkTouch);
 		this.weaponDamage = 4 + enumToolMaterial2.getDamageVsEntity() + 3;
-		//this.displayOnCreativeTab = CreativeTabs.tabCombat;
+		this.displayOnCreativeTab = CreativeTabs.tabCombat;
 	}
 
 	/*

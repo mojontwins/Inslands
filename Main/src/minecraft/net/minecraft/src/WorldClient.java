@@ -12,11 +12,12 @@ public class WorldClient extends World {
 	private Set<Entity> entityList = new HashSet<Entity>();
 	private Set<Entity> entitySpawnQueue = new HashSet<Entity>();
 
-	public WorldClient(NetClientHandler netClientHandler1, WorldSettings worldSettings2, int i4) {
-		super(new SaveHandlerMP(), "MpServer", WorldProvider.getProviderForDimension(i4), (WorldSettings)worldSettings2);
+	public WorldClient(NetClientHandler netClientHandler1, WorldSettings worldSettings2, int i4, GameSettings gameSettings) {
+		super(new SaveHandlerMP(), "MpServer", WorldProvider.getProviderForDimension(i4), (WorldSettings)worldSettings2, gameSettings);
 		this.sendQueue = netClientHandler1;
 		this.setSpawnPoint(new ChunkCoordinates(8, 64, 8));
 		this.mapStorage = netClientHandler1.field_28118_b;
+		
 	}
 
 	public void tick() {
@@ -268,6 +269,7 @@ public class WorldClient extends World {
 			}
 
 			this.prevThunderingStrength = this.thunderingStrength;
+			
 			if(this.worldInfo.getThundering()) {
 				this.thunderingStrength = (float)((double)this.thunderingStrength + 0.01D);
 			} else {

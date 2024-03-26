@@ -1,6 +1,9 @@
 package net.minecraft.src;
 
+import java.util.List;
 import java.util.Random;
+
+import com.mojang.minecraft.creative.CreativeTabs;
 
 public class BlockLeaves extends BlockLeavesBase {
 	// Alpha version
@@ -22,10 +25,17 @@ public class BlockLeaves extends BlockLeavesBase {
 		super(id, blockIndex, Material.leaves, false);
 		this.leafTexIndex = blockIndex;
 		this.setTickOnLoad(true);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
-	public void onNeighborBlockChange(World world, int x, int y, int z, int bh) {
-		this.onBlockRemoval(world, x, y, z);
+	public void onNeighborBlockChange(World world, int x, int y, int z, int blockID) {
+		// Small optimization: When replaced with leaves or wood, surrounding leaves are
+		// NOT affected
+		if (blockID == Block.wood.blockID || blockID == Block.leaves.blockID)
+			return;
+		
+		this.onBlockRemovalDo(world, x, y, z);
 	}
 
 	public int quantityDropped(Random Random) {
@@ -56,7 +66,11 @@ public class BlockLeaves extends BlockLeavesBase {
 		// NOT affected
 		if (blockID == Block.wood.blockID || blockID == Block.leaves.blockID)
 			return;
+		
+		this.onBlockRemovalDo(world, x, y, z);
+	}
 
+	public void onBlockRemovalDo(World world, int x, int y, int z) {
 		byte radius = 1;
 		int range = radius + 1;
 
@@ -291,4 +305,10 @@ public class BlockLeaves extends BlockLeavesBase {
 		return BlockLeaves.fixedColors[meta];
 	}
 
+    @Override
+    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
+		for(int i = 0; i < 2; i ++) {
+			par3List.add(new ItemStack(par1, 1, i));
+		}
+	}
 }

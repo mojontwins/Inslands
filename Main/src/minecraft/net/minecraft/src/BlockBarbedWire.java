@@ -2,9 +2,12 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockBarbedWire extends Block {
 	protected BlockBarbedWire(int id, int blockIndexInTexture) {
 		super(id, blockIndexInTexture, Material.iron);
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entityLiving) {

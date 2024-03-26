@@ -2,10 +2,13 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockTorch extends Block {
 	protected BlockTorch(int id, int blockIndex) {
 		super(id, blockIndex, Material.circuits);
 		this.setTickOnLoad(true);
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {

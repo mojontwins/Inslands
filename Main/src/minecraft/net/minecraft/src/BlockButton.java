@@ -2,10 +2,13 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockButton extends Block {
 	protected BlockButton(int i1, int i2) {
 		super(i1, i2, Material.circuits);
 		this.setTickOnLoad(true);
+		this.displayOnCreativeTab = CreativeTabs.tabRedstone;
 	}
 
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world1, int i2, int i3, int i4) {

@@ -1,6 +1,9 @@
 package net.minecraft.src;
 
+import java.util.List;
 import java.util.Random;
+
+import com.mojang.minecraft.creative.CreativeTabs;
 
 public class BlockBigMushroom extends Block {
 	public int mushroomType;
@@ -18,6 +21,8 @@ public class BlockBigMushroom extends Block {
 			case 1: textureCap = 7*16+14; break;
 			case 2: textureCap = 12*16+9; break;
 		}
+		
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
     public int getBlockTextureFromSideAndMetadata(int par1, int par2)
@@ -75,4 +80,11 @@ public class BlockBigMushroom extends Block {
     public int idDropped(int par1, Random par2Random, int par3) {
         return blockID;
     }
+    
+    @Override
+    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
+		for(int i = 0; i < 2; i ++) {
+			par3List.add(new ItemStack(par1, 1, 14 + i));
+		}
+	}
 }

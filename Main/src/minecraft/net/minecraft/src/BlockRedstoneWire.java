@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockRedstoneWire extends Block {
 	private boolean wiresProvidePower = true;
 	private Set<ChunkPosition> blocksNeedingUpdate = new HashSet<ChunkPosition>();
@@ -12,6 +14,8 @@ public class BlockRedstoneWire extends Block {
 	public BlockRedstoneWire(int i1, int i2) {
 		super(i1, i2, Material.circuits);
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabRedstone;
 	}
 
 	public int getBlockTextureFromSideAndMetadata(int i1, int i2) {
@@ -39,7 +43,7 @@ public class BlockRedstoneWire extends Block {
 	}
 
 	public boolean canPlaceBlockAt(World world1, int i2, int i3, int i4) {
-		return world1.isBlockNormalCube(i2, i3 - 1, i4);
+		return world1.isBlockNormalCube(i2, i3 - 1, i4) || world1.getBlockId(i2, i3 - 1, i4) == Block.glowStone.blockID;
 	}
 
 	private void updateAndPropagateCurrentStrength(World world1, int i2, int i3, int i4) {
@@ -156,7 +160,7 @@ public class BlockRedstoneWire extends Block {
 				}
 			}
 
-			if(i8 == 0 || i9 == 0) {
+			if(i8 < i9 || i9 == 0) {
 				this.blocksNeedingUpdate.add(new ChunkPosition(i2, i3, i4));
 				this.blocksNeedingUpdate.add(new ChunkPosition(i2 - 1, i3, i4));
 				this.blocksNeedingUpdate.add(new ChunkPosition(i2 + 1, i3, i4));
@@ -223,6 +227,10 @@ public class BlockRedstoneWire extends Block {
 		if(!world1.multiplayerWorld) {
 			world1.notifyBlocksOfNeighborChange(i2, i3 + 1, i4, this.blockID);
 			world1.notifyBlocksOfNeighborChange(i2, i3 - 1, i4, this.blockID);
+			world1.notifyBlocksOfNeighborChange(i2 + 1, i3, i4, this.blockID);
+			world1.notifyBlocksOfNeighborChange(i2 - 1, i3, i4, this.blockID);
+			world1.notifyBlocksOfNeighborChange(i2, i3, i4 + 1, this.blockID);
+			world1.notifyBlocksOfNeighborChange(i2, i3, i4 - 1, this.blockID);
 			this.updateAndPropagateCurrentStrength(world1, i2, i3, i4);
 			this.notifyWireNeighborsOfNeighborChange(world1, i2 - 1, i3, i4);
 			this.notifyWireNeighborsOfNeighborChange(world1, i2 + 1, i3, i4);
@@ -295,24 +303,24 @@ public class BlockRedstoneWire extends Block {
 		} else if(i5 == 1) {
 			return true;
 		} else {
-			boolean z6 = isPowerProviderOrWire(iBlockAccess1, i2 - 1, i3, i4, 1) || !iBlockAccess1.isBlockNormalCube(i2 - 1, i3, i4) && isPowerProviderOrWire(iBlockAccess1, i2 - 1, i3 - 1, i4, -1);
-			boolean z7 = isPowerProviderOrWire(iBlockAccess1, i2 + 1, i3, i4, 3) || !iBlockAccess1.isBlockNormalCube(i2 + 1, i3, i4) && isPowerProviderOrWire(iBlockAccess1, i2 + 1, i3 - 1, i4, -1);
-			boolean z8 = isPowerProviderOrWire(iBlockAccess1, i2, i3, i4 - 1, 2) || !iBlockAccess1.isBlockNormalCube(i2, i3, i4 - 1) && isPowerProviderOrWire(iBlockAccess1, i2, i3 - 1, i4 - 1, -1);
-			boolean z9 = isPowerProviderOrWire(iBlockAccess1, i2, i3, i4 + 1, 0) || !iBlockAccess1.isBlockNormalCube(i2, i3, i4 + 1) && isPowerProviderOrWire(iBlockAccess1, i2, i3 - 1, i4 + 1, -1);
+			boolean z6 = isPoweredOrRepeater(iBlockAccess1, i2 - 1, i3, i4, 1) || !iBlockAccess1.isBlockNormalCube(i2 - 1, i3, i4) && isPoweredOrRepeater(iBlockAccess1, i2 - 1, i3 - 1, i4, -1);
+			boolean z7 = isPoweredOrRepeater(iBlockAccess1, i2 + 1, i3, i4, 3) || !iBlockAccess1.isBlockNormalCube(i2 + 1, i3, i4) && isPoweredOrRepeater(iBlockAccess1, i2 + 1, i3 - 1, i4, -1);
+			boolean z8 = isPoweredOrRepeater(iBlockAccess1, i2, i3, i4 - 1, 2) || !iBlockAccess1.isBlockNormalCube(i2, i3, i4 - 1) && isPoweredOrRepeater(iBlockAccess1, i2, i3 - 1, i4 - 1, -1);
+			boolean z9 = isPoweredOrRepeater(iBlockAccess1, i2, i3, i4 + 1, 0) || !iBlockAccess1.isBlockNormalCube(i2, i3, i4 + 1) && isPoweredOrRepeater(iBlockAccess1, i2, i3 - 1, i4 + 1, -1);
 			if(!iBlockAccess1.isBlockNormalCube(i2, i3 + 1, i4)) {
-				if(iBlockAccess1.isBlockNormalCube(i2 - 1, i3, i4) && isPowerProviderOrWire(iBlockAccess1, i2 - 1, i3 + 1, i4, -1)) {
+				if(iBlockAccess1.isBlockNormalCube(i2 - 1, i3, i4) && isPoweredOrRepeater(iBlockAccess1, i2 - 1, i3 + 1, i4, -1)) {
 					z6 = true;
 				}
 
-				if(iBlockAccess1.isBlockNormalCube(i2 + 1, i3, i4) && isPowerProviderOrWire(iBlockAccess1, i2 + 1, i3 + 1, i4, -1)) {
+				if(iBlockAccess1.isBlockNormalCube(i2 + 1, i3, i4) && isPoweredOrRepeater(iBlockAccess1, i2 + 1, i3 + 1, i4, -1)) {
 					z7 = true;
 				}
 
-				if(iBlockAccess1.isBlockNormalCube(i2, i3, i4 - 1) && isPowerProviderOrWire(iBlockAccess1, i2, i3 + 1, i4 - 1, -1)) {
+				if(iBlockAccess1.isBlockNormalCube(i2, i3, i4 - 1) && isPoweredOrRepeater(iBlockAccess1, i2, i3 + 1, i4 - 1, -1)) {
 					z8 = true;
 				}
 
-				if(iBlockAccess1.isBlockNormalCube(i2, i3, i4 + 1) && isPowerProviderOrWire(iBlockAccess1, i2, i3 + 1, i4 + 1, -1)) {
+				if(iBlockAccess1.isBlockNormalCube(i2, i3, i4 + 1) && isPoweredOrRepeater(iBlockAccess1, i2, i3 + 1, i4 + 1, -1)) {
 					z9 = true;
 				}
 			}
@@ -358,13 +366,25 @@ public class BlockRedstoneWire extends Block {
 			return true;
 		} else if(i5 == 0) {
 			return false;
-		} else if(Block.blocksList[i5].canProvidePower()) {
-			return true;
 		} else if(i5 != Block.redstoneRepeaterIdle.blockID && i5 != Block.redstoneRepeaterActive.blockID) {
-			return false;
+			return Block.blocksList[i5].canProvidePower() && i4 != -1;
 		} else {
 			int i6 = iBlockAccess0.getBlockMetadata(i1, i2, i3);
-			return i4 == ModelBed.footInvisibleFaceRemap[i6 & 3];
+			return i4 == (i6 & 3) || i4 == Direction.footInvisibleFaceRemap[i6 & 3];
+		}
+	}
+
+	public static boolean isPoweredOrRepeater(IBlockAccess iBlockAccess0, int i1, int i2, int i3, int i4) {
+		if(isPowerProviderOrWire(iBlockAccess0, i1, i2, i3, i4)) {
+			return true;
+		} else {
+			int i5 = iBlockAccess0.getBlockId(i1, i2, i3);
+			if(i5 == Block.redstoneRepeaterActive.blockID) {
+				int i6 = iBlockAccess0.getBlockMetadata(i1, i2, i3);
+				return i4 == (i6 & 3);
+			} else {
+				return false;
+			}
 		}
 	}
 }

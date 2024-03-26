@@ -2,12 +2,16 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockFlower extends Block {
 	protected BlockFlower(int i1, int i2) {
 		super(i1, Material.plants);
 		this.blockIndexInTexture = i2;
 		this.setTickOnLoad(true);
 		this.setMyBlockBounds();
+	
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	public void setMyBlockBounds() {

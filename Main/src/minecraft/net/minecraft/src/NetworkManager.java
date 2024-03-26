@@ -134,7 +134,7 @@ public class NetworkManager {
 				int[] i10000 = field_28145_d;
 				int i10001 = packet2.getPacketId();
 				i10000[i10001] += packet2.getPacketSize() + 1;
-				this.readPackets.add(packet2);
+					this.readPackets.add(packet2);
 				z1 = true;
 			} else {
 				this.networkShutdown("disconnect.endOfStream", new Object[0]);
@@ -197,7 +197,7 @@ public class NetworkManager {
 			this.timeSinceLastRead = 0;
 		}
 
-		int i1 = 100;
+		int i1 = 1000;
 
 		while(!this.readPackets.isEmpty() && i1-- >= 0) {
 			Packet packet2 = (Packet)this.readPackets.remove(0);
@@ -216,11 +216,11 @@ public class NetworkManager {
 	}
 
 	public void serverShutdown() {
-		this.wakeThreads();
-		this.isServerTerminating = true;
-		this.readThread.interrupt();
-		(new ThreadMonitorConnection(this)).start();
-	}
+			this.wakeThreads();
+			this.isServerTerminating = true;
+			this.readThread.interrupt();
+			(new ThreadMonitorConnection(this)).start();
+		}
 
 	public int getNumChunkDataPackets() {
 		return this.chunkDataPackets.size();

@@ -1,9 +1,13 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockOreBlock extends Block {
 	public BlockOreBlock(int id, int blockIndex) {
 		super(id, Material.iron);
 		this.blockIndexInTexture = blockIndex;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
 	public int getBlockTextureFromSide(int side) {

@@ -131,7 +131,13 @@ public class RenderManager {
 		this.entityRenderMap.put(EntityIceWarrior.class,  new RenderHuman(new ModelHuman(), 0.5F));
 		this.entityRenderMap.put(EntityIceArcher.class,  new RenderBiped(new ModelArcher(), 0.5F));
 		this.entityRenderMap.put(EntityIceBoss.class,  new RenderIceBoss(new ModelIceBoss(), 0.5F));
-				
+		
+		// Traders
+		/*
+		this.entityRenderMap.put(EntityPigman.class, new RenderBiped(new ModelBiped(), 0.5F));
+		this.entityRenderMap.put(EntityCowman.class, new RenderBiped(new ModelBiped(), 0.5F));
+		*/
+		
 		Iterator<Render> iterator1 = this.entityRenderMap.values().iterator();
 
 		while(iterator1.hasNext()) {

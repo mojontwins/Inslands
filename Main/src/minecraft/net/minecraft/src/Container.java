@@ -63,7 +63,7 @@ public abstract class Container {
 	public Slot findCurrentItem(IInventory iInventory1, int i2) {
 		for(int i3 = 0; i3 < this.inventorySlots.size(); ++i3) {
 			Slot slot4 = (Slot)this.inventorySlots.get(i3);
-			if(slot4.isHere(iInventory1, i2)) {
+			if(slot4.isSlotInInventory(iInventory1, i2)) {
 				return slot4;
 			}
 		}
@@ -193,7 +193,11 @@ public abstract class Container {
 
 		return stackInSlotOrig;
 	}
-
+	
+	public boolean func_94530_a(ItemStack var1, Slot var2) {
+		return true;
+	}
+	
 	public void onCraftGuiClosed(EntityPlayer entityPlayer1) {
 		InventoryPlayer inventoryPlayer2 = entityPlayer1.inventory;
 		if(inventoryPlayer2.getItemStack() != null) {
@@ -311,5 +315,9 @@ public abstract class Container {
 		}
 
 		return res;
+	}
+	
+	public boolean func_94531_b(Slot var1) {
+		return true;
 	}
 }

@@ -1,5 +1,8 @@
 package net.minecraft.src;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class ItemStack {
 	public int stackSize;
 	public int animationsToGo;
@@ -245,5 +248,13 @@ public final class ItemStack {
 		}
 		
 		return false;
+	}
+	
+	public List<String> getItemNameandInformation() {
+		ArrayList<String> arrayList1 = new ArrayList<String>();
+		Item item2 = Item.itemsList[this.itemID];
+		arrayList1.add(item2.getItemNameIS(this));
+		
+		return arrayList1;
 	}
 }

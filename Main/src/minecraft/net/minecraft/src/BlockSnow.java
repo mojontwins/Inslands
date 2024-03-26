@@ -2,11 +2,14 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockSnow extends Block {
 	protected BlockSnow(int id, int blockIndex) {
 		super(id, blockIndex, Material.snow);
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
 		this.setTickOnLoad(true);
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	@Override

@@ -20,6 +20,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.client.Minecraft;
+
 public class CanvasIsomPreview extends Canvas implements KeyListener, MouseListener, MouseMotionListener, Runnable {
 	/**
 	 * 
@@ -38,6 +40,7 @@ public class CanvasIsomPreview extends Canvas implements KeyListener, MouseListe
 	private int field_1784_j;
 	private int xPosition;
 	private int yPosition;
+	private Minecraft mc;
 
 	public File getMinecraftDir() {
 		if(this.dataFolder == null) {
@@ -82,7 +85,7 @@ public class CanvasIsomPreview extends Canvas implements KeyListener, MouseListe
 		return string0.contains("win") ? EnumOS1.windows : (string0.contains("mac") ? EnumOS1.macos : (string0.contains("solaris") ? EnumOS1.solaris : (string0.contains("sunos") ? EnumOS1.solaris : (string0.contains("linux") ? EnumOS1.linux : (string0.contains("unix") ? EnumOS1.linux : EnumOS1.unknown)))));
 	}
 
-	public CanvasIsomPreview() {
+	public CanvasIsomPreview(Minecraft mc) {
 		for(int i1 = 0; i1 < 64; ++i1) {
 			for(int i2 = 0; i2 < 64; ++i2) {
 				this.imageBuffers[i1][i2] = new IsoImageBuffer((World)null, i1, i2);
@@ -99,7 +102,12 @@ public class CanvasIsomPreview extends Canvas implements KeyListener, MouseListe
 
 	public void loadWorld(String string1) {
 		this.field_1785_i = this.field_1784_j = 0;
-		this.worldObj = new World(new SaveHandler(new File(this.dataFolder, "saves"), string1, false), string1, new WorldSettings((new Random()).nextLong(), 0, true, false, WorldType.DEFAULT));
+		this.worldObj = new World(
+				new SaveHandler(new File(this.dataFolder, "saves"), string1, false), 
+				string1, 
+				new WorldSettings((new Random()).nextLong(), 0, true, false, true, WorldType.DEFAULT),
+				this.mc.gameSettings
+		);
 		this.worldObj.skylightSubtracted = 0;
 		synchronized(this.imageBufferList) {
 			this.imageBufferList.clear();

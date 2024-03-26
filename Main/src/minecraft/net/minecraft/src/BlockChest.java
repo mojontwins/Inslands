@@ -2,12 +2,15 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockChest extends BlockContainer {
 	private Random rand = new Random();
 
 	protected BlockChest(int id) {
 		super(id, Material.wood);
 		this.blockIndexInTexture = 26;
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	public int getBlockTexture(IBlockAccess blockAccess, int x, int y, int z, int side) {

@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemArmor extends Item {
 	private static final int[] damageReduceAmountArray = new int[]{3, 8, 6, 3};
 	private static final int[] maxDamageArray = new int[]{11, 16, 15, 13};
@@ -19,6 +21,8 @@ public class ItemArmor extends Item {
 		this.damageReduceAmount = damageReduceAmountArray[i4];
 		this.setMaxDamage(maxDamageArray[i4] * 3 << i2);
 		this.maxStackSize = 1;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabCombat;
 	}
 	
 	/*

@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemBucket extends Item {
 	private int isFull;
 
@@ -7,6 +9,8 @@ public class ItemBucket extends Item {
 		super(i1);
 		this.maxStackSize = 1;
 		this.isFull = i2;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabMisc;
 	}
 
 	public ItemStack onItemRightClick(ItemStack itemStack1, World world2, EntityPlayer entityPlayer3) {

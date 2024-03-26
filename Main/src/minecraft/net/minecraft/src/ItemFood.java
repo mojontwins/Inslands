@@ -1,5 +1,6 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
 import com.mojontwins.minecraft.entity.status.StatusEffect;
 
 public class ItemFood extends Item {
@@ -13,6 +14,8 @@ public class ItemFood extends Item {
 		this.isWolfsFavoriteMeat = z3;
 		this.isCatsFavoriteMeat = z4;
 		this.maxStackSize = 1;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabFood;
 	}
 
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer) {

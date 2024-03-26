@@ -8,6 +8,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class World implements IBlockAccess {
 	private static final int blocksToTickPerFrame = 80;
@@ -15,7 +19,7 @@ public class World implements IBlockAccess {
 	private static final int maxLightingUpdatesPerThick = 1000; // was 500, now it's 1000
 		
 	public boolean scheduledUpdatesAreImmediate;
-	private List<MetadataChunkBlock> lightingToUpdate;
+	
 	public List<Entity> loadedEntityList;
 	private List<Entity> unloadedEntityList;
 	private TreeSet<NextTickListEntry> scheduledTickTreeSet;
@@ -70,19 +74,30 @@ public class World implements IBlockAccess {
 	public int lightningChance = 50000;
 	
 	// Blood moon
+	
 	public boolean badMoonDecide;
 	public boolean badMoonText;
 	public boolean nextMoonBad;
 	
+	// Handy
+	
+	public GameSettings gameSettings;
 	private int snowTicker = 0;
+	
+	// Threaded light updates
+	
+	private List<MetadataChunkBlock> lightingToUpdate;
+	private BlockingDeque<MetadataChunkBlock> lightingToUpdateDeque; 
+	private final Lock lightingToUpdateLock = new ReentrantLock();	
 	
 	public WorldChunkManager getWorldChunkManager() {
 		return this.worldProvider.worldChunkMgr;
 	}
 
-	public World(ISaveHandler iSaveHandler1, String string2, WorldProvider worldProvider3, WorldSettings par4WorldSettings) {
+	public World(ISaveHandler iSaveHandler1, String string2, WorldProvider worldProvider3, WorldSettings par4WorldSettings, GameSettings gameSettings) {
 		this.scheduledUpdatesAreImmediate = false;
 		this.lightingToUpdate = new ArrayList<MetadataChunkBlock>();
+		this.lightingToUpdateDeque = new LinkedBlockingDeque<MetadataChunkBlock>();
 		this.loadedEntityList = new ArrayList<Entity>();
 		this.unloadedEntityList = new ArrayList<Entity>();
 		this.scheduledTickTreeSet = new TreeSet<NextTickListEntry>();
@@ -117,13 +132,15 @@ public class World implements IBlockAccess {
 		this.mapStorage = new MapStorage(iSaveHandler1);
 		worldProvider3.registerWorld(this);
 		this.chunkProvider = this.getChunkProvider();
+		this.gameSettings = gameSettings;
 		this.calculateInitialSkylight();
 		this.calculateInitialWeather();
 	}
 
-	public World(World world1, WorldProvider worldProvider2) {
+	public World(World world1, WorldProvider worldProvider2, GameSettings gameSettings) {
 		this.scheduledUpdatesAreImmediate = false;
 		this.lightingToUpdate = new ArrayList<MetadataChunkBlock>();
+		this.lightingToUpdateDeque = new LinkedBlockingDeque<MetadataChunkBlock>();
 		this.loadedEntityList = new ArrayList<Entity>();
 		this.unloadedEntityList = new ArrayList<Entity>();
 		this.scheduledTickTreeSet = new TreeSet<NextTickListEntry>();
@@ -163,6 +180,8 @@ public class World implements IBlockAccess {
 		this.badMoonDecide = false;
 		this.nextMoonBad = false;
 		
+		this.gameSettings = gameSettings;
+		
 		Seasons.dayOfTheYear = this.rand.nextInt(4 * Seasons.SEASON_DURATION);
 		Seasons.updateSeasonCounters();
 
@@ -170,13 +189,14 @@ public class World implements IBlockAccess {
 		this.calculateInitialWeather();
 	}
 
-	public World(ISaveHandler iSaveHandler1, String string2, WorldSettings par3WorldSettings) {
-		this(iSaveHandler1, string2, par3WorldSettings, (WorldProvider)null);
+	public World(ISaveHandler iSaveHandler1, String string2, WorldSettings par3WorldSettings, GameSettings gameSettings) {
+		this(iSaveHandler1, string2, par3WorldSettings, (WorldProvider)null, gameSettings);
 	}
 
-	public World(ISaveHandler iSaveHandler1, String string2, WorldSettings par3WorldSettings, WorldProvider worldProvider5) {
+	public World(ISaveHandler iSaveHandler1, String string2, WorldSettings par3WorldSettings, WorldProvider worldProvider5, GameSettings gameSettings) {
 		this.scheduledUpdatesAreImmediate = false;
 		this.lightingToUpdate = new ArrayList<MetadataChunkBlock>();
+		this.lightingToUpdateDeque = new LinkedBlockingDeque<MetadataChunkBlock>();
 		this.loadedEntityList = new ArrayList<Entity>();
 		this.unloadedEntityList = new ArrayList<Entity>();
 		this.scheduledTickTreeSet = new TreeSet<NextTickListEntry>();
@@ -207,6 +227,7 @@ public class World implements IBlockAccess {
 		this.multiplayerWorld = false;
 		this.saveHandler = iSaveHandler1;
 		this.mapStorage = new MapStorage(iSaveHandler1);
+		this.gameSettings = gameSettings;
 		
 		Seasons.dayOfTheYear = -1;
 		this.worldInfo = iSaveHandler1.loadWorldInfo();
@@ -2094,6 +2115,11 @@ public class World implements IBlockAccess {
 	}
 
 	public boolean updatingLighting() {
+		return this.updatingLighting(maxLightingUpdatesPerThick);
+	}
+	
+	public boolean updatingLighting(int maxLightingUpdates) {
+			
 		if(this.lightingUpdatesCounter >= 50) {
 			return false;
 		} else {
@@ -2101,7 +2127,7 @@ public class World implements IBlockAccess {
 
 			boolean stillUpdating;
 			try {
-				int updatesThisTick = maxLightingUpdatesPerThick;
+				int updatesThisTick = maxLightingUpdates;
 
 				while(this.lightingToUpdate.size() > 0) {
 					--updatesThisTick;
@@ -2122,10 +2148,88 @@ public class World implements IBlockAccess {
 		}
 	}
 
+	public List<MetadataChunkBlock> getLightingToUpdate() {
+		this.lightingToUpdateLock.lock();
+		try {
+			return this.lightingToUpdate;
+		} finally {
+			this.lightingToUpdateLock.unlock();
+		}
+	}
+
+	public BlockingDeque<MetadataChunkBlock> getLightingToUpdateDeque() {
+		return this.lightingToUpdateDeque;
+	}
+	
 	public void scheduleLightingUpdate(EnumSkyBlock enumSkyBlock1, int i2, int i3, int i4, int i5, int i6, int i7) {
 		this.scheduleLightingUpdate(enumSkyBlock1, i2, i3, i4, i5, i6, i7, true);
 	}
 
+	public void scheduleLightingUpdate(EnumSkyBlock enumSkyBlock1, int x1, int y1, int z1, int x2, int y2, int z2, boolean z8) {
+		if(this.gameSettings.threadedLighting) {
+			if(!this.worldProvider.hasNoSky || enumSkyBlock1 != EnumSkyBlock.Sky) {			
+				int centerX = (x2 + x1) / 2;
+				int centerZ = (z2 + z1) / 2;
+				if(this.blockExists(centerX, 64, centerZ)) {
+					if(this.getChunkFromBlockCoords(centerX, centerZ).getIsChunkRendered()) {
+						return;
+					}
+	
+					this.lightingToUpdateDeque.add(new MetadataChunkBlock(enumSkyBlock1, x1, y1, z1, x2, y2, z2));
+					return;
+				}
+			}
+		} else {
+		if(!this.worldProvider.hasNoSky || enumSkyBlock1 != EnumSkyBlock.Sky) {
+			++lightingUpdatesScheduled;
+
+			try {
+				if(lightingUpdatesScheduled == 50) {
+					return;
+				}
+
+				int centerX = (x2 + x1) / 2;
+				int centerZ = (z2 + z1) / 2;
+				if(this.blockExists(centerX, 64, centerZ)) {
+					if(this.getChunkFromBlockCoords(centerX, centerZ).getIsChunkRendered()) {
+						return;
+					}
+
+					int updates = this.lightingToUpdate.size();
+					int i12;
+
+					if(z8) {
+						i12 = 5;
+						if(i12 > updates) {
+							i12 = updates;
+						}
+
+						for(int i = 0; i < i12; ++i) {
+							MetadataChunkBlock metadataChunkBlock14 = (MetadataChunkBlock)this.lightingToUpdate.get(this.lightingToUpdate.size() - i - 1);
+							if(metadataChunkBlock14.enumSkyBlock == enumSkyBlock1 && metadataChunkBlock14.insideCurrentArea(x1, y1, z1, x2, y2, z2)) {
+								return;
+							}
+						}
+					}
+
+					this.lightingToUpdate.add(new MetadataChunkBlock(enumSkyBlock1, x1, y1, z1, x2, y2, z2));
+					
+					if(this.lightingToUpdate.size() > maxLightingUpdates) {
+						System.out.println("More than " + maxLightingUpdates + " updates, aborting lighting updates");
+						this.lightingToUpdate.clear();
+					}
+
+					return;
+				}
+			} finally {
+				--lightingUpdatesScheduled;
+			}
+
+		}
+	}
+	}
+	
+	/*
 	public void scheduleLightingUpdate(EnumSkyBlock enumSkyBlock1, int x1, int y1, int z1, int x2, int y2, int z2, boolean z8) {
 		if(!this.worldProvider.hasNoSky || enumSkyBlock1 != EnumSkyBlock.Sky) {
 			++lightingUpdatesScheduled;
@@ -2174,6 +2278,7 @@ public class World implements IBlockAccess {
 
 		}
 	}
+	*/
 
 	public void calculateInitialSkylight() {
 		int i1 = this.calculateSkylightSubtracted(1.0F);
@@ -2209,18 +2314,21 @@ public class World implements IBlockAccess {
 		*/
 
 		SpawnerAnimals.performSpawning(this, this.spawnHostileMobs, this.spawnPeacefulMobs);
+		
+		// During world moon we do this hack of a solution to increase spawning rate.
+		if(this.worldInfo.isBloodMoon()) SpawnerAnimals.performSpawning(this, this.spawnHostileMobs, false);
+			
 		this.chunkProvider.unload100OldestChunks();
 		
-		/*
 		int i4 = this.calculateSkylightSubtracted(1.0F);
 		if(i4 != this.skylightSubtracted) {
 			this.skylightSubtracted = i4;
-
+			/*
 			for(int i5 = 0; i5 < this.worldAccesses.size(); ++i5) {
 				((IWorldAccess)this.worldAccesses.get(i5)).updateAllRenderers();
 			}
+			*/
 		}
-		*/
 
 		worldTime = this.worldInfo.getWorldTime() + 1L;
 		int hourOfTheDay = (int)(worldTime % 24000L);
@@ -2503,7 +2611,7 @@ public class World implements IBlockAccess {
 			}
 
 			// Thunder hits
-			if(this.rand.nextInt(this.lightningChance) == 0 && this.worldInfo.getThundering()) {
+			if(this.worldInfo.getThundering() && this.rand.nextInt(this.lightningChance) == 0) {
 				this.updateLCG = this.updateLCG * 3 + DIST_HASH_MAGIC;
 				tIndex = this.updateLCG >> 2;
 				x = x0 + (tIndex & 15);

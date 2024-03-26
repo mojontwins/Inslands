@@ -43,6 +43,9 @@ public class Tessellator {
 	private int vboIndex = 0;
 	private int vboCount = 10;
 	private int bufferSize;
+	
+	private boolean renderingTerrain;
+	private WorldRenderer worldRenderer;
 
 	private Tessellator(int i1) {
 		this.bufferSize = i1;
@@ -69,6 +72,13 @@ public class Tessellator {
 				this.intBuffer.put(this.rawBuffer, 0, this.rawBufferIndex);
 				this.byteBuffer.position(0);
 				this.byteBuffer.limit(this.rawBufferIndex * 4);
+				if (this.renderingTerrain) {
+					this.worldRenderer.getCurrentBuffer().upload(this.byteBuffer);
+					int i1 = this.rawBufferIndex * 4;
+					this.reset();
+					return i1;
+				}
+				
 				if(this.useVBO) {
 					this.vboIndex = (this.vboIndex + 1) % this.vboCount;
 					ARBVertexBufferObject.glBindBufferARB(GL15.GL_ARRAY_BUFFER, this.vertexBuffers.get(this.vboIndex));
@@ -261,7 +271,7 @@ public class Tessellator {
 
 	public void addVertex(double d1, double d3, double d5) {
 		++this.addedVertices;
-		if(this.drawMode == 7 && convertQuadsToTriangles && this.addedVertices % 4 == 0) {
+		if(this.drawMode == (this.renderingTerrain ? -1 : 7) && convertQuadsToTriangles && this.addedVertices % 4 == 0) {
 			for(int i7 = 0; i7 < 2; ++i7) {
 				int i8 = 8 * (3 - i7);
 				if(this.hasTexture) {
@@ -305,7 +315,7 @@ public class Tessellator {
 		this.rawBuffer[this.rawBufferIndex + 0] = Float.floatToRawIntBits((float)(d1 + this.xOffset));
 		this.rawBuffer[this.rawBufferIndex + 1] = Float.floatToRawIntBits((float)(d3 + this.yOffset));
 		this.rawBuffer[this.rawBufferIndex + 2] = Float.floatToRawIntBits((float)(d5 + this.zOffset));
-		this.rawBufferIndex += 8;
+		this.rawBufferIndex += (this.renderingTerrain ? 7 : 8);
 		++this.vertexCount;
 		if(this.vertexCount % 4 == 0 && this.rawBufferIndex >= this.bufferSize - 32) {
 			this.draw();
@@ -355,4 +365,19 @@ public class Tessellator {
 		this.yOffset += (double)f2;
 		this.zOffset += (double)f3;
 	}
+
+	public void startRenderingTerrain(WorldRenderer worldRenderer) {
+		this.renderingTerrain = true;
+		this.worldRenderer = worldRenderer;
+	}
+
+	public void stopRenderingTerrain() {
+		this.renderingTerrain = false;
+		this.worldRenderer = null;
+	}
+
+	public boolean isRenderingTerrain() {
+		return this.renderingTerrain;
+	}	
+
 }

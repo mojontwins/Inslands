@@ -1,9 +1,14 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemBow extends Item {
 	public ItemBow(int i1) {
 		super(i1);
 		this.maxStackSize = 1;
+		this.setMaxDamage(384);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabCombat;
 	}
 
 	public ItemStack onItemRightClick(ItemStack itemStack1, World world2, EntityPlayer entityPlayer3) {

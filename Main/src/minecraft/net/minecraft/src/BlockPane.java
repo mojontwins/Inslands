@@ -3,6 +3,8 @@ package net.minecraft.src;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockPane extends Block {
 	private int sideTextureIndex;
 	private final boolean canDropItself;
@@ -11,7 +13,7 @@ public class BlockPane extends Block {
 		super(i1, i2, material4);
 		this.sideTextureIndex = i3;
 		this.canDropItself = z5;
-		//this.displayOnCreativeTab = CreativeTabs.tabDeco;
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	public int idDropped(int i1, Random random2, int i3) {

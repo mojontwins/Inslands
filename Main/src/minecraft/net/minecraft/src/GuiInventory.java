@@ -3,6 +3,10 @@ package net.minecraft.src;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import com.mojang.minecraft.creative.GuiContainerCreative;
+
+import net.minecraft.client.Minecraft;
+
 public class GuiInventory extends GuiContainer {
 	private float xSize_lo;
 	private float ySize_lo;
@@ -13,6 +17,13 @@ public class GuiInventory extends GuiContainer {
 		entityPlayer1.addStat(AchievementList.openInventory, 1);
 	}
 
+	public void updateScreen() {
+		if (this.mc.thePlayer.isCreative) {
+			this.mc.displayGuiScreen(new GuiContainerCreative(this.mc.thePlayer));
+		}
+
+	}
+	
 	public void initGui() {
 		this.controlList.clear();
 	}
@@ -27,40 +38,48 @@ public class GuiInventory extends GuiContainer {
 		this.ySize_lo = (float)i2;
 	}
 
-	protected void drawGuiContainerBackgroundLayer(float f1) {
+	protected void drawGuiContainerBackgroundLayer(int x, int y, float f1) {
 		int i2 = this.mc.renderEngine.getTexture("/gui/inventory.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(i2);
 		int i3 = (this.width - this.xSize) / 2;
 		int i4 = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(i3, i4, 0, 0, this.xSize, this.ySize);
+		
+		drawGuyInGui(
+				this.mc, 
+				i3 + 51, i4 + 75, 30, 
+				(float) (i3 + 51) - this.xSize_lo,
+				(float) (i4 + 75 - 50) - this.ySize_lo
+			);
+	}
+	
+	public static void drawGuyInGui(Minecraft par0Minecraft, int par1, int par2, int par3, float par4, float par5) {
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 		GL11.glPushMatrix();
-		GL11.glTranslatef((float)(i3 + 51), (float)(i4 + 75), 50.0F);
+		GL11.glTranslatef((float) par1, (float) par2, 50.0F);
 		float f5 = 30.0F;
 		GL11.glScalef(-f5, f5, f5);
 		GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-		float f6 = this.mc.thePlayer.renderYawOffset;
-		float f7 = this.mc.thePlayer.rotationYaw;
-		float f8 = this.mc.thePlayer.rotationPitch;
-		float f9 = (float)(i3 + 51) - this.xSize_lo;
-		float f10 = (float)(i4 + 75 - 50) - this.ySize_lo;
+		float var6 = par0Minecraft.thePlayer.renderYawOffset;
+		float var7 = par0Minecraft.thePlayer.rotationYaw;
+		float var8 = par0Minecraft.thePlayer.rotationPitch;
 		GL11.glRotatef(135.0F, 0.0F, 1.0F, 0.0F);
 		RenderHelper.enableStandardItemLighting();
 		GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(-((float)Math.atan((double)(f10 / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
-		this.mc.thePlayer.renderYawOffset = (float)Math.atan((double)(f9 / 40.0F)) * 20.0F;
-		this.mc.thePlayer.rotationYaw = (float)Math.atan((double)(f9 / 40.0F)) * 40.0F;
-		this.mc.thePlayer.rotationPitch = -((float)Math.atan((double)(f10 / 40.0F))) * 20.0F;
-		this.mc.thePlayer.entityBrightness = 1.0F;
-		GL11.glTranslatef(0.0F, this.mc.thePlayer.yOffset, 0.0F);
+		GL11.glRotatef(-((float) Math.atan((double) (par5 / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
+		par0Minecraft.thePlayer.renderYawOffset = (float) Math.atan((double) (par4 / 40.0F)) * 20.0F;
+		par0Minecraft.thePlayer.rotationYaw = (float) Math.atan((double) (par4 / 40.0F)) * 40.0F;
+		par0Minecraft.thePlayer.rotationPitch = -((float) Math.atan((double) (par5 / 40.0F))) * 20.0F;
+		par0Minecraft.thePlayer.entityBrightness = 1.0F;
+		GL11.glTranslatef(0.0F, par0Minecraft.thePlayer.yOffset, 0.0F);
 		RenderManager.instance.playerViewY = 180.0F;
-		RenderManager.instance.renderEntityWithPosYaw(this.mc.thePlayer, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
-		this.mc.thePlayer.entityBrightness = 0.0F;
-		this.mc.thePlayer.renderYawOffset = f6;
-		this.mc.thePlayer.rotationYaw = f7;
-		this.mc.thePlayer.rotationPitch = f8;
+		RenderManager.instance.renderEntityWithPosYaw(par0Minecraft.thePlayer, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
+		par0Minecraft.thePlayer.entityBrightness = 0.0F;
+		par0Minecraft.thePlayer.renderYawOffset = var6;
+		par0Minecraft.thePlayer.rotationYaw = var7;
+		par0Minecraft.thePlayer.rotationPitch = var8;
 		GL11.glPopMatrix();
 		RenderHelper.disableStandardItemLighting();
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);

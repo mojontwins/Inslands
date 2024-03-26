@@ -2,12 +2,15 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockCryingObsidian extends BlockObsidian {
 
 	// Adapted from NSSS
 	
 	public BlockCryingObsidian(int var1, int var2) {
 		super(var1, var2);
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
 	public boolean blockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer) {

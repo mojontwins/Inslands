@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-final class J_JsonObject extends J_JsonRootNode {
+public final class J_JsonObject extends J_JsonRootNode {
 	private final Map<J_JsonStringNode,J_JsonNode> fields;
 
-	J_JsonObject(Map<J_JsonStringNode,J_JsonNode> map1) {
+	public J_JsonObject(Map<J_JsonStringNode,J_JsonNode> map1) {
 		this.fields = new HashMap<J_JsonStringNode,J_JsonNode>(map1);
 	}
 

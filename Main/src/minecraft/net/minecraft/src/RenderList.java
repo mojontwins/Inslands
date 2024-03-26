@@ -5,50 +5,50 @@ import java.nio.IntBuffer;
 import org.lwjgl.opengl.GL11;
 
 public class RenderList {
-	private int field_1242_a;
-	private int field_1241_b;
-	private int field_1240_c;
-	private float field_1239_d;
-	private float field_1238_e;
-	private float field_1237_f;
-	private IntBuffer field_1236_g = GLAllocation.createDirectIntBuffer(65536);
-	private boolean field_1235_h = false;
-	private boolean field_1234_i = false;
+	protected int posXMinus;
+	protected int posYMinus;
+	protected int posZMinus;
+	protected float dXf;
+	protected float dYf;
+	protected float dZf;
+	protected IntBuffer intBuffer = GLAllocation.createDirectIntBuffer(65536);
+	protected boolean positionUpdated = false;
+	protected boolean justFlipped = false;
 
-	public void func_861_a(int i1, int i2, int i3, double d4, double d6, double d8) {
-		this.field_1235_h = true;
-		this.field_1236_g.clear();
-		this.field_1242_a = i1;
-		this.field_1241_b = i2;
-		this.field_1240_c = i3;
-		this.field_1239_d = (float)d4;
-		this.field_1238_e = (float)d6;
-		this.field_1237_f = (float)d8;
+	public void updatePosition(int i1, int i2, int i3, double d4, double d6, double d8) {
+		this.positionUpdated = true;
+		this.intBuffer.clear();
+		this.posXMinus = i1;
+		this.posYMinus = i2;
+		this.posZMinus = i3;
+		this.dXf = (float)d4;
+		this.dYf = (float)d6;
+		this.dZf = (float)d8;
 	}
 
-	public boolean func_862_a(int i1, int i2, int i3) {
-		return !this.field_1235_h ? false : i1 == this.field_1242_a && i2 == this.field_1241_b && i3 == this.field_1240_c;
+	public boolean positionEquals(int i1, int i2, int i3) {
+		return !this.positionUpdated ? false : i1 == this.posXMinus && i2 == this.posYMinus && i3 == this.posZMinus;
 	}
 
-	public void func_858_a(int i1) {
-		this.field_1236_g.put(i1);
-		if(this.field_1236_g.remaining() == 0) {
-			this.func_860_a();
+	public void addCallListToIntBuffer(int i1) {
+		this.intBuffer.put(i1);
+		if(this.intBuffer.remaining() == 0) {
+			this.flip();
 		}
 
 	}
 
-	public void func_860_a() {
-		if(this.field_1235_h) {
-			if(!this.field_1234_i) {
-				this.field_1236_g.flip();
-				this.field_1234_i = true;
+	public void flip() {
+		if(this.positionUpdated) {
+			if(!this.justFlipped) {
+				this.intBuffer.flip();
+				this.justFlipped = true;
 			}
 
-			if(this.field_1236_g.remaining() > 0) {
+			if(this.intBuffer.remaining() > 0) {
 				GL11.glPushMatrix();
-				GL11.glTranslatef((float)this.field_1242_a - this.field_1239_d, (float)this.field_1241_b - this.field_1238_e, (float)this.field_1240_c - this.field_1237_f);
-				GL11.glCallLists(this.field_1236_g);
+				GL11.glTranslatef((float)this.posXMinus - this.dXf, (float)this.posYMinus - this.dYf, (float)this.posZMinus - this.dZf);
+				GL11.glCallLists(this.intBuffer);
 				GL11.glPopMatrix();
 			}
 
@@ -56,7 +56,7 @@ public class RenderList {
 	}
 
 	public void func_859_b() {
-		this.field_1235_h = false;
-		this.field_1234_i = false;
+		this.positionUpdated = false;
+		this.justFlipped = false;
 	}
 }

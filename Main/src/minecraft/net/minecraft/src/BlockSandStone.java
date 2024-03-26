@@ -1,8 +1,12 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockSandStone extends Block {
 	public BlockSandStone(int i1) {
 		super(i1, 192, Material.rock);
+
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
 	/*

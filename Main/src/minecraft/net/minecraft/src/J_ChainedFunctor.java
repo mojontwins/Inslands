@@ -9,7 +9,7 @@ final class J_ChainedFunctor implements J_Functor {
 		this.field_27061_b = j_JsonNodeSelector2;
 	}
 
-	public boolean func_27058_a(Object object1) {
+	public boolean checkType(Object object1) {
 		return this.field_27062_a.func_27356_a(object1) && this.field_27061_b.func_27356_a(this.field_27062_a.func_27357_b(object1));
 	}
 
@@ -29,7 +29,7 @@ final class J_ChainedFunctor implements J_Functor {
 		}
 	}
 
-	public String func_27060_a() {
+	public String description() {
 		return this.field_27061_b.func_27358_a();
 	}
 

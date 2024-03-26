@@ -1,11 +1,17 @@
 package net.minecraft.src;
 
+import java.util.List;
+
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockCoral extends Block {
 	/*
 	 * Coral metadata will be 8, 9, 10 to make it compatible with flowing water.
 	 */
 	public BlockCoral(int id, int blockIndex) {
 		super(id, blockIndex, Material.water); 
+
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 	
     public boolean canPlaceBlockAt(World world, int x, int y, int z) {
@@ -53,5 +59,12 @@ public class BlockCoral extends Block {
     
 	protected int damageDropped(int var1) {
 		return var1;
+	}
+	
+	@Override
+	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
+		for(int i = 0; i < 3; i ++) {
+			par3List.add(new ItemStack(par1, 1, 8 + i));
+		}
 	}
 }

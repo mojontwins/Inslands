@@ -7,7 +7,12 @@ import net.minecraft.client.Minecraft;
 public class EntityPlayerSP extends EntityPlayer {
 	long lastJumpPress = System.currentTimeMillis();
 	public MovementInput movementInput;
-	protected Minecraft mc;
+	public  Minecraft mc;
+	
+	public float renderArmYaw;
+	public float renderArmPitch;
+	public float prevRenderArmYaw;
+	public float prevRenderArmPitch;
 
 	public EntityPlayerSP(Minecraft minecraft1, World world2, Session session3, int i4) {
 		super(world2);
@@ -32,6 +37,13 @@ public class EntityPlayerSP extends EntityPlayer {
 		boolean jumpChanged = this.isJumping != jumping;
 		this.isJumping = jumping;
 
+		if(this.mc.gameSettings.retardedArm) {
+			this.prevRenderArmYaw = this.renderArmYaw;
+			this.prevRenderArmPitch = this.renderArmPitch;
+			this.renderArmPitch = (float)((double)this.renderArmPitch + (double)(this.rotationPitch - this.renderArmPitch) * 0.5D);
+			this.renderArmYaw = (float)((double)this.renderArmYaw + (double)(this.rotationYaw - this.renderArmYaw) * 0.5D);
+		}
+		
 		if(this.isCreative && jumpChanged && this.isJumping) {
 			long thisJumpPress = System.currentTimeMillis();
 			long diff = thisJumpPress - this.lastJumpPress;

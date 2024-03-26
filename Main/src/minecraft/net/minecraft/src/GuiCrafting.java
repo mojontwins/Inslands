@@ -43,7 +43,7 @@ public class GuiCrafting extends GuiContainer {
 		this.fontRenderer.drawString("Inventory", 8, this.ySize - 96 + 2, 4210752);
 	}
 
-	protected void drawGuiContainerBackgroundLayer(float f1) {
+	protected void drawGuiContainerBackgroundLayer(int x, int y, float f1) {
 		int j = (this.width - this.xSize) / 2;
 		int k = (this.height - this.ySize) / 2;
 		int i;

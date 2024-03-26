@@ -33,6 +33,7 @@ public class GameSettings {
 	public int limitFramerate = 1;
 	public boolean fancyGraphics = false;
 	public boolean ambientOcclusion = false;
+	public boolean meltBuild = true;
 	public String skin = "Default";
 	public KeyBinding keyBindForward = new KeyBinding("key.forward", 17);
 	public KeyBinding keyBindLeft = new KeyBinding("key.left", 30);
@@ -59,6 +60,8 @@ public class GameSettings {
 	public float field_22272_F = 1.0F;
 	public float field_22271_G = 1.0F;
 	public int guiScale = 0;
+	public boolean retardedArm = true;
+	public boolean threadedLighting = true;
 	
 	public boolean enableCheats = false;
 	public boolean craftGuide = false;
@@ -167,6 +170,14 @@ public class GameSettings {
 			this.mc.renderGlobal.loadRenderers();
 		}
 
+		if(enumOptions1 == EnumOptions.HAND) {
+			this.retardedArm = !this.retardedArm;
+		}
+
+		if(enumOptions1 == EnumOptions.THREADED_LIGHT) {
+			this.threadedLighting = !this.threadedLighting;
+		}
+
 		if(enumOptions1 == EnumOptions.AMBIENT_OCCLUSION) {
 			this.ambientOcclusion = !this.ambientOcclusion;
 			this.mc.renderGlobal.loadRenderers();
@@ -192,6 +203,10 @@ public class GameSettings {
 			int idx = MODES.indexOf(this.displayMode);
 			idx ++; if(idx >= MODES.size()) idx = 0;
 			this.displayMode = MODES.get(idx);
+		}
+
+		if(enumOptions1 == EnumOptions.MELTBUILD) {
+			this.meltBuild = !this.meltBuild;
 		}
 
 		this.saveOptions();
@@ -224,6 +239,12 @@ public class GameSettings {
 			return this.ambientOcclusion;
 		case COLOURED_ATHMOSPHERICS:
 			return this.colouredAthmospherics;
+		case MELTBUILD:
+			return this.meltBuild;
+		case HAND:
+			return this.retardedArm;
+		case THREADED_LIGHT:
+			return this.threadedLighting;
 		default:
 			return false;
 		}
@@ -266,6 +287,8 @@ public class GameSettings {
 				case GUI_SCALE: return string3 + stringTranslate2.translateKey(GUISCALES[this.guiScale]);
 				case FRAMERATE_LIMIT: return string3 + StatCollector.translateToLocal(LIMIT_FRAMERATES[this.limitFramerate]);
 				case GRAPHICS: return (this.fancyGraphics ? string3 + stringTranslate2.translateKey("options.graphics.fancy") : string3 + stringTranslate2.translateKey("options.graphics.fast"));
+				case HAND: return string3 + (this.retardedArm ? stringTranslate2.translateKey("options.yes") : stringTranslate2.translateKey("options.no"));
+				case THREADED_LIGHT: return string3 + (this.threadedLighting ? stringTranslate2.translateKey("options.on") : stringTranslate2.translateKey("options.off"));
 				case IS_CREATIVE: return string3 + (this.isCreative ? stringTranslate2.translateKey("options.creative") : stringTranslate2.translateKey("options.survival"));
 				case ENABLE_CHEATS: return string3 + (this.enableCheats ? stringTranslate2.translateKey("options.yes") : stringTranslate2.translateKey("options.no"));
 				case CRAFT_GUIDE: return string3 + (this.craftGuide ? stringTranslate2.translateKey("options.yes") : stringTranslate2.translateKey("options.no"));
@@ -341,6 +364,14 @@ public class GameSettings {
 						this.fancyGraphics = string3[1].equals("true");
 					}
 
+					if(string3[0].equals("hand")) {
+						this.retardedArm = string3[1].equals("true");
+					}
+					
+					if(string3[0].equals("threadedLighting")) {
+						this.threadedLighting = string3[1].equals("true");
+					}
+
 					if(string3[0].equals("ao")) {
 						this.ambientOcclusion = string3[1].equals("true");
 					}
@@ -367,6 +398,10 @@ public class GameSettings {
 
 					if(string3[0].equals("displayMode") && string3.length >= 2) {
 						this.displayMode = string3[1];
+					}
+
+					if(string3[0].equals("meltBuild")) {
+						this.meltBuild = string3[1].equals("true");
 					}
 
 					for(int i4 = 0; i4 < this.keyBindings.length; ++i4) {
@@ -406,6 +441,8 @@ public class GameSettings {
 			printWriter1.println("fpsLimit:" + this.limitFramerate);
 			printWriter1.println("difficulty:" + this.difficulty);
 			printWriter1.println("fancyGraphics:" + this.fancyGraphics);
+			printWriter1.println("hand:" + this.retardedArm);
+			printWriter1.println("threadedLighting:" + this.threadedLighting);
 			printWriter1.println("clearWaters:" + this.clearWaters);
 			printWriter1.println("ao:" + this.ambientOcclusion);
 			printWriter1.println("skin:" + this.skin);
@@ -414,6 +451,7 @@ public class GameSettings {
 			printWriter1.println("gammaSetting" + this.gammaSetting);
 			printWriter1.println("colouredAthmospherics" + this.colouredAthmospherics);
 			printWriter1.println("displayMode:" + this.displayMode);
+			printWriter1.println("meltBuild:" + this.meltBuild);
 
 			for(int i2 = 0; i2 < this.keyBindings.length; ++i2) {
 				printWriter1.println("key_" + this.keyBindings[i2].keyDescription + ":" + this.keyBindings[i2].keyCode);

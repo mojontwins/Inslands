@@ -3,6 +3,8 @@ package net.minecraft.src;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockStairs extends Block {
 	private Block modelBlock;
 	
@@ -17,6 +19,7 @@ public class BlockStairs extends Block {
 		this.setResistance(modelBlock.blockResistance / 3.0F);
 		this.setStepSound(modelBlock.stepSound);
 		this.setLightOpacity(255);
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
 	public void setBlockBoundsBasedOnState(IBlockAccess iBlockAccess1, int i2, int i3, int i4) {

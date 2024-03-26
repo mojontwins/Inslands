@@ -1,10 +1,13 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockSand extends Block {
 	public static boolean fallInstantly = false;
 
 	public BlockSand(int id, int blockIndex) {
 		super(id, blockIndex, Material.sand);
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
 	/*

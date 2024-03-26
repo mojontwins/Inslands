@@ -3,6 +3,7 @@ package net.minecraft.isom;
 import java.applet.Applet;
 import java.awt.BorderLayout;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.src.CanvasIsomPreview;
 
 public class IsomPreviewApplet extends Applet {
@@ -10,10 +11,11 @@ public class IsomPreviewApplet extends Applet {
 	 * 
 	 */
 	private static final long serialVersionUID = 6215140273671254963L;
-	private CanvasIsomPreview a = new CanvasIsomPreview();
+	private CanvasIsomPreview a;
 
-	public IsomPreviewApplet() {
+	public IsomPreviewApplet(Minecraft mc) {
 		this.setLayout(new BorderLayout());
+		this.a = new CanvasIsomPreview(mc);
 		this.add(this.a, "Center");
 	}
 

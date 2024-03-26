@@ -24,6 +24,9 @@ public enum EnumOptions {
 	GAMMA("options.gamma", true, false),
 	COLOURED_ATHMOSPHERICS("options.colouredAthmospherics", false, false),
 	DISPLAY_MODES("options.displayModes", false, false),
+	MELTBUILD("options.meltBuild", false, true), 
+	HAND("options.hand", false, true),
+	THREADED_LIGHT("options.threaded_light", false, true)
 	;
 
 	private final boolean enumFloat;

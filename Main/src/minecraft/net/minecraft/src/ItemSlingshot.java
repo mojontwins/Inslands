@@ -1,9 +1,13 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemSlingshot extends Item {
 	public ItemSlingshot(int i1) {
 		super(i1);
 		this.maxStackSize = 1;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabCombat;
 	}
 
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer) {

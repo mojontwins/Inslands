@@ -1,9 +1,13 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockBone extends BlockLog {
 
 	public BlockBone(int i1) {
 		super(i1, Material.bone);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
 	public int getBlockTextureFromSideAndMetadata(int side, int meta) {

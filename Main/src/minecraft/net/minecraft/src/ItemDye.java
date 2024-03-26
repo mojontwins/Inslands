@@ -1,5 +1,9 @@
 package net.minecraft.src;
 
+import java.util.List;
+
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemDye extends Item {
 	public static final String[] dyeColorNames = new String[]{"black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "lightBlue", "magenta", "orange", "white"};
 	public static final int[] dyeColors = new int[]{1973019, 11743532, 3887386, 5320730, 2437522, 8073150, 2651799, 2651799, 4408131, 14188952, 4312372, 14602026, 6719955, 12801229, 15435844, 15790320};
@@ -8,6 +12,8 @@ public class ItemDye extends Item {
 		super(i1);
 		this.setHasSubtypes(true);
 		this.setMaxDamage(0);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabMaterials;
 	}
 
 	public int getIconFromDamage(int i1) {
@@ -87,5 +93,12 @@ public class ItemDye extends Item {
 			}
 		}
 
+	}
+	
+	@Override
+	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
+		for(int i = 0; i < dyeColors.length; i ++) {
+			par3List.add(new ItemStack(par1, 1, i));
+		}
 	}
 }

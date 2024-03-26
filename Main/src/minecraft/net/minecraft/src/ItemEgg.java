@@ -1,9 +1,13 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemEgg extends Item {
 	public ItemEgg(int i1) {
 		super(i1);
 		this.maxStackSize = 16;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabMaterials;
 	}
 
 	public ItemStack onItemRightClick(ItemStack itemStack1, World world2, EntityPlayer entityPlayer3) {

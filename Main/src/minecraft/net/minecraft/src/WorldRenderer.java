@@ -6,6 +6,10 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.src.smoothbeta.VboPool;
+import net.minecraft.src.smoothbeta.gl.VertexBuffer;
+
 public class WorldRenderer {
 	
 	/*
@@ -45,6 +49,11 @@ public class WorldRenderer {
 	public List<TileEntity> tileEntityRenderers = new ArrayList<TileEntity>();
 	private List<TileEntity> tileEntities;
 
+	private VertexBuffer[] buffers;
+	private int currentBufferIndex = -1;
+	
+	Minecraft mc = Minecraft.getMinecraft();
+	
 	public WorldRenderer(World world1, List<TileEntity> list2, int i3, int i4, int i5, int i6, int i7) {
 		this.worldObj = world1;
 		this.tileEntities = list2;
@@ -54,6 +63,15 @@ public class WorldRenderer {
 		this.posX = -999;
 		this.setPosition(i3, i4, i5);
 		this.needsUpdate = false;
+				
+		if (!this.mc.legacyOpenGL) {
+			this.buffers = new VertexBuffer[skipRenderPass.length];
+			
+			VboPool pool = this.mc.renderGlobal.getTerrainVboPool();
+			for (int i = 0; i < buffers.length; i++) {
+				this.buffers[i] = new VertexBuffer(pool);
+			}
+		}
 	}
 
 	public void setPosition(int i1, int i2, int i3) {
@@ -73,15 +91,21 @@ public class WorldRenderer {
 			this.posZMinus = i3 - this.posZClip;
 			float f4 = 6.0F;
 			this.rendererBoundingBox = AxisAlignedBB.getBoundingBox((double)((float)i1 - f4), (double)((float)i2 - f4), (double)((float)i3 - f4), (double)((float)(i1 + this.sizeWidth) + f4), (double)((float)(i2 + this.sizeHeight) + f4), (double)((float)(i3 + this.sizeDepth) + f4));
+			if(mc.legacyOpenGL) {
 			GL11.glNewList(this.glRenderList + 2, GL11.GL_COMPILE);
+			}
 			RenderItem.renderAABB(AxisAlignedBB.getBoundingBoxFromPool((double)((float)this.posXClip - f4), (double)((float)this.posYClip - f4), (double)((float)this.posZClip - f4), (double)((float)(this.posXClip + this.sizeWidth) + f4), (double)((float)(this.posYClip + this.sizeHeight) + f4), (double)((float)(this.posZClip + this.sizeDepth) + f4)));
+			if(mc.legacyOpenGL) {
 			GL11.glEndList();
+			}
 			this.markDirty();
 		}
 	}
 
 	private void setupGLTranslation() {
+		if(mc.legacyOpenGL) {
 		GL11.glTranslatef((float)this.posXClip, (float)this.posYClip, (float)this.posZClip);
+	}
 	}
 
 	public void updateRenderer() {
@@ -121,15 +145,29 @@ public class WorldRenderer {
 							if(i18 > 0) {
 								if(!z14) {
 									z14 = true;
+									if(mc.legacyOpenGL) {
 									GL11.glNewList(this.glRenderList + i11, GL11.GL_COMPILE);
 									GL11.glPushMatrix();
+									}
+									
 									this.setupGLTranslation();
+									
+									if(mc.legacyOpenGL) {
 									float f19 = 1.000001F;
 									GL11.glTranslatef((float)(-this.sizeDepth) / 2.0F, (float)(-this.sizeHeight) / 2.0F, (float)(-this.sizeDepth) / 2.0F);
 									GL11.glScalef(f19, f19, f19);
 									GL11.glTranslatef((float)this.sizeDepth / 2.0F, (float)this.sizeHeight / 2.0F, (float)this.sizeDepth / 2.0F);
+									} else {
+										this.currentBufferIndex = i11;
+										tessellator.startRenderingTerrain(this);
+									}
+									
 									tessellator.startDrawingQuads();
+									
 									tessellator.setTranslationD((double)(-this.posX), (double)(-this.posY), (double)(-this.posZ));
+									if(!mc.legacyOpenGL) {
+										tessellator.setTranslationF(this.posXClip, this.posYClip, this.posZClip);
+									}
 								}
 
 								if(i11 == 0 && Block.isBlockContainer[i18]) {
@@ -157,8 +195,13 @@ public class WorldRenderer {
 
 				if(z14) {
 					tessellator.draw();
+					if(this.mc.legacyOpenGL) {
 					GL11.glPopMatrix();
 					GL11.glEndList();
+					} else {
+						this.currentBufferIndex = -1;
+						tessellator.stopRenderingTerrain();
+					}
 					tessellator.setTranslationD(0.0D, 0.0D, 0.0D);
 				} else {
 					z13 = false;
@@ -224,4 +267,13 @@ public class WorldRenderer {
 	public void markDirty() {
 		this.needsUpdate = true;
 	}
+	
+	public VertexBuffer getBuffer(int pass) {
+		return this.buffers[pass];
+	}
+
+	public VertexBuffer getCurrentBuffer() {
+		return this.buffers[this.currentBufferIndex];
+	}
+	
 }

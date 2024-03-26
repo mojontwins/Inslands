@@ -1,8 +1,11 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockLever extends Block {
 	protected BlockLever(int i1, int i2) {
 		super(i1, i2, Material.circuits);
+		this.displayOnCreativeTab = CreativeTabs.tabRedstone;
 	}
 
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world1, int i2, int i3, int i4) {

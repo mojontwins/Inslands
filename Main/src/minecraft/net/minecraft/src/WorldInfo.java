@@ -26,9 +26,11 @@ public class WorldInfo {
 	private int snowingTime;
 	
 	private boolean mapFeaturesEnabled;
+	private boolean generateCities;
 	
 	private int themeId;
 	private boolean bloodMoon;
+	private boolean meltBuild;
 		
 	public WorldInfo(NBTTagCompound nBTTagCompound1) {
 		this.randomSeed = nBTTagCompound1.getLong("RandomSeed");
@@ -46,6 +48,12 @@ public class WorldInfo {
 			this.mapFeaturesEnabled = nBTTagCompound1.getBoolean("MapFeatures");
 		} else {
 			this.mapFeaturesEnabled = true;
+		}
+
+		if(nBTTagCompound1.hasKey("GenerateCities")) {
+			this.generateCities = nBTTagCompound1.getBoolean("GenerateCities");
+		} else {
+			this.generateCities = true;
 		}
 
 		this.spawnX = nBTTagCompound1.getInteger("SpawnX");
@@ -89,6 +97,7 @@ public class WorldInfo {
 	public WorldInfo(WorldSettings worldSettings1, String string2) {
 		this.randomSeed = worldSettings1.getSeed();
 		this.mapFeaturesEnabled = worldSettings1.isMapFeaturesEnabled();
+		this.generateCities = worldSettings1.isGenerateCities();
 		this.levelName = string2;
 		this.terrainType = worldSettings1.getTerrainType();
 		if(this.terrainType == WorldType.SKY) this.dimension = 1;
@@ -97,6 +106,7 @@ public class WorldInfo {
 	public WorldInfo(WorldInfo worldInfo1) {
 		this.randomSeed = worldInfo1.randomSeed;
 		this.mapFeaturesEnabled = worldInfo1.mapFeaturesEnabled;
+		this.generateCities = worldInfo1.generateCities;
 		this.spawnX = worldInfo1.spawnX;
 		this.spawnY = worldInfo1.spawnY;
 		this.spawnZ = worldInfo1.spawnZ;
@@ -144,6 +154,7 @@ public class WorldInfo {
 		nBTTagCompound1.setString("generatorName", this.terrainType.getWorldType());
 		nBTTagCompound1.setInteger("generatorVersion", this.terrainType.getGeneratorVersion());
 		nBTTagCompound1.setBoolean("MapFeatures", this.mapFeaturesEnabled);
+		nBTTagCompound1.setBoolean("GenerateCities", this.generateCities);
 		nBTTagCompound1.setInteger("SpawnX", this.spawnX);
 		nBTTagCompound1.setInteger("SpawnY", this.spawnY);
 		nBTTagCompound1.setInteger("SpawnZ", this.spawnZ);
@@ -303,6 +314,10 @@ public class WorldInfo {
 		return this.mapFeaturesEnabled;
 	}
 	
+	public boolean getGenerateCities() {
+		return this.generateCities;
+	}
+	
 	public WorldType getTerrainType() {
 		return this.terrainType;
 	}
@@ -316,10 +331,18 @@ public class WorldInfo {
 	}
 
 	public boolean isBloodMoon() {
-		return bloodMoon;
+		return this.bloodMoon;
 	}
 
 	public void setBloodMoon(boolean bloodMoon) {
 		this.bloodMoon = bloodMoon;
+	}
+
+	public boolean isMeltBuild() {
+		return meltBuild;
+	}
+
+	public void setMeltBuild(boolean meltBuild) {
+		this.meltBuild = meltBuild;
 	}
 }

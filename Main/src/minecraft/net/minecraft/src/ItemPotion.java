@@ -1,5 +1,6 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
 import com.mojontwins.minecraft.entity.status.Status;
 
 public class ItemPotion extends Item {
@@ -21,6 +22,8 @@ public class ItemPotion extends Item {
 		
 		this.statusAmplifier = 1;
 		this.statusTime = 100;
+
+		this.displayOnCreativeTab = CreativeTabs.tabBrewing;
 	}
 
 	public int getColorFromDamage(int i1) {

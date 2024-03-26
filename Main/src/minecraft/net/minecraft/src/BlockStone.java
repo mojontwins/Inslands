@@ -1,6 +1,9 @@
 package net.minecraft.src;
 
+import java.util.List;
 import java.util.Random;
+
+import com.mojang.minecraft.creative.CreativeTabs;
 
 public class BlockStone extends Block {
 	public static final int[] stoneColor = new int [] {
@@ -10,6 +13,8 @@ public class BlockStone extends Block {
 	
 	public BlockStone(int id, int blockIndex) {
 		super(id, blockIndex, Material.rock);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
 	public int idDropped(int metadata, Random rand) {
@@ -24,5 +29,12 @@ public class BlockStone extends Block {
 	@Override
 	public int getRenderColor(int meta) {
 		return stoneColor[(meta >> 4) & 7];
+	}
+	
+    @Override
+    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
+		for(int i = 0; i < 2; i ++) {
+			par3List.add(new ItemStack(par1, 1, i));
+		}
 	}
 }

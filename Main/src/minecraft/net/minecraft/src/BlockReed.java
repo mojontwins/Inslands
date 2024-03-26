@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockReed extends Block {
 	protected BlockReed(int id, int blockIndex) {
 		super(id, Material.plants);
@@ -9,6 +11,8 @@ public class BlockReed extends Block {
 		float f3 = 0.375F;
 		this.setBlockBounds(0.5F - f3, 0.0F, 0.5F - f3, 0.5F + f3, 1.0F, 0.5F + f3);
 		this.setTickOnLoad(true);
+
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;	
 	}
 
 	public void updateTick(World world, int x, int y, int z, Random rand) {

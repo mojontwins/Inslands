@@ -1,6 +1,8 @@
 package net.minecraft.src;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class FurnaceRecipes {
@@ -33,8 +35,19 @@ public class FurnaceRecipes {
 		this.addSmelting(Item.fishCooked.shiftedIndex, new ItemStack(Item.coal));
 		this.addSmelting(Item.beefCooked.shiftedIndex, new ItemStack(Item.coal));
 		this.addSmelting(Item.egg.shiftedIndex, new ItemStack(Item.friedEgg));
+		this.addSmelting(Block.oreCopper.blockID, new ItemStack(Item.ingotCopper));
 		this.addSmelting(Block.fenceIron.blockID, new ItemStack(Item.ingotIron));
 		this.addSmelting(Block.blockClay.blockID, new ItemStack(Block.terracotta));
+		this.addSmelting(Item.rottenFlesh.shiftedIndex, new ItemStack(Item.leather));
+	}
+	
+	public List<FurnaceRecipe> getSmeltingsAsList() {
+		List<FurnaceRecipe> result = new ArrayList<FurnaceRecipe> ();
+		for(int inputId : this.smeltingList.keySet()) {
+			result.add(new FurnaceRecipe(inputId, smeltingList.get(inputId)));
+		}
+		
+		return result;
 	}
 
 	public void addSmelting(int i1, ItemStack itemStack2) {

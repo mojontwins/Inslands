@@ -104,6 +104,7 @@ import net.minecraft.src.TextureWaterFX;
 import net.minecraft.src.TextureWaterFlowFX;
 //import net.minecraft.src.ThreadCheckHasPaid;
 import net.minecraft.src.ThreadDownloadResources;
+import net.minecraft.src.ThreadLightingUpdater;
 import net.minecraft.src.ThreadSleepForeverClient;
 import net.minecraft.src.Timer;
 import net.minecraft.src.UnexpectedThrowable;
@@ -178,6 +179,11 @@ public abstract class Minecraft implements Runnable {
 	long systemTime = System.currentTimeMillis();
 	private int joinPlayerCounter = 0;
 
+	public static ThreadLightingUpdater lightingUpdater; 
+	
+	// Keep this true for the time being
+	public boolean legacyOpenGL = true;
+	
 	public Minecraft(Component component1, Canvas canvas2, MinecraftApplet minecraftApplet3, int i4, int i5, boolean z6) {
 		StatList.preInit();
 		this.tempDisplayHeight = i5;
@@ -188,11 +194,14 @@ public abstract class Minecraft implements Runnable {
 		this.displayWidth = i4;
 		this.displayHeight = i5;
 		this.fullscreen = z6;
-		//if(minecraftApplet3 == null || "true".equals(minecraftApplet3.getParameter("stand-alone"))) {
-			this.hideQuitButton = false;
-		//}
+
+		this.hideQuitButton = false;
 
 		theMinecraft = this;
+	}
+
+	public static Minecraft getMinecraft() {
+		return theMinecraft;
 	}
 
 	public void onMinecraftCrash(UnexpectedThrowable unexpectedThrowable1) {
@@ -412,7 +421,7 @@ public abstract class Minecraft implements Runnable {
 		}
 	}
 
-	private static EnumOS2 getOs() {
+	public static EnumOS2 getOs() {
 		String string0 = System.getProperty("os.name").toLowerCase();
 		return string0.contains("win") ? EnumOS2.windows : (string0.contains("mac") ? EnumOS2.macos : (string0.contains("solaris") ? EnumOS2.solaris : (string0.contains("sunos") ? EnumOS2.solaris : (string0.contains("linux") ? EnumOS2.linux : (string0.contains("unix") ? EnumOS2.linux : EnumOS2.unknown)))));
 	}
@@ -457,7 +466,7 @@ public abstract class Minecraft implements Runnable {
 		}
 	}
 
-	private void checkGLError(String string1) {
+	public void checkGLError(String string1) {
 		int i2 = GL11.glGetError();
 		if(i2 != 0) {
 			String string3 = GLU.gluErrorString(i2);
@@ -493,6 +502,12 @@ public abstract class Minecraft implements Runnable {
 			try {
 				GLAllocation.deleteTexturesAndDisplayLists();
 			} catch (Throwable throwable7) {
+			}
+
+			try {
+				lightingUpdater.shutdownLighting();
+			} catch (Exception e) {
+				
 			}
 
 			this.sndManager.closeMinecraft();
@@ -560,9 +575,13 @@ public abstract class Minecraft implements Runnable {
 					// Soft locked fancy grass
 					RenderBlocks.fancyGrass = false; // this.gameSettings.fancyGraphics;
 					this.sndManager.func_338_a(this.thePlayer, this.timer.renderPartialTicks);
+					
 					GL11.glEnable(GL11.GL_TEXTURE_2D);
-					if(this.theWorld != null) {
-						this.theWorld.updatingLighting();
+					
+					if(!this.gameSettings.threadedLighting) {
+						if(this.theWorld != null) {
+							this.theWorld.updatingLighting();
+						}
 					}
 
 					if(!Keyboard.isKeyDown(Keyboard.KEY_F7)) {
@@ -1249,11 +1268,17 @@ public abstract class Minecraft implements Runnable {
 			World world6 = null;
 			
 			do {
-				world6 = new World(iSaveHandler5, string2, worldSettings);
+				world6 = new World(iSaveHandler5, string2, worldSettings, this.gameSettings);
 				if(world6.findingSpawnPoint) {
 					System.out.println("Couldn't find a valid spawn point - trying again!");
 					Random rand = new Random(worldSettings.getSeed());
-					worldSettings = new WorldSettings(rand.nextLong(), worldSettings.getGameType(), worldSettings.isMapFeaturesEnabled(), worldSettings.getHardcoreEnabled(), worldSettings.getTerrainType());
+					worldSettings = new WorldSettings(
+						rand.nextLong(), 
+						worldSettings.getGameType(),
+						worldSettings.isMapFeaturesEnabled(), 
+						worldSettings.getHardcoreEnabled(), 
+						worldSettings.isGenerateCities(),
+						worldSettings.getTerrainType());
 				}
 			} while(world6.findingSpawnPoint);
 				
@@ -1293,7 +1318,7 @@ public abstract class Minecraft implements Runnable {
 			}
 
 			world7 = null;
-			world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(-1));
+			world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(-1), this.gameSettings);
 			this.changeWorld(world7, "Entering the Nether", this.thePlayer);
 		} else {
 			d1 *= d5;
@@ -1304,7 +1329,7 @@ public abstract class Minecraft implements Runnable {
 			}
 
 			world7 = null;
-			world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(0));
+			world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(0), this.gameSettings); 
 			this.changeWorld(world7, "Leaving the Nether", this.thePlayer);
 		}
 
@@ -1403,7 +1428,7 @@ public abstract class Minecraft implements Runnable {
 		this.loadingScreen.printText("Converting World to " + this.saveLoader.getFormatName());
 		this.loadingScreen.displayLoadingString("This may take a while :)");
 		this.saveLoader.converMapToMCRegion(string1, this.loadingScreen);
-		this.startWorld(string1, string2, new WorldSettings(0L, 0, true, false, WorldType.DEFAULT));
+		this.startWorld(string1, string2, new WorldSettings(0L, 0, true, false, false, WorldType.DEFAULT));
 	}
 
 	private void preloadWorld(String string1) {
@@ -1431,7 +1456,10 @@ public abstract class Minecraft implements Runnable {
 				this.loadingScreen.setLoadingProgress(i3++ * 100 / WorldSize.getTotalChunks());
 				this.theWorld.getBlockId(i10, 64, i8);
 				
-				while(this.theWorld.updatingLighting()) {
+				if(this.gameSettings.threadedLighting) {
+					while(this.theWorld.getLightingToUpdate().size() > 0);
+				} else {
+					while(this.theWorld.updatingLighting());
 				}
 			}
 		}
@@ -1589,6 +1617,12 @@ public abstract class Minecraft implements Runnable {
 		thread8.start();
 	}
 
+	public static void startLightingThread() {
+		lightingUpdater = new ThreadLightingUpdater(theMinecraft);
+		Thread thread = new Thread(lightingUpdater);
+		thread.start();
+	}
+
 	public NetClientHandler getSendQueue() {
 		return this.thePlayer instanceof EntityClientPlayerMP ? ((EntityClientPlayerMP)this.thePlayer).sendQueue : null;
 	}
@@ -1607,6 +1641,7 @@ public abstract class Minecraft implements Runnable {
 		}
 
 		startMainThread(string1, string2);
+		startLightingThread();
 	}
 
 	public static boolean isGuiEnabled() {

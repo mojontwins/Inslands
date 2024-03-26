@@ -9,6 +9,8 @@ public abstract class GuiContainer extends GuiScreen {
 	public int xSize = 176;
 	public int ySize = 166;
 	public Container inventorySlots;
+	protected int guiLeft;
+	protected int guiTop;
 
 	public GuiContainer(Container container1) {
 		this.inventorySlots = container1;
@@ -17,13 +19,15 @@ public abstract class GuiContainer extends GuiScreen {
 	public void initGui() {
 		super.initGui();
 		this.mc.thePlayer.craftingInventory = this.inventorySlots;
+		this.guiLeft = (this.width - this.xSize) / 2;
+		this.guiTop = (this.height - this.ySize) / 2;
 	}
 
-	public void drawScreen(int i1, int i2, float f3) {
+	public void drawScreen(int x, int y, float renderPartialTicks) {
 		this.drawDefaultBackground();
 		int i4 = (this.width - this.xSize) / 2;
 		int i5 = (this.height - this.ySize) / 2;
-		this.drawGuiContainerBackgroundLayer(f3);
+		this.drawGuiContainerBackgroundLayer(x, y, renderPartialTicks);
 		GL11.glPushMatrix();
 		GL11.glRotatef(120.0F, 1.0F, 0.0F, 0.0F);
 		RenderHelper.enableStandardItemLighting();
@@ -43,7 +47,7 @@ public abstract class GuiContainer extends GuiScreen {
 		for(int i7 = 0; i7 < this.inventorySlots.inventorySlots.size(); ++i7) {
 			Slot slot8 = (Slot)this.inventorySlots.inventorySlots.get(i7);
 			this.drawSlotInventory(slot8);
-			if(this.getIsMouseOverSlot(slot8, i1, i2)) {
+			if(this.getIsMouseOverSlot(slot8, x, y)) {
 				slot6 = slot8;
 				GL11.glDisable(GL11.GL_LIGHTING);
 				GL11.glDisable(GL11.GL_DEPTH_TEST);
@@ -58,8 +62,8 @@ public abstract class GuiContainer extends GuiScreen {
 		InventoryPlayer inventoryPlayer12 = this.mc.thePlayer.inventory;
 		if(inventoryPlayer12.getItemStack() != null) {
 			GL11.glTranslatef(0.0F, 0.0F, 32.0F);
-			itemRenderer.renderItemIntoGUI(this.fontRenderer, this.mc.renderEngine, inventoryPlayer12.getItemStack(), i1 - i4 - 8, i2 - i5 - 8);
-			itemRenderer.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.renderEngine, inventoryPlayer12.getItemStack(), i1 - i4 - 8, i2 - i5 - 8);
+			itemRenderer.renderItemIntoGUI(this.fontRenderer, this.mc.renderEngine, inventoryPlayer12.getItemStack(), x - i4 - 8, y - i5 - 8);
+			itemRenderer.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.renderEngine, inventoryPlayer12.getItemStack(), x - i4 - 8, y - i5 - 8);
 		}
 
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
@@ -70,8 +74,8 @@ public abstract class GuiContainer extends GuiScreen {
 		if(inventoryPlayer12.getItemStack() == null && slot6 != null && slot6.getHasStack()) {
 			String string13 = ("" + StringTranslate.getInstance().translateNamedKey(slot6.getStack().getItemName())).trim();
 			if(string13.length() > 0) {
-				i9 = i1 - i4 + 12;
-				i10 = i2 - i5 - 12;
+				i9 = x - i4 + 12;
+				i10 = y - i5 - 12;
 				int i11 = this.fontRenderer.getStringWidth(string13);
 				this.drawGradientRect(i9 - 3, i10 - 3, i9 + i11 + 3, i10 + 8 + 3, -1073741824, -1073741824);
 				this.fontRenderer.drawStringWithShadow(string13, i9, i10, -1);
@@ -79,15 +83,43 @@ public abstract class GuiContainer extends GuiScreen {
 		}
 
 		GL11.glPopMatrix();
-		super.drawScreen(i1, i2, f3);
+		super.drawScreen(x, y, renderPartialTicks);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
+	}
+
+	protected void func_74190_a(String par1Str, int par2, int par3) {
+		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+		RenderHelper.disableStandardItemLighting();
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		int var4 = this.fontRenderer.getStringWidth(par1Str);
+		int var5 = par2 + 12;
+		int var6 = par3 - 12;
+		byte var8 = 8;
+		this.zLevel = 300.0F;
+		//itemRenderer.zLevel = 300.0F;
+		int var9 = -267386864;
+		this.drawGradientRect(var5 - 3, var6 - 4, var5 + var4 + 3, var6 - 3, var9, var9);
+		this.drawGradientRect(var5 - 3, var6 + var8 + 3, var5 + var4 + 3, var6 + var8 + 4, var9, var9);
+		this.drawGradientRect(var5 - 3, var6 - 3, var5 + var4 + 3, var6 + var8 + 3, var9, var9);
+		this.drawGradientRect(var5 - 4, var6 - 3, var5 - 3, var6 + var8 + 3, var9, var9);
+		this.drawGradientRect(var5 + var4 + 3, var6 - 3, var5 + var4 + 4, var6 + var8 + 3, var9, var9);
+		int var10 = 1347420415;
+		int var11 = (var10 & 16711422) >> 1 | var10 & -16777216;
+		this.drawGradientRect(var5 - 3, var6 - 3 + 1, var5 - 3 + 1, var6 + var8 + 3 - 1, var10, var11);
+		this.drawGradientRect(var5 + var4 + 2, var6 - 3 + 1, var5 + var4 + 3, var6 + var8 + 3 - 1, var10, var11);
+		this.drawGradientRect(var5 - 3, var6 - 3, var5 + var4 + 3, var6 - 3 + 1, var10, var10);
+		this.drawGradientRect(var5 - 3, var6 + var8 + 2, var5 + var4 + 3, var6 + var8 + 3, var11, var11);
+		this.fontRenderer.drawStringWithShadow(par1Str, var5, var6, -1);
+		this.zLevel = 0.0F;
+		//itemRenderer.zLevel = 0.0F;
 	}
 
 	protected void drawGuiContainerForegroundLayer() {
 	}
 
-	protected abstract void drawGuiContainerBackgroundLayer(float f1);
+	protected abstract void drawGuiContainerBackgroundLayer(int x, int y, float f1);
 
 	private void drawSlotInventory(Slot slot1) {
 		int i2 = slot1.xDisplayPosition;
@@ -119,6 +151,14 @@ public abstract class GuiContainer extends GuiScreen {
 		return null;
 	}
 
+	protected boolean func_74188_c(int par1, int par2, int par3, int par4, int par5, int par6) {
+		int var7 = this.guiLeft;
+		int var8 = this.guiTop;
+		par5 -= var7;
+		par6 -= var8;
+		return par5 >= par1 - 1 && par5 < par1 + par3 + 1 && par6 >= par2 - 1 && par6 < par2 + par4 + 1;
+	}
+
 	private boolean getIsMouseOverSlot(Slot slot1, int i2, int i3) {
 		int i4 = (this.width - this.xSize) / 2;
 		int i5 = (this.height - this.ySize) / 2;
@@ -145,10 +185,15 @@ public abstract class GuiContainer extends GuiScreen {
 
 			if(i8 != -1) {
 				boolean z9 = i8 != -999 && (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT));
-				this.mc.playerController.func_27174_a(this.inventorySlots.windowId, i8, i3, z9, this.mc.thePlayer);
+				//this.mc.playerController.windowClick(this.inventorySlots.windowId, i8, i3, z9, this.mc.thePlayer);
+				this.handleMouseClick(slot4, i8, i3, z9);
 			}
 		}
 
+	}
+	
+	protected void handleMouseClick(Slot slot, int slotId, int button, boolean shift) {
+		this.mc.playerController.windowClick(this.inventorySlots.windowId, slotId, button, shift, this.mc.thePlayer);
 	}
 
 	protected void mouseMovedOrUp(int i1, int i2, int i3) {

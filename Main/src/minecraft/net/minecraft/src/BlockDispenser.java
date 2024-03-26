@@ -2,12 +2,16 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockDispenser extends BlockContainer {
 	private Random random = new Random();
 
 	protected BlockDispenser(int i1) {
 		super(i1, Material.rock);
 		this.blockIndexInTexture = 45;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabRedstone;
 	}
 
 	public int tickRate() {

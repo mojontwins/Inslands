@@ -137,15 +137,25 @@ public class ItemRenderer {
 		GL11.glRotatef(entityPlayerSP3.prevRotationYaw + (entityPlayerSP3.rotationYaw - entityPlayerSP3.prevRotationYaw) * f1, 0.0F, 1.0F, 0.0F);
 		RenderHelper.enableStandardItemLighting();
 		GL11.glPopMatrix();
+		float f6;
+		float f7;
+		if(entityPlayerSP3 instanceof EntityPlayerSP && ((EntityPlayerSP)entityPlayerSP3).mc.gameSettings.retardedArm) {
+			EntityPlayerSP entityPlayerSP5 = (EntityPlayerSP)entityPlayerSP3;
+			f6 = entityPlayerSP5.prevRenderArmPitch + (entityPlayerSP5.renderArmPitch - entityPlayerSP5.prevRenderArmPitch) * f1;
+			f7 = entityPlayerSP5.prevRenderArmYaw + (entityPlayerSP5.renderArmYaw - entityPlayerSP5.prevRenderArmYaw) * f1;
+			GL11.glRotatef((entityPlayerSP3.rotationPitch - f6) * 0.1F, 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef((entityPlayerSP3.rotationYaw - f7) * 0.1F, 0.0F, 1.0F, 0.0F);
+		}
+		
 		ItemStack itemStack5 = this.itemToRender;
-		float f8;
-		float f9;
 		int i15 = this.mc.theWorld.getLightBrightnessForSkyBlocks(MathHelper.floor_double(entityPlayerSP3.posX), MathHelper.floor_double(entityPlayerSP3.posY), MathHelper.floor_double(entityPlayerSP3.posZ), 0);
 		int i8 = i15 % 65536;
 		int i9 = i15 / 65536;
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)i8 / 1.0F, (float)i9 / 1.0F);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		
+		float f8;
+		float f9;
 		float f10;
 		if(itemStack5 != null) {
 			int i7 = Item.itemsList[itemStack5.itemID].getColorFromDamage(itemStack5.getItemDamage());

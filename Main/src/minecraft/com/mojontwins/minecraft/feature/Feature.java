@@ -42,6 +42,8 @@ public abstract class Feature {
 				127,
 				15 + ((originChunkZ + this.getFeatureRadius()) << 4) + 15
 		);
+		
+		this.featureProvider = featureProvider;
 	}
 
 	/*

@@ -13,7 +13,7 @@ final class J_JsonElementNodeSelector extends J_LeafFunctor {
 		return list1.size() > this.field_27069_a;
 	}
 
-	public String func_27060_a() {
+	public String description() {
 		return Integer.toString(this.field_27069_a);
 	}
 
@@ -31,7 +31,7 @@ final class J_JsonElementNodeSelector extends J_LeafFunctor {
 	}
 
 	@SuppressWarnings("unchecked")
-	public boolean func_27058_a(Object object1) {
+	public boolean checkType(Object object1) {
 		return this.func_27067_a((List<J_JsonNode>)object1);
 	}
 }

@@ -8,11 +8,13 @@
 			<item value="org.eclipse.search.internal.ui.text.TextSearchPage"/>
 			<item value="org.eclipse.egit.ui.commitSearchPage"/>
 			<item value="org.eclipse.jdt.ui.JavaSearchPage"/>
+			<item value="org.eclipse.pde.internal.ui.search.SearchPage"/>
 		</list>
 		<list key="Search.enabledPageIds">
 			<item value="org.eclipse.search.internal.ui.text.TextSearchPage"/>
 			<item value="org.eclipse.egit.ui.commitSearchPage"/>
 			<item value="org.eclipse.jdt.ui.JavaSearchPage"/>
+			<item value="org.eclipse.pde.internal.ui.search.SearchPage"/>
 		</list>
 	</section>
 	<section name="TextSearchPage">
@@ -26,7 +28,7 @@
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
-			<item key="textPattern" value="lightMultiplier"/>
+			<item key="textPattern" value="worldgenlakes"/>
 			<item key="scope" value="0"/>
 			<list key="fileNamePatterns">
 				<item value="*"/>
@@ -41,7 +43,7 @@
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
-			<item key="textPattern" value="background.png"/>
+			<item key="textPattern" value="s_func_543_c"/>
 			<item key="scope" value="0"/>
 			<list key="fileNamePatterns">
 				<item value="*"/>
@@ -53,7 +55,7 @@
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
-			<item key="textPattern" value="dirt.png"/>
+			<item key="textPattern" value="s_func_544_a"/>
 			<item key="scope" value="0"/>
 			<list key="fileNamePatterns">
 				<item value="*"/>
@@ -65,7 +67,7 @@
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
-			<item key="textPattern" value="drawdefaultbackground"/>
+			<item key="textPattern" value="s_field_22089_e"/>
 			<item key="scope" value="0"/>
 			<list key="fileNamePatterns">
 				<item value="*"/>
@@ -77,7 +79,7 @@
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
-			<item key="textPattern" value="loginFailedInfo"/>
+			<item key="textPattern" value="s_field_28110_e"/>
 			<item key="scope" value="0"/>
 			<list key="fileNamePatterns">
 				<item value="*"/>
@@ -89,7 +91,7 @@
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
-			<item key="textPattern" value="Bad login"/>
+			<item key="textPattern" value="s_func_613_b"/>
 			<item key="scope" value="0"/>
 			<list key="fileNamePatterns">
 				<item value="*"/>
@@ -101,7 +103,7 @@
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
-			<item key="textPattern" value="Failed to login"/>
+			<item key="textPattern" value="s_field_727_f"/>
 			<item key="scope" value="0"/>
 			<list key="fileNamePatterns">
 				<item value="*"/>
@@ -113,7 +115,7 @@
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
-			<item key="textPattern" value="bad login"/>
+			<item key="textPattern" value="s_field_819_z"/>
 			<item key="scope" value="0"/>
 			<list key="fileNamePatterns">
 				<item value="*"/>
@@ -122,10 +124,10 @@
 			</list>
 		</section>
 		<section name="HISTORY8">
-			<item key="ignoreCase" value="false"/>
+			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
-			<item key="isWholeWord" value="true"/>
-			<item key="textPattern" value="owner"/>
+			<item key="isWholeWord" value="false"/>
+			<item key="textPattern" value="s_func_6022_a"/>
 			<item key="scope" value="0"/>
 			<list key="fileNamePatterns">
 				<item value="*"/>
@@ -137,7 +139,7 @@
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
-			<item key="textPattern" value="func_866_a"/>
+			<item key="textPattern" value="Packet93FiniteWorldSettings"/>
 			<item key="scope" value="0"/>
 			<list key="fileNamePatterns">
 				<item value="*"/>
@@ -149,7 +151,7 @@
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
-			<item key="textPattern" value="field_1299_a"/>
+			<item key="textPattern" value="func_6484_b"/>
 			<item key="scope" value="0"/>
 			<list key="fileNamePatterns">
 				<item value="*"/>
@@ -161,7 +163,7 @@
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
-			<item key="textPattern" value="func_4127_a"/>
+			<item key="textPattern" value="func_6485_a"/>
 			<item key="scope" value="0"/>
 			<list key="fileNamePatterns">
 				<item value="*"/>
@@ -177,26 +179,35 @@
 		<item key="DIALOG_X_ORIGIN" value="717"/>
 		<item key="DIALOG_Y_ORIGIN" value="218"/>
 		<item key="DIALOG_WIDTH" value="516"/>
-		<item key="DIALOG_HEIGHT" value="459"/>
+		<item key="DIALOG_HEIGHT" value="468"/>
 		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
 	</section>
 	<section name="">
 		<item key="org.eclipse.search.resultpage.limit" value="1000"/>
+		<item key="org.eclipse.jdt.search.resultpage.limit" value="1000"/>
+		<item key="org.eclipse.jdt.search.resultpage.limit_enabled" value="TRUE"/>
 	</section>
 	<section name="org.eclipse.search.text.FileSearchResultPage">
 		<item key="org.eclipse.search.resultpage.limit" value="1000"/>
 	</section>
 	<section name="ReplaceDialog2">
 		<list key="replace_with">
-			<item value="shootingEntity"/>
-			<item value="insideCurrentArea"/>
-			<item value="enumSkyBlock"/>
-			<item value="recalculateLighting"/>
-			<item value="getEntityFromLookup"/>
-			<item value="addEntityToLookup"/>
+			<item value="updateMountedMovingPlayer"/>
+			<item value="isOutsidePlayerViewRadius"/>
+			<item value="xzDirectionsConst"/>
+			<item value="playerDimension"/>
+			<item value="serverUpdateMountedMovingPlayer"/>
+			<item value="loadedChunksServer"/>
+			<item value="disableSpawnProtection"/>
 		</list>
 	</section>
+	<section name="org.eclipse.jdt.ui.JavaSearchResultPage">
+		<item key="org.eclipse.jdt.search.resultpage.limit" value="1000"/>
+		<item key="org.eclipse.jdt.search.resultpage.limit_enabled" value="TRUE"/>
+	</section>
 	<section name="">
+		<item key="org.eclipse.jdt.search.resultpage.limit" value="1000"/>
+		<item key="org.eclipse.jdt.search.resultpage.limit_enabled" value="TRUE"/>
 		<item key="org.eclipse.search.resultpage.limit" value="1000"/>
 	</section>
 </section>

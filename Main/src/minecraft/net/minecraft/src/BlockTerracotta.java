@@ -1,5 +1,9 @@
 package net.minecraft.src;
 
+import java.util.List;
+
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockTerracotta extends Block {
 	private boolean stained;
 	
@@ -13,6 +17,8 @@ public class BlockTerracotta extends Block {
 	public BlockTerracotta(int id, int textureIndex, Material material, boolean stained) {
 		super(id, textureIndex, material);
 		this.stained = stained;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 	
 	protected int damageDropped(int i1) {
@@ -37,5 +43,16 @@ public class BlockTerracotta extends Block {
 	
 	public int getRenderColor(int meta) {
 		return this.stained ? terracottaColors[15 - meta] : nonDiedColor;
+	}
+	
+    @Override
+    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
+		if(this.stained) {
+	    	for(int i = 0; i < 16; i ++) {
+				par3List.add(new ItemStack(par1, 1, i));
+			}
+		} else {
+			par3List.add(new ItemStack(par1, 1, 0));
+		}
 	}
 }

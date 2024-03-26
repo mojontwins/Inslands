@@ -2,9 +2,12 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockTNT extends Block {
 	public BlockTNT(int id, int blockIndex) {
 		super(id, blockIndex, Material.tnt);
+		this.displayOnCreativeTab = CreativeTabs.tabRedstone;
 	}
 
 	public int getBlockTextureFromSide(int side) {

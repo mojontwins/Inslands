@@ -1,9 +1,13 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockWorkbench extends Block {
 	protected BlockWorkbench(int id) {
 		super(id, Material.wood);
 		this.blockIndexInTexture = 59;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	public int getBlockTextureFromSide(int side) {

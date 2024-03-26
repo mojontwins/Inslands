@@ -1419,7 +1419,7 @@ public class RenderBlocks {
 
 		return true;
 	}
-
+	
 	public boolean renderBlockVine(Block block, int i, int j, int k) {
 		Tessellator tessellator = Tessellator.instance;
 		int l = block.getBlockTextureFromSide(0);
@@ -2002,7 +2002,7 @@ public class RenderBlocks {
 		tessellator9.addVertexWithUV(d21, d5 + 0.0D, d27, d15, d19);
 		tessellator9.addVertexWithUV(d21, d5 + 1.0D, d27, d15, d17);
 	}
-
+	
 	public void renderCrossedSquaresDoubleHeight(Block block1, int i2, double d3, double d5, double d7) {
 		Tessellator tessellator9 = Tessellator.instance;
 		int i10 = block1.getBlockTextureFromSideAndMetadata(0, i2);
@@ -2075,7 +2075,7 @@ public class RenderBlocks {
 		
 		// Render a lily flower on top
 		if((i1 & 4) != 0) {
-			this.overrideBlockTexture = 12 * 16 + 3;
+			this.overrideBlockTexture = 12 * 16 + 2;
 			this.renderCrossedSquares(block, x, y, z);
 			this.overrideBlockTexture = -1;
 		}
@@ -2331,19 +2331,19 @@ public class RenderBlocks {
 
 		tessellator10.setColorOpaque_F(f6, f6, f6);
 		this.renderBottomFace(block1, -0.5D, -0.5D, -0.5D, block1.getBlockTextureFromSide(0));
-
+		
 		tessellator10.setColorOpaque_F(f7, f7, f7);
 		this.renderTopFace(block1, -0.5D, -0.5D, -0.5D, block1.getBlockTextureFromSide(1));
-
+		
 		tessellator10.setColorOpaque_F(f8, f8, f8);
 		this.renderEastFace(block1, -0.5D, -0.5D, -0.5D, block1.getBlockTextureFromSide(2));
-
+		
 		tessellator10.setColorOpaque_F(f8, f8, f8);
 		this.renderWestFace(block1, -0.5D, -0.5D, -0.5D, block1.getBlockTextureFromSide(3));
 
 		tessellator10.setColorOpaque_F(f9, f9, f9);
 		this.renderNorthFace(block1, -0.5D, -0.5D, -0.5D, block1.getBlockTextureFromSide(4));
-
+		
 		tessellator10.setColorOpaque_F(f9, f9, f9);
 		this.renderSouthFace(block1, -0.5D, -0.5D, -0.5D, block1.getBlockTextureFromSide(5));
 		tessellator10.draw();
@@ -2497,7 +2497,7 @@ public class RenderBlocks {
 				}
 
 				if(block1.minY <= 0.0D) {
-				++i3;
+					++i3;
 				}
 
 				f9 = (this.aoLightValueScratchXYZNNP + this.aoLightValueScratchXYNN + this.aoLightValueScratchYZNP + this.aoLightValueYNeg) / 4.0F;
@@ -2582,7 +2582,7 @@ public class RenderBlocks {
 				}
 
 				if(block1.maxY >= 1.0D) {
-				--i3;
+					--i3;
 				}
 
 				f12 = (this.aoLightValueScratchXYZNPP + this.aoLightValueScratchXYNP + this.aoLightValueScratchYZPP + this.aoLightValueYPos) / 4.0F;
@@ -2668,7 +2668,7 @@ public class RenderBlocks {
 				}
 
 				if(block1.minZ <= 0.0D) {
-				++i4;
+					++i4;
 				}
 
 				f9 = (this.aoLightValueScratchXZNN + this.aoLightValueScratchXYZNPN + this.aoLightValueZNeg + this.aoLightValueScratchYZPN) / 4.0F;
@@ -2770,7 +2770,7 @@ public class RenderBlocks {
 				}
 
 				if(block1.maxZ >= 1.0D) {
-				--i4;
+					--i4;
 				}
 
 				f9 = (this.aoLightValueScratchXZNP + this.aoLightValueScratchXYZNPP + this.aoLightValueZPos + this.aoLightValueScratchYZPP) / 4.0F;
@@ -2872,7 +2872,7 @@ public class RenderBlocks {
 				}
 
 				if(block1.minX <= 0.0D) {
-				++i2;
+					++i2;
 				}
 
 				f12 = (this.aoLightValueScratchXYNN + this.aoLightValueScratchXYZNNP + this.aoLightValueXNeg + this.aoLightValueScratchXZNP) / 4.0F;
@@ -2974,7 +2974,7 @@ public class RenderBlocks {
 				}
 
 				if(block1.maxX >= 1.0D) {
-				--i2;
+					--i2;
 				}
 
 				f9 = (this.aoLightValueScratchXYPN + this.aoLightValueScratchXYZPNP + this.aoLightValueXPos + this.aoLightValueScratchXZPP) / 4.0F;
@@ -3244,12 +3244,12 @@ public class RenderBlocks {
 	}
 
 	public boolean renderBlockFence(Block block, int x, int y, int z) {
-
+		
 		float min = 0.375F;
 		float max = 0.625F;
 		block.setBlockBounds(min, 0.0F, min, max, 1.0F, max);
 		this.renderStandardBlock(block, x, y, z);
-
+		
 		boolean connectEorW = false;
 		boolean connectNorS = false;
 		if(this.blockAccess.getBlockId(x - 1, y, z) == block.blockID || this.blockAccess.getBlockId(x + 1, y, z) == block.blockID) {
@@ -3276,7 +3276,7 @@ public class RenderBlocks {
 		float maxX = connectW ? 1.0F : max;
 		float minZ = connectN ? 0.0F : min;
 		float maxZ = connectS ? 1.0F : max;
-
+		
 		if(connectEorW) {
 			block.setBlockBounds(minX, minY, min, maxX, maxY, max);
 			this.renderStandardBlock(block, x, y, z);
@@ -3977,7 +3977,7 @@ public class RenderBlocks {
 	}
 
 	// Custom renderers
-	
+
 	public boolean renderBlockWall(Block block, int x, int y, int z) {
 		Tessellator tessellator5 = Tessellator.instance;
 		int i6 = block.getBlockTextureFromSide(0);
@@ -4565,7 +4565,7 @@ public class RenderBlocks {
 	
 	// End
 	
-	public void renderBlockAsItem(Block block1, float f2) { 
+	public void renderBlockAsItem(Block block1, float f2) {
 		int i3 = block1.getRenderType();
 		Tessellator tessellator4 = Tessellator.instance;
 		if(i3 == 0) {

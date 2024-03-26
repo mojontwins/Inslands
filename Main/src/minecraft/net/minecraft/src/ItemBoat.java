@@ -1,9 +1,13 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemBoat extends Item {
 	public ItemBoat(int i1) {
 		super(i1);
 		this.maxStackSize = 1;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabTransport;
 	}
 
 	public ItemStack onItemRightClick(ItemStack itemStack1, World world2, EntityPlayer entityPlayer3) {
