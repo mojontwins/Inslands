@@ -28,7 +28,7 @@ public class BiomeGenThemeHell extends BiomeGenBase {
 	}
 	
 	public WorldGenerator getBigTreeGen(Random rand) {
-		return new WorldGenTrees();
+		return rand.nextBoolean() ? new WorldGenTreesDead() : new WorldGenTrees();
 	}
 	
 	public void populate(World world, Random rand, int chunkX, int chunkZ) {
@@ -56,11 +56,11 @@ public class BiomeGenThemeHell extends BiomeGenBase {
 			(new WorldGenMinable(Block.regolith.blockID, 32)).generate(world, rand, x, y, z);
 		}	
 		
-		if(rand.nextInt(16) == 0) {
+		if(rand.nextInt(128) == 0) {
 			x = chunkX + rand.nextInt(16) + 8;
 			y = rand.nextInt(rand.nextInt(120) + 8);
 			z = chunkZ + rand.nextInt(16) + 8;
-			if(y < 64 || rand.nextInt(10) == 0) {
+			if(y < 56 || rand.nextInt(10) == 0) {
 				(new WorldGenLakes(Block.lavaMoving.blockID)).generate(world, rand, x, y, z);
 			}
 		}

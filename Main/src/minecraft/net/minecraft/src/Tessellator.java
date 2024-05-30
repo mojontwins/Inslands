@@ -8,8 +8,8 @@ import java.nio.ShortBuffer;
 
 import org.lwjgl.opengl.ARBVertexBufferObject;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GLContext;
 
 public class Tessellator {
 	private static boolean convertQuadsToTriangles = true;
@@ -45,8 +45,6 @@ public class Tessellator {
 	private int bufferSize;
 	
 	private boolean renderingTerrain;
-	private WorldRenderer worldRenderer;
-
 	private Tessellator(int i1) {
 		this.bufferSize = i1;
 		this.byteBuffer = GLAllocation.createDirectByteBuffer(i1 * 4);
@@ -73,7 +71,6 @@ public class Tessellator {
 				this.byteBuffer.position(0);
 				this.byteBuffer.limit(this.rawBufferIndex * 4);
 				if (this.renderingTerrain) {
-					this.worldRenderer.getCurrentBuffer().upload(this.byteBuffer);
 					int i1 = this.rawBufferIndex * 4;
 					this.reset();
 					return i1;
@@ -368,12 +365,10 @@ public class Tessellator {
 
 	public void startRenderingTerrain(WorldRenderer worldRenderer) {
 		this.renderingTerrain = true;
-		this.worldRenderer = worldRenderer;
 	}
 
 	public void stopRenderingTerrain() {
 		this.renderingTerrain = false;
-		this.worldRenderer = null;
 	}
 
 	public boolean isRenderingTerrain() {

@@ -19,8 +19,8 @@ lastServer:localhost
 FOV:0
 gammaSetting0.0
 colouredAthmosphericstrue
-displayMode:DEFAULT
-meltBuild:true
+displayMode:640x480x32 60Hz
+meltBuild:false
 key_key.forward:17
 key_key.left:30
 key_key.back:31

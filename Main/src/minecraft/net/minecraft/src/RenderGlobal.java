@@ -1,6 +1,5 @@
 package net.minecraft.src;
 
-import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,15 +10,8 @@ import java.util.Random;
 import org.lwjgl.opengl.ARBOcclusionQuery;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.smoothbeta.Shader;
-import net.minecraft.src.smoothbeta.Shaders;
-import net.minecraft.src.smoothbeta.SmoothRenderList;
-import net.minecraft.src.smoothbeta.VboPool;
-import net.minecraft.src.smoothbeta.VertexFormats;
 
 public class RenderGlobal implements IWorldAccess {
 	public List<TileEntity> tileEntities = new ArrayList<TileEntity>();
@@ -69,10 +61,6 @@ public class RenderGlobal implements IWorldAccess {
 	public float damagePartialTime;
 	int frustrumCheckOffset = 0;
 
-	private VboPool vboPool;
-	private final FloatBuffer modelViewMatrix = GLAllocation.createDirectFloatBuffer(16);
-	private final FloatBuffer projectionMatrix = GLAllocation.createDirectFloatBuffer(16);
-
 	public RenderGlobal(Minecraft minecraft1, RenderEngine renderEngine2) {
 		this.mc = minecraft1;
 		this.renderEngine = renderEngine2;
@@ -88,11 +76,7 @@ public class RenderGlobal implements IWorldAccess {
 			ARBOcclusionQuery.glGenQueriesARB(this.glOcclusionQueryBase);
 		}
 
-		if (this.mc.legacyOpenGL) {
-			this.allRenderLists = new RenderList[]{new RenderList(), new RenderList(), new RenderList(), new RenderList()};
-		} else {
-			this.allRenderLists = new RenderList[]{new SmoothRenderList(this), new SmoothRenderList(this), new SmoothRenderList(this), new SmoothRenderList(this)};
-		} 
+		this.allRenderLists = new RenderList[]{new RenderList(), new RenderList(), new RenderList(), new RenderList()};
 
 		this.starGLCallList = GLAllocation.generateDisplayLists(3);
 		GL11.glPushMatrix();
@@ -206,9 +190,6 @@ public class RenderGlobal implements IWorldAccess {
 
 	public void loadRenderers() {
 		if(!this.mc.legacyOpenGL) {
-			if (this.vboPool != null)
-				this.vboPool.deleteGlBuffers();
-			this.vboPool = new VboPool(VertexFormats.POSITION_TEXTURE_COLOR_NORMAL);
 		}
 		
 		Block.leaves.setGraphicsLevel(this.mc.gameSettings.fancyGraphics);
@@ -610,11 +591,7 @@ public class RenderGlobal implements IWorldAccess {
 				this.allRenderLists[i17].updatePosition(worldRenderer16.posXMinus, worldRenderer16.posYMinus, worldRenderer16.posZMinus, d20, d10, d12);
 			}
 
-			if (!this.mc.legacyOpenGL) {
-				((SmoothRenderList) this.allRenderLists[i17]).addBuffer(worldRenderer16.getBuffer(i3));
-			} else {
-				this.allRenderLists[i17].addCallListToIntBuffer(worldRenderer16.getGLCallListForPass(i3));
-			}
+			this.allRenderLists[i17].addCallListToIntBuffer(worldRenderer16.getGLCallListForPass(i3));
 		}
 
 		this.renderAllRenderLists(i3, d4);
@@ -623,37 +600,7 @@ public class RenderGlobal implements IWorldAccess {
 
 	public void renderAllRenderLists(int i1, double d2) {
 		if(!this.mc.legacyOpenGL) {
-			Shader shader = Shaders.getTerrainShader();
 
-			shader.addSampler("Sampler0", 0);
-
-			// Nothing like good ol' Java 8
-			GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, (FloatBuffer) modelViewMatrix.clear());
-			shader.modelViewMat.set((FloatBuffer) modelViewMatrix.position(0));
-
-			GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, (FloatBuffer) projectionMatrix.clear());
-			shader.projectionMat.set((FloatBuffer) projectionMatrix.position(0));
-
-			int fogMode = 0;
-			switch (GL11.glGetInteger(GL11.GL_FOG_MODE)) {
-				case GL11.GL_EXP: {
-	                break;
-				}
-				case GL11.GL_EXP2: {
-					fogMode = 1;
-					break;
-				}
-				case GL11.GL_LINEAR: {
-					fogMode = 2;
-					break;
-				}
-				default: {
-					throw new IllegalStateException("Unexpected value: " + GL11.glGetInteger(GL11.GL_FOG_MODE));
-				}
-			};
-			shader.fogMode.set(fogMode);
-
-			shader.bind();
 		}
 		
 		this.mc.entityRenderer.enableLightmap(d2);
@@ -665,16 +612,7 @@ public class RenderGlobal implements IWorldAccess {
 		this.mc.entityRenderer.disableLightmap(d2);
 		
 		if(!this.mc.legacyOpenGL) {
-			Shaders.getTerrainShader().unbind();
-
-			GL20.glDisableVertexAttribArray(0); // pos
-			GL20.glDisableVertexAttribArray(1); // texture
-			GL20.glDisableVertexAttribArray(2); // color
-			GL20.glDisableVertexAttribArray(3); // normal
-
-			GL30.glBindVertexArray(0);
-			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
-			GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+		
 		}
 
 	}
@@ -1517,7 +1455,4 @@ public class RenderGlobal implements IWorldAccess {
 
 	}
 
-	public VboPool getTerrainVboPool() {
-		return this.vboPool;
-	}
 }
