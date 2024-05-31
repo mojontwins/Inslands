@@ -49,7 +49,7 @@ public class ShapedRecipes implements IRecipe {
 					}
 				}
 
-				ItemStack itemStack10 = ItemStack.copyItemStack(inventoryCrafting1.getStackInRowAndColumn(i5, i6));
+				ItemStack itemStack10 = inventoryCrafting1.getStackInRowAndColumn(i5, i6);
 				if(itemStack10 != null && itemStack10.itemID == Block.cobblestoneMossy.blockID) itemStack10.itemID = Block.cobblestone.blockID;
 				if(itemStack10 != null || itemStack9 != null) {
 					if(itemStack10 == null && itemStack9 != null || itemStack10 != null && itemStack9 == null) {
