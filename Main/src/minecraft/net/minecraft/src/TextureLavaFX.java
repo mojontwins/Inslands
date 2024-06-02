@@ -74,7 +74,7 @@ public class TextureLavaFX extends TextureFX {
 			this.imageData[i2 * 4 + 0] = (byte)i5;
 			this.imageData[i2 * 4 + 1] = (byte)i6;
 			this.imageData[i2 * 4 + 2] = (byte)i7;
-			this.imageData[i2 * 4 + 3] = -1;
+			this.imageData[i2 * 4 + 3] = (byte) 0x88;
 		}
 
 	}

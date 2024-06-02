@@ -3,8 +3,7 @@ package com.misc.bo3import;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -181,11 +180,12 @@ public class Bo3Schematic {
 		this.blockChecks = blockChecks;
 	}
 
-	public Bo3Schematic fromFile(Path path) {
+	public Bo3Schematic fromFile(String path) {
 		InputStream inputStream = null; 
+		inputStream = this.getClass().getResourceAsStream(path);
 		
-		try {
-			BufferedReader reader = Files.newBufferedReader(path);
+		try {	
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 			
 			// This only understands a subset of the BO3 stuff.
 			
@@ -230,7 +230,6 @@ public class Bo3Schematic {
 			}
 			
 			// The rest of things come as properties
-			inputStream = Files.newInputStream(path);
 			Properties properties = new Properties();
 			properties.load(inputStream);
 			

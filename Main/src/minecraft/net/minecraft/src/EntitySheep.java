@@ -113,6 +113,10 @@ public class EntitySheep extends EntityAnimal {
 
 	}
 
+	public static int getRandomFleeceColorForReal(Random random) {
+		return random.nextInt(16);
+	}
+	
 	public static int getRandomFleeceColor(Random random0) {
 		int i1 = random0.nextInt(100);
 		return i1 < 5 ? 15 : (i1 < 10 ? 7 : (i1 < 15 ? 8 : (i1 < 18 ? 12 : (random0.nextInt(500) == 0 ? 6 : 0))));

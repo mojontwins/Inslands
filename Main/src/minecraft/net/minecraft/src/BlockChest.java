@@ -217,11 +217,12 @@ public class BlockChest extends BlockContainer {
 		
 		entityPlayer.triggerAchievement(AchievementList.chestRobber);
 		entityLiving.somebodyOpenedMyChest(entityPlayer);
-		
+		/*
 		if("Amazon".equals(ownerType)) {
 			entityPlayer.triggerAchievement(AchievementList.robbedAmazon);
 		} else if("AlphaWitch".equals(ownerType)) {
 			entityPlayer.triggerAchievement(AchievementList.robbedWitch);
 		}
+		*/
 	}
 }

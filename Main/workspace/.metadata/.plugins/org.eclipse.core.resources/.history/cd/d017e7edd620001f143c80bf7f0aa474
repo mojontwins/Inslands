@@ -1,0 +1,13 @@
+package net.minecraft.src;
+
+import java.util.Random;
+
+public class WorldGenFireWithSet extends WorldGenerator {
+
+	@Override
+	public boolean generate(World world, Random rand, int x, int y, int z) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

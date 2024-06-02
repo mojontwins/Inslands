@@ -3,12 +3,10 @@ package com.misc.bo3import;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.Random;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockState;
@@ -32,32 +30,21 @@ public class Bo3Schematic {
 	 */
 	private List<BlockState> sourceBlocks = new ArrayList<BlockState> ();
 	
+	private int orthoAngle; 
+	
+	public String category;
+	public String name;
+	
+	public Bo3Schematic() {
+	}
+
 	/*
 	 * 0 - 0 degrees   X, Z
 	 * 1 - 90 degrees  Z, -X
 	 * 2 - 180 degrees -X, -Z
 	 * 3 - 270 degrees -Z, X
 	 */
-	private int orthoAngle; 
 	
-	/*
-	 * Height to add to Y0
-	 */
-	private int spawnHeightOffset = 0;
-	
-	/*
-	 * If != 0, random to add to Y0 
-	 */
-	private int spawnHeightVariance = 0;
-	
-	public String category;
-	public String name;
-	
-	private boolean debug = false;
-	
-	public Bo3Schematic() {
-	}
-
 	public int rotateX(int x, int z) {
 		switch(this.orthoAngle) {
 		case 0:
@@ -94,11 +81,8 @@ public class Bo3Schematic {
 		this.blockChecks.add(blockState);
 	}
 	
-	public void render(World world, Random rand, int x0, int y0, int z0) {
+	public void render(World world, int x0, int y0, int z0) {
 		int x, z;
-		
-		y0 += this.spawnHeightOffset;
-		if(this.spawnHeightVariance > 0) y0 += rand.nextInt(this.spawnHeightVariance);
 		
 		for(BlockState blockState : this.blocks) {
 			x = this.rotateX(blockState.getX(), blockState.getZ());
@@ -122,14 +106,10 @@ public class Bo3Schematic {
 		
 		// 1.- checkCanGrowOwn (x0, y0 - 1, z0);
 		
-		if(!this.checkCanGrowOn(world, x0, y0 - 1, z0)) {
-			if(this.debug) System.out.println ("Failed checkCanGrowOn " + x0 + " " + (y0 - 1) + " " + z0);
-			return false;
-		}
+		if(!this.checkCanGrowOn(world, x0, y0 - 1, z0)) return false;
 		
 		// 2.- All blockChecks (if any) succeed;
 		
-		if(this.blockChecks.size() > 0) {
 		result = false;
 		for(BlockState blockCheck : this.blockChecks) {
 			xx = blockCheck.getX();
@@ -147,11 +127,7 @@ public class Bo3Schematic {
 		}
 		
 		// If none of the checks succeeded, can't spawn
-			if(!result) {
-				if(this.debug) System.out.println ("Failed blockChecks");
-				return false;
-			}
-		}
+		if(!result) return false;
 		
 		// 3.- Iterates the block list and makes sure all blocks will replace blocks in sourceBlocks
 		
@@ -174,17 +150,8 @@ public class Bo3Schematic {
 			}
 			
 			// If existing block was none of the blocks listed, can't spawn
-			if(!result) {
-				String blockName = "Air";
-				try {
-					blockName = blockState.getBlock().getBlockName();
-				} catch (Exception e) {}
-				if(this.debug) System.out.println ("Failed sourceBlock, found " + blockName + " @ " + x + " " + y + " " + z);
-				return false;
+			if(!result) return false;
 		}
-		}
-		
-		if(this.debug) System.out.println ("Success @ " + x0 + " " + y0 + " " + z0);
 		
 		return true;
 	}
@@ -213,11 +180,12 @@ public class Bo3Schematic {
 		this.blockChecks = blockChecks;
 	}
 
-	public Bo3Schematic fromFile(Path path) {
+	public Bo3Schematic fromFile(String path) {
 		InputStream inputStream = null; 
+		inputStream = this.getClass().getResourceAsStream(path);
 		
-		try {
-			BufferedReader reader = Files.newBufferedReader(path);
+		try {	
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 			
 			// This only understands a subset of the BO3 stuff.
 			
@@ -262,15 +230,13 @@ public class Bo3Schematic {
 			}
 			
 			// The rest of things come as properties
-			inputStream = Files.newInputStream(path);
 			Properties properties = new Properties();
 			properties.load(inputStream);
 			
 			// Do things
 			this.populateSourceBlocks((String) properties.get("SourceBlocks"));
-			this.spawnHeightOffset = Integer.parseInt(properties.getProperty("SpawnHeightOffset"));
-			this.spawnHeightVariance = Integer.parseInt(properties.getProperty("SpawnHeightVariance"));
-		} catch (Exception e) {
+			
+		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 			if(inputStream != null)	try {

@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value=""/>
+		<item key="selection" value="tick()"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-			<item value="packet93"/>
-			<item value="isgenerate"/>
-			<item value="generator."/>
-			<item value="worldgenlakes"/>
-			<item value="populate"/>
-			<item value="popu"/>
-			<item value="b"/>
-			<item value="idDropped"/>
-			<item value="biomesForGeneration"/>
-			<item value="biome"/>
-			<item value="getsea"/>
-			<item value="getheight"/>
-			<item value="lightValue"/>
-			<item value="blocklightMap"/>
-			<item value="findingspa"/>
+			<item value="tick()"/>
+			<item value="ontick"/>
+			<item value="thissessionticks"/>
+			<item value="640852"/>
+			<item value="640"/>
+			<item value="runTick"/>
+			<item value="displaywi"/>
+			<item value="start"/>
+			<item value="dama"/>
+			<item value="opaque"/>
+			<item value="opaqueCubeLookup"/>
+			<item value="beaches"/>
+			<item value="pass"/>
+			<item value="renderpass"/>
+			<item value="blocktex"/>
 		</list>
 		<list key="replacehistory">
 			<item value="entityLiving"/>

@@ -24,53 +24,112 @@ public class ItemDye extends Item {
 		return super.getItemName() + "." + dyeColorNames[itemStack1.getItemDamage()];
 	}
 
-	public boolean onItemUse(ItemStack itemStack1, EntityPlayer entityPlayer2, World world3, int i4, int i5, int i6, int i7) {
-		if(itemStack1.getItemDamage() == 15) {
-			int i8 = world3.getBlockId(i4, i5, i6);
-			if(i8 == Block.sapling.blockID) {
-				if(!world3.multiplayerWorld) {
-					((BlockSapling)Block.sapling).growTree(world3, i4, i5, i6, world3.rand);
-					if(!entityPlayer2.isCreative) --itemStack1.stackSize;
+	public boolean onItemUse(ItemStack itemStack, EntityPlayer thePlayer, World world, int x, int y, int z, int side) {
+		if(itemStack.getItemDamage() == 15) {
+
+			int blockID = world.getBlockId(x, y, z);
+			if(blockID == Block.sapling.blockID) {
+				if(!world.multiplayerWorld) {
+					((BlockSapling)Block.sapling).growTree(world, x, y, z, world.rand);
+					if(!thePlayer.isCreative) --itemStack.stackSize;
 				}
 
 				return true;
 			}
 
-			if(i8 == Block.crops.blockID) {
-				if(!world3.multiplayerWorld) {
-					((BlockCrops)Block.crops).fertilize(world3, i4, i5, i6);
-					if(!entityPlayer2.isCreative) --itemStack1.stackSize;
+			if(blockID == Block.crops.blockID) {
+				if(!world.multiplayerWorld) {
+					((BlockCrops)Block.crops).fertilize(world, x, y, z);
+					if(!thePlayer.isCreative) --itemStack.stackSize;
 				}
 
 				return true;
 			}
+			
+			if(blockID == Block.dirt.blockID) {
+				if(!world.multiplayerWorld) {
+					if (rand.nextInt(16) == 0) {
+						// Produce grass!
+						for(int attempts = 0; attempts < 32; ++attempts) {
+							int xx = x;
+							int yy = y;
+							int zz = z;
 
-			if(i8 == Block.grass.blockID) {
-				if(!world3.multiplayerWorld) {
-					if(!entityPlayer2.isCreative) --itemStack1.stackSize;
+							for(int i13 = 0; i13 < attempts / 16; ++i13) {
+								xx += rand.nextInt(2) - 1;
+								yy += (rand.nextInt(2) - 1) * rand.nextInt(3) / 2;
+								zz += rand.nextInt(2) - 1;
+								if(world.getBlockId(xx, yy, zz) == Block.dirt.blockID) {
+									break;
+								}
+							}
+
+							if(world.getBlockId(xx, yy, zz) == Block.dirt.blockID && !Block.opaqueCubeLookup[world.getBlockId(xx, yy + 1, zz)]) {
+								world.setBlockWithNotify(xx, yy, zz, Block.grass.blockID);
+							}
+						}
+						world.setBlock(x, y, z, Block.grass.blockID);
+						
+					} else if (rand.nextBoolean()) {
+						// Produce some mushrooms
+						label53b:
+						for(int attempts = 0; attempts < 32; ++attempts) {
+							int xx = x;
+							int yy = y + 1;
+							int zz = z;
+	
+							for(int i13 = 0; i13 < attempts / 16; ++i13) {
+								xx += rand.nextInt(3) - 1;
+								yy += (rand.nextInt(3) - 1) * rand.nextInt(3) / 2;
+								zz += rand.nextInt(3) - 1;
+								if(world.getBlockId(xx, yy - 1, zz) != Block.dirt.blockID || world.getBlockId(xx, yy, zz) != 0) {
+									continue label53b;
+								}
+							}
+	
+							if(world.getBlockId(xx, yy, zz) == 0 && Block.mushroomRed.canBlockStay(world, xx, yy, zz)) {
+								if(rand.nextInt(4) == 0) {
+									world.setBlockWithNotify(xx, yy, zz, Block.mushroomRed.blockID);
+								} else if(rand.nextInt(4) == 0) {
+									world.setBlockWithNotify(xx, yy, zz, Block.mushroomBrown.blockID);
+								} 
+							}
+						}
+					}
+						
+					if(!thePlayer.isCreative) --itemStack.stackSize;
+
+					return true;
+				}
+			}
+
+
+			if(blockID == Block.grass.blockID) {
+				if(!world.multiplayerWorld) {
+					if(!thePlayer.isCreative) --itemStack.stackSize;
 
 					label53:
-					for(int i9 = 0; i9 < 128; ++i9) {
-						int i10 = i4;
-						int i11 = i5 + 1;
-						int i12 = i6;
+					for(int attempts = 0; attempts < 128; ++attempts) {
+						int xx = x;
+						int yy = y + 1;
+						int zz = z;
 
-						for(int i13 = 0; i13 < i9 / 16; ++i13) {
-							i10 += rand.nextInt(3) - 1;
-							i11 += (rand.nextInt(3) - 1) * rand.nextInt(3) / 2;
-							i12 += rand.nextInt(3) - 1;
-							if(world3.getBlockId(i10, i11 - 1, i12) != Block.grass.blockID || world3.isBlockNormalCube(i10, i11, i12)) {
+						for(int i13 = 0; i13 < attempts / 16; ++i13) {
+							xx += rand.nextInt(3) - 1;
+							yy += (rand.nextInt(3) - 1) * rand.nextInt(3) / 2;
+							zz += rand.nextInt(3) - 1;
+							if(world.getBlockId(xx, yy - 1, zz) != Block.grass.blockID || world.isBlockNormalCube(xx, yy, zz)) {
 								continue label53;
 							}
 						}
 
-						if(world3.getBlockId(i10, i11, i12) == 0) {
+						if(world.getBlockId(xx, yy, zz) == 0) {
 							if(rand.nextInt(10) != 0) {
-								world3.setBlockAndMetadataWithNotify(i10, i11, i12, Block.tallGrass.blockID, 1);
+								world.setBlockWithNotify(xx, yy, zz, Block.tallGrass.blockID);
 							} else if(rand.nextInt(3) != 0) {
-								world3.setBlockWithNotify(i10, i11, i12, Block.plantYellow.blockID);
+								world.setBlockWithNotify(xx, yy, zz, Block.plantYellow.blockID);
 							} else {
-								world3.setBlockWithNotify(i10, i11, i12, Block.plantRed.blockID);
+								world.setBlockWithNotify(xx, yy, zz, Block.plantRed.blockID);
 							}
 						}
 					}

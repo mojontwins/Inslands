@@ -74,8 +74,8 @@ public class ChunkProvider implements IChunkProvider {
 				this.chunkCache[hash] = chunk;
 				
 				if(chunk != null) {
-					chunk.doesNothing();
 					chunk.onChunkLoad();
+					chunk.initLightingForRealNotJustHeightmap();
 				}
 	
 				if(!chunk.isTerrainPopulated && this.chunkExists(xChunk + 1, zChunk + 1) && this.chunkExists(xChunk, zChunk + 1) && this.chunkExists(xChunk + 1, zChunk)) {

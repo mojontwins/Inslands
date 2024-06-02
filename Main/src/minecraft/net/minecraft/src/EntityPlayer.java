@@ -225,11 +225,12 @@ public abstract class EntityPlayer extends EntityLiving {
 			}
 
 			// Freeze
+			/*
 			if(!this.worldObj.multiplayerWorld) {
 				if(this.isCreative || this.worldObj.difficultySetting <= 1) {
 					this.freezeLevel = 0;
 				} else {
-					if(this.ticksExisted % 20 == 0 /*&& this.world.freeze*/) {
+					if(this.ticksExisted % 20 == 0) {
 						// New freeze logic which works like this:
 						// During Winter on Cold biomes, increase freezeLevel.
 						// Covered and in proximity of a fire block, decrease freezeLevel.
@@ -298,6 +299,7 @@ public abstract class EntityPlayer extends EntityLiving {
 					}
 				}
 			}
+			*/
 		}
 
 	}

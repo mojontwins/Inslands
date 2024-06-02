@@ -153,7 +153,13 @@ public class Item {
 	public static Item mail = new Item(1024).setIconIndex(12*16 + 15).setItemName("mail").setCreativeTab(CreativeTabs.tabMaterials);
 	public static Item iceFace = new Item(1025).setIconIndex(13*16 + 12).setShowInCreative(false);
 	public static Item zombieFace = new Item(1026).setIconIndex(13*16 + 6).setShowInCreative(false);
+	
 	public static Item acornSeed = new ItemAcornSeed(1100).setIconIndex(13*16).setItemName("acornSeed").setCreativeTab(CreativeTabs.tabMisc);
+	public static Item charcoal = new Item(1101).setIconIndex(13*16+10).setItemName("charcoal").setCreativeTab(CreativeTabs.tabMaterials);
+	
+	public static Item achievementHell = new Item(1200).setIconIndex(12*16+5).setShowInCreative(false);
+	public static Item achievementForest = new Item(1201).setIconIndex(12*16+6).setShowInCreative(false);
+	public static Item achievementParadise = new Item(1202).setIconIndex(12*16+7).setShowInCreative(false);
 	
 	public static Item potionEmpty = new ItemPotion(3000, 0xFFFFFF, ItemPotion.EMPTY).setItemName("potionEmpty");
 	public static Item potionPoison = new ItemPotion(3001, 0x30FF30, ItemPotion.POISON).setItemName("potionPoison");

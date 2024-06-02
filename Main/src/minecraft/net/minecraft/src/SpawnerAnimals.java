@@ -214,6 +214,8 @@ public final class SpawnerAnimals {
 	*/
 
 	protected static void creatureSpecificInit(EntityLiving entityLiving, World world, float xF, float yF, float zF) {
+		BiomeGenBase biome = world.getBiomeGenAt((int)xF, (int)zF);
+		
 		if(entityLiving instanceof EntityPig) {
 			if(world.rand.nextInt(128) == 0) {
 				EntityLiving entityRider = spawnSpecial(new EntityHusk(world), world, xF, yF, zF, entityLiving.rotationYaw, 0.0F);
@@ -250,7 +252,11 @@ public final class SpawnerAnimals {
 				entityRider.mountEntity(entityLiving);
 			}
 		} else if(entityLiving instanceof EntitySheep) {
-			((EntitySheep)entityLiving).setFleeceColor(EntitySheep.getRandomFleeceColor(world.rand));
+			if(biome instanceof BiomeGenThickForest) {
+				((EntitySheep)entityLiving).setFleeceColor(EntitySheep.getRandomFleeceColorForReal(world.rand));
+			} else {
+				((EntitySheep)entityLiving).setFleeceColor(EntitySheep.getRandomFleeceColor(world.rand));
+			}
 		} else if(entityLiving instanceof EntityAlphaWitch) {
 			((EntityAlphaWitch)entityLiving).fillInventory();
 		} else if(entityLiving instanceof IMobWithLevel) {

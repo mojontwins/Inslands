@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import java.util.Random;
+
 import com.mojang.minecraft.creative.CreativeTabs;
 
 public class BlockBone extends BlockLog {
@@ -24,4 +26,15 @@ public class BlockBone extends BlockLog {
 			return side == 1 ? endTextureIndex : outTextureIndex;
 		}
 	}
+
+	@Override
+	public int idDropped(int i1, Random random2) {
+		return Block.boneBlock.blockID;
+	}
+	
+	@Override
+	public int damageDropped(int meta) {
+		return 0;
+	}
+
 }

@@ -19,7 +19,7 @@ public class Chunk {
 	public NibbleArray blocklightMap;
 	public byte[] heightMap;
 	public byte[] landSurfaceHeightMap;
-	public int lowestBlockHeight;
+	public int heightMapMinimum;
 	public final int xPosition;
 	public final int zPosition;
 	public Map<ChunkPosition,TileEntity> chunkTileEntityMap;
@@ -100,23 +100,22 @@ public class Chunk {
 	}
 
 	public void generateHeightMap() {
-		int i1 = 127;
+		this.heightMapMinimum = 127;
 
-		for(int i2 = 0; i2 < 16; ++i2) {
-			for(int i3 = 0; i3 < 16; ++i3) {
-				int i4 = 127;
+		for(int x = 0; x < 16; ++x) {
+			for(int z = 0; z < 16; ++z) {
+				int height = 127;
 
-				for(int i5 = i2 << 11 | i3 << 7; i4 > 0 && Block.lightOpacity[this.blocks[i5 + i4 - 1] & 255] == 0; --i4) {
+				for(int index = x << 11 | z << 7; height > 0 && Block.lightOpacity[this.blocks[index + height - 1] & 255] == 0; --height) {
 				}
 
-				this.heightMap[i3 << 4 | i2] = (byte)i4;
-				if(i4 < i1) {
-					i1 = i4;
+				this.heightMap[z << 4 | x] = (byte)height;
+				if(height < this.heightMapMinimum) {
+					this.heightMapMinimum = height;
 				}
 			}
 		}
 
-		this.lowestBlockHeight = i1;
 		this.isModified = true;
 	}
 	
@@ -167,77 +166,47 @@ public class Chunk {
 			}
 		}
 
-		this.lowestBlockHeight = i1;
+		this.heightMapMinimum = i1;
 	}
 
 	public void generateSkylightMap() {
-		int i1 = 127;
+		this.heightMapMinimum = 127;
 
-		int i2;
-		int i3;
-		for(i2 = 0; i2 < 16; ++i2) {
-			for(i3 = 0; i3 < 16; ++i3) {
-				int i4 = 127;
+		int x;
+		int z;
+		for(x = 0; x < 16; ++x) {
+			for(z = 0; z < 16; ++z) {
+				int height = 127;
 
-				int i5;
-				for(i5 = i2 << 11 | i3 << 7; i4 > 0 && Block.lightOpacity[this.blocks[i5 + i4 - 1] & 255] == 0; --i4) {
+				int index;
+				for(index = x << 11 | z << 7; height > 0 && Block.lightOpacity[this.blocks[index + height - 1] & 255] == 0; --height) {
 				}
 
-				this.heightMap[i3 << 4 | i2] = (byte)i4;
-				if(i4 < i1) {
-					i1 = i4;
+				this.heightMap[z << 4 | x] = (byte)height;
+				if(height < this.heightMapMinimum) {
+					this.heightMapMinimum = height;
 				}
 
 				if(!this.worldObj.worldProvider.hasNoSky) {
-					int i6 = 15;
-					int i7 = 127;
+					int lightLevel = 15;
+					int y = 127;
 
 					do {
-						i6 -= Block.lightOpacity[this.blocks[i5 + i7] & 255];
-						if(i6 > 0) {
-							this.skylightMap.setNibble(i2, i7, i3, i6);
+						lightLevel -= Block.lightOpacity[this.blocks[index + y] & 255];
+						if(lightLevel > 0) {
+							this.skylightMap.setNibble(x, y, z, lightLevel);
 						}
 
-						--i7;
-					} while(i7 > 0 && i6 > 0);
+						--y;
+					} while(y > 0 && lightLevel > 0);
 				}
-			}
-		}
-
-		this.lowestBlockHeight = i1;
-
-		for(i2 = 0; i2 < 16; ++i2) {
-			for(i3 = 0; i3 < 16; ++i3) {
-				this.propagateSkylightOcclusion(i2, i3);
 			}
 		}
 
 		this.isModified = true;
 	}
 
-	public void doesNothing() {
-	}
-
-	private void propagateSkylightOcclusion(int i1, int i2) {
-		int i3 = this.getHeightValue(i1, i2);
-		int i4 = this.xPosition << 4 | i1;
-		int i5 = this.zPosition << 4 | i2;
-		this.propagateSkylightToNeighbor(i4 - 1, i5, i3);
-		this.propagateSkylightToNeighbor(i4 + 1, i5, i3);
-		this.propagateSkylightToNeighbor(i4, i5 - 1, i3);
-		this.propagateSkylightToNeighbor(i4, i5 + 1, i3);
-	}
-
-	private void propagateSkylightToNeighbor(int i1, int i2, int i3) {
-		int i4 = this.worldObj.getHeightValue(i1, i2);
-		if(i4 > i3) {
-			this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, i1, i3, i2, i1, i4, i2);
-			this.isModified = true;
-		} else if(i4 < i3) {
-			this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, i1, i4, i2, i1, i3, i2);
-			this.isModified = true;
-		}
-
+	public void doNothing() {
 	}
 
 	/*
@@ -247,10 +216,7 @@ public class Chunk {
 		int columnHeight = this.heightMap[z << 4 | x] & 255;
 
 		// If we just set a block higher than the cur. block height...
-		int newHeight = columnHeight;
-		if(y > columnHeight) {
-			newHeight = y;
-		}
+		int newHeight = Math.max(y, columnHeight);
 
 		// But, if blocks beneath the new height are not opaque, lower the value until an opaque block is found
 		for(int idx = x << 11 | z << 7; newHeight > 0 && Block.lightOpacity[this.blocks[idx + newHeight - 1] & 255] == 0; --newHeight) {
@@ -259,75 +225,12 @@ public class Chunk {
 		// newHeight is now at the topmost opaque block.
 		// If the stored height and the new height are different...
 		if(newHeight != columnHeight) {
-			// Relight from the sky and mark dirty:
-			this.worldObj.markBlocksDirtyVertical(x, z, newHeight, columnHeight);
-
 			// Store new height
 			this.heightMap[z << 4 | x] = (byte)newHeight;
 			
-			if(newHeight < this.lowestBlockHeight) {
-				this.lowestBlockHeight = newHeight;
-			} else {
-				int cy = 127;
-
-				for(int cx = 0; cx < 16; ++cx) {
-					for(int cz = 0; cz < 16; ++cz) {
-						if((this.heightMap[cz << 4 | cx] & 255) < cy) {
-							cy = this.heightMap[cz << 4 | cx] & 255;
-						}
-					}
-				}
-
-				this.lowestBlockHeight = cy;
+			if(newHeight < this.heightMapMinimum) {
+				this.heightMapMinimum = newHeight;
 			}
-
-			int xAbs = this.xPosition << 4 | x; 
-			int zAbs = this.zPosition << 4 | z;
-
-			if(newHeight < columnHeight) {
-				for(int yy = newHeight; yy < columnHeight; ++yy) {
-					this.skylightMap.setNibble(x, yy, z, 15);
-				}
-			} else {
-				this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, xAbs, columnHeight, zAbs, xAbs, newHeight, zAbs);
-
-				for(int yy = columnHeight; yy < newHeight; ++yy) {
-					this.skylightMap.setNibble(x, yy, z, 0);
-				}
-			}
-
-			int storedHeight = newHeight;
-
-			for(int l = 15; newHeight > 0 && l > 0; ) {				
-				// Decrease height
-				--newHeight;
-
-				int lightOpacity = Block.lightOpacity[this.getBlockID(x, newHeight, z)];
-				
-				if(lightOpacity == 0) {
-					lightOpacity = 1;
-				}
-
-				// Decrease light intensity
-				l -= lightOpacity;
-
-				if(l < 0) {
-					l = 0;
-				}
-				
-				// Write light value
-				this.skylightMap.setNibble(x, newHeight, z, l);
-			}
-
-			while(newHeight > 0 && Block.lightOpacity[this.getBlockID(x, newHeight - 1, z)] == 0) {
-				--newHeight;
-			}
-
-			// If some blocks changed their light value, propagate...
-			if(newHeight != storedHeight) {
-				this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, xAbs - 1, newHeight, zAbs - 1, xAbs + 1, storedHeight, zAbs + 1);
-			}
-
 			this.isModified = true;
 		}
 	}
@@ -378,17 +281,9 @@ public class Chunk {
 						this.relightBlock(x, y, z);
 					}
 				}
-
-				// Anyways schedule a lighting update of type "Sky" for this postion
-				this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, absX, y, absZ, absX, y, absZ);
+				this.updateLight(x, y, z);
 			}
 
-			// Schedule a lighting update of type "Block" for this potion
-			this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Block, absX, y, absZ, absX, y, absZ);
-			
-			// Propagate skylight occlusion
-			this.propagateSkylightOcclusion(x, z);
-			
 			block = Block.blocksList[id];
 			if(block != null) {
 				block.onBlockAdded(this.worldObj, absX, y, absZ);
@@ -409,7 +304,6 @@ public class Chunk {
 		int height = this.heightMap[z << 4 | x] & 255;
 		
 		int index = x << 11 | z << 7 | y;
-		int y0 = y;
 		
 		// Write blocks
 		for(int i = 0; i < id.length; i ++) {
@@ -459,10 +353,7 @@ public class Chunk {
 		
 		// Relight top
 		if (y >= height) this.relightBlock(x, y + 1, z);
-		
-		this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, absX, y0, absZ, absX, y, absZ);
-		this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Block, absX, y0, absZ, absX, y, absZ);
-		this.propagateSkylightOcclusion(x, z);
+		this.updateLight(x, y, z);
 		
 		this.isModified = true;
 		
@@ -979,5 +870,23 @@ public class Chunk {
 	public void setMetadata(byte[] metadata) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void initLightingForRealNotJustHeightmap() {
+		this.worldObj.blockLight.initBlockLight(this.xPosition, this.zPosition, this.worldObj.getBiomeGenAt(this.xPosition, this.zPosition).forceBlockLightInitLikeNether);
+
+		if (!this.worldObj.worldProvider.hasNoSky) {
+			this.worldObj.skyLight.initSkylight(this.xPosition, this.zPosition);
+		}
+	}
+
+	public void updateLight(int localX, int worldY, int localZ) {
+		int worldX = localX | (this.xPosition << 4);
+		int worldZ = localZ | (this.zPosition << 4);
+
+		this.worldObj.blockLight.checkBlockEmittance(worldX, worldY, worldZ);
+		if (!this.worldObj.worldProvider.hasNoSky) {
+			this.worldObj.skyLight.checkSkyEmittance(worldX, worldY, worldZ);
+		}
 	}
 }

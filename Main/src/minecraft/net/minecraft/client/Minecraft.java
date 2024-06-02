@@ -25,6 +25,10 @@ import com.misc.moreresources.MoreResourcesInstaller;
 
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.AxisAlignedBB;
+import net.minecraft.src.BiomeGenBase;
+import net.minecraft.src.BiomeGenParadise;
+import net.minecraft.src.BiomeGenThemeHell;
+import net.minecraft.src.BiomeGenThickForest;
 import net.minecraft.src.Block;
 import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.src.ChunkProviderLoadOrGenerate;
@@ -104,7 +108,6 @@ import net.minecraft.src.TextureWaterFX;
 import net.minecraft.src.TextureWaterFlowFX;
 //import net.minecraft.src.ThreadCheckHasPaid;
 import net.minecraft.src.ThreadDownloadResources;
-import net.minecraft.src.ThreadLightingUpdater;
 import net.minecraft.src.ThreadSleepForeverClient;
 import net.minecraft.src.Timer;
 import net.minecraft.src.UnexpectedThrowable;
@@ -179,8 +182,6 @@ public abstract class Minecraft implements Runnable {
 	long systemTime = System.currentTimeMillis();
 	private int joinPlayerCounter = 0;
 
-	public static ThreadLightingUpdater lightingUpdater; 
-	
 	// Keep this true for the time being
 	public boolean legacyOpenGL = true;
 	
@@ -504,12 +505,6 @@ public abstract class Minecraft implements Runnable {
 			} catch (Throwable throwable7) {
 			}
 
-			try {
-				lightingUpdater.shutdownLighting();
-			} catch (Exception e) {
-				
-			}
-
 			this.sndManager.closeMinecraft();
 			Mouse.destroy();
 			Keyboard.destroy();
@@ -578,11 +573,13 @@ public abstract class Minecraft implements Runnable {
 					
 					GL11.glEnable(GL11.GL_TEXTURE_2D);
 					
-					if(!this.gameSettings.threadedLighting) {
+					/*
+					if(!GameSettingsValues.threadedLighting) {
 						if(this.theWorld != null) {
 							this.theWorld.updatingLighting();
 						}
 					}
+					*/
 
 					if(!Keyboard.isKeyDown(Keyboard.KEY_F7)) {
 						Display.update();
@@ -1242,6 +1239,19 @@ public abstract class Minecraft implements Runnable {
 				this.effectRenderer.updateEffects();
 			}
 		}
+		
+		if(this.theWorld != null && this.thePlayer != null) {
+			if(this.theWorld.thisSessionTicks == 40) {
+				BiomeGenBase biome = this.theWorld.getBiomeGenAt((int)this.thePlayer.posX, (int)this.thePlayer.posZ);
+				if(biome instanceof BiomeGenThemeHell) {
+					this.thePlayer.triggerAchievement(AchievementList.themeHell);
+				} else if(biome instanceof BiomeGenThickForest) {
+					this.thePlayer.triggerAchievement(AchievementList.themeForest);
+				} else if(biome instanceof BiomeGenParadise) {
+					this.thePlayer.triggerAchievement(AchievementList.themeParadise);
+				}
+			}
+		}
 
 		this.systemTime = System.currentTimeMillis();
 	}
@@ -1456,11 +1466,13 @@ public abstract class Minecraft implements Runnable {
 				this.loadingScreen.setLoadingProgress(i3++ * 100 / WorldSize.getTotalChunks());
 				this.theWorld.getBlockId(i10, 64, i8);
 				
+				/*
 				if(this.gameSettings.threadedLighting) {
 					while(this.theWorld.getLightingToUpdate().size() > 0);
 				} else {
 					while(this.theWorld.updatingLighting());
 				}
+				*/
 			}
 		}
 
@@ -1594,7 +1606,7 @@ public abstract class Minecraft implements Runnable {
 		Canvas canvas6 = new Canvas();
 		frame5.setLayout(new BorderLayout());
 		frame5.add(canvas6, "Center");
-		canvas6.setPreferredSize(new Dimension(854, 480));
+		canvas6.setPreferredSize(new Dimension(852, 480));
 		frame5.pack();
 		frame5.setLocationRelativeTo((Component)null);
 		MinecraftImpl minecraftImpl7 = new MinecraftImpl(frame5, canvas6, (MinecraftApplet)null, 854, 480, z3, frame5);
@@ -1617,12 +1629,6 @@ public abstract class Minecraft implements Runnable {
 		thread8.start();
 	}
 
-	public static void startLightingThread() {
-		lightingUpdater = new ThreadLightingUpdater(theMinecraft);
-		Thread thread = new Thread(lightingUpdater);
-		thread.start();
-	}
-
 	public NetClientHandler getSendQueue() {
 		return this.thePlayer instanceof EntityClientPlayerMP ? ((EntityClientPlayerMP)this.thePlayer).sendQueue : null;
 	}
@@ -1641,7 +1647,7 @@ public abstract class Minecraft implements Runnable {
 		}
 
 		startMainThread(string1, string2);
-		startLightingThread();
+		//startLightingThread();
 	}
 
 	public static boolean isGuiEnabled() {

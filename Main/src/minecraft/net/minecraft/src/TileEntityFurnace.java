@@ -183,6 +183,7 @@ public class TileEntityFurnace extends TileEntity implements IInventory {
 			if(i2 < 256 && Block.blocksList[i2].blockMaterial == Material.wood) return 300;
 			if(i2 == Item.stick.shiftedIndex) return 100;
 			if(i2 == Item.coal.shiftedIndex) return 1600;
+			if(i2 == Item.charcoal.shiftedIndex) return 800;
 			if(i2 == Item.bucketLava.shiftedIndex) return 20000;
 			if(i2 == Block.blockCoal.blockID) return 16000;
 			if(i2 == Block.driedKelpBlock.blockID) return 1200;

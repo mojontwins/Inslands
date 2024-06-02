@@ -70,9 +70,10 @@ public class ChunkProviderLoadOrGenerate implements IChunkProvider {
 				}
 
 				this.chunks[i5] = chunk6;
-				chunk6.doesNothing();
+
 				if(this.chunks[i5] != null) {
 					this.chunks[i5].onChunkLoad();
+					this.chunks[i5].initLightingForRealNotJustHeightmap();
 				}
 
 				if( !this.chunks[i5].isTerrainPopulated && 

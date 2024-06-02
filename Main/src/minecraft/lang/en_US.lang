@@ -61,9 +61,9 @@ selectWorld.gameMode.creative.line1=Unlimited resources, free flying and
 selectWorld.gameMode.creative.line2=destroy blocks instantly.
 
 selectWorld.mapFeatures.info=Villages, dungeons etc
-generator.default=Normal
-generator.sky=Sky
-generator.infdev=Infdev 415
+generator.default=Alpha Island
+generator.sky=Floating Island
+generator.infdev=Infdev Island
 
 multiplayer.title=Play Multiplayer
 multiplayer.connect=Connect
@@ -751,6 +751,8 @@ item.battleAxeWood.name=Beginner's Battle axe
 item.knifeWood.name=Beginner's knife
 item.cryingObsidianWand.name=Crying Obsidian Wand
 item.pirateCrown.name=Pirate crown
+item.acorn=Acorn
+item.charcoal=Charcoal
 
 itemGroup.buildingBlocks=Building Blocks
 itemGroup.decorations=Decoration Blocks

@@ -112,6 +112,8 @@ public class BiomeGenBase {
 
 	private boolean enableRain;
 
+	public boolean forceBlockLightInitLikeNether = false;
+
 	// Unused, as of yet.
 	//private boolean canSpawnLightningBolt = true;;
 	
@@ -285,7 +287,7 @@ public class BiomeGenBase {
 							if(this.weather == Weather.cold) {
 								topBlock = (byte)Block.ice.blockID;
 							} else {
-								topBlock = (byte)Block.waterStill.blockID;
+								topBlock = (byte)this.mainLiquid;
 							}
 						}
 
