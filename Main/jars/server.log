@@ -192,3 +192,43 @@ java.lang.NullPointerException
 2024-06-02 22:45:07 [INFO] Stopping server
 2024-06-02 22:45:07 [INFO] Saving chunks
 2024-06-02 22:45:07 [INFO] Saving chunks
+2024-06-02 22:52:25 [INFO] Starting minecraft server InSlands v240602
+2024-06-02 22:52:25 [INFO] Loading properties
+2024-06-02 22:52:26 [INFO] Starting Minecraft server on *:25565
+2024-06-02 22:52:26 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-02 22:52:26 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-02 22:52:26 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-02 22:52:26 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-02 22:52:26 [INFO] Preparing level "world"
+2024-06-02 22:52:28 [INFO] Preparing start region for level 0
+2024-06-02 22:52:29 [INFO] Preparing spawn area: 0%
+2024-06-02 22:52:30 [INFO] Preparing spawn area: 12%
+2024-06-02 22:52:31 [INFO] Preparing spawn area: 20%
+2024-06-02 22:52:32 [INFO] Preparing spawn area: 20%
+2024-06-02 22:52:33 [INFO] Preparing spawn area: 20%
+2024-06-02 22:52:34 [INFO] Preparing spawn area: 24%
+2024-06-02 22:52:35 [INFO] Preparing spawn area: 28%
+2024-06-02 22:52:37 [INFO] Preparing spawn area: 28%
+2024-06-02 22:52:38 [INFO] Preparing spawn area: 32%
+2024-06-02 22:52:39 [INFO] Preparing spawn area: 40%
+2024-06-02 22:52:40 [INFO] Preparing spawn area: 48%
+2024-06-02 22:52:41 [INFO] Preparing spawn area: 57%
+2024-06-02 22:52:42 [INFO] Preparing spawn area: 65%
+2024-06-02 22:52:43 [INFO] Preparing spawn area: 69%
+2024-06-02 22:52:44 [INFO] Preparing spawn area: 73%
+2024-06-02 22:52:45 [INFO] Preparing spawn area: 77%
+2024-06-02 22:52:46 [INFO] Preparing spawn area: 81%
+2024-06-02 22:52:47 [INFO] Preparing spawn area: 89%
+2024-06-02 22:52:48 [INFO] Preparing spawn area: 93%
+2024-06-02 22:52:49 [INFO] Preparing spawn area: 97%
+2024-06-02 22:52:50 [INFO] Preparing start region for level 1
+2024-06-02 22:52:51 [INFO] Preparing spawn area: 0%
+2024-06-02 22:52:52 [INFO] Preparing spawn area: 4%
+2024-06-02 22:52:53 [INFO] Preparing spawn area: 20%
+2024-06-02 22:52:54 [INFO] Preparing spawn area: 40%
+2024-06-02 22:52:55 [INFO] Preparing spawn area: 85%
+2024-06-02 22:52:55 [INFO] Done (29068031400ns)! For help, type "help" or "?"
+2024-06-02 22:53:06 [INFO] Popoch [/127.0.0.1:50421] logged in with entity id 1 at (143.5, 71.62000000476837, 133.5)
+2024-06-02 22:53:27 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2024-06-02 22:53:41 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2024-06-02 22:53:47 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?

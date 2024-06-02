@@ -50,7 +50,6 @@ public abstract class Packet {
 	}
 
 	public final int getPacketId() {
-		System.out.println ("t>>" + this.getClass());
 		return ((Integer)packetClassToIdMap.get(this.getClass())).intValue();
 	}
 
@@ -221,6 +220,7 @@ public abstract class Packet {
 		addIdClassMapping(255, true, true, Packet255KickDisconnect.class);
 		
 		// Custom
+		addIdClassMapping(93, true, true, Packet93FiniteWorldSettings.class);
 		addIdClassMapping(94, true, false, Packet94FreezeLevel.class);
 		addIdClassMapping(95, true, false, Packet95UpdateDayOfTheYear.class);
 		addIdClassMapping(96, true, false, Packet96BadMoonDecide.class);
