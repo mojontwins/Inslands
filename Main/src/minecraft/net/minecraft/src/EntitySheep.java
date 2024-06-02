@@ -18,7 +18,7 @@ public class EntitySheep extends EntityAnimal {
 
 	public boolean attackEntityFrom(Entity entity1, int i2) {
 		// Reinstated for b1.6.6 - punch sheep to get cloth. {
-		if(!this.worldObj.multiplayerWorld && !this.getSheared() && entity1 instanceof EntityLiving) {
+		if(!this.worldObj.isRemote && !this.getSheared() && entity1 instanceof EntityLiving) {
 			this.setSheared(true);
 			int i3 = 1 + this.rand.nextInt(3);
 
@@ -48,7 +48,7 @@ public class EntitySheep extends EntityAnimal {
 	public boolean interact(EntityPlayer entityPlayer1) {
 		ItemStack itemStack2 = entityPlayer1.inventory.getCurrentItem();
 		if(itemStack2 != null && itemStack2.itemID == Item.shears.shiftedIndex && !this.getSheared()) {
-			if(!this.worldObj.multiplayerWorld) {
+			if(!this.worldObj.isRemote) {
 				this.setSheared(true);
 				int i3 = 2 + this.rand.nextInt(3);
 
@@ -126,7 +126,7 @@ public class EntitySheep extends EntityAnimal {
 		// Eat grass / tall grass to regrow wool
 		super.onLivingUpdate();
 		
-		if(this.rand.nextInt(1000) == 0 && !this.worldObj.multiplayerWorld) {
+		if(this.rand.nextInt(1000) == 0 && !this.worldObj.isRemote) {
 			int i1 = MathHelper.floor_double(this.posX);
 			int i2 = MathHelper.floor_double(this.posY);
 			int i3 = MathHelper.floor_double(this.posZ);

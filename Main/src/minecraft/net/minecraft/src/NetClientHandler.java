@@ -41,7 +41,7 @@ public class NetClientHandler extends NetHandler {
 		this.mc.statFileWriter.readStat(StatList.joinMultiplayerStat, 1);
 		this.worldClient = new WorldClient(this, new WorldSettings(0L, 0, false, false, false, WorldType.DEFAULT),
 				packet1Login1.dimension, this.mc.gameSettings);
-		this.worldClient.multiplayerWorld = true;
+		this.worldClient.isRemote = true;
 		this.mc.changeWorld1(this.worldClient);
 		this.mc.thePlayer.dimension = packet1Login1.dimension;
 		this.mc.displayGuiScreen(new GuiDownloadTerrain(this));
@@ -99,7 +99,7 @@ public class NetClientHandler extends NetHandler {
 			entityToSpawn = new EntityEgg(this.worldClient, posX, posY, posZ);
 			break;
 		case 1:
-			entityToSpawn = new EntityBoat(this.worldClient, posX, posY, posZ);
+			entityToSpawn = new EntityBoat(this.worldClient, posX, posY, posZ, false);
 			break;
 		case 50:
 			entityToSpawn = new EntityTNTPrimed(this.worldClient, posX, posY, posZ);
@@ -121,6 +121,11 @@ public class NetClientHandler extends NetHandler {
 			entityToSpawn = new EntityThrowablePotion(this.worldClient, posX, posY, posZ,
 					packet23VehicleSpawn1.metadata);
 			break;
+			
+		case 120:
+			entityToSpawn = new EntityBoat(this.worldClient, posX, posY, posZ, true);
+			break;
+
 		}
 
 		if (entityToSpawn != null) {
@@ -513,7 +518,7 @@ public class NetClientHandler extends NetHandler {
 			this.field_1210_g = false;
 			this.worldClient = new WorldClient(this, new WorldSettings(0L, 0, false, false, false, WorldType.DEFAULT),
 					packet9Respawn1.dimension, this.mc.gameSettings);
-			this.worldClient.multiplayerWorld = true;
+			this.worldClient.isRemote = true;
 			this.mc.changeWorld1(this.worldClient);
 			this.mc.thePlayer.dimension = packet9Respawn1.dimension;
 			this.mc.displayGuiScreen(new GuiDownloadTerrain(this));

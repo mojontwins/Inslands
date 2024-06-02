@@ -29,8 +29,9 @@ public class ItemDye extends Item {
 
 			int blockID = world.getBlockId(x, y, z);
 			if(blockID == Block.sapling.blockID) {
-				if(!world.multiplayerWorld) {
+				if(!world.isRemote) {
 					((BlockSapling)Block.sapling).growTree(world, x, y, z, world.rand);
+					this.particles(world, "glowdust", x, y, z);
 					if(!thePlayer.isCreative) --itemStack.stackSize;
 				}
 
@@ -38,16 +39,26 @@ public class ItemDye extends Item {
 			}
 
 			if(blockID == Block.crops.blockID) {
-				if(!world.multiplayerWorld) {
+				if(!world.isRemote) {
 					((BlockCrops)Block.crops).fertilize(world, x, y, z);
+					this.particles(world, "glowdust", x, y, z);
 					if(!thePlayer.isCreative) --itemStack.stackSize;
 				}
 
 				return true;
 			}
 			
+			if(blockID == Block.acorn.blockID) {
+				if(!world.isRemote) {
+					((BlockAcorn)Block.acorn).fertilize(world, x, y, z);
+					this.particles(world, "glowdust", x, y, z);
+					thePlayer.triggerAchievement(AchievementList.fertilizeAcorn);
+					if(!thePlayer.isCreative) --itemStack.stackSize;
+				}
+			}
+			
 			if(blockID == Block.dirt.blockID) {
-				if(!world.multiplayerWorld) {
+				if(!world.isRemote) {
 					if (rand.nextInt(16) == 0) {
 						// Produce grass!
 						for(int attempts = 0; attempts < 32; ++attempts) {
@@ -66,9 +77,10 @@ public class ItemDye extends Item {
 
 							if(world.getBlockId(xx, yy, zz) == Block.dirt.blockID && !Block.opaqueCubeLookup[world.getBlockId(xx, yy + 1, zz)]) {
 								world.setBlockWithNotify(xx, yy, zz, Block.grass.blockID);
+								thePlayer.triggerAchievement(AchievementList.grassFromSoil);
+								this.particles(world, "glowdust", x, y, z);
 							}
 						}
-						world.setBlock(x, y, z, Block.grass.blockID);
 						
 					} else if (rand.nextBoolean()) {
 						// Produce some mushrooms
@@ -90,11 +102,15 @@ public class ItemDye extends Item {
 							if(world.getBlockId(xx, yy, zz) == 0 && Block.mushroomRed.canBlockStay(world, xx, yy, zz)) {
 								if(rand.nextInt(4) == 0) {
 									world.setBlockWithNotify(xx, yy, zz, Block.mushroomRed.blockID);
+									this.particles(world, "glowdust", xx, yy, zz);
 								} else if(rand.nextInt(4) == 0) {
 									world.setBlockWithNotify(xx, yy, zz, Block.mushroomBrown.blockID);
+									this.particles(world, "glowdust", xx, yy, zz);
 								} 
 							}
 						}
+					} else {
+						this.particles(world, "smoke", x, y, z);
 					}
 						
 					if(!thePlayer.isCreative) --itemStack.stackSize;
@@ -105,7 +121,7 @@ public class ItemDye extends Item {
 
 
 			if(blockID == Block.grass.blockID) {
-				if(!world.multiplayerWorld) {
+				if(!world.isRemote) {
 					if(!thePlayer.isCreative) --itemStack.stackSize;
 
 					label53:
@@ -131,6 +147,7 @@ public class ItemDye extends Item {
 							} else {
 								world.setBlockWithNotify(xx, yy, zz, Block.plantRed.blockID);
 							}
+							this.particles(world, "glowdust", xx, yy, zz);
 						}
 					}
 				}
@@ -158,6 +175,16 @@ public class ItemDye extends Item {
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
 		for(int i = 0; i < dyeColors.length; i ++) {
 			par3List.add(new ItemStack(par1, 1, i));
+		}
+	}
+	
+	public void particles(World world, String particle, int x, int y, int z) {
+		for(int i = 0; i < 7; ++i) {
+			world.spawnParticle(particle, 
+				(double)x + world.rand.nextDouble (), 
+				(double)y + world.rand.nextDouble (),
+				(double)z + world.rand.nextDouble (),
+				0.0, 0.0, 0.0);
 		}
 	}
 }

@@ -1,6 +1,9 @@
 package net.minecraft.src;
 
+import java.util.List;
 import java.util.Random;
+
+import com.mojang.minecraft.creative.CreativeTabs;
 
 public class BlockTallGrass extends BlockFlower {
 	public static int[] tallGrassColor = new int [] {
@@ -81,6 +84,17 @@ public class BlockTallGrass extends BlockFlower {
 			if(blockID == Block.sand.blockID || blockID == Block.terracotta.blockID || blockID == Block.stainedTerracotta.blockID) return true;
 			
 			return false;
+		}
+	}
+	
+    @Override
+    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
+		for(int i = 0; i < 2; i ++) {
+			par3List.add(new ItemStack(par1, 1, i << 4));
+		}
+		
+		for(int i = 0; i < 2; i ++) {
+			par3List.add(new ItemStack(par1, 1, (i & 8) << 4));
 		}
 	}
 }

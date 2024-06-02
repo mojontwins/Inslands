@@ -62,6 +62,10 @@ public class AchievementList {
 	public static Achievement themeParadise = (new Achievement(52, "themeParadise", 12,  0, Item.achievementParadise, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
 	
 	public static Achievement charcoal = (new Achievement(53, "charcoal",           14, -7, Item.charcoal, themeHell)).registerAchievement();
+	public static Achievement grassFromSoil = (new Achievement(54, "grassFromSoil", 14, -6, Block.grass, themeHell)).registerAchievement();
+	public static Achievement plantAcorn = (new Achievement(55, "plantAcorn",       14, -5, Item.acornSeed, themeHell)).registerAchievement();
+	public static Achievement fertilizeAcorn = (new Achievement(56, "fertilizeAcorn", 16, -5, Block.sapling, plantAcorn)).setSpecial().registerAchievement();
+	public static Achievement ironBoat = (new Achievement(57, "ironBoat",           14, -4, Item.boat_iron, themeHell)).registerAchievement();
 	
 	public static void func_27374_a() {
 	}

@@ -753,6 +753,7 @@ item.cryingObsidianWand.name=Crying Obsidian Wand
 item.pirateCrown.name=Pirate crown
 item.acorn=Acorn
 item.charcoal=Charcoal
+item.ironBoat.name=Iron Boat
 
 itemGroup.buildingBlocks=Building Blocks
 itemGroup.decorations=Decoration Blocks

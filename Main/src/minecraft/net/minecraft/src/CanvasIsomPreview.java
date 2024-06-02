@@ -40,7 +40,6 @@ public class CanvasIsomPreview extends Canvas implements KeyListener, MouseListe
 	private int field_1784_j;
 	private int xPosition;
 	private int yPosition;
-	private Minecraft mc;
 
 	public File getMinecraftDir() {
 		if(this.dataFolder == null) {
@@ -105,8 +104,7 @@ public class CanvasIsomPreview extends Canvas implements KeyListener, MouseListe
 		this.worldObj = new World(
 				new SaveHandler(new File(this.dataFolder, "saves"), string1, false), 
 				string1, 
-				new WorldSettings((new Random()).nextLong(), 0, true, false, true, WorldType.DEFAULT),
-				this.mc.gameSettings
+				new WorldSettings((new Random()).nextLong(), 0, true, false, true, WorldType.DEFAULT)
 		);
 		this.worldObj.skylightSubtracted = 0;
 		synchronized(this.imageBufferList) {

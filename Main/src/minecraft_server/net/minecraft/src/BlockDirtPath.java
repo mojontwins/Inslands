@@ -2,9 +2,13 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockDirtPath extends Block {
 	protected BlockDirtPath(int blockID, int textureIndex) {
 		super(blockID, textureIndex, Material.grass);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 	
 	public int getBlockTexture(IBlockAccess blockAccess, int x, int y, int z, int side) {

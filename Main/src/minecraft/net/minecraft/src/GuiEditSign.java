@@ -22,7 +22,7 @@ public class GuiEditSign extends GuiScreen {
 
 	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
-		if(this.mc.theWorld.multiplayerWorld) {
+		if(this.mc.theWorld.isRemote) {
 			this.mc.getSendQueue().addToSendQueue(new Packet130UpdateSign(this.entitySign.xCoord, this.entitySign.yCoord, this.entitySign.zCoord, this.entitySign.signText));
 		}
 

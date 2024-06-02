@@ -50,7 +50,7 @@ public class World implements IBlockAccess {
 	private Set<ChunkCoordIntPair> positionsToUpdate;
 	private int soundCounter;
 	private List<Entity> entitiesWithinAABBExcludingEntity;
-	public boolean multiplayerWorld;
+	public boolean isRemote;
 	public boolean colouredAthmospherics;
 	public long thisSessionTicks;
 
@@ -76,7 +76,6 @@ public class World implements IBlockAccess {
 	
 	// Handy
 	
-	public GameSettings gameSettings;
 	private int snowTicker = 0;
 	
 	public final StarlightEngine blockLight = new StarlightEngine(false, this);
@@ -86,7 +85,7 @@ public class World implements IBlockAccess {
 		return this.worldProvider.worldChunkMgr;
 	}
 
-	public World(ISaveHandler iSaveHandler1, String string2, WorldProvider worldProvider3, WorldSettings par4WorldSettings, GameSettings gameSettings) {
+	public World(ISaveHandler iSaveHandler1, String string2, WorldProvider worldProvider3, WorldSettings par4WorldSettings) {
 		this.thisSessionTicks = 0L; 
 		this.scheduledUpdatesAreImmediate = false;
 		this.loadedEntityList = new ArrayList<Entity>();
@@ -115,19 +114,18 @@ public class World implements IBlockAccess {
 		this.positionsToUpdate = new HashSet<ChunkCoordIntPair>();
 		this.soundCounter = this.rand.nextInt(12000);
 		this.entitiesWithinAABBExcludingEntity = new ArrayList<Entity>();
-		this.multiplayerWorld = false;
+		this.isRemote = false;
 		this.saveHandler = iSaveHandler1;
 		this.worldInfo = new WorldInfo(par4WorldSettings, string2);
 		this.worldProvider = worldProvider3;
 		this.mapStorage = new MapStorage(iSaveHandler1);
 		worldProvider3.registerWorld(this);
 		this.chunkProvider = this.getChunkProvider();
-		this.gameSettings = gameSettings;
 		this.calculateInitialSkylight();
 		this.calculateInitialWeather();
 	}
 
-	public World(World world1, WorldProvider worldProvider2, GameSettings gameSettings) {
+	public World(World world1, WorldProvider worldProvider2) {
 		this.thisSessionTicks = 0L; 
 		this.scheduledUpdatesAreImmediate = false;
 		this.loadedEntityList = new ArrayList<Entity>();
@@ -156,7 +154,7 @@ public class World implements IBlockAccess {
 		this.positionsToUpdate = new HashSet<ChunkCoordIntPair>();
 		this.soundCounter = this.rand.nextInt(12000);
 		this.entitiesWithinAABBExcludingEntity = new ArrayList<Entity>();
-		this.multiplayerWorld = false;
+		this.isRemote = false;
 		this.lockTimestamp = world1.lockTimestamp;
 		this.saveHandler = world1.saveHandler;
 		this.worldInfo = new WorldInfo(world1.worldInfo);
@@ -168,8 +166,6 @@ public class World implements IBlockAccess {
 		this.badMoonDecide = false;
 		this.nextMoonBad = false;
 		
-		this.gameSettings = gameSettings;
-		
 		Seasons.dayOfTheYear = this.rand.nextInt(4 * Seasons.SEASON_DURATION);
 		Seasons.updateSeasonCounters();
 
@@ -177,11 +173,11 @@ public class World implements IBlockAccess {
 		this.calculateInitialWeather();
 	}
 
-	public World(ISaveHandler iSaveHandler1, String string2, WorldSettings par3WorldSettings, GameSettings gameSettings) {
-		this(iSaveHandler1, string2, par3WorldSettings, (WorldProvider)null, gameSettings);
+	public World(ISaveHandler iSaveHandler1, String string2, WorldSettings par3WorldSettings) {
+		this(iSaveHandler1, string2, par3WorldSettings, (WorldProvider)null);
 	}
 
-	public World(ISaveHandler iSaveHandler1, String string2, WorldSettings par3WorldSettings, WorldProvider worldProvider5, GameSettings gameSettings) {
+	public World(ISaveHandler iSaveHandler1, String string2, WorldSettings par3WorldSettings, WorldProvider worldProvider5) {
 		this.thisSessionTicks = 0L; 
 		this.scheduledUpdatesAreImmediate = false;
 		this.loadedEntityList = new ArrayList<Entity>();
@@ -210,10 +206,9 @@ public class World implements IBlockAccess {
 		this.positionsToUpdate = new HashSet<ChunkCoordIntPair>();
 		this.soundCounter = this.rand.nextInt(12000);
 		this.entitiesWithinAABBExcludingEntity = new ArrayList<Entity>();
-		this.multiplayerWorld = false;
+		this.isRemote = false;
 		this.saveHandler = iSaveHandler1;
 		this.mapStorage = new MapStorage(iSaveHandler1);
-		this.gameSettings = gameSettings;
 		
 		Seasons.dayOfTheYear = -1;
 		this.worldInfo = iSaveHandler1.loadWorldInfo();
@@ -629,7 +624,7 @@ public class World implements IBlockAccess {
 	}
 
 	private void notifyBlockOfNeighborChange(int i1, int i2, int i3, int i4) {
-		if(!this.editingBlocks && !this.multiplayerWorld) {
+		if(!this.editingBlocks && !this.isRemote) {
 			Block block5 = Block.blocksList[this.getBlockId(i1, i2, i3)];
 			if(block5 != null) {
 				block5.onNeighborBlockChange(this, i1, i2, i3, i4);
@@ -3076,7 +3071,7 @@ public class World implements IBlockAccess {
 	}
 
 	public boolean isAllPlayersFullyAsleep() {
-		if(this.allPlayersSleeping && !this.multiplayerWorld) {
+		if(this.allPlayersSleeping && !this.isRemote) {
 			Iterator<EntityPlayer> iterator1 = this.playerEntities.iterator();
 
 			EntityPlayer entityPlayer2;

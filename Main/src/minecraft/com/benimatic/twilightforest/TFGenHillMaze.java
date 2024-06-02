@@ -260,7 +260,7 @@ public class TFGenHillMaze extends TFGenerator {
 		}
 
 		if(painting != null && painting.onValidSurface()) {
-			if(!this.worldObj.multiplayerWorld) {
+			if(!this.worldObj.isRemote) {
 				this.worldObj.entityJoinedWorld(painting);
 			}
 		} else {

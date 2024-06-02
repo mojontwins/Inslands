@@ -2,10 +2,13 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockButton extends Block {
 	protected BlockButton(int i1, int i2) {
 		super(i1, i2, Material.circuits);
 		this.setTickOnLoad(true);
+		this.displayOnCreativeTab = CreativeTabs.tabRedstone;
 	}
 
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world1, int i2, int i3, int i4) {
@@ -189,7 +192,7 @@ public class BlockButton extends Block {
 	}
 
 	public void updateTick(World world1, int i2, int i3, int i4, Random random5) {
-		if(!world1.multiplayerWorld) {
+		if(!world1.isRemote) {
 			int i6 = world1.getBlockMetadata(i2, i3, i4);
 			if((i6 & 8) != 0) {
 				world1.setBlockMetadataWithNotify(i2, i3, i4, i6 & 7);

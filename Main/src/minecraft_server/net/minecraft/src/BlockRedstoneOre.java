@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockRedstoneOre extends Block {
 	private boolean glowing;
 	private int type;
@@ -14,6 +16,8 @@ public class BlockRedstoneOre extends Block {
 
 		this.glowing = glowing;
 		this.type = type;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
 	public int tickRate() {

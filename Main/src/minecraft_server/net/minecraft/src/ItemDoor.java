@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemDoor extends Item {
 	private Material doorMaterial;
 
@@ -8,6 +10,8 @@ public class ItemDoor extends Item {
 		this.doorMaterial = material2;
 		this.maxDamage = 64;
 		this.maxStackSize = 1;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabRedstone;
 	}
 
 	public boolean onItemUse(ItemStack itemStack1, EntityPlayer entityPlayer2, World world3, int i4, int i5, int i6, int i7) {
@@ -36,45 +40,45 @@ public class ItemDoor extends Item {
 	}
 	
 	public static void placeDoorBlock(World world3, int i4, int i5, int i6, int i9, Block block8) {
-				byte b10 = 0;
-				byte b11 = 0;
-				if(i9 == 0) {
-					b11 = 1;
-				}
+		byte b10 = 0;
+		byte b11 = 0;
+		if(i9 == 0) {
+			b11 = 1;
+		}
 
-				if(i9 == 1) {
-					b10 = -1;
-				}
+		if(i9 == 1) {
+			b10 = -1;
+		}
 
-				if(i9 == 2) {
-					b11 = -1;
-				}
+		if(i9 == 2) {
+			b11 = -1;
+		}
 
-				if(i9 == 3) {
-					b10 = 1;
-				}
+		if(i9 == 3) {
+			b10 = 1;
+		}
 
-				int i12 = (world3.isBlockNormalCube(i4 - b10, i5, i6 - b11) ? 1 : 0) + (world3.isBlockNormalCube(i4 - b10, i5 + 1, i6 - b11) ? 1 : 0);
-				int i13 = (world3.isBlockNormalCube(i4 + b10, i5, i6 + b11) ? 1 : 0) + (world3.isBlockNormalCube(i4 + b10, i5 + 1, i6 + b11) ? 1 : 0);
-				boolean z14 = world3.getBlockId(i4 - b10, i5, i6 - b11) == block8.blockID || world3.getBlockId(i4 - b10, i5 + 1, i6 - b11) == block8.blockID;
-				boolean z15 = world3.getBlockId(i4 + b10, i5, i6 + b11) == block8.blockID || world3.getBlockId(i4 + b10, i5 + 1, i6 + b11) == block8.blockID;
-				boolean z16 = false;
-				if(z14 && !z15) {
-					z16 = true;
-				} else if(i13 > i12) {
-					z16 = true;
-				}
+		int i12 = (world3.isBlockNormalCube(i4 - b10, i5, i6 - b11) ? 1 : 0) + (world3.isBlockNormalCube(i4 - b10, i5 + 1, i6 - b11) ? 1 : 0);
+		int i13 = (world3.isBlockNormalCube(i4 + b10, i5, i6 + b11) ? 1 : 0) + (world3.isBlockNormalCube(i4 + b10, i5 + 1, i6 + b11) ? 1 : 0);
+		boolean z14 = world3.getBlockId(i4 - b10, i5, i6 - b11) == block8.blockID || world3.getBlockId(i4 - b10, i5 + 1, i6 - b11) == block8.blockID;
+		boolean z15 = world3.getBlockId(i4 + b10, i5, i6 + b11) == block8.blockID || world3.getBlockId(i4 + b10, i5 + 1, i6 + b11) == block8.blockID;
+		boolean z16 = false;
+		if(z14 && !z15) {
+			z16 = true;
+		} else if(i13 > i12) {
+			z16 = true;
+		}
 
-				if(z16) {
-					i9 = i9 - 1 & 3;
-					i9 += 4;
-				}
+		if(z16) {
+			i9 = i9 - 1 & 3;
+			i9 += 4;
+		}
 
-				world3.editingBlocks = true;
-				world3.setBlockAndMetadataWithNotify(i4, i5, i6, block8.blockID, i9);
-				world3.setBlockAndMetadataWithNotify(i4, i5 + 1, i6, block8.blockID, i9 + 8);
-				world3.editingBlocks = false;
-				world3.notifyBlocksOfNeighborChange(i4, i5, i6, block8.blockID);
-				world3.notifyBlocksOfNeighborChange(i4, i5 + 1, i6, block8.blockID);
+		world3.editingBlocks = true;
+		world3.setBlockAndMetadataWithNotify(i4, i5, i6, block8.blockID, i9);
+		world3.setBlockAndMetadataWithNotify(i4, i5 + 1, i6, block8.blockID, i9 + 8);
+		world3.editingBlocks = false;
+		world3.notifyBlocksOfNeighborChange(i4, i5, i6, block8.blockID);
+		world3.notifyBlocksOfNeighborChange(i4, i5 + 1, i6, block8.blockID);
 	}
 }

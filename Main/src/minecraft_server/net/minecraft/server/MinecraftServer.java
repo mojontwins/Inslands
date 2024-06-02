@@ -160,7 +160,7 @@ public class MinecraftServer implements Runnable, ICommandListener {
 
 		this.worldMngr = new WorldServer[2];
 		boolean z7 = this.propertyManagerObj.getBooleanProperty("generate-structures", true);
-		WorldSettings worldSettings8 = new WorldSettings(j3, 0, z7, false, worldType5);
+		WorldSettings worldSettings8 = new WorldSettings(j3, 0, z7, false, false, worldType5);
 		SaveOldDir saveOldDir5 = new SaveOldDir(new File("."), string2, true);
 
 		for(int i6 = 0; i6 < this.worldMngr.length; ++i6) {
@@ -201,8 +201,6 @@ public class MinecraftServer implements Runnable, ICommandListener {
 
 						worldServer10.chunkProviderServer.prepareChunk(chunkCoordinates11.posX + i12 >> 4, chunkCoordinates11.posZ + i13 >> 4);
 
-						while(worldServer10.updatingLighting() && this.serverRunning) {
-						}
 					}
 				}
 			}
@@ -354,9 +352,6 @@ public class MinecraftServer implements Runnable, ICommandListener {
 				worldServer7.tick();
 				if (Seasons.dayOfTheYear != dayOfTheYear) {
 					this.configManager.sendPacketToAllPlayersInDimension(new Packet95UpdateDayOfTheYear(Seasons.dayOfTheYear), worldServer7.worldProvider.worldType);
-				}
-
-				while(worldServer7.updatingLighting(this.playersOnline.size() > 0 ? 250 : 2000)) {
 				}
 
 				worldServer7.updateEntities();

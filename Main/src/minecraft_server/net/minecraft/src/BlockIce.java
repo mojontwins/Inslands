@@ -1,8 +1,13 @@
 package net.minecraft.src;
 
+import java.util.List;
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockIce extends BlockBreakable {
+	private int rainbowCounter = 0;
+	
 	public static int[] rainbowColors = new int[] {
 			0xFF6666, 0xFF66A3, 0xFF66EB, 0xE666FF, 0xA866FF, 0x7066FF, 0x668AFF, 0x66D2FF, 
 			0x66FFFA, 0x66FFC4, 0x66FF85, 0x70FF66, 0xADFF66, 0xEEFF66, 0xFFE566, 0xFF9E66
@@ -12,6 +17,8 @@ public class BlockIce extends BlockBreakable {
 		super(blockID, blockIndex, Material.ice, false);
 		this.slipperiness = 0.98F;
 		this.setTickOnLoad(true);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 	
 	@Override
@@ -65,11 +72,19 @@ public class BlockIce extends BlockBreakable {
 
 	@Override
 	public int getRenderColor(int meta) {
-		return meta == 0 ? 0xFFFFFF : 0xFFEE00;
+		rainbowCounter = (rainbowCounter + 1) & 0xf;
+		return meta == 0 ? 0xFFFFFF : rainbowColors[0];
 	}
 	
 	@Override
 	public int getRenderBlockPass() {
 		return 1;
+	}
+	
+    @Override
+    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
+		for(int i = 0; i < 2; i ++) {
+			par3List.add(new ItemStack(par1, 1, i));
+		}
 	}
 }

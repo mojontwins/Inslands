@@ -2,9 +2,12 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockGlowStone extends Block {
 	public BlockGlowStone(int i1, int i2, Material material3) {
 		super(i1, i2, material3);
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
 	public int quantityDropped(Random random1) {

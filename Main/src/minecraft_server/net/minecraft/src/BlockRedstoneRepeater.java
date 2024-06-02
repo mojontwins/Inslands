@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockRedstoneRepeater extends Block {
 	public static final double[] repeaterTorchOffset = new double[]{-0.0625D, 0.0625D, 0.1875D, 0.3125D};
 	private static final int[] repeaterState = new int[]{1, 2, 3, 4};
@@ -11,6 +13,8 @@ public class BlockRedstoneRepeater extends Block {
 		super(i1, 6, Material.circuits);
 		this.isRepeaterPowered = z2;
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabRedstone;
 	}
 
 	public boolean renderAsNormalBlock() {

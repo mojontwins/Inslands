@@ -199,7 +199,7 @@ public abstract class Entity {
 			this.inWater = false;
 		}
 
-		if(this.worldObj.multiplayerWorld) {
+		if(this.worldObj.isRemote) {
 			this.fire = 0;
 		} else if(this.fire > 0) {
 			if(this.isImmuneToFire) {
@@ -217,14 +217,27 @@ public abstract class Entity {
 		}
 
 		if(this.handleLavaMovement()) {
-			this.setOnFireFromLava();
+			boolean setOnFire = true;
+			if(this instanceof EntityBoat) {
+				if (((EntityBoat)this).fireResistant) {
+					setOnFire = false;
+				}
+			}
+			if(this instanceof EntityPlayer) {
+				if(this.ridingEntity != null && this.ridingEntity instanceof EntityBoat) {
+					if (((EntityBoat)this.ridingEntity).fireResistant) {
+						setOnFire = false;
+					}
+				}
+			}
+			if(setOnFire) this.setOnFireFromLava();
 		}
 
 		if(this.posY < -64.0D) {
 			this.kill();
 		}
 
-		if(!this.worldObj.multiplayerWorld) {
+		if(!this.worldObj.isRemote) {
 			this.setEntityFlag(0, this.fire > 0);
 			this.setEntityFlag(2, this.ridingEntity != null);
 		}
@@ -512,11 +525,24 @@ public abstract class Entity {
 
 			boolean z42 = this.isWet();
 			if(this.worldObj.isBoundingBoxBurning(this.boundingBox.getInsetBoundingBox(0.001D, 0.001D, 0.001D))) {
-				this.dealFireDamage(1);
-				if(!z42) {
-					++this.fire;
-					if(this.fire == 0) {
-						this.fire = 300;
+				boolean doFire = true;
+				
+				if(this instanceof EntityBoat) {
+					if(((EntityBoat)this).fireResistant) doFire = false;
+				}
+				if(this instanceof EntityPlayer) {
+					if(this.ridingEntity != null && this.ridingEntity instanceof EntityBoat) {
+						if(((EntityBoat)this.ridingEntity).fireResistant) doFire = false;
+					}
+				}
+				
+				if(doFire) {
+					this.dealFireDamage(1);
+					if(!z42) {
+						++this.fire;
+						if(this.fire == 0) {
+							this.fire = 300;
+						}
 					}
 				}
 			} else if(this.fire <= 0) {
@@ -1082,6 +1108,14 @@ public abstract class Entity {
 
 	public void setSneaking(boolean z1) {
 		this.setEntityFlag(1, z1);
+	}
+
+	public boolean isEating() {
+		return this.getEntityFlag(4);
+	}
+
+	public void setEating(boolean z1) {
+		this.setEntityFlag(4, z1);
 	}
 
 	protected boolean getEntityFlag(int i1) {

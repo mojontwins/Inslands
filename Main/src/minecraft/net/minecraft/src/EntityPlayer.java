@@ -39,6 +39,11 @@ public abstract class EntityPlayer extends EntityLiving {
 	private int damageRemainder = 0;
 	public EntityFish fishEntity = null;
 
+	// Backported from release
+	
+	private ItemStack itemInUse;
+	private int itemInUseCount;
+
 	// Custom stuff
 	
 	public boolean isFlying = false;
@@ -50,7 +55,7 @@ public abstract class EntityPlayer extends EntityLiving {
 	
 	public EntityPlayer(World world1) {
 		super(world1);
-		this.inventorySlots = new ContainerPlayer(this.inventory, !world1.multiplayerWorld);
+		this.inventorySlots = new ContainerPlayer(this.inventory, !world1.isRemote);
 		this.craftingInventory = this.inventorySlots;
 		this.yOffset = 1.62F;
 		ChunkCoordinates chunkCoordinates2 = world1.getSpawnPoint();
@@ -67,14 +72,65 @@ public abstract class EntityPlayer extends EntityLiving {
 		this.dataWatcher.addObject(16, (byte)0);
 	}
 
+	public ItemStack getItemInUse() {
+		return this.itemInUse;
+	}
+
+	public int getItemInUseCount() {
+		return this.itemInUseCount;
+	}
+
+	public boolean isUsingItem() {
+		return this.itemInUse != null;
+	}
+
+	public int getItemInUseDuration() {
+		return this.isUsingItem() ? this.itemInUse.getMaxItemUseDuration() - this.itemInUseCount : 0;
+	}
+
+	public void stopUsingItem() {
+		if(this.itemInUse != null) {
+			this.itemInUse.onPlayerStoppedUsing(this.worldObj, this, this.itemInUseCount);
+		}
+
+		this.clearItemInUse();
+	}
+
+	public void clearItemInUse() {
+		this.itemInUse = null;
+		this.itemInUseCount = 0;
+		if(!this.worldObj.isRemote) {
+			this.setEating(false);
+		}
+
+	}
+
 	public void onUpdate() {
+		if(this.itemInUse != null) {
+			ItemStack itemStack1 = this.inventory.getCurrentItem();
+			if(itemStack1 != this.itemInUse) {
+				this.clearItemInUse();
+			} else {
+				// Added (I think this may be forge's ?
+				this.itemInUse.getItem().onUsingItemTick(this.itemInUse, this, this.itemInUseCount);
+				
+				if(this.itemInUseCount <= 25 && this.itemInUseCount % 4 == 0) {
+					this.updateItemUse(itemStack1, 5);
+				}
+
+				if(--this.itemInUseCount == 0 && !this.worldObj.isRemote) {
+					this.onItemUseFinish();
+				}
+			}
+		}
+		
 		if(this.isPlayerSleeping()) {
 			++this.sleepTimer;
 			if(this.sleepTimer > 100) {
 				this.sleepTimer = 100;
 			}
 
-			if(!this.worldObj.multiplayerWorld) {
+			if(!this.worldObj.isRemote) {
 				if(!this.isInBed()) {
 					this.wakeUpPlayer(true, true, false);
 				} else if(this.worldObj.isDaytime()) {
@@ -89,7 +145,7 @@ public abstract class EntityPlayer extends EntityLiving {
 		}
 
 		super.onUpdate();
-		if(!this.worldObj.multiplayerWorld && this.craftingInventory != null && !this.craftingInventory.canInteractWith(this)) {
+		if(!this.worldObj.isRemote && this.craftingInventory != null && !this.craftingInventory.canInteractWith(this)) {
 			this.closeScreen();
 			this.craftingInventory = this.inventorySlots;
 		}
@@ -135,6 +191,54 @@ public abstract class EntityPlayer extends EntityLiving {
 
 	}
 
+	protected void updateItemUse(ItemStack itemStack1, int i2) {
+		if(itemStack1.getItemUseAction() == EnumAction.drink) {
+			this.worldObj.playSoundAtEntity(this, "random.drink", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+		}
+
+		if(itemStack1.getItemUseAction() == EnumAction.eat) {
+			for(int i3 = 0; i3 < i2; ++i3) {
+				Vec3D vec3D4 = Vec3D.createVector(((double)this.rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
+				vec3D4.rotateAroundX(-this.rotationPitch * (float)Math.PI / 180.0F);
+				vec3D4.rotateAroundY(-this.rotationYaw * (float)Math.PI / 180.0F);
+				Vec3D vec3D5 = Vec3D.createVector(((double)this.rand.nextFloat() - 0.5D) * 0.3D, (double)(-this.rand.nextFloat()) * 0.6D - 0.3D, 0.6D);
+				vec3D5.rotateAroundX(-this.rotationPitch * (float)Math.PI / 180.0F);
+				vec3D5.rotateAroundY(-this.rotationYaw * (float)Math.PI / 180.0F);
+				vec3D5 = vec3D5.addVector(this.posX, this.posY + (double)this.getEyeHeight(), this.posZ);
+				this.worldObj.spawnParticle("iconcrack_" + itemStack1.getItem().shiftedIndex, vec3D5.xCoord, vec3D5.yCoord, vec3D5.zCoord, vec3D4.xCoord, vec3D4.yCoord + 0.05D, vec3D4.zCoord);
+			}
+
+			this.worldObj.playSoundAtEntity(this, "random.eat", 0.5F + 0.5F * (float)this.rand.nextInt(2), (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+		}
+
+	}
+
+	protected void onItemUseFinish() {
+		if(this.itemInUse != null) {
+			this.updateItemUse(this.itemInUse, 16);
+			int i1 = this.itemInUse.stackSize;
+			ItemStack itemStack2 = this.itemInUse.onFoodEaten(this.worldObj, this);
+			if(itemStack2 != this.itemInUse || itemStack2 != null && itemStack2.stackSize != i1) {
+				this.inventory.mainInventory[this.inventory.currentItem] = itemStack2;
+				if(itemStack2.stackSize == 0) {
+					this.inventory.mainInventory[this.inventory.currentItem] = null;
+				}
+			}
+
+			this.clearItemInUse();
+		}
+
+	}
+
+	public void handleHealthUpdate(byte b1) {
+		if(b1 == 9) {
+			this.onItemUseFinish();
+		} else {
+			super.handleHealthUpdate(b1);
+		}
+
+	}
+	
 	protected boolean isMovementBlocked() {
 		return this.health <= 0 || this.isPlayerSleeping();
 	}
@@ -226,7 +330,7 @@ public abstract class EntityPlayer extends EntityLiving {
 
 			// Freeze
 			/*
-			if(!this.worldObj.multiplayerWorld) {
+			if(!this.worldObj.isRemote) {
 				if(this.isCreative || this.worldObj.difficultySetting <= 1) {
 					this.freezeLevel = 0;
 				} else {
@@ -481,7 +585,7 @@ public abstract class EntityPlayer extends EntityLiving {
 		if(this.health <= 0) {
 			return false;
 		} else {
-			if(this.isPlayerSleeping() && !this.worldObj.multiplayerWorld) {
+			if(this.isPlayerSleeping() && !this.worldObj.isRemote) {
 				this.wakeUpPlayer(true, true, false);
 			}
 
@@ -672,7 +776,7 @@ public abstract class EntityPlayer extends EntityLiving {
 	}
 
 	public EnumStatus sleepInBedAt(int i1, int i2, int i3) {
-		if(!this.worldObj.multiplayerWorld) {
+		if(!this.worldObj.isRemote) {
 			label53: {
 				if(!this.isPlayerSleeping() && this.isEntityAlive()) {
 					if(this.worldObj.worldProvider.isNether) {
@@ -725,7 +829,7 @@ public abstract class EntityPlayer extends EntityLiving {
 		this.sleepTimer = 0;
 		this.bedChunkCoordinates = new ChunkCoordinates(i1, i2, i3);
 		this.motionX = this.motionZ = this.motionY = 0.0D;
-		if(!this.worldObj.multiplayerWorld) {
+		if(!this.worldObj.isRemote) {
 			this.worldObj.updateAllPlayersSleepingFlag();
 		}
 
@@ -767,7 +871,7 @@ public abstract class EntityPlayer extends EntityLiving {
 		}
 
 		this.sleeping = false;
-		if(!this.worldObj.multiplayerWorld && z2) {
+		if(!this.worldObj.isRemote && z2) {
 			this.worldObj.updateAllPlayersSleepingFlag();
 		}
 
@@ -1022,4 +1126,18 @@ public abstract class EntityPlayer extends EntityLiving {
 		return 20;
 	}
 
+	public boolean canEat(boolean z1) {
+		return (z1 || this.health < this.getFullHealth()) && !this.isCreative;
+	}
+
+	public void setItemInUse(ItemStack itemStack1, int i2) {
+		if(itemStack1 != this.itemInUse) {
+			this.itemInUse = itemStack1;
+			this.itemInUseCount = i2;
+			if(!this.worldObj.isRemote) {
+				this.setEating(true);
+			}
+
+		}
+	}
 }

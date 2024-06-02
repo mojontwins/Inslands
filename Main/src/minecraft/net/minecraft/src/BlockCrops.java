@@ -89,7 +89,7 @@ public class BlockCrops extends BlockFlower {
 	public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int metadata) {
 		super.onBlockDestroyedByPlayer(world, x, y, z, metadata);
 		
-		if(!world.multiplayerWorld) {
+		if(!world.isRemote) {
 			for(int i7 = 0; i7 < 3; ++i7) {
 				if(world.rand.nextInt(15) <= i7) {
 					float f8 = 0.7F;

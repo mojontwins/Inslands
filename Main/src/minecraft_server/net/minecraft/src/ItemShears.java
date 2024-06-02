@@ -1,10 +1,14 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemShears extends Item {
 	public ItemShears(int i1) {
 		super(i1);
 		this.setMaxStackSize(1);
 		this.setMaxDamage(238);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabTools;
 	}
 
 	public boolean onBlockDestroyed(ItemStack itemStack1, int i2, int i3, int i4, int i5, EntityLiving entityLiving6) {

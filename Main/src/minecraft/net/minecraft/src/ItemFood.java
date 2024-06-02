@@ -7,6 +7,7 @@ public class ItemFood extends Item {
 	private int healAmount;
 	private boolean isWolfsFavoriteMeat;
 	private boolean isCatsFavoriteMeat;
+	private boolean alwaysEdible;
 
 	public ItemFood(int i1, int i2, boolean z3, boolean z4) {
 		super(i1);
@@ -18,13 +19,41 @@ public class ItemFood extends Item {
 		this.displayOnCreativeTab = CreativeTabs.tabFood;
 	}
 
+	public ItemStack onFoodEaten(ItemStack itemStack, World world, EntityPlayer entityPlayer) {
+		if(!entityPlayer.isCreative) --itemStack.stackSize;
+		
+		int heal = this.healAmount;
+		if(world.getWorldInfo().isBloodMoon() && rand.nextBoolean()) heal >>= 1;
+		entityPlayer.heal(heal);
+		
+		world.playSoundAtEntity(entityPlayer, "random.burp", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+		
+		if(this.status != null) entityPlayer.addStatusEffect(new StatusEffect(this.status.id, this.statusTime, this.statusAmplifier));
+
+		return itemStack;
+	}
+
+	public int getMaxItemUseDuration(ItemStack itemStack1) {
+		return 32;
+	}
+
+	public EnumAction getItemUseAction(ItemStack itemStack1) {
+		return EnumAction.eat;
+	}
+	
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer) {
+		/*
 		if(!entityPlayer.isCreative) --itemStack.stackSize;
 		int heal = this.healAmount;
 		if(world.getWorldInfo().isBloodMoon() && rand.nextBoolean()) heal >>= 1;
 		entityPlayer.heal(heal);
 				
 		if(this.status != null) entityPlayer.addStatusEffect(new StatusEffect(this.status.id, this.statusTime, this.statusAmplifier));
+		*/
+		
+		if(entityPlayer.canEat(this.alwaysEdible)) {
+			entityPlayer.setItemInUse(itemStack, this.getMaxItemUseDuration(itemStack));
+		}
 		
 		return itemStack;
 	}
@@ -39,5 +68,10 @@ public class ItemFood extends Item {
 	
 	public boolean getIsCatsFavoriteMeat() {
 		return this.isCatsFavoriteMeat;
+	}
+	
+	public ItemFood setAlwaysEdible() {
+		this.alwaysEdible = true;
+		return this;
 	}
 }

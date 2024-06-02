@@ -95,7 +95,7 @@ public class BlockLeaves extends BlockLeavesBase {
 	}
 
 	public void updateTick17(World world, int x, int y, int z, Random random) {
-		if (!world.multiplayerWorld) {
+		if (!world.isRemote) {
 			int metadata = world.getBlockMetadata(x, y, z);
 
 			// Is leaf marked to be checked?
@@ -174,7 +174,7 @@ public class BlockLeaves extends BlockLeavesBase {
 	}
 
 	public void updateTickBeta(World world, int x, int y, int z, Random random) {
-		if (!world.multiplayerWorld) {
+		if (!world.isRemote) {
 			int metadata = world.getBlockMetadata(x, y, z);
 
 			// Is leaf marked to be checked?

@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockTrapDoor extends Block {
 	protected BlockTrapDoor(int i1, Material material2) {
 		super(i1, material2);
@@ -11,6 +13,7 @@ public class BlockTrapDoor extends Block {
 		float f3 = 0.5F;
 		float f4 = 1.0F;
 		this.setBlockBounds(0.5F - f3, 0.0F, 0.5F - f3, 0.5F + f3, f4, 0.5F + f3);
+		this.displayOnCreativeTab = CreativeTabs.tabRedstone;
 	}
 
 	public boolean isOpaqueCube() {
@@ -92,7 +95,7 @@ public class BlockTrapDoor extends Block {
 	}
 
 	public void onNeighborBlockChange(World world1, int i2, int i3, int i4, int i5) {
-		if(!world1.multiplayerWorld) {
+		if(!world1.isRemote) {
 			/*
 			int i6 = world1.getBlockMetadata(i2, i3, i4);
 			

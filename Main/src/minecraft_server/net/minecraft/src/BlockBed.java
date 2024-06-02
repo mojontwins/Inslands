@@ -12,7 +12,7 @@ public class BlockBed extends Block {
 	}
 
 	public boolean blockActivated(World world1, int i2, int i3, int i4, EntityPlayer entityPlayer5) {
-		if(world1.multiplayerWorld) {
+		if(world1.isRemote) {
 			return true;
 		} else {
 			int i6 = world1.getBlockMetadata(i2, i3, i4);
@@ -117,7 +117,7 @@ public class BlockBed extends Block {
 			}
 		} else if(world1.getBlockId(i2 + headBlockToFootBlockMap[i7][0], i3, i4 + headBlockToFootBlockMap[i7][1]) != this.blockID) {
 			world1.setBlockWithNotify(i2, i3, i4, 0);
-			if(!world1.multiplayerWorld) {
+			if(!world1.isRemote) {
 				this.dropBlockAsItem(world1, i2, i3, i4, i6);
 			}
 		}

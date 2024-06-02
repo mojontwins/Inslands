@@ -117,7 +117,7 @@ public class PistonBase extends Block {
 	}
 
 	public boolean blockActivated(World world1, int i2, int i3, int i4, EntityPlayer entityPlayer5) {
-		if(world1.multiplayerWorld) {
+		if(world1.isRemote) {
 			return true;
 		} else {
 			int i6 = world1.getBlockMetadata(i2, i3, i4);

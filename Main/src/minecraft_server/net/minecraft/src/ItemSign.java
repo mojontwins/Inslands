@@ -1,9 +1,13 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemSign extends Item {
 	public ItemSign(int i1) {
 		super(i1);
 		this.maxStackSize = 1;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	public boolean onItemUse(ItemStack itemStack1, EntityPlayer entityPlayer2, World world3, int i4, int i5, int i6, int i7) {

@@ -167,7 +167,7 @@ public class EntityFireball extends Entity {
 	}
 
 	protected  void throwableHitEntity(MovingObjectPosition movingObjectPosition3) {
-		if(!this.worldObj.multiplayerWorld) {
+		if(!this.worldObj.isRemote) {
 			if(movingObjectPosition3.entityHit != null && movingObjectPosition3.entityHit.attackEntityFrom(this.shootingEntity, 0)) {
 				;
 			}

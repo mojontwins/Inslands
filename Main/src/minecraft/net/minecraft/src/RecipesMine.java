@@ -46,6 +46,6 @@ public class RecipesMine {
 		craftingManager.addShapelessRecipe(new ItemStack(Item.bone, 9), new Object[] {new ItemStack(Block.boneBlock)});
 		craftingManager.addRecipe(new ItemStack(Item.wheat, 1), new Object[] {"###", '#', new ItemStack(Block.tallGrass, 1, 16)});
 		craftingManager.addRecipe(new ItemStack(Block.torchWood, 2), new Object[]{"X", "#", 'X', Item.charcoal, '#', Item.stick});
-		
+		craftingManager.addRecipe(new ItemStack(Item.boat_iron), new Object[] {"# #","###", " # ", '#', Item.ingotIron});
 	}
 }

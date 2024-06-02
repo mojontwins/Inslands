@@ -77,7 +77,7 @@ public class EntityPlayerSP extends EntityPlayer {
 
 		this.prevTimeInPortal = this.timeInPortal;
 		if(this.inPortal) {
-			if(!this.worldObj.multiplayerWorld && this.ridingEntity != null) {
+			if(!this.worldObj.isRemote && this.ridingEntity != null) {
 				this.mountEntity((Entity)null);
 			}
 
@@ -92,7 +92,7 @@ public class EntityPlayerSP extends EntityPlayer {
 			this.timeInPortal += 0.0125F;
 			if(this.timeInPortal >= 1.0F) {
 				this.timeInPortal = 1.0F;
-				if(!this.worldObj.multiplayerWorld) {
+				if(!this.worldObj.isRemote) {
 					this.timeUntilPortal = 10;
 					this.mc.sndManager.playSoundFX("portal.travel", 1.0F, this.rand.nextFloat() * 0.4F + 0.8F);
 					this.mc.usePortal();

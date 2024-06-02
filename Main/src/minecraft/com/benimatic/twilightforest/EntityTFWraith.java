@@ -51,7 +51,7 @@ public class EntityTFWraith extends EntityFlying {
 	}
 
 	protected void updateEntityActionState() {
-		if(!this.worldObj.multiplayerWorld && this.worldObj.difficultySetting == 0) {
+		if(!this.worldObj.isRemote && this.worldObj.difficultySetting == 0) {
 			this.setEntityDead();
 		}
 

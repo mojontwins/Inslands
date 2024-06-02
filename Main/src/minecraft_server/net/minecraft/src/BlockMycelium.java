@@ -2,11 +2,15 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockMycelium extends Block {
 	protected BlockMycelium(int par1) {
 		super(par1, Material.grass);
 		blockIndexInTexture = 77;
 		this.setTickOnLoad(true);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
 	public int getBlockTextureFromSideAndMetadata(int par1, int par2) {
@@ -31,7 +35,7 @@ public class BlockMycelium extends Block {
 	}
 
 	public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random) {
-		if (par1World.multiplayerWorld)	{
+		if (par1World.isRemote)	{
 			return;
 		}
 

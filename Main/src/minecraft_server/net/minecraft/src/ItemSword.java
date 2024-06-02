@@ -1,8 +1,10 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemSword extends Item {
 	protected int weaponDamage;
-
+	
 	public static Block[] canHarvest = new Block[] {
 		Block.leaves,
 		Block.web
@@ -14,6 +16,8 @@ public class ItemSword extends Item {
 		this.setMaxDamage(enumToolMaterial2.getMaxUses());
 		this.weaponDamage = 4 + enumToolMaterial2.getDamageVsEntity() * 2;
 		this.silkTouch = silkTouch;
+
+		this.displayOnCreativeTab = CreativeTabs.tabCombat;
 	}
 
 	public float getStrVsBlock(ItemStack itemStack1, Block block2) {

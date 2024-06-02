@@ -14,6 +14,7 @@ import net.minecraft.src.BiomeGenBase;
 import net.minecraft.src.BiomeGenDesert;
 import net.minecraft.src.BiomeGenThemeHell;
 import net.minecraft.src.Chunk;
+import net.minecraft.src.ChunkProviderSky;
 import net.minecraft.src.IChunkProvider;
 import net.minecraft.src.World;
 
@@ -179,6 +180,8 @@ public class FeatureFossil extends FeatureDynamicSchematic {
 
 	@Override
 	public void generateSchematic(World world, Random rand, BiomeGenBase biome, int chunkX, int chunkZ) {
+		boolean sky = this.featureProvider.chunkProvider instanceof ChunkProviderSky;
+		
 		// Fill the whole schematic with -1s
 		for (short[][] arr1 : this.schematic) {
 			for (short[] arr2 : arr1) {
@@ -243,7 +246,7 @@ public class FeatureFossil extends FeatureDynamicSchematic {
 				}
 
 				// Draw
-				if (rand.nextBoolean()) {
+				if (rand.nextBoolean() && !sky) {
 					skull.draw(this.schematic, skullX, 0, skullZ, direction);
 
 					if (direction) {
@@ -260,19 +263,29 @@ public class FeatureFossil extends FeatureDynamicSchematic {
 						}
 					}
 				} else {
-					skull.draw(this.schematic, skullX, this.surfaceHeight(skullX, skullZ), skullZ, direction);
+					int skullY = this.surfaceHeight(skullX, skullZ);
+					
+					if(!sky || skullY > 0) {			
+						skull.draw(this.schematic, skullX, skullY, skullZ, direction);
 
 					if (direction) {
 						int x = skullX - skull.length / 2 - 1;
 						for (int i = 0; i < tailLength; i++) {
-							body.draw(this.schematic, x, this.surfaceHeight(x, skullZ), skullZ, direction);
+								skullY = this.surfaceHeight(x, skullZ);
+								if(sky && skullY == 0) break;
+								
+								body.draw(this.schematic, x, skullY, skullZ, direction);
 							x -= 2;
 						}
 					} else {
 						int z = skullZ - skull.length / 2 - 1;
 						for (int i = 0; i < tailLength; i++) {
-							body.draw(this.schematic, skullX, this.surfaceHeight(skullX, z), z, direction);
+								skullY = this.surfaceHeight(skullX, z);
+								if(sky && skullY == 0) break;
+								
+								body.draw(this.schematic, skullX, skullY, z, direction);
 							z -= 2;
+							}
 						}
 					}
 				}

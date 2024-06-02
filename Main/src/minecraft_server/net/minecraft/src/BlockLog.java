@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockLog extends Block {
 	/*
 	 * Original beta logs use metadata 0, 1, 2 for wood type (oak, birch, spruce);
@@ -14,6 +16,8 @@ public class BlockLog extends Block {
 	protected BlockLog(int i1) {
 		super(i1, Material.wood);
 		this.blockIndexInTexture = 20;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 	
 	protected BlockLog(int i1, Material m) {

@@ -1,5 +1,9 @@
 package net.minecraft.src;
 
+import java.util.List;
+
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemBlock extends Item {
 	protected int blockID;
 
@@ -63,5 +67,13 @@ public class ItemBlock extends Item {
 
 	public String getItemName() {
 		return Block.blocksList[this.blockID].getBlockName();
+	}
+	
+	public CreativeTabs getCreativeTab() {
+		return Block.blocksList[this.blockID].getCreativeTab();
+	}
+
+	public void getSubItems(int var1, CreativeTabs var2, List<ItemStack> var3) {
+		Block.blocksList[this.blockID].getSubBlocks(var1, var2, var3);
 	}
 }

@@ -78,7 +78,7 @@ public class BlockGrass extends Block {
 	*/
 
 	public void updateTick(World world, int x, int y, int z, Random rand) {
-		if(!world.multiplayerWorld) {
+		if(!world.isRemote) {
 			int meta = world.getBlockMetadata(x, y, z);
 			int blockIDAbove = world.getBlockId(x, y + 1, z);
 			

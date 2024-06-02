@@ -2,9 +2,12 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockLadder extends Block {
 	protected BlockLadder(int blockID, int blockIndex) {
 		super(blockID, blockIndex, Material.circuits);
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {

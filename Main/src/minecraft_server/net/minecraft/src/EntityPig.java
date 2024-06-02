@@ -34,7 +34,7 @@ public class EntityPig extends EntityAnimal {
 	}
 
 	public boolean interact(EntityPlayer entityPlayer1) {
-		if(!this.getSaddled() || this.worldObj.multiplayerWorld || this.riddenByEntity != null && this.riddenByEntity != entityPlayer1) {
+		if(!this.getSaddled() || this.worldObj.isRemote || this.riddenByEntity != null && this.riddenByEntity != entityPlayer1) {
 			return false;
 		} else {
 			entityPlayer1.mountEntity(this);
@@ -60,7 +60,7 @@ public class EntityPig extends EntityAnimal {
 	}
 
 	public void onStruckByLightning(EntityLightningBolt entityLightningBolt1) {
-		if(!this.worldObj.multiplayerWorld) {
+		if(!this.worldObj.isRemote) {
 			EntityPigZombie entityPigZombie2 = new EntityPigZombie(this.worldObj);
 			entityPigZombie2.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
 			this.worldObj.entityJoinedWorld(entityPigZombie2);

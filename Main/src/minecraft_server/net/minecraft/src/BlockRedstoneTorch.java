@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockRedstoneTorch extends BlockTorch {
 	private boolean torchActive = false;
 	private static List<RedstoneUpdateInfo> torchUpdates = new ArrayList<RedstoneUpdateInfo>();
@@ -36,6 +38,8 @@ public class BlockRedstoneTorch extends BlockTorch {
 		super(id, blockIndex);
 		this.torchActive = torchActive;
 		this.setTickOnLoad(true);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabRedstone;
 	}
 
 	public int tickRate() {

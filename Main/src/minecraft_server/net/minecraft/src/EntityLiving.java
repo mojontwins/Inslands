@@ -60,7 +60,7 @@ public abstract class EntityLiving extends Entity {
 	protected double newRotationPitch;
 	float unusedFloat3 = 0.0F;
 	protected int field_9346_af = 0;
-	protected int entityAge = 0;
+	public int entityAge = 0;
 	protected float moveStrafing;
 	protected float moveForward;
 	protected float randomYawVelocity;
@@ -152,7 +152,7 @@ public abstract class EntityLiving extends Entity {
 			this.attackEntityFrom((Entity)null, 1);
 		}
 
-		if(this.isImmuneToFire || this.worldObj.multiplayerWorld) {
+		if(this.isImmuneToFire || this.worldObj.isRemote) {
 			this.fire = 0;
 		}
 
@@ -357,7 +357,7 @@ public abstract class EntityLiving extends Entity {
 	}
 
 	public boolean attackEntityFrom(Entity entity1, int i2) {
-		if(this.worldObj.multiplayerWorld) {
+		if(this.worldObj.isRemote) {
 			return false;
 		} else {
 			this.entityAge = 0;
@@ -468,8 +468,14 @@ public abstract class EntityLiving extends Entity {
 		}
 
 		this.unused_flag = true;
-		if(!this.worldObj.multiplayerWorld) {
-			this.dropFewItems();
+		if(!this.worldObj.isRemote) {
+			if(
+					!(entity1 instanceof EntityMob) || // Wasn't killed by a mob
+					entity1 instanceof EntityPlayer || // Or Was killed by the player
+					rand.nextInt(16) == 0              // Or random chance...
+			) {
+				this.dropFewItems();
+			}
 		}
 
 		this.worldObj.setEntityState(this, (byte)3);
@@ -648,7 +654,7 @@ public abstract class EntityLiving extends Entity {
 		Iterator<Integer> it = activeStatusEffectsMap.keySet().iterator();
 		int i = 0;
 		while(it.hasNext()) {
-			Integer id = it.next(); System.out.println("Getting status " + i + " with ID " + id);
+			Integer id = it.next(); // System.out.println("Getting status " + i + " with ID " + id);
 			StatusEffect statusEffect = this.activeStatusEffectsMap.get(id);
 			NBTTagCompound statusEffectCompound = new NBTTagCompound();
 			statusEffect.writeStatusEffectToNBT(statusEffectCompound);

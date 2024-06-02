@@ -132,7 +132,7 @@ public class EntityBetaOcelot extends EntityAnimal {
 			this.setIsSitting(false);
 		}
 
-		if(!this.worldObj.multiplayerWorld) {
+		if(!this.worldObj.isRemote) {
 			this.dataWatcher.updateObject(18, this.health);
 		}
 
@@ -351,7 +351,7 @@ public class EntityBetaOcelot extends EntityAnimal {
 					entityPlayer1.inventory.setInventorySlotContents(entityPlayer1.inventory.currentItem, (ItemStack)null);
 				}
 
-				if(!this.worldObj.multiplayerWorld) {
+				if(!this.worldObj.isRemote) {
 					if(this.rand.nextInt(3) == 0) {
 						this.setCatTamed(true);
 						this.setPathToEntity((PathEntity)null);
@@ -383,7 +383,7 @@ public class EntityBetaOcelot extends EntityAnimal {
 			}
 
 			if(entityPlayer1.username.equalsIgnoreCase(this.getOwner())) {
-				if(!this.worldObj.multiplayerWorld) {
+				if(!this.worldObj.isRemote) {
 					this.setIsSitting(!this.getIsSitting());
 					this.isJumping = false;
 					this.setPathToEntity((PathEntity)null);

@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockPumpkin extends Block {
 	private boolean isLantern;
 
@@ -8,6 +10,7 @@ public class BlockPumpkin extends Block {
 		this.blockIndexInTexture = i2;
 		this.setTickOnLoad(true);
 		this.isLantern = z3;
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
 	public int getBlockTextureFromSideAndMetadata(int side, int meta) {

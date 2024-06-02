@@ -16,7 +16,7 @@ public class SinglePlayerCommands {
 	 *    (I have PlayerEntity.enableCheats). Also pass an instance of the Minecraft object
 	 *    to GuiChat, for example:
 	 *    
-	 *    if((this.isMultiplayerWorld() || this.thePlayer.enableCheats) && Keyboard.getEventKey() == this.options.keyBindChat.keyCode) {
+	 *    if((this.isRemote() || this.thePlayer.enableCheats) && Keyboard.getEventKey() == this.options.keyBindChat.keyCode) {
 	 *        this.displayGuiScreen(new GuiChat(this));
 	 *    }
 	 *    
@@ -38,7 +38,7 @@ public class SinglePlayerCommands {
 	 *    if(key == 28) {
 	 *        String string3 = this.message.trim();
 	 *        if(string3.length() > 0) {
-	 *            if (this.mc.isMultiplayerWorld()) {
+	 *            if (this.mc.isRemote()) {
 	 *                this.mc.thePlayer.sendChatMessage(this.message.trim());
 	 *            } else {
 	 *                this.singlePlayerCommands.executeCommand(this.message.trim());

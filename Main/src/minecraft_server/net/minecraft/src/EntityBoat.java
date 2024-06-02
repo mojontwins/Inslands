@@ -15,6 +15,7 @@ public class EntityBoat extends Entity {
 	private double prevMotionX;
 	private double prevMotionY;
 	private double prevMotionZ;
+	public boolean fireResistant = false;
 
 	public EntityBoat(World world1) {
 		super(world1);
@@ -45,7 +46,7 @@ public class EntityBoat extends Entity {
 		return true;
 	}
 
-	public EntityBoat(World world1, double d2, double d4, double d6) {
+	public EntityBoat(World world1, double d2, double d4, double d6, boolean fireResistant) {
 		this(world1);
 		this.setPosition(d2, d4 + (double)this.yOffset, d6);
 		this.motionX = 0.0D;
@@ -54,6 +55,7 @@ public class EntityBoat extends Entity {
 		this.prevPosX = d2;
 		this.prevPosY = d4;
 		this.prevPosZ = d6;
+		this.fireResistant = this.isImmuneToFire = fireResistant;
 	}
 
 	public double getMountedYOffset() {
@@ -61,7 +63,7 @@ public class EntityBoat extends Entity {
 	}
 
 	public boolean attackEntityFrom(Entity entity1, int i2) {
-		if(!this.worldObj.multiplayerWorld && !this.isDead) {
+		if(!this.worldObj.isRemote && !this.isDead) {
 			this.boatRockDirection = -this.boatRockDirection;
 			this.boatTimeSinceHit = 10;
 			this.boatCurrentDamage += i2 * 10;
@@ -81,7 +83,11 @@ public class EntityBoat extends Entity {
 					this.dropItemWithOffset(Item.stick.shiftedIndex, 1, 0.0F);
 				}
 				*/
-				this.dropItemWithOffset(Item.boat.shiftedIndex, 1, 0.0F);
+				if(this.fireResistant) {
+					this.dropItemWithOffset(Item.boat_iron.shiftedIndex, 1, 0.0F);
+				} else {
+					this.dropItemWithOffset(Item.boat.shiftedIndex, 1, 0.0F);
+				}
 
 				this.setEntityDead();
 			}
@@ -140,7 +146,7 @@ public class EntityBoat extends Entity {
 			double d5 = this.boundingBox.minY + (this.boundingBox.maxY - this.boundingBox.minY) * (double)(i4 + 0) / (double)b1 - 0.125D;
 			double d7 = this.boundingBox.minY + (this.boundingBox.maxY - this.boundingBox.minY) * (double)(i4 + 1) / (double)b1 - 0.125D;
 			AxisAlignedBB axisAlignedBB9 = AxisAlignedBB.getBoundingBoxFromPool(this.boundingBox.minX, d5, this.boundingBox.minZ, this.boundingBox.maxX, d7, this.boundingBox.maxZ);
-			if(this.worldObj.isAABBInMaterial(axisAlignedBB9, Material.water)) {
+			if(this.worldObj.isAABBInMaterial(axisAlignedBB9, Material.water) || (this.fireResistant && this.worldObj.isAABBInMaterial(axisAlignedBB9, Material.lava))) {
 				d2 += 1.0D / (double)b1;
 			}
 		}
@@ -149,7 +155,7 @@ public class EntityBoat extends Entity {
 		double d8;
 		double d10;
 		double d21;
-		if(this.worldObj.multiplayerWorld) {
+		if(this.worldObj.isRemote) {
 			if(this.boatPosRotationIncrements > 0) {
 				d21 = this.posX + (this.boatX - this.posX) / (double)this.boatPosRotationIncrements;
 				d6 = this.posY + (this.boatY - this.posY) / (double)this.boatPosRotationIncrements;
@@ -247,7 +253,7 @@ public class EntityBoat extends Entity {
 			}
 
 			if(this.isCollidedHorizontally && d6 > 0.2D) {
-				if(!this.worldObj.multiplayerWorld) {
+				if(!this.worldObj.isRemote) {
 					this.setEntityDead();
 
 					/*
@@ -341,9 +347,11 @@ public class EntityBoat extends Entity {
 	}
 
 	protected void writeEntityToNBT(NBTTagCompound nBTTagCompound1) {
+		nBTTagCompound1.setBoolean("FireResistant", this.fireResistant);
 	}
 
 	protected void readEntityFromNBT(NBTTagCompound nBTTagCompound1) {
+		this.fireResistant = nBTTagCompound1.getBoolean("FireResistant");
 	}
 
 	public float getShadowSize() {
@@ -354,7 +362,7 @@ public class EntityBoat extends Entity {
 		if(this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != entityPlayer1) {
 			return true;
 		} else {
-			if(!this.worldObj.multiplayerWorld) {
+			if(!this.worldObj.isRemote) {
 				entityPlayer1.mountEntity(this);
 			}
 

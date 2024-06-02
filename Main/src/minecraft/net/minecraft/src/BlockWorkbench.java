@@ -15,7 +15,7 @@ public class BlockWorkbench extends Block {
 	}
 
 	public boolean blockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer) {
-		if(world.multiplayerWorld) {
+		if(world.isRemote) {
 			return true;
 		} else {
 			entityPlayer.displayWorkbenchGUI(x, y, z);

@@ -107,7 +107,7 @@ public class EntityItem extends Entity {
 	}
 
 	public void onCollideWithPlayer(EntityPlayer entityPlayer1) {
-		if(!this.worldObj.multiplayerWorld) {
+		if(!this.worldObj.isRemote) {
 			int i2 = this.item.stackSize;
 			if(this.delayBeforeCanPickup == 0 && entityPlayer1.inventory.addItemStackToInventory(this.item)) {
 				if(this.item.itemID == Block.wood.blockID) {
@@ -142,5 +142,9 @@ public class EntityItem extends Entity {
 			}
 
 		}
+	}
+	
+	public void makeOld() {
+		this.age = 4800;
 	}
 }

@@ -69,11 +69,12 @@ public class Slot {
 		return this.getInventory().decrStackSize(this.slotIndex, i1);
 	}
 
-	public boolean isHere(IInventory iInventory1, int i2) {
+	public boolean isSlotInInventory(IInventory iInventory1, int i2) {
 		return iInventory1 == this.getInventory() && i2 == this.slotIndex;
 	}
 
 	public IInventory getInventory() {
 		return inventory;
 	}
+
 }

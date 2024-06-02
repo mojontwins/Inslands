@@ -1,10 +1,13 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockSand extends Block {
 	public static boolean fallInstantly = false;
 
 	public BlockSand(int id, int blockIndex) {
 		super(id, blockIndex, Material.sand);
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
 	/*
@@ -38,22 +41,27 @@ public class BlockSand extends Block {
 	}
 	
 	private void tryToFall(World world, int x, int y, int z) {
-		if(canFallBelow(world, x, y - 1, z) && y >= 0) {
-			byte b8 = 32;
-			if(!fallInstantly && world.checkChunksExist(x - b8, y - b8, z - b8, x + b8, y + b8, z + b8)) {
-				EntityFallingSand entityFallingSand9 = new EntityFallingSand(world, (double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, this.blockID);
-				world.entityJoinedWorld(entityFallingSand9);
-			} else {
-				world.setBlockWithNotify(x, y, z, 0);
-
-				while(canFallBelow(world, x, y - 1, z) && y > 0) {
-					--y;
-				}
-
-				if(y > 0) {
-					world.setBlockWithNotify(x, y, z, this.blockID);
+		
+		try {
+			if(canFallBelow(world, x, y - 1, z) && y >= 0) {
+				byte b8 = 32;
+				if(!fallInstantly && world.checkChunksExist(x - b8, y - b8, z - b8, x + b8, y + b8, z + b8)) {
+					EntityFallingSand entityFallingSand9 = new EntityFallingSand(world, (double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, this.blockID);
+					world.entityJoinedWorld(entityFallingSand9);
+				} else {
+					world.setBlockWithNotify(x, y, z, 0);
+	
+					while(canFallBelow(world, x, y - 1, z) && y > 0) {
+						--y;
+					}
+	
+					if(y > 0) {
+						world.setBlockWithNotify(x, y, z, this.blockID);
+					}
 				}
 			}
+		} catch (StackOverflowError e) {
+			System.out.println ("Sand overflowed the stack");
 		}
 
 	}

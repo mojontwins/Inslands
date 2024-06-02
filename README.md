@@ -47,25 +47,28 @@ Now spice it up a bit:
 
 * [X] Rename world generators to "Infdev Island", "Alpha Island" and "Floating Island".
 * [X] Base achievements for hell, forest & paradise
-* [ ] Eat animation from infhell
-* [ ] Open creative inventory directly fix like infhell
+* [X] Eat animation from infhell
+* [X] Open creative inventory directly fix like infhell
 
 ## Hell
 
 * [X] Very tough survival, also wood is a very valuable resource as most trees come up without canopy so you can't get saplings that way. Skeletons drop acorns which you should plant in tilled land to grow saplings. --> 
-	* [ ] Needs testing
+	* [X] Needs testing - in hell it needs to be fertilized with bonemeal otherwise tilled land will decay and acorn will drop, which is nice.
 
 * [X] Thing something that has to do with fossils! Well, they are a huge source of bone meal, there should be a way to produce GRASS using them (A very small chance?) 
-	* [ ] Fine tune... Why shrooms pop out as drops sometimes?
+	* [?] Fine tune... Why shrooms pop out as drops sometimes?
 
 * [X] Big mushrooms should have a purpose. ¿Smelt into coal? Maybe a smaller coal item that produces just 2 torches and burns for 1/2 the time.
 	* [X] Item charcoal
 	* [X] Smelting recipes (to obtain, as fuel)
 	* [X] Crafting recipes: combine with stick for 2 torches
 
+* [ ] Iron boat. What happens if you put a wooden boat in the lava?
+
 * Achievements
-	* [ ] Grass from dirt - Fertilize dead soil and bring it back to life
-	* [ ] Plant an acorn - Plant an acorn on tilled field
+	* [X] Grass from dirt - Fertilize dead soil and bring it back to life
+	* [X] Plant an acorn - Plant an acorn on tilled field
+	* [X] Fertililze an accorn
 	* [X] Cook big shrooms - To get some cheap charcoal
 
 ## Forest
@@ -79,3 +82,5 @@ Now spice it up a bit:
 * Paradise level should trigger "sky" generator by default (you can change it ofc)
 
 * This was supposed the "peaceful" or "easy" variant, but I think something should be done to this. I know (or I believe) he original Aether was somewhat inspired in this. It would be nice to do some research and know where the aether came from and what were the initial builds and what kind of stuff they had and do something similar.
+
+* Add big flowers and some Aether stuff: bronze dungeons and some mobs would be a nice start.

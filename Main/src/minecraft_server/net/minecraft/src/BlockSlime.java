@@ -1,9 +1,13 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockSlime extends Block {
 
 	protected BlockSlime(int id, int blockIndexInTexture, Material material) {
 		super(id, blockIndexInTexture, material);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
 	public boolean renderAsNormalBlock() {

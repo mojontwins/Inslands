@@ -51,7 +51,7 @@ public class EntityTNTPrimed extends Entity {
 		}
 
 		if(this.fuse-- <= 0) {
-			if(!this.worldObj.multiplayerWorld) {
+			if(!this.worldObj.isRemote) {
 				this.setEntityDead();
 				this.explode();
 			} else {

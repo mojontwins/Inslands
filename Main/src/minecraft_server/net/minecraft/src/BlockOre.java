@@ -2,9 +2,13 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockOre extends Block {
 	public BlockOre(int i1, int i2) {
 		super(i1, i2, Material.rock);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
 	public int idDropped(int i1, Random random2) {

@@ -60,13 +60,12 @@ public class BiomeGenDesert extends BiomeGenBase {
 	public void prePopulate(World world, Random rand, int x0, int z0) {
 		int x, y, z;
 		
-		// Generate lava lakes
 		if(rand.nextInt(8) == 0) {
 			x = x0 + rand.nextInt(16) + 8;
 			y = rand.nextInt(rand.nextInt(120) + 8);
 			z = z0 + rand.nextInt(16) + 8;
 			if(y < 64 || rand.nextInt(10) == 0) {
-				(new WorldGenLakes(Block.lavaMoving.blockID)).generate(world, rand, x, y, z);
+				(new WorldGenLakes(Block.waterMoving.blockID)).generate(world, rand, x, y, z);
 			}
 		}
 	}

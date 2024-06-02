@@ -19,7 +19,7 @@ public class BlockCryingObsidian extends BlockObsidian {
 				entityPlayer.setPlayerSpawnCoordinate(new ChunkCoordinates(x, y + 1, z));
 				entityPlayer.setDontCheckSpawnCoordinates(true);
 		 		
-				if (!world.multiplayerWorld) {
+				if (!world.isRemote) {
 					world.getWorldAccess(0).showString("Spawn point set.");
 				}
 	
@@ -34,7 +34,7 @@ public class BlockCryingObsidian extends BlockObsidian {
 				world.playSoundEffect((double)x, (double)y, (double)z, "random.drr", 1.0F, 0.25F);
 				world.playSoundEffect((double)x, (double)y, (double)z, "random.breath", 0.5F, 0.15F);
 			} else {
-				if (!world.multiplayerWorld) {
+				if (!world.isRemote) {
 					world.getWorldAccess(0).showString("Can't set spawn! Top is blocked!");
 				}
 			}

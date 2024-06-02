@@ -2,12 +2,15 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockChest extends BlockContainer {
 	private Random rand = new Random();
 
 	protected BlockChest(int id) {
 		super(id, Material.wood);
 		this.blockIndexInTexture = 26;
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	public int getBlockTexture(IBlockAccess blockAccess, int x, int y, int z, int side) {
@@ -187,7 +190,7 @@ public class BlockChest extends BlockContainer {
 				object6 = new InventoryLargeChest("Large chest", (IInventory)object6, (TileEntityChest)world.getBlockTileEntity(x, y, z + 1));
 			}
 
-			if(world.multiplayerWorld) {
+			if(world.isRemote) {
 				return true;
 			} else {
 				entityPlayer.displayGUIChest((IInventory)object6);
@@ -214,11 +217,12 @@ public class BlockChest extends BlockContainer {
 		
 		entityPlayer.triggerAchievement(AchievementList.chestRobber);
 		entityLiving.somebodyOpenedMyChest(entityPlayer);
-		
+		/*
 		if("Amazon".equals(ownerType)) {
 			entityPlayer.triggerAchievement(AchievementList.robbedAmazon);
 		} else if("AlphaWitch".equals(ownerType)) {
 			entityPlayer.triggerAchievement(AchievementList.robbedWitch);
 		}
+		*/
 	}
 }

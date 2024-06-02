@@ -190,7 +190,7 @@ public class BlockChest extends BlockContainer {
 				object6 = new InventoryLargeChest("Large chest", (IInventory)object6, (TileEntityChest)world.getBlockTileEntity(x, y, z + 1));
 			}
 
-			if(world.multiplayerWorld) {
+			if(world.isRemote) {
 				return true;
 			} else {
 				entityPlayer.displayGUIChest((IInventory)object6);

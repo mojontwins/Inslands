@@ -255,7 +255,7 @@ public class Chunk {
 			this.blocks[x << 11 | z << 7 | y] = (byte)id;
 			
 			// Call `onRemoval` from removed block, if applies.
-			if(block != null && !this.worldObj.multiplayerWorld) {
+			if(block != null && !this.worldObj.isRemote) {
 				block.onBlockRemoval(this.worldObj, absX, y, absZ);
 			}
 
@@ -313,7 +313,7 @@ public class Chunk {
 				
 				// Call `onRemoval` from removed block, if applies.
 				Block block = Block.blocksList[this.blocks[index] & 255];
-				if(block != null && !this.worldObj.multiplayerWorld) {
+				if(block != null && !this.worldObj.isRemote) {
 					block.onBlockRemoval(this.worldObj, absX, y, absZ);
 				}
 				
@@ -334,7 +334,7 @@ public class Chunk {
 						
 						// Call `onRemoval` from removed block, if applies.
 						Block block = Block.blocksList[this.blocks[index] & 255];
-						if(block != null && !this.worldObj.multiplayerWorld) {
+						if(block != null && !this.worldObj.isRemote) {
 							block.onBlockRemoval(this.worldObj, absX, y, absZ);
 						}
 						
@@ -837,7 +837,7 @@ public class Chunk {
 			this.blocks[x << 11 | z << 7 | y] = (byte)id;
 			
 			// Call `onRemoval` from removed block, if applies.
-			if(block != null && !this.worldObj.multiplayerWorld) {
+			if(block != null && !this.worldObj.isRemote) {
 				block.onBlockRemoval(this.worldObj, absX, y, absZ);
 			}
 

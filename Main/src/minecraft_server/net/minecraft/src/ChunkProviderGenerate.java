@@ -161,15 +161,15 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		BiomeGenBase biomeGen;
 
 		for(int z = 0; z < 16; ++z) {
-		for(int x = 0; x < 16; ++x) {
+			for(int x = 0; x < 16; ++x) {
 				biomeGen = biomes[z | (x << 4)];
 				
 				int noiseIndex = z | (x << 4);
 				biomeGen.replaceBlocksForBiome(this, this.worldObj, this.rand, chunkX, chunkZ, x, z, blocks, metadata, seaLevel, this.sandNoise[noiseIndex], this.gravelNoise[noiseIndex], this.stoneNoise[noiseIndex]);
-									}
-								}
-
+			}
 		}
+
+	}
 
 	public Chunk prepareChunk(int i1, int i2) {
 		return this.provideChunk(i1, i2);
@@ -304,6 +304,7 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		}
 
 		// Calculate lights
+		chunk.generateHeightMap();
 		chunk.generateSkylightMap();
 
 		// Done

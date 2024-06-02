@@ -80,14 +80,14 @@ public class BlockRail extends Block {
 	}
 
 	public void onBlockAdded(World world1, int i2, int i3, int i4) {
-		if(!world1.multiplayerWorld) {
+		if(!world1.isRemote) {
 			this.func_4031_h(world1, i2, i3, i4, true);
 		}
 
 	}
 
 	public void onNeighborBlockChange(World world1, int i2, int i3, int i4, int i5) {
-		if(!world1.multiplayerWorld) {
+		if(!world1.isRemote) {
 			int i6 = world1.getBlockMetadata(i2, i3, i4);
 			int i7 = i6;
 			if(this.isPowered) {
@@ -144,7 +144,7 @@ public class BlockRail extends Block {
 	}
 
 	private void func_4031_h(World world1, int i2, int i3, int i4, boolean z5) {
-		if(!world1.multiplayerWorld) {
+		if(!world1.isRemote) {
 			(new RailLogic(this, world1, i2, i3, i4)).func_792_a(world1.isBlockIndirectlyGettingPowered(i2, i3, i4), z5);
 		}
 	}

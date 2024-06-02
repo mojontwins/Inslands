@@ -15,7 +15,7 @@ public class ItemRecord extends Item {
 
 	public boolean onItemUse(ItemStack itemStack1, EntityPlayer entityPlayer2, World world3, int i4, int i5, int i6, int i7) {
 		if(world3.getBlockId(i4, i5, i6) == Block.jukebox.blockID && world3.getBlockMetadata(i4, i5, i6) == 0) {
-			if(world3.multiplayerWorld) {
+			if(world3.isRemote) {
 				return true;
 			} else {
 				((BlockJukeBox)Block.jukebox).ejectRecord(world3, i4, i5, i6, this.shiftedIndex);

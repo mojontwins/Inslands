@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemTool extends Item {
 	private Block[] blocksEffectiveAgainst;
 	protected float efficiencyOnProperMaterial = 4.0F;
@@ -15,6 +17,8 @@ public class ItemTool extends Item {
 		this.efficiencyOnProperMaterial = enumToolMaterial3.getEfficiencyOnProperMaterial();
 		this.damageVsEntity = attackDmg + enumToolMaterial3.getDamageVsEntity();
 		this.silkTouch = silkTouch;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabTools;
 	}
 
 	public float getStrVsBlock(ItemStack itemStack1, Block block2) {

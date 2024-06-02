@@ -426,7 +426,7 @@ public class Block {
 	}
 
 	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance) {
-		if(!world.multiplayerWorld) {
+		if(!world.isRemote) {
 			int i7 = this.quantityDropped(world.rand);
 
 			for(int i8 = 0; i8 < i7; ++i8) {
@@ -442,7 +442,7 @@ public class Block {
 	}
 
 	protected void dropBlockAsItem_do(World world, int x, int y, int z, ItemStack itemStack) {
-		if(!world.multiplayerWorld) {
+		if(!world.isRemote) {
 			float f6 = 0.7F;
 			double d7 = (double)(world.rand.nextFloat() * f6) + (double)(1.0F - f6) * 0.5D;
 			double d9 = (double)(world.rand.nextFloat() * f6) + (double)(1.0F - f6) * 0.5D;

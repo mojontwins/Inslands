@@ -26,7 +26,7 @@ public class EntityMooshroom extends EntityCow {
 			this.setEntityDead();
 			this.worldObj.spawnParticle("largeexplode", this.posX, this.posY + (double)(this.height / 2.0F), this.posZ, 0.0D, 0.0D, 0.0D);
 
-			if (!this.worldObj.multiplayerWorld) {
+			if (!this.worldObj.isRemote) {
 				EntityCow entitycow = new EntityCow(this.worldObj);
 				entitycow.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
 				entitycow.health = this.health;

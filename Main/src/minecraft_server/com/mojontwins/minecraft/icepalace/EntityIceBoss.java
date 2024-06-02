@@ -2,7 +2,6 @@ package com.mojontwins.minecraft.icepalace;
 
 import com.chocolatin.betterdungeons.EntityHumanBase;
 
-import net.minecraft.src.AchievementList;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityPlayer;
@@ -166,7 +165,7 @@ public class EntityIceBoss extends EntityHumanBase {
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
 		
-		if(!this.worldObj.multiplayerWorld) {
+		if(!this.worldObj.isRemote) {
 			if(rand.nextInt(25) == 0) {
 				this.teleport();
 			}
@@ -212,10 +211,10 @@ public class EntityIceBoss extends EntityHumanBase {
 	@Override
 	public void onDeath(Entity entity) {
 		if(entity instanceof EntityPlayer) {
-			EntityPlayer entityPlayer = (EntityPlayer) entity;
-			entityPlayer.triggerAchievement(AchievementList.iceBoss);
+			//EntityPlayer entityPlayer = (EntityPlayer) entity;
+			//entityPlayer.triggerAchievement(AchievementList.iceBoss);
 			
-			if(!this.worldObj.multiplayerWorld) {
+			if(!this.worldObj.isRemote) {
 				this.dropItem(Item.pirateSigil.shiftedIndex, 1);
 			}
 		}

@@ -1,0 +1,13 @@
+v240602
+
+# Theme Hell - Tough survival
+
+Very few trees have an actual canopy, so you must find a way to make wood renewable. Also, seeds only drop from tall grass and there's no grass. Luckily, there's plenty of fossils.
+
+* Plant acorn on tilled field, fertilize to get new sapling.
+* You can fertilize dead dirt to get new grass (small chance) or mushrooms.
+* Big mushroom blocks can be smelted into charcoal. Charcoal and sticks gives you two torches.
+* Craft an iron boat with 6 iron ingots.
+* Added achievements for all the above.
+* Eating animation.
+* Small fixes.

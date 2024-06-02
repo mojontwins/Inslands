@@ -29,7 +29,7 @@ public class EntityGhast extends EntityFlying implements IMob {
 	}
 
 	protected void updateEntityActionState() {
-		if(!this.worldObj.multiplayerWorld && this.worldObj.difficultySetting == 0) {
+		if(!this.worldObj.isRemote && this.worldObj.difficultySetting == 0) {
 			this.setEntityDead();
 		}
 
@@ -104,7 +104,7 @@ public class EntityGhast extends EntityFlying implements IMob {
 			}
 		}
 
-		if(!this.worldObj.multiplayerWorld) {
+		if(!this.worldObj.isRemote) {
 			byte b21 = this.dataWatcher.getWatchableObjectByte(16);
 			byte b12 = (byte)(this.attackCounter > 10 ? 1 : 0);
 			if(b21 != b12) {

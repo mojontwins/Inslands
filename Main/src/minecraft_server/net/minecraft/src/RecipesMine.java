@@ -43,6 +43,9 @@ public class RecipesMine {
 		
 		craftingManager.addRecipe(new ItemStack(Item.pirateCrown), new Object[] {"GGG", "RGE", "SSS", 'G', Item.ingotGold, 'R', Item.ruby, 'E', Item.emerald, 'S', Item.pirateSigil});
 		craftingManager.addRecipe(new ItemStack(Block.boneBlock, 1), new Object[]{"###", "###", "###", '#', Item.dyePowder});
+		craftingManager.addShapelessRecipe(new ItemStack(Item.bone, 9), new Object[] {new ItemStack(Block.boneBlock)});
 		craftingManager.addRecipe(new ItemStack(Item.wheat, 1), new Object[] {"###", '#', new ItemStack(Block.tallGrass, 1, 16)});
+		craftingManager.addRecipe(new ItemStack(Block.torchWood, 2), new Object[]{"X", "#", 'X', Item.charcoal, '#', Item.stick});
+		craftingManager.addRecipe(new ItemStack(Item.boat_iron), new Object[] {"# #","###", " # ", '#', Item.ingotIron});
 	}
 }

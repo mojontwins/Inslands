@@ -22,6 +22,7 @@ import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
 
 import com.misc.moreresources.MoreResourcesInstaller;
+import com.mojang.minecraft.creative.GuiContainerCreative;
 
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.AxisAlignedBB;
@@ -635,7 +636,7 @@ public abstract class Minecraft implements Runnable {
 					this.checkGLError("Post render");
 					++i3;
 
-					for(this.isGamePaused = !this.isMultiplayerWorld() && this.currentScreen != null && this.currentScreen.doesGuiPauseGame(); System.currentTimeMillis() >= j1 + 1000L; i3 = 0) {
+					for(this.isGamePaused = !this.isRemote() && this.currentScreen != null && this.currentScreen.doesGuiPauseGame(); System.currentTimeMillis() >= j1 + 1000L; i3 = 0) {
 						this.debug = i3 + " fps, " + WorldRenderer.chunksUpdated + " chunk updates";
 						WorldRenderer.chunksUpdated = 0;
 						j1 += 1000L;
@@ -1033,7 +1034,7 @@ public abstract class Minecraft implements Runnable {
 		if(this.currentScreen == null && this.thePlayer != null) {
 			if(this.thePlayer.health <= 0) {
 				this.displayGuiScreen((GuiScreen)null);
-			} else if(this.thePlayer.isPlayerSleeping() && this.theWorld != null && this.theWorld.multiplayerWorld) {
+			} else if(this.thePlayer.isPlayerSleeping() && this.theWorld != null && this.theWorld.isRemote) {
 				this.displayGuiScreen(new GuiSleepMP(this));
 			}
 		} else if(this.currentScreen != null && this.currentScreen instanceof GuiSleepMP && !this.thePlayer.isPlayerSleeping()) {
@@ -1119,7 +1120,11 @@ public abstract class Minecraft implements Runnable {
 												}
 
 												if(Keyboard.getEventKey() == this.gameSettings.keyBindInventory.keyCode) {
-													this.displayGuiScreen(new GuiInventory(this.thePlayer));
+													if (this.thePlayer.isCreative) {
+														this.displayGuiScreen(new GuiContainerCreative(this.thePlayer));
+													} else {
+														this.displayGuiScreen(new GuiInventory(this.thePlayer));
+													}
 												}
 
 												if(Keyboard.getEventKey() == this.gameSettings.keyBindDrop.keyCode) {
@@ -1130,7 +1135,7 @@ public abstract class Minecraft implements Runnable {
 													this.displayGuiScreen(new GuiCreativeInventory(this));
 												}
 
-												if((this.isMultiplayerWorld() || this.thePlayer.enableCheats) && Keyboard.getEventKey() == this.gameSettings.keyBindChat.keyCode) {
+												if((this.isRemote() || this.thePlayer.enableCheats) && Keyboard.getEventKey() == this.gameSettings.keyBindChat.keyCode) {
 													this.displayGuiScreen(new GuiChat(this));
 												}
 											}
@@ -1204,7 +1209,7 @@ public abstract class Minecraft implements Runnable {
 			}
 
 			this.theWorld.difficultySetting = this.gameSettings.difficulty;
-			if(this.theWorld.multiplayerWorld) {
+			if(this.theWorld.isRemote) {
 				this.theWorld.difficultySetting = 3;
 			}
 
@@ -1226,7 +1231,7 @@ public abstract class Minecraft implements Runnable {
 				this.theWorld.updateEntities();
 			}
 
-			if(!this.isGamePaused || this.isMultiplayerWorld()) {
+			if(!this.isGamePaused || this.isRemote()) {
 				this.theWorld.setAllowedMobSpawns(this.gameSettings.difficulty > 0, true);
 				this.theWorld.tick();
 			}
@@ -1263,8 +1268,8 @@ public abstract class Minecraft implements Runnable {
 		this.downloadResourcesThread.reloadResources();
 	}
 
-	public boolean isMultiplayerWorld() {
-		return this.theWorld != null && this.theWorld.multiplayerWorld;
+	public boolean isRemote() {
+		return this.theWorld != null && this.theWorld.isRemote;
 	}
 
 	public void startWorld(String string1, String string2, WorldSettings worldSettings) {
@@ -1278,7 +1283,7 @@ public abstract class Minecraft implements Runnable {
 			World world6 = null;
 			
 			do {
-				world6 = new World(iSaveHandler5, string2, worldSettings, this.gameSettings);
+				world6 = new World(iSaveHandler5, string2, worldSettings);
 				if(world6.findingSpawnPoint) {
 					System.out.println("Couldn't find a valid spawn point - trying again!");
 					Random rand = new Random(worldSettings.getSeed());
@@ -1328,7 +1333,7 @@ public abstract class Minecraft implements Runnable {
 			}
 
 			world7 = null;
-			world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(-1), this.gameSettings);
+			world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(-1));
 			this.changeWorld(world7, "Entering the Nether", this.thePlayer);
 		} else {
 			d1 *= d5;
@@ -1339,7 +1344,7 @@ public abstract class Minecraft implements Runnable {
 			}
 
 			world7 = null;
-			world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(0), this.gameSettings); 
+			world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(0)); 
 			this.changeWorld(world7, "Leaving the Nether", this.thePlayer);
 		}
 
@@ -1374,7 +1379,7 @@ public abstract class Minecraft implements Runnable {
 		this.theWorld = world1;
 		if(world1 != null) {
 			this.playerController.onWorldChange(world1);
-			if(!this.isMultiplayerWorld()) {
+			if(!this.isRemote()) {
 				if(entityPlayer3 == null) {
 					this.thePlayer = (EntityPlayerSP)world1.func_4085_a(EntityPlayerSP.class);
 				}
@@ -1385,7 +1390,7 @@ public abstract class Minecraft implements Runnable {
 				}
 			}
 
-			if(!world1.multiplayerWorld) {
+			if(!world1.isRemote) {
 				this.preloadWorld(string2);
 			}
 
@@ -1525,7 +1530,7 @@ public abstract class Minecraft implements Runnable {
 	}
 
 	public void respawn(boolean z1, int i2) {
-		if(!this.theWorld.multiplayerWorld && !this.theWorld.worldProvider.canRespawnHere()) {
+		if(!this.theWorld.isRemote && !this.theWorld.worldProvider.canRespawnHere()) {
 			this.usePortal();
 		}
 

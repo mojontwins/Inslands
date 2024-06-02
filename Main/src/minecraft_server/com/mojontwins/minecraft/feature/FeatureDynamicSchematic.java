@@ -67,6 +67,7 @@ public abstract class FeatureDynamicSchematic extends Feature {
 		int pieceZoffs = this.getPieceZ(chunkZ) << 4;
 		
 		int y0 = this.getY0();
+		if(y0 < 1) return;
 		
 		// Decode & copy blocks
 		for(int x = 0; x < 16; x ++) {

@@ -94,7 +94,7 @@ public class EntityPigZombie extends EntityZombie {
 		super.onLivingUpdate();
 		
 		// Pick up golden stuff & throw shit at random
-		if(!this.worldObj.multiplayerWorld) {
+		if(!this.worldObj.isRemote) {
 			if(!this.preparingToDrop && this.angerLevel == 0 && this.rand.nextInt(32) == 0) {
 				List<Entity> list = this.worldObj.getEntitiesWithinAABB(EntityItem.class, this.boundingBox);
 				

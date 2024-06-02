@@ -37,21 +37,21 @@ public class BlockPistonBase extends Block {
 	public void onBlockPlacedBy(World world1, int i2, int i3, int i4, EntityLiving entityLiving5) {
 		int i6 = determineOrientation(world1, i2, i3, i4, (EntityPlayer)entityLiving5);
 		world1.setBlockMetadataWithNotify(i2, i3, i4, i6);
-		if(!world1.multiplayerWorld) {
+		if(!world1.isRemote) {
 			this.updatePistonState(world1, i2, i3, i4);
 		}
 
 	}
 
 	public void onNeighborBlockChange(World world1, int i2, int i3, int i4, int i5) {
-		if(!world1.multiplayerWorld && !this.ignoreUpdates) {
+		if(!world1.isRemote && !this.ignoreUpdates) {
 			this.updatePistonState(world1, i2, i3, i4);
 		}
 
 	}
 
 	public void onBlockAdded(World world1, int i2, int i3, int i4) {
-		if(!world1.multiplayerWorld && world1.getBlockTileEntity(i2, i3, i4) == null) {
+		if(!world1.isRemote && world1.getBlockTileEntity(i2, i3, i4) == null) {
 			this.updatePistonState(world1, i2, i3, i4);
 		}
 

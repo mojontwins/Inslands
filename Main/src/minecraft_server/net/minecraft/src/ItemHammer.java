@@ -1,10 +1,12 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemHammer extends ItemPickaxe {
 
 	public ItemHammer(int i1, EnumToolMaterial enumToolMaterial2, boolean silkTouch) {
 		super(i1, 8, enumToolMaterial2, silkTouch);
-		//this.displayOnCreativeTab = CreativeTabs.tabCombat;
+		this.displayOnCreativeTab = CreativeTabs.tabCombat;
 	}
 	
 	/*

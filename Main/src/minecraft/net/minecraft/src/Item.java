@@ -86,7 +86,7 @@ public class Item {
 	public static Item doorSteel = (new ItemDoor(74, Material.iron)).setIconCoord(12, 2).setItemName("doorIron");
 	public static Item redstone = (new ItemRedstone(75)).setIconCoord(8, 3).setItemName("redstone");
 	public static Item snowball = (new ItemSnowball(76)).setIconCoord(14, 0).setItemName("snowball");
-	public static Item boat = (new ItemBoat(77)).setIconCoord(8, 8).setItemName("boat");
+	public static Item boat = (new ItemBoat(77, false)).setIconCoord(8, 8).setItemName("boat");
 	public static Item leather = (new Item(78)).setIconCoord(7, 6).setItemName("leather").setCreativeTab(CreativeTabs.tabMaterials);
 	public static Item bucketMilk = (new ItemBucket(79, -1)).setIconCoord(13, 4).setItemName("milk").setContainerItem(bucketEmpty);
 	public static Item brick = (new Item(80)).setIconCoord(6, 1).setItemName("brick").setCreativeTab(CreativeTabs.tabMaterials);
@@ -156,6 +156,7 @@ public class Item {
 	
 	public static Item acornSeed = new ItemAcornSeed(1100).setIconIndex(13*16).setItemName("acornSeed").setCreativeTab(CreativeTabs.tabMisc);
 	public static Item charcoal = new Item(1101).setIconIndex(13*16+10).setItemName("charcoal").setCreativeTab(CreativeTabs.tabMaterials);
+	public static Item boat_iron = (new ItemBoat(1102, true)).setIconIndex(13*16+1).setItemName("ironBoat");
 	
 	public static Item achievementHell = new Item(1200).setIconIndex(12*16+5).setShowInCreative(false);
 	public static Item achievementForest = new Item(1201).setIconIndex(12*16+6).setShowInCreative(false);
@@ -289,6 +290,10 @@ public class Item {
 		return itemStack1;
 	}
 
+	public ItemStack onFoodEaten(ItemStack itemStack1, World world2, EntityPlayer entityPlayer3) {
+		return itemStack1;
+	}
+
 	public int getItemStackLimit() {
 		return this.maxStackSize;
 	}
@@ -417,6 +422,22 @@ public class Item {
 		return false;
 	}
 	
+	// r1.0+ use item
+	
+	public EnumAction getItemUseAction(ItemStack itemStack1) {
+		return EnumAction.none;
+	}
+
+	public int getMaxItemUseDuration(ItemStack itemStack1) {
+		return 0;
+	}
+
+	public void onPlayerStoppedUsing(ItemStack itemStack1, World world2, EntityPlayer entityPlayer3, int i4) {
+	}
+	
+	public void onUsingItemTick(ItemStack stack, EntityPlayer player, int count) {
+	}
+
 	// r1.3+ creative
 	
 	public Item setCreativeTab(CreativeTabs creativeTab) {
