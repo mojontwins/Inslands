@@ -155,7 +155,7 @@ public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkPro
 				// Get noise
 				double noise = this.noiseIslandGen.generateNoise(xx * 0.05D, zz * 0.05D) / 4.0D + 1.0D;
 				
-				// Weird a bit with those values (noise and d) to get a nice fried egg shape
+				// Weird a bit with those values (noise and d) to get a nice fried agg shape
 				double factor = Math.max(Math.min(d, noise), Math.min(dx, dz));
 				
 				if(factor > 1.0D) factor = 1.0D;

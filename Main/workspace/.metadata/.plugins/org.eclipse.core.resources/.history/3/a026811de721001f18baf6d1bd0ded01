@@ -586,6 +586,8 @@ public class EntityRenderer {
 		double d7 = entityLiving4.lastTickPosX + (entityLiving4.posX - entityLiving4.lastTickPosX) * (double)f1;
 		double d9 = entityLiving4.lastTickPosY + (entityLiving4.posY - entityLiving4.lastTickPosY) * (double)f1;
 		double d11 = entityLiving4.lastTickPosZ + (entityLiving4.posZ - entityLiving4.lastTickPosZ) * (double)f1;
+		IChunkProvider iChunkProvider13 = this.mc.theWorld.getIChunkProvider();
+
 		for(int i18 = 0; i18 < 2; ++i18) {
 			if(this.mc.gameSettings.anaglyph) {
 				anaglyphField = i18;
@@ -659,7 +661,7 @@ public class EntityRenderer {
 				}
 
 				GL11.glColorMask(false, false, false, false);
-				int i16 = renderGlobal5.sortAndRender(entityLiving4, 1, (double)f1);
+				i16 = renderGlobal5.sortAndRender(entityLiving4, 1, (double)f1);
 				if(this.mc.gameSettings.anaglyph) {
 					if(anaglyphField == 0) {
 						GL11.glColorMask(false, true, true, true);
