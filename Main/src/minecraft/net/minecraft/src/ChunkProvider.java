@@ -10,7 +10,7 @@ public class ChunkProvider implements IChunkProvider {
 	
 	private boolean debug = false;
 	
-	// Modified, simplified version for finite worlds
+	// Modified, simplified version for finite worlds by na_th_an
 
 	private Chunk[] chunkCache;
 	

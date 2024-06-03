@@ -84,3 +84,5 @@ Now spice it up a bit:
 * This was supposed the "peaceful" or "easy" variant, but I think something should be done to this. I know (or I believe) he original Aether was somewhat inspired in this. It would be nice to do some research and know where the aether came from and what were the initial builds and what kind of stuff they had and do something similar.
 
 * Add big flowers and some Aether stuff: bronze dungeons and some mobs would be a nice start.
+
+* [ ] The sky generator generated a FLOOR??? at y = 0

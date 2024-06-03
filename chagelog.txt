@@ -19,3 +19,8 @@ there's plenty of fossils.
 
 Wobbly server, need to do some proper review or port r125 netcode like in 
 Infhell. Will leave for later (next?).
+
+# v2024..
+
+* Selecting theme paradise pre-selects the sky generator if no world type was selected.
+* Sky generator works again.

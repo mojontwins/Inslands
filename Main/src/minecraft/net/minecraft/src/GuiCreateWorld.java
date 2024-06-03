@@ -25,7 +25,7 @@ public class GuiCreateWorld extends GuiScreen {
 	private GuiButton craftingGuideButton;
 	private String seed;
 	private String localizedNewWorldText;
-	private int worldType = 0;
+	private int worldType = -1;
 	private int themeId = 0;
 	private int sizeId = 1;
 	
@@ -108,7 +108,8 @@ public class GuiCreateWorld extends GuiScreen {
 		this.enableCheatsButton.displayString = var1.translateKey("selectWorld.enableCheats") + ": " + (this.enableCheats ? var1.translateKey("options.on") : var1.translateKey("options.off"));
 		this.craftingGuideButton.displayString = var1.translateKey("selectWorld.craftingGuide") + ": " + (this.craftGuide ? var1.translateKey("options.on") : var1.translateKey("options.off"));
 		
-		this.worldTypeButton.displayString = var1.translateKey("selectWorld.mapType") + ": " + var1.translateKey(WorldType.worldTypes[this.worldType].getTranslateName());
+		int i = this.worldType; if(i == -1) i = 0;
+		this.worldTypeButton.displayString = var1.translateKey("selectWorld.mapType") + ": " + var1.translateKey(WorldType.worldTypes[i].getTranslateName());
 	}
 
 	public static String func_25097_a(ISaveFormat par0ISaveFormat, String par1Str) {
@@ -164,6 +165,8 @@ public class GuiCreateWorld extends GuiScreen {
 				this.mc.gameSettings.enableCheats = this.enableCheats;
 				this.mc.gameSettings.craftGuide = this.craftGuide;
 				
+				if(this.worldType == -1) this.worldType = WorldType.INFDEV.id;
+				
 				WorldType.worldTypes[this.worldType].onGUICreateWorldPress();
 				this.mc.playerController = new PlayerControllerSP(this.mc);
 				LevelThemeGlobalSettings.loadThemeById(this.themeId);
@@ -180,6 +183,7 @@ public class GuiCreateWorld extends GuiScreen {
 				this.mc.displayGuiScreen((GuiScreen)null);
 				
 			} else if(par1GuiButton.id == 3) {
+				if(this.worldType == -1) this.worldType = WorldType.INFDEV.id;
 				this.moreOptions = !this.moreOptions;
 				this.gameModeButton.drawButton = !this.moreOptions;
 				this.levelSizeButton.drawButton = !this.moreOptions;
@@ -234,6 +238,7 @@ public class GuiCreateWorld extends GuiScreen {
 				if(this.themeId == LevelThemeSettings.allThemeSettings.size()) {
 					this.themeId = 0;
 				}
+				if(this.themeId == LevelThemeSettings.paradise.id && this.worldType == -1) this.worldType = WorldType.SKY.id;
 				this.updateCaptions();
 			} else if(par1GuiButton.id == 9) {
 				this.sizeId ++;

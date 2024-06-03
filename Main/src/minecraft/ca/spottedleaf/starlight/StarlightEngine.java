@@ -590,6 +590,7 @@ public class StarlightEngine {
 		try {
 			if (this.world.worldProvider.isNether || forcePerBiome) {
 				final Chunk chunk = this.getChunkInCache(chunkX, chunkZ);
+				if(chunk != null) {
 				final NibbleArray nibble = this.getNibbleFromCache(chunkX, chunkZ);
 				final int encodeOffset = this.coordinateOffset;
 
@@ -610,6 +611,7 @@ public class StarlightEngine {
 												| ((long)ALL_DIRECTIONS_BITSET << (6 + 6 + 16 + 4))
 												| FLAG_HAS_SIDED_TRANSPARENT_BLOCKS // don't know if the current block is transparent, must check.
 								);
+								}
 							}
 						}
 					}
