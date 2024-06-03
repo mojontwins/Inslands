@@ -32,7 +32,6 @@ import net.minecraft.src.BiomeGenThemeHell;
 import net.minecraft.src.BiomeGenThickForest;
 import net.minecraft.src.Block;
 import net.minecraft.src.ChunkCoordinates;
-import net.minecraft.src.ChunkProviderLoadOrGenerate;
 import net.minecraft.src.ColorizerFoliage;
 import net.minecraft.src.ColorizerGrass;
 import net.minecraft.src.ColorizerWater;
@@ -64,7 +63,6 @@ import net.minecraft.src.GuiMainMenu;
 import net.minecraft.src.GuiScreen;
 import net.minecraft.src.GuiSleepMP;
 import net.minecraft.src.GuiUnused;
-import net.minecraft.src.IChunkProvider;
 import net.minecraft.src.ISaveFormat;
 import net.minecraft.src.ISaveHandler;
 import net.minecraft.src.ItemRenderer;
@@ -1012,15 +1010,6 @@ public abstract class Minecraft implements Runnable {
 		this.ingameGUI.updateTick();
 		this.entityRenderer.getMouseOver(1.0F);
 		int i3;
-		if(this.thePlayer != null) {
-			IChunkProvider iChunkProvider1 = this.theWorld.getIChunkProvider();
-			if(iChunkProvider1 instanceof ChunkProviderLoadOrGenerate) {
-				ChunkProviderLoadOrGenerate chunkProviderLoadOrGenerate2 = (ChunkProviderLoadOrGenerate)iChunkProvider1;
-				i3 = MathHelper.floor_float((float)((int)this.thePlayer.posX)) >> 4;
-				int i4 = MathHelper.floor_float((float)((int)this.thePlayer.posZ)) >> 4;
-				chunkProviderLoadOrGenerate2.setCurrentChunkOver(i3, i4);
-			}
-		}
 
 		if(!this.isGamePaused && this.theWorld != null) {
 			this.playerController.updateController();
@@ -1417,14 +1406,6 @@ public abstract class Minecraft implements Runnable {
 				world1.emptyMethod1();
 			}
 
-			IChunkProvider iChunkProvider4 = world1.getIChunkProvider();
-			if(iChunkProvider4 instanceof ChunkProviderLoadOrGenerate) {
-				ChunkProviderLoadOrGenerate chunkProviderLoadOrGenerate5 = (ChunkProviderLoadOrGenerate)iChunkProvider4;
-				int i6 = MathHelper.floor_float((float)((int)this.thePlayer.posX)) >> 4;
-				int i7 = MathHelper.floor_float((float)((int)this.thePlayer.posZ)) >> 4;
-				chunkProviderLoadOrGenerate5.setCurrentChunkOver(i6, i7);
-			}
-
 			world1.spawnPlayerWithLoadedChunks(this.thePlayer);
 			if(world1.isNewWorld) {
 				world1.saveWorldIndirectly(this.loadingScreen);
@@ -1453,16 +1434,11 @@ public abstract class Minecraft implements Runnable {
 		int i3 = 0;
 		int i4 = s2 * 2 / 16 + 1;
 		i4 *= i4;
-		IChunkProvider iChunkProvider5 = this.theWorld.getIChunkProvider();
+
 		ChunkCoordinates chunkCoordinates6 = this.theWorld.getSpawnPoint();
 		if(this.thePlayer != null) {
 			chunkCoordinates6.posX = (int)this.thePlayer.posX;
 			chunkCoordinates6.posZ = (int)this.thePlayer.posZ;
-		}
-
-		if(iChunkProvider5 instanceof ChunkProviderLoadOrGenerate) {
-			ChunkProviderLoadOrGenerate chunkProviderLoadOrGenerate7 = (ChunkProviderLoadOrGenerate)iChunkProvider5;
-			chunkProviderLoadOrGenerate7.setCurrentChunkOver(chunkCoordinates6.posX >> 4, chunkCoordinates6.posZ >> 4);
 		}
 
 		// Preload ALL world
@@ -1554,12 +1530,6 @@ public abstract class Minecraft implements Runnable {
 		if(chunkCoordinates4 == null) {
 			chunkCoordinates4 = this.theWorld.getSpawnPoint();
 			z5 = false;
-		}
-
-		IChunkProvider iChunkProvider6 = this.theWorld.getIChunkProvider();
-		if(iChunkProvider6 instanceof ChunkProviderLoadOrGenerate) {
-			ChunkProviderLoadOrGenerate chunkProviderLoadOrGenerate7 = (ChunkProviderLoadOrGenerate)iChunkProvider6;
-			chunkProviderLoadOrGenerate7.setCurrentChunkOver(chunkCoordinates4.posX >> 4, chunkCoordinates4.posZ >> 4);
 		}
 
 		this.theWorld.setSpawnLocation();

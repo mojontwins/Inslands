@@ -319,13 +319,6 @@ public class World implements IBlockAccess {
 				this.worldInfo.setPlayerNBTTagCompound((NBTTagCompound)null);
 			}
 
-			if(this.chunkProvider instanceof ChunkProviderLoadOrGenerate) {
-				ChunkProviderLoadOrGenerate chunkProviderLoadOrGenerate3 = (ChunkProviderLoadOrGenerate)this.chunkProvider;
-				int i4 = MathHelper.floor_float((float)((int)entityPlayer1.posX)) >> 4;
-				int i5 = MathHelper.floor_float((float)((int)entityPlayer1.posZ)) >> 4;
-				chunkProviderLoadOrGenerate3.setCurrentChunkOver(i4, i5);
-			}
-
 			this.entityJoinedWorld(entityPlayer1);
 		} catch (Exception exception6) {
 			exception6.printStackTrace();
