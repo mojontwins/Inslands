@@ -313,3 +313,18 @@ java.lang.NullPointerException
 2024-06-03 16:19:10 [INFO] Stopping server
 2024-06-03 16:19:10 [INFO] Saving chunks
 2024-06-03 16:19:10 [INFO] Saving chunks
+2024-06-03 22:02:28 [INFO] Starting minecraft server InSlands v240602
+2024-06-03 22:02:28 [INFO] Loading properties
+2024-06-03 22:02:28 [INFO] Starting Minecraft server on *:25565
+2024-06-03 22:02:28 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-03 22:02:28 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-03 22:02:28 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-03 22:02:28 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-03 22:02:28 [INFO] Preparing level "world"
+2024-06-03 22:02:28 [INFO] Preparing start region for level 0
+2024-06-03 22:02:29 [INFO] Preparing spawn area: 69%
+2024-06-03 22:02:30 [INFO] Preparing start region for level 1
+2024-06-03 22:02:30 [INFO] Done (1802510300ns)! For help, type "help" or "?"
+2024-06-03 22:02:30 [INFO] Stopping server
+2024-06-03 22:02:30 [INFO] Saving chunks
+2024-06-03 22:02:30 [INFO] Saving chunks
