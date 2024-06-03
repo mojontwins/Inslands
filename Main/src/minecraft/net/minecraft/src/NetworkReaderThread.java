@@ -3,47 +3,49 @@ package net.minecraft.src;
 class NetworkReaderThread extends Thread {
 	final NetworkManager netManager;
 
-	NetworkReaderThread(final NetworkManager networkmanager, final String s) {
-		super(s);
-		this.netManager = networkmanager;
+	NetworkReaderThread(NetworkManager networkManager1, String string2) {
+		super(string2);
+		this.netManager = networkManager1;
 	}
 
-	@Override
 	public void run() {
 		synchronized(NetworkManager.threadSyncObject) {
 			++NetworkManager.numReadThreads;
-			// monitorexit(NetworkManager.threadSyncObject)
-			//break Label_0042;
 		}
 
-		try {
 		while(true) {
-				if (!NetworkManager.readNetworkPacket(this.netManager)) {
+			boolean z12 = false;
+
 			try {
-						Thread.sleep(2L);
-					}  catch (InterruptedException ex) {}
-					
+				z12 = true;
 				if(!NetworkManager.isRunning(this.netManager)) {
+					z12 = false;
 					break;
 				}
 
 				if(NetworkManager.isServerTerminating(this.netManager)) {
+					z12 = false;
 					break;
 				}
 
-					continue;
+				while(NetworkManager.readNetworkPacket(this.netManager)) {
 				}
+
+				try {
+					sleep(100L);
+				} catch (InterruptedException interruptedException15) {
 				}
 			} finally {
+				if(z12) {
 					synchronized(NetworkManager.threadSyncObject) {
 						--NetworkManager.numReadThreads;
 					}
-			// monitorexit(NetworkManager.threadSyncObject)
+				}
+			}
 		}
 
 		synchronized(NetworkManager.threadSyncObject) {
 			--NetworkManager.numReadThreads;
 		}
-	// monitorexit(NetworkManager.threadSyncObject)
 	}
 }

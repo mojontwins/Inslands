@@ -61,6 +61,7 @@ public class ChunkProviderServer implements IChunkProvider {
 		Chunk chunk = (Chunk)this.id2ChunkMap.get(hash);
 		if(chunk == null) {
 			chunk = this.loadChunkFromFile(chunkX, chunkZ);
+			boolean generated = chunk == null;
 			if(chunk == null) {
 				if(this.serverChunkGenerator == null) {
 					chunk = this.dummyChunk;
@@ -73,7 +74,7 @@ public class ChunkProviderServer implements IChunkProvider {
 			this.loadedChunksServer.add(chunk);
 			if(chunk != null) {
 				chunk.onChunkLoad();
-				chunk.initLightingForRealNotJustHeightmap();
+				if (generated) chunk.initLightingForRealNotJustHeightmap();
 			}
 
 			if(!chunk.isTerrainPopulated && this.chunkExists(chunkX + 1, chunkZ + 1) && this.chunkExists(chunkX, chunkZ + 1) && this.chunkExists(chunkX + 1, chunkZ)) {
