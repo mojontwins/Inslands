@@ -1,25 +1,32 @@
 <html>
-<head>Minecraft Inslands for b1.7.3</head>
+<head>
+	<title>Minecraft Inslands for b1.7.3</title>
+	<link rel="stylesheet" href="mystyle.css">
+</head>
 <body>
 	<div id="content">
-		<img src="logo.png" />
+		<img src="img/logo.png" />
 		<h1>Intro</h1>
 		<p><strong>Minecraft Inslands</strong> started as en experiments. I wanted to be able to play minecraft in really dated or limited hardware, specially hardware with slow storage, such as the early Asus Eee PC or Atom based laptops with MicroSDs cards on slow USB-like connections. Indev generated the whole world in memory once and played from there, but such an old version was not very well optimized and lacked many features I personally miss. So I had the idea on writing a custom WorldProvider for <strong>b1.7.3</strong> that created limited size worlds at once and stored them complete in RAM, so it could take advantage of a chunked world for better processing but it didn't have to rely on reading and writing new chunks to disk.</p>
 		<p><strong>Inslands</strong> generates a finite world (3 sizes available) and terraforms it so it forms an island surrounded by ocean, or a set of floating islands. Sometimes you get a big bunch of land, sometimes you just get a tiny archipielago.</p>
 		<p>Then I found it suitable to bring back the original Indev level themes and try to expand from there. When <strong>Inslands</strong> is complete, each level theme will have specific gameplay items and different experiences.</p>
 		<p><strong>Inslands</strong> is far for complete but I've decided to release a new build everytime I complete a set of features.</p>
 		<p>To play Inslands open b1.7.3's minecraft.jar and/or minecraft_server.jar with a file archiver, delete META_INF, and copy all files in the zips inside, or use the "add to jar" feature available in some launchers.</p>
+		<h2>Themes in the server</h2>
+		To select a level theme in the server use <tt>theme=Normal</tt>, <tt>Hell</tt>, <tt>Paradise</tt> or <tt>Forest</tt> in server.properties.
 		<h1>Releases (latest first)</h1>
 		<h2>v240602 - Theme hell features</h2>
-		<pre>Very few trees have an actual canopy, so you must find a way to make wood renewable. Also, seeds only drop from tall grass and there's no grass. Luckily, there's plenty of fossils.
-
-* Plant acorn on tilled field, fertilize to get new sapling.
-* You can fertilize dead dirt to get new grass (small chance) or mushrooms.
-* Big mushroom blocks can be smelted into charcoal. Charcoal and sticks gives you two torches.
-* Craft an iron boat with 6 iron ingots.
-* Added achievements for all the above.
-* Eating animation.
-* Small fixes.</pre>
-		<p><a href="inslands-v240602--client.zip">v240602 client</a> | <a href="inslands-v240602--server.zip">v240602 server</a></p>
+		<img src="img/2024-06-03_15.46.11.png" />
+		<p>Very few trees have an actual canopy, so you must find a way to make wood renewable. Also, seeds only drop from tall grass and there's no grass. Luckily, there's plenty of fossils.
+		<ul><li>Plant acorn on tilled field, fertilize to get new sapling.</li>
+		<li>You can fertilize dead dirt to get new grass (small chance) or mushrooms.</li>
+		<li>Big mushroom blocks can be smelted into charcoal. Charcoal and sticks gives you two torches.</li>
+		<li>Craft an iron boat with 6 iron ingots.
+		<li>Added achievements for all the above.</li>
+		<li>Eating animation.</li>
+		<li>Small fixes.</li></ul>
+		<h3>Known problems</h3>
+		<p>Wobbly server, need to do some proper review or port r125 netcode like in <strong>Infhell</strong>. Will leave for later (next?).</p>
+		<p><a href="zip/inslands-v240602--client.zip">v240602 client</a> | <a href="zip/inslands-v240602--server.zip">v240602 server</a></p>
 	</div>
 </body>

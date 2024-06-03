@@ -1,50 +1,60 @@
 package net.minecraft.src;
 
-import java.io.*;
+import java.io.IOException;
 
-class NetworkWriterThread extends Thread
-{
+class NetworkWriterThread extends Thread {
 	final NetworkManager netManager;
 
-    NetworkWriterThread(final NetworkManager networkmanager, final String s) {
-        super(s);
-        this.netManager = networkmanager;
+	NetworkWriterThread(NetworkManager networkManager1, String string2) {
+		super(string2);
+		this.netManager = networkManager1;
 	}
 
-    @Override
 	public void run() {
 		synchronized(NetworkManager.threadSyncObject) {
 			++NetworkManager.numWriteThreads;
 		}
-        // monitorexit(NetworkManager.threadSyncObject)
+
+		while(true) {
+			boolean z13 = false;
+
 			try {
-            while (NetworkManager.isRunning(this.netManager)) {
-                while (NetworkManager.sendNetworkPacket(this.netManager)) {}
-				try {
-	                    Thread.sleep(2L);
-				} catch (InterruptedException ex) {}
+				z13 = true;
+				if(!NetworkManager.isRunning(this.netManager)) {
+					z13 = false;
+					break;
+				}
+
+				while(NetworkManager.sendNetworkPacket(this.netManager)) {
+				}
 
 				try {
-                    if (NetworkManager.getSocketOutputStream(this.netManager) == null) {
-                        continue;
+					sleep(100L);
+				} catch (InterruptedException interruptedException16) {
+				}
+
+				try {
+					if(NetworkManager.getSocketOutputStream(this.netManager) != null) {
+						NetworkManager.getSocketOutputStream(this.netManager).flush();
 					}
-					NetworkManager.getSocketOutputStream(this.netManager).flush();
-				} catch (IOException ioexception) {
+				} catch (IOException iOException18) {
 					if(!NetworkManager.isTerminating(this.netManager)) {
-                        NetworkManager.onNetworkError(this.netManager, ioexception);
-                    }
-                    ioexception.printStackTrace();
+						NetworkManager.onNetworkError(this.netManager, iOException18);
 					}
+
+					iOException18.printStackTrace();
 				}
 			} finally {
+				if(z13) {
 					synchronized(NetworkManager.threadSyncObject) {
 						--NetworkManager.numWriteThreads;
 					}
-	        // monitorexit(NetworkManager.threadSyncObject)
 				}
+			}
+		}
+
 		synchronized(NetworkManager.threadSyncObject) {
 			--NetworkManager.numWriteThreads;
 		}
-       // monitorexit(NetworkManager.threadSyncObject)
 	}
 }

@@ -2,11 +2,14 @@
 
 ## Features: Theme Hell - Tough survival
 
-Very few trees have an actual canopy, so you must find a way to make wood renewable. Also, seeds only drop from tall grass and there's no grass. Luckily, there's plenty of fossils.
+Very few trees have an actual canopy, so you must find a way to make wood re-
+newable. Also, seeds only drop from tall grass and there's no grass. Luckily, 
+there's plenty of fossils.
 
 * Plant acorn on tilled field, fertilize to get new sapling.
 * You can fertilize dead dirt to get new grass (small chance) or mushrooms.
-* Big mushroom blocks can be smelted into charcoal. Charcoal and sticks gives you two torches.
+* Big mushroom blocks can be smelted into charcoal. Charcoal and sticks gives
+  you two torches.
 * Craft an iron boat with 6 iron ingots.
 * Added achievements for all the above.
 * Eating animation. 
@@ -14,4 +17,5 @@ Very few trees have an actual canopy, so you must find a way to make wood renewa
 
 ## Big problem
 
-Laggy server, need to do some proper review or port r125 netcode like in infhell. Will leave for later (next?)
+Wobbly server, need to do some proper review or port r125 netcode like in 
+Infhell. Will leave for later (next?).

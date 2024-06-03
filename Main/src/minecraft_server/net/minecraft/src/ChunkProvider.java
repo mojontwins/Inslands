@@ -8,7 +8,7 @@ public class ChunkProvider implements IChunkProvider {
 	private IChunkLoader chunkLoader;
 	private World worldObj;
 	
-	private boolean debug = false;
+	private boolean debug = true;
 	
 	// Modified, simplified version for finite worlds
 

@@ -590,26 +590,28 @@ public class StarlightEngine {
 		try {
 			if (this.world.worldProvider.isNether || forcePerBiome) {
 				final Chunk chunk = this.getChunkInCache(chunkX, chunkZ);
-				final NibbleArray nibble = this.getNibbleFromCache(chunkX, chunkZ);
-				final int encodeOffset = this.coordinateOffset;
-
-				for (int y = 0; y <= 127; ++y) {
-					for (int z = 0; z <= 15; ++z) {
-						for (int x = 0; x <= 15; ++x) {
-							final int blockState = chunk.getBlockID(x, y, z);
-							if (blockState == AIR_BLOCK_STATE) {
-								continue;
-							}
-							final int emittedLight = Block.lightValue[blockState];
-
-							if (emittedLight != 0) {
-								nibble.setNibble(x, y, z, emittedLight);
-								this.appendToIncreaseQueue(
-										(((x | (chunkX << 4)) + ((z | (chunkZ << 4)) << 6) + (y << (6 + 6)) + encodeOffset) & ((1L << (6 + 6 + 16)) - 1))
-												| ((emittedLight & 0xFL) << (6 + 6 + 16))
-												| ((long)ALL_DIRECTIONS_BITSET << (6 + 6 + 16 + 4))
-												| FLAG_HAS_SIDED_TRANSPARENT_BLOCKS // don't know if the current block is transparent, must check.
-								);
+				if(chunk != null) {
+					final NibbleArray nibble = this.getNibbleFromCache(chunkX, chunkZ);
+					final int encodeOffset = this.coordinateOffset;
+	
+					for (int y = 0; y <= 127; ++y) {
+						for (int z = 0; z <= 15; ++z) {
+							for (int x = 0; x <= 15; ++x) {
+								final int blockState = chunk.getBlockID(x, y, z);
+								if (blockState == AIR_BLOCK_STATE) {
+									continue;
+								}
+								final int emittedLight = Block.lightValue[blockState];
+	
+								if (emittedLight != 0) {
+									nibble.setNibble(x, y, z, emittedLight);
+									this.appendToIncreaseQueue(
+											(((x | (chunkX << 4)) + ((z | (chunkZ << 4)) << 6) + (y << (6 + 6)) + encodeOffset) & ((1L << (6 + 6 + 16)) - 1))
+													| ((emittedLight & 0xFL) << (6 + 6 + 16))
+													| ((long)ALL_DIRECTIONS_BITSET << (6 + 6 + 16 + 4))
+													| FLAG_HAS_SIDED_TRANSPARENT_BLOCKS // don't know if the current block is transparent, must check.
+									);
+								}
 							}
 						}
 					}
