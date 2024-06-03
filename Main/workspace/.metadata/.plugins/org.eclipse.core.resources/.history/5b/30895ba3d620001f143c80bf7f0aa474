@@ -1,9 +1,0 @@
-package net.minecraft.src;
-
-public class WorldGenFireWithSet {
-
-	public WorldGenFireWithSet() {
-		// TODO Auto-generated constructor stub
-	}
-
-}
