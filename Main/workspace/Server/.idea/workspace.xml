@@ -22,7 +22,7 @@
   </component>
   <component name="RunManager">
     <configuration name="Start" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Start" />
+      <option name="MAIN_CLASS_NAME" value="net.minecraft.server.MinecraftServer" />
       <module name="Server" />
       <option name="VM_PARAMETERS" value="-Xmx1024M -Xms1024M -Djava.util.Arrays.useLegacyMergeSort=true -Dhttp.proxyHost=betacraft.uk -Dhttp.proxyPort=11705" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../jars" />

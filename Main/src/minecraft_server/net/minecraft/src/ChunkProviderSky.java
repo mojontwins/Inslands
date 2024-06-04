@@ -10,7 +10,7 @@ public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkPro
 		super(world1, j2, b);
 	}
 
-	public void generateTerrain(int chunkX, int chunkZ, byte[] blocks, BiomeGenBase[] biomes, double[] temperatures) {
+	public void generateTerrain(int chunkX, int chunkZ, byte[] blocks) {
 		double noiseScale = 0.25D;
 		double yscalingFactor = 0.125D;
 		double densityVariationSpeed = 0.125D;
@@ -22,7 +22,7 @@ public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkPro
 		int cellSize2 = quadrantSize + 1;
 		short chunkHeight = 128;
 		
-		this.terrainNoise = this.initializeNoiseField(this.terrainNoise, chunkX * quadrantSize, 0, chunkZ * quadrantSize, cellSize, columnSize, cellSize2);
+		this.terrainNoise = this.initializeNoiseField(this.terrainNoise, chunkX * quadrantSize, 0, chunkZ * quadrantSize, cellSize, columnSize, cellSize2, chunkX, chunkZ);
 
 		for(int xSection = 0; xSection < quadrantSize; ++xSection) {
 			for(int zSection = 0; zSection < quadrantSize; ++zSection) {
@@ -76,7 +76,7 @@ public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkPro
 
 	}
 
-	public void replaceBlocksForBiome(int chunkX, int chunkZ, byte[] blocks, BiomeGenBase[] biomes) {
+	public void replaceBlocksForBiome(int chunkX, int chunkZ, byte[] blocks, byte[] metadata, BiomeGenBase[] biomes) {
 		double d5 = 8.0D / 256D;
 		this.sandNoise = this.noiseGenSandOrGravel.generateNoiseOctaves(this.sandNoise, (double)(chunkX * 16), (double)(chunkZ * 16), 0.0D, 16, 16, 1, d5, d5, 1.0D);
 		this.gravelNoise = this.noiseGenSandOrGravel.generateNoiseOctaves(this.gravelNoise, (double)(chunkX * 16), 109.0134D, (double)(chunkZ * 16), 16, 1, 16, d5, 1.0D, d5);
@@ -137,7 +137,7 @@ public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkPro
 	
 	public void terraform(int chunkX, int chunkZ, Chunk chunk, BiomeGenBase[] biomes) {
 		// fade world height to the edges of map. This uses formulae not dissimilar to those found in indev,
-		// albeit adapted to work with 3D perlin terrain divided in chunks! 
+		// albeit adapted to work with 3D terrain divided in chunks! 
 		
 		byte[] blocks = chunk.blocks;
 		
@@ -155,7 +155,7 @@ public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkPro
 				// Get noise
 				double noise = this.noiseIslandGen.generateNoise(xx * 0.05D, zz * 0.05D) / 4.0D + 1.0D;
 				
-				// Weird a bit with those values (noise and d) to get a nice fried agg shape
+				// Weird a bit with those values (noise and d) to get a nice fried egg shape
 				double factor = Math.max(Math.min(d, noise), Math.min(dx, dz));
 				
 				if(factor > 1.0D) factor = 1.0D;
@@ -210,32 +210,32 @@ public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkPro
 		return this.provideChunk(i1, i2);
 	}
 
-	private double[] initializeNoiseField(double[] d1, int i2, int i3, int i4, int i5, int i6, int i7) {
-		if(d1 == null) {
-			d1 = new double[i5 * i6 * i7];
+	private double[] initializeNoiseField(double[] densityMapArray, int x, int y, int z, int xSize, int ySize, int zSize, int chunkX, int chunkZ) {
+		if(densityMapArray == null) {
+			densityMapArray = new double[xSize * ySize * zSize];
 		}
 
 		double d8 = 684.412D;
-		double d10 = 684.412D;
-		double[] d12 = this.worldObj.getWorldChunkManager().temperature;
-		double[] d13 = this.worldObj.getWorldChunkManager().humidity;
-		this.scaleArray = this.scaleNoise.generateNoiseOctaves(this.scaleArray, i2, i4, i5, i7, 1.121D, 1.121D, 0.5D);
-		this.depthArray = this.depthNoise.generateNoiseOctaves(this.depthArray, i2, i4, i5, i7, 200.0D, 200.0D, 0.5D);
+		double densityMapArray0 = 684.412D;
+		double[] densityMapArray2 = this.worldObj.getWorldChunkManager().temperature;
+		double[] densityMapArray3 = this.worldObj.getWorldChunkManager().humidity;
+		this.scaleArray = this.scaleNoise.generateNoiseOctaves(this.scaleArray, x, z, xSize, zSize, 1.121D, 1.121D, 0.5D);
+		this.depthArray = this.depthNoise.generateNoiseOctaves(this.depthArray, x, z, xSize, zSize, 200.0D, 200.0D, 0.5D);
 		d8 *= 2.0D; 	// This makes the difference between overworld & sky dimension
-		this.mainArray = this.mainNoise.generateNoiseOctaves(this.mainArray, (double)i2, (double)i3, (double)i4, i5, i6, i7, d8 / 80.0D, d10 / 160.0D, d8 / 80.0D);
-		this.minLimitArray = this.minLimitNoise.generateNoiseOctaves(this.minLimitArray, (double)i2, (double)i3, (double)i4, i5, i6, i7, d8, d10, d8);
-		this.maxLimitArray = this.maxLimitNoise.generateNoiseOctaves(this.maxLimitArray, (double)i2, (double)i3, (double)i4, i5, i6, i7, d8, d10, d8);
+		this.mainArray = this.mainNoise.generateNoiseOctaves(this.mainArray, (double)x, (double)y, (double)z, xSize, ySize, zSize, d8 / 80.0D, densityMapArray0 / 160.0D, d8 / 80.0D);
+		this.minLimitArray = this.minLimitNoise.generateNoiseOctaves(this.minLimitArray, (double)x, (double)y, (double)z, xSize, ySize, zSize, d8, densityMapArray0, d8);
+		this.maxLimitArray = this.maxLimitNoise.generateNoiseOctaves(this.maxLimitArray, (double)x, (double)y, (double)z, xSize, ySize, zSize, d8, densityMapArray0, d8);
 		int i14 = 0;
 		int i15 = 0;
-		int i16 = 16 / i5;
+		int i16 = 16 / xSize;
 
-		for(int i17 = 0; i17 < i5; ++i17) {
+		for(int i17 = 0; i17 < xSize; ++i17) {
 			int i18 = i17 * i16 + i16 / 2;
 
-			for(int i19 = 0; i19 < i7; ++i19) {
-				int i20 = i19 * i16 + i16 / 2;
-				double d21 = d12[i18 * 16 + i20];
-				double d23 = d13[i18 * 16 + i20] * d21;
+			for(int i19 = 0; i19 < zSize; ++i19) {
+				int x0 = i19 * i16 + i16 / 2;
+				double d21 = densityMapArray2[i18 * 16 + x0];
+				double d23 = densityMapArray3[i18 * 16 + x0] * d21;
 				double d25 = 1.0D - d23;
 				d25 *= d25;
 				d25 *= d25;
@@ -263,13 +263,13 @@ public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkPro
 				}
 
 				d27 += 0.5D;
-				d29 = d29 * (double)i6 / 16.0D;
+				d29 = d29 * (double)ySize / 16.0D;
 				++i15;
-				double d31 = (double)i6 / 2.0D;
+				double d31 = (double)ySize / 2.0D;
 
-				for(int i33 = 0; i33 < i6; ++i33) {
+				for(int y3 = 0; y3 < ySize; ++y3) {
 					double d34 = 0.0D;
-					double d36 = ((double)i33 - d31) * 8.0D / d27;
+					double d36 = ((double)y3 - d31) * 8.0D / d27;
 					if(d36 < 0.0D) {
 						d36 *= -1.0D;
 					}
@@ -288,24 +288,24 @@ public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkPro
 					d34 -= 8.0D;
 					byte b44 = 32;
 					double d45;
-					if(i33 > i6 - b44) {
-						d45 = (double)((float)(i33 - (i6 - b44)) / ((float)b44 - 1.0F));
+					if(y3 > ySize - b44) {
+						d45 = (double)((float)(y3 - (ySize - b44)) / ((float)b44 - 1.0F));
 						d34 = d34 * (1.0D - d45) + -30.0D * d45;
 					}
 
 					b44 = 8;
-					if(i33 < b44) {
-						d45 = (double)((float)(b44 - i33) / ((float)b44 - 1.0F));
+					if(y3 < b44) {
+						d45 = (double)((float)(b44 - y3) / ((float)b44 - 1.0F));
 						d34 = d34 * (1.0D - d45) + -30.0D * d45;
 					}
 
-					d1[i14] = d34;
+					densityMapArray[i14] = d34;
 					++i14;
 				}
 			}
 		}
 
-		return d1;
+		return densityMapArray;
 	}
 	
 	public void populateOres(int x0, int z0, BiomeGenBase biomeGen) {

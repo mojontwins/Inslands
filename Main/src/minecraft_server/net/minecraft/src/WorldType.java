@@ -11,7 +11,7 @@ public class WorldType {
 	private final int generatorVersion;
 	private boolean canBeCreated;
 	private boolean field_48638_h;
-	private final int id;
+	public final int id;
 
 	protected WorldType(int par1, String par2Str) {
 		this(par1, par2Str, 0);

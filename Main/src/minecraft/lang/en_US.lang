@@ -457,6 +457,7 @@ tile.boneBlock.name=Bone block
 tile.divingHelmet.name=Diving helmet
 tile.piston.name=Piston
 tile.pistonSticky.name=Sticky piston
+tile.Aercloud.name=Aercloud
 
 item.shovelIron.name=Iron Shovel
 item.shovelIron.desc=

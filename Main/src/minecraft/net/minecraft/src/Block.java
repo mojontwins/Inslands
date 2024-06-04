@@ -7,6 +7,7 @@ import java.util.Random;
 import com.benimatic.twilightforest.BlockTFMazestone;
 import com.hippoplatimus.pistons.Piston;
 import com.hippoplatimus.pistons.PistonBase;
+import com.misc.aether.BlockAercloud;
 import com.mojang.minecraft.creative.CreativeTabs;
 
 
@@ -205,7 +206,9 @@ public class Block {
 	public static final Block boneBlock = (new BlockBone(167)).setHardness(1.0F).setResistance(10.0F).setStepSound(soundStoneFootstep).setBlockName("boneBlock");
 	public static final Block leafPile = (new BlockLeafPile(168)).setHardness(0.1F).setResistance(0.1F).setStepSound(soundGrassFootstep).setBlockName("leafPile");
 	
+	// Inslands customs
 	public static final Block acorn = (new BlockAcorn(200, 13*16 + 1)).setHardness(0.1F).setResistance(0.1F).setStepSound(soundGrassFootstep).setBlockName("Acorn");
+	public static final Block aercloud = (new BlockAercloud(201)).setHardness(0.1F).setResistance(0.1F).setStepSound(soundSlimeFootstep).setBlockName("Aercloud");
 	
 	// Pistons - sorry, different IDs
 	public static final Block classicPistonBase = (new PistonBase(252, 22, false)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("piston");

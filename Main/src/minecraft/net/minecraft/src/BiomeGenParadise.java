@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.misc.aether.AetherGenClouds;
+
 public class BiomeGenParadise extends BiomeGenBase {
 
 	public BiomeGenParadise() {
@@ -73,5 +75,61 @@ public class BiomeGenParadise extends BiomeGenBase {
 			z = chunkZ + rand.nextInt(16) + 8;
 			(new WorldGenFlowers(Block.blueFlower.blockID)).generate(world, rand, x, y, z);
 		}
+		
+		// Aether stuff
+		
+		// Aerclouds
+		
+		if (world.worldProvider instanceof WorldProviderSky) {
+			if(rand.nextInt(50) == 0) {
+				x = chunkX + rand.nextInt(16);
+				y = rand.nextInt(32) + 96;
+				z = chunkZ + rand.nextInt(16);
+				(new AetherGenClouds(Block.aercloud.blockID, 2, 4, false)).generate(world, rand, x, y, z);
+			}
+	
+			if(rand.nextInt(13) == 0) {
+				x = chunkX + rand.nextInt(16);
+				y = rand.nextInt(64) + 32;
+				z = chunkZ + rand.nextInt(16);
+				(new AetherGenClouds(Block.aercloud.blockID, 1, 8, false)).generate(world, rand, x, y, z);
+			}
+	
+			if(rand.nextInt(7) == 0) {
+				x = chunkX + rand.nextInt(16);
+				y = rand.nextInt(64) + 32;
+				z = chunkZ + rand.nextInt(16);
+				(new AetherGenClouds(Block.aercloud.blockID, 0, 16, false)).generate(world, rand, x, y, z);
+			}
+	
+			if(rand.nextInt(50) == 0) {
+				x = chunkX + rand.nextInt(16);
+				y = rand.nextInt(32);
+				z = chunkZ + rand.nextInt(16);
+				(new AetherGenClouds(Block.aercloud.blockID, 0, 64, true)).generate(world, rand, x, y, z);
+			}
+		} else {
+			if(rand.nextInt(32) == 0) {
+				x = chunkX + rand.nextInt(16);
+				y = rand.nextInt(96) + 32;
+				z = chunkZ + rand.nextInt(16);
+				(new AetherGenClouds(Block.aercloud.blockID, 2, 4, false)).generate(world, rand, x, y, z);
+			}
+	
+			if(rand.nextInt(13) == 0) {
+				x = chunkX + rand.nextInt(16);
+				y = rand.nextInt(112) + 16;
+				z = chunkZ + rand.nextInt(16);
+				(new AetherGenClouds(Block.aercloud.blockID, 1, 8, false)).generate(world, rand, x, y, z);
+			}
+			
+			if(rand.nextInt(32) == 0) {
+				x = chunkX + rand.nextInt(16);
+				y = rand.nextInt(96) + 32;
+				z = chunkZ + rand.nextInt(16);
+				(new AetherGenClouds(Block.aercloud.blockID, 0, 64, true)).generate(world, rand, x, y, z);
+			}
+		}
+
 	}
 }

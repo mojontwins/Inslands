@@ -24,3 +24,5 @@ Infhell. Will leave for later (next?).
 
 * Selecting theme paradise pre-selects the sky generator if no world type was selected.
 * Sky generator works again.
+* Falling into the void works again.
+* Aerclouds for paradise floating islands (from Aether).

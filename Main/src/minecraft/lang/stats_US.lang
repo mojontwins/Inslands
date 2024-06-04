@@ -134,10 +134,6 @@ achievement.meatBlock.desc=Craft a block of rotten flesh that attracts Zombies!
 
 achievement.themeHell=Welcome to hell!
 achievement.themeHell.desc=Start a new world with the "Hell" theme!
-achievement.themeForest=Song of the forest
-achievement.themeForest.desc=Start a new world with the "Forest" theme!
-achievement.themeParadise=Up here in heaven
-achievement.themeParadise.desc=Start a new word  with the  "Paradise" theme!
 achievement.charcoal=Something to burn
 achievement.charcoal.desc=Get charcoal from those big mugshrooms!
 achievement.grassFromSoil=Terraforming
@@ -148,3 +144,11 @@ achievement.fertilizeAcorn=A very small tree
 achievement.fertilizeAcorn.desc=Fertilize an acorn to get a sapling!
 achievement.ironBoat=Across the burning sea!
 achievement.ironBoat.desc=Build an iron boat, like a minecart with an extra ingot!
+
+achievement.themeForest=Song of the forest
+achievement.themeForest.desc=Start a new world with the "Forest" theme!
+
+achievement.themeParadise=Up here in heaven
+achievement.themeParadise.desc=Start a new word  with the  "Paradise" theme!
+achievement.blueCloud=To infinity and beyond!
+achievement.blueCloud.desc=Bounce on a blue cloud
