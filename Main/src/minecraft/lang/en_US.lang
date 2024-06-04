@@ -458,6 +458,10 @@ tile.divingHelmet.name=Diving helmet
 tile.piston.name=Piston
 tile.pistonSticky.name=Sticky piston
 tile.Aercloud.name=Aercloud
+tile.DungeonStone.name=Dungeon Stone
+tile.LightDungeonStone.name=Dungeon Stone
+tile.LockedDungeonStone.name=Dungeon Stone
+tile.LightLockedDungeonStone.name=Dungeon Stone
 
 item.shovelIron.name=Iron Shovel
 item.shovelIron.desc=
@@ -755,6 +759,7 @@ item.pirateCrown.name=Pirate crown
 item.acorn=Acorn
 item.charcoal=Charcoal
 item.ironBoat.name=Iron Boat
+item.AetherKey=Aether Key
 
 itemGroup.buildingBlocks=Building Blocks
 itemGroup.decorations=Decoration Blocks

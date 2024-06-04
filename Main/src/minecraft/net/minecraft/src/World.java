@@ -2134,6 +2134,8 @@ public class World implements IBlockAccess {
 	}
 
 	protected void badMoonDecide(long worldTime, int hourOfTheDay) {
+		if(!LevelThemeGlobalSettings.dayCycle) return;
+		
 		if(hourOfTheDay == Seasons.dayLengthTicks - 500) {
 			if (this.badMoonDecide == false) {
 				this.worldInfo.setBloodMoon((rand.nextInt(10) == 0 || this.nextMoonBad) ? true : false);

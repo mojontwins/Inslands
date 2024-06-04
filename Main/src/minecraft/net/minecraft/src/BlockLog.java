@@ -86,7 +86,7 @@ public class BlockLog extends Block {
 	}
 
 	protected int damageDropped(int i1) {
-		return i1;
+		return i1 & 3;
 	}
 	
 	public void onBlockPlaced(World world, int x, int y, int z, int side) {

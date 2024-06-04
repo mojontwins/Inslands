@@ -3,6 +3,7 @@ package net.minecraft.src;
 import java.util.Random;
 
 import com.misc.aether.AetherGenClouds;
+import com.misc.aether.AetherGenDungeonBronze;
 
 public class BiomeGenParadise extends BiomeGenBase {
 
@@ -129,6 +130,20 @@ public class BiomeGenParadise extends BiomeGenBase {
 				z = chunkZ + rand.nextInt(16);
 				(new AetherGenClouds(Block.aercloud.blockID, 0, 64, true)).generate(world, rand, x, y, z);
 			}
+		}
+		
+		for(int i = 0; i < 2; ++i) {
+			x = chunkX + rand.nextInt(16);
+			y = 32 + rand.nextInt(64);
+			z = chunkZ + rand.nextInt(16);
+			(new AetherGenDungeonBronze(
+					Block.lockedDungeonStone.blockID, 
+					Block.lockedLightDungeonStone.blockID, 
+					Block.dungeonStone.blockID, 
+					Block.lightDungeonStone.blockID, 
+					Block.cobblestoneMossy.blockID, 0, 
+					Block.cobblestone.blockID, 0, 
+					16, true)).generate(world, rand, x, y, z);
 		}
 
 	}

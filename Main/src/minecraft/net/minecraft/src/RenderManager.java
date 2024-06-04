@@ -21,6 +21,11 @@ import com.chocolatin.betterdungeons.ModelHuman;
 import com.chocolatin.betterdungeons.RenderHuman;
 import com.hippoplatimus.pistons.EntityMovingPiston;
 import com.hippoplatimus.pistons.MovingPistonRenderer;
+import com.misc.aether.EntityMimic;
+import com.misc.aether.EntitySlider;
+import com.misc.aether.ModelSlider;
+import com.misc.aether.RenderMimic;
+import com.misc.aether.RenderSlider;
 import com.mojang.minecraft.ocelot.EntityBetaOcelot;
 import com.mojang.minecraft.ocelot.EntityCatBlack;
 import com.mojang.minecraft.ocelot.EntityCatRed;
@@ -131,6 +136,10 @@ public class RenderManager {
 		this.entityRenderMap.put(EntityIceWarrior.class,  new RenderHuman(new ModelHuman(), 0.5F));
 		this.entityRenderMap.put(EntityIceArcher.class,  new RenderBiped(new ModelArcher(), 0.5F));
 		this.entityRenderMap.put(EntityIceBoss.class,  new RenderIceBoss(new ModelIceBoss(), 0.5F));
+		
+		// Aether
+		this.entityRenderMap.put(EntityMimic.class,  new RenderMimic());
+		this.entityRenderMap.put(EntitySlider.class, new RenderSlider(new ModelSlider(), 0.5F));
 		
 		// Traders
 		/*
