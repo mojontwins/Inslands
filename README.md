@@ -85,4 +85,6 @@ Now spice it up a bit:
 
 * Add big flowers and some Aether stuff: bronze dungeons and some mobs would be a nice start.
 
-* [ ] The sky generator generated a FLOOR??? at y = 0
+* [X] The sky generator generated a FLOOR??? at y = 0
+* [X] Ported Aether stuff
+* [ ] Ultra bothered by the fact that apparently a bunch of mobs are being spawned in the sun light?!!?
