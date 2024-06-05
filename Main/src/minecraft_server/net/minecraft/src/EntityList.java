@@ -12,6 +12,11 @@ import com.chocolatin.betterdungeons.EntityPirateArcher;
 import com.chocolatin.betterdungeons.EntityPirateBoss;
 import com.chocolatin.betterdungeons.EntitySecretBoss;
 import com.hippoplatimus.pistons.EntityMovingPiston;
+import com.misc.aether.EntityFlyingCow;
+import com.misc.aether.EntityMimic;
+import com.misc.aether.EntityPhyg;
+import com.misc.aether.EntitySheepuff;
+import com.misc.aether.EntitySlider;
 import com.mojang.minecraft.ocelot.EntityBetaOcelot;
 import com.mojang.minecraft.ocelot.EntityCatBlack;
 import com.mojang.minecraft.ocelot.EntityCatRed;
@@ -174,6 +179,13 @@ public class EntityList {
 		addMapping(EntityIceBoss.class, "IceBoss", 124);
 		
 		addMapping(EntityPigZombieVolcanoes.class, "PigZombieVolcanoes", 125);
+		
+		// Aether
+		addMapping(EntityMimic.class, "Mimic", 60);
+		addMapping(EntitySlider.class, "Slider", 61);
+		addMapping(EntityPhyg.class, "Phyg", 62);
+		addMapping(EntityFlyingCow.class, "FlyingCow", 63);
+		addMapping(EntitySheepuff.class, "Sheepuff", 64);
 		
 		// Trading
 		/*

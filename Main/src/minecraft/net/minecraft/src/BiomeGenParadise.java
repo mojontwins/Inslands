@@ -4,6 +4,9 @@ import java.util.Random;
 
 import com.misc.aether.AetherGenClouds;
 import com.misc.aether.AetherGenDungeonBronze;
+import com.misc.aether.EntityFlyingCow;
+import com.misc.aether.EntityPhyg;
+import com.misc.aether.EntitySheepuff;
 
 public class BiomeGenParadise extends BiomeGenBase {
 
@@ -16,6 +19,21 @@ public class BiomeGenParadise extends BiomeGenBase {
 		this.yellowFlowersAttempts = 24;
 		
 		this.foliageColorizer = 0;
+		
+		// TODO: Refine which monsters should appear...
+		this.spawnableMonsterList.clear();
+		this.spawnableMonsterList.add(new SpawnListEntry(EntitySpider.class, 10));
+		this.spawnableMonsterList.add(new SpawnListEntry(EntityZombie.class, 10));
+		this.spawnableMonsterList.add(new SpawnListEntry(EntitySkeleton.class, 10));
+		this.spawnableMonsterList.add(new SpawnListEntry(EntityCreeper.class, 10));
+		this.spawnableMonsterList.add(new SpawnListEntry(EntitySlime.class, 10));
+		
+		// TODO: Replace with aether variants
+		this.spawnableCreatureList.clear();
+		this.spawnableCreatureList.add(new SpawnListEntry(EntitySheepuff.class, 12));
+		this.spawnableCreatureList.add(new SpawnListEntry(EntityPhyg.class, 10));
+		this.spawnableCreatureList.add(new SpawnListEntry(EntityChicken.class, 10));
+		this.spawnableCreatureList.add(new SpawnListEntry(EntityFlyingCow.class, 8));
 	}
 
 	public int getAlgaeAmount() {

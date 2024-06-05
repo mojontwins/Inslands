@@ -21,10 +21,23 @@ import com.chocolatin.betterdungeons.ModelHuman;
 import com.chocolatin.betterdungeons.RenderHuman;
 import com.hippoplatimus.pistons.EntityMovingPiston;
 import com.hippoplatimus.pistons.MovingPistonRenderer;
+import com.misc.aether.EntityFlyingCow;
 import com.misc.aether.EntityMimic;
+import com.misc.aether.EntityPhyg;
+import com.misc.aether.EntitySheepuff;
 import com.misc.aether.EntitySlider;
+import com.misc.aether.ModelFlyingCow1;
+import com.misc.aether.ModelFlyingCow2;
+import com.misc.aether.ModelFlyingPig1;
+import com.misc.aether.ModelFlyingPig2;
+import com.misc.aether.ModelSheepuff1;
+import com.misc.aether.ModelSheepuff2;
+import com.misc.aether.ModelSheepuff3;
 import com.misc.aether.ModelSlider;
+import com.misc.aether.RenderFlyingCow;
 import com.misc.aether.RenderMimic;
+import com.misc.aether.RenderPhyg;
+import com.misc.aether.RenderSheepuff;
 import com.misc.aether.RenderSlider;
 import com.mojang.minecraft.ocelot.EntityBetaOcelot;
 import com.mojang.minecraft.ocelot.EntityCatBlack;
@@ -140,6 +153,9 @@ public class RenderManager {
 		// Aether
 		this.entityRenderMap.put(EntityMimic.class,  new RenderMimic());
 		this.entityRenderMap.put(EntitySlider.class, new RenderSlider(new ModelSlider(), 0.5F));
+		this.entityRenderMap.put(EntityPhyg.class, new RenderPhyg(new ModelFlyingPig1(), new ModelFlyingPig2(), 0.7F));
+		this.entityRenderMap.put(EntityFlyingCow.class, new RenderFlyingCow(new ModelFlyingCow1(), new ModelFlyingCow2(), 0.7F));
+		this.entityRenderMap.put(EntitySheepuff.class, new RenderSheepuff(new ModelSheepuff1(), new ModelSheepuff2(), new ModelSheepuff3(), 0.7F));
 		
 		// Traders
 		/*

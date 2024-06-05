@@ -6,10 +6,13 @@ public class LevelThemeGlobalSettings {
 	public static BiomeGenBase levelThemeMainBiome = BiomeGenBase.themeParadise;
 	public static double temperature = 0.6D;
 	public static double humidity = 0.6D;
-	public static boolean permaSpring = true;
+	public static int permaSeason = -1;
 	public static int overlay = -1;
 	public static int themeID = 0;
 	public static int worldTypeID = 0;
+	public static boolean canSnow = true;
+	public static boolean canRain = true;
+	public static boolean canThunder = true;
 	
 	public static void loadThemeById(int id) {
 		LevelThemeSettings settings = LevelThemeSettings.findThemeById(id);
@@ -19,8 +22,11 @@ public class LevelThemeGlobalSettings {
 			levelThemeMainBiome = settings.levelThemeMainBiome;
 			temperature = settings.temperature;
 			humidity = settings.humidity;
-			permaSpring = settings.permaSpring;
+			permaSeason = settings.permaSeason;
 			overlay = -1;
+			canSnow = settings.canSnow;
+			canRain = settings.canRain;
+			canThunder = settings.canThunder;
 			themeID = id;
 		}
 	}

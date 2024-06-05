@@ -3,6 +3,7 @@ package net.minecraft.src;
 import java.util.List;
 import java.util.Random;
 
+import com.misc.aether.ItemAetherKey;
 import com.mojang.minecraft.creative.CreativeTabs;
 import com.mojontwins.minecraft.entity.status.Status;
 
@@ -157,6 +158,7 @@ public class Item {
 	public static Item acornSeed = new ItemAcornSeed(1100).setIconIndex(13*16).setItemName("acornSeed").setCreativeTab(CreativeTabs.tabMisc);
 	public static Item charcoal = new Item(1101).setIconIndex(13*16+10).setItemName("charcoal").setCreativeTab(CreativeTabs.tabMaterials);
 	public static Item boat_iron = (new ItemBoat(1102, true)).setIconIndex(13*16+1).setItemName("ironBoat");
+	public static Item key = (new ItemAetherKey(1103)).setItemName("AetherKey");
 	
 	public static Item achievementHell = new Item(1200).setIconIndex(12*16+5).setShowInCreative(false);
 	public static Item achievementForest = new Item(1201).setIconIndex(12*16+6).setShowInCreative(false);

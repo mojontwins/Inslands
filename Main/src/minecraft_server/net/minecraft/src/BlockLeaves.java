@@ -46,6 +46,10 @@ public class BlockLeaves extends BlockLeavesBase {
 		return Random.nextInt(50) == 0 ? Item.appleRed.shiftedIndex : Block.sapling.blockID;
 	}
 
+	protected int damageDropped(int meta) {
+		return meta & 0xf0;
+	}
+	
 	public boolean isOpaqueCube() {
 		return !this.graphicsLevel;
 	}

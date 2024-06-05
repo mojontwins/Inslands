@@ -8,6 +8,9 @@ import com.benimatic.twilightforest.BlockTFMazestone;
 import com.hippoplatimus.pistons.Piston;
 import com.hippoplatimus.pistons.PistonBase;
 import com.misc.aether.BlockAercloud;
+import com.misc.aether.BlockChestMimic;
+import com.misc.aether.BlockDungeon;
+import com.misc.aether.BlockTrap;
 import com.mojang.minecraft.creative.CreativeTabs;
 
 
@@ -209,13 +212,20 @@ public class Block {
 	// Inslands customs
 	public static final Block acorn = (new BlockAcorn(200, 13*16 + 1)).setHardness(0.1F).setResistance(0.1F).setStepSound(soundGrassFootstep).setBlockName("Acorn");
 	public static final Block aercloud = (new BlockAercloud(201)).setHardness(0.1F).setResistance(0.1F).setStepSound(soundSlimeFootstep).setBlockName("Aercloud");
+	public static final Block trap = (new BlockTrap(202)).setHardness(2.0F).setResistance(5.0F).setStepSound(soundStoneFootstep).setBlockName("Trap");
+	public static final Block chestMimic = (new BlockChestMimic(203)).setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setBlockName("Mimic");
+	public static final Block dungeonStone = (new BlockDungeon(204)).setHardness(0.5F).setStepSound(Block.soundStoneFootstep).setBlockName("DungeonStone");
+	public static final Block lightDungeonStone = (new BlockDungeon(205)).setHardness(0.5F).setStepSound(Block.soundStoneFootstep).setLightValue(0.75F).setBlockName("LightDungeonStone");
+	public static final Block lockedDungeonStone = (new BlockDungeon(206)).setHardness(-1.0F).setResistance(1000000.0F).setStepSound(Block.soundStoneFootstep).setBlockName("LockedDungeonStone");
+	public static final Block lockedLightDungeonStone = (new BlockDungeon(208)).setHardness(-1.0F).setResistance(1000000.0F).setStepSound(Block.soundStoneFootstep).setLightValue(0.5F).setBlockName("LightLockedDungeonStone");
 	
 	// Pistons - sorry, different IDs
 	public static final Block classicPistonBase = (new PistonBase(252, 22, false)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("piston");
 	public static final Block classicPiston = (new Piston(253, 22, false)).setHardness(1.5F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("piston");
 	public static final Block classicStickyPistonBase = (new PistonBase(254, 23, true)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("pistonSticky");
 	public static final Block classicStickyPiston = (new Piston(255, 23, true)).setLightOpacity(0).setHardness(1.5F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("pistonSticky");
-
+	
+	
 	public int blockIndexInTexture;
 	public final int blockID;
 	protected float blockHardness;

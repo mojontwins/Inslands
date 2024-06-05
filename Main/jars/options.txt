@@ -1,8 +1,8 @@
-music:1.0
-sound:1.0
+music:0.0
+sound:0.0
 invertYMouse:false
 mouseSensitivity:0.5
-viewDistance:2
+viewDistance:1
 guiScale:0
 bobView:true
 anaglyph3d:false

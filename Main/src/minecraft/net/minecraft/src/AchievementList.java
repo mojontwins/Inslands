@@ -69,6 +69,7 @@ public class AchievementList {
 	
 	public static Achievement blueCloud = (new Achievement(58, "blueCloud",        14,  1, Block.aercloud, themeParadise)).registerAchievement();
 	public static Achievement defeatBronze = (new Achievement(59, "defeatBronze",  14,  2, Item.key, themeParadise)).registerAchievement();
+	public static Achievement flyingPig = (new Achievement(60, "flyingPig",        14,  3, Item.saddle, themeParadise)).registerAchievement();
 	
 	public static void func_27374_a() {
 	}

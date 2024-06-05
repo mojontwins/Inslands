@@ -2032,3 +2032,1252 @@ user global configuration and to define the default location to store repositori
 not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
 EGit might behave differently since they see different configuration options.
 This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-04 22:29:30.915
+!MESSAGE Exception occurred during compilation unit conversion:
+----------------------------------- SOURCE BEGIN -------------------------------------
+package net.minecraft.src;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class AchievementList {
+	public static int minDisplayColumn;
+	public static int minDisplayRow;
+	public static int maxDisplayColumn;
+	public static int maxDisplayRow;
+	public static List<Achievement> achievementList = new ArrayList<Achievement>();
+	public static Achievement openInventory = (new Achievement(0, "openInventory",   0,  0, Item.book, (Achievement)null)).setIndependent().registerAchievement();
+	public static Achievement mineWood = (new Achievement(1, "mineWood",             2,  1, Block.wood, openInventory)).registerAchievement();
+	public static Achievement buildWorkBench = (new Achievement(2, "buildWorkBench", 4, -1, Block.workbench, mineWood)).registerAchievement();
+	public static Achievement buildPickaxe = (new Achievement(3, "buildPickaxe",     4,  2, Item.pickaxeWood, buildWorkBench)).registerAchievement();
+	public static Achievement buildFurnace = (new Achievement(4, "buildFurnace",     3,  4, Block.stoneOvenActive, buildPickaxe)).registerAchievement();
+	public static Achievement acquireIron = (new Achievement(5, "acquireIron",       1,  4, Item.ingotIron, buildFurnace)).registerAchievement();
+	public static Achievement buildHoe = (new Achievement(6, "buildHoe",             2, -3, Item.hoeWood, buildWorkBench)).registerAchievement();
+	public static Achievement makeBread = (new Achievement(7, "makeBread",          -1, -3, Item.bread, buildHoe)).registerAchievement();
+	public static Achievement bakeCake = (new Achievement(8, "bakeCake",             0, -5, Item.cake, buildHoe)).registerAchievement();
+	public static Achievement buildBetterPickaxe = (new Achievement(9, "buildBetterPickaxe", 6, 2, Item.pickaxeStone, buildPickaxe)).registerAchievement();
+	public static Achievement cookFish = (new Achievement(10, "cookFish",            2,  6, Item.fishCooked, buildFurnace)).registerAchievement();
+	public static Achievement onARail = (new Achievement(11, "onARail",              2,  3, Block.rail, acquireIron)).setSpecial().registerAchievement();
+	public static Achievement buildSword = (new Achievement(12, "buildSword",        6, -1, Item.swordWood, buildWorkBench)).registerAchievement();
+	public static Achievement killEnemy = (new Achievement(13, "killEnemy",          8, -1, Item.bone, buildSword)).registerAchievement();
+	public static Achievement killCow = (new Achievement(14, "killCow",              7, -3, Item.leather, buildSword)).registerAchievement();
+	public static Achievement flyPig = (new Achievement(15, "flyPig",                8, -4, Item.saddle, killCow)).setSpecial().registerAchievement();
+	
+	public static Achievement getStatus = (new Achievement(16, "getStatus",         -2,  0, Item.potionEmpty, (Achievement) null)).setIndependent().registerAchievement();
+	public static Achievement diamonds = (new Achievement(17, "diamonds",           -1,  5, Item.diamond, acquireIron)).registerAchievement();
+	
+	public static Achievement currency = (new Achievement(18, "currency",           -1,  6, Item.ruby, acquireIron)).registerAchievement();	
+	public static Achievement hireAmazon = (new Achievement(19, "hireAmazon",       -2,  6, Item.amazonFace, currency)).registerAchievement();
+	public static Achievement bootsOfLeather = (new Achievement(20, "bootsOfLeather",8, -3, Item.bootsLeather, killCow)).setSpecial().registerAchievement();
+	public static Achievement bangBang = (new Achievement(21, "bangBang",            9, -1, Item.slingshot, killEnemy)).registerAchievement();
+	public static Achievement slimeBoss = (new Achievement(22, "slimeBoss",          9,  0, Item.slimeBall, killEnemy)).setSpecial().registerAchievement();
+	public static Achievement chestRobber = (new Achievement(23, "chestRobber",     -2,  2, Block.chest, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	
+	public static Achievement gotDizzy = (new Achievement(24, "gotDizzy",           -4,  7, Item.dizzy, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement cryingObsidian = (new Achievement(25, "cryingObsidian", -4, 5, Block.cryingObsidian, diamonds)).registerAchievement();
+	public static Achievement usedCryingObsidianWand = (new Achievement(26, "usedCryingObsidianWand", -6, 5, Item.cryingObsidianWand, cryingObsidian)).setSpecial().registerAchievement();
+	
+	public static Achievement pirateKill = (new Achievement(27, "pirateKill",        7,  1, Item.pirateFace, buildSword)).registerAchievement();
+	public static Achievement pirateDress = (new Achievement(28, "pirateDress",     10,  1, Item.helmetPirate, pirateKill)).registerAchievement();
+	public static Achievement pirateKing = (new Achievement(29, "pirateKing",        8,  3, Item.pirateSigil, pirateKill)).registerAchievement();
+	public static Achievement pirateCrown = (new Achievement(30, "pirateCrown",      8,  5, Item.pirateCrown, pirateKing)).setSpecial().registerAchievement();
+
+	/*
+	public static Achievement gotChilly = (new Achievement(31, "gotChilly",         -3, -2, Block.ice, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement warmed = (new Achievement(32, "warmed",               -5, -2, Block.fire, gotChilly)).registerAchievement();
+	public static Achievement iceKiller = (new Achievement(33, "iceKiller",         -4, -4, Item.bone, gotChilly)).registerAchievement();
+	public static Achievement dressedInRags = (new Achievement(34, "dressedInRags", -6, -4, Item.plateRags, iceKiller)).setSpecial().registerAchievement();
+	public static Achievement warmedByOven = (new Achievement(35, "warmedByOven",   -5, -1, Block.stoneOvenActive, gotChilly)).registerAchievement();
+	*/
+	
+	public static Achievement zombie = (new Achievement(39, "zombie",                6, -5, Item.zombieFace, buildSword)).setSpecial().registerAchievement();
+	public static Achievement zombieMeat = (new Achievement(40, "zombieMeat",        8, -6, Item.rottenFlesh, zombie)).registerAchievement();
+	public static Achievement meatBlock = (new Achievement(41, "meatBlock",         10, -6, Block.fleshBlock, zombieMeat)).registerAchievement();
+	
+	public static Achievement themeHell = (new Achievement(50, "themeHell",         12, -6, Item.achievementHell, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement themeForest = (new Achievement(51, "themeForest",     12, -2, Item.achievementForest, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement themeParadise = (new Achievement(52, "themeParadise", 12,  2, Item.achievementParadise, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	
+	public static Achievement charcoal = (new Achievement(53, "charcoal",           14, -7, Item.charcoal, themeHell)).registerAchievement();
+	public static Achievement grassFromSoil = (new Achievement(54, "grassFromSoil", 14, -6, Block.grass, themeHell)).registerAchievement();
+	public static Achievement plantAcorn = (new Achievement(55, "plantAcorn",       14, -5, Item.acornSeed, themeHell)).registerAchievement();
+	public static Achievement fertilizeAcorn = (new Achievement(56, "fertilizeAcorn", 16, -5, Block.sapling, plantAcorn)).setSpecial().registerAchievement();
+	public static Achievement ironBoat = (new Achievement(57, "ironBoat",           14, -4, Item.boat_iron, themeHell)).registerAchievement();
+	
+	public static Achievement blueCloud = (new Achievement(58, "blueCloud",        14,  1, Block.aercloud, themeParadise)).registerAchievement();
+	public static Achievement defeatBronze = (new Achievement(59, "defeatBronze",  14,  2, Item.key, themeParadise)).registerAchievement();
+	public static Achievement p
+	
+	public static void func_27374_a() {
+	}
+
+	static {
+		System.out.println(achievementList.size() + " achievements");
+	}
+}
+
+----------------------------------- SOURCE END -------------------------------------
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToFieldDeclaration(ASTConverter.java:3630)
+	at org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration(ASTConverter.java:541)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:201)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 2 2024-06-04 22:29:30.916
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.ui".
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToFieldDeclaration(ASTConverter.java:3630)
+	at org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration(ASTConverter.java:541)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:201)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 0 2024-06-04 22:29:30.917
+!MESSAGE Error in JDT Core during reconcile
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToFieldDeclaration(ASTConverter.java:3630)
+	at org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration(ASTConverter.java:541)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:201)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-04 22:29:31.930
+!MESSAGE Exception occurred during compilation unit conversion:
+----------------------------------- SOURCE BEGIN -------------------------------------
+package net.minecraft.src;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class AchievementList {
+	public static int minDisplayColumn;
+	public static int minDisplayRow;
+	public static int maxDisplayColumn;
+	public static int maxDisplayRow;
+	public static List<Achievement> achievementList = new ArrayList<Achievement>();
+	public static Achievement openInventory = (new Achievement(0, "openInventory",   0,  0, Item.book, (Achievement)null)).setIndependent().registerAchievement();
+	public static Achievement mineWood = (new Achievement(1, "mineWood",             2,  1, Block.wood, openInventory)).registerAchievement();
+	public static Achievement buildWorkBench = (new Achievement(2, "buildWorkBench", 4, -1, Block.workbench, mineWood)).registerAchievement();
+	public static Achievement buildPickaxe = (new Achievement(3, "buildPickaxe",     4,  2, Item.pickaxeWood, buildWorkBench)).registerAchievement();
+	public static Achievement buildFurnace = (new Achievement(4, "buildFurnace",     3,  4, Block.stoneOvenActive, buildPickaxe)).registerAchievement();
+	public static Achievement acquireIron = (new Achievement(5, "acquireIron",       1,  4, Item.ingotIron, buildFurnace)).registerAchievement();
+	public static Achievement buildHoe = (new Achievement(6, "buildHoe",             2, -3, Item.hoeWood, buildWorkBench)).registerAchievement();
+	public static Achievement makeBread = (new Achievement(7, "makeBread",          -1, -3, Item.bread, buildHoe)).registerAchievement();
+	public static Achievement bakeCake = (new Achievement(8, "bakeCake",             0, -5, Item.cake, buildHoe)).registerAchievement();
+	public static Achievement buildBetterPickaxe = (new Achievement(9, "buildBetterPickaxe", 6, 2, Item.pickaxeStone, buildPickaxe)).registerAchievement();
+	public static Achievement cookFish = (new Achievement(10, "cookFish",            2,  6, Item.fishCooked, buildFurnace)).registerAchievement();
+	public static Achievement onARail = (new Achievement(11, "onARail",              2,  3, Block.rail, acquireIron)).setSpecial().registerAchievement();
+	public static Achievement buildSword = (new Achievement(12, "buildSword",        6, -1, Item.swordWood, buildWorkBench)).registerAchievement();
+	public static Achievement killEnemy = (new Achievement(13, "killEnemy",          8, -1, Item.bone, buildSword)).registerAchievement();
+	public static Achievement killCow = (new Achievement(14, "killCow",              7, -3, Item.leather, buildSword)).registerAchievement();
+	public static Achievement flyPig = (new Achievement(15, "flyPig",                8, -4, Item.saddle, killCow)).setSpecial().registerAchievement();
+	
+	public static Achievement getStatus = (new Achievement(16, "getStatus",         -2,  0, Item.potionEmpty, (Achievement) null)).setIndependent().registerAchievement();
+	public static Achievement diamonds = (new Achievement(17, "diamonds",           -1,  5, Item.diamond, acquireIron)).registerAchievement();
+	
+	public static Achievement currency = (new Achievement(18, "currency",           -1,  6, Item.ruby, acquireIron)).registerAchievement();	
+	public static Achievement hireAmazon = (new Achievement(19, "hireAmazon",       -2,  6, Item.amazonFace, currency)).registerAchievement();
+	public static Achievement bootsOfLeather = (new Achievement(20, "bootsOfLeather",8, -3, Item.bootsLeather, killCow)).setSpecial().registerAchievement();
+	public static Achievement bangBang = (new Achievement(21, "bangBang",            9, -1, Item.slingshot, killEnemy)).registerAchievement();
+	public static Achievement slimeBoss = (new Achievement(22, "slimeBoss",          9,  0, Item.slimeBall, killEnemy)).setSpecial().registerAchievement();
+	public static Achievement chestRobber = (new Achievement(23, "chestRobber",     -2,  2, Block.chest, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	
+	public static Achievement gotDizzy = (new Achievement(24, "gotDizzy",           -4,  7, Item.dizzy, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement cryingObsidian = (new Achievement(25, "cryingObsidian", -4, 5, Block.cryingObsidian, diamonds)).registerAchievement();
+	public static Achievement usedCryingObsidianWand = (new Achievement(26, "usedCryingObsidianWand", -6, 5, Item.cryingObsidianWand, cryingObsidian)).setSpecial().registerAchievement();
+	
+	public static Achievement pirateKill = (new Achievement(27, "pirateKill",        7,  1, Item.pirateFace, buildSword)).registerAchievement();
+	public static Achievement pirateDress = (new Achievement(28, "pirateDress",     10,  1, Item.helmetPirate, pirateKill)).registerAchievement();
+	public static Achievement pirateKing = (new Achievement(29, "pirateKing",        8,  3, Item.pirateSigil, pirateKill)).registerAchievement();
+	public static Achievement pirateCrown = (new Achievement(30, "pirateCrown",      8,  5, Item.pirateCrown, pirateKing)).setSpecial().registerAchievement();
+
+	/*
+	public static Achievement gotChilly = (new Achievement(31, "gotChilly",         -3, -2, Block.ice, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement warmed = (new Achievement(32, "warmed",               -5, -2, Block.fire, gotChilly)).registerAchievement();
+	public static Achievement iceKiller = (new Achievement(33, "iceKiller",         -4, -4, Item.bone, gotChilly)).registerAchievement();
+	public static Achievement dressedInRags = (new Achievement(34, "dressedInRags", -6, -4, Item.plateRags, iceKiller)).setSpecial().registerAchievement();
+	public static Achievement warmedByOven = (new Achievement(35, "warmedByOven",   -5, -1, Block.stoneOvenActive, gotChilly)).registerAchievement();
+	*/
+	
+	public static Achievement zombie = (new Achievement(39, "zombie",                6, -5, Item.zombieFace, buildSword)).setSpecial().registerAchievement();
+	public static Achievement zombieMeat = (new Achievement(40, "zombieMeat",        8, -6, Item.rottenFlesh, zombie)).registerAchievement();
+	public static Achievement meatBlock = (new Achievement(41, "meatBlock",         10, -6, Block.fleshBlock, zombieMeat)).registerAchievement();
+	
+	public static Achievement themeHell = (new Achievement(50, "themeHell",         12, -6, Item.achievementHell, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement themeForest = (new Achievement(51, "themeForest",     12, -2, Item.achievementForest, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement themeParadise = (new Achievement(52, "themeParadise", 12,  2, Item.achievementParadise, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	
+	public static Achievement charcoal = (new Achievement(53, "charcoal",           14, -7, Item.charcoal, themeHell)).registerAchievement();
+	public static Achievement grassFromSoil = (new Achievement(54, "grassFromSoil", 14, -6, Block.grass, themeHell)).registerAchievement();
+	public static Achievement plantAcorn = (new Achievement(55, "plantAcorn",       14, -5, Item.acornSeed, themeHell)).registerAchievement();
+	public static Achievement fertilizeAcorn = (new Achievement(56, "fertilizeAcorn", 16, -5, Block.sapling, plantAcorn)).setSpecial().registerAchievement();
+	public static Achievement ironBoat = (new Achievement(57, "ironBoat",           14, -4, Item.boat_iron, themeHell)).registerAchievement();
+	
+	public static Achievement blueCloud = (new Achievement(58, "blueCloud",        14,  1, Block.aercloud, themeParadise)).registerAchievement();
+	public static Achievement defeatBronze = (new Achievement(59, "defeatBronze",  14,  2, Item.key, themeParadise)).registerAchievement();
+	public static Achievement 
+	
+	public static void func_27374_a() {
+	}
+
+	static {
+		System.out.println(achievementList.size() + " achievements");
+	}
+}
+
+----------------------------------- SOURCE END -------------------------------------
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToFieldDeclaration(ASTConverter.java:3630)
+	at org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration(ASTConverter.java:541)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:201)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 2 2024-06-04 22:29:31.930
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.ui".
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToFieldDeclaration(ASTConverter.java:3630)
+	at org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration(ASTConverter.java:541)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:201)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 0 2024-06-04 22:29:31.931
+!MESSAGE Error in JDT Core during reconcile
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToFieldDeclaration(ASTConverter.java:3630)
+	at org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration(ASTConverter.java:541)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:201)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-04 22:29:40.448
+!MESSAGE Exception occurred during compilation unit conversion:
+----------------------------------- SOURCE BEGIN -------------------------------------
+package net.minecraft.src;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class AchievementList {
+	public static int minDisplayColumn;
+	public static int minDisplayRow;
+	public static int maxDisplayColumn;
+	public static int maxDisplayRow;
+	public static List<Achievement> achievementList = new ArrayList<Achievement>();
+	public static Achievement openInventory = (new Achievement(0, "openInventory",   0,  0, Item.book, (Achievement)null)).setIndependent().registerAchievement();
+	public static Achievement mineWood = (new Achievement(1, "mineWood",             2,  1, Block.wood, openInventory)).registerAchievement();
+	public static Achievement buildWorkBench = (new Achievement(2, "buildWorkBench", 4, -1, Block.workbench, mineWood)).registerAchievement();
+	public static Achievement buildPickaxe = (new Achievement(3, "buildPickaxe",     4,  2, Item.pickaxeWood, buildWorkBench)).registerAchievement();
+	public static Achievement buildFurnace = (new Achievement(4, "buildFurnace",     3,  4, Block.stoneOvenActive, buildPickaxe)).registerAchievement();
+	public static Achievement acquireIron = (new Achievement(5, "acquireIron",       1,  4, Item.ingotIron, buildFurnace)).registerAchievement();
+	public static Achievement buildHoe = (new Achievement(6, "buildHoe",             2, -3, Item.hoeWood, buildWorkBench)).registerAchievement();
+	public static Achievement makeBread = (new Achievement(7, "makeBread",          -1, -3, Item.bread, buildHoe)).registerAchievement();
+	public static Achievement bakeCake = (new Achievement(8, "bakeCake",             0, -5, Item.cake, buildHoe)).registerAchievement();
+	public static Achievement buildBetterPickaxe = (new Achievement(9, "buildBetterPickaxe", 6, 2, Item.pickaxeStone, buildPickaxe)).registerAchievement();
+	public static Achievement cookFish = (new Achievement(10, "cookFish",            2,  6, Item.fishCooked, buildFurnace)).registerAchievement();
+	public static Achievement onARail = (new Achievement(11, "onARail",              2,  3, Block.rail, acquireIron)).setSpecial().registerAchievement();
+	public static Achievement buildSword = (new Achievement(12, "buildSword",        6, -1, Item.swordWood, buildWorkBench)).registerAchievement();
+	public static Achievement killEnemy = (new Achievement(13, "killEnemy",          8, -1, Item.bone, buildSword)).registerAchievement();
+	public static Achievement killCow = (new Achievement(14, "killCow",              7, -3, Item.leather, buildSword)).registerAchievement();
+	public static Achievement flyPig = (new Achievement(15, "flyPig",                8, -4, Item.saddle, killCow)).setSpecial().registerAchievement();
+	
+	public static Achievement getStatus = (new Achievement(16, "getStatus",         -2,  0, Item.potionEmpty, (Achievement) null)).setIndependent().registerAchievement();
+	public static Achievement diamonds = (new Achievement(17, "diamonds",           -1,  5, Item.diamond, acquireIron)).registerAchievement();
+	
+	public static Achievement currency = (new Achievement(18, "currency",           -1,  6, Item.ruby, acquireIron)).registerAchievement();	
+	public static Achievement hireAmazon = (new Achievement(19, "hireAmazon",       -2,  6, Item.amazonFace, currency)).registerAchievement();
+	public static Achievement bootsOfLeather = (new Achievement(20, "bootsOfLeather",8, -3, Item.bootsLeather, killCow)).setSpecial().registerAchievement();
+	public static Achievement bangBang = (new Achievement(21, "bangBang",            9, -1, Item.slingshot, killEnemy)).registerAchievement();
+	public static Achievement slimeBoss = (new Achievement(22, "slimeBoss",          9,  0, Item.slimeBall, killEnemy)).setSpecial().registerAchievement();
+	public static Achievement chestRobber = (new Achievement(23, "chestRobber",     -2,  2, Block.chest, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	
+	public static Achievement gotDizzy = (new Achievement(24, "gotDizzy",           -4,  7, Item.dizzy, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement cryingObsidian = (new Achievement(25, "cryingObsidian", -4, 5, Block.cryingObsidian, diamonds)).registerAchievement();
+	public static Achievement usedCryingObsidianWand = (new Achievement(26, "usedCryingObsidianWand", -6, 5, Item.cryingObsidianWand, cryingObsidian)).setSpecial().registerAchievement();
+	
+	public static Achievement pirateKill = (new Achievement(27, "pirateKill",        7,  1, Item.pirateFace, buildSword)).registerAchievement();
+	public static Achievement pirateDress = (new Achievement(28, "pirateDress",     10,  1, Item.helmetPirate, pirateKill)).registerAchievement();
+	public static Achievement pirateKing = (new Achievement(29, "pirateKing",        8,  3, Item.pirateSigil, pirateKill)).registerAchievement();
+	public static Achievement pirateCrown = (new Achievement(30, "pirateCrown",      8,  5, Item.pirateCrown, pirateKing)).setSpecial().registerAchievement();
+
+	/*
+	public static Achievement gotChilly = (new Achievement(31, "gotChilly",         -3, -2, Block.ice, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement warmed = (new Achievement(32, "warmed",               -5, -2, Block.fire, gotChilly)).registerAchievement();
+	public static Achievement iceKiller = (new Achievement(33, "iceKiller",         -4, -4, Item.bone, gotChilly)).registerAchievement();
+	public static Achievement dressedInRags = (new Achievement(34, "dressedInRags", -6, -4, Item.plateRags, iceKiller)).setSpecial().registerAchievement();
+	public static Achievement warmedByOven = (new Achievement(35, "warmedByOven",   -5, -1, Block.stoneOvenActive, gotChilly)).registerAchievement();
+	*/
+	
+	public static Achievement zombie = (new Achievement(39, "zombie",                6, -5, Item.zombieFace, buildSword)).setSpecial().registerAchievement();
+	public static Achievement zombieMeat = (new Achievement(40, "zombieMeat",        8, -6, Item.rottenFlesh, zombie)).registerAchievement();
+	public static Achievement meatBlock = (new Achievement(41, "meatBlock",         10, -6, Block.fleshBlock, zombieMeat)).registerAchievement();
+	
+	public static Achievement themeHell = (new Achievement(50, "themeHell",         12, -6, Item.achievementHell, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement themeForest = (new Achievement(51, "themeForest",     12, -2, Item.achievementForest, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement themeParadise = (new Achievement(52, "themeParadise", 12,  2, Item.achievementParadise, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	
+	public static Achievement charcoal = (new Achievement(53, "charcoal",           14, -7, Item.charcoal, themeHell)).registerAchievement();
+	public static Achievement grassFromSoil = (new Achievement(54, "grassFromSoil", 14, -6, Block.grass, themeHell)).registerAchievement();
+	public static Achievement plantAcorn = (new Achievement(55, "plantAcorn",       14, -5, Item.acornSeed, themeHell)).registerAchievement();
+	public static Achievement fertilizeAcorn = (new Achievement(56, "fertilizeAcorn", 16, -5, Block.sapling, plantAcorn)).setSpecial().registerAchievement();
+	public static Achievement ironBoat = (new Achievement(57, "ironBoat",           14, -4, Item.boat_iron, themeHell)).registerAchievement();
+	
+	public static Achievement blueCloud = (new Achievement(58, "blueCloud",        14,  1, Block.aercloud, themeParadise)).registerAchievement();
+	public static Achievement defeatBronze = (new Achievement(59, "defeatBronze",  14,  2, Item.key, themeParadise)).registerAchievement();
+	public static Achievement flyingPig = (new Achievement(60, ""))
+	
+	public static void func_27374_a() {
+	}
+
+	static {
+		System.out.println(achievementList.size() + " achievements");
+	}
+}
+
+----------------------------------- SOURCE END -------------------------------------
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToFieldDeclaration(ASTConverter.java:3630)
+	at org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration(ASTConverter.java:541)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:201)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 2 2024-06-04 22:29:40.448
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.ui".
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToFieldDeclaration(ASTConverter.java:3630)
+	at org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration(ASTConverter.java:541)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:201)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 0 2024-06-04 22:29:40.449
+!MESSAGE Error in JDT Core during reconcile
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToFieldDeclaration(ASTConverter.java:3630)
+	at org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration(ASTConverter.java:541)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:201)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-04 22:29:42.459
+!MESSAGE Exception occurred during compilation unit conversion:
+----------------------------------- SOURCE BEGIN -------------------------------------
+package net.minecraft.src;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class AchievementList {
+	public static int minDisplayColumn;
+	public static int minDisplayRow;
+	public static int maxDisplayColumn;
+	public static int maxDisplayRow;
+	public static List<Achievement> achievementList = new ArrayList<Achievement>();
+	public static Achievement openInventory = (new Achievement(0, "openInventory",   0,  0, Item.book, (Achievement)null)).setIndependent().registerAchievement();
+	public static Achievement mineWood = (new Achievement(1, "mineWood",             2,  1, Block.wood, openInventory)).registerAchievement();
+	public static Achievement buildWorkBench = (new Achievement(2, "buildWorkBench", 4, -1, Block.workbench, mineWood)).registerAchievement();
+	public static Achievement buildPickaxe = (new Achievement(3, "buildPickaxe",     4,  2, Item.pickaxeWood, buildWorkBench)).registerAchievement();
+	public static Achievement buildFurnace = (new Achievement(4, "buildFurnace",     3,  4, Block.stoneOvenActive, buildPickaxe)).registerAchievement();
+	public static Achievement acquireIron = (new Achievement(5, "acquireIron",       1,  4, Item.ingotIron, buildFurnace)).registerAchievement();
+	public static Achievement buildHoe = (new Achievement(6, "buildHoe",             2, -3, Item.hoeWood, buildWorkBench)).registerAchievement();
+	public static Achievement makeBread = (new Achievement(7, "makeBread",          -1, -3, Item.bread, buildHoe)).registerAchievement();
+	public static Achievement bakeCake = (new Achievement(8, "bakeCake",             0, -5, Item.cake, buildHoe)).registerAchievement();
+	public static Achievement buildBetterPickaxe = (new Achievement(9, "buildBetterPickaxe", 6, 2, Item.pickaxeStone, buildPickaxe)).registerAchievement();
+	public static Achievement cookFish = (new Achievement(10, "cookFish",            2,  6, Item.fishCooked, buildFurnace)).registerAchievement();
+	public static Achievement onARail = (new Achievement(11, "onARail",              2,  3, Block.rail, acquireIron)).setSpecial().registerAchievement();
+	public static Achievement buildSword = (new Achievement(12, "buildSword",        6, -1, Item.swordWood, buildWorkBench)).registerAchievement();
+	public static Achievement killEnemy = (new Achievement(13, "killEnemy",          8, -1, Item.bone, buildSword)).registerAchievement();
+	public static Achievement killCow = (new Achievement(14, "killCow",              7, -3, Item.leather, buildSword)).registerAchievement();
+	public static Achievement flyPig = (new Achievement(15, "flyPig",                8, -4, Item.saddle, killCow)).setSpecial().registerAchievement();
+	
+	public static Achievement getStatus = (new Achievement(16, "getStatus",         -2,  0, Item.potionEmpty, (Achievement) null)).setIndependent().registerAchievement();
+	public static Achievement diamonds = (new Achievement(17, "diamonds",           -1,  5, Item.diamond, acquireIron)).registerAchievement();
+	
+	public static Achievement currency = (new Achievement(18, "currency",           -1,  6, Item.ruby, acquireIron)).registerAchievement();	
+	public static Achievement hireAmazon = (new Achievement(19, "hireAmazon",       -2,  6, Item.amazonFace, currency)).registerAchievement();
+	public static Achievement bootsOfLeather = (new Achievement(20, "bootsOfLeather",8, -3, Item.bootsLeather, killCow)).setSpecial().registerAchievement();
+	public static Achievement bangBang = (new Achievement(21, "bangBang",            9, -1, Item.slingshot, killEnemy)).registerAchievement();
+	public static Achievement slimeBoss = (new Achievement(22, "slimeBoss",          9,  0, Item.slimeBall, killEnemy)).setSpecial().registerAchievement();
+	public static Achievement chestRobber = (new Achievement(23, "chestRobber",     -2,  2, Block.chest, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	
+	public static Achievement gotDizzy = (new Achievement(24, "gotDizzy",           -4,  7, Item.dizzy, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement cryingObsidian = (new Achievement(25, "cryingObsidian", -4, 5, Block.cryingObsidian, diamonds)).registerAchievement();
+	public static Achievement usedCryingObsidianWand = (new Achievement(26, "usedCryingObsidianWand", -6, 5, Item.cryingObsidianWand, cryingObsidian)).setSpecial().registerAchievement();
+	
+	public static Achievement pirateKill = (new Achievement(27, "pirateKill",        7,  1, Item.pirateFace, buildSword)).registerAchievement();
+	public static Achievement pirateDress = (new Achievement(28, "pirateDress",     10,  1, Item.helmetPirate, pirateKill)).registerAchievement();
+	public static Achievement pirateKing = (new Achievement(29, "pirateKing",        8,  3, Item.pirateSigil, pirateKill)).registerAchievement();
+	public static Achievement pirateCrown = (new Achievement(30, "pirateCrown",      8,  5, Item.pirateCrown, pirateKing)).setSpecial().registerAchievement();
+
+	/*
+	public static Achievement gotChilly = (new Achievement(31, "gotChilly",         -3, -2, Block.ice, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement warmed = (new Achievement(32, "warmed",               -5, -2, Block.fire, gotChilly)).registerAchievement();
+	public static Achievement iceKiller = (new Achievement(33, "iceKiller",         -4, -4, Item.bone, gotChilly)).registerAchievement();
+	public static Achievement dressedInRags = (new Achievement(34, "dressedInRags", -6, -4, Item.plateRags, iceKiller)).setSpecial().registerAchievement();
+	public static Achievement warmedByOven = (new Achievement(35, "warmedByOven",   -5, -1, Block.stoneOvenActive, gotChilly)).registerAchievement();
+	*/
+	
+	public static Achievement zombie = (new Achievement(39, "zombie",                6, -5, Item.zombieFace, buildSword)).setSpecial().registerAchievement();
+	public static Achievement zombieMeat = (new Achievement(40, "zombieMeat",        8, -6, Item.rottenFlesh, zombie)).registerAchievement();
+	public static Achievement meatBlock = (new Achievement(41, "meatBlock",         10, -6, Block.fleshBlock, zombieMeat)).registerAchievement();
+	
+	public static Achievement themeHell = (new Achievement(50, "themeHell",         12, -6, Item.achievementHell, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement themeForest = (new Achievement(51, "themeForest",     12, -2, Item.achievementForest, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement themeParadise = (new Achievement(52, "themeParadise", 12,  2, Item.achievementParadise, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	
+	public static Achievement charcoal = (new Achievement(53, "charcoal",           14, -7, Item.charcoal, themeHell)).registerAchievement();
+	public static Achievement grassFromSoil = (new Achievement(54, "grassFromSoil", 14, -6, Block.grass, themeHell)).registerAchievement();
+	public static Achievement plantAcorn = (new Achievement(55, "plantAcorn",       14, -5, Item.acornSeed, themeHell)).registerAchievement();
+	public static Achievement fertilizeAcorn = (new Achievement(56, "fertilizeAcorn", 16, -5, Block.sapling, plantAcorn)).setSpecial().registerAchievement();
+	public static Achievement ironBoat = (new Achievement(57, "ironBoat",           14, -4, Item.boat_iron, themeHell)).registerAchievement();
+	
+	public static Achievement blueCloud = (new Achievement(58, "blueCloud",        14,  1, Block.aercloud, themeParadise)).registerAchievement();
+	public static Achievement defeatBronze = (new Achievement(59, "defeatBronze",  14,  2, Item.key, themeParadise)).registerAchievement();
+	public static Achievement flyingPig = (new Achievement(60, "flyingPig"))
+	
+	public static void func_27374_a() {
+	}
+
+	static {
+		System.out.println(achievementList.size() + " achievements");
+	}
+}
+
+----------------------------------- SOURCE END -------------------------------------
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToFieldDeclaration(ASTConverter.java:3630)
+	at org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration(ASTConverter.java:541)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:201)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 2 2024-06-04 22:29:42.460
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.ui".
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToFieldDeclaration(ASTConverter.java:3630)
+	at org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration(ASTConverter.java:541)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:201)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 0 2024-06-04 22:29:42.461
+!MESSAGE Error in JDT Core during reconcile
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToFieldDeclaration(ASTConverter.java:3630)
+	at org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration(ASTConverter.java:541)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:201)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-04 22:29:46.476
+!MESSAGE Exception occurred during compilation unit conversion:
+----------------------------------- SOURCE BEGIN -------------------------------------
+package net.minecraft.src;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class AchievementList {
+	public static int minDisplayColumn;
+	public static int minDisplayRow;
+	public static int maxDisplayColumn;
+	public static int maxDisplayRow;
+	public static List<Achievement> achievementList = new ArrayList<Achievement>();
+	public static Achievement openInventory = (new Achievement(0, "openInventory",   0,  0, Item.book, (Achievement)null)).setIndependent().registerAchievement();
+	public static Achievement mineWood = (new Achievement(1, "mineWood",             2,  1, Block.wood, openInventory)).registerAchievement();
+	public static Achievement buildWorkBench = (new Achievement(2, "buildWorkBench", 4, -1, Block.workbench, mineWood)).registerAchievement();
+	public static Achievement buildPickaxe = (new Achievement(3, "buildPickaxe",     4,  2, Item.pickaxeWood, buildWorkBench)).registerAchievement();
+	public static Achievement buildFurnace = (new Achievement(4, "buildFurnace",     3,  4, Block.stoneOvenActive, buildPickaxe)).registerAchievement();
+	public static Achievement acquireIron = (new Achievement(5, "acquireIron",       1,  4, Item.ingotIron, buildFurnace)).registerAchievement();
+	public static Achievement buildHoe = (new Achievement(6, "buildHoe",             2, -3, Item.hoeWood, buildWorkBench)).registerAchievement();
+	public static Achievement makeBread = (new Achievement(7, "makeBread",          -1, -3, Item.bread, buildHoe)).registerAchievement();
+	public static Achievement bakeCake = (new Achievement(8, "bakeCake",             0, -5, Item.cake, buildHoe)).registerAchievement();
+	public static Achievement buildBetterPickaxe = (new Achievement(9, "buildBetterPickaxe", 6, 2, Item.pickaxeStone, buildPickaxe)).registerAchievement();
+	public static Achievement cookFish = (new Achievement(10, "cookFish",            2,  6, Item.fishCooked, buildFurnace)).registerAchievement();
+	public static Achievement onARail = (new Achievement(11, "onARail",              2,  3, Block.rail, acquireIron)).setSpecial().registerAchievement();
+	public static Achievement buildSword = (new Achievement(12, "buildSword",        6, -1, Item.swordWood, buildWorkBench)).registerAchievement();
+	public static Achievement killEnemy = (new Achievement(13, "killEnemy",          8, -1, Item.bone, buildSword)).registerAchievement();
+	public static Achievement killCow = (new Achievement(14, "killCow",              7, -3, Item.leather, buildSword)).registerAchievement();
+	public static Achievement flyPig = (new Achievement(15, "flyPig",                8, -4, Item.saddle, killCow)).setSpecial().registerAchievement();
+	
+	public static Achievement getStatus = (new Achievement(16, "getStatus",         -2,  0, Item.potionEmpty, (Achievement) null)).setIndependent().registerAchievement();
+	public static Achievement diamonds = (new Achievement(17, "diamonds",           -1,  5, Item.diamond, acquireIron)).registerAchievement();
+	
+	public static Achievement currency = (new Achievement(18, "currency",           -1,  6, Item.ruby, acquireIron)).registerAchievement();	
+	public static Achievement hireAmazon = (new Achievement(19, "hireAmazon",       -2,  6, Item.amazonFace, currency)).registerAchievement();
+	public static Achievement bootsOfLeather = (new Achievement(20, "bootsOfLeather",8, -3, Item.bootsLeather, killCow)).setSpecial().registerAchievement();
+	public static Achievement bangBang = (new Achievement(21, "bangBang",            9, -1, Item.slingshot, killEnemy)).registerAchievement();
+	public static Achievement slimeBoss = (new Achievement(22, "slimeBoss",          9,  0, Item.slimeBall, killEnemy)).setSpecial().registerAchievement();
+	public static Achievement chestRobber = (new Achievement(23, "chestRobber",     -2,  2, Block.chest, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	
+	public static Achievement gotDizzy = (new Achievement(24, "gotDizzy",           -4,  7, Item.dizzy, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement cryingObsidian = (new Achievement(25, "cryingObsidian", -4, 5, Block.cryingObsidian, diamonds)).registerAchievement();
+	public static Achievement usedCryingObsidianWand = (new Achievement(26, "usedCryingObsidianWand", -6, 5, Item.cryingObsidianWand, cryingObsidian)).setSpecial().registerAchievement();
+	
+	public static Achievement pirateKill = (new Achievement(27, "pirateKill",        7,  1, Item.pirateFace, buildSword)).registerAchievement();
+	public static Achievement pirateDress = (new Achievement(28, "pirateDress",     10,  1, Item.helmetPirate, pirateKill)).registerAchievement();
+	public static Achievement pirateKing = (new Achievement(29, "pirateKing",        8,  3, Item.pirateSigil, pirateKill)).registerAchievement();
+	public static Achievement pirateCrown = (new Achievement(30, "pirateCrown",      8,  5, Item.pirateCrown, pirateKing)).setSpecial().registerAchievement();
+
+	/*
+	public static Achievement gotChilly = (new Achievement(31, "gotChilly",         -3, -2, Block.ice, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement warmed = (new Achievement(32, "warmed",               -5, -2, Block.fire, gotChilly)).registerAchievement();
+	public static Achievement iceKiller = (new Achievement(33, "iceKiller",         -4, -4, Item.bone, gotChilly)).registerAchievement();
+	public static Achievement dressedInRags = (new Achievement(34, "dressedInRags", -6, -4, Item.plateRags, iceKiller)).setSpecial().registerAchievement();
+	public static Achievement warmedByOven = (new Achievement(35, "warmedByOven",   -5, -1, Block.stoneOvenActive, gotChilly)).registerAchievement();
+	*/
+	
+	public static Achievement zombie = (new Achievement(39, "zombie",                6, -5, Item.zombieFace, buildSword)).setSpecial().registerAchievement();
+	public static Achievement zombieMeat = (new Achievement(40, "zombieMeat",        8, -6, Item.rottenFlesh, zombie)).registerAchievement();
+	public static Achievement meatBlock = (new Achievement(41, "meatBlock",         10, -6, Block.fleshBlock, zombieMeat)).registerAchievement();
+	
+	public static Achievement themeHell = (new Achievement(50, "themeHell",         12, -6, Item.achievementHell, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement themeForest = (new Achievement(51, "themeForest",     12, -2, Item.achievementForest, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement themeParadise = (new Achievement(52, "themeParadise", 12,  2, Item.achievementParadise, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	
+	public static Achievement charcoal = (new Achievement(53, "charcoal",           14, -7, Item.charcoal, themeHell)).registerAchievement();
+	public static Achievement grassFromSoil = (new Achievement(54, "grassFromSoil", 14, -6, Block.grass, themeHell)).registerAchievement();
+	public static Achievement plantAcorn = (new Achievement(55, "plantAcorn",       14, -5, Item.acornSeed, themeHell)).registerAchievement();
+	public static Achievement fertilizeAcorn = (new Achievement(56, "fertilizeAcorn", 16, -5, Block.sapling, plantAcorn)).setSpecial().registerAchievement();
+	public static Achievement ironBoat = (new Achievement(57, "ironBoat",           14, -4, Item.boat_iron, themeHell)).registerAchievement();
+	
+	public static Achievement blueCloud = (new Achievement(58, "blueCloud",        14,  1, Block.aercloud, themeParadise)).registerAchievement();
+	public static Achievement defeatBronze = (new Achievement(59, "defeatBronze",  14,  2, Item.key, themeParadise)).registerAchievement();
+	public static Achievement flyingPig = (new Achievement(60, "flyingPig", ))
+	
+	public static void func_27374_a() {
+	}
+
+	static {
+		System.out.println(achievementList.size() + " achievements");
+	}
+}
+
+----------------------------------- SOURCE END -------------------------------------
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToFieldDeclaration(ASTConverter.java:3630)
+	at org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration(ASTConverter.java:541)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:201)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 2 2024-06-04 22:29:46.477
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.ui".
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToFieldDeclaration(ASTConverter.java:3630)
+	at org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration(ASTConverter.java:541)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:201)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 0 2024-06-04 22:29:46.478
+!MESSAGE Error in JDT Core during reconcile
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToFieldDeclaration(ASTConverter.java:3630)
+	at org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration(ASTConverter.java:541)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:201)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-04 22:29:53.492
+!MESSAGE Exception occurred during compilation unit conversion:
+----------------------------------- SOURCE BEGIN -------------------------------------
+package net.minecraft.src;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class AchievementList {
+	public static int minDisplayColumn;
+	public static int minDisplayRow;
+	public static int maxDisplayColumn;
+	public static int maxDisplayRow;
+	public static List<Achievement> achievementList = new ArrayList<Achievement>();
+	public static Achievement openInventory = (new Achievement(0, "openInventory",   0,  0, Item.book, (Achievement)null)).setIndependent().registerAchievement();
+	public static Achievement mineWood = (new Achievement(1, "mineWood",             2,  1, Block.wood, openInventory)).registerAchievement();
+	public static Achievement buildWorkBench = (new Achievement(2, "buildWorkBench", 4, -1, Block.workbench, mineWood)).registerAchievement();
+	public static Achievement buildPickaxe = (new Achievement(3, "buildPickaxe",     4,  2, Item.pickaxeWood, buildWorkBench)).registerAchievement();
+	public static Achievement buildFurnace = (new Achievement(4, "buildFurnace",     3,  4, Block.stoneOvenActive, buildPickaxe)).registerAchievement();
+	public static Achievement acquireIron = (new Achievement(5, "acquireIron",       1,  4, Item.ingotIron, buildFurnace)).registerAchievement();
+	public static Achievement buildHoe = (new Achievement(6, "buildHoe",             2, -3, Item.hoeWood, buildWorkBench)).registerAchievement();
+	public static Achievement makeBread = (new Achievement(7, "makeBread",          -1, -3, Item.bread, buildHoe)).registerAchievement();
+	public static Achievement bakeCake = (new Achievement(8, "bakeCake",             0, -5, Item.cake, buildHoe)).registerAchievement();
+	public static Achievement buildBetterPickaxe = (new Achievement(9, "buildBetterPickaxe", 6, 2, Item.pickaxeStone, buildPickaxe)).registerAchievement();
+	public static Achievement cookFish = (new Achievement(10, "cookFish",            2,  6, Item.fishCooked, buildFurnace)).registerAchievement();
+	public static Achievement onARail = (new Achievement(11, "onARail",              2,  3, Block.rail, acquireIron)).setSpecial().registerAchievement();
+	public static Achievement buildSword = (new Achievement(12, "buildSword",        6, -1, Item.swordWood, buildWorkBench)).registerAchievement();
+	public static Achievement killEnemy = (new Achievement(13, "killEnemy",          8, -1, Item.bone, buildSword)).registerAchievement();
+	public static Achievement killCow = (new Achievement(14, "killCow",              7, -3, Item.leather, buildSword)).registerAchievement();
+	public static Achievement flyPig = (new Achievement(15, "flyPig",                8, -4, Item.saddle, killCow)).setSpecial().registerAchievement();
+	
+	public static Achievement getStatus = (new Achievement(16, "getStatus",         -2,  0, Item.potionEmpty, (Achievement) null)).setIndependent().registerAchievement();
+	public static Achievement diamonds = (new Achievement(17, "diamonds",           -1,  5, Item.diamond, acquireIron)).registerAchievement();
+	
+	public static Achievement currency = (new Achievement(18, "currency",           -1,  6, Item.ruby, acquireIron)).registerAchievement();	
+	public static Achievement hireAmazon = (new Achievement(19, "hireAmazon",       -2,  6, Item.amazonFace, currency)).registerAchievement();
+	public static Achievement bootsOfLeather = (new Achievement(20, "bootsOfLeather",8, -3, Item.bootsLeather, killCow)).setSpecial().registerAchievement();
+	public static Achievement bangBang = (new Achievement(21, "bangBang",            9, -1, Item.slingshot, killEnemy)).registerAchievement();
+	public static Achievement slimeBoss = (new Achievement(22, "slimeBoss",          9,  0, Item.slimeBall, killEnemy)).setSpecial().registerAchievement();
+	public static Achievement chestRobber = (new Achievement(23, "chestRobber",     -2,  2, Block.chest, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	
+	public static Achievement gotDizzy = (new Achievement(24, "gotDizzy",           -4,  7, Item.dizzy, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement cryingObsidian = (new Achievement(25, "cryingObsidian", -4, 5, Block.cryingObsidian, diamonds)).registerAchievement();
+	public static Achievement usedCryingObsidianWand = (new Achievement(26, "usedCryingObsidianWand", -6, 5, Item.cryingObsidianWand, cryingObsidian)).setSpecial().registerAchievement();
+	
+	public static Achievement pirateKill = (new Achievement(27, "pirateKill",        7,  1, Item.pirateFace, buildSword)).registerAchievement();
+	public static Achievement pirateDress = (new Achievement(28, "pirateDress",     10,  1, Item.helmetPirate, pirateKill)).registerAchievement();
+	public static Achievement pirateKing = (new Achievement(29, "pirateKing",        8,  3, Item.pirateSigil, pirateKill)).registerAchievement();
+	public static Achievement pirateCrown = (new Achievement(30, "pirateCrown",      8,  5, Item.pirateCrown, pirateKing)).setSpecial().registerAchievement();
+
+	/*
+	public static Achievement gotChilly = (new Achievement(31, "gotChilly",         -3, -2, Block.ice, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement warmed = (new Achievement(32, "warmed",               -5, -2, Block.fire, gotChilly)).registerAchievement();
+	public static Achievement iceKiller = (new Achievement(33, "iceKiller",         -4, -4, Item.bone, gotChilly)).registerAchievement();
+	public static Achievement dressedInRags = (new Achievement(34, "dressedInRags", -6, -4, Item.plateRags, iceKiller)).setSpecial().registerAchievement();
+	public static Achievement warmedByOven = (new Achievement(35, "warmedByOven",   -5, -1, Block.stoneOvenActive, gotChilly)).registerAchievement();
+	*/
+	
+	public static Achievement zombie = (new Achievement(39, "zombie",                6, -5, Item.zombieFace, buildSword)).setSpecial().registerAchievement();
+	public static Achievement zombieMeat = (new Achievement(40, "zombieMeat",        8, -6, Item.rottenFlesh, zombie)).registerAchievement();
+	public static Achievement meatBlock = (new Achievement(41, "meatBlock",         10, -6, Block.fleshBlock, zombieMeat)).registerAchievement();
+	
+	public static Achievement themeHell = (new Achievement(50, "themeHell",         12, -6, Item.achievementHell, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement themeForest = (new Achievement(51, "themeForest",     12, -2, Item.achievementForest, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement themeParadise = (new Achievement(52, "themeParadise", 12,  2, Item.achievementParadise, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	
+	public static Achievement charcoal = (new Achievement(53, "charcoal",           14, -7, Item.charcoal, themeHell)).registerAchievement();
+	public static Achievement grassFromSoil = (new Achievement(54, "grassFromSoil", 14, -6, Block.grass, themeHell)).registerAchievement();
+	public static Achievement plantAcorn = (new Achievement(55, "plantAcorn",       14, -5, Item.acornSeed, themeHell)).registerAchievement();
+	public static Achievement fertilizeAcorn = (new Achievement(56, "fertilizeAcorn", 16, -5, Block.sapling, plantAcorn)).setSpecial().registerAchievement();
+	public static Achievement ironBoat = (new Achievement(57, "ironBoat",           14, -4, Item.boat_iron, themeHell)).registerAchievement();
+	
+	public static Achievement blueCloud = (new Achievement(58, "blueCloud",        14,  1, Block.aercloud, themeParadise)).registerAchievement();
+	public static Achievement defeatBronze = (new Achievement(59, "defeatBronze",  14,  2, Item.key, themeParadise)).registerAchievement();
+	public static Achievement flyingPig = (new Achievement(60, "flyingPig",        14,  3, ))
+	
+	public static void func_27374_a() {
+	}
+
+	static {
+		System.out.println(achievementList.size() + " achievements");
+	}
+}
+
+----------------------------------- SOURCE END -------------------------------------
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToFieldDeclaration(ASTConverter.java:3630)
+	at org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration(ASTConverter.java:541)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:201)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 2 2024-06-04 22:29:53.493
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.ui".
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToFieldDeclaration(ASTConverter.java:3630)
+	at org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration(ASTConverter.java:541)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:201)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 0 2024-06-04 22:29:53.494
+!MESSAGE Error in JDT Core during reconcile
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToFieldDeclaration(ASTConverter.java:3630)
+	at org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration(ASTConverter.java:541)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:201)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-04 22:29:56.507
+!MESSAGE Exception occurred during compilation unit conversion:
+----------------------------------- SOURCE BEGIN -------------------------------------
+package net.minecraft.src;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class AchievementList {
+	public static int minDisplayColumn;
+	public static int minDisplayRow;
+	public static int maxDisplayColumn;
+	public static int maxDisplayRow;
+	public static List<Achievement> achievementList = new ArrayList<Achievement>();
+	public static Achievement openInventory = (new Achievement(0, "openInventory",   0,  0, Item.book, (Achievement)null)).setIndependent().registerAchievement();
+	public static Achievement mineWood = (new Achievement(1, "mineWood",             2,  1, Block.wood, openInventory)).registerAchievement();
+	public static Achievement buildWorkBench = (new Achievement(2, "buildWorkBench", 4, -1, Block.workbench, mineWood)).registerAchievement();
+	public static Achievement buildPickaxe = (new Achievement(3, "buildPickaxe",     4,  2, Item.pickaxeWood, buildWorkBench)).registerAchievement();
+	public static Achievement buildFurnace = (new Achievement(4, "buildFurnace",     3,  4, Block.stoneOvenActive, buildPickaxe)).registerAchievement();
+	public static Achievement acquireIron = (new Achievement(5, "acquireIron",       1,  4, Item.ingotIron, buildFurnace)).registerAchievement();
+	public static Achievement buildHoe = (new Achievement(6, "buildHoe",             2, -3, Item.hoeWood, buildWorkBench)).registerAchievement();
+	public static Achievement makeBread = (new Achievement(7, "makeBread",          -1, -3, Item.bread, buildHoe)).registerAchievement();
+	public static Achievement bakeCake = (new Achievement(8, "bakeCake",             0, -5, Item.cake, buildHoe)).registerAchievement();
+	public static Achievement buildBetterPickaxe = (new Achievement(9, "buildBetterPickaxe", 6, 2, Item.pickaxeStone, buildPickaxe)).registerAchievement();
+	public static Achievement cookFish = (new Achievement(10, "cookFish",            2,  6, Item.fishCooked, buildFurnace)).registerAchievement();
+	public static Achievement onARail = (new Achievement(11, "onARail",              2,  3, Block.rail, acquireIron)).setSpecial().registerAchievement();
+	public static Achievement buildSword = (new Achievement(12, "buildSword",        6, -1, Item.swordWood, buildWorkBench)).registerAchievement();
+	public static Achievement killEnemy = (new Achievement(13, "killEnemy",          8, -1, Item.bone, buildSword)).registerAchievement();
+	public static Achievement killCow = (new Achievement(14, "killCow",              7, -3, Item.leather, buildSword)).registerAchievement();
+	public static Achievement flyPig = (new Achievement(15, "flyPig",                8, -4, Item.saddle, killCow)).setSpecial().registerAchievement();
+	
+	public static Achievement getStatus = (new Achievement(16, "getStatus",         -2,  0, Item.potionEmpty, (Achievement) null)).setIndependent().registerAchievement();
+	public static Achievement diamonds = (new Achievement(17, "diamonds",           -1,  5, Item.diamond, acquireIron)).registerAchievement();
+	
+	public static Achievement currency = (new Achievement(18, "currency",           -1,  6, Item.ruby, acquireIron)).registerAchievement();	
+	public static Achievement hireAmazon = (new Achievement(19, "hireAmazon",       -2,  6, Item.amazonFace, currency)).registerAchievement();
+	public static Achievement bootsOfLeather = (new Achievement(20, "bootsOfLeather",8, -3, Item.bootsLeather, killCow)).setSpecial().registerAchievement();
+	public static Achievement bangBang = (new Achievement(21, "bangBang",            9, -1, Item.slingshot, killEnemy)).registerAchievement();
+	public static Achievement slimeBoss = (new Achievement(22, "slimeBoss",          9,  0, Item.slimeBall, killEnemy)).setSpecial().registerAchievement();
+	public static Achievement chestRobber = (new Achievement(23, "chestRobber",     -2,  2, Block.chest, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	
+	public static Achievement gotDizzy = (new Achievement(24, "gotDizzy",           -4,  7, Item.dizzy, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement cryingObsidian = (new Achievement(25, "cryingObsidian", -4, 5, Block.cryingObsidian, diamonds)).registerAchievement();
+	public static Achievement usedCryingObsidianWand = (new Achievement(26, "usedCryingObsidianWand", -6, 5, Item.cryingObsidianWand, cryingObsidian)).setSpecial().registerAchievement();
+	
+	public static Achievement pirateKill = (new Achievement(27, "pirateKill",        7,  1, Item.pirateFace, buildSword)).registerAchievement();
+	public static Achievement pirateDress = (new Achievement(28, "pirateDress",     10,  1, Item.helmetPirate, pirateKill)).registerAchievement();
+	public static Achievement pirateKing = (new Achievement(29, "pirateKing",        8,  3, Item.pirateSigil, pirateKill)).registerAchievement();
+	public static Achievement pirateCrown = (new Achievement(30, "pirateCrown",      8,  5, Item.pirateCrown, pirateKing)).setSpecial().registerAchievement();
+
+	/*
+	public static Achievement gotChilly = (new Achievement(31, "gotChilly",         -3, -2, Block.ice, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement warmed = (new Achievement(32, "warmed",               -5, -2, Block.fire, gotChilly)).registerAchievement();
+	public static Achievement iceKiller = (new Achievement(33, "iceKiller",         -4, -4, Item.bone, gotChilly)).registerAchievement();
+	public static Achievement dressedInRags = (new Achievement(34, "dressedInRags", -6, -4, Item.plateRags, iceKiller)).setSpecial().registerAchievement();
+	public static Achievement warmedByOven = (new Achievement(35, "warmedByOven",   -5, -1, Block.stoneOvenActive, gotChilly)).registerAchievement();
+	*/
+	
+	public static Achievement zombie = (new Achievement(39, "zombie",                6, -5, Item.zombieFace, buildSword)).setSpecial().registerAchievement();
+	public static Achievement zombieMeat = (new Achievement(40, "zombieMeat",        8, -6, Item.rottenFlesh, zombie)).registerAchievement();
+	public static Achievement meatBlock = (new Achievement(41, "meatBlock",         10, -6, Block.fleshBlock, zombieMeat)).registerAchievement();
+	
+	public static Achievement themeHell = (new Achievement(50, "themeHell",         12, -6, Item.achievementHell, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement themeForest = (new Achievement(51, "themeForest",     12, -2, Item.achievementForest, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement themeParadise = (new Achievement(52, "themeParadise", 12,  2, Item.achievementParadise, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	
+	public static Achievement charcoal = (new Achievement(53, "charcoal",           14, -7, Item.charcoal, themeHell)).registerAchievement();
+	public static Achievement grassFromSoil = (new Achievement(54, "grassFromSoil", 14, -6, Block.grass, themeHell)).registerAchievement();
+	public static Achievement plantAcorn = (new Achievement(55, "plantAcorn",       14, -5, Item.acornSeed, themeHell)).registerAchievement();
+	public static Achievement fertilizeAcorn = (new Achievement(56, "fertilizeAcorn", 16, -5, Block.sapling, plantAcorn)).setSpecial().registerAchievement();
+	public static Achievement ironBoat = (new Achievement(57, "ironBoat",           14, -4, Item.boat_iron, themeHell)).registerAchievement();
+	
+	public static Achievement blueCloud = (new Achievement(58, "blueCloud",        14,  1, Block.aercloud, themeParadise)).registerAchievement();
+	public static Achievement defeatBronze = (new Achievement(59, "defeatBronze",  14,  2, Item.key, themeParadise)).registerAchievement();
+	public static Achievement flyingPig = (new Achievement(60, "flyingPig",        14,  3, Item.saddle, ))
+	
+	public static void func_27374_a() {
+	}
+
+	static {
+		System.out.println(achievementList.size() + " achievements");
+	}
+}
+
+----------------------------------- SOURCE END -------------------------------------
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToFieldDeclaration(ASTConverter.java:3630)
+	at org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration(ASTConverter.java:541)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:201)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 2 2024-06-04 22:29:56.508
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.ui".
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToFieldDeclaration(ASTConverter.java:3630)
+	at org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration(ASTConverter.java:541)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:201)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 0 2024-06-04 22:29:56.508
+!MESSAGE Error in JDT Core during reconcile
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToFieldDeclaration(ASTConverter.java:3630)
+	at org.eclipse.jdt.core.dom.ASTConverter.checkAndAddMultipleFieldDeclaration(ASTConverter.java:541)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:201)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.debug.ui 4 120 2024-06-04 22:39:30.390
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.lang.InterruptedException
+	at java.base/java.util.concurrent.FutureTask.awaitDone(FutureTask.java:418)
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:203)
+	at org.eclipse.debug.internal.ui.stringsubstitution.SelectedResourceManager.runInUIThreadWithTimeout(SelectedResourceManager.java:262)
+	at org.eclipse.debug.internal.ui.stringsubstitution.SelectedResourceManager.getFromUI(SelectedResourceManager.java:240)
+	at org.eclipse.debug.internal.ui.stringsubstitution.SelectedResourceManager.getActiveWindow(SelectedResourceManager.java:231)
+	at org.eclipse.debug.ui.DebugUITools.getDebugContext(DebugUITools.java:247)
+	at org.eclipse.jdt.internal.debug.ui.JavaDebugHover.getFrame(JavaDebugHover.java:97)
+	at org.eclipse.jdt.internal.debug.ui.JavaDebugHover.getHoverInfo2(JavaDebugHover.java:251)
+	at org.eclipse.jdt.internal.ui.text.java.hover.BestMatchHover.getHoverInfo2(BestMatchHover.java:163)
+	at org.eclipse.jdt.internal.ui.text.java.hover.BestMatchHover.getHoverInfo2(BestMatchHover.java:130)
+	at org.eclipse.jdt.internal.ui.text.java.hover.JavaEditorTextHoverProxy.getHoverInfo2(JavaEditorTextHoverProxy.java:89)
+	at org.eclipse.jface.text.TextViewerHoverManager$1.run(TextViewerHoverManager.java:155)

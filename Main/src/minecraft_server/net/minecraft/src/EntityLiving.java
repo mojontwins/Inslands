@@ -61,10 +61,10 @@ public abstract class EntityLiving extends Entity {
 	float unusedFloat3 = 0.0F;
 	protected int field_9346_af = 0;
 	public int entityAge = 0;
-	protected float moveStrafing;
-	protected float moveForward;
+	public float moveStrafing;
+	public float moveForward;
 	protected float randomYawVelocity;
-	protected boolean isJumping = false;
+	public boolean isJumping = false;
 	protected float defaultPitch = 0.0F;
 	public float moveSpeed = 0.7F;
 	public float speedModifier = 1.0F;

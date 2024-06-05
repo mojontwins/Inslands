@@ -75,8 +75,14 @@ public class BlockLog extends Block {
 			// Vanilla logs:
 			return side <= 1 ? endTextureIndex : outTextureIndex;
 		} else {
-			// Horizontal renderer expects this:
-			return side == 1 ? endTextureIndex : outTextureIndex;
+			// Horizontal logs:
+			if(side <= 1) return outTextureIndex;
+			
+			if((meta & 8) != 0) {
+				return (side == 4 || side == 5) ? endTextureIndex : outTextureIndex;
+			} else {
+				return (side == 2 || side == 3) ? endTextureIndex : outTextureIndex;
+			}
 		}
 		
 	}

@@ -243,8 +243,11 @@ public class World implements IBlockAccess {
 		}
 		
 		// Start in mid spring to mid summer
-		if(Seasons.dayOfTheYear < 0) Seasons.dayOfTheYear = this.rand.nextInt(Seasons.SEASON_DURATION) + Seasons.SEASON_DURATION + (Seasons.SEASON_DURATION >> 1);
-		if(LevelThemeGlobalSettings.permaSpring) Seasons.dayOfTheYear = 12;
+		if(LevelThemeGlobalSettings.permaSeason > 0) {
+			Seasons.setMidSeason(LevelThemeGlobalSettings.permaSeason);
+		} else {
+			if(Seasons.dayOfTheYear < 0) Seasons.dayOfTheYear = this.rand.nextInt(Seasons.SEASON_DURATION) + Seasons.SEASON_DURATION + (Seasons.SEASON_DURATION >> 1);
+		}
 		Seasons.updateSeasonCounters();
 
 		this.calculateInitialSkylight();
@@ -2134,6 +2137,8 @@ public class World implements IBlockAccess {
 	}
 
 	protected void badMoonDecide(long worldTime, int hourOfTheDay) {
+		if(!LevelThemeGlobalSettings.dayCycle) return;
+		
 		if(hourOfTheDay == Seasons.dayLengthTicks - 500) {
 			if (this.badMoonDecide == false) {
 				this.worldInfo.setBloodMoon((rand.nextInt(10) == 0 || this.nextMoonBad) ? true : false);
@@ -2155,39 +2160,41 @@ public class World implements IBlockAccess {
 
 		if(hourOfTheDay == 0) this.worldInfo.setBloodMoon(false);
 		
-		if(hourOfTheDay == 18000) {
-			int oldCurrentSeason = Seasons.currentSeason;
-			
-			Seasons.dayOfTheYear ++;
-			Seasons.updateSeasonCounters();
-			
-			// Leaves change colours so
-			for(int i5 = 0; i5 < this.worldAccesses.size(); ++i5) {
-				((IWorldAccess)this.worldAccesses.get(i5)).updateAllRenderers();
-			}
-			
-			if(Seasons.currentSeason != oldCurrentSeason) {
-				if(Seasons.currentSeason == Seasons.WINTER) {
-					if(!this.worldInfo.getSnowing()) {
-						int newSnowingTime = Weather.getTimeForNextSnow(this.rand);
-						if(newSnowingTime < this.worldInfo.getSnowingTime()) {
-							this.worldInfo.setSnowingTime(newSnowingTime);
+		if(LevelThemeGlobalSettings.permaSeason < 0) {
+			if(hourOfTheDay == 18000) {
+				int oldCurrentSeason = Seasons.currentSeason;
+				
+				Seasons.dayOfTheYear ++;
+				Seasons.updateSeasonCounters();
+				
+				// Leaves change colours so
+				for(int i5 = 0; i5 < this.worldAccesses.size(); ++i5) {
+					((IWorldAccess)this.worldAccesses.get(i5)).updateAllRenderers();
+				}
+				
+				if(Seasons.currentSeason != oldCurrentSeason) {
+					if(Seasons.currentSeason == Seasons.WINTER) {
+						if(!this.worldInfo.getSnowing()) {
+							int newSnowingTime = Weather.getTimeForNextSnow(this.rand);
+							if(newSnowingTime < this.worldInfo.getSnowingTime()) {
+								this.worldInfo.setSnowingTime(newSnowingTime);
+							}
+						}
+						if(this.worldInfo.getRaining()) {
+							int newRainingTime = 3000 + this.rand.nextInt(3000);
+							if(this.worldInfo.getRainTime() > newRainingTime) this.worldInfo.setRainTime(newRainingTime);
 						}
 					}
-					if(this.worldInfo.getRaining()) {
-						int newRainingTime = 3000 + this.rand.nextInt(3000);
-						if(this.worldInfo.getRainTime() > newRainingTime) this.worldInfo.setRainTime(newRainingTime);
+					
+					if(!this.worldInfo.getRaining() && (Seasons.currentSeason == Seasons.SPRING || Seasons.currentSeason == Seasons.AUTUMN)) {
+						int newRainingTime = Weather.getTimeForNextRain(this.rand);
+						if(newRainingTime < this.worldInfo.getRainTime()) {
+							this.worldInfo.setRainTime(newRainingTime);
+						}
 					}
+					
+					this.getWorldAccess(0).showString(Seasons.seasonNames[Seasons.currentSeason]);
 				}
-				
-				if(!this.worldInfo.getRaining() && (Seasons.currentSeason == Seasons.SPRING || Seasons.currentSeason == Seasons.AUTUMN)) {
-					int newRainingTime = Weather.getTimeForNextRain(this.rand);
-					if(newRainingTime < this.worldInfo.getRainTime()) {
-						this.worldInfo.setRainTime(newRainingTime);
-					}
-				}
-				
-				this.getWorldAccess(0).showString(Seasons.seasonNames[Seasons.currentSeason]);
 			}
 		}
 	}
@@ -2223,103 +2230,109 @@ public class World implements IBlockAccess {
 
 			// Thunderstorm. In this version, it is independent of rainstorms.
 
-			int i1 = this.worldInfo.getThunderTime();
-			--i1;
-			this.worldInfo.setThunderTime(i1);
-			
-			if(i1 <= 0) {
-				if(this.worldInfo.getThundering()) {
-					this.worldInfo.setThunderTime(Weather.getTimeForNextThunder(this.rand));
-				} else {
-					this.worldInfo.setThunderTime(Weather.getTimeForThunderingEnd(this.rand));
-				}
+			if(LevelThemeGlobalSettings.canThunder) {		
+				int i1 = this.worldInfo.getThunderTime();
+				--i1;
+				this.worldInfo.setThunderTime(i1);
 				
-				System.out.println ("Time for the next thundering time change " + this.worldInfo.getThunderTime());
-					this.worldInfo.setThundering(!this.worldInfo.getThundering());
+				if(i1 <= 0) {
+					if(this.worldInfo.getThundering()) {
+						this.worldInfo.setThunderTime(Weather.getTimeForNextThunder(this.rand));
+					} else {
+						this.worldInfo.setThunderTime(Weather.getTimeForThunderingEnd(this.rand));
+					}
+					
+					System.out.println ("Time for the next thundering time change " + this.worldInfo.getThunderTime());
+						this.worldInfo.setThundering(!this.worldInfo.getThundering());
+					}
+				
+				this.prevThunderingStrength = this.thunderingStrength;
+				
+				if(this.worldInfo.getThundering()) {
+					this.thunderingStrength = (float)((double)this.thunderingStrength + 0.01D);
+				} else {
+					this.thunderingStrength = (float)((double)this.thunderingStrength - 0.01D);
 				}
-			
-			this.prevThunderingStrength = this.thunderingStrength;
-			
-			if(this.worldInfo.getThundering()) {
-				this.thunderingStrength = (float)((double)this.thunderingStrength + 0.01D);
-			} else {
-				this.thunderingStrength = (float)((double)this.thunderingStrength - 0.01D);
-			}
-
-			if(this.thunderingStrength < 0.0F) {
-				this.thunderingStrength = 0.0F;
-			}
-
-			if(this.thunderingStrength > 1.0F) {
-				this.thunderingStrength = 1.0F;
+	
+				if(this.thunderingStrength < 0.0F) {
+					this.thunderingStrength = 0.0F;
+				}
+	
+				if(this.thunderingStrength > 1.0F) {
+					this.thunderingStrength = 1.0F;
+				}
 			}
 
 			// Snowstorm
-			
-			int i3 = this.worldInfo.getSnowingTime();
-			--i3;
-			this.worldInfo.setSnowingTime(i3);
-			
-			if(i3 <= 0) {
-				if(this.worldInfo.getSnowing()) {
-					this.worldInfo.setSnowingTime(Weather.getTimeForNextSnow(this.rand));
-				} else {
-					this.worldInfo.setSnowingTime(Weather.getTimeForSnowingEnd(this.rand));
-				}
+
+			if(LevelThemeGlobalSettings.canSnow) {
+				int i3 = this.worldInfo.getSnowingTime();
+				--i3;
+				this.worldInfo.setSnowingTime(i3);
 				
-				System.out.println ("Time for the next snowing time change " + this.worldInfo.getSnowingTime());
-				this.worldInfo.setSnowing(!this.worldInfo.getSnowing());
+				if(i3 <= 0) {
+					if(this.worldInfo.getSnowing()) {
+						this.worldInfo.setSnowingTime(Weather.getTimeForNextSnow(this.rand));
+					} else {
+						this.worldInfo.setSnowingTime(Weather.getTimeForSnowingEnd(this.rand));
+					}
+					
+					System.out.println ("Time for the next snowing time change " + this.worldInfo.getSnowingTime());
+					this.worldInfo.setSnowing(!this.worldInfo.getSnowing());
+					}
+	
+				this.prevSnowingStrength = this.snowingStrength;
+				
+				if(this.worldInfo.getSnowing()) {
+					this.snowingStrength = (float)((double)this.snowingStrength + 0.01D);
+				} else {
+					this.snowingStrength = (float)((double)this.snowingStrength - 0.01D);
 				}
-
-			this.prevSnowingStrength = this.snowingStrength;
-			
-			if(this.worldInfo.getSnowing()) {
-				this.snowingStrength = (float)((double)this.snowingStrength + 0.01D);
-			} else {
-				this.snowingStrength = (float)((double)this.snowingStrength - 0.01D);
-			}
-
-			if(this.snowingStrength < 0.0F) {
-				this.snowingStrength = 0.0F;
-			}
-
-			if(this.snowingStrength > 1.0F) {
-				this.snowingStrength = 1.0F;
+	
+				if(this.snowingStrength < 0.0F) {
+					this.snowingStrength = 0.0F;
+				}
+	
+				if(this.snowingStrength > 1.0F) {
+					this.snowingStrength = 1.0F;
+				}
 			}
 			
 			// Rains
 
-			int i2 = this.worldInfo.getRainTime();
+			if(LevelThemeGlobalSettings.canRain) {	
+				int i2 = this.worldInfo.getRainTime();
 				--i2;
 				this.worldInfo.setRainTime(i2);
 
 				if(i2 <= 0) {
-				if(this.worldInfo.getRaining()) {
-					this.worldInfo.setRainTime(Weather.getTimeForNextRain(this.rand));
-					this.lightningChance = 60000;
-				} else {
-					this.worldInfo.setRainTime(Weather.getTimeForRainingEnd(this.rand));
-					this.lightningChance = 50000;
+					if(this.worldInfo.getRaining()) {
+						this.worldInfo.setRainTime(Weather.getTimeForNextRain(this.rand));
+						this.lightningChance = 60000;
+					} else {
+						this.worldInfo.setRainTime(Weather.getTimeForRainingEnd(this.rand));
+						this.lightningChance = 50000;
+					}
+					
+					System.out.println ("Time for the next thundering time change " + this.worldInfo.getRainTime());
+					this.worldInfo.setRaining(!this.worldInfo.getRaining());
 				}
-				
-				System.out.println ("Time for the next thundering time change " + this.worldInfo.getRainTime());
-				this.worldInfo.setRaining(!this.worldInfo.getRaining());
-			}
-
-			this.prevRainingStrength = this.rainingStrength;
-
-			if(this.worldInfo.getRaining()) {
-				this.rainingStrength = (float)((double)this.rainingStrength + 0.01D);
-			} else {
-				this.rainingStrength = (float)((double)this.rainingStrength - 0.01D);
-			}
-
-			if(this.rainingStrength < 0.0F) {
-				this.rainingStrength = 0.0F;
-			}
-
-			if(this.rainingStrength > 1.0F) {
-				this.rainingStrength = 1.0F;
+	
+				this.prevRainingStrength = this.rainingStrength;
+	
+				if(this.worldInfo.getRaining()) {
+					this.rainingStrength = (float)((double)this.rainingStrength + 0.01D);
+				} else {
+					this.rainingStrength = (float)((double)this.rainingStrength - 0.01D);
+				}
+	
+				if(this.rainingStrength < 0.0F) {
+					this.rainingStrength = 0.0F;
+				}
+	
+				if(this.rainingStrength > 1.0F) {
+					this.rainingStrength = 1.0F;
+				}
 			}
 
 		}

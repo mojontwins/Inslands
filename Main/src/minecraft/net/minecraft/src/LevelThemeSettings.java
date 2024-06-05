@@ -12,15 +12,18 @@ public class LevelThemeSettings {
 	public BiomeGenBase levelThemeMainBiome = BiomeGenBase.themeParadise;
 	public double temperature = 0.6D;
 	public double humidity = 0.6D;
-	public boolean permaSpring = true;
+	public int permaSeason = -1;
 	public int overlay = -1;
+	public boolean canSnow = true;
+	public boolean canRain = true;
+	public boolean canThunder = true;
 
 	public static List<LevelThemeSettings> allThemeSettings = new ArrayList<LevelThemeSettings> ();
 	
-	public static LevelThemeSettings normal = new LevelThemeSettings(0).setName("Normal").setLightMultiplier(1.0F).setDayCycle(true).setLevelThemeMainBiome(BiomeGenBase.biomeDefault).setTemperature(0.6D).setHumidity(0.6D).setPermaSpring(false).setOverlay(-1);
-	public static LevelThemeSettings hell = new LevelThemeSettings(1).setName("Hell").setLightMultiplier(0.4F).setDayCycle(true).setLevelThemeMainBiome(BiomeGenBase.themeHell).setTemperature(1.0D).setHumidity(0.1D).setPermaSpring(false).setOverlay(-1);
-	public static LevelThemeSettings forest = new LevelThemeSettings(2).setName("Forest").setLightMultiplier(0.8F).setDayCycle(true).setLevelThemeMainBiome(BiomeGenBase.themeForest).setTemperature(0.4D).setHumidity(0.9D).setPermaSpring(false).setOverlay(-1);
-	public static LevelThemeSettings paradise = new LevelThemeSettings(3).setName("Paradise").setLightMultiplier(1.0F).setDayCycle(false).setLevelThemeMainBiome(BiomeGenBase.themeParadise).setTemperature(0.6D).setHumidity(0.6D).setPermaSpring(true).setOverlay(0x20F9FFA0);
+	public static LevelThemeSettings normal = new LevelThemeSettings(0).setName("Normal").setLightMultiplier(1.0F).setDayCycle(true).setLevelThemeMainBiome(BiomeGenBase.biomeDefault).setTemperature(0.6D).setHumidity(0.6D).setOverlay(-1);
+	public static LevelThemeSettings hell = new LevelThemeSettings(1).setName("Hell").setLightMultiplier(0.4F).setDayCycle(true).setLevelThemeMainBiome(BiomeGenBase.themeHell).setTemperature(1.0D).setHumidity(0.1D).setOverlay(-1);
+	public static LevelThemeSettings forest = new LevelThemeSettings(2).setName("Forest").setLightMultiplier(0.8F).setDayCycle(true).setLevelThemeMainBiome(BiomeGenBase.themeForest).setTemperature(0.4D).setHumidity(0.9D).setOverlay(-1);
+	public static LevelThemeSettings paradise = new LevelThemeSettings(3).setName("Paradise").setLightMultiplier(1.0F).setDayCycle(false).setLevelThemeMainBiome(BiomeGenBase.themeParadise).setTemperature(0.6D).setHumidity(0.6D).setPermaSeason(Seasons.SUMMER).setOverlay(0x20F9FFA0).setCanRain(false).setCanSnow(false).setCanThunder(false);
 	
 	public LevelThemeSettings(int id) {
 		this.id = id;
@@ -73,13 +76,28 @@ public class LevelThemeSettings {
 		return this;
 	}
 	
-	public LevelThemeSettings setPermaSpring(boolean permaSpring) {
-		this.permaSpring = permaSpring;
+	public LevelThemeSettings setPermaSeason(int seasonId) {
+		this.permaSeason = seasonId;
 		return this;
 	}
 	
 	public LevelThemeSettings setOverlay(int overlay) {
 		this.overlay = overlay;
+		return this;
+	}
+	
+	public LevelThemeSettings setCanSnow(boolean canSnow) {
+		this.canSnow = canSnow;
+		return this;
+	}
+	
+	public LevelThemeSettings setCanRain(boolean canRain) {
+		this.canRain = canRain;
+		return this;
+	}
+	
+	public LevelThemeSettings setCanThunder(boolean canThunder) {
+		this.canThunder = canThunder;
 		return this;
 	}
 }

@@ -206,6 +206,58 @@ public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkPro
 		// 
 	}
 	
+	public Chunk provideChunk(int chunkX, int chunkZ) {
+		if(chunkX < 0 || chunkX >= WorldSize.xChunks || chunkZ < 0 || chunkZ >= WorldSize.zChunks) {
+			return new EmptyChunk(this.worldObj, new byte[32768], new byte[32768], 0, 0);
+		}
+		
+		this.rand.setSeed((long)chunkX * 341873128712L + (long)chunkZ * 132897987541L);
+		
+		// Empty block array & new Chunk
+		byte[] blockArray = new byte[32768];
+		byte[] metadata = new byte[32768];
+		Chunk chunk = new Chunk(this.worldObj, blockArray, metadata, chunkX, chunkZ);
+
+		// Calculate biomes & temperatures for this chunk
+		this.biomesForGeneration = this.worldObj.getWorldChunkManager().loadBlockGeneratorData(this.biomesForGeneration, chunkX * 16, chunkZ * 16, 16, 16);
+		
+		// Cache biomes in chunk
+		chunk.biomeGenCache = this.biomesForGeneration.clone();
+
+		// Generate terrain for this chunk
+		this.generateTerrain(chunkX, chunkZ, blockArray);
+
+		// Calculate height maps for this chunk
+		chunk.generateLandSurfaceHeightMap();
+		
+		// Terraform
+		this.terraform(chunkX, chunkZ, chunk, this.biomesForGeneration);
+
+		// Features system
+		if (this.mapFeaturesEnabled) {
+			this.featureProvider.getNearestFeatures(chunkX, chunkZ, chunk);
+		} 
+		
+		// Replace blocks
+		this.replaceBlocksForBiome(chunkX, chunkZ, blockArray, metadata, this.biomesForGeneration);
+
+		// Caves
+		this.caveGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
+		
+		// Mineshafts
+		if (this.mapFeaturesEnabled) {
+			this.mineshaftGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
+			this.strongholdGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
+		}		
+
+		// Calculate lights
+		chunk.generateHeightMap();
+		chunk.generateSkylightMap();
+
+		// Done
+		return chunk;
+	}
+	
 	public Chunk prepareChunk(int i1, int i2) {
 		return this.provideChunk(i1, i2);
 	}
@@ -285,7 +337,7 @@ public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkPro
 						d34 = d38 + (d40 - d38) * d42;
 					}
 
-					d34 -= 8.0D;
+					d34 -= 7.0D; // WAS 8!
 					byte b44 = 32;
 					double d45;
 					if(y3 > ySize - b44) {
@@ -379,4 +431,10 @@ public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkPro
 	public String makeString() {
 		return "RandomLevelSource";
 	}
+	
+	@Override
+	protected MapGenBase getCaveGenerator() {
+		return new MapGenCavesSky();
+	}
+
 }

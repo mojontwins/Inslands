@@ -571,14 +571,6 @@ public abstract class Minecraft implements Runnable {
 					this.sndManager.func_338_a(this.thePlayer, this.timer.renderPartialTicks);
 					
 					GL11.glEnable(GL11.GL_TEXTURE_2D);
-					
-					/*
-					if(!GameSettingsValues.threadedLighting) {
-						if(this.theWorld != null) {
-							this.theWorld.updatingLighting();
-						}
-					}
-					*/
 
 					if(!Keyboard.isKeyDown(Keyboard.KEY_F7)) {
 						Display.update();

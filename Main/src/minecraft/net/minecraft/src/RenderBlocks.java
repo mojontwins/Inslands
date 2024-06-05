@@ -208,10 +208,11 @@ public class RenderBlocks {
 		}
 		
 		// now render a layer of snow
-		if((meta & 15) > 0) {
-			block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, (float)(meta + 1) / 16.0F, 1.0F);
+		int snowHeight = meta & 15;
+		if(snowHeight > 0) {
+			block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, (float)(snowHeight + 1) / 16.0F, 1.0F);
 			this.overrideBlockTexture = Block.snow.blockIndexInTexture;
-			this.renderStandardBlock(block, x, y, z);
+			this.renderStandardBlockWithColorMultiplier(block, x, y, z, 1F, 1F, 1F);
 			this.overrideBlockTexture = -1;
 			((BlockFlower)block).setMyBlockBounds();
 		}
@@ -4369,6 +4370,7 @@ public class RenderBlocks {
 		tessellator.setColorOpaque_F(factor, factor, factor);
 	}
 	
+	/*
 	public boolean renderBlockWoodOriented(Block block, int x, int y, int z) {
 		int meta = this.blockAccess.getBlockMetadata(x, y, z);
 		if((meta & 4) == 0) {
@@ -4378,7 +4380,55 @@ public class RenderBlocks {
 			return this.renderBlockAxisOriented(block, x, y, z, standardMeta);
 		}
 	}
+	*/
 	
+	public boolean renderBlockWoodOriented(Block block, int x, int y, int z) {
+		int meta = this.blockAccess.getBlockMetadata(x, y, z);
+		int orientation = meta & 12;
+		if(orientation == 12) {
+			this.uvRotateEast = 1;
+			this.uvRotateWest = 1;
+			this.uvRotateTop = 1;
+			this.uvRotateBottom = 1;
+		} else if(orientation == 4) {
+			this.uvRotateSouth = 1;
+			this.uvRotateNorth = 1;
+		}
+
+		boolean res = this.renderStandardBlock(block, x, y, z);
+		this.uvRotateSouth = 0;
+		this.uvRotateEast = 0;
+		this.uvRotateWest = 0;
+		this.uvRotateNorth = 0;
+		this.uvRotateTop = 0;
+		this.uvRotateBottom = 0;
+		return res;
+	}
+	
+	public boolean renderBlockAxisOriented(Block block, int x, int y, int z) {	
+		int meta = this.blockAccess.getBlockMetadata(x, y, z);
+		
+		if(meta == 4 || meta == 5) {
+			this.uvRotateEast = 1;
+			this.uvRotateWest = 1;
+			this.uvRotateTop = 1;
+			this.uvRotateBottom = 1;
+		} else if(meta == 2 || meta == 3) {
+			this.uvRotateSouth = 1;
+			this.uvRotateNorth = 1;
+		}
+
+		boolean res = this.renderStandardBlock(block, x, y, z);
+		this.uvRotateSouth = 0;
+		this.uvRotateEast = 0;
+		this.uvRotateWest = 0;
+		this.uvRotateNorth = 0;
+		this.uvRotateTop = 0;
+		this.uvRotateBottom = 0;
+		return res;
+	}
+	
+	/*
 	public boolean renderBlockAxisOriented(Block block, int x, int y, int z) {	
 		int meta = this.blockAccess.getBlockMetadata(x, y, z);
 		return this.renderBlockAxisOriented(block, x, y, z, meta);
@@ -4558,6 +4608,7 @@ public class RenderBlocks {
 		
 		return false;
 	}
+	*/
 	
 	public boolean renderBlockClassicPiston(Block block, int x, int y, int z) {
 		return RenderBlockClassicPiston.RenderWorldBlock(this, this.blockAccess, x, y, z, block, 0);
@@ -4617,6 +4668,7 @@ public class RenderBlocks {
 		
 		// Patch for blocks which can be rendered as cubes in the inventory
 		if(i5 >= 103 && i5 <= 108 && i5 != 104) i5 = 0;
+		if(i5 == 255) i5 = 0;
 		
 		if(i5 != 0 && i5 != 16) {
 			if(i5 == 1) {
@@ -4808,6 +4860,6 @@ public class RenderBlocks {
 
 	public static boolean renderItemIn3d(int i0) {
 		//return i0 == 0 ? true : (i0 == 13 ? true : (i0 == 10 ? true : (i0 == 11 ? true : i0 == 16)));
-		return (i0 == 0 || i0 == 13 || i0 == 10 || i0 == 11 || i0 == 16 || (i0 >= 102 && i0 <= 109) || i0 == 112);
+		return (i0 == 0 || i0 == 13 || i0 == 10 || i0 == 11 || i0 == 16 || (i0 >= 102 && i0 <= 109) || i0 == 112 || i0 == 255);
 	}
 }

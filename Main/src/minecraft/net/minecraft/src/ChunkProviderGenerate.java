@@ -23,7 +23,7 @@ public class ChunkProviderGenerate implements IChunkProvider {
 	protected double[] sandNoise = new double[256];
 	protected double[] gravelNoise = new double[256];
 	protected double[] stoneNoise = new double[256];
-	protected MapGenBase caveGenerator = new MapGenCaves();
+	protected MapGenBase caveGenerator;
 	protected MapGenBase underwaterGenerator = new MapGenUnderwater();
 	protected MapGenBase ravineGenerator = new MapGenRavine();
 	protected MapGenMineshaft mineshaftGenerator;
@@ -64,9 +64,14 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		this.featureProvider = new FeatureProvider(worldObj, this);
 		this.mapFeaturesEnabled = z4;
 
+		this.caveGenerator = this.getCaveGenerator();
 		this.mineshaftGenerator = new MapGenMineshaft(world1);
 		this.strongholdGenerator = new MapGenStronghold(world1);
 		
+	}
+
+	protected MapGenBase getCaveGenerator() {
+		return new MapGenCaves();
 	}
 
 	public void generateTerrain(int chunkX, int chunkZ, byte[] blocks) {
