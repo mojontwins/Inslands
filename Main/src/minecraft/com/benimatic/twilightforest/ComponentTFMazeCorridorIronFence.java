@@ -1,0 +1,28 @@
+package com.benimatic.twilightforest;
+
+import java.util.Random;
+
+import com.mojang.minecraft.structure.StructureBoundingBox;
+
+import net.minecraft.src.Block;
+import net.minecraft.src.World;
+
+public class ComponentTFMazeCorridorIronFence extends ComponentTFMazeCorridor
+{
+    public ComponentTFMazeCorridorIronFence(int var1, int var2, int var3, int var4, int var5)
+    {
+        super(var1, var2, var3, var4, var5);
+    }
+
+    /**
+     * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes Mineshafts at
+     * the end, it adds Fences...
+     */
+    public boolean addComponentParts(World var1, Random var2, StructureBoundingBox var3, boolean mostlySolid)
+    {
+        this.func_74872_a(var1, var3, 1, 4, 2, 4, 4, 3, Block.mazeStone.blockID, 3, 0, 0, false);
+        this.func_74872_a(var1, var3, 1, 1, 2, 4, 3, 3, Block.mazeStone.blockID, 2, 0, 0, false);
+        this.fillWithBlocks(var1, var3, 2, 1, 2, 3, 3, 3, Block.fenceIron.blockID, 0, false);
+        return true;
+    }
+}

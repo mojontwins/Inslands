@@ -88,3 +88,9 @@ Now spice it up a bit:
 * [X] The sky generator generated a FLOOR??? at y = 0
 * [X] Ported Aether stuff
 * [X] Ultra bothered by the fact that apparently a bunch of mobs are being spawned in the sun light?!!?
+
+## Forest
+
+* I've added good ol' mazes but I'm adding the "good" maze for non sky forests. The minotaur maze.
+* Everything (maze) is ported - have to sort out the blocks used. 
+* Backport minotaurs and minoshrooms. They use new AI... 1. Try them as is as most of the new AI foundation is there - and 2. If taht fails, it should be easy to back port them to the old system.

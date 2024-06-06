@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import com.mojang.minecraft.entityHelpers.EntityAITasks;
 import com.mojang.minecraft.entityHelpers.EntityJumpHelper;
 import com.mojang.minecraft.entityHelpers.EntityLookHelper;
 import com.mojang.minecraft.entityHelpers.EntityMoveHelper;
@@ -72,7 +73,7 @@ public abstract class EntityLiving extends Entity {
 	protected int numTicksToChaseTarget = 0;
 	public boolean isStopped = false;
 	
-	// To simulate "new AI" STILL UNUSED
+	// To simulate "new AI" STILL UNUSED - or who knows :)
 	protected float AImoveSpeed;
 	protected EntityLookHelper lookHelper;
 	protected EntityMoveHelper moveHelper;
@@ -86,6 +87,9 @@ public abstract class EntityLiving extends Entity {
 	
 	public Entity lastAttackingEntity = null;
 	public boolean isBlinded = false;
+	
+	protected EntityAITasks tasks = new EntityAITasks();
+	protected EntityAITasks targetTasks = new EntityAITasks();
 
 	public EntityLiving(World world1) {
 		super(world1);
@@ -736,8 +740,12 @@ public abstract class EntityLiving extends Entity {
 			this.moveForward = 0.0F;
 			this.randomYawVelocity = 0.0F;
 		} else if(!this.isMultiplayerEntity) {
-			this.updateEntityActionState();
-			this.rotationYawHead = this.rotationYaw;
+			if(this.isAIEnabled()) {
+				this.updateAITasks();
+			} else {
+				this.updateEntityActionState();
+				this.rotationYawHead = this.rotationYaw;
+			}
 		}
 
 		boolean z14;
@@ -773,6 +781,25 @@ public abstract class EntityLiving extends Entity {
 			}
 		}
 
+	}
+
+	private void updateAITasks() {
+		this.despawnEntity();
+		this.entitySenses.clearSensingCache();
+		this.targetTasks.onUpdateTasks();
+		this.tasks.onUpdateTasks();
+		this.navigator.onUpdateNavigation();
+		this.updateAITick();
+		this.moveHelper.onUpdateMoveHelper();
+		this.lookHelper.onUpdateLook();
+		this.jumpHelper.doJump();
+	}
+
+	protected void updateAITick() {
+	}
+	
+	private boolean isAIEnabled() {
+		return false;
 	}
 
 	protected boolean isMovementBlocked() {
