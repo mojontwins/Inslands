@@ -87,4 +87,4 @@ Now spice it up a bit:
 
 * [X] The sky generator generated a FLOOR??? at y = 0
 * [X] Ported Aether stuff
-* [ ] Ultra bothered by the fact that apparently a bunch of mobs are being spawned in the sun light?!!?
+* [X] Ultra bothered by the fact that apparently a bunch of mobs are being spawned in the sun light?!!?
