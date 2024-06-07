@@ -1,4 +1,4 @@
-package com.mojang.minecraft.entityHelpers;
+package com.mojang.minecraft.modernAI;
 
 class EntityAITaskEntry {
 	public EntityAIBase action;

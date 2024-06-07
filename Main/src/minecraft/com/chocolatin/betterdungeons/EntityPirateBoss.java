@@ -64,7 +64,7 @@ public class EntityPirateBoss extends EntityMob {
 	}
 
 	@Override
-	protected boolean attackEntityAsMob(Entity entity) {
+	public boolean attackEntityAsMob(Entity entity) {
 		return super.attackEntityAsMob(entity);
 	}
 

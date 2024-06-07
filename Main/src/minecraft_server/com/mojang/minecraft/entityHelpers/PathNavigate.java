@@ -66,7 +66,7 @@ public class PathNavigate {
 		return !this.canNavigate() ? null : this.worldObj.getEntityPathToXYZ(this.theEntity, MathHelper.floor_double(d1), (int)d3, MathHelper.floor_double(d5), this.pathSearchRange, this.canPassOpenWoodenDoors, this.canPassClosedWoodenDoors, this.avoidsWater, this.canSwim);
 	}
 
-	public boolean getPathToXYZwithSpeed(double d1, double d3, double d5, float f7) {
+	public boolean tryMoveToXYZ(double d1, double d3, double d5, float f7) {
 		PathEntity pathEntity8 = this.getPathToXYZ((double)MathHelper.floor_double(d1), (double)((int)d3), (double)MathHelper.floor_double(d5));
 		return this.setPath(pathEntity8, f7);
 	}

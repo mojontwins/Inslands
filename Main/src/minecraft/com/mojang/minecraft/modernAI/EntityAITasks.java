@@ -1,4 +1,4 @@
-package com.mojang.minecraft.entityHelpers;
+package com.mojang.minecraft.modernAI;
 
 import java.util.ArrayList;
 import java.util.Iterator;

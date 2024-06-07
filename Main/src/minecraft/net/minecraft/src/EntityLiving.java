@@ -4,13 +4,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
-import com.mojang.minecraft.entityHelpers.EntityAITasks;
 import com.mojang.minecraft.entityHelpers.EntityJumpHelper;
 import com.mojang.minecraft.entityHelpers.EntityLookHelper;
 import com.mojang.minecraft.entityHelpers.EntityMoveHelper;
 import com.mojang.minecraft.entityHelpers.EntitySenses;
 import com.mojang.minecraft.entityHelpers.PathNavigate;
+import com.mojang.minecraft.modernAI.EntityAITasks;
 import com.mojontwins.minecraft.entity.status.Status;
 import com.mojontwins.minecraft.entity.status.StatusEffect;
 
@@ -72,6 +73,8 @@ public abstract class EntityLiving extends Entity {
 	protected Entity currentTarget;
 	protected int numTicksToChaseTarget = 0;
 	public boolean isStopped = false;
+	private ChunkCoordinates homePosition = new ChunkCoordinates(0, 0, 0);
+	private float maximumHomeDistance = -1.0F;
 	
 	// To simulate "new AI" STILL UNUSED - or who knows :)
 	protected float AImoveSpeed;
@@ -82,15 +85,15 @@ public abstract class EntityLiving extends Entity {
 	protected EntitySenses entitySenses;
 	protected EntityLiving attackTarget;
 	protected EntityLiving entityLivingToAttack = null;
-	
-	protected HashMap<Integer,StatusEffect> activeStatusEffectsMap;
-	
-	public Entity lastAttackingEntity = null;
+	public EntityLiving lastAttackingEntity = null;
 	public boolean isBlinded = false;
 	
 	protected EntityAITasks tasks = new EntityAITasks();
 	protected EntityAITasks targetTasks = new EntityAITasks();
-
+	
+	// Status effects
+	protected HashMap<Integer,StatusEffect> activeStatusEffectsMap;
+	
 	public EntityLiving(World world1) {
 		super(world1);
 		this.preventEntitySpawning = true;
@@ -415,7 +418,9 @@ public abstract class EntityLiving extends Entity {
 					this.worldObj.playSoundAtEntity(this, this.getHurtSound(), this.getSoundVolume(), (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
 				}
 				
-				this.lastAttackingEntity = entity1;
+				if(entity1 instanceof EntityLiving) {
+					this.lastAttackingEntity = (EntityLiving)entity1;
+				}
 
 				return true;
 			}
@@ -880,7 +885,7 @@ public abstract class EntityLiving extends Entity {
 		return true; 
 	}
 
-	protected int getVerticalFaceSpeed() {
+	public int getVerticalFaceSpeed() {
 		return 40;
 	}
 
@@ -1167,6 +1172,8 @@ public abstract class EntityLiving extends Entity {
 		this.attackTarget = attackTarget;
 	}
 
+	
+	
 	public EntitySenses getEntitySenses() {
 		return entitySenses;
 	}
@@ -1183,7 +1190,58 @@ public abstract class EntityLiving extends Entity {
 	}
 
 	public boolean isChild() {
-		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	// ??? 
+
+	public boolean func_48100_a(Class<?> class1) {
+		return EntityCreeper.class != class1 && EntityGhast.class != class1;
+	}
+	
+	public boolean isWithinHomeDistanceCurrentPosition() {
+		return this.isWithinHomeDistance(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
+	}
+
+	public boolean isWithinHomeDistance(int i1, int i2, int i3) {
+		return this.maximumHomeDistance == -1.0F ? true : this.homePosition.getSqDistanceTo(i1, i2, i3) < this.maximumHomeDistance * this.maximumHomeDistance;
+	}
+
+	public void setHomeArea(int i1, int i2, int i3, int i4) {
+		this.homePosition.set(i1, i2, i3);
+		this.maximumHomeDistance = (float)i4;
+	}
+
+	public float getMaximumHomeDistance() {
+		return this.maximumHomeDistance;
+	}
+
+	public void detachHome() {
+		this.maximumHomeDistance = -1.0F;
+	}
+
+	public boolean hasHome() {
+		return this.maximumHomeDistance != -1.0F;
+	}
+	
+	public Random getRNG() {
+		return this.rand;
+	}
+
+	public EntityLiving getAITarget() {
+		return this.entityLivingToAttack;
+	}
+
+	public EntityLiving getLastAttackingEntity() {
+		return this.lastAttackingEntity;
+	}
+
+	public void setLastAttackingEntity(Entity entity1) {
+		if(entity1 instanceof EntityLiving) {
+			this.lastAttackingEntity = (EntityLiving)entity1;
+		}
+
+	}
+	
+	
 }

@@ -1,4 +1,4 @@
-package com.mojang.minecraft.entityHelpers;
+package com.mojang.minecraft.modernAI;
 
 public abstract class EntityAIBase {
 	private int mutexBits = 0;

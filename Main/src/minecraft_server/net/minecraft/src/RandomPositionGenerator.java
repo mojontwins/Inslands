@@ -5,25 +5,25 @@ import java.util.Random;
 public class RandomPositionGenerator {
 	private static Vec3D field_48624_a = Vec3D.createVectorHelper(0.0D, 0.0D, 0.0D);
 
-	public static Vec3D func_48622_a(EntityCreature entityCreature0, int i1, int i2) {
-		return func_48621_c(entityCreature0, i1, i2, (Vec3D)null);
+	public static Vec3D findRandomTarget(EntityCreature entityCreature0, int i1, int i2) {
+		return findRandomTargetBlock(entityCreature0, i1, i2, (Vec3D)null);
 	}
 
-	public static Vec3D func_48620_a(EntityCreature entityCreature0, int i1, int i2, Vec3D vec3D3) {
+	public static Vec3D findRandomTargetBlockTowards(EntityCreature entityCreature0, int i1, int i2, Vec3D vec3D3) {
 		field_48624_a.xCoord = vec3D3.xCoord - entityCreature0.posX;
 		field_48624_a.yCoord = vec3D3.yCoord - entityCreature0.posY;
 		field_48624_a.zCoord = vec3D3.zCoord - entityCreature0.posZ;
-		return func_48621_c(entityCreature0, i1, i2, field_48624_a);
+		return findRandomTargetBlock(entityCreature0, i1, i2, field_48624_a);
 	}
 
-	public static Vec3D func_48623_b(EntityCreature entityCreature0, int i1, int i2, Vec3D vec3D3) {
+	public static Vec3D findRandomTargetBlockAwayFrom(EntityCreature entityCreature0, int i1, int i2, Vec3D vec3D3) {
 		field_48624_a.xCoord = entityCreature0.posX - vec3D3.xCoord;
 		field_48624_a.yCoord = entityCreature0.posY - vec3D3.yCoord;
 		field_48624_a.zCoord = entityCreature0.posZ - vec3D3.zCoord;
-		return func_48621_c(entityCreature0, i1, i2, field_48624_a);
+		return findRandomTargetBlock(entityCreature0, i1, i2, field_48624_a);
 	}
 
-	private static Vec3D func_48621_c(EntityCreature entityCreature0, int i1, int i2, Vec3D vec3D3) {
+	private static Vec3D findRandomTargetBlock(EntityCreature entityCreature0, int i1, int i2, Vec3D vec3D3) {
 		Random random4 = entityCreature0.rand;
 		boolean z5 = false;
 		int i6 = 0;

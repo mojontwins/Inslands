@@ -6,9 +6,14 @@ import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
 
+import com.benimatic.twilightforest.EntityTFMinoshroom;
+import com.benimatic.twilightforest.EntityTFMinotaur;
 import com.benimatic.twilightforest.EntityTFRedcap;
 import com.benimatic.twilightforest.EntityTFWraith;
+import com.benimatic.twilightforest.ModelTFMinoshroom;
+import com.benimatic.twilightforest.ModelTFMinotaur;
 import com.benimatic.twilightforest.ModelTFRedcap;
+import com.benimatic.twilightforest.RenderTFMinoshroom;
 import com.benimatic.twilightforest.RenderTFWraith;
 import com.bigbang87.deadlymonsters.EntityHauntedCow;
 import com.bigbang87.deadlymonsters.ModelHauntedCow;
@@ -132,6 +137,8 @@ public class RenderManager {
 		// Twilight Forest
 		this.entityRenderMap.put(EntityTFRedcap.class, new RenderBiped(new ModelTFRedcap(), 0.625F));
 		this.entityRenderMap.put(EntityTFWraith.class, new RenderTFWraith(new ModelZombie(), 0.5F));
+		this.entityRenderMap.put(EntityTFMinotaur.class, new RenderBiped(new ModelTFMinotaur(), 0.625F));
+		this.entityRenderMap.put(EntityTFMinoshroom.class, new RenderTFMinoshroom(new ModelTFMinoshroom(), 0.625F));
 		
 		// Better Dungeons
 		this.entityRenderMap.put(EntityPirate.class, new RenderHuman(new ModelHuman(), 0.5F));
