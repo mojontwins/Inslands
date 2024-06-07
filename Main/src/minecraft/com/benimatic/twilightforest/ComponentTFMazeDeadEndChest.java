@@ -23,8 +23,8 @@ public class ComponentTFMazeDeadEndChest extends ComponentTFMazeDeadEnd {
 		this.placeBlockAtCurrentPosition(var1, Block.stairCompactPlanks.blockID, this.getStairMeta(1), 3, 1, 3, var3);
 		this.placeBlockAtCurrentPosition(var1, Block.chest.blockID, 0, 2, 2, 4, var3);
 		this.placeTreasureAtCurrentPosition(var1, var2, 3, 2, 4, TFTreasure.underhill_deadend, var3);
-		this.func_74872_a(var1, var3, 1, 1, 0, 4, 3, 1, Block.mazeStone.blockID, 2, 0, 0, false);
-		this.func_74872_a(var1, var3, 1, 4, 0, 4, 4, 1, Block.mazeStone.blockID, 3, 0, 0, false);
+		this.func_74872_a(var1, var3, 1, 1, 0, 4, 3, 1, Block.mazeStone2.blockID, 2, 0, 0, false);
+		this.func_74872_a(var1, var3, 1, 4, 0, 4, 4, 1, Block.mazeStone2.blockID, 3, 0, 0, false);
 		this.fillWithBlocks(var1, var3, 2, 1, 0, 3, 3, 1, Block.fenceIron.blockID, 0, false);
 		return true;
 	}

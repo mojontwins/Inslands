@@ -18,7 +18,7 @@ public class ComponentTFMazeRoomFountain extends ComponentTFMazeRoom {
 	 */
 	public boolean addComponentParts(World var1, Random var2, StructureBoundingBox var3, boolean mostlySolid) {
 		super.addComponentParts(var1, var2, var3, mostlySolid);
-		this.func_74872_a(var1, var3, 5, 1, 5, 10, 1, 10, Block.mazeStone.blockID, 3, 0, 0, false);
+		this.func_74872_a(var1, var3, 5, 1, 5, 10, 1, 10, Block.mazeStone2.blockID, 3, 0, 0, false);
 		this.fillWithBlocks(var1, var3, 6, 1, 6, 9, 1, 9, Block.waterMoving.blockID, 0, false);
 		return true;
 	}

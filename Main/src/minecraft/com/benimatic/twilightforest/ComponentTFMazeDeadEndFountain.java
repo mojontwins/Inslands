@@ -18,7 +18,7 @@ public class ComponentTFMazeDeadEndFountain extends ComponentTFMazeDeadEnd {
 	 */
 	public boolean addComponentParts(World var1, Random var2, StructureBoundingBox var3, boolean mostlySolid) {
 		super.addComponentParts(var1, var2, var3, mostlySolid);
-		this.func_74872_a(var1, var3, 1, 1, 4, 4, 4, 4, Block.mazeStone.blockID, 1, 0, 0, false);
+		this.func_74872_a(var1, var3, 1, 1, 4, 4, 4, 4, Block.mazeStone2.blockID, 1, 0, 0, false);
 		this.placeBlockAtCurrentPosition(var1, Block.waterMoving.blockID, 0, 2, 3, 4, var3);
 		this.placeBlockAtCurrentPosition(var1, Block.waterMoving.blockID, 0, 3, 3, 4, var3);
 		this.placeBlockAtCurrentPosition(var1, 0, 0, 2, 0, 3, var3);

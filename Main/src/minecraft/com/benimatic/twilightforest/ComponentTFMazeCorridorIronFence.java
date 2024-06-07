@@ -20,8 +20,8 @@ public class ComponentTFMazeCorridorIronFence extends ComponentTFMazeCorridor
      */
     public boolean addComponentParts(World var1, Random var2, StructureBoundingBox var3, boolean mostlySolid)
     {
-        this.func_74872_a(var1, var3, 1, 4, 2, 4, 4, 3, Block.mazeStone.blockID, 3, 0, 0, false);
-        this.func_74872_a(var1, var3, 1, 1, 2, 4, 3, 3, Block.mazeStone.blockID, 2, 0, 0, false);
+        this.func_74872_a(var1, var3, 1, 4, 2, 4, 4, 3, Block.mazeStone2.blockID, 3, 0, 0, false);
+        this.func_74872_a(var1, var3, 1, 1, 2, 4, 3, 3, Block.mazeStone2.blockID, 2, 0, 0, false);
         this.fillWithBlocks(var1, var3, 2, 1, 2, 3, 3, 3, Block.fenceIron.blockID, 0, false);
         return true;
     }

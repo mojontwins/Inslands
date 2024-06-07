@@ -243,19 +243,19 @@ public class ComponentTFMinotaurMaze extends StructureTFComponent {
 		}
 
 		this.func_74878_a(var1, var3, 1, 1, 1, this.getDiameter(), 4, this.getDiameter());
-		this.func_74872_a(var1, var3, 1, 5, 1, this.getDiameter(), 5, this.getDiameter(), Block.mazeStone.blockID, 0,
+		this.func_74872_a(var1, var3, 1, 5, 1, this.getDiameter(), 5, this.getDiameter(), Block.mazeStone2.blockID, 0,
 				Block.stone.blockID, 0, this.level == FLOOR_LEVEL);
-		this.func_74872_a(var1, var3, 1, 0, 1, this.getDiameter(), 0, this.getDiameter(), Block.mazeStone.blockID, 6,
+		this.func_74872_a(var1, var3, 1, 0, 1, this.getDiameter(), 0, this.getDiameter(), Block.mazeStone2.blockID, 6,
 				Block.stone.blockID, 0, false);
-		this.maze.headBlockID = Block.mazeStone.blockID;
+		this.maze.headBlockID = Block.mazeStone2.blockID;
 		this.maze.headBlockMeta = 3;
-		this.maze.wallBlockID = Block.mazeStone.blockID;
+		this.maze.wallBlockID = Block.mazeStone2.blockID;
 		this.maze.wallBlockMeta = 1;
-		this.maze.rootBlockID = Block.mazeStone.blockID;
+		this.maze.rootBlockID = Block.mazeStone2.blockID;
 		this.maze.rootBlockMeta = 3;
-		this.maze.pillarBlockID = Block.mazeStone.blockID;
+		this.maze.pillarBlockID = Block.mazeStone2.blockID;
 		this.maze.pillarBlockMeta = 2;
-		this.maze.wallVar0ID = Block.mazeStone.blockID;
+		this.maze.wallVar0ID = Block.mazeStone2.blockID;
 		this.maze.wallVar0Meta = 4;
 		this.maze.wallVarRarity = 0.2F;
 		this.maze.torchRarity = 0.05F;

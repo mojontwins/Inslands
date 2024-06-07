@@ -28,8 +28,8 @@ public class ComponentTFMazeRoom extends StructureTFComponent {
 	 * Spawners, it closes Mineshafts at the end, it adds Fences...
 	 */
 	public boolean addComponentParts(World var1, Random var2, StructureBoundingBox var3, boolean mostlySolid) {
-		this.func_74872_a(var1, var3, 1, 0, 1, 14, 0, 14, Block.mazeStone.blockID, 7, 0, 0, true);
-		this.func_74872_a(var1, var3, 2, 0, 2, 13, 0, 13, Block.mazeStone.blockID, 6, 0, 0, true);
+		this.func_74872_a(var1, var3, 1, 0, 1, 14, 0, 14, Block.mazeStone2.blockID, 7, 0, 0, true);
+		this.func_74872_a(var1, var3, 2, 0, 2, 13, 0, 13, Block.mazeStone2.blockID, 6, 0, 0, true);
 
 		if (this.getBlockIdAtCurrentPosition(var1, 7, 1, 0, var3) == 0) {
 			this.fillWithBlocks(var1, var3, 6, 1, 0, 9, 4, 0, Block.fence.blockID, 0, false);

@@ -44,9 +44,9 @@ public class TFMazeNew extends TFMaze {
 
 	public TFMazeNew(int var1, int var2) {
 		super(var1, var2);
-		this.wallBlockID = Block.mazeStone.blockID;
+		this.wallBlockID = Block.mazeStone2.blockID;
 		this.wallBlockMeta = 2;
-		this.rootBlockID = Block.mazeStone.blockID;
+		this.rootBlockID = Block.mazeStone2.blockID;
 		this.rootBlockMeta = 0;
 		this.torchBlockID = Block.torchWood.blockID;
 		this.pillarBlockID = -1;

@@ -9,7 +9,7 @@ public class EntityTFMinoshroom extends EntityTFMinotaur {
 
 	public EntityTFMinoshroom(World var1) {
 		super(var1);
-		this.texture = "/mob/twilightForest/minoshroomtaur.png";
+		this.texture = "/mob/minoshroomtaur.png";
 		this.setSize(1.49F, 2.9F);
 	}
 

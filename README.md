@@ -91,6 +91,16 @@ Now spice it up a bit:
 
 ## Forest
 
-* I've added good ol' mazes but I'm adding the "good" maze for non sky forests. The minotaur maze.
-* Everything (maze) is ported - have to sort out the blocks used. 
-* Backport minotaurs and minoshrooms. They use new AI... 1. Try them as is as most of the new AI foundation is there - and 2. If taht fails, it should be easy to back port them to the old system.
+* [X] I've added good ol' mazes but I'm adding the "good" maze for non sky forests. The minotaur maze.
+* [X] Everything (maze) is ported - have to sort out the blocks used. 
+* [X] Backport minotaurs and minoshrooms. They use new AI... 1. Try them as is as most of the new AI foundation is there - and 2. If taht fails, it should be easy to back port them to the old system.
+
+--
+
+* [ ] Port kobolds and/or redcaps. Think on where/purpose. Both could be natural spawns if !blockcanseethesky stuff. Or whatever. Dunno if there's backend for cave monsters ?
+* [ ] Add more spawners to mazes?
+* [ ] Achievement
+	[ ] Hunt Minotaur
+	[ ] Hunt Minoshroom.
+	[ ] Whatever with kobolds/redcaps.
+* [ ] Add special axe that axes a lot, which is what the minoshroom drops.

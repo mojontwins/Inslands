@@ -1,6 +1,5 @@
 package com.benimatic.twilightforest;
 
-import net.minecraft.src.Entity;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.ModelBiped;
 import net.minecraft.src.ModelRenderer;
@@ -21,71 +20,91 @@ public class ModelTFMinoshroom extends ModelBiped {
 	public ModelTFMinoshroom() {
 		this.textureWidth = 128;
 		this.textureHeight = 32;
-		this.bipedHead = new ModelRenderer(0, 0);
+		this.bipedHead = new ModelRenderer(0, 0).setTextureSize(128, 32);
 		this.bipedHead.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8);
 		this.bipedHead.setRotationPoint(0.0F, -6.0F, -9.0F);
-		this.body = new ModelRenderer(18, 4);
+		
+		this.body = new ModelRenderer(18, 4).setTextureSize(128, 32);
 		this.body.addBox(-6.0F, -10.0F, -7.0F, 12, 18, 10);
 		this.body.setRotationPoint(0.0F, 5.0F, 2.0F);
 		this.setRotation(this.body, ((float) Math.PI / 2F), 0.0F, 0.0F);
-		this.leg1 = new ModelRenderer( 0, 16);
+		
+		this.leg1 = new ModelRenderer(0, 16).setTextureSize(128, 32);
 		this.leg1.addBox(-3.0F, 0.0F, -2.0F, 4, 12, 4);
 		this.leg1.setRotationPoint(-3.0F, 12.0F, 7.0F);
-		this.leg2 = new ModelRenderer( 0, 16);
+		
+		this.leg2 = new ModelRenderer(0, 16).setTextureSize(128, 32);
 		this.leg2.addBox(-1.0F, 0.0F, -2.0F, 4, 12, 4);
 		this.leg2.setRotationPoint(3.0F, 12.0F, 7.0F);
-		this.leg3 = new ModelRenderer( 0, 16);
+		
+		this.leg3 = new ModelRenderer(0, 16).setTextureSize(128, 32);
 		this.leg3.addBox(-3.0F, 0.0F, -3.0F, 4, 12, 4);
 		this.leg3.setRotationPoint(-3.0F, 12.0F, -5.0F);
-		this.leg4 = new ModelRenderer( 0, 16);
+		
+		this.leg4 = new ModelRenderer(0, 16).setTextureSize(128, 32);
 		this.leg4.addBox(-1.0F, 0.0F, -3.0F, 4, 12, 4);
 		this.leg4.setRotationPoint(3.0F, 12.0F, -5.0F);
-		this.udders = new ModelRenderer( 52, 0);
+		
+		this.udders = new ModelRenderer(52, 0).setTextureSize(128, 32);
 		this.udders.addBox(-2.0F, -3.0F, 0.0F, 4, 6, 2);
 		this.udders.setRotationPoint(0.0F, 14.0F, 6.0F);
 		this.setRotation(this.udders, ((float) Math.PI / 2F), 0.0F, 0.0F);
-		this.bipedBody = new ModelRenderer();
+		
+		this.bipedBody = new ModelRenderer(64, 0).setTextureSize(128, 32);
 		this.bipedBody.addBox(-4.0F, 0.0F, -2.5F, 8, 12, 5);
 		this.bipedBody.setRotationPoint(0.0F, -6.0F, -9.0F);
-		this.bipedLeftArm = new ModelRenderer( 90, 0);
+		
+		this.bipedLeftArm = new ModelRenderer(90, 0).setTextureSize(128, 32);
 		this.bipedLeftArm.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4);
 		this.bipedLeftArm.setRotationPoint(5.0F, -4.0F, -9.0F);
 		this.bipedLeftArm.mirror = true;
-		this.bipedRightArm = new ModelRenderer( 90, 0);
+		
+		this.bipedRightArm = new ModelRenderer(90, 0).setTextureSize(128, 32);
 		this.bipedRightArm.addBox(-3.0F, -2.0F, -2.0F, 4, 12, 4);
 		this.bipedRightArm.setRotationPoint(-5.0F, -4.0F, -9.0F);
-		this.horn1a = new ModelRenderer( 24, 0);
+		
+		this.horn1a = new ModelRenderer(24, 0).setTextureSize(128, 32);
 		this.horn1a.addBox(0.0F, -1.0F, -1.0F, 3, 2, 2);
 		this.horn1a.setRotationPoint(4.0F, -6.0F, 0.0F);
 		this.horn1a.rotateAngleY = 0.2617994F;
+		
 		this.bipedHead.addChild(this.horn1a);
-		this.horn1b = new ModelRenderer( 24, 2);
+		
+		this.horn1b = new ModelRenderer(24, 2).setTextureSize(128, 32);
 		this.horn1b.addBox(-1.0F, -4.0F, -1.0F, 2, 4, 2);
 		this.horn1b.setRotationPoint(2.75F, 0.0F, 0.0F);
 		this.horn1b.rotateAngleX = 0.5235988F;
 		this.horn1b.rotateAngleY = -0.5235988F;
+		
 		this.horn1a.addChild(this.horn1b);
-		this.horn2a = new ModelRenderer( 24, 0);
+		
+		this.horn2a = new ModelRenderer(24, 0).setTextureSize(128, 32);
 		this.horn2a.addBox(-3.0F, -1.0F, -1.0F, 3, 2, 2);
 		this.horn2a.setRotationPoint(-4.0F, -6.0F, 0.0F);
 		this.horn2a.rotateAngleY = -0.2617994F;
+		
 		this.bipedHead.addChild(this.horn2a);
-		this.horn2b = new ModelRenderer( 24, 2);
+		
+		this.horn2b = new ModelRenderer(24, 2).setTextureSize(128, 32);
 		this.horn2b.addBox(-1.0F, -4.0F, -1.0F, 2, 4, 2);
 		this.horn2b.setRotationPoint(-2.75F, 0.0F, 0.0F);
 		this.horn2b.rotateAngleX = 0.5235988F;
 		this.horn2b.rotateAngleY = 0.5235988F;
+		
 		this.horn2a.addChild(this.horn2b);
-		this.snout = new ModelRenderer( 9, 12);
+		
+		this.snout = new ModelRenderer(9, 12).setTextureSize(128, 32);
 		this.snout.addBox(-2.0F, -1.0F, -1.0F, 4, 3, 1);
 		this.snout.setRotationPoint(0.0F, -2.0F, -4.0F);
+		
 		this.bipedHead.addChild(this.snout);
 	}
 
 	/**
 	 * Sets the models various rotation angles then renders the model.
 	 */
-	public void render(Entity var1, float var2, float var3, float var4, float var5, float var6, float var7) {
+	@Override
+	public void render(float var2, float var3, float var4, float var5, float var6, float var7) {
 		this.setRotationAngles(var2, var3, var4, var5, var6, var7);
 		this.bipedHead.render(var7);
 		this.body.render(var7);
@@ -108,6 +127,7 @@ public class ModelTFMinoshroom extends ModelBiped {
 	/**
 	 * Sets the models various rotation angles.
 	 */
+	@Override
 	public void setRotationAngles(float var1, float var2, float var3, float var4, float var5, float var6) {
 		this.bipedHead.rotateAngleY = var4 / (180F / (float) Math.PI);
 		this.bipedHead.rotateAngleX = var5 / (180F / (float) Math.PI);

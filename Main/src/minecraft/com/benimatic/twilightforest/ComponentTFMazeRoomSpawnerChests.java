@@ -35,10 +35,10 @@ public class ComponentTFMazeRoomSpawnerChests extends ComponentTFMazeRoom {
 
 	private void placePillarEnclosure(World var1, StructureBoundingBox var2, int var3, int var4) {
 		for (int var5 = 1; var5 < 5; ++var5) {
-			this.placeBlockAtCurrentPosition(var1, Block.mazeStone.blockID, 2, var3 + 0, var5, var4 + 0, var2);
-			this.placeBlockAtCurrentPosition(var1, Block.mazeStone.blockID, 2, var3 + 2, var5, var4 + 0, var2);
-			this.placeBlockAtCurrentPosition(var1, Block.mazeStone.blockID, 2, var3 + 0, var5, var4 + 2, var2);
-			this.placeBlockAtCurrentPosition(var1, Block.mazeStone.blockID, 2, var3 + 2, var5, var4 + 2, var2);
+			this.placeBlockAtCurrentPosition(var1, Block.mazeStone2.blockID, 2, var3 + 0, var5, var4 + 0, var2);
+			this.placeBlockAtCurrentPosition(var1, Block.mazeStone2.blockID, 2, var3 + 2, var5, var4 + 0, var2);
+			this.placeBlockAtCurrentPosition(var1, Block.mazeStone2.blockID, 2, var3 + 0, var5, var4 + 2, var2);
+			this.placeBlockAtCurrentPosition(var1, Block.mazeStone2.blockID, 2, var3 + 2, var5, var4 + 2, var2);
 		}
 
 		this.placeBlockAtCurrentPosition(var1, Block.planks.blockID, 0, var3 + 1, 1, var4 + 1, var2);

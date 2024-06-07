@@ -20,7 +20,7 @@ public class EntityTFMinotaur extends EntityMob {
 
 	public EntityTFMinotaur(World var1) {
 		super(var1);
-		this.texture = "/mob/twilightForest/minotaur.png";
+		this.texture = "/mob/minotaur.png";
 		this.moveSpeed = 0.25F;
 		this.attackStrength = 7;
 		this.tasks.addTask(0, new EntityAISwimming(this));
