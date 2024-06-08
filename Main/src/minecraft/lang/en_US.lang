@@ -760,6 +760,7 @@ item.acorn=Acorn
 item.charcoal=Charcoal
 item.ironBoat.name=Iron Boat
 item.AetherKey=Aether Key
+item.superAxe=Super Axe
 
 itemGroup.buildingBlocks=Building Blocks
 itemGroup.decorations=Decoration Blocks

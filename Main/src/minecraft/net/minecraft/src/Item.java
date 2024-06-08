@@ -159,6 +159,7 @@ public class Item {
 	public static Item charcoal = new Item(1101).setIconIndex(13*16+10).setItemName("charcoal").setCreativeTab(CreativeTabs.tabMaterials);
 	public static Item boat_iron = (new ItemBoat(1102, true)).setIconIndex(13*16+1).setItemName("ironBoat");
 	public static Item key = (new ItemAetherKey(1103)).setItemName("AetherKey");
+	public static Item superAxe = (new ItemAxe(1104, EnumToolMaterial.SUPER, false)).setIconIndex(13*16+3).setItemName("superAxe");
 	
 	public static Item achievementHell = new Item(1200).setIconIndex(12*16+5).setShowInCreative(false);
 	public static Item achievementForest = new Item(1201).setIconIndex(12*16+6).setShowInCreative(false);

@@ -41,7 +41,7 @@ public class EntityTFMinoshroom extends EntityTFMinotaur {
 			this.dropItem(Item.beefCooked.shiftedIndex, 1);
 		}
 
-		this.dropItem(Item.axeGold.shiftedIndex, 1); // TODO : CHANGE TO SUPER AXE
+		this.dropItem(Item.superAxe.shiftedIndex, 1);
 	}
 
 	/**
