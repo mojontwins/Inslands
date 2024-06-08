@@ -2,6 +2,9 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.benimatic.twilightforest.EntityTFHedgeSpider;
+import com.benimatic.twilightforest.EntityTFKobold;
+import com.benimatic.twilightforest.EntityTFRedcap;
 import com.benimatic.twilightforest.TFGenHillMaze;
 import com.mojang.minecraft.ocelot.EntityBetaOcelot;
 
@@ -20,6 +23,10 @@ public class BiomeGenThickForest extends BiomeGenForest {
 		
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityWolf.class, 2));
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityBetaOcelot.class, 5, true));
+		
+		this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityTFKobold.class, 10));
+		this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityTFRedcap.class, 5));
+		this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityTFHedgeSpider.class, 5));
 	}
 	
 	public int getAlgaeAmount() {

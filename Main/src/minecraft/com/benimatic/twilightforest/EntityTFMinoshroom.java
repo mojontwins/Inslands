@@ -34,8 +34,8 @@ public class EntityTFMinoshroom extends EntityTFMinotaur {
 	/**
 	 * Drop 0-2 items of this living's type
 	 */
-	protected void dropFewItems(boolean var1, int var2) {
-		int var3 = this.rand.nextInt(4) + 2 + this.rand.nextInt(1 + var2);
+	protected void dropFewItems() {
+		int var3 = this.rand.nextInt(4) + 2 + this.rand.nextInt(1 + 1);
 
 		for (int var4 = 0; var4 < var3; ++var4) {
 			this.dropItem(Item.beefCooked.shiftedIndex, 1);

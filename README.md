@@ -97,7 +97,7 @@ Now spice it up a bit:
 
 --
 
-* [ ] Port kobolds and/or redcaps. Think on where/purpose. Both could be natural spawns if !blockcanseethesky stuff. Or whatever. Dunno if there's backend for cave monsters ?
+* [X] Port kobolds and/or redcaps. Think on where/purpose. Both could be natural spawns if !blockcanseethesky stuff. Or whatever. Dunno if there's backend for cave monsters ?
 * [ ] Add more spawners to mazes?
 * [ ] Achievement
 	[ ] Hunt Minotaur

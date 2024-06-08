@@ -91,6 +91,9 @@ public abstract class EntityLiving extends Entity {
 	protected EntityAITasks tasks = new EntityAITasks();
 	protected EntityAITasks targetTasks = new EntityAITasks();
 	
+	protected int recentlyHit = 0;
+	protected EntityPlayer attackingPlayer = null;
+	
 	// Status effects
 	protected HashMap<Integer,StatusEffect> activeStatusEffectsMap;
 	
@@ -210,6 +213,12 @@ public abstract class EntityLiving extends Entity {
 					this.worldObj.spawnParticle("explode", this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d8, d9, d6);
 				}
 			}
+		}
+		
+		if(this.recentlyHit > 0) {
+			--this.recentlyHit;
+		} else {
+			this.attackingPlayer = null;
 		}
 
 		this.prevRotationUnused = this.rotationUnused;
@@ -390,6 +399,24 @@ public abstract class EntityLiving extends Entity {
 				}
 
 				this.attackedAtYaw = 0.0F;
+				
+				if(entity1 != null) {
+					if(entity1 instanceof EntityLiving) {
+						// this.setRevengeTarget((EntityLiving)entity1);
+					} 
+					
+					if(entity1 instanceof EntityPlayer) {
+						this.recentlyHit = 60;
+						this.attackingPlayer = (EntityPlayer)entity1;
+					} else if(entity1 instanceof EntityWolf) {
+						EntityWolf entityWolf5 = (EntityWolf)entity1;
+						if(entityWolf5.isTamed()) {
+							this.recentlyHit = 60;
+							this.attackingPlayer = null;
+						}
+					}
+				}
+				
 				if(z3) {
 					this.worldObj.setEntityState(this, (byte)2);
 					this.setBeenAttacked();
