@@ -202,7 +202,6 @@ public final class SpawnerAnimals {
 	private static boolean canCreatureTypeSpawnAtLocation(EnumCreatureType enumCreatureType, World world, int x, int y, int z) {
 		
 		if(enumCreatureType == EnumCreatureType.caveCreature) {
-			System.out.println ("Attempting to spawn caveCreature @ " + x + " " + y + " " + z);
 			if (world.canBlockSeeTheSky(x, y, z)) return false; 			// Cave creatures cannot spawn in the open!
 		} 
 		
@@ -218,8 +217,6 @@ public final class SpawnerAnimals {
 					!world.getBlockMaterial(x, y, z).getIsLiquid() &&  		// nor water
 					!world.isBlockNormalCube(x, y + 1, z); 					// Cube above is not solid
 		}
-		
-		if(res && enumCreatureType == EnumCreatureType.caveCreature) { System.out.println ("And succeeded!");}
 		
 		return res;
 	}

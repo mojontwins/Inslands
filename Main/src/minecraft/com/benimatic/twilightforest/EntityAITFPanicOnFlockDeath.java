@@ -5,9 +5,11 @@ import java.util.List;
 
 import com.mojang.minecraft.modernAI.EntityAIBase;
 
+import net.minecraft.src.AchievementList;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityCreature;
 import net.minecraft.src.EntityLiving;
+import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.RandomPositionGenerator;
 import net.minecraft.src.Vec3D;
 
@@ -42,6 +44,9 @@ public class EntityAITFPanicOnFlockDeath extends EntityAIBase {
 
 			if (var4.deathTime > 0) {
 				var1 = true;
+				if (var4.lastAttackingEntity instanceof EntityPlayer) {
+					((EntityPlayer)var4.lastAttackingEntity).triggerAchievement(AchievementList.scareKobold);
+				}
 				break;
 			}
 		}
