@@ -34,19 +34,21 @@ public final class SpawnerAnimals {
 
 				for(int x = -radius; x <= radius; ++x) {
 					for(int z = -radius; z <= radius; ++z) {
-						eligibleChunksForSpawning.add(new ChunkCoordIntPair(x + x0, z + z0));
+						if (x >= 0 && z >= 0 && x < WorldSize.xChunks && z < WorldSize.zChunks) {
+							eligibleChunksForSpawning.add(new ChunkCoordIntPair(x + x0, z + z0));
+						}
 					}
 				}
 			}
 
 			totalSpawned = 0;
 			ChunkCoordinates chunkCoordinates35 = world.getSpawnPoint();
-			EnumCreatureType[] enumCreatureType36 = EnumCreatureType.values();
-			int maxCreatureTypes = enumCreatureType36.length;
+			EnumCreatureType[] availableCreatureTypes = EnumCreatureType.values();
+			int maxCreatureTypes = availableCreatureTypes.length;
 
 			label133:
 			for(int creatureTypeIndex = 0; creatureTypeIndex < maxCreatureTypes; ++creatureTypeIndex) {
-				EnumCreatureType creatureType = enumCreatureType36[creatureTypeIndex];
+				EnumCreatureType creatureType = availableCreatureTypes[creatureTypeIndex];
 
 				// Change the values of these parameters when suited in your mod!
 				int maxEntitiesOfThisType = creatureType.getMaxNumberOfCreature() * eligibleChunksForSpawning.size() / 256;
@@ -70,7 +72,7 @@ public final class SpawnerAnimals {
 					(creatureType.getPeacefulCreature() || flag1) && 
 					world.countEntities(creatureType.getCreatureClass()) <= maxEntitiesOfThisType
 				) {
-					Iterator<ChunkCoordIntPair> iterator39 = eligibleChunksForSpawning.iterator();
+					Iterator<ChunkCoordIntPair> chunksForSpawningIt = eligibleChunksForSpawning.iterator();
 
 					label130:
 					while(true) {
@@ -85,40 +87,40 @@ public final class SpawnerAnimals {
 						do {
 							do {
 								ChunkCoordIntPair chunkCoords;
-								List<SpawnListEntry> list12;
+								List<SpawnListEntry> possibleMobsToSpawn;
 								do {
 									do {
-										if(!iterator39.hasNext()) {
+										if(!chunksForSpawningIt.hasNext()) {
 											continue label133;
 										}
 
-										chunkCoords = (ChunkCoordIntPair)iterator39.next();
+										chunkCoords = (ChunkCoordIntPair)chunksForSpawningIt.next();
 										spawningChunk = world.getChunkFromChunkCoords(chunkCoords.chunkXPos, chunkCoords.chunkZPos);
-										//biomeGen = world.getWorldChunkManager().getBiomeGenAtChunkCoord(chunkCoords);
+										
 										biomeGen = spawningChunk.getBiomeGenAt(8, 8);
-										//System.out.println(">" + (16*chunkCoords.chunkXPos + 8) + ", " +  (16 *chunkCoords.chunkZPos + 8) + ": biomegen " + biomeGen);
-										list12 = biomeGen.getSpawnableList(creatureType);
-									} while(list12 == null);
-								} while(list12.isEmpty());
+										
+										possibleMobsToSpawn = biomeGen.getSpawnableList(creatureType);
+									} while(possibleMobsToSpawn == null);
+								} while(possibleMobsToSpawn.isEmpty());
 
 								int i13 = 0;
 
-								for(Iterator<SpawnListEntry> iterator14 = list12.iterator(); iterator14.hasNext(); i13 += mobToSpawn.spawnRarityRate) {
-									mobToSpawn = (SpawnListEntry)iterator14.next();
+								for(Iterator<SpawnListEntry> mobsToSpawnIt = possibleMobsToSpawn.iterator(); mobsToSpawnIt.hasNext(); i13 += mobToSpawn.spawnRarityRate) {
+									mobToSpawn = (SpawnListEntry)mobsToSpawnIt.next();
 								}
 
-								int i40 = world.rand.nextInt(i13);
-								mobToSpawn = (SpawnListEntry)list12.get(0);
-								Iterator<SpawnListEntry> iterator16 = list12.iterator();
+								int picker = world.rand.nextInt(i13);
+								mobToSpawn = (SpawnListEntry)possibleMobsToSpawn.get(0);
+								Iterator<SpawnListEntry> mobsToSpawnIt = possibleMobsToSpawn.iterator();
 
-								while(iterator16.hasNext()) {
-									SpawnListEntry spawnListEntry17 = (SpawnListEntry)iterator16.next();
+								while(mobsToSpawnIt.hasNext()) {
+									SpawnListEntry spawnListEntry = (SpawnListEntry)mobsToSpawnIt.next();
 
-									i40 -= spawnListEntry17.spawnRarityRate;
-									if(i40 < 0) {
+									picker -= spawnListEntry.spawnRarityRate;
+									if(picker < 0) {
 										// Urban mobs only spawn in cities
-										if(!spawnListEntry17.isUrban || spawningChunk.hasBuilding || spawningChunk.hasRoad) {
-											mobToSpawn = spawnListEntry17;
+										if(!spawnListEntry.isUrban || spawningChunk.hasBuilding || spawningChunk.hasRoad) {
+											mobToSpawn = spawnListEntry;
 											break;
 										}
 									}
@@ -197,8 +199,29 @@ public final class SpawnerAnimals {
 		}
 	}
 
-	private static boolean canCreatureTypeSpawnAtLocation(EnumCreatureType enumCreatureType0, World world1, int i2, int i3, int i4) {
-		return enumCreatureType0.getCreatureMaterial() == Material.water ? world1.getBlockMaterial(i2, i3, i4).getIsLiquid() && !world1.isBlockNormalCube(i2, i3 + 1, i4) : world1.isBlockNormalCube(i2, i3 - 1, i4) && !world1.isBlockNormalCube(i2, i3, i4) && !world1.getBlockMaterial(i2, i3, i4).getIsLiquid() && !world1.isBlockNormalCube(i2, i3 + 1, i4);
+	private static boolean canCreatureTypeSpawnAtLocation(EnumCreatureType enumCreatureType, World world, int x, int y, int z) {
+		
+		if(enumCreatureType == EnumCreatureType.caveCreature) {
+			System.out.println ("Attempting to spawn caveCreature @ " + x + " " + y + " " + z);
+			if (world.canBlockSeeTheSky(x, y, z)) return false; 			// Cave creatures cannot spawn in the open!
+		} 
+		
+		Material creatureMaterial = enumCreatureType.getCreatureMaterial();
+		boolean res = false;
+		
+		if(creatureMaterial == Material.water) {
+			res =   world.getBlockMaterial(x, y, z).getIsLiquid() &&  		// Cube is water
+					!world.isBlockNormalCube(x, y + 1, z); 					// Cube above not solid
+		} else {
+			res =  	world.isBlockNormalCube(x, y - 1, z) && 				// Cube below is solid
+					!world.isBlockNormalCube(x, y, z) && 					// This cube is not solid
+					!world.getBlockMaterial(x, y, z).getIsLiquid() &&  		// nor water
+					!world.isBlockNormalCube(x, y + 1, z); 					// Cube above is not solid
+		}
+		
+		if(res && enumCreatureType == EnumCreatureType.caveCreature) { System.out.println ("And succeeded!");}
+		
+		return res;
 	}
 	
 	private static EntityLiving spawnSpecial(EntityLiving entityLiving, World world, float posX, float posY, float posZ, float rotationYaw, float rotationPitch) {

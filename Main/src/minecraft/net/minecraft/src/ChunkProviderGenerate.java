@@ -2,6 +2,7 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.benimatic.twilightforest.MapGenTFMinotaurMaze;
 import com.mojang.minecraft.structure.mineshaft.MapGenMineshaft;
 import com.mojang.minecraft.structure.stronghold.MapGenStronghold;
 import com.mojontwins.minecraft.feature.FeatureProvider;
@@ -28,6 +29,7 @@ public class ChunkProviderGenerate implements IChunkProvider {
 	protected MapGenBase ravineGenerator = new MapGenRavine();
 	protected MapGenMineshaft mineshaftGenerator;
 	protected MapGenStronghold strongholdGenerator;
+	protected MapGenTFMinotaurMaze minotaurMazeGenerator;
 	protected BiomeGenBase[] biomesForGeneration;
 	double[] mainArray;
 	double[] minLimitArray;
@@ -48,8 +50,8 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		this(world1, j2, true);
 	}
 
-	public ChunkProviderGenerate(World world1, long j2, boolean z4) {
-		this.worldObj = world1;
+	public ChunkProviderGenerate(World world, long j2, boolean z4) {
+		this.worldObj = world;
 		this.rand = new Random(j2);
 		this.minLimitNoise = new NoiseGeneratorOctaves(this.rand, 16);
 		this.maxLimitNoise = new NoiseGeneratorOctaves(this.rand, 16);
@@ -65,8 +67,9 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		this.mapFeaturesEnabled = z4;
 
 		this.caveGenerator = this.getCaveGenerator();
-		this.mineshaftGenerator = new MapGenMineshaft(world1);
-		this.strongholdGenerator = new MapGenStronghold(world1);
+		this.mineshaftGenerator = new MapGenMineshaft(world);
+		this.strongholdGenerator = new MapGenStronghold(world);
+		this.minotaurMazeGenerator = new MapGenTFMinotaurMaze(world);
 		
 	}
 
@@ -301,6 +304,7 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		if (this.mapFeaturesEnabled) {
 			this.mineshaftGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
 			this.strongholdGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
+			this.minotaurMazeGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
 		}		
 
 		// Ravines
@@ -646,6 +650,7 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		if (this.mapFeaturesEnabled) {
 			this.mineshaftGenerator.generateStructuresInChunk(this.worldObj, this.rand, chunkX, chunkZ, false);
 			this.strongholdGenerator.generateStructuresInChunk(this.worldObj, this.rand, chunkX, chunkZ, true);
+			this.minotaurMazeGenerator.generateStructuresInChunk(this.worldObj, this.rand, chunkX, chunkZ, this.worldObj.worldProvider instanceof WorldProviderSky);
 		}
 	}
 	

@@ -2,6 +2,9 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.benimatic.twilightforest.EntityTFHedgeSpider;
+import com.benimatic.twilightforest.EntityTFKobold;
+import com.benimatic.twilightforest.EntityTFRedcap;
 import com.benimatic.twilightforest.TFGenHillMaze;
 import com.mojang.minecraft.ocelot.EntityBetaOcelot;
 
@@ -20,6 +23,10 @@ public class BiomeGenThickForest extends BiomeGenForest {
 		
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityWolf.class, 2));
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityBetaOcelot.class, 5, true));
+		
+		this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityTFKobold.class, 10));
+		this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityTFRedcap.class, 5));
+		this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityTFHedgeSpider.class, 5));
 	}
 	
 	public int getAlgaeAmount() {
@@ -106,14 +113,16 @@ public class BiomeGenThickForest extends BiomeGenForest {
 					(new WorldGenMazeMarker(true)).generate(world, rand, x, y + 4, z);
 				};
 			} else {
+				/*
 				if(rand.nextInt(WorldSize.xChunks * WorldSize.zChunks / 4) == 0) {
 					x = chunkX + rand.nextInt(16) + 8;
 					y = rand.nextInt(32) + 16;
 					z = chunkZ + rand.nextInt(16) + 8;
-					if ((new TFGenHillMaze(3, false)).generate(world, rand, x, y, z)) {
+					if ((new TFGenHillMaze(3, true)).generate(world, rand, x, y, z)) {
 						(new WorldGenMazeMarker(false)).generate(world, rand, x, world.getLandSurfaceHeightValue(x, z), z);
 					}
 				}
+				*/
 			}
 		}
 	}

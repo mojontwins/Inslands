@@ -2589,6 +2589,26 @@ public class World implements IBlockAccess {
 
 		return arrayList7;
 	}
+	
+	public Entity findNearestEntityWithinAABB(Class<?> class1, AxisAlignedBB axisAlignedBB2, Entity entity3) {
+		List<Entity> list4 = this.getEntitiesWithinAABB(class1, axisAlignedBB2);
+		Entity entity5 = null;
+		double d6 = Double.MAX_VALUE;
+		Iterator<Entity> iterator8 = list4.iterator();
+
+		while(iterator8.hasNext()) {
+			Entity entity9 = (Entity)iterator8.next();
+			if(entity9 != entity3) {
+				double d10 = entity3.getDistanceSqToEntity(entity9);
+				if(d10 <= d6) {
+					entity5 = entity9;
+					d6 = d10;
+				}
+			}
+		}
+
+		return entity5;
+	}
 
 	public List<Entity> getLoadedEntityList() {
 		return this.loadedEntityList;

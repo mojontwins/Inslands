@@ -295,7 +295,7 @@ public class EntityAmazon extends EntityArmoredMob implements ISentient {
 	}
 
 	@Override
-	protected int getVerticalFaceSpeed() {
+	public int getVerticalFaceSpeed() {
 		return this.getIsSitting() ? 20 : super.getVerticalFaceSpeed();
 	}
 

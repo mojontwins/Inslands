@@ -2,7 +2,7 @@ music:0.0
 sound:0.0
 invertYMouse:false
 mouseSensitivity:0.5
-viewDistance:2
+viewDistance:3
 guiScale:0
 bobView:true
 anaglyph3d:false
@@ -19,7 +19,7 @@ lastServer:localhost
 FOV:0
 gammaSetting0.0
 colouredAthmosphericstrue
-displayMode:640x480x32 60Hz
+displayMode:1920x1080x32 60Hz
 meltBuild:false
 key_key.forward:17
 key_key.left:30

@@ -629,7 +629,7 @@ public abstract class EntityPlayer extends EntityLiving {
 		if(!(entityLiving1 instanceof EntityCreeper) && !(entityLiving1 instanceof EntityGhast)) {
 			if(entityLiving1 instanceof EntityWolf) {
 				EntityWolf entityWolf3 = (EntityWolf)entityLiving1;
-				if(entityWolf3.isWolfTamed() && this.username.equals(entityWolf3.getOwner())) {
+				if(entityWolf3.isTamed() && this.username.equals(entityWolf3.getOwner())) {
 					return;
 				}
 			}
@@ -650,7 +650,7 @@ public abstract class EntityPlayer extends EntityLiving {
 
 									Entity entity5 = (Entity)iterator4.next();
 									entityWolf6 = (EntityWolf)entity5;
-								} while(!entityWolf6.isWolfTamed());
+								} while(!entityWolf6.isTamed());
 							} while(entityWolf6.getTarget() != null);
 						} while(!this.username.equals(entityWolf6.getOwner()));
 					} while(z2 && entityWolf6.getIsSitting());
