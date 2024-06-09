@@ -101,17 +101,19 @@ Now spice it up a bit:
 * [ ] Add more spawners to mazes?
 * [ ] Achievement
 	[ ] Hunt Minotaur
-	[ ] Hunt Minoshroom.
-	[ ] Whatever with kobolds/redcaps.
-* [ ] Add special axe that axes a lot, which is what the minoshroom drops.
+	[X] Hunt Minoshroom.
+	[X] Whatever with kobolds/redcaps.
+* [X] Add special axe that axes a lot, which is what the minoshroom drops.
 
 --
 
-* [ ] Added a means to re-generate the world if conditions are not met.
-	* [ ] Forest maze conditions:
-		* [ ] Small sized or floating island based: at least 1 random hill maze
-		+ [ ] Normal sized: 1 minotaur maze spawning in the central chunk. 
-		* [ ] Big/Huge sized: 1 minutaur maze per 16x16 chunk subregion.
+* [X] Added a means to re-generate the world if conditions are not met.
+	* [X] Forest maze conditions:
+		* [X] Small sized or floating island based: at least 1 random hill maze
+		+ [X] Normal sized: 1 minotaur maze spawning in the central chunk. 
+		* [X] Big/Huge sized: 1 minutaur maze per 16x16 chunk subregion.
 
 		* Minotaur mazes have a 14 block high entrance. Condition is that they must generate at 64+14 = 78 or below, in the open.
 		
+* [ ] Message "retrying world generation".
+* [ ] Modify feature provider so it doesn't try outside of the map!

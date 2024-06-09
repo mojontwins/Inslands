@@ -9,6 +9,7 @@ public class ChunkProvider implements IChunkProvider {
 	private World worldObj;
 	
 	private boolean debug = false;
+	private boolean populateDebug = false;
 	
 	// Modified, simplified version for finite worlds by na_th_an
 
@@ -43,6 +44,7 @@ public class ChunkProvider implements IChunkProvider {
 		}
 		
 		chunk.generateSkylightMapSimple();
+		chunk.isTerrainPopulated = true;
 		
 		return chunk;
 	}
@@ -78,20 +80,49 @@ public class ChunkProvider implements IChunkProvider {
 					chunk.initLightingForRealNotJustHeightmap();
 				}
 	
-				if(!chunk.isTerrainPopulated && this.chunkExists(xChunk + 1, zChunk + 1) && this.chunkExists(xChunk, zChunk + 1) && this.chunkExists(xChunk + 1, zChunk)) {
+				if(
+						!chunk.isTerrainPopulated && 
+						this.chunkExists(xChunk + 1, zChunk + 1) && 
+						this.chunkExists(xChunk, zChunk + 1) && 
+						this.chunkExists(xChunk + 1, zChunk)
+				) {
 					this.populate(this, xChunk, zChunk);
 				}
 	
-				if(this.chunkExists(xChunk - 1, zChunk) && !this.provideChunk(xChunk - 1, zChunk).isTerrainPopulated && this.chunkExists(xChunk - 1, zChunk + 1) && this.chunkExists(xChunk, zChunk + 1) && this.chunkExists(xChunk - 1, zChunk)) {
-					this.populate(this, xChunk - 1, zChunk);
+				if(xChunk > 0) {
+					if(
+						this.chunkExists(xChunk - 1, zChunk) && 
+						!this.provideChunk(xChunk - 1, zChunk).isTerrainPopulated && 
+						this.chunkExists(xChunk - 1, zChunk + 1) && 
+						this.chunkExists(xChunk, zChunk + 1) && 
+						this.chunkExists(xChunk - 1, zChunk)
+					) {
+						this.populate(this, xChunk - 1, zChunk);
+					}
 				}
 	
-				if(this.chunkExists(xChunk, zChunk - 1) && !this.provideChunk(xChunk, zChunk - 1).isTerrainPopulated && this.chunkExists(xChunk + 1, zChunk - 1) && this.chunkExists(xChunk, zChunk - 1) && this.chunkExists(xChunk + 1, zChunk)) {
-					this.populate(this, xChunk, zChunk - 1);
+				if(zChunk > 0) {
+					if(
+							this.chunkExists(xChunk, zChunk - 1) && 
+							!this.provideChunk(xChunk, zChunk - 1).isTerrainPopulated && 
+							this.chunkExists(xChunk + 1, zChunk - 1) && 
+							this.chunkExists(xChunk, zChunk - 1) && 
+							this.chunkExists(xChunk + 1, zChunk)
+					) {
+						this.populate(this, xChunk, zChunk - 1);
+					}
 				}
 	
-				if(this.chunkExists(xChunk - 1, zChunk - 1) && !this.provideChunk(xChunk - 1, zChunk - 1).isTerrainPopulated && this.chunkExists(xChunk - 1, zChunk - 1) && this.chunkExists(xChunk, zChunk - 1) && this.chunkExists(xChunk - 1, zChunk)) {
-					this.populate(this, xChunk - 1, zChunk - 1);
+				if(xChunk > 0 && zChunk > 0) {
+					if(
+							this.chunkExists(xChunk - 1, zChunk - 1) && 
+							!this.provideChunk(xChunk - 1, zChunk - 1).isTerrainPopulated && 
+							this.chunkExists(xChunk - 1, zChunk - 1) && 
+							this.chunkExists(xChunk, zChunk - 1) && 
+							this.chunkExists(xChunk - 1, zChunk)
+					) {
+						this.populate(this, xChunk - 1, zChunk - 1);
+					}
 				}
 			}
 			
@@ -99,12 +130,12 @@ public class ChunkProvider implements IChunkProvider {
 		}	
 	}
 
-	public Chunk provideChunk(int i1, int i2) { 
-		if(i1 < 0 || i1 >= WorldSize.xChunks || i2 < 0 || i2 >= WorldSize.zChunks) {
+	public Chunk provideChunk(int x, int z) { 
+		if(x < 0 || x >= WorldSize.xChunks || z < 0 || z >= WorldSize.zChunks) {
 			return this.blankChunk;
 		} else {
-			Chunk chunk3 = this.chunkCache[WorldSize.coords2hash(i1, i2)];
-			return chunk3 == null ? this.prepareChunk(i1, i2) : chunk3;
+			Chunk chunk = this.chunkCache[WorldSize.coords2hash(x, z)];
+			return chunk == null ? this.prepareChunk(x, z) : chunk;
 		}
 	}
 	
@@ -153,12 +184,13 @@ public class ChunkProvider implements IChunkProvider {
 		}
 	}
 
-	public void populate(IChunkProvider iChunkProvider1, int i2, int i3) {
-		Chunk chunk4 = this.provideChunk(i2, i3);
+	public void populate(IChunkProvider iChunkProvider1, int x, int z) {
+		Chunk chunk4 = this.provideChunk(x, z);
 		if(!chunk4.isTerrainPopulated) {
 			chunk4.isTerrainPopulated = true;
 			if(this.chunkProvider != null) {
-				this.chunkProvider.populate(iChunkProvider1, i2, i3);
+				if(populateDebug) System.out.println ("Populating " + x + " " + z);
+				this.chunkProvider.populate(iChunkProvider1, x, z);
 				chunk4.setChunkModified();
 			}
 		}

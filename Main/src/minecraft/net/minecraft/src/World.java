@@ -2357,7 +2357,7 @@ public class World implements IBlockAccess {
 		int blockID;
 
 		// First make a list of chunks to update: a square centered in *each* player
-		byte radius = 8; 	// Changed 9 to 8
+		byte radius = 7; 	// Changed 9 to 7
 
 		for(int i1 = 0; i1 < this.playerEntities.size(); ++i1) {
 			EntityPlayer entityPlayer = (EntityPlayer)this.playerEntities.get(i1);
@@ -3258,6 +3258,7 @@ public class World implements IBlockAccess {
 				if(!GlobalVars.hasCorrectMinoshroomMaze) return false;
 			} else {
 				// b) At least one maze, for floating islands
+				if(!GlobalVars.hasUnderHillMaze) return false;
 			}
 		}
 		

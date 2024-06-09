@@ -109,20 +109,18 @@ public class BiomeGenThickForest extends BiomeGenForest {
 				x = chunkX + 7;
 				y = rand.nextInt(64) + 32;
 				z = chunkZ + 7;
-				if ((new TFGenHillMaze(2, true)).generate(world, rand, x, y, z)) {
+				if ((new TFGenHillMaze(2, true, 80)).generate(world, rand, x, y, z)) {
 					(new WorldGenMazeMarker(true)).generate(world, rand, x, y + 4, z);
 				};
-			} else {
-				/*
+			} else if(WorldSize.xChunks > 16) {
 				if(rand.nextInt(WorldSize.xChunks * WorldSize.zChunks / 4) == 0) {
 					x = chunkX + rand.nextInt(16) + 8;
 					y = rand.nextInt(32) + 16;
 					z = chunkZ + rand.nextInt(16) + 8;
-					if ((new TFGenHillMaze(3, true)).generate(world, rand, x, y, z)) {
+					if ((new TFGenHillMaze(3, true, 90)).generate(world, rand, x, y, z)) {
 						(new WorldGenMazeMarker(false)).generate(world, rand, x, world.getLandSurfaceHeightValue(x, z), z);
 					}
 				}
-				*/
 			}
 		}
 	}

@@ -15,8 +15,8 @@ public class StructureTFMinotaurMazeStart extends StructureStart {
 		
 		// Condition so the majority of this maze spawns under the sea level
 		if(y > world.getWorldInfo().getTerrainType().getSeaLevel(world) + 14) {
-			// Don't generate shit
-			return; 
+			System.out.println ("Had to bury entrance to the minotaur maze!");
+			y = world.getWorldInfo().getTerrainType().getSeaLevel(world) + 14;
 		}
 		
 		System.out.println ("Minotaur maze" + x + " " + y + " " + z);
