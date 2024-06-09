@@ -104,3 +104,14 @@ Now spice it up a bit:
 	[ ] Hunt Minoshroom.
 	[ ] Whatever with kobolds/redcaps.
 * [ ] Add special axe that axes a lot, which is what the minoshroom drops.
+
+--
+
+* [ ] Added a means to re-generate the world if conditions are not met.
+	* [ ] Forest maze conditions:
+		* [ ] Small sized or floating island based: at least 1 random hill maze
+		+ [ ] Normal sized: 1 minotaur maze spawning in the central chunk. 
+		* [ ] Big/Huge sized: 1 minutaur maze per 16x16 chunk subregion.
+
+		* Minotaur mazes have a 14 block high entrance. Condition is that they must generate at 64+14 = 78 or below, in the open.
+		

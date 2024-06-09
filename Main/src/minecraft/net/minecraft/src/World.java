@@ -3242,4 +3242,25 @@ public class World implements IBlockAccess {
 	public void setBlockAndMetadata(int x, int y, int z, BlockState blockState) {
 		this.setBlockAndMetadata(x, y, z, blockState.getBlock().blockID, blockState.getMetadata());
 	}
+
+	public boolean levelIsValidUponWorldTheme() {
+		// World theme based invalidations ahead!
+		
+		// Paradise must have at least one bronze dungeon
+		if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.paradise.id) {
+			if(!GlobalVars.hasBronzeDungeon) return false;
+		}
+		
+		// Forest must have 
+		if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.forest.id) { 
+			if(this.worldInfo.getTerrainType() != WorldType.SKY) {
+				// a) A minotaur maze which main body is under y = 64, for island terrain.
+				if(!GlobalVars.hasCorrectMinoshroomMaze) return false;
+			} else {
+				// b) At least one maze, for floating islands
+			}
+		}
+		
+		return true;
+	}
 }

@@ -29,7 +29,7 @@ public class GuiCreateWorld extends GuiScreen {
 	private int themeId = 0;
 	private int sizeId = 1;
 	
-	private final String sizeStrings[] = new String[] { "small", "normal", "big" };
+	private final String sizeStrings[] = WorldSize.sizeNames;
 	private boolean generateCities;
 
 	public GuiCreateWorld(GuiScreen par1GuiScreen) {
