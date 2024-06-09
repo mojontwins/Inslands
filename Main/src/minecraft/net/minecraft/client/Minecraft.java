@@ -1205,17 +1205,20 @@ public abstract class Minecraft implements Runnable {
 				this.renderGlobal.updateClouds();
 			}
 
+			// I Swapped this block an the next
+			if(!this.isGamePaused || this.isRemote()) {
+				this.theWorld.setAllowedMobSpawns(this.gameSettings.difficulty > 0, true);
+				this.theWorld.tick();
+			}
+
+			// Player current chunk coordinates are updated during world tick
+			// And I need them to prune the entities to update list
 			if(!this.isGamePaused) {
 				if(this.theWorld.lightningFlash > 0) {
 					--this.theWorld.lightningFlash;
 				}
 
 				this.theWorld.updateEntities();
-			}
-
-			if(!this.isGamePaused || this.isRemote()) {
-				this.theWorld.setAllowedMobSpawns(this.gameSettings.difficulty > 0, true);
-				this.theWorld.tick();
 			}
 
 			if(!this.isGamePaused && this.theWorld != null) {
@@ -1271,7 +1274,7 @@ public abstract class Minecraft implements Runnable {
 				world = new World(saveHandler, worldName, worldSettings);
 				this.preloadWorld(world, "Generating Level");
 				
-				if(world.findingSpawnPoint || !world.levelIsValidUponWorldTheme()) {
+				if(world.isNewWorld && (world.findingSpawnPoint || !world.levelIsValidUponWorldTheme())) {
 					System.out.println("World not valid - trying again!");
 					Random rand = new Random(worldSettings.getSeed());
 					worldSettings = new WorldSettings(
@@ -1436,7 +1439,7 @@ public abstract class Minecraft implements Runnable {
 
 	private void preloadWorld(World world, String string1) {
 		this.loadingScreen.printText(string1);
-		this.loadingScreen.displayLoadingString("Building terrain");
+		this.loadingScreen.displayLoadingString(world.isNewWorld ? "Building terrain" : "Loading terrain");
 
 		int i3 = 0;
 		

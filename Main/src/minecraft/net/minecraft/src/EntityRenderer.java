@@ -422,6 +422,7 @@ public class EntityRenderer {
 					
 					rg = rg * 0.96F + 0.03F;
 					b = b * 0.9F + 0.1F;
+					b = b * 1.1F;
 	
 					if(world1.worldProvider.worldType == 1) {
 						b = rg = 0.22F + f5 * 0.75F;

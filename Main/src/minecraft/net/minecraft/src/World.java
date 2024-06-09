@@ -80,6 +80,8 @@ public class World implements IBlockAccess {
 	
 	public final StarlightEngine blockLight = new StarlightEngine(false, this);
 	public final StarlightEngine skyLight = new StarlightEngine(true, this);
+
+	private int updatedEntities;
 	
 	public WorldChunkManager getWorldChunkManager() {
 		return this.worldProvider.worldChunkMgr;
@@ -225,6 +227,7 @@ public class World implements IBlockAccess {
 		}
 		
 		this.isNewWorld = this.worldInfo == null;
+		
 		if(worldProvider5 != null) {
 			this.worldProvider = worldProvider5;
 		} else if(this.worldInfo != null && this.worldInfo.getDimension() == -1) {
@@ -1491,97 +1494,140 @@ public class World implements IBlockAccess {
 	}
 
 	public void updateEntities() {
-		int i1;
-		Entity entity2;
-		for(i1 = 0; i1 < this.weatherEffects.size(); ++i1) {
-			entity2 = (Entity)this.weatherEffects.get(i1);
-			entity2.onUpdate();
-			if(entity2.isDead) {
-				this.weatherEffects.remove(i1--);
+		/*
+		 * Original code updates all entities in the world. 
+		 * It relies on chunks being unloaded calling unloadEntities to remove their entities.
+		 * But this doesn't happen in this version, so...
+		 * 1.- I'll remove the code handling the unload of entities and
+		 * 2.- I'll prune the list and update entities that are less than 128 blocks away of a player
+		 */
+		
+		int i;
+		Entity curEntity;
+
+		// Weather entities
+
+		for(i = 0; i < this.weatherEffects.size(); ++i) {
+			curEntity = (Entity)this.weatherEffects.get(i);
+			curEntity.onUpdate();
+			if(curEntity.isDead) {
+				this.weatherEffects.remove(i--);
 			}
 		}
 
-		this.loadedEntityList.removeAll(this.unloadedEntityList);
+		//this.loadedEntityList.removeAll(this.unloadedEntityList);
 
-		int i3;
-		int i4;
-		for(i1 = 0; i1 < this.unloadedEntityList.size(); ++i1) {
-			entity2 = (Entity)this.unloadedEntityList.get(i1);
-			i3 = entity2.chunkCoordX;
-			i4 = entity2.chunkCoordZ;
-			if(entity2.addedToChunk && this.chunkExists(i3, i4)) {
-				this.getChunkFromChunkCoords(i3, i4).removeEntity(entity2);
+		// Remove unloaded entities from their chunks
+
+		int x;
+		int z;
+		
+		/*
+		for(i = 0; i < this.unloadedEntityList.size(); ++i) {
+			curEntity = (Entity)this.unloadedEntityList.get(i);
+			x = curEntity.chunkCoordX;
+			z = curEntity.chunkCoordZ;
+			if(curEntity.addedToChunk && this.chunkExists(x, z)) {
+				this.getChunkFromChunkCoords(x, z).removeEntity(curEntity);
 			}
 		}
 
-		for(i1 = 0; i1 < this.unloadedEntityList.size(); ++i1) {
-			this.releaseEntitySkin((Entity)this.unloadedEntityList.get(i1));
+		// And destroy
+
+		for(i = 0; i < this.unloadedEntityList.size(); ++i) {
+			this.releaseEntitySkin((Entity)this.unloadedEntityList.get(i));
 		}
 
 		this.unloadedEntityList.clear();
+		*/
 
-		for(i1 = 0; i1 < this.loadedEntityList.size(); ++i1) {
-			entity2 = (Entity)this.loadedEntityList.get(i1);
-			if(entity2.ridingEntity != null) {
-				if(!entity2.ridingEntity.isDead && entity2.ridingEntity.riddenByEntity == entity2) {
+		// Process loaded entities
+
+		this.updatedEntities = 0;
+		for(i = 0; i < this.loadedEntityList.size(); ++i) {
+			curEntity = (Entity)this.loadedEntityList.get(i);
+			
+			if(curEntity.ridingEntity != null) {
+				if(!curEntity.ridingEntity.isDead && curEntity.ridingEntity.riddenByEntity == curEntity) {
 					continue;
 				}
 
-				entity2.ridingEntity.riddenByEntity = null;
-				entity2.ridingEntity = null;
+				curEntity.ridingEntity.riddenByEntity = null;
+				curEntity.ridingEntity = null;
 			}
 
-			if(!entity2.isDead) {
-				this.updateEntity(entity2);
+			// Update this entity if not dead
+			
+			// Prune by near chunks
+			boolean processThis = false;
+			for(int j = 0; j < playerEntities.size(); j ++) {
+				EntityPlayer curPlayer = playerEntities.get(j);
+				if(
+						Math.abs(curPlayer.curChunkX - curEntity.chunkCoordX) <= 8 &&
+						Math.abs(curPlayer.curChunkZ - curEntity.chunkCoordZ) <= 8)  {
+					processThis = true;
+					break;
+				}
 			}
 
-			if(entity2.isDead) {
-				i3 = entity2.chunkCoordX;
-				i4 = entity2.chunkCoordZ;
-				if(entity2.addedToChunk && this.chunkExists(i3, i4)) {
-					this.getChunkFromChunkCoords(i3, i4).removeEntity(entity2);
+			if(!curEntity.isDead && processThis) {
+				this.updateEntity(curEntity);
+				this.updatedEntities ++;
+			}
+
+			// Remove entity if dead
+
+			if(curEntity.isDead) {
+				x = curEntity.chunkCoordX;
+				z = curEntity.chunkCoordZ;
+				if(curEntity.addedToChunk && this.chunkExists(x, z)) {
+					this.getChunkFromChunkCoords(x, z).removeEntity(curEntity);
 				}
 
-				this.loadedEntityList.remove(i1--);
-				this.releaseEntitySkin(entity2);
+				this.loadedEntityList.remove(i--);
+				this.releaseEntitySkin(curEntity);
 			}
 		}
 
-		this.scanningTileEntities = true;
-		Iterator<TileEntity> iterator10 = this.loadedTileEntityList.iterator();
+		// Update tile entities
 
-		while(iterator10.hasNext()) {
-			TileEntity tileEntity5 = (TileEntity)iterator10.next();
-			if(!tileEntity5.isInvalid()) {
-				tileEntity5.updateEntity();
+		this.scanningTileEntities = true;
+		Iterator<TileEntity> entitiesIt = this.loadedTileEntityList.iterator();
+
+		while(entitiesIt.hasNext()) {
+			TileEntity tileEntity = (TileEntity)entitiesIt.next();
+			if(!tileEntity.isInvalid()) {
+				tileEntity.updateEntity();
 			}
 
-			if(tileEntity5.isInvalid()) {
-				iterator10.remove();
-				Chunk chunk7 = this.getChunkFromChunkCoords(tileEntity5.xCoord >> 4, tileEntity5.zCoord >> 4);
-				if(chunk7 != null) {
-					chunk7.removeChunkBlockTileEntity(tileEntity5.xCoord & 15, tileEntity5.yCoord, tileEntity5.zCoord & 15);
+			// Remove invalid tile entities from their chunks
+
+			if(tileEntity.isInvalid()) {
+				entitiesIt.remove();
+				Chunk chunk = this.getChunkFromChunkCoords(tileEntity.xCoord >> 4, tileEntity.zCoord >> 4);
+				if(chunk != null) {
+					chunk.removeChunkBlockTileEntity(tileEntity.xCoord & 15, tileEntity.yCoord, tileEntity.zCoord & 15);
 				}
 			}
 		}
 
 		this.scanningTileEntities = false;
 		if(!this.entityRemoval.isEmpty()) {
-			Iterator<TileEntity> iterator6 = this.entityRemoval.iterator();
+			Iterator<TileEntity> tileEntityIt = this.entityRemoval.iterator();
 
-			while(iterator6.hasNext()) {
-				TileEntity tileEntity8 = (TileEntity)iterator6.next();
-				if(!tileEntity8.isInvalid()) {
-					if(!this.loadedTileEntityList.contains(tileEntity8)) {
-						this.loadedTileEntityList.add(tileEntity8);
+			while(tileEntityIt.hasNext()) {
+				TileEntity tileEntity = (TileEntity)tileEntityIt.next();
+				if(!tileEntity.isInvalid()) {
+					if(!this.loadedTileEntityList.contains(tileEntity)) {
+						this.loadedTileEntityList.add(tileEntity);
 					}
 
-					Chunk chunk9 = this.getChunkFromChunkCoords(tileEntity8.xCoord >> 4, tileEntity8.zCoord >> 4);
+					Chunk chunk9 = this.getChunkFromChunkCoords(tileEntity.xCoord >> 4, tileEntity.zCoord >> 4);
 					if(chunk9 != null) {
-						chunk9.setChunkBlockTileEntity(tileEntity8.xCoord & 15, tileEntity8.yCoord, tileEntity8.zCoord & 15, tileEntity8);
+						chunk9.setChunkBlockTileEntity(tileEntity.xCoord & 15, tileEntity.yCoord, tileEntity.zCoord & 15, tileEntity);
 					}
 
-					this.markBlockNeedsUpdate(tileEntity8.xCoord, tileEntity8.yCoord, tileEntity8.zCoord);
+					this.markBlockNeedsUpdate(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
 				}
 			}
 
@@ -1983,7 +2029,7 @@ public class World implements IBlockAccess {
 	}
 
 	public String getDebugLoadedEntities() {
-		return "All: " + this.loadedEntityList.size();
+		return "L: " + this.loadedEntityList.size() + " P: " + this.updatedEntities;
 	}
 
 	public String getProviderName() {
@@ -2363,6 +2409,8 @@ public class World implements IBlockAccess {
 			EntityPlayer entityPlayer = (EntityPlayer)this.playerEntities.get(i1);
 			x0 = MathHelper.floor_double(entityPlayer.posX / 16.0D);
 			z0 = MathHelper.floor_double(entityPlayer.posZ / 16.0D);
+			entityPlayer.curChunkX = x0;
+			entityPlayer.curChunkZ = z0;
 
 			for(x = -radius; x <= radius; ++x) {
 				for(z = -radius; z <= radius; ++z) {
@@ -3002,12 +3050,15 @@ public class World implements IBlockAccess {
 	}
 
 	public void updateEntityList() {
-		this.loadedEntityList.removeAll(this.unloadedEntityList);
+		
+		//this.loadedEntityList.removeAll(this.unloadedEntityList);
 
 		int i1;
 		Entity entity2;
 		int i3;
 		int i4;
+		
+		/*
 		for(i1 = 0; i1 < this.unloadedEntityList.size(); ++i1) {
 			entity2 = (Entity)this.unloadedEntityList.get(i1);
 			i3 = entity2.chunkCoordX;
@@ -3022,7 +3073,7 @@ public class World implements IBlockAccess {
 		}
 
 		this.unloadedEntityList.clear();
-
+		*/
 		for(i1 = 0; i1 < this.loadedEntityList.size(); ++i1) {
 			entity2 = (Entity)this.loadedEntityList.get(i1);
 			if(entity2.ridingEntity != null) {
@@ -3244,21 +3295,23 @@ public class World implements IBlockAccess {
 	}
 
 	public boolean levelIsValidUponWorldTheme() {
-		// World theme based invalidations ahead!
-		
-		// Paradise must have at least one bronze dungeon
-		if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.paradise.id) {
-			if(!GlobalVars.hasBronzeDungeon) return false;
-		}
-		
-		// Forest must have 
-		if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.forest.id) { 
-			if(this.worldInfo.getTerrainType() != WorldType.SKY) {
-				// a) A minotaur maze which main body is under y = 64, for island terrain.
-				if(!GlobalVars.hasCorrectMinoshroomMaze) return false;
-			} else {
-				// b) At least one maze, for floating islands
-				if(!GlobalVars.hasUnderHillMaze) return false;
+		if(this.isNewWorld) {	
+			// World theme based invalidations ahead!
+			
+			// Paradise must have at least one bronze dungeon
+			if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.paradise.id) {
+				if(!GlobalVars.hasBronzeDungeon) return false;
+			}
+			
+			// Forest must have 
+			if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.forest.id) { 
+				if(this.worldInfo.getTerrainType() != WorldType.SKY) {
+					// a) A minotaur maze which main body is under y = 64, for island terrain.
+					if(!GlobalVars.hasCorrectMinoshroomMaze) return false;
+				} else {
+					// b) At least one maze, for floating islands
+					if(!GlobalVars.hasUnderHillMaze) return false;
+				}
 			}
 		}
 		

@@ -116,4 +116,5 @@ Now spice it up a bit:
 		* Minotaur mazes have a 14 block high entrance. Condition is that they must generate at 64+14 = 78 or below, in the open.
 		
 * [ ] Message "retrying world generation".
-* [ ] Modify feature provider so it doesn't try outside of the map!
+* [X] Modify feature provider so it doesn't try outside of the map!
+* [X] Very important modification! upon processing the entity list, only update those within a square radius of 8 chunks in every direction, which saves TONS of time in BIG and HUGE levels! 
