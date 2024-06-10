@@ -9,7 +9,7 @@ public class WorldSize {
 	
 	public static int sizeID;
 	
-	private static final String sizeNames[] = new String[] { "small", "normal", "big" };
+	public static final String sizeNames[] = new String[] { "small", "normal", "big", "huge" };
 	
 	public static void setSize(int xChunks, int zChunks) {
 		WorldSize.xChunks = xChunks; 
@@ -38,7 +38,8 @@ public class WorldSize {
 		switch(sizeId) {
 		case 0: setSize(8, 8); break;
 		case 1: setSize(16, 16); break;
-		case 2: setSize(32, 32); break;
+		case 2: setSize(32, 32); break; 	// World is 1 whole region
+		case 3: setSize(64, 64); break; 	// World is 4 whole regions
 		}
 		
 		WorldSize.sizeID = sizeId;

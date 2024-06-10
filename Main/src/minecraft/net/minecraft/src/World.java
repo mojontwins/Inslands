@@ -2357,7 +2357,7 @@ public class World implements IBlockAccess {
 		int blockID;
 
 		// First make a list of chunks to update: a square centered in *each* player
-		byte radius = 8; 	// Changed 9 to 8
+		byte radius = 7; 	// Changed 9 to 7
 
 		for(int i1 = 0; i1 < this.playerEntities.size(); ++i1) {
 			EntityPlayer entityPlayer = (EntityPlayer)this.playerEntities.get(i1);
@@ -3241,5 +3241,27 @@ public class World implements IBlockAccess {
 
 	public void setBlockAndMetadata(int x, int y, int z, BlockState blockState) {
 		this.setBlockAndMetadata(x, y, z, blockState.getBlock().blockID, blockState.getMetadata());
+	}
+
+	public boolean levelIsValidUponWorldTheme() {
+		// World theme based invalidations ahead!
+		
+		// Paradise must have at least one bronze dungeon
+		if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.paradise.id) {
+			if(!GlobalVars.hasBronzeDungeon) return false;
+		}
+		
+		// Forest must have 
+		if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.forest.id) { 
+			if(this.worldInfo.getTerrainType() != WorldType.SKY) {
+				// a) A minotaur maze which main body is under y = 64, for island terrain.
+				if(!GlobalVars.hasCorrectMinoshroomMaze) return false;
+			} else {
+				// b) At least one maze, for floating islands
+				if(!GlobalVars.hasUnderHillMaze) return false;
+			}
+		}
+		
+		return true;
 	}
 }

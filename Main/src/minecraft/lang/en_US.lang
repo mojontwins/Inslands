@@ -16,6 +16,7 @@ theme.Poison=Poison Island
 size.small=Small
 size.normal=Normal
 size.big=Big
+size.huge=Huge
 
 menu.singleplayer=Singleplayer
 menu.multiplayer=Multiplayer

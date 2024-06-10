@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.src.Block;
 import net.minecraft.src.EntityPainting;
 import net.minecraft.src.EnumArt;
+import net.minecraft.src.GlobalVars;
 import net.minecraft.src.TileEntityMobSpawner;
 import net.minecraft.src.World;
 
@@ -13,10 +14,12 @@ public class TFGenHillMaze extends TFGenerator {
 	TFMaze maze;
 	Random rand;
 	boolean checkSolid;
+	int solidPercent = 80;
 
-	public TFGenHillMaze(int size, boolean checksolid) {
+	public TFGenHillMaze(int size, boolean checksolid, int solidPercent) {
 		this.hsize = size;
 		this.checkSolid = checksolid;
+		this.solidPercent = solidPercent;
 	}
 
 	public boolean generate(World world, Random rand, int x, int y, int z) {
@@ -33,7 +36,7 @@ public class TFGenHillMaze extends TFGenerator {
 		}
 
 		if (this.checkSolid) {
-			if (!this.checkMostlySolid(sx, y - 1, sz, msize * 4, 5, msize * 4, 80)) {
+			if (!this.checkMostlySolid(sx, y - 1, sz, msize * 4, 5, msize * 4, this.solidPercent)) {
 				return false;
 			}
 		}
@@ -64,6 +67,8 @@ public class TFGenHillMaze extends TFGenerator {
 		this.decorate3x3Rooms(rcoords);
 		
 		System.out.println ("Hill maze @ " + x + " " + y + " " + z);
+		GlobalVars.hasUnderHillMaze = true;
+		
 		return true;
 	}
 	
