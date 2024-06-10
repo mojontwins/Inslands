@@ -715,4 +715,37 @@ public abstract class StructureComponent {
 		}
 
 	}
+	
+	// ???
+	
+	protected void func_74878_a(World par1World, StructureBoundingBox par2StructureBoundingBox, int par3, int par4, int par5, int par6, int par7, int par8) {
+		for (int var9 = par4; var9 <= par7; ++var9) {
+			for (int var10 = par3; var10 <= par6; ++var10) {
+				for (int var11 = par5; var11 <= par8; ++var11) {
+					this.placeBlockAtCurrentPosition(par1World, 0, 0, var10, var9, var11, par2StructureBoundingBox);
+				}
+			}
+		}
+	}
+
+	protected void func_74872_a(World par1World, StructureBoundingBox par2StructureBoundingBox, int par3, int par4,
+			int par5, int par6, int par7, int par8, int par9, int par10, int par11, int par12, boolean par13) {
+		for (int var14 = par4; var14 <= par7; ++var14) {
+			for (int var15 = par3; var15 <= par6; ++var15) {
+				for (int var16 = par5; var16 <= par8; ++var16) {
+					if (!par13 || this.getBlockIdAtCurrentPosition(par1World, var15, var14, var16,
+							par2StructureBoundingBox) != 0) {
+						if (var14 != par4 && var14 != par7 && var15 != par3 && var15 != par6 && var16 != par5
+								&& var16 != par8) {
+							this.placeBlockAtCurrentPosition(par1World, par11, par12, var15, var14, var16,
+									par2StructureBoundingBox);
+						} else {
+							this.placeBlockAtCurrentPosition(par1World, par9, par10, var15, var14, var16,
+									par2StructureBoundingBox);
+						}
+					}
+				}
+			}
+		}
+	}
 }

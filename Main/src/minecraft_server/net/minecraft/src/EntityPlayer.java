@@ -39,6 +39,10 @@ public abstract class EntityPlayer extends EntityLiving {
 	private int damageRemainder = 0;
 	public EntityFish fishEntity = null;
 
+	// Used to prune entity list to update
+	public int curChunkX;
+	public int curChunkZ;
+	
 	// Backported from release
 	
 	private ItemStack itemInUse;

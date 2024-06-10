@@ -52,4 +52,10 @@ public class ChunkCoordinates implements Comparable<Object> {
 	public int compareTo(Object object1) {
 		return this.compareChunkCoordinate((ChunkCoordinates)object1);
 	}
+
+	public void set(int x, int y, int z) {
+		this.posX = x;
+		this.posY = y;
+		this.posZ = z;
+	}
 }

@@ -75,7 +75,7 @@ public class EntityPirate extends EntityHumanBase implements IMobWithLevel, ISen
 	}
 
 	@Override
-	protected boolean attackEntityAsMob(Entity entity) {
+	public boolean attackEntityAsMob(Entity entity) {
 		return super.attackEntityAsMob(entity);
 	}
 

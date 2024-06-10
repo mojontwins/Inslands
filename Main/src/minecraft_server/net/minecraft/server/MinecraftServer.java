@@ -15,11 +15,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.src.ConsoleCommandHandler;
 import net.minecraft.src.ConsoleLogManager;
 import net.minecraft.src.ConvertProgressUpdater;
 import net.minecraft.src.EntityTracker;
+import net.minecraft.src.GlobalVars;
 import net.minecraft.src.ICommandListener;
 import net.minecraft.src.IProgressUpdate;
 import net.minecraft.src.ISaveFormat;
@@ -160,51 +160,60 @@ public class MinecraftServer implements Runnable, ICommandListener {
 
 		this.worldMngr = new WorldServer[2];
 		boolean z7 = this.propertyManagerObj.getBooleanProperty("generate-structures", true);
-		WorldSettings worldSettings8 = new WorldSettings(j3, 0, z7, false, false, worldType5);
+		
 		SaveOldDir saveOldDir5 = new SaveOldDir(new File("."), string2, true);
 
-		for(int i6 = 0; i6 < this.worldMngr.length; ++i6) {
-			if(i6 == 0) {
-				this.worldMngr[i6] = new WorldServer(this, saveOldDir5, string2, i6 == 0 ? 0 : -1, worldSettings8);
-			} else {
-				this.worldMngr[i6] = new WorldServerMulti(this, saveOldDir5, string2, i6 == 0 ? 0 : -1, worldSettings8, this.worldMngr[0]);
-			}
-
-			this.worldMngr[i6].addWorldAccess(new WorldManager(this, this.worldMngr[i6]));
-			this.worldMngr[i6].difficultySetting = this.propertyManagerObj.getBooleanProperty("spawn-monsters", true) ? 1 : 0;
-			this.worldMngr[i6].setAllowedMobSpawns(this.propertyManagerObj.getBooleanProperty("spawn-monsters", true), this.spawnPeacefulMobs);
-			this.configManager.setPlayerManager(this.worldMngr);
-		}
-
-		short s18 = 196;
-		long j7 = System.currentTimeMillis();
-
-		for(int i9 = 0; i9 < this.worldMngr.length; ++i9) {
-			logger.info("Preparing start region for level " + i9);
-			if(i9 == 0 || this.propertyManagerObj.getBooleanProperty("allow-nether", true)) {
-				WorldServer worldServer10 = this.worldMngr[i9];
-				ChunkCoordinates chunkCoordinates11 = worldServer10.getSpawnPoint();
-
-				for(int i12 = -s18; i12 <= s18 && this.serverRunning; i12 += 16) {
-					for(int i13 = -s18; i13 <= s18 && this.serverRunning; i13 += 16) {
-						long j14 = System.currentTimeMillis();
-						if(j14 < j7) {
-							j7 = j14;
+		boolean levelsAreOk;
+		do {
+			levelsAreOk = true;
+			WorldSettings worldSettings8 = new WorldSettings(j3, 0, z7, false, false, worldType5);
+			
+			for(int i6 = 0; i6 < this.worldMngr.length; ++i6) {
+				GlobalVars.initializeGameFlags();
+				
+				if(i6 == 0) {
+					this.worldMngr[i6] = new WorldServer(this, saveOldDir5, string2, i6 == 0 ? 0 : -1, worldSettings8);
+				} else {
+					this.worldMngr[i6] = new WorldServerMulti(this, saveOldDir5, string2, i6 == 0 ? 0 : -1, worldSettings8, this.worldMngr[0]);
+				}
+				
+				WorldServer worldMngr = this.worldMngr[i6];
+				
+				// Pregenerate/preload all level
+				int i3 = 0;
+				long prevTime = System.currentTimeMillis();
+				for(int x = 0; x < WorldSize.width; x += 16) {
+					for(int z = 0 ; z < WorldSize.length; z += 16) {
+						long curTime = System.currentTimeMillis();
+						if(curTime > prevTime + 1000L) {
+							prevTime = curTime;
+							this.outputPercentRemaining("Preparing spawn area", i3++ * 100 / WorldSize.getTotalChunks());
 						}
-
-						if(j14 > j7 + 1000L) {
-							int i16 = (s18 * 2 + 1) * (s18 * 2 + 1);
-							int i17 = (i12 + s18) * (s18 * 2 + 1) + i13 + 1;
-							this.outputPercentRemaining("Preparing spawn area", i17 * 100 / i16);
-							j7 = j14;
-						}
-
-						worldServer10.chunkProviderServer.prepareChunk(chunkCoordinates11.posX + i12 >> 4, chunkCoordinates11.posZ + i13 >> 4);
-
+						worldMngr.getBlockId(x, 64, z);
 					}
 				}
+				
+				// Check if valid
+				if(worldMngr.isNewWorld && i6 == 0) {
+					if(worldMngr.findingSpawnPoint) {
+						logger.info("Could not find a valid spawn point for dim " + (i6 == 0 ? 0 : -1) + ". Retrying");
+						levelsAreOk = false;
+						break;
+					}
+					
+					if(worldMngr.levelIsValidUponWorldTheme()) {
+						logger.info("Generated overworld doesn't meet requirements for selected level theme. Retrying");
+						levelsAreOk = false;
+						break;
+					}
+				}
+	
+				this.worldMngr[i6].addWorldAccess(new WorldManager(this, this.worldMngr[i6]));
+				this.worldMngr[i6].difficultySetting = this.propertyManagerObj.getBooleanProperty("spawn-monsters", true) ? 1 : 0;
+				this.worldMngr[i6].setAllowedMobSpawns(this.propertyManagerObj.getBooleanProperty("spawn-monsters", true), this.spawnPeacefulMobs);
+				this.configManager.setPlayerManager(this.worldMngr);
 			}
-		}
+		} while (!levelsAreOk);
 
 		this.clearCurrentTask();
 	}

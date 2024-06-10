@@ -208,4 +208,20 @@ public abstract class TFGenerator extends WorldGenerator {
 			this.worldObj.setBlockAndMetadata(dx, dy --, dz, blockID, meta);
 		}
 	}
+	
+	protected boolean checkMostlySolid(int x0, int y0, int z0, int w, int h, int l, int percent) {
+		int solidBlocks = 0;
+		int totalBlocks = w * h * l;
+		
+		for(int x = x0; x < x0 + w; x ++) {
+			for(int y = y0; y < y0 + h; y ++) {
+				for(int z = z0; z < z0 + l; z ++) {
+					if(!this.worldObj.isAirBlock(x, y, z)) solidBlocks ++;
+				}
+			}
+		}
+		
+		return solidBlocks >= totalBlocks * percent / 100;
+	}
+
 }

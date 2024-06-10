@@ -150,7 +150,7 @@ public class BiomeGenParadise extends BiomeGenBase {
 			}
 		}
 		
-		for(int i = 0; i < 2; ++i) {
+		if(rand.nextInt(4) == 0) {
 			x = chunkX + rand.nextInt(16);
 			y = 32 + rand.nextInt(64);
 			z = chunkZ + rand.nextInt(16);

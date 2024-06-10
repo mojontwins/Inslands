@@ -4,12 +4,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import com.mojang.minecraft.entityHelpers.EntityJumpHelper;
 import com.mojang.minecraft.entityHelpers.EntityLookHelper;
 import com.mojang.minecraft.entityHelpers.EntityMoveHelper;
 import com.mojang.minecraft.entityHelpers.EntitySenses;
 import com.mojang.minecraft.entityHelpers.PathNavigate;
+import com.mojang.minecraft.modernAI.EntityAITasks;
 import com.mojontwins.minecraft.entity.status.Status;
 import com.mojontwins.minecraft.entity.status.StatusEffect;
 
@@ -71,8 +73,10 @@ public abstract class EntityLiving extends Entity {
 	protected Entity currentTarget;
 	protected int numTicksToChaseTarget = 0;
 	public boolean isStopped = false;
+	private ChunkCoordinates homePosition = new ChunkCoordinates(0, 0, 0);
+	private float maximumHomeDistance = -1.0F;
 	
-	// To simulate "new AI" STILL UNUSED
+	// To simulate "new AI" STILL UNUSED - or who knows :)
 	protected float AImoveSpeed;
 	protected EntityLookHelper lookHelper;
 	protected EntityMoveHelper moveHelper;
@@ -81,12 +85,18 @@ public abstract class EntityLiving extends Entity {
 	protected EntitySenses entitySenses;
 	protected EntityLiving attackTarget;
 	protected EntityLiving entityLivingToAttack = null;
+	public EntityLiving lastAttackingEntity = null;
+	public boolean isBlinded = false;
 	
+	protected EntityAITasks tasks = new EntityAITasks();
+	protected EntityAITasks targetTasks = new EntityAITasks();
+	
+	protected int recentlyHit = 0;
+	protected EntityPlayer attackingPlayer = null;
+	
+	// Status effects
 	protected HashMap<Integer,StatusEffect> activeStatusEffectsMap;
 	
-	public Entity lastAttackingEntity = null;
-	public boolean isBlinded = false;
-
 	public EntityLiving(World world1) {
 		super(world1);
 		this.preventEntitySpawning = true;
@@ -101,6 +111,7 @@ public abstract class EntityLiving extends Entity {
 		this.moveHelper = new EntityMoveHelper(this);
 		this.jumpHelper = new EntityJumpHelper(this);
 		this.navigator = new PathNavigate(this, world1, 16.0F);
+		this.entitySenses = new EntitySenses(this);
 		
 		this.activeStatusEffectsMap = new HashMap<Integer,StatusEffect>();
 	}
@@ -203,6 +214,12 @@ public abstract class EntityLiving extends Entity {
 					this.worldObj.spawnParticle("explode", this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d8, d9, d6);
 				}
 			}
+		}
+		
+		if(this.recentlyHit > 0) {
+			--this.recentlyHit;
+		} else {
+			this.attackingPlayer = null;
 		}
 
 		this.prevRotationUnused = this.rotationUnused;
@@ -383,6 +400,24 @@ public abstract class EntityLiving extends Entity {
 				}
 
 				this.attackedAtYaw = 0.0F;
+				
+				if(entity1 != null) {
+					if(entity1 instanceof EntityLiving) {
+						// this.setRevengeTarget((EntityLiving)entity1);
+					} 
+					
+					if(entity1 instanceof EntityPlayer) {
+						this.recentlyHit = 60;
+						this.attackingPlayer = (EntityPlayer)entity1;
+					} else if(entity1 instanceof EntityWolf) {
+						EntityWolf entityWolf5 = (EntityWolf)entity1;
+						if(entityWolf5.isTamed()) {
+							this.recentlyHit = 60;
+							this.attackingPlayer = null;
+						}
+					}
+				}
+				
 				if(z3) {
 					this.worldObj.setEntityState(this, (byte)2);
 					this.setBeenAttacked();
@@ -411,7 +446,9 @@ public abstract class EntityLiving extends Entity {
 					this.worldObj.playSoundAtEntity(this, this.getHurtSound(), this.getSoundVolume(), (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
 				}
 				
-				this.lastAttackingEntity = entity1;
+				if(entity1 instanceof EntityLiving) {
+					this.lastAttackingEntity = (EntityLiving)entity1;
+				}
 
 				return true;
 			}
@@ -736,8 +773,12 @@ public abstract class EntityLiving extends Entity {
 			this.moveForward = 0.0F;
 			this.randomYawVelocity = 0.0F;
 		} else if(!this.isMultiplayerEntity) {
-			this.updateEntityActionState();
-			this.rotationYawHead = this.rotationYaw;
+			if(this.isAIEnabled()) {
+				this.updateAITasks();
+			} else {
+				this.updateEntityActionState();
+				this.rotationYawHead = this.rotationYaw;
+			}
 		}
 
 		boolean z14;
@@ -773,6 +814,25 @@ public abstract class EntityLiving extends Entity {
 			}
 		}
 
+	}
+
+	private void updateAITasks() {
+		this.despawnEntity();
+		this.entitySenses.clearSensingCache();
+		this.targetTasks.onUpdateTasks();
+		this.tasks.onUpdateTasks();
+		this.navigator.onUpdateNavigation();
+		this.updateAITick();
+		this.moveHelper.onUpdateMoveHelper();
+		this.lookHelper.onUpdateLook();
+		this.jumpHelper.doJump();
+	}
+
+	protected void updateAITick() {
+	}
+	
+	protected boolean isAIEnabled() {
+		return false;
 	}
 
 	protected boolean isMovementBlocked() {
@@ -853,7 +913,7 @@ public abstract class EntityLiving extends Entity {
 		return true; 
 	}
 
-	protected int getVerticalFaceSpeed() {
+	public int getVerticalFaceSpeed() {
 		return 40;
 	}
 
@@ -1140,6 +1200,8 @@ public abstract class EntityLiving extends Entity {
 		this.attackTarget = attackTarget;
 	}
 
+	
+	
 	public EntitySenses getEntitySenses() {
 		return entitySenses;
 	}
@@ -1156,7 +1218,58 @@ public abstract class EntityLiving extends Entity {
 	}
 
 	public boolean isChild() {
-		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	// ??? 
+
+	public boolean func_48100_a(Class<?> class1) {
+		return EntityCreeper.class != class1 && EntityGhast.class != class1;
+	}
+	
+	public boolean isWithinHomeDistanceCurrentPosition() {
+		return this.isWithinHomeDistance(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
+	}
+
+	public boolean isWithinHomeDistance(int i1, int i2, int i3) {
+		return this.maximumHomeDistance == -1.0F ? true : this.homePosition.getSqDistanceTo(i1, i2, i3) < this.maximumHomeDistance * this.maximumHomeDistance;
+	}
+
+	public void setHomeArea(int i1, int i2, int i3, int i4) {
+		this.homePosition.set(i1, i2, i3);
+		this.maximumHomeDistance = (float)i4;
+	}
+
+	public float getMaximumHomeDistance() {
+		return this.maximumHomeDistance;
+	}
+
+	public void detachHome() {
+		this.maximumHomeDistance = -1.0F;
+	}
+
+	public boolean hasHome() {
+		return this.maximumHomeDistance != -1.0F;
+	}
+	
+	public Random getRNG() {
+		return this.rand;
+	}
+
+	public EntityLiving getAITarget() {
+		return this.entityLivingToAttack;
+	}
+
+	public EntityLiving getLastAttackingEntity() {
+		return this.lastAttackingEntity;
+	}
+
+	public void setLastAttackingEntity(Entity entity1) {
+		if(entity1 instanceof EntityLiving) {
+			this.lastAttackingEntity = (EntityLiving)entity1;
+		}
+
+	}
+	
+	
 }
