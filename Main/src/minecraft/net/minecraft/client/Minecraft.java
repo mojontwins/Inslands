@@ -1272,9 +1272,10 @@ public abstract class Minecraft implements Runnable {
 				GlobalVars.initializeGameFlags();
 				
 				world = new World(saveHandler, worldName, worldSettings);
-				this.preloadWorld(world, "Generating Level");
+				boolean isNew = world.isNewWorld; System.out.println ("New World? " + isNew);
+				this.preloadWorld(world, "Generating Level", isNew);
 				
-				if(world.isNewWorld && (world.findingSpawnPoint || !world.levelIsValidUponWorldTheme())) {
+				if(isNew && (world.findingSpawnPoint || !world.levelIsValidUponWorldTheme())) {
 					System.out.println("World not valid - trying again!");
 					Random rand = new Random(worldSettings.getSeed());
 					worldSettings = new WorldSettings(
@@ -1437,9 +1438,9 @@ public abstract class Minecraft implements Runnable {
 		this.startWorld(string1, string2, new WorldSettings(0L, 0, true, false, false, WorldType.DEFAULT));
 	}
 
-	private void preloadWorld(World world, String string1) {
+	private void preloadWorld(World world, String string1, boolean isNew) {
 		this.loadingScreen.printText(string1);
-		this.loadingScreen.displayLoadingString(world.isNewWorld ? "Building terrain" : "Loading terrain");
+		this.loadingScreen.displayLoadingString(isNew ? "Building terrain" : "Loading terrain");
 
 		int i3 = 0;
 		
@@ -1557,7 +1558,7 @@ public abstract class Minecraft implements Runnable {
 		this.thePlayer.entityId = i8;
 		this.thePlayer.func_6420_o();
 		this.playerController.func_6473_b(this.thePlayer);
-		this.preloadWorld(this.theWorld, "Respawning");
+		this.preloadWorld(this.theWorld, "Respawning", false);
 		if(this.currentScreen instanceof GuiGameOver) {
 			this.displayGuiScreen((GuiScreen)null);
 		}

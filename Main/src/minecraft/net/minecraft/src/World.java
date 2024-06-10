@@ -214,6 +214,7 @@ public class World implements IBlockAccess {
 		
 		Seasons.dayOfTheYear = -1;
 		this.worldInfo = iSaveHandler1.loadWorldInfo();
+		this.isNewWorld = this.worldInfo == null;
 		
 		this.badMoonDecide = false;
 		this.nextMoonBad = false;
@@ -225,8 +226,6 @@ public class World implements IBlockAccess {
 		} else {
 			this.worldInfo.setWorldName(string2);
 		}
-		
-		this.isNewWorld = this.worldInfo == null;
 		
 		if(worldProvider5 != null) {
 			this.worldProvider = worldProvider5;
