@@ -111,6 +111,7 @@ public abstract class EntityLiving extends Entity {
 		this.moveHelper = new EntityMoveHelper(this);
 		this.jumpHelper = new EntityJumpHelper(this);
 		this.navigator = new PathNavigate(this, world1, 16.0F);
+		this.entitySenses = new EntitySenses(this);
 		
 		this.activeStatusEffectsMap = new HashMap<Integer,StatusEffect>();
 	}
@@ -830,7 +831,7 @@ public abstract class EntityLiving extends Entity {
 	protected void updateAITick() {
 	}
 	
-	private boolean isAIEnabled() {
+	protected boolean isAIEnabled() {
 		return false;
 	}
 

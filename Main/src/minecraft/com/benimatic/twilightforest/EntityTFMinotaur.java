@@ -45,6 +45,7 @@ public class EntityTFMinotaur extends EntityMob {
 	/**
 	 * Returns true if the newer Entity AI code should be run
 	 */
+	@Override
 	protected boolean isAIEnabled() {
 		return true;
 	}

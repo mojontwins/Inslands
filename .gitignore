@@ -9,3 +9,5 @@ Main/workspace/Client/bin/*
 Main/workspace/Server/bin/*
 Main/workspace/.metadata/.plugins/*
 Inf20100415
+Main/workspace/.metadata/.log
+Main/workspace/.metadata/version.ini

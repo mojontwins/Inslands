@@ -1,5 +1,8 @@
 package com.benimatic.twilightforest;
 
+import net.minecraft.src.AchievementList;
+import net.minecraft.src.Entity;
+import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
@@ -14,7 +17,7 @@ public class EntityTFMinoshroom extends EntityTFMinotaur {
 	}
 
 	public int getMaxHealth() {
-		return 120;
+		return 200;
 	}
 
 	/**
@@ -49,5 +52,12 @@ public class EntityTFMinoshroom extends EntityTFMinotaur {
 	 */
 	protected boolean canDespawn() {
 		return false;
+	}
+	
+	@Override
+	public void onDeath(Entity entity) {
+		if(entity instanceof EntityPlayer) {
+			((EntityPlayer)entity).triggerAchievement(AchievementList.minoshroom);
+		}
 	}
 }

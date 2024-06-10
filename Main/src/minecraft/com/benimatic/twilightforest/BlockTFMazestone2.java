@@ -11,7 +11,7 @@ import net.minecraft.src.Material;
 import net.minecraft.src.World;
 
 public class BlockTFMazestone2 extends Block {
-	static int[] mimicIDs = new int[]{Block.stone.blockID, Block.stoneBricks.blockID, Block.stairDouble.blockID, Block.brick.blockID, Block.cobblestone.blockID, Block.cobblestoneMossy.blockID, Block.wood.blockID, Block.planks.blockID};
+	static int[] mimicIDs = new int[]{Block.stone.blockID, Block.stoneBricks.blockID, Block.stairDouble.blockID, Block.brick.blockID, Block.cobblestone.blockID, Block.cobblestoneMossy.blockID, Block.grass.blockID, Block.planks.blockID};
 
 	public BlockTFMazestone2(int id, int texture) {
 		super(id, texture, Material.rock);

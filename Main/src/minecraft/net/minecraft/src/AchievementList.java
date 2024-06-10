@@ -58,8 +58,8 @@ public class AchievementList {
 	public static Achievement meatBlock = (new Achievement(41, "meatBlock",         10, -6, Block.fleshBlock, zombieMeat)).registerAchievement();
 	
 	public static Achievement themeHell = (new Achievement(50, "themeHell",         12, -6, Item.achievementHell, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
-	public static Achievement themeForest = (new Achievement(51, "themeForest",     12, -2, Item.achievementForest, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
-	public static Achievement themeParadise = (new Achievement(52, "themeParadise", 12,  2, Item.achievementParadise, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement themeForest = (new Achievement(51, "themeForest",     12, -1, Item.achievementForest, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement themeParadise = (new Achievement(52, "themeParadise", 12,  4, Item.achievementParadise, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
 	
 	public static Achievement charcoal = (new Achievement(53, "charcoal",           14, -7, Item.charcoal, themeHell)).registerAchievement();
 	public static Achievement grassFromSoil = (new Achievement(54, "grassFromSoil", 14, -6, Block.grass, themeHell)).registerAchievement();
@@ -67,9 +67,12 @@ public class AchievementList {
 	public static Achievement fertilizeAcorn = (new Achievement(56, "fertilizeAcorn", 16, -5, Block.sapling, plantAcorn)).setSpecial().registerAchievement();
 	public static Achievement ironBoat = (new Achievement(57, "ironBoat",           14, -4, Item.boat_iron, themeHell)).registerAchievement();
 	
-	public static Achievement blueCloud = (new Achievement(58, "blueCloud",        14,  1, Block.aercloud, themeParadise)).registerAchievement();
-	public static Achievement defeatBronze = (new Achievement(59, "defeatBronze",  14,  2, Item.key, themeParadise)).registerAchievement();
-	public static Achievement flyingPig = (new Achievement(60, "flyingPig",        14,  3, Item.saddle, themeParadise)).registerAchievement();
+	public static Achievement blueCloud = (new Achievement(58, "blueCloud",        14,  3, Block.aercloud, themeParadise)).registerAchievement();
+	public static Achievement defeatBronze = (new Achievement(59, "defeatBronze",  14,  4, Item.key, themeParadise)).registerAchievement();
+	public static Achievement flyingPig = (new Achievement(60, "flyingPig",        14,  5, Item.saddle, themeParadise)).registerAchievement();
+	
+	public static Achievement minoshroom = (new Achievement(61, "minoshroom",      14, -2, Item.superAxe, themeForest)).setSpecial().registerAchievement();
+	public static Achievement scareKobold = (new Achievement(62, "scareKobold",    14, -1, Item.koboldFace, themeForest)).registerAchievement();
 	
 	public static void func_27374_a() {
 	}
