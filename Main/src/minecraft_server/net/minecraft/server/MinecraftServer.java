@@ -151,67 +151,80 @@ public class MinecraftServer implements Runnable, ICommandListener {
 		logger.info("Done (" + (System.nanoTime() - j5) + "ns)! For help, type \"help\" or \"?\"");
 		return true;
 	}
+	
+	private void preloadWorld(WorldServer world) {
+		int chunksLoaded = 0;
+		long prevTime = System.currentTimeMillis();
+		for(int x = 0; x < WorldSize.xChunks; x ++) { 
+			for(int z = 0 ; z < WorldSize.zChunks; z ++) {
+				long curTime = System.currentTimeMillis();
+				if(curTime > prevTime + 1000L) {
+					prevTime = curTime;
+					this.outputPercentRemaining("Preparing spawn area", chunksLoaded * 100 / WorldSize.getTotalChunks());
+				}
+				chunksLoaded++;
+				world.getBlockId(x, 64, z);
+				world.chunkProviderServer.prepareChunk(x, z);
+			}
+		}
+	}
 
-	private void initWorld(ISaveFormat iSaveFormat1, String string2, long j3, WorldType worldType5) {
-		if(iSaveFormat1.isOldMapFormat(string2)) {
+	private void initWorld(ISaveFormat saveHandler, String folderName, long seed, WorldType worldType) {
+		if(saveHandler.isOldMapFormat(folderName)) {
 			logger.info("Converting map!");
-			iSaveFormat1.converMapToMCRegion(string2, new ConvertProgressUpdater(this));
+			saveHandler.converMapToMCRegion(folderName, new ConvertProgressUpdater(this));
 		}
 
 		this.worldMngr = new WorldServer[2];
-		boolean z7 = this.propertyManagerObj.getBooleanProperty("generate-structures", true);
+		boolean generateStructures = this.propertyManagerObj.getBooleanProperty("generate-structures", true);
 		
-		SaveOldDir saveOldDir5 = new SaveOldDir(new File("."), string2, true);
+		SaveOldDir saveOldDir = new SaveOldDir(new File("."), folderName, true);
 
 		boolean levelsAreOk;
 		do {
 			levelsAreOk = true;
-			WorldSettings worldSettings8 = new WorldSettings(j3, 0, z7, false, false, worldType5);
+			WorldSettings worldSettings8 = new WorldSettings(seed, 0, generateStructures, false, false, worldType);
 			
-			for(int i6 = 0; i6 < this.worldMngr.length; ++i6) {
+			for(int i = 0; i < this.worldMngr.length; ++i) {
+				logger.info("** DIM " + ( i == 0 ? 0 : -1));
 				GlobalVars.initializeGameFlags();
 				
-				if(i6 == 0) {
-					this.worldMngr[i6] = new WorldServer(this, saveOldDir5, string2, i6 == 0 ? 0 : -1, worldSettings8);
+				if(i == 0) {
+					this.worldMngr[i] = new WorldServer(this, saveOldDir, folderName, i == 0 ? 0 : -1, worldSettings8);
 				} else {
-					this.worldMngr[i6] = new WorldServerMulti(this, saveOldDir5, string2, i6 == 0 ? 0 : -1, worldSettings8, this.worldMngr[0]);
+					this.worldMngr[i] = new WorldServerMulti(this, saveOldDir, folderName, i == 0 ? 0 : -1, worldSettings8, this.worldMngr[0]);
 				}
 				
-				WorldServer worldMngr = this.worldMngr[i6];
+				WorldServer worldMngr = this.worldMngr[i];				
 				
-				// Pregenerate/preload all level
-				int i3 = 0;
-				long prevTime = System.currentTimeMillis();
-				for(int x = 0; x < WorldSize.width; x += 16) {
-					for(int z = 0 ; z < WorldSize.length; z += 16) {
-						long curTime = System.currentTimeMillis();
-						if(curTime > prevTime + 1000L) {
-							prevTime = curTime;
-							this.outputPercentRemaining("Preparing spawn area", i3++ * 100 / WorldSize.getTotalChunks());
-						}
-						worldMngr.getBlockId(x, 64, z);
-					}
-				}
+				this.worldMngr[i].addWorldAccess(new WorldManager(this, this.worldMngr[i]));
+				this.worldMngr[i].difficultySetting = this.propertyManagerObj.getBooleanProperty("spawn-monsters", true) ? 1 : 0;
+				this.worldMngr[i].setAllowedMobSpawns(this.propertyManagerObj.getBooleanProperty("spawn-monsters", true), this.spawnPeacefulMobs);
+				this.configManager.setPlayerManager(this.worldMngr);
 				
 				// Check if valid
-				if(worldMngr.isNewWorld && i6 == 0) {
+				boolean newWorld = worldMngr.isNewWorld;
+				if(newWorld) {
+					logger.info("Generating new world");
+				} else {
+					logger.info("Loading existing world");
+				}
+
+				// Pregenerate/preload all level
+				this.preloadWorld(worldMngr);
+
+				if(newWorld && i == 0) {
 					if(worldMngr.findingSpawnPoint) {
-						logger.info("Could not find a valid spawn point for dim " + (i6 == 0 ? 0 : -1) + ". Retrying");
+						logger.info("Could not find a valid spawn point for dim " + (i == 0 ? 0 : -1) + ". Retrying");
 						levelsAreOk = false;
 						break;
-					}
-					
-					if(worldMngr.levelIsValidUponWorldTheme()) {
-						logger.info("Generated overworld doesn't meet requirements for selected level theme. Retrying");
+					} else if(!worldMngr.levelIsValidUponWorldTheme()) {
+						logger.info("Generated overworld doesn't meet requirements for selected level theme " + LevelThemeSettings.findThemeById(LevelThemeGlobalSettings.themeID).name + ". Retrying");
 						levelsAreOk = false;
 						break;
 					}
 				}
 	
-				this.worldMngr[i6].addWorldAccess(new WorldManager(this, this.worldMngr[i6]));
-				this.worldMngr[i6].difficultySetting = this.propertyManagerObj.getBooleanProperty("spawn-monsters", true) ? 1 : 0;
-				this.worldMngr[i6].setAllowedMobSpawns(this.propertyManagerObj.getBooleanProperty("spawn-monsters", true), this.spawnPeacefulMobs);
-				this.configManager.setPlayerManager(this.worldMngr);
 			}
 		} while (!levelsAreOk);
 

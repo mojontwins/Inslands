@@ -63,6 +63,7 @@ public class WorldServer extends World {
 
 	protected void obtainEntitySkin(Entity entity1) {
 		super.obtainEntitySkin(entity1);
+		System.out.println (this.entityRemoval + " " + entity1);;
 		this.entityRemoval.addKey(entity1.entityId, entity1);
 	}
 

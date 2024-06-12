@@ -2188,3 +2188,549 @@ java.lang.NullPointerException
 2024-06-10 21:04:43 [INFO] Stopping server
 2024-06-10 21:04:43 [INFO] Saving chunks
 2024-06-10 21:04:47 [INFO] Saving chunks
+2024-06-11 20:07:18 [INFO] Starting minecraft server InSlands v240612
+2024-06-11 20:07:18 [INFO] Loading properties
+2024-06-11 20:07:20 [INFO] Starting Minecraft server on *:25565
+2024-06-11 20:07:20 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-11 20:07:20 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-11 20:07:20 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-11 20:07:20 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-11 20:07:20 [INFO] Preparing level "world"
+2024-06-11 20:07:22 [INFO] Loading existing world
+2024-06-11 20:07:22 [INFO] Loading existing world
+2024-06-11 20:07:22 [INFO] Done (2174108200ns)! For help, type "help" or "?"
+2024-06-11 20:07:35 [INFO] Stopping server
+2024-06-11 20:07:35 [INFO] Saving chunks
+2024-06-11 20:07:35 [INFO] Saving chunks
+2024-06-11 20:09:07 [INFO] Starting minecraft server InSlands v240612
+2024-06-11 20:09:07 [INFO] Loading properties
+2024-06-11 20:09:07 [INFO] Starting Minecraft server on *:25565
+2024-06-11 20:09:07 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-11 20:09:08 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-11 20:09:08 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-11 20:09:08 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-11 20:09:08 [INFO] Preparing level "world"
+2024-06-11 20:09:08 [INFO] Loading existing world
+2024-06-11 20:09:08 [INFO] >>0
+2024-06-11 20:09:08 [INFO] >>16
+2024-06-11 20:09:08 [INFO] >>32
+2024-06-11 20:09:08 [INFO] >>48
+2024-06-11 20:09:08 [INFO] >>64
+2024-06-11 20:09:08 [INFO] >>80
+2024-06-11 20:09:08 [INFO] >>96
+2024-06-11 20:09:08 [INFO] >>112
+2024-06-11 20:09:08 [INFO] >>128
+2024-06-11 20:09:08 [INFO] >>144
+2024-06-11 20:09:08 [INFO] >>160
+2024-06-11 20:09:08 [INFO] >>176
+2024-06-11 20:09:08 [INFO] >>192
+2024-06-11 20:09:08 [INFO] >>208
+2024-06-11 20:09:08 [INFO] >>224
+2024-06-11 20:09:08 [INFO] >>240
+2024-06-11 20:09:08 [INFO] Loading existing world
+2024-06-11 20:09:08 [INFO] >>0
+2024-06-11 20:09:08 [INFO] >>16
+2024-06-11 20:09:08 [INFO] >>32
+2024-06-11 20:09:08 [INFO] >>48
+2024-06-11 20:09:08 [INFO] >>64
+2024-06-11 20:09:08 [INFO] >>80
+2024-06-11 20:09:08 [INFO] >>96
+2024-06-11 20:09:08 [INFO] >>112
+2024-06-11 20:09:08 [INFO] >>128
+2024-06-11 20:09:08 [INFO] >>144
+2024-06-11 20:09:08 [INFO] >>160
+2024-06-11 20:09:08 [INFO] >>176
+2024-06-11 20:09:08 [INFO] >>192
+2024-06-11 20:09:08 [INFO] >>208
+2024-06-11 20:09:08 [INFO] >>224
+2024-06-11 20:09:08 [INFO] >>240
+2024-06-11 20:09:08 [INFO] Done (683023500ns)! For help, type "help" or "?"
+2024-06-11 20:09:16 [INFO] Stopping server
+2024-06-11 20:09:16 [INFO] Saving chunks
+2024-06-11 20:09:16 [INFO] Saving chunks
+2024-06-11 20:10:35 [INFO] Starting minecraft server InSlands v240612
+2024-06-11 20:10:35 [INFO] Loading properties
+2024-06-11 20:10:35 [INFO] Starting Minecraft server on *:25565
+2024-06-11 20:10:35 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-11 20:10:35 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-11 20:10:35 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-11 20:10:35 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-11 20:10:36 [INFO] Preparing level "world"
+2024-06-11 20:10:39 [INFO] Generating new world
+2024-06-11 20:10:39 [INFO] Generated overworld doesn't meet requirements for selected level theme. Retrying
+2024-06-11 20:10:41 [INFO] Generating new world
+2024-06-11 20:10:42 [INFO] Preparing spawn area: 0%
+2024-06-11 20:10:43 [INFO] Preparing spawn area: 0%
+2024-06-11 20:10:44 [INFO] Preparing spawn area: 0%
+2024-06-11 20:10:45 [INFO] Preparing spawn area: 1%
+2024-06-11 20:10:46 [INFO] Preparing spawn area: 1%
+2024-06-11 20:10:47 [INFO] Preparing spawn area: 1%
+2024-06-11 20:10:48 [INFO] Preparing spawn area: 2%
+2024-06-11 20:10:49 [INFO] Preparing spawn area: 2%
+2024-06-11 20:10:50 [INFO] Preparing spawn area: 3%
+2024-06-11 20:10:51 [INFO] Preparing spawn area: 3%
+2024-06-11 20:10:52 [INFO] Preparing spawn area: 3%
+2024-06-11 20:10:53 [INFO] Could not find a valid spawn point for dim 0. Retrying
+2024-06-11 20:10:53 [INFO] Generating new world
+2024-06-11 20:10:53 [INFO] Generated overworld doesn't meet requirements for selected level theme. Retrying
+2024-06-11 20:10:54 [INFO] Generating new world
+2024-06-11 20:10:54 [INFO] Generated overworld doesn't meet requirements for selected level theme. Retrying
+2024-06-11 20:10:54 [INFO] Generating new world
+2024-06-11 20:10:54 [INFO] Generated overworld doesn't meet requirements for selected level theme. Retrying
+2024-06-11 20:10:54 [INFO] Generating new world
+2024-06-11 20:10:54 [INFO] Generated overworld doesn't meet requirements for selected level theme. Retrying
+2024-06-11 20:10:54 [INFO] Generating new world
+2024-06-11 20:10:54 [INFO] Generated overworld doesn't meet requirements for selected level theme. Retrying
+2024-06-11 20:10:55 [INFO] Generating new world
+2024-06-11 20:10:55 [INFO] Generated overworld doesn't meet requirements for selected level theme. Retrying
+2024-06-11 20:10:56 [INFO] Generating new world
+2024-06-11 20:10:57 [INFO] Preparing spawn area: 0%
+2024-06-11 20:10:58 [INFO] Preparing spawn area: 0%
+2024-06-11 20:10:59 [INFO] Preparing spawn area: 0%
+2024-06-11 20:11:00 [INFO] Preparing spawn area: 1%
+2024-06-11 20:11:01 [INFO] Preparing spawn area: 1%
+2024-06-11 20:11:02 [INFO] Preparing spawn area: 1%
+2024-06-11 20:11:03 [INFO] Preparing spawn area: 2%
+2024-06-11 20:11:04 [INFO] Preparing spawn area: 2%
+2024-06-11 20:11:05 [INFO] Preparing spawn area: 3%
+2024-06-11 20:11:06 [INFO] Could not find a valid spawn point for dim 0. Retrying
+2024-06-11 20:11:06 [SEVERE] Unexpected exception
+java.lang.NullPointerException
+	at net.minecraft.src.WorldServer.obtainEntitySkin(WorldServer.java:66)
+	at net.minecraft.src.World.entityJoinedWorld(World.java:1106)
+	at net.minecraft.src.Block.dropBlockAsItem_do(Block.java:467)
+	at net.minecraft.src.Block.dropBlockAsItemWithChance(Block.java:451)
+	at net.minecraft.src.Block.dropBlockAsItem(Block.java:440)
+	at net.minecraft.src.BlockTorch.checkIfAttachedToBlock(BlockTorch.java:130)
+	at net.minecraft.src.BlockTorch.onBlockAdded(BlockTorch.java:93)
+	at net.minecraft.src.Chunk.setBlockIDWithMetadata(Chunk.java:289)
+	at net.minecraft.src.Chunk.setBlockID(Chunk.java:364)
+	at net.minecraft.src.World.setBlock(World.java:467)
+	at net.minecraft.src.World.setBlockWithNotify(World.java:552)
+	at net.minecraft.src.WorldGenIndevHouse.generate(WorldGenIndevHouse.java:59)
+	at net.minecraft.src.World.getInitialSpawnLocation(World.java:285)
+	at net.minecraft.src.World.<init>(World.java:243)
+	at net.minecraft.src.WorldServer.<init>(WorldServer.java:16)
+	at net.minecraft.server.MinecraftServer.initWorld(MinecraftServer.java:190)
+	at net.minecraft.server.MinecraftServer.startServer(MinecraftServer.java:150)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:274)
+	at net.minecraft.src.ThreadServerApplication.run(ThreadServerApplication.java:14)
+2024-06-11 20:11:34 [INFO] Stopping server
+2024-06-11 20:11:34 [INFO] Saving chunks
+2024-06-11 20:45:45 [INFO] Starting minecraft server InSlands v240612
+2024-06-11 20:45:45 [INFO] Loading properties
+2024-06-11 20:45:45 [INFO] Starting Minecraft server on *:25565
+2024-06-11 20:45:45 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-11 20:45:45 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-11 20:45:45 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-11 20:45:45 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-11 20:45:45 [INFO] Preparing level "world"
+2024-06-11 20:45:49 [INFO] Generating new world
+2024-06-11 20:45:50 [INFO] Preparing spawn area: 5%
+2024-06-11 20:45:51 [INFO] Preparing spawn area: 12%
+2024-06-11 20:45:52 [INFO] Preparing spawn area: 19%
+2024-06-11 20:45:53 [INFO] Preparing spawn area: 27%
+2024-06-11 20:45:54 [INFO] Preparing spawn area: 34%
+2024-06-11 20:45:55 [INFO] Preparing spawn area: 37%
+2024-06-11 20:45:56 [INFO] Preparing spawn area: 44%
+2024-06-11 20:45:57 [INFO] Preparing spawn area: 53%
+2024-06-11 20:45:58 [INFO] Preparing spawn area: 61%
+2024-06-11 20:45:59 [INFO] Preparing spawn area: 69%
+2024-06-11 20:46:00 [INFO] Preparing spawn area: 78%
+2024-06-11 20:46:01 [INFO] Preparing spawn area: 87%
+2024-06-11 20:46:02 [INFO] Preparing spawn area: 96%
+2024-06-11 20:46:02 [INFO] Could not find a valid spawn point for dim 0. Retrying
+2024-06-11 20:46:03 [INFO] Generating new world
+2024-06-11 20:46:03 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-11 20:46:04 [INFO] Generating new world
+2024-06-11 20:46:05 [INFO] Preparing spawn area: 14%
+2024-06-11 20:46:06 [INFO] Preparing spawn area: 24%
+2024-06-11 20:46:07 [INFO] Preparing spawn area: 33%
+2024-06-11 20:46:08 [INFO] Preparing spawn area: 45%
+2024-06-11 20:46:09 [INFO] Preparing spawn area: 56%
+2024-06-11 20:46:10 [INFO] Preparing spawn area: 65%
+2024-06-11 20:46:11 [INFO] Preparing spawn area: 75%
+2024-06-11 20:46:12 [INFO] Preparing spawn area: 84%
+2024-06-11 20:46:13 [INFO] Preparing spawn area: 93%
+2024-06-11 20:46:14 [INFO] Could not find a valid spawn point for dim 0. Retrying
+2024-06-11 20:46:14 [SEVERE] Unexpected exception
+java.lang.NullPointerException
+	at net.minecraft.src.WorldServer.obtainEntitySkin(WorldServer.java:66)
+	at net.minecraft.src.World.entityJoinedWorld(World.java:1106)
+	at net.minecraft.src.Block.dropBlockAsItem_do(Block.java:467)
+	at net.minecraft.src.Block.dropBlockAsItemWithChance(Block.java:451)
+	at net.minecraft.src.Block.dropBlockAsItem(Block.java:440)
+	at net.minecraft.src.BlockTorch.checkIfAttachedToBlock(BlockTorch.java:130)
+	at net.minecraft.src.BlockTorch.onBlockAdded(BlockTorch.java:93)
+	at net.minecraft.src.Chunk.setBlockIDWithMetadata(Chunk.java:289)
+	at net.minecraft.src.Chunk.setBlockID(Chunk.java:364)
+	at net.minecraft.src.World.setBlock(World.java:467)
+	at net.minecraft.src.World.setBlockWithNotify(World.java:552)
+	at net.minecraft.src.WorldGenIndevHouse.generate(WorldGenIndevHouse.java:58)
+	at net.minecraft.src.World.getInitialSpawnLocation(World.java:285)
+	at net.minecraft.src.World.<init>(World.java:243)
+	at net.minecraft.src.WorldServer.<init>(WorldServer.java:16)
+	at net.minecraft.server.MinecraftServer.initWorld(MinecraftServer.java:191)
+	at net.minecraft.server.MinecraftServer.startServer(MinecraftServer.java:150)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:275)
+	at net.minecraft.src.ThreadServerApplication.run(ThreadServerApplication.java:14)
+2024-06-11 20:46:14 [INFO] Stopping server
+2024-06-11 20:46:14 [INFO] Saving chunks
+2024-06-12 14:09:01 [INFO] Starting minecraft server InSlands v240612
+2024-06-12 14:09:01 [INFO] Loading properties
+2024-06-12 14:09:02 [INFO] Starting Minecraft server on *:25565
+2024-06-12 14:09:02 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-12 14:09:02 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-12 14:09:02 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-12 14:09:02 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-12 14:09:03 [INFO] Preparing level "world"
+2024-06-12 14:09:03 [INFO] ** DIM 0
+2024-06-12 14:09:07 [INFO] Generating new world
+2024-06-12 14:09:08 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:09:08 [INFO] ** DIM 0
+2024-06-12 14:09:08 [INFO] Generating new world
+2024-06-12 14:09:08 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:09:08 [INFO] ** DIM 0
+2024-06-12 14:09:10 [INFO] Generating new world
+2024-06-12 14:09:11 [INFO] Preparing spawn area: 7%
+2024-06-12 14:09:12 [INFO] Preparing spawn area: 13%
+2024-06-12 14:09:13 [INFO] Preparing spawn area: 18%
+2024-06-12 14:09:14 [INFO] Preparing spawn area: 25%
+2024-06-12 14:09:15 [INFO] Preparing spawn area: 34%
+2024-06-12 14:09:16 [INFO] Preparing spawn area: 41%
+2024-06-12 14:09:17 [INFO] Preparing spawn area: 50%
+2024-06-12 14:09:18 [INFO] Preparing spawn area: 58%
+2024-06-12 14:09:19 [INFO] Preparing spawn area: 67%
+2024-06-12 14:09:20 [INFO] Preparing spawn area: 77%
+2024-06-12 14:09:21 [INFO] Preparing spawn area: 88%
+2024-06-12 14:09:22 [INFO] Preparing spawn area: 98%
+2024-06-12 14:09:22 [INFO] Could not find a valid spawn point for dim 0. Retrying
+2024-06-12 14:09:22 [INFO] ** DIM 0
+2024-06-12 14:09:23 [INFO] Generating new world
+2024-06-12 14:09:23 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:09:23 [INFO] ** DIM 0
+2024-06-12 14:09:23 [INFO] Generating new world
+2024-06-12 14:09:23 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:09:23 [INFO] ** DIM 0
+2024-06-12 14:09:23 [INFO] Generating new world
+2024-06-12 14:09:23 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:09:23 [INFO] ** DIM 0
+2024-06-12 14:09:24 [INFO] Generating new world
+2024-06-12 14:09:25 [INFO] Preparing spawn area: 12%
+2024-06-12 14:09:26 [INFO] Preparing spawn area: 23%
+2024-06-12 14:09:27 [INFO] Preparing spawn area: 33%
+2024-06-12 14:09:28 [INFO] Preparing spawn area: 42%
+2024-06-12 14:09:29 [INFO] Preparing spawn area: 51%
+2024-06-12 14:09:30 [INFO] Preparing spawn area: 61%
+2024-06-12 14:09:31 [INFO] Preparing spawn area: 71%
+2024-06-12 14:09:32 [INFO] Preparing spawn area: 81%
+2024-06-12 14:09:33 [INFO] Preparing spawn area: 91%
+2024-06-12 14:09:34 [INFO] Could not find a valid spawn point for dim 0. Retrying
+2024-06-12 14:09:34 [INFO] ** DIM 0
+2024-06-12 14:09:34 [INFO] Generating new world
+2024-06-12 14:09:34 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:09:34 [INFO] ** DIM 0
+2024-06-12 14:09:35 [INFO] Generating new world
+2024-06-12 14:09:35 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:09:35 [INFO] ** DIM 0
+2024-06-12 14:09:35 [INFO] Generating new world
+2024-06-12 14:09:35 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:09:35 [INFO] ** DIM 0
+2024-06-12 14:09:35 [INFO] Generating new world
+2024-06-12 14:09:35 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:09:35 [INFO] ** DIM 0
+2024-06-12 14:09:36 [SEVERE] Unexpected exception
+java.lang.NullPointerException
+	at net.minecraft.src.WorldServer.obtainEntitySkin(WorldServer.java:66)
+	at net.minecraft.src.World.entityJoinedWorld(World.java:1106)
+	at net.minecraft.src.Block.dropBlockAsItem_do(Block.java:467)
+	at net.minecraft.src.Block.dropBlockAsItemWithChance(Block.java:451)
+	at net.minecraft.src.Block.dropBlockAsItem(Block.java:440)
+	at net.minecraft.src.BlockTorch.checkIfAttachedToBlock(BlockTorch.java:130)
+	at net.minecraft.src.BlockTorch.onBlockAdded(BlockTorch.java:93)
+	at net.minecraft.src.Chunk.setBlockIDWithMetadata(Chunk.java:289)
+	at net.minecraft.src.Chunk.setBlockID(Chunk.java:364)
+	at net.minecraft.src.World.setBlock(World.java:467)
+	at net.minecraft.src.World.setBlockWithNotify(World.java:552)
+	at net.minecraft.src.WorldGenIndevHouse.generate(WorldGenIndevHouse.java:59)
+	at net.minecraft.src.World.getInitialSpawnLocation(World.java:285)
+	at net.minecraft.src.World.<init>(World.java:243)
+	at net.minecraft.src.WorldServer.<init>(WorldServer.java:16)
+	at net.minecraft.server.MinecraftServer.initWorld(MinecraftServer.java:192)
+	at net.minecraft.server.MinecraftServer.startServer(MinecraftServer.java:150)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:276)
+	at net.minecraft.src.ThreadServerApplication.run(ThreadServerApplication.java:14)
+2024-06-12 14:10:35 [INFO] Stopping server
+2024-06-12 14:10:35 [INFO] Saving chunks
+2024-06-12 14:11:33 [INFO] Starting minecraft server InSlands v240612
+2024-06-12 14:11:33 [INFO] Loading properties
+2024-06-12 14:11:33 [INFO] Starting Minecraft server on *:25565
+2024-06-12 14:11:33 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-12 14:11:34 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-12 14:11:34 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-12 14:11:34 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-12 14:11:34 [INFO] Preparing level "world"
+2024-06-12 14:11:34 [INFO] ** DIM 0
+2024-06-12 14:11:37 [INFO] Generating new world
+2024-06-12 14:11:38 [INFO] Preparing spawn area: 7%
+2024-06-12 14:11:39 [INFO] Preparing spawn area: 13%
+2024-06-12 14:11:41 [INFO] Preparing spawn area: 20%
+2024-06-12 14:11:42 [INFO] Preparing spawn area: 28%
+2024-06-12 14:11:43 [INFO] Preparing spawn area: 35%
+2024-06-12 14:11:44 [INFO] Preparing spawn area: 43%
+2024-06-12 14:11:45 [INFO] Preparing spawn area: 51%
+2024-06-12 14:11:46 [INFO] Preparing spawn area: 60%
+2024-06-12 14:11:47 [INFO] Preparing spawn area: 69%
+2024-06-12 14:11:48 [INFO] Preparing spawn area: 79%
+2024-06-12 14:11:49 [INFO] Preparing spawn area: 89%
+2024-06-12 14:11:50 [INFO] Could not find a valid spawn point for dim 0. Retrying
+2024-06-12 14:11:50 [INFO] ** DIM -1
+2024-06-12 14:11:51 [INFO] Generating new world
+2024-06-12 14:11:51 [INFO] ** DIM 0
+2024-06-12 14:11:51 [INFO] Generating new world
+2024-06-12 14:11:51 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:11:51 [INFO] ** DIM -1
+2024-06-12 14:11:51 [INFO] Generating new world
+2024-06-12 14:11:51 [INFO] ** DIM 0
+2024-06-12 14:11:53 [INFO] Generating new world
+2024-06-12 14:11:54 [INFO] Preparing spawn area: 14%
+2024-06-12 14:11:55 [INFO] Preparing spawn area: 24%
+2024-06-12 14:11:56 [INFO] Preparing spawn area: 33%
+2024-06-12 14:11:57 [INFO] Preparing spawn area: 41%
+2024-06-12 14:11:58 [INFO] Preparing spawn area: 50%
+2024-06-12 14:11:59 [INFO] Preparing spawn area: 60%
+2024-06-12 14:12:00 [INFO] Preparing spawn area: 72%
+2024-06-12 14:12:01 [INFO] Preparing spawn area: 82%
+2024-06-12 14:12:02 [INFO] Preparing spawn area: 92%
+2024-06-12 14:12:03 [INFO] Could not find a valid spawn point for dim 0. Retrying
+2024-06-12 14:12:03 [INFO] ** DIM -1
+2024-06-12 14:12:03 [INFO] Generating new world
+2024-06-12 14:12:03 [INFO] ** DIM 0
+2024-06-12 14:12:03 [INFO] Generating new world
+2024-06-12 14:12:03 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:12:03 [INFO] ** DIM -1
+2024-06-12 14:12:03 [INFO] Generating new world
+2024-06-12 14:12:03 [INFO] ** DIM 0
+2024-06-12 14:12:03 [INFO] Generating new world
+2024-06-12 14:12:03 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:12:03 [INFO] ** DIM -1
+2024-06-12 14:12:03 [INFO] Generating new world
+2024-06-12 14:12:03 [INFO] ** DIM 0
+2024-06-12 14:12:03 [INFO] Generating new world
+2024-06-12 14:12:03 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:12:03 [INFO] ** DIM -1
+2024-06-12 14:12:03 [INFO] Generating new world
+2024-06-12 14:12:03 [INFO] ** DIM 0
+2024-06-12 14:12:04 [INFO] Generating new world
+2024-06-12 14:12:05 [INFO] Preparing spawn area: 13%
+2024-06-12 14:12:06 [INFO] Preparing spawn area: 24%
+2024-06-12 14:12:07 [INFO] Preparing spawn area: 33%
+2024-06-12 14:12:08 [INFO] Preparing spawn area: 43%
+2024-06-12 14:12:09 [INFO] Preparing spawn area: 52%
+2024-06-12 14:12:10 [INFO] Preparing spawn area: 62%
+2024-06-12 14:12:11 [INFO] Preparing spawn area: 72%
+2024-06-12 14:12:12 [INFO] Preparing spawn area: 81%
+2024-06-12 14:12:13 [INFO] Preparing spawn area: 92%
+2024-06-12 14:12:14 [INFO] Could not find a valid spawn point for dim 0. Retrying
+2024-06-12 14:12:14 [INFO] ** DIM -1
+2024-06-12 14:12:14 [INFO] Generating new world
+2024-06-12 14:12:14 [INFO] ** DIM 0
+2024-06-12 14:12:14 [INFO] Generating new world
+2024-06-12 14:12:14 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:12:14 [INFO] ** DIM -1
+2024-06-12 14:12:14 [INFO] Generating new world
+2024-06-12 14:12:14 [INFO] ** DIM 0
+2024-06-12 14:12:15 [INFO] Generating new world
+2024-06-12 14:12:15 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:12:15 [INFO] ** DIM -1
+2024-06-12 14:12:15 [INFO] Generating new world
+2024-06-12 14:12:15 [INFO] ** DIM 0
+2024-06-12 14:12:16 [INFO] Generating new world
+2024-06-12 14:12:16 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:12:16 [INFO] ** DIM -1
+2024-06-12 14:12:16 [INFO] Generating new world
+2024-06-12 14:12:16 [INFO] ** DIM 0
+2024-06-12 14:12:16 [INFO] Generating new world
+2024-06-12 14:12:16 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:12:16 [INFO] ** DIM -1
+2024-06-12 14:12:16 [INFO] Generating new world
+2024-06-12 14:12:16 [INFO] ** DIM 0
+2024-06-12 14:12:17 [INFO] Generating new world
+2024-06-12 14:12:17 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:12:17 [INFO] ** DIM -1
+2024-06-12 14:12:17 [INFO] Generating new world
+2024-06-12 14:12:17 [INFO] ** DIM 0
+2024-06-12 14:12:17 [INFO] Generating new world
+2024-06-12 14:12:17 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:12:17 [INFO] ** DIM -1
+2024-06-12 14:12:17 [INFO] Generating new world
+2024-06-12 14:12:17 [INFO] ** DIM 0
+2024-06-12 14:12:17 [INFO] Generating new world
+2024-06-12 14:12:17 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:12:17 [INFO] ** DIM -1
+2024-06-12 14:12:17 [INFO] Generating new world
+2024-06-12 14:12:17 [INFO] ** DIM 0
+2024-06-12 14:12:17 [INFO] Generating new world
+2024-06-12 14:12:17 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:12:17 [INFO] ** DIM -1
+2024-06-12 14:12:17 [INFO] Generating new world
+2024-06-12 14:12:17 [INFO] ** DIM 0
+2024-06-12 14:12:18 [INFO] Generating new world
+2024-06-12 14:12:19 [INFO] Preparing spawn area: 11%
+2024-06-12 14:12:20 [INFO] Preparing spawn area: 23%
+2024-06-12 14:12:21 [INFO] Preparing spawn area: 33%
+2024-06-12 14:12:22 [INFO] Preparing spawn area: 43%
+2024-06-12 14:12:23 [INFO] Preparing spawn area: 52%
+2024-06-12 14:12:24 [INFO] Preparing spawn area: 62%
+2024-06-12 14:12:25 [INFO] Preparing spawn area: 71%
+2024-06-12 14:12:26 [INFO] Preparing spawn area: 80%
+2024-06-12 14:12:27 [INFO] Preparing spawn area: 90%
+2024-06-12 14:12:28 [INFO] Could not find a valid spawn point for dim 0. Retrying
+2024-06-12 14:12:28 [INFO] ** DIM -1
+2024-06-12 14:12:28 [INFO] Generating new world
+2024-06-12 14:12:28 [INFO] ** DIM 0
+2024-06-12 14:12:28 [INFO] Generating new world
+2024-06-12 14:12:28 [INFO] Generated overworld doesn't meet requirements for selected level theme Hell. Retrying
+2024-06-12 14:12:28 [INFO] ** DIM -1
+2024-06-12 14:12:28 [INFO] Generating new world
+2024-06-12 14:12:28 [INFO] ** DIM 0
+2024-06-12 14:12:28 [SEVERE] Unexpected exception
+java.lang.NullPointerException
+	at net.minecraft.src.WorldServer.obtainEntitySkin(WorldServer.java:66)
+	at net.minecraft.src.World.entityJoinedWorld(World.java:1106)
+	at net.minecraft.src.Block.dropBlockAsItem_do(Block.java:467)
+	at net.minecraft.src.Block.dropBlockAsItemWithChance(Block.java:451)
+	at net.minecraft.src.Block.dropBlockAsItem(Block.java:440)
+	at net.minecraft.src.BlockTorch.checkIfAttachedToBlock(BlockTorch.java:130)
+	at net.minecraft.src.BlockTorch.onBlockAdded(BlockTorch.java:93)
+	at net.minecraft.src.Chunk.setBlockIDWithMetadata(Chunk.java:289)
+	at net.minecraft.src.Chunk.setBlockID(Chunk.java:364)
+	at net.minecraft.src.World.setBlock(World.java:467)
+	at net.minecraft.src.World.setBlockWithNotify(World.java:552)
+	at net.minecraft.src.WorldGenIndevHouse.generate(WorldGenIndevHouse.java:59)
+	at net.minecraft.src.World.getInitialSpawnLocation(World.java:285)
+	at net.minecraft.src.World.<init>(World.java:243)
+	at net.minecraft.src.WorldServer.<init>(WorldServer.java:16)
+	at net.minecraft.server.MinecraftServer.initWorld(MinecraftServer.java:192)
+	at net.minecraft.server.MinecraftServer.startServer(MinecraftServer.java:150)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:275)
+	at net.minecraft.src.ThreadServerApplication.run(ThreadServerApplication.java:14)
+2024-06-12 14:12:29 [INFO] Stopping server
+2024-06-12 14:12:29 [INFO] Saving chunks
+2024-06-12 14:12:30 [INFO] Saving chunks
+2024-06-12 14:14:15 [INFO] Starting minecraft server InSlands v240612
+2024-06-12 14:14:15 [INFO] Loading properties
+2024-06-12 14:14:15 [INFO] Starting Minecraft server on *:25565
+2024-06-12 14:14:15 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-12 14:14:15 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-12 14:14:15 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-12 14:14:15 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-12 14:14:15 [INFO] Preparing level "world"
+2024-06-12 14:14:15 [INFO] ** DIM 0
+2024-06-12 14:14:18 [SEVERE] Unexpected exception
+java.lang.NullPointerException
+	at net.minecraft.src.WorldServer.obtainEntitySkin(WorldServer.java:66)
+	at net.minecraft.src.World.entityJoinedWorld(World.java:1106)
+	at net.minecraft.src.Block.dropBlockAsItem_do(Block.java:467)
+	at net.minecraft.src.Block.dropBlockAsItemWithChance(Block.java:451)
+	at net.minecraft.src.Block.dropBlockAsItem(Block.java:440)
+	at net.minecraft.src.BlockTorch.checkIfAttachedToBlock(BlockTorch.java:130)
+	at net.minecraft.src.BlockTorch.onBlockAdded(BlockTorch.java:93)
+	at net.minecraft.src.Chunk.setBlockIDWithMetadata(Chunk.java:289)
+	at net.minecraft.src.Chunk.setBlockID(Chunk.java:364)
+	at net.minecraft.src.World.setBlock(World.java:467)
+	at net.minecraft.src.World.setBlockWithNotify(World.java:552)
+	at net.minecraft.src.WorldGenIndevHouse.generate(WorldGenIndevHouse.java:58)
+	at net.minecraft.src.World.getInitialSpawnLocation(World.java:285)
+	at net.minecraft.src.World.<init>(World.java:243)
+	at net.minecraft.src.WorldServer.<init>(WorldServer.java:16)
+	at net.minecraft.server.MinecraftServer.initWorld(MinecraftServer.java:192)
+	at net.minecraft.server.MinecraftServer.startServer(MinecraftServer.java:150)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:275)
+	at net.minecraft.src.ThreadServerApplication.run(ThreadServerApplication.java:14)
+2024-06-12 14:39:31 [INFO] Stopping server
+2024-06-12 14:40:48 [INFO] Starting minecraft server InSlands v240612
+2024-06-12 14:40:48 [INFO] Loading properties
+2024-06-12 14:40:48 [INFO] Starting Minecraft server on *:25565
+2024-06-12 14:40:48 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-12 14:40:48 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-12 14:40:48 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-12 14:40:48 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-12 14:40:48 [INFO] Preparing level "world"
+2024-06-12 14:40:49 [INFO] ** DIM 0
+2024-06-12 14:40:50 [INFO] Generating new world
+2024-06-12 14:40:50 [INFO] ** DIM -1
+2024-06-12 14:40:51 [INFO] Generating new world
+2024-06-12 14:40:51 [INFO] Done (2549474000ns)! For help, type "help" or "?"
+2024-06-12 14:41:00 [INFO] Stopping server
+2024-06-12 14:41:00 [INFO] Saving chunks
+2024-06-12 14:41:00 [INFO] Saving chunks
+2024-06-12 14:41:36 [INFO] Starting minecraft server InSlands v240612
+2024-06-12 14:41:37 [INFO] Loading properties
+2024-06-12 14:41:37 [INFO] Starting Minecraft server on *:25565
+2024-06-12 14:41:37 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-12 14:41:37 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-12 14:41:37 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-12 14:41:37 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-12 14:41:37 [INFO] Preparing level "world"
+2024-06-12 14:41:37 [INFO] ** DIM 0
+2024-06-12 14:41:39 [INFO] Generating new world
+2024-06-12 14:41:39 [INFO] ** DIM -1
+2024-06-12 14:41:40 [INFO] Generating new world
+2024-06-12 14:41:40 [INFO] Done (2954420600ns)! For help, type "help" or "?"
+2024-06-12 14:41:52 [INFO] Stopping server
+2024-06-12 14:41:52 [INFO] Saving chunks
+2024-06-12 14:41:52 [INFO] Saving chunks
+2024-06-12 14:44:00 [INFO] Starting minecraft server InSlands v240612
+2024-06-12 14:44:00 [INFO] Loading properties
+2024-06-12 14:44:00 [INFO] Starting Minecraft server on *:25565
+2024-06-12 14:44:00 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-12 14:44:00 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-12 14:44:00 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-12 14:44:00 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-12 14:44:00 [INFO] Preparing level "world"
+2024-06-12 14:44:01 [INFO] ** DIM 0
+2024-06-12 14:44:02 [INFO] Generating new world
+2024-06-12 14:44:02 [INFO] ** DIM -1
+2024-06-12 14:44:03 [INFO] Generating new world
+2024-06-12 14:44:03 [INFO] Done (2819899500ns)! For help, type "help" or "?"
+2024-06-12 14:44:10 [INFO] Stopping server
+2024-06-12 14:44:10 [INFO] Saving chunks
+2024-06-12 14:44:10 [INFO] Saving chunks
+2024-06-12 16:41:09 [INFO] Starting minecraft server InSlands v240612
+2024-06-12 16:41:10 [INFO] Loading properties
+2024-06-12 16:41:11 [INFO] Starting Minecraft server on *:25565
+2024-06-12 16:41:11 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-12 16:41:11 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-12 16:41:11 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-12 16:41:11 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-12 16:41:12 [INFO] Preparing level "world"
+2024-06-12 16:41:12 [INFO] ** DIM 0
+2024-06-12 16:41:17 [INFO] Generating new world
+2024-06-12 16:41:18 [INFO] Preparing spawn area: 7%
+2024-06-12 16:41:19 [INFO] Preparing spawn area: 12%
+2024-06-12 16:41:20 [INFO] Preparing spawn area: 17%
+2024-06-12 16:41:21 [INFO] Preparing spawn area: 19%
+2024-06-12 16:41:22 [INFO] Preparing spawn area: 26%
+2024-06-12 16:41:23 [INFO] Preparing spawn area: 34%
+2024-06-12 16:41:25 [INFO] Preparing spawn area: 42%
+2024-06-12 16:41:26 [INFO] Preparing spawn area: 49%
+2024-06-12 16:41:27 [INFO] Preparing spawn area: 55%
+2024-06-12 16:41:28 [INFO] Preparing spawn area: 62%
+2024-06-12 16:41:29 [INFO] Preparing spawn area: 66%
+2024-06-12 16:41:30 [INFO] Preparing spawn area: 72%
+2024-06-12 16:41:31 [INFO] Preparing spawn area: 80%
+2024-06-12 16:41:32 [INFO] Preparing spawn area: 88%
+2024-06-12 16:41:33 [INFO] Preparing spawn area: 97%
+2024-06-12 16:41:33 [INFO] ** DIM -1
+2024-06-12 16:41:34 [INFO] Generating new world
+2024-06-12 16:41:35 [INFO] Preparing spawn area: 15%
+2024-06-12 16:41:36 [INFO] Preparing spawn area: 38%
+2024-06-12 16:41:37 [INFO] Preparing spawn area: 68%
+2024-06-12 16:41:38 [INFO] Preparing spawn area: 99%
+2024-06-12 16:41:38 [INFO] Done (26671311100ns)! For help, type "help" or "?"
+2024-06-12 16:41:42 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2024-06-12 16:42:49 [INFO] CONSOLE: Stopping the server..
+2024-06-12 16:42:49 [INFO] Stopping server
+2024-06-12 16:42:49 [INFO] Saving chunks
+2024-06-12 16:42:50 [INFO] Saving chunks
