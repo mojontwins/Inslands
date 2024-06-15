@@ -27,9 +27,16 @@ Go crazy!
 2.- Indev level themes.
 3.- Profit!
 
-# Meh
+## Meh
 
 I did a very nice vanilla Indev in beta, it's so nice but:
 
 1.- Add passing of days to get seasons working.
 2.- SMP of course
+
+# 2nd iteration
+
+Most of the stuff never got done, but I have limited worlds with Indev themes. Now I want to take every theme and make a slightly different experience. The 1st I'm visiting is the Hell theme which would need a ways to make trees renewable. Remember that trees spawn without canopy.
+
+THe way is using acorn seeds, which you can plan in the groudn to get oak saplings. Acorn seeds are sometimes dropped by skeletons.  
+

@@ -65,19 +65,25 @@ public class EntitySkeleton extends EntityArmoredMob {
 	}
 
 	protected void dropFewItems() {
-		int i1 = this.rand.nextInt(3);
-
-		int i2;
-		for(i2 = 0; i2 < i1; ++i2) {
-			this.dropItem(Item.arrow.shiftedIndex, 1);
+		if (rand.nextInt(16) == 0) {
+			this.dropItem(Item.acornSeed.shiftedIndex, 1);
+		} else if(rand.nextInt(16) == 0) {
+			this.dropItem(Item.bow.shiftedIndex, 1);
+		} else {
+			
+			int i1 = this.rand.nextInt(3);
+	
+			int i2;
+			for(i2 = 0; i2 < i1; ++i2) {
+				this.dropItem(Item.arrow.shiftedIndex, 1);
+			}
+	
+			i1 = this.rand.nextInt(3);
+	
+			for(i2 = 0; i2 < i1; ++i2) {
+				this.dropItem(Item.bone.shiftedIndex, 1);
+			}
 		}
-
-		i1 = this.rand.nextInt(3);
-
-		for(i2 = 0; i2 < i1; ++i2) {
-			this.dropItem(Item.bone.shiftedIndex, 1);
-		}
-
 	}
 
 	public ItemStack getHeldItem() {
