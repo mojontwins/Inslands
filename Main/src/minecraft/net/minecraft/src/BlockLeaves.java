@@ -46,6 +46,10 @@ public class BlockLeaves extends BlockLeavesBase {
 		return Random.nextInt(50) == 0 ? Item.appleRed.shiftedIndex : Block.sapling.blockID;
 	}
 
+	protected int damageDropped(int meta) {
+		return meta & 0xf0;
+	}
+	
 	public boolean isOpaqueCube() {
 		return !this.graphicsLevel;
 	}
@@ -95,7 +99,7 @@ public class BlockLeaves extends BlockLeavesBase {
 	}
 
 	public void updateTick17(World world, int x, int y, int z, Random random) {
-		if (!world.multiplayerWorld) {
+		if (!world.isRemote) {
 			int metadata = world.getBlockMetadata(x, y, z);
 
 			// Is leaf marked to be checked?
@@ -174,7 +178,7 @@ public class BlockLeaves extends BlockLeavesBase {
 	}
 
 	public void updateTickBeta(World world, int x, int y, int z, Random random) {
-		if (!world.multiplayerWorld) {
+		if (!world.isRemote) {
 			int metadata = world.getBlockMetadata(x, y, z);
 
 			// Is leaf marked to be checked?

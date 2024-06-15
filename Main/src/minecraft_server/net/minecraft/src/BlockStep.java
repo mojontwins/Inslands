@@ -1,7 +1,10 @@
 package net.minecraft.src;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+
+import com.mojang.minecraft.creative.CreativeTabs;
 
 public class BlockStep extends Block {
 	public static final String[] blockStepTypes = new String[]{"stone", "sand", "wood", "cobble"};
@@ -15,6 +18,7 @@ public class BlockStep extends Block {
 		}
 
 		this.setLightOpacity(255);
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 	
 		public void setBlockBoundsBasedOnState (IBlockAccess blockAccess, int x, int y, int z) {
@@ -159,5 +163,12 @@ public class BlockStep extends Block {
 	
 	public boolean seeThrough() {
 		return !blockIsDouble; 
+	}
+	
+    @Override
+    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
+		for(int i = 0; i < 4; i ++) {
+			par3List.add(new ItemStack(par1, 1, i));
+		}
 	}
 }

@@ -41,7 +41,7 @@ public class TileEntityMobSpawner extends TileEntity {
 				this.yaw -= 360.0D;
 			}
 
-			if(!this.worldObj.multiplayerWorld) {
+			if(!this.worldObj.isRemote) {
 				if(this.delay == -1) {
 					this.updateDelay();
 				}

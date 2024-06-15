@@ -181,7 +181,7 @@ public class BlockCaveVine extends Block {
 	 */
 	@Override
 	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5) {
-		if (!par1World.multiplayerWorld && !this.canVineStay(par1World, par2, par3, par4)) {
+		if (!par1World.isRemote && !this.canVineStay(par1World, par2, par3, par4)) {
 			par1World.setBlock(par2, par3, par4, 0);
 		}
 	}

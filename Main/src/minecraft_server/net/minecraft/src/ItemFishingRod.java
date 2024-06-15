@@ -1,10 +1,14 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemFishingRod extends Item {
 	public ItemFishingRod(int i1) {
 		super(i1);
 		this.setMaxDamage(64);
 		this.setMaxStackSize(1);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabTools;
 	}
 
 	public boolean isFull3D() {
@@ -22,7 +26,7 @@ public class ItemFishingRod extends Item {
 			entityPlayer3.swingItem();
 		} else {
 			world2.playSoundAtEntity(entityPlayer3, "random.bow", 0.5F, 0.4F / (rand.nextFloat() * 0.4F + 0.8F));
-			if(!world2.multiplayerWorld) {
+			if(!world2.isRemote) {
 				world2.entityJoinedWorld(new EntityFish(world2, entityPlayer3));
 			}
 

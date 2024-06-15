@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockSign extends BlockContainer {
 	private Class<TileEntitySign> signEntityClass;
 	private boolean isFreestanding;
@@ -14,6 +16,8 @@ public class BlockSign extends BlockContainer {
 		float f4 = 0.25F;
 		float f5 = 1.0F;
 		this.setBlockBounds(0.5F - f4, 0.0F, 0.5F - f4, 0.5F + f4, f5, 0.5F + f4);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {

@@ -30,7 +30,7 @@ public class ItemPainting extends Item {
 
 			EntityPainting entityPainting9 = new EntityPainting(world3, i4, i5, i6, b8);
 			if(entityPainting9.onValidSurface()) {
-				if(!world3.multiplayerWorld) {
+				if(!world3.isRemote) {
 					world3.entityJoinedWorld(entityPainting9);
 				}
 

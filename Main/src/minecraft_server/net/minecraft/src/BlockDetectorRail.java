@@ -18,7 +18,7 @@ public class BlockDetectorRail extends BlockRail {
 	}
 
 	public void onEntityCollidedWithBlock(World world1, int i2, int i3, int i4, Entity entity5) {
-		if(!world1.multiplayerWorld) {
+		if(!world1.isRemote) {
 			int i6 = world1.getBlockMetadata(i2, i3, i4);
 			if((i6 & 8) == 0) {
 				this.setStateIfMinecartInteractsWithRail(world1, i2, i3, i4, i6);
@@ -27,7 +27,7 @@ public class BlockDetectorRail extends BlockRail {
 	}
 
 	public void updateTick(World world1, int i2, int i3, int i4, Random random5) {
-		if(!world1.multiplayerWorld) {
+		if(!world1.isRemote) {
 			int i6 = world1.getBlockMetadata(i2, i3, i4);
 			if((i6 & 8) != 0) {
 				this.setStateIfMinecartInteractsWithRail(world1, i2, i3, i4, i6);

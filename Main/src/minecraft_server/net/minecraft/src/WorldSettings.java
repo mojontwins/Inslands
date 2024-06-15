@@ -4,14 +4,16 @@ public final class WorldSettings {
 	private final long seed;
 	private final int gameType;
 	private final boolean mapFeaturesEnabled;
+	private final boolean generateCities;
 	private final boolean hardcoreEnabled;
 	private final WorldType terrainType;
 
-	public WorldSettings(long j1, int i3, boolean z4, boolean z5, WorldType worldType6) {
-		this.seed = j1;
-		this.gameType = i3;
-		this.mapFeaturesEnabled = z4;
-		this.hardcoreEnabled = z5;
+	public WorldSettings(long seed, int gameType, boolean mapFeaturesEnabled, boolean hardcoreEnabled, boolean generateCities, WorldType worldType6) {
+		this.seed = seed;
+		this.gameType = gameType;
+		this.mapFeaturesEnabled = mapFeaturesEnabled;
+		this.hardcoreEnabled = hardcoreEnabled;
+		this.generateCities = generateCities;
 		this.terrainType = worldType6;
 	}
 
@@ -31,6 +33,10 @@ public final class WorldSettings {
 		return this.mapFeaturesEnabled;
 	}
 
+	public boolean isGenerateCities() {
+		return this.generateCities;
+	}
+	
 	public WorldType getTerrainType() {
 		return this.terrainType;
 	}

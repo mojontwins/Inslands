@@ -1,8 +1,11 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockJukeBox extends BlockContainer {
 	protected BlockJukeBox(int i1, int i2) {
 		super(i1, i2, Material.wood);
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	public int getBlockTextureFromSide(int i1) {
@@ -19,7 +22,7 @@ public class BlockJukeBox extends BlockContainer {
 	}
 
 	public void ejectRecord(World world1, int i2, int i3, int i4, int i5) {
-		if(!world1.multiplayerWorld) {
+		if(!world1.isRemote) {
 			TileEntityRecordPlayer tileEntityRecordPlayer6 = (TileEntityRecordPlayer)world1.getBlockTileEntity(i2, i3, i4);
 			tileEntityRecordPlayer6.record = i5;
 			tileEntityRecordPlayer6.onInventoryChanged();
@@ -28,7 +31,7 @@ public class BlockJukeBox extends BlockContainer {
 	}
 
 	public void ejectRecord(World world1, int i2, int i3, int i4) {
-		if(!world1.multiplayerWorld) {
+		if(!world1.isRemote) {
 			TileEntityRecordPlayer tileEntityRecordPlayer5 = (TileEntityRecordPlayer)world1.getBlockTileEntity(i2, i3, i4);
 			int i6 = tileEntityRecordPlayer5.record;
 			if(i6 != 0) {
@@ -54,7 +57,7 @@ public class BlockJukeBox extends BlockContainer {
 	}
 
 	public void dropBlockAsItemWithChance(World world1, int i2, int i3, int i4, int i5, float f6) {
-		if(!world1.multiplayerWorld) {
+		if(!world1.isRemote) {
 			super.dropBlockAsItemWithChance(world1, i2, i3, i4, i5, f6);
 		}
 	}

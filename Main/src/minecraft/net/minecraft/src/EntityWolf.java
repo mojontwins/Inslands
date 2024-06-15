@@ -32,7 +32,7 @@ public class EntityWolf extends EntityAnimal {
 	}
 
 	public String getEntityTexture() {
-		return this.isWolfTamed() ? "/mob/wolf_tame.png" : (this.isWolfAngry() ? "/mob/wolf_angry.png" : super.getEntityTexture());
+		return this.isTamed() ? "/mob/wolf_tame.png" : (this.isWolfAngry() ? "/mob/wolf_angry.png" : super.getEntityTexture());
 	}
 
 	public void writeEntityToNBT(NBTTagCompound nBTTagCompound1) {
@@ -60,11 +60,11 @@ public class EntityWolf extends EntityAnimal {
 	}
 
 	protected boolean canDespawn() {
-		return !this.isWolfTamed();
+		return !this.isTamed();
 	}
 
 	protected String getLivingSound() {
-		return this.isWolfAngry() ? "mob.wolf.growl" : (this.rand.nextInt(3) == 0 ? (this.isWolfTamed() && this.dataWatcher.getWatchableObjectInt(18) < 10 ? "mob.wolf.whine" : "mob.wolf.panting") : "mob.wolf.bark");
+		return this.isWolfAngry() ? "mob.wolf.growl" : (this.rand.nextInt(3) == 0 ? (this.isTamed() && this.dataWatcher.getWatchableObjectInt(18) < 10 ? "mob.wolf.whine" : "mob.wolf.panting") : "mob.wolf.bark");
 	}
 
 	protected String getHurtSound() {
@@ -85,7 +85,7 @@ public class EntityWolf extends EntityAnimal {
 
 	protected void updateEntityActionState() {
 		super.updateEntityActionState();
-		if(!this.hasAttacked && !this.hasPath() && this.isWolfTamed() && this.ridingEntity == null) {
+		if(!this.hasAttacked && !this.hasPath() && this.isTamed() && this.ridingEntity == null) {
 			EntityPlayer entityPlayer3 = this.worldObj.getPlayerEntityByName(this.getOwner());
 			if(entityPlayer3 != null) {
 				float f2 = entityPlayer3.getDistanceToEntity(this);
@@ -95,7 +95,7 @@ public class EntityWolf extends EntityAnimal {
 			} else if(!this.isInWater()) {
 				this.setIsSitting(true);
 			}
-		} else if(this.entityToAttack == null && !this.hasPath() && !this.isWolfTamed() && this.worldObj.rand.nextInt(100) == 0) {
+		} else if(this.entityToAttack == null && !this.hasPath() && !this.isTamed() && this.worldObj.rand.nextInt(100) == 0) {
 			List<Entity> list1 = this.worldObj.getEntitiesWithinAABB(EntitySheep.class, AxisAlignedBB.getBoundingBoxFromPool(this.posX, this.posY, this.posZ, this.posX + 1.0D, this.posY + 1.0D, this.posZ + 1.0D).expand(16.0D, 4.0D, 16.0D));
 			if(!list1.isEmpty()) {
 				this.setTarget((Entity)list1.get(this.worldObj.rand.nextInt(list1.size())));
@@ -106,7 +106,7 @@ public class EntityWolf extends EntityAnimal {
 			this.setIsSitting(false);
 		}
 
-		if(!this.worldObj.multiplayerWorld) {
+		if(!this.worldObj.isRemote) {
 			this.dataWatcher.updateObject(18, this.health);
 		}
 
@@ -121,9 +121,9 @@ public class EntityWolf extends EntityAnimal {
 				EntityPlayer entityPlayer2 = (EntityPlayer)entity1;
 				ItemStack itemStack3 = entityPlayer2.inventory.getCurrentItem();
 				if(itemStack3 != null) {
-					if(!this.isWolfTamed() && itemStack3.itemID == Item.bone.shiftedIndex) {
+					if(!this.isTamed() && itemStack3.itemID == Item.bone.shiftedIndex) {
 						this.looksWithInterest = true;
-					} else if(this.isWolfTamed() && Item.itemsList[itemStack3.itemID] instanceof ItemFood) {
+					} else if(this.isTamed() && Item.itemsList[itemStack3.itemID] instanceof ItemFood) {
 						this.looksWithInterest = ((ItemFood)Item.itemsList[itemStack3.itemID]).getIsWolfsFavoriteMeat();
 					}
 				}
@@ -212,7 +212,7 @@ public class EntityWolf extends EntityAnimal {
 		return this.height * 0.8F;
 	}
 
-	protected int getVerticalFaceSpeed() {
+	public int getVerticalFaceSpeed() {
 		return this.getIsSitting() ? 20 : super.getVerticalFaceSpeed();
 	}
 
@@ -253,7 +253,7 @@ public class EntityWolf extends EntityAnimal {
 		} else {
 			if(entity1 instanceof EntityPlayer && ((EntityPlayer)entity1).isCreative) return true;
 			
-			if(!this.isWolfTamed() && !this.isWolfAngry()) {
+			if(!this.isTamed() && !this.isWolfAngry()) {
 				if(entity1 instanceof EntityPlayer) {
 					this.setWolfAngry(true);
 					this.entityToAttack = (Entity)entity1;
@@ -270,7 +270,7 @@ public class EntityWolf extends EntityAnimal {
 					while(iterator4.hasNext()) {
 						Entity entity5 = (Entity)iterator4.next();
 						EntityWolf entityWolf6 = (EntityWolf)entity5;
-						if(!entityWolf6.isWolfTamed() && entityWolf6.entityToAttack == null) {
+						if(!entityWolf6.isTamed() && entityWolf6.entityToAttack == null) {
 							entityWolf6.entityToAttack = (Entity)entity1;
 							if(entity1 instanceof EntityPlayer) {
 								entityWolf6.setWolfAngry(true);
@@ -279,7 +279,7 @@ public class EntityWolf extends EntityAnimal {
 					}
 				}
 			} else if(entity1 != this && entity1 != null) {
-				if(this.isWolfTamed() && entity1 instanceof EntityPlayer && ((EntityPlayer)entity1).username.equalsIgnoreCase(this.getOwner())) {
+				if(this.isTamed() && entity1 instanceof EntityPlayer && ((EntityPlayer)entity1).username.equalsIgnoreCase(this.getOwner())) {
 					return true;
 				}
 
@@ -307,7 +307,7 @@ public class EntityWolf extends EntityAnimal {
 		} else if((double)f2 < 1.5D && entity1.boundingBox.maxY > this.boundingBox.minY && entity1.boundingBox.minY < this.boundingBox.maxY) {
 			this.attackTime = 20;
 			byte b3 = 2;
-			if(this.isWolfTamed()) {
+			if(this.isTamed()) {
 				b3 = 4;
 			}
 
@@ -318,14 +318,14 @@ public class EntityWolf extends EntityAnimal {
 
 	public boolean interact(EntityPlayer entityPlayer1) {
 		ItemStack itemStack2 = entityPlayer1.inventory.getCurrentItem();
-		if(!this.isWolfTamed()) {
+		if(!this.isTamed()) {
 			if(itemStack2 != null && itemStack2.itemID == Item.bone.shiftedIndex && !this.isWolfAngry()) {
 				--itemStack2.stackSize;
 				if(itemStack2.stackSize <= 0) {
 					entityPlayer1.inventory.setInventorySlotContents(entityPlayer1.inventory.currentItem, (ItemStack)null);
 				}
 
-				if(!this.worldObj.multiplayerWorld) {
+				if(!this.worldObj.isRemote) {
 					if(this.rand.nextInt(3) == 0) {
 						this.setWolfTamed(true);
 						this.setPathToEntity((PathEntity)null);
@@ -357,7 +357,7 @@ public class EntityWolf extends EntityAnimal {
 			}
 
 			if(entityPlayer1.username.equalsIgnoreCase(this.getOwner())) {
-				if(!this.worldObj.multiplayerWorld) {
+				if(!this.worldObj.isRemote) {
 					this.setIsSitting(!this.getIsSitting());
 					this.isJumping = false;
 					this.setPathToEntity((PathEntity)null);
@@ -401,7 +401,7 @@ public class EntityWolf extends EntityAnimal {
 	}
 
 	public float setTailRotation() {
-		return this.isWolfAngry() ? 1.5393804F : (this.isWolfTamed() ? (0.55F - (float)(20 - this.dataWatcher.getWatchableObjectInt(18)) * 0.02F) * (float)Math.PI : 0.62831855F);
+		return this.isWolfAngry() ? 1.5393804F : (this.isTamed() ? (0.55F - (float)(20 - this.dataWatcher.getWatchableObjectInt(18)) * 0.02F) * (float)Math.PI : 0.62831855F);
 	}
 
 	public int getMaxSpawnedInChunk() {
@@ -444,7 +444,7 @@ public class EntityWolf extends EntityAnimal {
 
 	}
 
-	public boolean isWolfTamed() {
+	public boolean isTamed() {
 		return (this.dataWatcher.getWatchableObjectByte(16) & 4) != 0;
 	}
 

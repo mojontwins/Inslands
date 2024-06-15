@@ -37,7 +37,7 @@ public class EntityIceSkeleton extends EntitySkeleton {
 	@Override
 	public void onDeath(Entity entity) {
 		if(entity instanceof EntityPlayer) {
-			((EntityPlayer) entity).triggerAchievement(AchievementList.iceKiller);
+			//((EntityPlayer) entity).triggerAchievement(AchievementList.iceKiller);
 		}
 		super.onDeath(entity);
 	}

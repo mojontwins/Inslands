@@ -3,9 +3,12 @@ package net.minecraft.src;
 import com.mojang.minecraft.creative.CreativeTabs;
 
 public class ItemBoat extends Item {
-	public ItemBoat(int i1) {
+	boolean fireResistant = false;
+	
+	public ItemBoat(int i1, boolean fireResistant) {
 		super(i1);
 		this.maxStackSize = 1;
+		this.fireResistant = fireResistant;
 		
 		this.displayOnCreativeTab = CreativeTabs.tabTransport;
 	}
@@ -34,12 +37,12 @@ public class ItemBoat extends Item {
 				int i25 = movingObjectPosition24.blockX;
 				int i26 = movingObjectPosition24.blockY;
 				int i27 = movingObjectPosition24.blockZ;
-				if(!world2.multiplayerWorld) {
+				if(!world2.isRemote) {
 					if(world2.getBlockId(i25, i26, i27) == Block.snow.blockID) {
 						--i26;
 					}
 
-					world2.entityJoinedWorld(new EntityBoat(world2, (double)((float)i25 + 0.5F), (double)((float)i26 + 1.0F), (double)((float)i27 + 0.5F)));
+					world2.entityJoinedWorld(new EntityBoat(world2, i25 + 0.5D, i26 + 1.0D, i27 + 0.5D, this.fireResistant));
 				}
 
 				if(!entityPlayer3.isCreative) --itemStack1.stackSize;

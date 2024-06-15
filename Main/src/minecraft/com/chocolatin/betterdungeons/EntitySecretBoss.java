@@ -121,7 +121,7 @@ public class EntitySecretBoss extends EntitySlime {
 		float f1;
 		int size = this.getSlimeSize();
 		if(size == 1) {
-			if(!this.worldObj.multiplayerWorld && size > 1 && this.health <= 0) {
+			if(!this.worldObj.isRemote && size > 1 && this.health <= 0) {
 				for(int f = 0; f < 4; ++f) {
 					f1 = ((float)(f % 2) - 0.5F) * (float)size / 4.0F;
 					float entityslime = ((float)(f / 2) - 0.5F) * (float)size / 4.0F;
@@ -132,7 +132,7 @@ public class EntitySecretBoss extends EntitySlime {
 				}
 			}
 		} else {
-			if(!this.worldObj.multiplayerWorld && this.lvl > 1 && this.health <= 0) {
+			if(!this.worldObj.isRemote && this.lvl > 1 && this.health <= 0) {
 				for(j = 0; j < 2; ++j) {
 					float f6 = ((float)(j % 2) - 0.5F) * (float)this.lvl / 10.0F / 4.0F;
 					f1 = ((float)(j / 2) - 0.5F) * (float)this.lvl / 10.0F / 4.0F;

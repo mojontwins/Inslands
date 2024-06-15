@@ -42,7 +42,7 @@ public class BlockTNT extends Block {
 	}
 
 	public void onBlockDestroyedByPlayer(World world1, int i2, int i3, int i4, int i5) {
-		if(!world1.multiplayerWorld) {
+		if(!world1.isRemote) {
 			if((i5 & 1) == 0) {
 				this.dropBlockAsItem_do(world1, i2, i3, i4, new ItemStack(Block.tnt.blockID, 1, 0));
 			} else {

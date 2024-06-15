@@ -2,9 +2,12 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockWeb extends Block {
 	public BlockWeb(int i1, int i2) {
 		super(i1, i2, Material.web);
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	public void onEntityCollidedWithBlock(World world1, int i2, int i3, int i4, Entity entity5) {

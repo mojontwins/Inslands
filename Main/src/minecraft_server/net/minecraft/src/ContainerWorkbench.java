@@ -42,7 +42,7 @@ public class ContainerWorkbench extends Container {
 
 	public void onCraftGuiClosed(EntityPlayer entityPlayer1) {
 		super.onCraftGuiClosed(entityPlayer1);
-		if(!this.worldObj.multiplayerWorld) {
+		if(!this.worldObj.isRemote) {
 			for(int i2 = 0; i2 < 9; ++i2) {
 				ItemStack itemStack3 = this.craftMatrix.getStackInSlot(i2);
 				if(itemStack3 != null) {

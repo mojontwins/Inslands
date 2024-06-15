@@ -1,9 +1,13 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockBone extends BlockLog {
 
 	public BlockBone(int i1) {
 		super(i1, Material.bone);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
 	public int getBlockTextureFromSideAndMetadata(int side, int meta) {
@@ -16,8 +20,15 @@ public class BlockBone extends BlockLog {
 			// Vanilla logs:
 			return side <= 1 ? endTextureIndex : outTextureIndex;
 		} else {
-			// Horizontal renderer expects this:
-			return side == 1 ? endTextureIndex : outTextureIndex;
-		}
+			// Horizontal logs:
+			if(side <= 1) return outTextureIndex;
+
+			if((meta & 8) != 0) {
+				return (side == 4 || side == 5) ? endTextureIndex : outTextureIndex;
+			} else {
+				return (side == 2 || side == 3) ? endTextureIndex : outTextureIndex;
+			}
 	}
+	}
+
 }

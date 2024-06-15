@@ -61,6 +61,7 @@ public class ChunkProviderServer implements IChunkProvider {
 		Chunk chunk = (Chunk)this.id2ChunkMap.get(hash);
 		if(chunk == null) {
 			chunk = this.loadChunkFromFile(chunkX, chunkZ);
+			boolean generated = chunk == null;
 			if(chunk == null) {
 				if(this.serverChunkGenerator == null) {
 					chunk = this.dummyChunk;
@@ -72,24 +73,30 @@ public class ChunkProviderServer implements IChunkProvider {
 			this.id2ChunkMap.put(hash, chunk);
 			this.loadedChunksServer.add(chunk);
 			if(chunk != null) {
-				chunk.doesNothing();
 				chunk.onChunkLoad();
+				if (generated) chunk.initLightingForRealNotJustHeightmap();
 			}
 
 			if(!chunk.isTerrainPopulated && this.chunkExists(chunkX + 1, chunkZ + 1) && this.chunkExists(chunkX, chunkZ + 1) && this.chunkExists(chunkX + 1, chunkZ)) {
 				this.populate(this, chunkX, chunkZ);
 			}
 
-			if(this.chunkExists(chunkX - 1, chunkZ) && !this.provideChunk(chunkX - 1, chunkZ).isTerrainPopulated && this.chunkExists(chunkX - 1, chunkZ + 1) && this.chunkExists(chunkX, chunkZ + 1) && this.chunkExists(chunkX - 1, chunkZ)) {
-				this.populate(this, chunkX - 1, chunkZ);
+			if(chunkX > 0) {
+				if(this.chunkExists(chunkX - 1, chunkZ) && !this.provideChunk(chunkX - 1, chunkZ).isTerrainPopulated && this.chunkExists(chunkX - 1, chunkZ + 1) && this.chunkExists(chunkX, chunkZ + 1) && this.chunkExists(chunkX - 1, chunkZ)) {
+					this.populate(this, chunkX - 1, chunkZ);
+				}
+			}
+	
+			if (chunkZ > 0) {
+				if(this.chunkExists(chunkX, chunkZ - 1) && !this.provideChunk(chunkX, chunkZ - 1).isTerrainPopulated && this.chunkExists(chunkX + 1, chunkZ - 1) && this.chunkExists(chunkX, chunkZ - 1) && this.chunkExists(chunkX + 1, chunkZ)) {
+					this.populate(this, chunkX, chunkZ - 1);
+				}
 			}
 
-			if(this.chunkExists(chunkX, chunkZ - 1) && !this.provideChunk(chunkX, chunkZ - 1).isTerrainPopulated && this.chunkExists(chunkX + 1, chunkZ - 1) && this.chunkExists(chunkX, chunkZ - 1) && this.chunkExists(chunkX + 1, chunkZ)) {
-				this.populate(this, chunkX, chunkZ - 1);
-			}
-
-			if(this.chunkExists(chunkX - 1, chunkZ - 1) && !this.provideChunk(chunkX - 1, chunkZ - 1).isTerrainPopulated && this.chunkExists(chunkX - 1, chunkZ - 1) && this.chunkExists(chunkX, chunkZ - 1) && this.chunkExists(chunkX - 1, chunkZ)) {
-				this.populate(this, chunkX - 1, chunkZ - 1);
+			if (chunkX > 0 && chunkZ > 0) {
+				if(this.chunkExists(chunkX - 1, chunkZ - 1) && !this.provideChunk(chunkX - 1, chunkZ - 1).isTerrainPopulated && this.chunkExists(chunkX - 1, chunkZ - 1) && this.chunkExists(chunkX, chunkZ - 1) && this.chunkExists(chunkX - 1, chunkZ)) {
+					this.populate(this, chunkX - 1, chunkZ - 1);
+				}
 			}
 		}
 

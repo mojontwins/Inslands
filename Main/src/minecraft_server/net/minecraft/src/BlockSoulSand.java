@@ -1,8 +1,11 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockSoulSand extends Block {
 	public BlockSoulSand(int i1, int i2) {
 		super(i1, i2, Material.sand);
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world1, int i2, int i3, int i4) {

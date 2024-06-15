@@ -29,7 +29,7 @@ public class BlockNote extends BlockContainer {
 	}
 
 	public boolean blockActivated(World world1, int i2, int i3, int i4, EntityPlayer entityPlayer5) {
-		if(world1.multiplayerWorld) {
+		if(world1.isRemote) {
 			return true;
 		} else {
 			TileEntityNote tileEntityNote6 = (TileEntityNote)world1.getBlockTileEntity(i2, i3, i4);
@@ -43,7 +43,7 @@ public class BlockNote extends BlockContainer {
 	}
 
 	public void onBlockClicked(World world1, int i2, int i3, int i4, EntityPlayer entityPlayer5) {
-		if(!world1.multiplayerWorld) {
+		if(!world1.isRemote) {
 			TileEntityNote tileEntityNote6 = (TileEntityNote)world1.getBlockTileEntity(i2, i3, i4);
 			if(tileEntityNote6 != null) {
 				tileEntityNote6.triggerNote(world1, i2, i3, i4);

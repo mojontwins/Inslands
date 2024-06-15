@@ -1,5 +1,9 @@
 package net.minecraft.src;
 
+import java.util.List;
+
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockCloth extends Block {
 	public static final int clothColors[] = {
 		0x252121, 0xBC342F, 0x40591C, 0x633B20, 0x2D3BB2, 0x944DD2, 0x2D86AC, 0xB8BDBD,
@@ -8,6 +12,8 @@ public class BlockCloth extends Block {
 	
 	public BlockCloth() {
 		super(35, 64, Material.cloth);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
 	// Removed. We are using a colorizer for this job.
@@ -43,5 +49,9 @@ public class BlockCloth extends Block {
 		return clothColors[15 - meta];
 	}
 	
-	
+	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
+		for(int i = 0; i < 16; i ++) {
+			par3List.add(new ItemStack(par1, 1, i));
+		}
+	}
 }

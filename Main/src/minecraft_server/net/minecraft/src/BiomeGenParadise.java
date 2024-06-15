@@ -2,6 +2,12 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.misc.aether.AetherGenClouds;
+import com.misc.aether.AetherGenDungeonBronze;
+import com.misc.aether.EntityFlyingCow;
+import com.misc.aether.EntityPhyg;
+import com.misc.aether.EntitySheepuff;
+
 public class BiomeGenParadise extends BiomeGenBase {
 
 	public BiomeGenParadise() {
@@ -13,6 +19,21 @@ public class BiomeGenParadise extends BiomeGenBase {
 		this.yellowFlowersAttempts = 24;
 		
 		this.foliageColorizer = 0;
+		
+		// TODO: Refine which monsters should appear...
+		this.spawnableMonsterList.clear();
+		this.spawnableMonsterList.add(new SpawnListEntry(EntitySpider.class, 10));
+		this.spawnableMonsterList.add(new SpawnListEntry(EntityZombie.class, 10));
+		this.spawnableMonsterList.add(new SpawnListEntry(EntitySkeleton.class, 10));
+		this.spawnableMonsterList.add(new SpawnListEntry(EntityCreeper.class, 10));
+		this.spawnableMonsterList.add(new SpawnListEntry(EntitySlime.class, 10));
+		
+		// TODO: Replace with aether variants
+		this.spawnableCreatureList.clear();
+		this.spawnableCreatureList.add(new SpawnListEntry(EntitySheepuff.class, 12));
+		this.spawnableCreatureList.add(new SpawnListEntry(EntityPhyg.class, 10));
+		this.spawnableCreatureList.add(new SpawnListEntry(EntityChicken.class, 10));
+		this.spawnableCreatureList.add(new SpawnListEntry(EntityFlyingCow.class, 8));
 	}
 
 	public int getAlgaeAmount() {
@@ -73,5 +94,75 @@ public class BiomeGenParadise extends BiomeGenBase {
 			z = chunkZ + rand.nextInt(16) + 8;
 			(new WorldGenFlowers(Block.blueFlower.blockID)).generate(world, rand, x, y, z);
 		}
+		
+		// Aether stuff
+		
+		// Aerclouds
+		
+		if (world.worldProvider instanceof WorldProviderSky) {
+			if(rand.nextInt(50) == 0) {
+				x = chunkX + rand.nextInt(16);
+				y = rand.nextInt(32) + 96;
+				z = chunkZ + rand.nextInt(16);
+				(new AetherGenClouds(Block.aercloud.blockID, 2, 4, false)).generate(world, rand, x, y, z);
+			}
+	
+			if(rand.nextInt(13) == 0) {
+				x = chunkX + rand.nextInt(16);
+				y = rand.nextInt(64) + 32;
+				z = chunkZ + rand.nextInt(16);
+				(new AetherGenClouds(Block.aercloud.blockID, 1, 8, false)).generate(world, rand, x, y, z);
+			}
+	
+			if(rand.nextInt(7) == 0) {
+				x = chunkX + rand.nextInt(16);
+				y = rand.nextInt(64) + 32;
+				z = chunkZ + rand.nextInt(16);
+				(new AetherGenClouds(Block.aercloud.blockID, 0, 16, false)).generate(world, rand, x, y, z);
+			}
+	
+			if(rand.nextInt(50) == 0) {
+				x = chunkX + rand.nextInt(16);
+				y = rand.nextInt(32);
+				z = chunkZ + rand.nextInt(16);
+				(new AetherGenClouds(Block.aercloud.blockID, 0, 64, true)).generate(world, rand, x, y, z);
+			}
+		} else {
+			if(rand.nextInt(32) == 0) {
+				x = chunkX + rand.nextInt(16);
+				y = rand.nextInt(96) + 32;
+				z = chunkZ + rand.nextInt(16);
+				(new AetherGenClouds(Block.aercloud.blockID, 2, 4, false)).generate(world, rand, x, y, z);
+			}
+	
+			if(rand.nextInt(13) == 0) {
+				x = chunkX + rand.nextInt(16);
+				y = rand.nextInt(112) + 16;
+				z = chunkZ + rand.nextInt(16);
+				(new AetherGenClouds(Block.aercloud.blockID, 1, 8, false)).generate(world, rand, x, y, z);
+			}
+			
+			if(rand.nextInt(32) == 0) {
+				x = chunkX + rand.nextInt(16);
+				y = rand.nextInt(96) + 32;
+				z = chunkZ + rand.nextInt(16);
+				(new AetherGenClouds(Block.aercloud.blockID, 0, 64, true)).generate(world, rand, x, y, z);
+			}
+		}
+		
+		if(rand.nextInt(4) == 0) {
+			x = chunkX + rand.nextInt(16);
+			y = 32 + rand.nextInt(64);
+			z = chunkZ + rand.nextInt(16);
+			(new AetherGenDungeonBronze(
+					Block.lockedDungeonStone.blockID, 
+					Block.lockedLightDungeonStone.blockID, 
+					Block.dungeonStone.blockID, 
+					Block.lightDungeonStone.blockID, 
+					Block.cobblestoneMossy.blockID, 0, 
+					Block.cobblestone.blockID, 0, 
+					16, true)).generate(world, rand, x, y, z);
+		}
+
 	}
 }

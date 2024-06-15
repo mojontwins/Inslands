@@ -2,11 +2,15 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockSeaweed extends Block {
 
 	public BlockSeaweed(int id, int blockIndex) {
 		super(id, blockIndex, Material.water);
 		this.setTickOnLoad(true);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	// This block can be placed if:

@@ -18,6 +18,9 @@ public class ChunklProviderInfdev extends ChunkProviderGenerate {
 	
 	@Override
 	public void generateTerrain(int chunkX, int chunkZ, byte[] blocks) {
+		final byte seaLevel = 64;
+		this.isOcean = true;
+		
 		for(int xSection = 0; xSection < 4; ++xSection) {
 			for(int zSection = 0; zSection < 4; ++zSection) {
 				double[][] terrainNoise = new double[33][4];
@@ -48,6 +51,8 @@ public class ChunklProviderInfdev extends ChunkProviderGenerate {
 						double curNoiseC = noiseC + (noiseCinc - noiseC) * yscalingFactor;
 						double curNoiseD = noiseD + (noiseDinc - noiseD) * yscalingFactor;
 
+						int yy = (ySection << 2) + y;
+						
 						for(x = 0; x < 4; ++x) {
 							double xScalingFactor = (double)x / 4.0D;
 							double volNoise1 = curNoiseA + (curNoiseC - curNoiseA) * xScalingFactor;
@@ -61,7 +66,7 @@ public class ChunklProviderInfdev extends ChunkProviderGenerate {
 								double volume = volNoise1 + (volNoise2 - volNoise1) * zScalingFactor;
 								int blockID = 0;
 								
-								if((ySection << 2) + y < 64) {
+								if(yy < seaLevel) {
 									blockID = biome.mainLiquid; // .waterStill.blockID;
 								}
 
@@ -71,6 +76,9 @@ public class ChunklProviderInfdev extends ChunkProviderGenerate {
 
 								blocks[indexInBlockArray] = (byte)blockID;
 								indexInBlockArray += 128;
+								
+								// Ocean detector
+								if(yy == seaLevel - 1) this.isOcean &= (blockID != Block.stone.blockID);
 							}
 						}
 					}

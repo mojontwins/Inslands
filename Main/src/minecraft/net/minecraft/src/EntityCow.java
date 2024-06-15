@@ -52,7 +52,7 @@ public class EntityCow extends EntityAnimal {
 			return false;
 		}
 		
-		if(!this.worldObj.multiplayerWorld) {
+		if(!this.worldObj.isRemote) {
 			
 			boolean hauntMe = false;
 			

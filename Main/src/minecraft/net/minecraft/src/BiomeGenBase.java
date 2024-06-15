@@ -33,6 +33,7 @@ public class BiomeGenBase {
 	protected List<SpawnListEntry> spawnableMonsterList = new ArrayList<SpawnListEntry>();
 	protected List<SpawnListEntry> spawnableCreatureList = new ArrayList<SpawnListEntry>();
 	protected List<SpawnListEntry> spawnableWaterCreatureList = new ArrayList<SpawnListEntry>();
+	protected List<SpawnListEntry> spawnableCaveCreatureList = new ArrayList<SpawnListEntry>();
 	private boolean enableSnow;
 	
 	public WorldGenBo3Tree bo3Tree = new WorldGenBo3Tree();
@@ -43,13 +44,14 @@ public class BiomeGenBase {
 		this.spawnableMonsterList.add(new SpawnListEntry(EntitySkeleton.class, 10));
 		this.spawnableMonsterList.add(new SpawnListEntry(EntityCreeper.class, 10));
 		this.spawnableMonsterList.add(new SpawnListEntry(EntitySlime.class, 10));
+		
 		this.spawnableCreatureList.add(new SpawnListEntry(EntitySheep.class, 12));
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityPig.class, 10));
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityChicken.class, 10));
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityCow.class, 8));
 		
-		// Softlocked for a1.X.X
-		// this.spawnableWaterCreatureList.add(new SpawnListEntry(EntitySquid.class, 10));
+		this.spawnableWaterCreatureList.add(new SpawnListEntry(EntitySquid.class, 5));
+		
 		this.biomeCode = BiomeGenBase.currentBiomeCode ++;
 	}
 	
@@ -111,6 +113,8 @@ public class BiomeGenBase {
 	public float minHeight = 0.0F;
 
 	private boolean enableRain;
+
+	public boolean forceBlockLightInitLikeNether = false;
 
 	// Unused, as of yet.
 	//private boolean canSpawnLightningBolt = true;;
@@ -225,8 +229,12 @@ public class BiomeGenBase {
 		return Color.getHSBColor(0.62222224F - f1 * 0.05F, 0.5F + f1 * 0.1F, 1.0F).getRGB();
 	}
 
-	public List<SpawnListEntry> getSpawnableList(EnumCreatureType enumCreatureType1) {
-		return enumCreatureType1 == EnumCreatureType.monster ? this.spawnableMonsterList : (enumCreatureType1 == EnumCreatureType.creature ? this.spawnableCreatureList : (enumCreatureType1 == EnumCreatureType.waterCreature ? this.spawnableWaterCreatureList : null));
+	public List<SpawnListEntry> getSpawnableList(EnumCreatureType enumCreatureType) {
+		if(enumCreatureType == EnumCreatureType.monster) return this.spawnableMonsterList;
+		if(enumCreatureType == EnumCreatureType.creature) return this.spawnableCreatureList;
+		if(enumCreatureType == EnumCreatureType.waterCreature) return this.spawnableWaterCreatureList;
+		if(enumCreatureType == EnumCreatureType.caveCreature) return this.spawnableCaveCreatureList;
+		return null;
 	}
 
 	public boolean getEnableSnow() {
@@ -285,7 +293,7 @@ public class BiomeGenBase {
 							if(this.weather == Weather.cold) {
 								topBlock = (byte)Block.ice.blockID;
 							} else {
-								topBlock = (byte)Block.waterStill.blockID;
+								topBlock = (byte)this.mainLiquid;
 							}
 						}
 

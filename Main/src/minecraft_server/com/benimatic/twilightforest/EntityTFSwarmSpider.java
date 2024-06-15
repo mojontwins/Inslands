@@ -42,7 +42,7 @@ public class EntityTFSwarmSpider extends EntitySpider {
 
 	public void onUpdate() {
 		if(this.shouldSpawnMore()) {
-			if(!this.worldObj.multiplayerWorld) {
+			if(!this.worldObj.isRemote) {
 				int more = 1 + this.rand.nextInt(2);
 	
 				for(int i = 0; i < more; ++i) {

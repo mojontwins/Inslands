@@ -63,7 +63,7 @@ public class ServerGUI extends JComponent implements ICommandListener {
 
 	private JComponent getPlayerListComponent() {
 		PlayerListBox playerListBox1 = new PlayerListBox(this.mcServer);
-		JScrollPane jScrollPane2 = new JScrollPane(playerListBox1, 22, 30);
+		JScrollPane jScrollPane2 = new JScrollPane(playerListBox1);
 		jScrollPane2.setBorder(new TitledBorder(new EtchedBorder(), "Players"));
 		return jScrollPane2;
 	}

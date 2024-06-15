@@ -64,7 +64,7 @@ public class EntityPirateBoss extends EntityMob {
 	}
 
 	@Override
-	protected boolean attackEntityAsMob(Entity entity) {
+	public boolean attackEntityAsMob(Entity entity) {
 		return super.attackEntityAsMob(entity);
 	}
 
@@ -212,7 +212,7 @@ public class EntityPirateBoss extends EntityMob {
 			EntityPlayer entityPlayer = (EntityPlayer) entity;
 			entityPlayer.triggerAchievement(AchievementList.pirateKing);
 			
-			if(!this.worldObj.multiplayerWorld) {
+			if(!this.worldObj.isRemote) {
 				this.dropItem(Item.pirateSigil.shiftedIndex, 1);
 			}
 		}

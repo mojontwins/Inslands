@@ -15,11 +15,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.src.ConsoleCommandHandler;
 import net.minecraft.src.ConsoleLogManager;
 import net.minecraft.src.ConvertProgressUpdater;
 import net.minecraft.src.EntityTracker;
+import net.minecraft.src.GlobalVars;
 import net.minecraft.src.ICommandListener;
 import net.minecraft.src.IProgressUpdate;
 import net.minecraft.src.ISaveFormat;
@@ -151,62 +151,82 @@ public class MinecraftServer implements Runnable, ICommandListener {
 		logger.info("Done (" + (System.nanoTime() - j5) + "ns)! For help, type \"help\" or \"?\"");
 		return true;
 	}
+	
+	private void preloadWorld(WorldServer world) {
+		int chunksLoaded = 0;
+		long prevTime = System.currentTimeMillis();
+		for(int x = 0; x < WorldSize.xChunks; x ++) { 
+			for(int z = 0 ; z < WorldSize.zChunks; z ++) {
+				long curTime = System.currentTimeMillis();
+				if(curTime > prevTime + 1000L) {
+					prevTime = curTime;
+					this.outputPercentRemaining("Preparing spawn area", chunksLoaded * 100 / WorldSize.getTotalChunks());
+				}
+				chunksLoaded++;
+				world.getBlockId(x, 64, z);
+				world.chunkProviderServer.prepareChunk(x, z);
+			}
+		}
+	}
 
-	private void initWorld(ISaveFormat iSaveFormat1, String string2, long j3, WorldType worldType5) {
-		if(iSaveFormat1.isOldMapFormat(string2)) {
+	private void initWorld(ISaveFormat saveHandler, String folderName, long seed, WorldType worldType) {
+		if(saveHandler.isOldMapFormat(folderName)) {
 			logger.info("Converting map!");
-			iSaveFormat1.converMapToMCRegion(string2, new ConvertProgressUpdater(this));
+			saveHandler.converMapToMCRegion(folderName, new ConvertProgressUpdater(this));
 		}
 
 		this.worldMngr = new WorldServer[2];
-		boolean z7 = this.propertyManagerObj.getBooleanProperty("generate-structures", true);
-		WorldSettings worldSettings8 = new WorldSettings(j3, 0, z7, false, worldType5);
-		SaveOldDir saveOldDir5 = new SaveOldDir(new File("."), string2, true);
+		boolean generateStructures = this.propertyManagerObj.getBooleanProperty("generate-structures", true);
+		
+		SaveOldDir saveOldDir = new SaveOldDir(new File("."), folderName, true);
 
-		for(int i6 = 0; i6 < this.worldMngr.length; ++i6) {
-			if(i6 == 0) {
-				this.worldMngr[i6] = new WorldServer(this, saveOldDir5, string2, i6 == 0 ? 0 : -1, worldSettings8);
-			} else {
-				this.worldMngr[i6] = new WorldServerMulti(this, saveOldDir5, string2, i6 == 0 ? 0 : -1, worldSettings8, this.worldMngr[0]);
-			}
+		boolean levelsAreOk;
+		do {
+			levelsAreOk = true;
+			WorldSettings worldSettings8 = new WorldSettings(seed, 0, generateStructures, false, false, worldType);
+			
+			for(int i = 0; i < this.worldMngr.length; ++i) {
+				logger.info("** DIM " + ( i == 0 ? 0 : -1));
+				GlobalVars.initializeGameFlags();
+				
+				if(i == 0) {
+					this.worldMngr[i] = new WorldServer(this, saveOldDir, folderName, i == 0 ? 0 : -1, worldSettings8);
+				} else {
+					this.worldMngr[i] = new WorldServerMulti(this, saveOldDir, folderName, i == 0 ? 0 : -1, worldSettings8, this.worldMngr[0]);
+				}
+				
+				WorldServer worldMngr = this.worldMngr[i];				
+				
+				this.worldMngr[i].addWorldAccess(new WorldManager(this, this.worldMngr[i]));
+				this.worldMngr[i].difficultySetting = this.propertyManagerObj.getBooleanProperty("spawn-monsters", true) ? 1 : 0;
+				this.worldMngr[i].setAllowedMobSpawns(this.propertyManagerObj.getBooleanProperty("spawn-monsters", true), this.spawnPeacefulMobs);
+				this.configManager.setPlayerManager(this.worldMngr);
+				
+				// Check if valid
+				boolean newWorld = worldMngr.isNewWorld;
+				if(newWorld) {
+					logger.info("Generating new world");
+				} else {
+					logger.info("Loading existing world");
+				}
 
-			this.worldMngr[i6].addWorldAccess(new WorldManager(this, this.worldMngr[i6]));
-			this.worldMngr[i6].difficultySetting = this.propertyManagerObj.getBooleanProperty("spawn-monsters", true) ? 1 : 0;
-			this.worldMngr[i6].setAllowedMobSpawns(this.propertyManagerObj.getBooleanProperty("spawn-monsters", true), this.spawnPeacefulMobs);
-			this.configManager.setPlayerManager(this.worldMngr);
-		}
+				// Pregenerate/preload all level
+				this.preloadWorld(worldMngr);
 
-		short s18 = 196;
-		long j7 = System.currentTimeMillis();
-
-		for(int i9 = 0; i9 < this.worldMngr.length; ++i9) {
-			logger.info("Preparing start region for level " + i9);
-			if(i9 == 0 || this.propertyManagerObj.getBooleanProperty("allow-nether", true)) {
-				WorldServer worldServer10 = this.worldMngr[i9];
-				ChunkCoordinates chunkCoordinates11 = worldServer10.getSpawnPoint();
-
-				for(int i12 = -s18; i12 <= s18 && this.serverRunning; i12 += 16) {
-					for(int i13 = -s18; i13 <= s18 && this.serverRunning; i13 += 16) {
-						long j14 = System.currentTimeMillis();
-						if(j14 < j7) {
-							j7 = j14;
-						}
-
-						if(j14 > j7 + 1000L) {
-							int i16 = (s18 * 2 + 1) * (s18 * 2 + 1);
-							int i17 = (i12 + s18) * (s18 * 2 + 1) + i13 + 1;
-							this.outputPercentRemaining("Preparing spawn area", i17 * 100 / i16);
-							j7 = j14;
-						}
-
-						worldServer10.chunkProviderServer.prepareChunk(chunkCoordinates11.posX + i12 >> 4, chunkCoordinates11.posZ + i13 >> 4);
-
-						while(worldServer10.updatingLighting() && this.serverRunning) {
-						}
+				if(newWorld && i == 0) {
+					if(worldMngr.findingSpawnPoint) {
+						logger.info("Could not find a valid spawn point for dim " + (i == 0 ? 0 : -1) + ". Retrying");
+						levelsAreOk = false;
+						break;
+					} else if(!worldMngr.levelIsValidUponWorldTheme()) {
+						logger.info("Generated overworld doesn't meet requirements for selected level theme " + LevelThemeSettings.findThemeById(LevelThemeGlobalSettings.themeID).name + ". Retrying");
+						levelsAreOk = false;
+						break;
 					}
 				}
+	
 			}
-		}
+		} while (!levelsAreOk);
 
 		this.clearCurrentTask();
 	}
@@ -354,9 +374,6 @@ public class MinecraftServer implements Runnable, ICommandListener {
 				worldServer7.tick();
 				if (Seasons.dayOfTheYear != dayOfTheYear) {
 					this.configManager.sendPacketToAllPlayersInDimension(new Packet95UpdateDayOfTheYear(Seasons.dayOfTheYear), worldServer7.worldProvider.worldType);
-				}
-
-				while(worldServer7.updatingLighting(this.playersOnline.size() > 0 ? 250 : 2000)) {
 				}
 
 				worldServer7.updateEntities();

@@ -123,7 +123,7 @@ public abstract class Packet {
 			return stringBuilder3.toString();
 		}
 	}
-
+	
 	public static ItemStack readItemStack(DataInputStream stream) throws IOException {
 		ItemStack itemStack = null;
 		
@@ -212,6 +212,7 @@ public abstract class Packet {
 		addIdClassMapping(104, true, false, Packet104WindowItems.class);
 		addIdClassMapping(105, true, false, Packet105UpdateProgressbar.class);
 		addIdClassMapping(106, true, true, Packet106Transaction.class);
+		addIdClassMapping(107, true, true, Packet107CreativeSetSlot.class);
 		addIdClassMapping(130, true, true, Packet130UpdateSign.class);
 		addIdClassMapping(131, true, false, Packet131MapData.class);
 		addIdClassMapping(200, true, false, Packet200Statistic.class);
@@ -219,7 +220,7 @@ public abstract class Packet {
 		addIdClassMapping(255, true, true, Packet255KickDisconnect.class);
 		
 		// Custom
-		addIdClassMapping(93, true, false, Packet93FiniteWorldSettings.class);
+		addIdClassMapping(93, true, true, Packet93FiniteWorldSettings.class);
 		addIdClassMapping(94, true, false, Packet94FreezeLevel.class);
 		addIdClassMapping(95, true, false, Packet95UpdateDayOfTheYear.class);
 		addIdClassMapping(96, true, false, Packet96BadMoonDecide.class);

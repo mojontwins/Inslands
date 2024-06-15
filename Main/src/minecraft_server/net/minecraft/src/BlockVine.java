@@ -2,9 +2,13 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockVine extends Block {
 	public BlockVine(int par1, int par2) {
         super(par1, par2, Material.vine);
+        
+        this.displayOnCreativeTab = CreativeTabs.tabDeco;
     }
 
 	public boolean findForbiddenBlock(int blockID) {
@@ -161,7 +165,7 @@ public class BlockVine extends Block {
     }
 
     public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5) {
-        if (!par1World.multiplayerWorld && !canVineStay(par1World, par2, par3, par4)) {
+        if (!par1World.isRemote && !canVineStay(par1World, par2, par3, par4)) {
             this.dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4));
             par1World.setBlockWithNotify(par2, par3, par4, 0);
         }
@@ -171,7 +175,7 @@ public class BlockVine extends Block {
      * Ticks the block if it's been scheduled
      */
     public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random) {
-        if (!par1World.multiplayerWorld && par1World.rand.nextInt(4) == 0) {
+        if (!par1World.isRemote && par1World.rand.nextInt(4) == 0) {
             byte byte0 = 4;
             int i = 5;
             boolean flag = false;
@@ -315,7 +319,7 @@ public class BlockVine extends Block {
     	ItemStack itemStack = par2EntityPlayer.getCurrentEquippedItem();
     	if (itemStack != null) {
     		Item item = itemStack.getItem();
-	        if (!par1World.multiplayerWorld && item != null && item instanceof ItemSword) {
+	        if (!par1World.isRemote && item != null && item instanceof ItemSword) {
 	            dropBlockAsItem_do(par1World, par3, par4, par5, new ItemStack(this.blockID, 1, 0));
 	            return;
 	        }

@@ -1,10 +1,14 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockLeafPile extends Block {
 
 	public BlockLeafPile(int i1) {
 		super(i1, 13 * 16 + 2, Material.leaves);
 		this.setBlockBounds(0.0F, 0.05F, 0.0F, 1.0F, 0.06F, 1.0F);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	@Override

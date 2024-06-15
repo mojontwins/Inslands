@@ -1,9 +1,15 @@
 package net.minecraft.src;
 
+import java.util.List;
+
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockIcePacked extends BlockIce {
 	public BlockIcePacked(int blockID, int blockIndex) {
 		super(blockID, blockIndex);
 		this.setTickOnLoad(false);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
 	@Override
@@ -23,5 +29,10 @@ public class BlockIcePacked extends BlockIce {
 	@Override
 	public int getRenderColor(int meta) {
 		return 0xEEEEFF;
+	}
+	
+    @Override
+    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
+		par3List.add(new ItemStack(par1, 1, 0));
 	}
 }

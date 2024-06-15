@@ -25,11 +25,11 @@ public class GuiCreateWorld extends GuiScreen {
 	private GuiButton craftingGuideButton;
 	private String seed;
 	private String localizedNewWorldText;
-	private int worldType = 0;
+	private int worldType = -1;
 	private int themeId = 0;
 	private int sizeId = 1;
 	
-	private final String sizeStrings[] = new String[] { "small", "normal", "big" };
+	private final String sizeStrings[] = WorldSize.sizeNames;
 	private boolean generateCities;
 
 	public GuiCreateWorld(GuiScreen par1GuiScreen) {
@@ -50,23 +50,22 @@ public class GuiCreateWorld extends GuiScreen {
 		this.controlList.add(new GuiButton(0, this.width / 2 - 155, this.height - 28, 150, 20, var1.translateKey("selectWorld.create")));
 		this.controlList.add(new GuiButton(1, this.width / 2 + 5, this.height - 28, 150, 20, var1.translateKey("gui.cancel")));
 		
-		this.controlList.add(this.gameModeButton = new GuiButton(2, this.width / 2 - 75, 100, 150, 20, var1.translateKey("selectWorld.gameMode")));
-		this.controlList.add(this.levelThemeButton = new GuiButton(8, this.width / 2 - 75, 120, 150, 20, var1.translateKey("selectWorld.levelTheme")));
-		this.controlList.add(this.levelSizeButton = new GuiButton(9, this.width / 2 - 75, 140, 150, 20, var1.translateKey("selectWorld.levelSize")));
+		this.controlList.add(this.gameModeButton = new GuiButton(2, this.width / 2 - 75, 80, 150, 20, var1.translateKey("selectWorld.gameMode")));
+		this.controlList.add(this.levelThemeButton = new GuiButton(8, this.width / 2 - 75, 100, 150, 20, var1.translateKey("selectWorld.levelTheme")));
+		this.controlList.add(this.levelSizeButton = new GuiButton(9, this.width / 2 - 75, 120, 150, 20, var1.translateKey("selectWorld.levelSize")));
+		this.controlList.add(this.worldTypeButton = new GuiButton(5, this.width / 2 - 75, 140, 150, 20, var1.translateKey("selectWorld.mapType")));
 		
 		this.controlList.add(this.moreWorldOptions = new GuiButton(3, this.width / 2 - 75, 172, 150, 20, var1.translateKey("selectWorld.moreWorldOptions")));
 		
 		this.controlList.add(this.generateStructuresButton = new GuiButton(4, this.width / 2 - 155, 100, 150, 20, var1.translateKey("selectWorld.mapFeatures")));
 		this.generateStructuresButton.drawButton = false;
-		this.controlList.add(this.worldTypeButton = new GuiButton(5, this.width / 2 + 5, 100, 150, 20, var1.translateKey("selectWorld.mapType")));
-		this.worldTypeButton.drawButton = false;
 		
 		this.controlList.add(this.enableCheatsButton = new GuiButton(6, this.width / 2 - 155, 140, 150, 20, var1.translateKey("selectWorld.enableCheats")));
 		this.enableCheatsButton.drawButton = false;
 		this.controlList.add(this.craftingGuideButton = new GuiButton(7, this.width / 2 + 5, 140, 150, 20, var1.translateKey("selectWorld.craftingGuide")));
 		this.craftingGuideButton.drawButton = false;
 		
-		this.textboxWorldName = new GuiTextField(this, this.fontRenderer, this.width / 2 - 100, 60, 200, 20, var1.translateKey("selectWorld.newWorld"));
+		this.textboxWorldName = new GuiTextField(this, this.fontRenderer, this.width / 2 - 100, 50, 200, 20, var1.translateKey("selectWorld.newWorld"));
 		this.textboxWorldName.isFocused = true;
 		this.textboxWorldName.setText(this.localizedNewWorldText);
 		this.textboxSeed = new GuiTextField(this, this.fontRenderer, this.width / 2 - 100, 60, 200, 20, "");
@@ -108,7 +107,8 @@ public class GuiCreateWorld extends GuiScreen {
 		this.enableCheatsButton.displayString = var1.translateKey("selectWorld.enableCheats") + ": " + (this.enableCheats ? var1.translateKey("options.on") : var1.translateKey("options.off"));
 		this.craftingGuideButton.displayString = var1.translateKey("selectWorld.craftingGuide") + ": " + (this.craftGuide ? var1.translateKey("options.on") : var1.translateKey("options.off"));
 		
-		this.worldTypeButton.displayString = var1.translateKey("selectWorld.mapType") + ": " + var1.translateKey(WorldType.worldTypes[this.worldType].getTranslateName());
+		int i = this.worldType; if(i == -1) i = 0;
+		this.worldTypeButton.displayString = var1.translateKey("selectWorld.mapType") + ": " + var1.translateKey(WorldType.worldTypes[i].getTranslateName());
 	}
 
 	public static String func_25097_a(ISaveFormat par0ISaveFormat, String par1Str) {
@@ -164,6 +164,8 @@ public class GuiCreateWorld extends GuiScreen {
 				this.mc.gameSettings.enableCheats = this.enableCheats;
 				this.mc.gameSettings.craftGuide = this.craftGuide;
 				
+				if(this.worldType == -1) this.worldType = WorldType.INFDEV.id;
+				
 				WorldType.worldTypes[this.worldType].onGUICreateWorldPress();
 				this.mc.playerController = new PlayerControllerSP(this.mc);
 				LevelThemeGlobalSettings.loadThemeById(this.themeId);
@@ -184,8 +186,8 @@ public class GuiCreateWorld extends GuiScreen {
 				this.gameModeButton.drawButton = !this.moreOptions;
 				this.levelSizeButton.drawButton = !this.moreOptions;
 				this.levelThemeButton.drawButton = !this.moreOptions;
+				this.worldTypeButton.drawButton = !this.moreOptions;
 				this.generateStructuresButton.drawButton = this.moreOptions;
-				this.worldTypeButton.drawButton = this.moreOptions;
 				this.enableCheatsButton.drawButton = this.moreOptions;
 				this.craftingGuideButton.drawButton = this.moreOptions;
 				StringTranslate stringTranslate8;
@@ -234,6 +236,10 @@ public class GuiCreateWorld extends GuiScreen {
 				if(this.themeId == LevelThemeSettings.allThemeSettings.size()) {
 					this.themeId = 0;
 				}
+
+				if(this.themeId == LevelThemeSettings.paradise.id) this.worldType = WorldType.SKY.id;
+				if(this.themeId == LevelThemeSettings.forest.id) this.worldType = WorldType.INFDEV.id;
+				
 				this.updateCaptions();
 			} else if(par1GuiButton.id == 9) {
 				this.sizeId ++;
@@ -276,8 +282,8 @@ public class GuiCreateWorld extends GuiScreen {
 		this.drawDefaultBackground();
 		this.drawCenteredString(this.fontRenderer, var4.translateKey("selectWorld.create"), this.width / 2, 20, 0xFFFFFF);
 		if(!this.moreOptions) {
-			this.drawString(this.fontRenderer, var4.translateKey("selectWorld.enterName"), this.width / 2 - 100, 47, 10526880);
-			this.drawString(this.fontRenderer, var4.translateKey("selectWorld.resultFolder") + " " + this.folderName, this.width / 2 - 100, 85, 10526880);
+			this.drawString(this.fontRenderer, var4.translateKey("selectWorld.enterName"), this.width / 2 - 100, 37, 10526880);
+			//this.drawString(this.fontRenderer, var4.translateKey("selectWorld.resultFolder") + " " + this.folderName, this.width / 2 - 100, 85, 10526880);
 			this.textboxWorldName.drawTextBox();
 			//this.drawString(this.fontRenderer, this.gameModeDescriptionLine1, this.width / 2 - 100, 122, 10526880);
 			//this.drawString(this.fontRenderer, this.gameModeDescriptionLine2, this.width / 2 - 100, 134, 10526880);

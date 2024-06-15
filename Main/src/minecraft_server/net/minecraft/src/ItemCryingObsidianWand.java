@@ -1,10 +1,13 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemCryingObsidianWand extends Item {
 
 	public ItemCryingObsidianWand(int i1) {
 		super(i1);
-		// TODO Auto-generated constructor stub
+		
+		this.displayOnCreativeTab = CreativeTabs.tabTools;
 	}
 	
 	public ItemStack onItemRightClick(ItemStack itemStack1, World world2, EntityPlayer entityPlayer3) {

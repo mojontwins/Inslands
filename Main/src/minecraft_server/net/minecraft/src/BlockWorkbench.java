@@ -1,9 +1,13 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockWorkbench extends Block {
 	protected BlockWorkbench(int id) {
 		super(id, Material.wood);
 		this.blockIndexInTexture = 59;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	public int getBlockTextureFromSide(int side) {
@@ -11,7 +15,7 @@ public class BlockWorkbench extends Block {
 	}
 
 	public boolean blockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer) {
-		if(world.multiplayerWorld) {
+		if(world.isRemote) {
 			return true;
 		} else {
 			entityPlayer.displayWorkbenchGUI(x, y, z);

@@ -1,10 +1,14 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockHollowLog extends Block {
 	public static final int[] textureIndex = new int[] { 13*16 + 9, 13*16 + 8, 20 };
 	
 	protected BlockHollowLog(int id, int textureIndex) {
-		super(id, textureIndex, Material.wood);		
+		super(id, textureIndex, Material.wood);	
+		
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 	
 	public int getBlockTextureFromSide(int side) {

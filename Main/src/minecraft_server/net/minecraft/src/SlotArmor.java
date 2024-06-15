@@ -18,7 +18,7 @@ class SlotArmor extends Slot {
 		return itemStack1.getItem() instanceof ItemArmor ? 
 				((ItemArmor)itemStack1.getItem()).armorType == this.armorType 
 			: 
-				(itemStack1.getItem().shiftedIndex == Block.pumpkin.blockID || itemStack1.getItem().shiftedIndex == Block.divingHelmet.blockID ? 
+				(itemStack1.getItem().shiftedIndex == Block.pumpkin.blockID ? 
 						this.armorType == 0 
 					: 
 						false);

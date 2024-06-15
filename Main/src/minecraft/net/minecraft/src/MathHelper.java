@@ -84,6 +84,7 @@ public class MathHelper {
 	}
 
 	public static int ceilDiv(int a, int b) {
-		return -Math.floorDiv(-a, b);
+		//return -Math.floorDiv(-a, b);
+		return (int)-Math.floor((double)-a / b);
 	}
 }

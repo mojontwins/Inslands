@@ -50,7 +50,6 @@ public class CraftingManager {
 		this.addRecipe(new ItemStack(Block.planks, 4), new Object[]{"#", '#', Block.wood});
 		this.addRecipe(new ItemStack(Item.stick, 4), new Object[]{"#", "#", '#', Block.planks});
 		this.addRecipe(new ItemStack(Block.torchWood, 4), new Object[]{"X", "#", 'X', Item.coal, '#', Item.stick});
-		this.addRecipe(new ItemStack(Block.torchWood, 4), new Object[]{"X", "#", 'X', new ItemStack(Item.coal, 1, 1), '#', Item.stick});
 		this.addRecipe(new ItemStack(Item.bowlEmpty, 4), new Object[]{"# #", " # ", '#', Block.planks});
 		this.addRecipe(new ItemStack(Block.rail, 16), new Object[]{"X X", "X#X", "X X", 'X', Item.ingotIron, '#', Item.stick});
 		

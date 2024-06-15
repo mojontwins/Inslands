@@ -171,6 +171,10 @@ public abstract class NetHandler {
 	public void handleTransaction(Packet106Transaction packet106Transaction1) {
 		this.registerPacket(packet106Transaction1);
 	}
+	
+	public void handleCreativeSetSlot(Packet107CreativeSetSlot packet107CreativeSetSlot1) {
+		this.registerPacket(packet107CreativeSetSlot1);
+	}
 
 	public void handleEntityPainting(Packet25EntityPainting packet25EntityPainting1) {
 		this.registerPacket(packet25EntityPainting1);
@@ -231,13 +235,12 @@ public abstract class NetHandler {
 	public void handleFreezeLevel(Packet94FreezeLevel packet) {
 		this.registerPacket(packet);
 	}
+
+	public void handleCustomPayload(Packet250CustomPayload packet250CustomPayload) {
+		this.registerPacket(packet250CustomPayload);
+	}
 	
 	public void handleFiniteWorldSettings(Packet93FiniteWorldSettings packet) {
 		this.registerPacket(packet);
 	}
-	
-	public void handleCustomPayload(Packet250CustomPayload packet250CustomPayload) {
-		this.registerPacket(packet250CustomPayload);
-	}
-
 }

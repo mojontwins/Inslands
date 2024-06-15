@@ -1,5 +1,8 @@
 package net.minecraft.src;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class ItemStack {
 	public int stackSize;
 	public int animationsToGo;
@@ -78,6 +81,10 @@ public final class ItemStack {
 
 	public ItemStack useItemRightClick(World world1, EntityPlayer entityPlayer2) {
 		return this.getItem().onItemRightClick(this, world1, entityPlayer2);
+	}
+
+	public ItemStack onFoodEaten(World world1, EntityPlayer entityPlayer2) {
+		return this.getItem().onFoodEaten(this, world1, entityPlayer2);
 	}
 
 	public NBTTagCompound writeToNBT(NBTTagCompound nBTTagCompound1) {
@@ -232,6 +239,18 @@ public final class ItemStack {
 	public boolean isStackEqual(ItemStack itemStack1) {
 		return this.itemID == itemStack1.itemID && this.stackSize == itemStack1.stackSize && this.itemDamage == itemStack1.itemDamage;
 	}
+	
+	public int getMaxItemUseDuration() {
+		return this.getItem().getMaxItemUseDuration(this);
+	}
+
+	public EnumAction getItemUseAction() {
+		return this.getItem().getItemUseAction(this);
+	}
+
+	public void onPlayerStoppedUsing(World world1, EntityPlayer entityPlayer2, int i3) {
+		this.getItem().onPlayerStoppedUsing(this, world1, entityPlayer2, i3);
+	}
 
 	public static boolean areItemStacksCompatibleForTrading(ItemStack fromRecipe, ItemStack itemStack) {
 		if(fromRecipe == null && itemStack == null) return true;
@@ -245,5 +264,13 @@ public final class ItemStack {
 		}
 		
 		return false;
+	}
+	
+	public List<String> getItemNameandInformation() {
+		ArrayList<String> arrayList1 = new ArrayList<String>();
+		Item item2 = Item.itemsList[this.itemID];
+		arrayList1.add(item2.getItemNameIS(this));
+		
+		return arrayList1;
 	}
 }

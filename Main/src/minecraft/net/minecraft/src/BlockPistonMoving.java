@@ -46,7 +46,7 @@ public class BlockPistonMoving extends BlockContainer {
 	}
 
 	public boolean blockActivated(World world1, int i2, int i3, int i4, EntityPlayer entityPlayer5) {
-		if(!world1.multiplayerWorld && world1.getBlockTileEntity(i2, i3, i4) == null) {
+		if(!world1.isRemote && world1.getBlockTileEntity(i2, i3, i4) == null) {
 			world1.setBlockWithNotify(i2, i3, i4, 0);
 			return true;
 		} else {
@@ -59,7 +59,7 @@ public class BlockPistonMoving extends BlockContainer {
 	}
 
 	public void dropBlockAsItemWithChance(World world1, int i2, int i3, int i4, int i5, float f6) {
-		if(!world1.multiplayerWorld) {
+		if(!world1.isRemote) {
 			TileEntityPiston tileEntityPiston7 = this.getTileEntityAtLocation(world1, i2, i3, i4);
 			if(tileEntityPiston7 != null) {
 				Block.blocksList[tileEntityPiston7.getStoredBlockID()].dropBlockAsItem(world1, i2, i3, i4, tileEntityPiston7.getBlockMetadata());
@@ -68,7 +68,7 @@ public class BlockPistonMoving extends BlockContainer {
 	}
 
 	public void onNeighborBlockChange(World world1, int i2, int i3, int i4, int i5) {
-		if(!world1.multiplayerWorld && world1.getBlockTileEntity(i2, i3, i4) == null) {
+		if(!world1.isRemote && world1.getBlockTileEntity(i2, i3, i4) == null) {
 			;
 		}
 

@@ -2,10 +2,13 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockCactus extends Block {
 	protected BlockCactus(int i1, int i2) {
 		super(i1, i2, Material.cactus);
 		this.setTickOnLoad(true);
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	public void updateTick(World world1, int i2, int i3, int i4, Random random5) {

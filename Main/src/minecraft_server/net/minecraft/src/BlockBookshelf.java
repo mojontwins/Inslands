@@ -2,9 +2,13 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockBookshelf extends Block {
 	public BlockBookshelf(int id, int blockIndex) {
 		super(id, blockIndex, Material.wood);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
 	public int getBlockTextureFromSide(int side) {

@@ -3,6 +3,8 @@ package net.minecraft.src;
 import java.util.List;
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockPressurePlate extends Block {
 	private EnumMobType triggerMobType;
 
@@ -12,6 +14,7 @@ public class BlockPressurePlate extends Block {
 		this.setTickOnLoad(true);
 		float f5 = 0.0625F;
 		this.setBlockBounds(f5, 0.0F, f5, 1.0F - f5, 0.03125F, 1.0F - f5);
+		this.displayOnCreativeTab = CreativeTabs.tabRedstone;
 	}
 
 	public int tickRate() {
@@ -51,7 +54,7 @@ public class BlockPressurePlate extends Block {
 	}
 
 	public void updateTick(World world1, int i2, int i3, int i4, Random random5) {
-		if(!world1.multiplayerWorld) {
+		if(!world1.isRemote) {
 			if(world1.getBlockMetadata(i2, i3, i4) != 0) {
 				this.setStateIfMobInteractsWithPlate(world1, i2, i3, i4);
 			}
@@ -59,7 +62,7 @@ public class BlockPressurePlate extends Block {
 	}
 
 	public void onEntityCollidedWithBlock(World world1, int i2, int i3, int i4, Entity entity5) {
-		if(!world1.multiplayerWorld) {
+		if(!world1.isRemote) {
 			if(world1.getBlockMetadata(i2, i3, i4) != 1) {
 				this.setStateIfMobInteractsWithPlate(world1, i2, i3, i4);
 			}

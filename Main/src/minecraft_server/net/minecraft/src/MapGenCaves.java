@@ -109,7 +109,9 @@ public class MapGenCaves extends MapGenBase {
 								// int idx = (ix * 16 + iz) * 128 + iy;
 								int idx = ix << 11 | iz << 7 | iy; 
 								if(iy >= 0 && iy < 128) {
-									if(data[idx] == Block.waterMoving.blockID || data[idx] == Block.waterStill.blockID) {
+									Block block = Block.blocksList[data[idx] & 0xff];
+									if(block instanceof BlockFluid) {
+									//if(data[idx] == Block.waterMoving.blockID || data[idx] == Block.waterStill.blockID) {
 										isInWater = true;
 									}
 
@@ -138,6 +140,7 @@ public class MapGenCaves extends MapGenBase {
 										
 										if(dy > -0.7D && dx * dx + dy * dy + dz * dz < 1.0D) {
 											int blockID = data[index] & 0xff;
+											Block block = Block.blocksList[blockID];
 											if(blockID == Block.grass.blockID || blockID == Block.dirtPath.blockID || blockID == Block.sand.blockID) {
 												hitSurface = true;
 											}
@@ -148,7 +151,8 @@ public class MapGenCaves extends MapGenBase {
 												blockID == Block.dirtPath.blockID || blockID == Block.sand.blockID || blockID == Block.sandStone.blockID
 											) {
 											*/
-											if(blockID != 0 && blockID != Block.waterMoving.blockID && blockID != Block.waterStill.blockID && blockID != Block.lavaMoving.blockID && blockID != Block.lavaStill.blockID) {
+											//if(blockID != 0 && blockID != Block.waterMoving.blockID && blockID != Block.waterStill.blockID && blockID != Block.lavaMoving.blockID && blockID != Block.lavaStill.blockID) {
+											if (block != null && !(block instanceof BlockFluid)) {
 												if(iy < 10) {
 													data[index] = (byte)Block.lavaMoving.blockID;
 												} else {

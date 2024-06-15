@@ -141,7 +141,7 @@ public class EntityFish extends Entity {
 			this.setPosition(d21, d22, d23);
 			this.setRotation(this.rotationYaw, this.rotationPitch);
 		} else {
-			if(!this.worldObj.multiplayerWorld) {
+			if(!this.worldObj.isRemote) {
 				ItemStack itemStack1 = this.angler.getCurrentEquippedItem();
 				if(this.angler.isDead || !this.angler.isEntityAlive() || itemStack1 == null || itemStack1.getItem() != Item.fishingRod || this.getDistanceSqToEntity(this.angler) > 1024.0D) {
 					this.setEntityDead();

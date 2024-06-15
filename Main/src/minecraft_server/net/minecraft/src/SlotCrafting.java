@@ -14,40 +14,42 @@ public class SlotCrafting extends Slot {
 		return false;
 	}
 
-	public void onPickupFromSlot(ItemStack itemStack1) {
-		itemStack1.onCrafting(this.thePlayer.worldObj, this.thePlayer);
-		if(itemStack1.itemID == Block.workbench.blockID) {
+	public void onPickupFromSlot(ItemStack pickedStack) {
+		pickedStack.onCrafting(this.thePlayer.worldObj, this.thePlayer);
+		if(pickedStack.itemID == Block.workbench.blockID) {
 			this.thePlayer.addStat(AchievementList.buildWorkBench, 1);
-		} else if(itemStack1.itemID == Item.pickaxeWood.shiftedIndex) {
+		} else if(pickedStack.itemID == Item.pickaxeWood.shiftedIndex) {
 			this.thePlayer.addStat(AchievementList.buildPickaxe, 1);
-		} else if(itemStack1.itemID == Block.stoneOvenIdle.blockID) {
+		} else if(pickedStack.itemID == Block.stoneOvenIdle.blockID) {
 			this.thePlayer.addStat(AchievementList.buildFurnace, 1);
-		} else if(itemStack1.itemID == Item.hoeWood.shiftedIndex) {
+		} else if(pickedStack.itemID == Item.hoeWood.shiftedIndex) {
 			this.thePlayer.addStat(AchievementList.buildHoe, 1);
-		} else if(itemStack1.itemID == Item.bread.shiftedIndex) {
+		} else if(pickedStack.itemID == Item.bread.shiftedIndex) {
 			this.thePlayer.addStat(AchievementList.makeBread, 1);
-		} else if(itemStack1.itemID == Item.cake.shiftedIndex) {
+		} else if(pickedStack.itemID == Item.cake.shiftedIndex) {
 			this.thePlayer.addStat(AchievementList.bakeCake, 1);
-		} else if(itemStack1.itemID == Item.pickaxeStone.shiftedIndex) {
+		} else if(pickedStack.itemID == Item.pickaxeStone.shiftedIndex) {
 			this.thePlayer.addStat(AchievementList.buildBetterPickaxe, 1);
-		} else if(itemStack1.itemID == Item.swordWood.shiftedIndex) {
+		} else if(pickedStack.itemID == Item.swordWood.shiftedIndex) {
 			this.thePlayer.addStat(AchievementList.buildSword, 1);
-		} else if(itemStack1.itemID == Item.bootsLeather.shiftedIndex) {
+		} else if(pickedStack.itemID == Item.bootsLeather.shiftedIndex) {
 			this.thePlayer.addStat(AchievementList.bootsOfLeather, 1);
-		} else if(itemStack1.itemID == Item.slingshot.shiftedIndex) {
+		} else if(pickedStack.itemID == Item.slingshot.shiftedIndex) {
 			this.thePlayer.addStat(AchievementList.bangBang, 1);
-		} else if(itemStack1.itemID == Item.pirateCrown.shiftedIndex) {
+		} else if(pickedStack.itemID == Item.pirateCrown.shiftedIndex) {
 			this.thePlayer.addStat(AchievementList.pirateCrown, 1);
-		} else if(itemStack1.itemID == Block.fleshBlock.blockID) {
+		} else if(pickedStack.itemID == Block.fleshBlock.blockID) {
 			this.thePlayer.addStat(AchievementList.meatBlock, 1);
+		} else if(pickedStack.itemID == Item.boat_iron.shiftedIndex) {
+			this.thePlayer.addStat(AchievementList.ironBoat, 1);
 		}
 
-		for(int i2 = 0; i2 < this.craftMatrix.getSizeInventory(); ++i2) {
-			ItemStack itemStack3 = this.craftMatrix.getStackInSlot(i2);
-			if(itemStack3 != null) {
-				this.craftMatrix.decrStackSize(i2, 1);
-				if(itemStack3.getItem().hasContainerItem()) {
-					this.craftMatrix.setInventorySlotContents(i2, new ItemStack(itemStack3.getItem().getContainerItem()));
+		for(int slotIdx = 0; slotIdx < this.craftMatrix.getSizeInventory(); ++slotIdx) {
+			ItemStack stackInSlot = this.craftMatrix.getStackInSlot(slotIdx);
+			if(stackInSlot != null) {
+				this.craftMatrix.decrStackSize(slotIdx, 1);
+				if(stackInSlot.getItem().hasContainerItem()) {
+					this.craftMatrix.setInventorySlotContents(slotIdx, new ItemStack(stackInSlot.getItem().getContainerItem()));
 				}
 			}
 		}

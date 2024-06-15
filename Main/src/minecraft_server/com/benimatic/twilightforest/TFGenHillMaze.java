@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.src.Block;
 import net.minecraft.src.EntityPainting;
 import net.minecraft.src.EnumArt;
+import net.minecraft.src.GlobalVars;
 import net.minecraft.src.TileEntityMobSpawner;
 import net.minecraft.src.World;
 
@@ -12,12 +13,17 @@ public class TFGenHillMaze extends TFGenerator {
 	int hsize;
 	TFMaze maze;
 	Random rand;
+	boolean checkSolid;
+	int solidPercent = 80;
 
-	public TFGenHillMaze(int size) {
+	public TFGenHillMaze(int size, boolean checksolid, int solidPercent) {
 		this.hsize = size;
+		this.checkSolid = checksolid;
+		this.solidPercent = solidPercent;
 	}
 
 	public boolean generate(World world, Random rand, int x, int y, int z) {
+		
 		this.worldObj = world;
 		this.rand = rand;
 		int sx = x - 7 - this.hsize * 16;
@@ -29,6 +35,12 @@ public class TFGenHillMaze extends TFGenerator {
 			msize = 27;
 		}
 
+		if (this.checkSolid) {
+			if (!this.checkMostlySolid(sx, y - 1, sz, msize * 4, 5, msize * 4, this.solidPercent)) {
+				return false;
+			}
+		}
+		
 		this.fill(sx, y - 1, sz, msize * 4, 1, msize * 4, Block.mazeStone.blockID, 1);
 		this.fill(sx, y, sz, msize * 4, 3, msize * 4, 0, 0);
 		this.fill(sx, y + 3, sz, msize * 4, 1, msize * 4, Block.mazeStone.blockID, 2);
@@ -53,9 +65,13 @@ public class TFGenHillMaze extends TFGenerator {
 		this.maze.copyToWorld(this.worldObj, sx, y, sz);
 		this.decorateDeadEnds();
 		this.decorate3x3Rooms(rcoords);
+		
+		System.out.println ("Hill maze @ " + x + " " + y + " " + z);
+		GlobalVars.hasUnderHillMaze = true;
+		
 		return true;
 	}
-
+	
 	protected boolean isNearRoom(int dx, int dz, int[] rcoords) {
 		for(int i = 0; i < rcoords.length / 2; ++i) {
 			int rx = rcoords[i * 2];
@@ -260,7 +276,7 @@ public class TFGenHillMaze extends TFGenerator {
 		}
 
 		if(painting != null && painting.onValidSurface()) {
-			if(!this.worldObj.multiplayerWorld) {
+			if(!this.worldObj.isRemote) {
 				this.worldObj.entityJoinedWorld(painting);
 			}
 		} else {

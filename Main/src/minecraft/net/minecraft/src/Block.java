@@ -5,8 +5,13 @@ import java.util.List;
 import java.util.Random;
 
 import com.benimatic.twilightforest.BlockTFMazestone;
+import com.benimatic.twilightforest.BlockTFMazestone2;
 import com.hippoplatimus.pistons.Piston;
 import com.hippoplatimus.pistons.PistonBase;
+import com.misc.aether.BlockAercloud;
+import com.misc.aether.BlockChestMimic;
+import com.misc.aether.BlockDungeon;
+import com.misc.aether.BlockTrap;
 import com.mojang.minecraft.creative.CreativeTabs;
 
 
@@ -49,8 +54,8 @@ public class Block {
 	public static final Block bedrock = (new Block(7, 17, Material.rock)).setBlockUnbreakable().setResistance(6000000.0F).setStepSound(soundStoneFootstep).setBlockName("bedrock").disableStats().setCreativeTab(CreativeTabs.tabBlock);
 	public static final Block waterMoving = (new BlockFlowing(8, Material.water)).setHardness(100.0F).setLightOpacity(3).setBlockName("water").disableStats().setRequiresSelfNotify();
 	public static final Block waterStill = (new BlockStationary(9, Material.water)).setHardness(100.0F).setLightOpacity(3).setBlockName("water").disableStats().setRequiresSelfNotify();
-	public static final Block lavaMoving = (new BlockFlowing(10, Material.lava)).setHardness(0.0F).setLightValue(1.0F).setLightOpacity(255).setBlockName("lava").disableStats().setRequiresSelfNotify();
-	public static final Block lavaStill = (new BlockStationary(11, Material.lava)).setHardness(100.0F).setLightValue(1.0F).setLightOpacity(255).setBlockName("lava").disableStats().setRequiresSelfNotify();
+	public static final Block lavaMoving = (new BlockFlowing(10, Material.lava)).setHardness(0.0F).setLightValue(1.0F).setLightOpacity(120).setBlockName("lava").disableStats().setRequiresSelfNotify();
+	public static final Block lavaStill = (new BlockStationary(11, Material.lava)).setHardness(100.0F).setLightValue(1.0F).setLightOpacity(120).setBlockName("lava").disableStats().setRequiresSelfNotify();
 	public static final Block sand = (new BlockSand(12, 18)).setHardness(0.5F).setStepSound(soundSandFootstep).setBlockName("sand");
 	public static final Block gravel = (new BlockGravel(13, 19)).setHardness(0.6F).setStepSound(soundGravelFootstep).setBlockName("gravel").setIsUrban(true);
 	public static final Block oreGold = (new BlockOre(14, 32)).setHardness(3.0F).setResistance(5.0F).setStepSound(soundStoneFootstep).setBlockName("oreGold");
@@ -205,14 +210,24 @@ public class Block {
 	public static final Block boneBlock = (new BlockBone(167)).setHardness(1.0F).setResistance(10.0F).setStepSound(soundStoneFootstep).setBlockName("boneBlock");
 	public static final Block leafPile = (new BlockLeafPile(168)).setHardness(0.1F).setResistance(0.1F).setStepSound(soundGrassFootstep).setBlockName("leafPile");
 	
+	// Inslands customs
 	public static final Block acorn = (new BlockAcorn(200, 13*16 + 1)).setHardness(0.1F).setResistance(0.1F).setStepSound(soundGrassFootstep).setBlockName("Acorn");
+	public static final Block aercloud = (new BlockAercloud(201)).setHardness(0.1F).setResistance(0.1F).setStepSound(soundSlimeFootstep).setBlockName("Aercloud");
+	public static final Block trap = (new BlockTrap(202)).setHardness(2.0F).setResistance(5.0F).setStepSound(soundStoneFootstep).setBlockName("Trap");
+	public static final Block chestMimic = (new BlockChestMimic(203)).setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setBlockName("Mimic");
+	public static final Block dungeonStone = (new BlockDungeon(204)).setHardness(0.5F).setStepSound(Block.soundStoneFootstep).setBlockName("DungeonStone");
+	public static final Block lightDungeonStone = (new BlockDungeon(205)).setHardness(0.5F).setStepSound(Block.soundStoneFootstep).setLightValue(0.75F).setBlockName("LightDungeonStone");
+	public static final Block lockedDungeonStone = (new BlockDungeon(206)).setHardness(-1.0F).setResistance(1000000.0F).setStepSound(Block.soundStoneFootstep).setBlockName("LockedDungeonStone");
+	public static final Block lockedLightDungeonStone = (new BlockDungeon(208)).setHardness(-1.0F).setResistance(1000000.0F).setStepSound(Block.soundStoneFootstep).setLightValue(0.5F).setBlockName("LightLockedDungeonStone");
+	public static final Block mazeStone2 = (new BlockTFMazestone2(209, 14*16 + 5)).setHardness(20.0F).setResistance(5.0F).setStepSound(soundStoneFootstep).setBlockName("mazeStone");
 	
 	// Pistons - sorry, different IDs
 	public static final Block classicPistonBase = (new PistonBase(252, 22, false)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("piston");
 	public static final Block classicPiston = (new Piston(253, 22, false)).setHardness(1.5F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("piston");
 	public static final Block classicStickyPistonBase = (new PistonBase(254, 23, true)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("pistonSticky");
 	public static final Block classicStickyPiston = (new Piston(255, 23, true)).setLightOpacity(0).setHardness(1.5F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("pistonSticky");
-
+	
+	
 	public int blockIndexInTexture;
 	public final int blockID;
 	protected float blockHardness;
@@ -426,7 +441,7 @@ public class Block {
 	}
 
 	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance) {
-		if(!world.multiplayerWorld) {
+		if(!world.isRemote) {
 			int i7 = this.quantityDropped(world.rand);
 
 			for(int i8 = 0; i8 < i7; ++i8) {
@@ -442,7 +457,7 @@ public class Block {
 	}
 
 	protected void dropBlockAsItem_do(World world, int x, int y, int z, ItemStack itemStack) {
-		if(!world.multiplayerWorld) {
+		if(!world.isRemote) {
 			float f6 = 0.7F;
 			double d7 = (double)(world.rand.nextFloat() * f6) + (double)(1.0F - f6) * 0.5D;
 			double d9 = (double)(world.rand.nextFloat() * f6) + (double)(1.0F - f6) * 0.5D;

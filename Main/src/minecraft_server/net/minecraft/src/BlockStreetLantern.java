@@ -2,12 +2,16 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockStreetLantern extends Block {
 	private boolean broken = false;
 
 	protected BlockStreetLantern(int id, int blockIndexInTexture, boolean broken) {
 		super(id, blockIndexInTexture, Material.glass);
 		this.broken = broken;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 	
 	public int getBlockTextureFromSide(int side) {

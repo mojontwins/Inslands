@@ -1,8 +1,11 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockFence extends Block {
 	public BlockFence(int i1, int i2) {
 		super(i1, i2, Material.wood);
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	public BlockFence(int blockID, int blockIndex, Material material) {

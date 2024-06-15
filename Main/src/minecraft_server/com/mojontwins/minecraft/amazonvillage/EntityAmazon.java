@@ -178,7 +178,7 @@ public class EntityAmazon extends EntityArmoredMob implements ISentient {
 			this.setIsSitting(false);
 		}
 
-		if(!this.worldObj.multiplayerWorld) {
+		if(!this.worldObj.isRemote) {
 			this.dataWatcher.updateObject(18, this.health);
 		}
 		
@@ -295,7 +295,7 @@ public class EntityAmazon extends EntityArmoredMob implements ISentient {
 	}
 
 	@Override
-	protected int getVerticalFaceSpeed() {
+	public int getVerticalFaceSpeed() {
 		return this.getIsSitting() ? 20 : super.getVerticalFaceSpeed();
 	}
 
@@ -416,7 +416,7 @@ public class EntityAmazon extends EntityArmoredMob implements ISentient {
 					entityPlayer1.inventory.setInventorySlotContents(entityPlayer1.inventory.currentItem, (ItemStack)null);
 				}
 
-				if(!this.worldObj.multiplayerWorld) {
+				if(!this.worldObj.isRemote) {
 					if(this.rand.nextInt(8) == 0) {
 						this.setAmazonTamed(true);
 						this.setPathToEntity((PathEntity)null);
@@ -448,7 +448,7 @@ public class EntityAmazon extends EntityArmoredMob implements ISentient {
 			}
 
 			if(entityPlayer1.username.equalsIgnoreCase(this.getOwner())) {
-				if(!this.worldObj.multiplayerWorld) {
+				if(!this.worldObj.isRemote) {
 					this.setIsSitting(!this.getIsSitting());
 					this.isJumping = false;
 					this.setPathToEntity((PathEntity)null);

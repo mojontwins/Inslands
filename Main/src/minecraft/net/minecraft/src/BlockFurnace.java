@@ -27,7 +27,7 @@ public class BlockFurnace extends BlockContainer {
 	}
 
 	private void setDefaultDirection(World world1, int i2, int i3, int i4) {
-		if(!world1.multiplayerWorld) {
+		if(!world1.isRemote) {
 			int i5 = world1.getBlockId(i2, i3, i4 - 1);
 			int i6 = world1.getBlockId(i2, i3, i4 + 1);
 			int i7 = world1.getBlockId(i2 - 1, i3, i4);
@@ -101,7 +101,7 @@ public class BlockFurnace extends BlockContainer {
 	}
 
 	public boolean blockActivated(World world1, int i2, int i3, int i4, EntityPlayer entityPlayer5) {
-		if(world1.multiplayerWorld) {
+		if(world1.isRemote) {
 			return true;
 		} else {
 			TileEntityFurnace tileEntityFurnace6 = (TileEntityFurnace)world1.getBlockTileEntity(i2, i3, i4);

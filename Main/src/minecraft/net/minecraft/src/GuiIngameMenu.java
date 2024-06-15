@@ -9,7 +9,7 @@ public class GuiIngameMenu extends GuiScreen {
 		this.controlList.clear();
 		byte b1 = -16;
 		this.controlList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 120 + b1, "Save and quit to title"));
-		if(this.mc.isMultiplayerWorld()) {
+		if(this.mc.isRemote()) {
 			((GuiButton)this.controlList.get(0)).displayString = "Disconnect";
 		}
 
@@ -26,11 +26,11 @@ public class GuiIngameMenu extends GuiScreen {
 
 		if(guiButton1.id == 1) {
 			this.mc.statFileWriter.readStat(StatList.leaveGameStat, 1);
-			if(this.mc.isMultiplayerWorld()) {
+			if(this.mc.isRemote()) {
 				this.mc.theWorld.sendQuittingDisconnectingPacket();
 			}
 
-			this.mc.changeWorld1((World)null);
+			this.mc.changeWorld((World)null);
 			this.mc.displayGuiScreen(new GuiMainMenu());
 		}
 

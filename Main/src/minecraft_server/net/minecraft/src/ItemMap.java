@@ -1,9 +1,13 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemMap extends ItemMapBase {
 	protected ItemMap(int i1) {
 		super(i1);
 		this.setMaxStackSize(1);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabMisc;
 	}
 
 	public static MapData getMPMapData(short s0, World world1) {
@@ -205,7 +209,7 @@ public class ItemMap extends ItemMapBase {
 	}
 
 	public void onUpdate(ItemStack itemStack1, World world2, Entity entity3, int i4, boolean z5) {
-		if(!world2.multiplayerWorld) {
+		if(!world2.isRemote) {
 			MapData mapData6 = this.getMapData(itemStack1, world2);
 			if(entity3 instanceof EntityPlayer) {
 				EntityPlayer entityPlayer7 = (EntityPlayer)entity3;

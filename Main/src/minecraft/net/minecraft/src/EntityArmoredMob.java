@@ -45,8 +45,4 @@ public class EntityArmoredMob extends EntityMob {
 		return 9;
 	}
 
-	@Override
-	public boolean getCanSpawnHere() {
-		return this.worldObj.checkIfAABBIsClear(this.boundingBox) && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).size() == 0 && !this.worldObj.getIsAnyLiquid(this.boundingBox);
-	}
 }

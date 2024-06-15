@@ -1,9 +1,13 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemSaddle extends Item {
 	public ItemSaddle(int i1) {
 		super(i1);
 		this.maxStackSize = 1;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabTransport;
 	}
 
 	public void saddleEntity(ItemStack itemStack1, EntityLiving entityLiving2) {

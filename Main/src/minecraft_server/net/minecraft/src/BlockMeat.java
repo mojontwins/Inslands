@@ -2,10 +2,14 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockMeat extends BlockEntity {
 
 	protected BlockMeat(int id, int blockIndexInTexture, Material material) {
 		super(id, blockIndexInTexture, material);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabMisc;
 	}
 
 	@Override

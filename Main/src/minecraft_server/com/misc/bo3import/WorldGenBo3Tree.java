@@ -1,29 +1,16 @@
 package com.misc.bo3import;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.StringTokenizer;
 
 import net.minecraft.src.World;
 import net.minecraft.src.WorldGenerator;
 
 public class WorldGenBo3Tree extends WorldGenerator {
 	private static HashMap<String, Bo3Schematic> treePool = new HashMap<String, Bo3Schematic>();
-	private static final String bo3ResourceDirectory = "/resources/bo3";
+	public static final String bo3ResourceDirectory = "/resources/bo3";
 	private String treeName = "";
 	private boolean forceSpawn;
 
@@ -91,6 +78,8 @@ public class WorldGenBo3Tree extends WorldGenerator {
 	}
 
 	static {
+		// Find an alternative that works with Java 6!
+		/*
 		// Read & parse all schematics
 		URI uri;
 		try {
@@ -136,6 +125,7 @@ public class WorldGenBo3Tree extends WorldGenerator {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		*/
 	}
 
 	public static String getRamdomTreeTypeOf(Random rand, String category) {

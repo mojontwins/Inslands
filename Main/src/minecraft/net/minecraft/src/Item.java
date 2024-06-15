@@ -3,6 +3,7 @@ package net.minecraft.src;
 import java.util.List;
 import java.util.Random;
 
+import com.misc.aether.ItemAetherKey;
 import com.mojang.minecraft.creative.CreativeTabs;
 import com.mojontwins.minecraft.entity.status.Status;
 
@@ -86,7 +87,7 @@ public class Item {
 	public static Item doorSteel = (new ItemDoor(74, Material.iron)).setIconCoord(12, 2).setItemName("doorIron");
 	public static Item redstone = (new ItemRedstone(75)).setIconCoord(8, 3).setItemName("redstone");
 	public static Item snowball = (new ItemSnowball(76)).setIconCoord(14, 0).setItemName("snowball");
-	public static Item boat = (new ItemBoat(77)).setIconCoord(8, 8).setItemName("boat");
+	public static Item boat = (new ItemBoat(77, false)).setIconCoord(8, 8).setItemName("boat");
 	public static Item leather = (new Item(78)).setIconCoord(7, 6).setItemName("leather").setCreativeTab(CreativeTabs.tabMaterials);
 	public static Item bucketMilk = (new ItemBucket(79, -1)).setIconCoord(13, 4).setItemName("milk").setContainerItem(bucketEmpty);
 	public static Item brick = (new Item(80)).setIconCoord(6, 1).setItemName("brick").setCreativeTab(CreativeTabs.tabMaterials);
@@ -153,7 +154,17 @@ public class Item {
 	public static Item mail = new Item(1024).setIconIndex(12*16 + 15).setItemName("mail").setCreativeTab(CreativeTabs.tabMaterials);
 	public static Item iceFace = new Item(1025).setIconIndex(13*16 + 12).setShowInCreative(false);
 	public static Item zombieFace = new Item(1026).setIconIndex(13*16 + 6).setShowInCreative(false);
+	public static Item koboldFace = new Item(1027).setIconIndex(13*16 + 4).setShowInCreative(false);
+	
 	public static Item acornSeed = new ItemAcornSeed(1100).setIconIndex(13*16).setItemName("acornSeed").setCreativeTab(CreativeTabs.tabMisc);
+	public static Item charcoal = new Item(1101).setIconIndex(13*16+10).setItemName("charcoal").setCreativeTab(CreativeTabs.tabMaterials);
+	public static Item boat_iron = (new ItemBoat(1102, true)).setIconIndex(13*16+1).setItemName("ironBoat");
+	public static Item key = (new ItemAetherKey(1103)).setItemName("AetherKey");
+	public static Item superAxe = (new ItemAxe(1104, EnumToolMaterial.SUPER, false)).setIconIndex(13*16+3).setItemName("superAxe");
+	
+	public static Item achievementHell = new Item(1200).setIconIndex(12*16+5).setShowInCreative(false);
+	public static Item achievementForest = new Item(1201).setIconIndex(12*16+6).setShowInCreative(false);
+	public static Item achievementParadise = new Item(1202).setIconIndex(12*16+7).setShowInCreative(false);
 	
 	public static Item potionEmpty = new ItemPotion(3000, 0xFFFFFF, ItemPotion.EMPTY).setItemName("potionEmpty");
 	public static Item potionPoison = new ItemPotion(3001, 0x30FF30, ItemPotion.POISON).setItemName("potionPoison");
@@ -280,6 +291,10 @@ public class Item {
 	}
 
 	public ItemStack onItemRightClick(ItemStack itemStack1, World world2, EntityPlayer entityPlayer3) {
+		return itemStack1;
+	}
+
+	public ItemStack onFoodEaten(ItemStack itemStack1, World world2, EntityPlayer entityPlayer3) {
 		return itemStack1;
 	}
 
@@ -411,6 +426,22 @@ public class Item {
 		return false;
 	}
 	
+	// r1.0+ use item
+	
+	public EnumAction getItemUseAction(ItemStack itemStack1) {
+		return EnumAction.none;
+	}
+
+	public int getMaxItemUseDuration(ItemStack itemStack1) {
+		return 0;
+	}
+
+	public void onPlayerStoppedUsing(ItemStack itemStack1, World world2, EntityPlayer entityPlayer3, int i4) {
+	}
+	
+	public void onUsingItemTick(ItemStack stack, EntityPlayer player, int count) {
+	}
+
 	// r1.3+ creative
 	
 	public Item setCreativeTab(CreativeTabs creativeTab) {

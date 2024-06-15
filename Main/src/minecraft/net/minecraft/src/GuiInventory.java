@@ -3,8 +3,6 @@ package net.minecraft.src;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import com.mojang.minecraft.creative.GuiContainerCreative;
-
 import net.minecraft.client.Minecraft;
 
 public class GuiInventory extends GuiContainer {
@@ -15,13 +13,6 @@ public class GuiInventory extends GuiContainer {
 		super(entityPlayer1.inventorySlots);
 		this.allowUserInput = true;
 		entityPlayer1.addStat(AchievementList.openInventory, 1);
-	}
-
-	public void updateScreen() {
-		if (this.mc.thePlayer.isCreative) {
-			this.mc.displayGuiScreen(new GuiContainerCreative(this.mc.thePlayer));
-		}
-
 	}
 	
 	public void initGui() {

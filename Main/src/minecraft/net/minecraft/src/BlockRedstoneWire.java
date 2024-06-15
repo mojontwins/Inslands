@@ -187,7 +187,7 @@ public class BlockRedstoneWire extends Block {
 
 	public void onBlockAdded(World world1, int i2, int i3, int i4) {
 		super.onBlockAdded(world1, i2, i3, i4);
-		if(!world1.multiplayerWorld) {
+		if(!world1.isRemote) {
 			this.updateAndPropagateCurrentStrength(world1, i2, i3, i4);
 			world1.notifyBlocksOfNeighborChange(i2, i3 + 1, i4, this.blockID);
 			world1.notifyBlocksOfNeighborChange(i2, i3 - 1, i4, this.blockID);
@@ -224,7 +224,7 @@ public class BlockRedstoneWire extends Block {
 
 	public void onBlockRemoval(World world1, int i2, int i3, int i4) {
 		super.onBlockRemoval(world1, i2, i3, i4);
-		if(!world1.multiplayerWorld) {
+		if(!world1.isRemote) {
 			world1.notifyBlocksOfNeighborChange(i2, i3 + 1, i4, this.blockID);
 			world1.notifyBlocksOfNeighborChange(i2, i3 - 1, i4, this.blockID);
 			world1.notifyBlocksOfNeighborChange(i2 + 1, i3, i4, this.blockID);
@@ -273,7 +273,7 @@ public class BlockRedstoneWire extends Block {
 	}
 
 	public void onNeighborBlockChange(World world1, int i2, int i3, int i4, int i5) {
-		if(!world1.multiplayerWorld) {
+		if(!world1.isRemote) {
 			int i6 = world1.getBlockMetadata(i2, i3, i4);
 			boolean z7 = this.canPlaceBlockAt(world1, i2, i3, i4);
 			if(!z7) {

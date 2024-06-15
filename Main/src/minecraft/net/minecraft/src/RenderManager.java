@@ -6,9 +6,18 @@ import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
 
+import com.benimatic.twilightforest.EntityTFKobold;
+import com.benimatic.twilightforest.EntityTFMinoshroom;
+import com.benimatic.twilightforest.EntityTFMinotaur;
 import com.benimatic.twilightforest.EntityTFRedcap;
+import com.benimatic.twilightforest.EntityTFSwarmSpider;
 import com.benimatic.twilightforest.EntityTFWraith;
+import com.benimatic.twilightforest.ModelTFKobold;
+import com.benimatic.twilightforest.ModelTFMinoshroom;
+import com.benimatic.twilightforest.ModelTFMinotaur;
 import com.benimatic.twilightforest.ModelTFRedcap;
+import com.benimatic.twilightforest.RenderTFMinoshroom;
+import com.benimatic.twilightforest.RenderTFSwarmSpider;
 import com.benimatic.twilightforest.RenderTFWraith;
 import com.bigbang87.deadlymonsters.EntityHauntedCow;
 import com.bigbang87.deadlymonsters.ModelHauntedCow;
@@ -21,6 +30,24 @@ import com.chocolatin.betterdungeons.ModelHuman;
 import com.chocolatin.betterdungeons.RenderHuman;
 import com.hippoplatimus.pistons.EntityMovingPiston;
 import com.hippoplatimus.pistons.MovingPistonRenderer;
+import com.misc.aether.EntityFlyingCow;
+import com.misc.aether.EntityMimic;
+import com.misc.aether.EntityPhyg;
+import com.misc.aether.EntitySheepuff;
+import com.misc.aether.EntitySlider;
+import com.misc.aether.ModelFlyingCow1;
+import com.misc.aether.ModelFlyingCow2;
+import com.misc.aether.ModelFlyingPig1;
+import com.misc.aether.ModelFlyingPig2;
+import com.misc.aether.ModelSheepuff1;
+import com.misc.aether.ModelSheepuff2;
+import com.misc.aether.ModelSheepuff3;
+import com.misc.aether.ModelSlider;
+import com.misc.aether.RenderFlyingCow;
+import com.misc.aether.RenderMimic;
+import com.misc.aether.RenderPhyg;
+import com.misc.aether.RenderSheepuff;
+import com.misc.aether.RenderSlider;
 import com.mojang.minecraft.ocelot.EntityBetaOcelot;
 import com.mojang.minecraft.ocelot.EntityCatBlack;
 import com.mojang.minecraft.ocelot.EntityCatRed;
@@ -114,6 +141,10 @@ public class RenderManager {
 		// Twilight Forest
 		this.entityRenderMap.put(EntityTFRedcap.class, new RenderBiped(new ModelTFRedcap(), 0.625F));
 		this.entityRenderMap.put(EntityTFWraith.class, new RenderTFWraith(new ModelZombie(), 0.5F));
+		this.entityRenderMap.put(EntityTFMinotaur.class, new RenderBiped(new ModelTFMinotaur(), 0.625F));
+		this.entityRenderMap.put(EntityTFMinoshroom.class, new RenderTFMinoshroom(new ModelTFMinoshroom(), 0.625F));
+		this.entityRenderMap.put(EntityTFKobold.class, new RenderBiped(new ModelTFKobold(), 0.625F));
+		this.entityRenderMap.put(EntityTFSwarmSpider.class, new RenderTFSwarmSpider());
 		
 		// Better Dungeons
 		this.entityRenderMap.put(EntityPirate.class, new RenderHuman(new ModelHuman(), 0.5F));
@@ -131,6 +162,13 @@ public class RenderManager {
 		this.entityRenderMap.put(EntityIceWarrior.class,  new RenderHuman(new ModelHuman(), 0.5F));
 		this.entityRenderMap.put(EntityIceArcher.class,  new RenderBiped(new ModelArcher(), 0.5F));
 		this.entityRenderMap.put(EntityIceBoss.class,  new RenderIceBoss(new ModelIceBoss(), 0.5F));
+		
+		// Aether
+		this.entityRenderMap.put(EntityMimic.class,  new RenderMimic());
+		this.entityRenderMap.put(EntitySlider.class, new RenderSlider(new ModelSlider(), 0.5F));
+		this.entityRenderMap.put(EntityPhyg.class, new RenderPhyg(new ModelFlyingPig1(), new ModelFlyingPig2(), 0.7F));
+		this.entityRenderMap.put(EntityFlyingCow.class, new RenderFlyingCow(new ModelFlyingCow1(), new ModelFlyingCow2(), 0.7F));
+		this.entityRenderMap.put(EntitySheepuff.class, new RenderSheepuff(new ModelSheepuff1(), new ModelSheepuff2(), new ModelSheepuff3(), 0.7F));
 		
 		// Traders
 		/*

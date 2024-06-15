@@ -17,6 +17,7 @@ import net.minecraft.src.Chunk;
 import net.minecraft.src.ChunkCoordIntPair;
 import net.minecraft.src.IChunkProvider;
 import net.minecraft.src.World;
+import net.minecraft.src.WorldSize;
 
 public class FeatureProvider {
 	public World world;
@@ -49,6 +50,8 @@ public class FeatureProvider {
 	 * Selects a feature at random for chunkX, chunkZ. If succeeded, feature is initialized and returned.
 	 */
 	public Feature getFeatureForChunkCoords(int chunkX, int chunkZ) {
+		if (chunkX < 0 || chunkZ < 0 || chunkX >= WorldSize.xChunks || chunkZ >= WorldSize.zChunks) return null;
+		
 		// Provide a feature.
 		Feature feature = null;
 		

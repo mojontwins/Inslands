@@ -71,7 +71,7 @@ public class EntityMinecart extends Entity implements IInventory {
 	}
 
 	public boolean attackEntityFrom(Entity entity1, int i2) {
-		if(!this.worldObj.multiplayerWorld && !this.isDead) {
+		if(!this.worldObj.isRemote && !this.isDead) {
 			this.minecartRockDirection = -this.minecartRockDirection;
 			this.minecartTimeSinceHit = 10;
 			this.setBeenAttacked();
@@ -170,7 +170,7 @@ public class EntityMinecart extends Entity implements IInventory {
 		}
 
 		double d7;
-		if(this.worldObj.multiplayerWorld && this.field_9415_k > 0) {
+		if(this.worldObj.isRemote && this.field_9415_k > 0) {
 			if(this.field_9415_k > 0) {
 				double d46 = this.posX + (this.field_9414_l - this.posX) / (double)this.field_9415_k;
 				double d47 = this.posY + (this.field_9413_m - this.posY) / (double)this.field_9415_k;
@@ -643,7 +643,7 @@ public class EntityMinecart extends Entity implements IInventory {
 	}
 
 	public void applyEntityCollision(Entity entity1) {
-		if(!this.worldObj.multiplayerWorld) {
+		if(!this.worldObj.isRemote) {
 			if(entity1 != this.riddenByEntity) {
 				if(entity1 instanceof EntityLiving && !(entity1 instanceof EntityPlayer) && this.minecartType == 0 && this.motionX * this.motionX + this.motionZ * this.motionZ > 0.01D && this.riddenByEntity == null && entity1.ridingEntity == null) {
 					entity1.mountEntity(this);
@@ -765,11 +765,11 @@ public class EntityMinecart extends Entity implements IInventory {
 				return true;
 			}
 
-			if(!this.worldObj.multiplayerWorld) {
+			if(!this.worldObj.isRemote) {
 				entityPlayer1.mountEntity(this);
 			}
 		} else if(this.minecartType == 1) {
-			if(!this.worldObj.multiplayerWorld) {
+			if(!this.worldObj.isRemote) {
 				entityPlayer1.displayGUIChest(this);
 			}
 		} else if(this.minecartType == 2) {

@@ -83,6 +83,10 @@ public final class ItemStack {
 		return this.getItem().onItemRightClick(this, world1, entityPlayer2);
 	}
 
+	public ItemStack onFoodEaten(World world1, EntityPlayer entityPlayer2) {
+		return this.getItem().onFoodEaten(this, world1, entityPlayer2);
+	}
+
 	public NBTTagCompound writeToNBT(NBTTagCompound nBTTagCompound1) {
 		nBTTagCompound1.setShort("id", (short)this.itemID);
 		nBTTagCompound1.setByte("Count", (byte)this.stackSize);
@@ -234,6 +238,18 @@ public final class ItemStack {
 
 	public boolean isStackEqual(ItemStack itemStack1) {
 		return this.itemID == itemStack1.itemID && this.stackSize == itemStack1.stackSize && this.itemDamage == itemStack1.itemDamage;
+	}
+	
+	public int getMaxItemUseDuration() {
+		return this.getItem().getMaxItemUseDuration(this);
+	}
+
+	public EnumAction getItemUseAction() {
+		return this.getItem().getItemUseAction(this);
+	}
+
+	public void onPlayerStoppedUsing(World world1, EntityPlayer entityPlayer2, int i3) {
+		this.getItem().onPlayerStoppedUsing(this, world1, entityPlayer2, i3);
 	}
 
 	public static boolean areItemStacksCompatibleForTrading(ItemStack fromRecipe, ItemStack itemStack) {

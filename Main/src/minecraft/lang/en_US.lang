@@ -16,6 +16,7 @@ theme.Poison=Poison Island
 size.small=Small
 size.normal=Normal
 size.big=Big
+size.huge=Huge
 
 menu.singleplayer=Singleplayer
 menu.multiplayer=Multiplayer
@@ -61,9 +62,9 @@ selectWorld.gameMode.creative.line1=Unlimited resources, free flying and
 selectWorld.gameMode.creative.line2=destroy blocks instantly.
 
 selectWorld.mapFeatures.info=Villages, dungeons etc
-generator.default=Normal
-generator.sky=Sky
-generator.infdev=Infdev 415
+generator.default=Alpha Island
+generator.sky=Floating Island
+generator.infdev=Infdev Island
 
 multiplayer.title=Play Multiplayer
 multiplayer.connect=Connect
@@ -457,6 +458,11 @@ tile.boneBlock.name=Bone block
 tile.divingHelmet.name=Diving helmet
 tile.piston.name=Piston
 tile.pistonSticky.name=Sticky piston
+tile.Aercloud.name=Aercloud
+tile.DungeonStone.name=Dungeon Stone
+tile.LightDungeonStone.name=Dungeon Stone
+tile.LockedDungeonStone.name=Dungeon Stone
+tile.LightLockedDungeonStone.name=Dungeon Stone
 
 item.shovelIron.name=Iron Shovel
 item.shovelIron.desc=
@@ -751,6 +757,11 @@ item.battleAxeWood.name=Beginner's Battle axe
 item.knifeWood.name=Beginner's knife
 item.cryingObsidianWand.name=Crying Obsidian Wand
 item.pirateCrown.name=Pirate crown
+item.acorn=Acorn
+item.charcoal=Charcoal
+item.ironBoat.name=Iron Boat
+item.AetherKey=Aether Key
+item.superAxe=Super Axe
 
 itemGroup.buildingBlocks=Building Blocks
 itemGroup.decorations=Decoration Blocks

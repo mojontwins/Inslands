@@ -6,7 +6,7 @@ public class TileEntityMobSpawnerOneshot extends TileEntityMobSpawner {
 	// Just spawns its mob once when the player approaches.
 	public void updateEntity() {
 		this.prevYaw = this.yaw;
-		if(this.anyPlayerInRange() && !this.worldObj.multiplayerWorld) {				
+		if(this.anyPlayerInRange() && !this.worldObj.isRemote) {				
 			// Generate entity in place
 			EntityLiving entityLiving = (EntityLiving)EntityList.createEntityByName(this.mobID, this.worldObj);
 			if(entityLiving == null) {

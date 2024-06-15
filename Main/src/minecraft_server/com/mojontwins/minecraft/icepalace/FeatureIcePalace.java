@@ -14,6 +14,7 @@ import net.minecraft.src.BiomeGenGlacier;
 import net.minecraft.src.BiomeGenTundra;
 import net.minecraft.src.Block;
 import net.minecraft.src.Chunk;
+import net.minecraft.src.ChunkProviderSky;
 import net.minecraft.src.IChunkProvider;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
@@ -28,7 +29,8 @@ public class FeatureIcePalace extends FeatureDynamicSchematic {
 	private List<PalacePiecePosition> corridorPositions = new ArrayList<PalacePiecePosition> ();
 	private List<PalacePiecePosition> topPositions = new ArrayList<PalacePiecePosition> ();
 	private Random pieceRand;
-	int highestRoomY = 0;
+	private int y0 = 64;
+	private int highestRoomY = 0;
 	
 	private static final int towerSeparation = 6;
 	
@@ -48,6 +50,18 @@ public class FeatureIcePalace extends FeatureDynamicSchematic {
 		super(world, originChunkX, originChunkZ, featureProvider);
 	}
 
+	@Override
+	public void setup(World world, Random rand, BiomeGenBase biome, int chunkX, int chunkZ) {
+		if(this.featureProvider.chunkProvider instanceof ChunkProviderSky) {
+			int height = this.world.getLandSurfaceHeightValue(this.centerX, this.centerZ);
+			if(height < 1 || height > 64) return;
+			
+			this.y0 = height;
+		}
+		
+		super.setup(world, rand, biome, chunkX, chunkZ);
+	}
+	
 	@Override
 	public int getFeatureHeight() {
 		return palaceHeight;
@@ -241,7 +255,7 @@ public class FeatureIcePalace extends FeatureDynamicSchematic {
 
 	@Override
 	public int getY0() {
-		return 64;
+		return this.y0;
 	}
 
 	@Override

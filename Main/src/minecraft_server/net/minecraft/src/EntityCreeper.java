@@ -34,7 +34,7 @@ public class EntityCreeper extends EntityMob {
 	}
 
 	protected void attackBlockedEntity(Entity entity1, float f2) {
-		if(!this.worldObj.multiplayerWorld) {
+		if(!this.worldObj.isRemote) {
 			if(this.timeSinceIgnited > 0) {
 				this.setCreeperState(-1);
 				--this.timeSinceIgnited;
@@ -48,7 +48,7 @@ public class EntityCreeper extends EntityMob {
 
 	public void onUpdate() {
 		this.lastActiveTime = this.timeSinceIgnited;
-		if(this.worldObj.multiplayerWorld) {
+		if(this.worldObj.isRemote) {
 			int i1 = this.getCreeperState();
 			if(i1 > 0 && this.timeSinceIgnited == 0) {
 				this.worldObj.playSoundAtEntity(this, "random.fuse", 1.0F, 0.5F);
@@ -108,7 +108,7 @@ public class EntityCreeper extends EntityMob {
 	}
 
 	protected void attackEntity(Entity entity1, float f2) {
-		if(!this.worldObj.multiplayerWorld) {
+		if(!this.worldObj.isRemote) {
 			int i3 = this.getCreeperState();
 			if(i3 <= 0 && f2 < 3.0F || i3 > 0 && f2 < 7.0F) {
 				if(this.timeSinceIgnited == 0) {

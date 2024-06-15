@@ -22,12 +22,16 @@ import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
 
 import com.misc.moreresources.MoreResourcesInstaller;
+import com.mojang.minecraft.creative.GuiContainerCreative;
 
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.AxisAlignedBB;
+import net.minecraft.src.BiomeGenBase;
+import net.minecraft.src.BiomeGenParadise;
+import net.minecraft.src.BiomeGenThemeHell;
+import net.minecraft.src.BiomeGenThickForest;
 import net.minecraft.src.Block;
 import net.minecraft.src.ChunkCoordinates;
-import net.minecraft.src.ChunkProviderLoadOrGenerate;
 import net.minecraft.src.ColorizerFoliage;
 import net.minecraft.src.ColorizerGrass;
 import net.minecraft.src.ColorizerWater;
@@ -44,6 +48,7 @@ import net.minecraft.src.FontRenderer;
 import net.minecraft.src.GLAllocation;
 import net.minecraft.src.GameSettings;
 import net.minecraft.src.GameWindowListener;
+import net.minecraft.src.GlobalVars;
 import net.minecraft.src.GraphicsMode;
 import net.minecraft.src.GuiAchievement;
 import net.minecraft.src.GuiChat;
@@ -59,7 +64,6 @@ import net.minecraft.src.GuiMainMenu;
 import net.minecraft.src.GuiScreen;
 import net.minecraft.src.GuiSleepMP;
 import net.minecraft.src.GuiUnused;
-import net.minecraft.src.IChunkProvider;
 import net.minecraft.src.ISaveFormat;
 import net.minecraft.src.ISaveHandler;
 import net.minecraft.src.ItemRenderer;
@@ -104,7 +108,6 @@ import net.minecraft.src.TextureWaterFX;
 import net.minecraft.src.TextureWaterFlowFX;
 //import net.minecraft.src.ThreadCheckHasPaid;
 import net.minecraft.src.ThreadDownloadResources;
-import net.minecraft.src.ThreadLightingUpdater;
 import net.minecraft.src.ThreadSleepForeverClient;
 import net.minecraft.src.Timer;
 import net.minecraft.src.UnexpectedThrowable;
@@ -179,8 +182,6 @@ public abstract class Minecraft implements Runnable {
 	long systemTime = System.currentTimeMillis();
 	private int joinPlayerCounter = 0;
 
-	public static ThreadLightingUpdater lightingUpdater; 
-	
 	// Keep this true for the time being
 	public boolean legacyOpenGL = true;
 	
@@ -495,19 +496,13 @@ public abstract class Minecraft implements Runnable {
 			System.out.println("Stopping!");
 
 			try {
-				this.changeWorld1((World)null);
+				this.changeWorld((World)null);
 			} catch (Throwable throwable8) {
 			}
 
 			try {
 				GLAllocation.deleteTexturesAndDisplayLists();
 			} catch (Throwable throwable7) {
-			}
-
-			try {
-				lightingUpdater.shutdownLighting();
-			} catch (Exception e) {
-				
 			}
 
 			this.sndManager.closeMinecraft();
@@ -566,7 +561,7 @@ public abstract class Minecraft implements Runnable {
 							this.runTick();
 						} catch (MinecraftException minecraftException16) {
 							this.theWorld = null;
-							this.changeWorld1((World)null);
+							this.changeWorld((World)null);
 							this.displayGuiScreen(new GuiConflictWarning());
 						}
 					}
@@ -577,12 +572,6 @@ public abstract class Minecraft implements Runnable {
 					this.sndManager.func_338_a(this.thePlayer, this.timer.renderPartialTicks);
 					
 					GL11.glEnable(GL11.GL_TEXTURE_2D);
-					
-					if(!this.gameSettings.threadedLighting) {
-						if(this.theWorld != null) {
-							this.theWorld.updatingLighting();
-						}
-					}
 
 					if(!Keyboard.isKeyDown(Keyboard.KEY_F7)) {
 						Display.update();
@@ -638,14 +627,14 @@ public abstract class Minecraft implements Runnable {
 					this.checkGLError("Post render");
 					++i3;
 
-					for(this.isGamePaused = !this.isMultiplayerWorld() && this.currentScreen != null && this.currentScreen.doesGuiPauseGame(); System.currentTimeMillis() >= j1 + 1000L; i3 = 0) {
+					for(this.isGamePaused = !this.isRemote() && this.currentScreen != null && this.currentScreen.doesGuiPauseGame(); System.currentTimeMillis() >= j1 + 1000L; i3 = 0) {
 						this.debug = i3 + " fps, " + WorldRenderer.chunksUpdated + " chunk updates";
 						WorldRenderer.chunksUpdated = 0;
 						j1 += 1000L;
 					}
 				} catch (MinecraftException minecraftException18) {
 					this.theWorld = null;
-					this.changeWorld1((World)null);
+					this.changeWorld((World)null);
 					this.displayGuiScreen(new GuiConflictWarning());
 				} catch (OutOfMemoryError outOfMemoryError19) {
 					this.freeMemory();
@@ -680,7 +669,7 @@ public abstract class Minecraft implements Runnable {
 
 		try {
 			System.gc();
-			this.changeWorld1((World)null);
+			this.changeWorld((World)null);
 		} catch (Throwable throwable2) {
 		}
 
@@ -1014,15 +1003,6 @@ public abstract class Minecraft implements Runnable {
 		this.ingameGUI.updateTick();
 		this.entityRenderer.getMouseOver(1.0F);
 		int i3;
-		if(this.thePlayer != null) {
-			IChunkProvider iChunkProvider1 = this.theWorld.getIChunkProvider();
-			if(iChunkProvider1 instanceof ChunkProviderLoadOrGenerate) {
-				ChunkProviderLoadOrGenerate chunkProviderLoadOrGenerate2 = (ChunkProviderLoadOrGenerate)iChunkProvider1;
-				i3 = MathHelper.floor_float((float)((int)this.thePlayer.posX)) >> 4;
-				int i4 = MathHelper.floor_float((float)((int)this.thePlayer.posZ)) >> 4;
-				chunkProviderLoadOrGenerate2.setCurrentChunkOver(i3, i4);
-			}
-		}
 
 		if(!this.isGamePaused && this.theWorld != null) {
 			this.playerController.updateController();
@@ -1036,7 +1016,7 @@ public abstract class Minecraft implements Runnable {
 		if(this.currentScreen == null && this.thePlayer != null) {
 			if(this.thePlayer.health <= 0) {
 				this.displayGuiScreen((GuiScreen)null);
-			} else if(this.thePlayer.isPlayerSleeping() && this.theWorld != null && this.theWorld.multiplayerWorld) {
+			} else if(this.thePlayer.isPlayerSleeping() && this.theWorld != null && this.theWorld.isRemote) {
 				this.displayGuiScreen(new GuiSleepMP(this));
 			}
 		} else if(this.currentScreen != null && this.currentScreen instanceof GuiSleepMP && !this.thePlayer.isPlayerSleeping()) {
@@ -1122,7 +1102,11 @@ public abstract class Minecraft implements Runnable {
 												}
 
 												if(Keyboard.getEventKey() == this.gameSettings.keyBindInventory.keyCode) {
-													this.displayGuiScreen(new GuiInventory(this.thePlayer));
+													if (this.thePlayer.isCreative) {
+														this.displayGuiScreen(new GuiContainerCreative(this.thePlayer));
+													} else {
+														this.displayGuiScreen(new GuiInventory(this.thePlayer));
+													}
 												}
 
 												if(Keyboard.getEventKey() == this.gameSettings.keyBindDrop.keyCode) {
@@ -1133,7 +1117,7 @@ public abstract class Minecraft implements Runnable {
 													this.displayGuiScreen(new GuiCreativeInventory(this));
 												}
 
-												if((this.isMultiplayerWorld() || this.thePlayer.enableCheats) && Keyboard.getEventKey() == this.gameSettings.keyBindChat.keyCode) {
+												if((this.isRemote() || this.thePlayer.enableCheats) && Keyboard.getEventKey() == this.gameSettings.keyBindChat.keyCode) {
 													this.displayGuiScreen(new GuiChat(this));
 												}
 											}
@@ -1207,7 +1191,7 @@ public abstract class Minecraft implements Runnable {
 			}
 
 			this.theWorld.difficultySetting = this.gameSettings.difficulty;
-			if(this.theWorld.multiplayerWorld) {
+			if(this.theWorld.isRemote) {
 				this.theWorld.difficultySetting = 3;
 			}
 
@@ -1221,6 +1205,14 @@ public abstract class Minecraft implements Runnable {
 				this.renderGlobal.updateClouds();
 			}
 
+			// I Swapped this block an the next
+			if(!this.isGamePaused || this.isRemote()) {
+				this.theWorld.setAllowedMobSpawns(this.gameSettings.difficulty > 0, true);
+				this.theWorld.tick();
+			}
+
+			// Player current chunk coordinates are updated during world tick
+			// And I need them to prune the entities to update list
 			if(!this.isGamePaused) {
 				if(this.theWorld.lightningFlash > 0) {
 					--this.theWorld.lightningFlash;
@@ -1229,17 +1221,25 @@ public abstract class Minecraft implements Runnable {
 				this.theWorld.updateEntities();
 			}
 
-			if(!this.isGamePaused || this.isMultiplayerWorld()) {
-				this.theWorld.setAllowedMobSpawns(this.gameSettings.difficulty > 0, true);
-				this.theWorld.tick();
-			}
-
 			if(!this.isGamePaused && this.theWorld != null) {
 				this.theWorld.randomDisplayUpdates(MathHelper.floor_double(this.thePlayer.posX), MathHelper.floor_double(this.thePlayer.posY), MathHelper.floor_double(this.thePlayer.posZ));
 			}
 
 			if(!this.isGamePaused) {
 				this.effectRenderer.updateEffects();
+			}
+		}
+		
+		if(this.theWorld != null && this.thePlayer != null) {
+			if(this.theWorld.thisSessionTicks == 40) {
+				BiomeGenBase biome = this.theWorld.getBiomeGenAt((int)this.thePlayer.posX, (int)this.thePlayer.posZ);
+				if(biome instanceof BiomeGenThemeHell) {
+					this.thePlayer.triggerAchievement(AchievementList.themeHell);
+				} else if(biome instanceof BiomeGenThickForest) {
+					this.thePlayer.triggerAchievement(AchievementList.themeForest);
+				} else if(biome instanceof BiomeGenParadise) {
+					this.thePlayer.triggerAchievement(AchievementList.themeParadise);
+				}
 			}
 		}
 
@@ -1253,24 +1253,30 @@ public abstract class Minecraft implements Runnable {
 		this.downloadResourcesThread.reloadResources();
 	}
 
-	public boolean isMultiplayerWorld() {
-		return this.theWorld != null && this.theWorld.multiplayerWorld;
+	public boolean isRemote() {
+		return this.theWorld != null && this.theWorld.isRemote;
 	}
 
-	public void startWorld(String string1, String string2, WorldSettings worldSettings) {
-		this.changeWorld1((World)null);
+	public void startWorld(String forlderName, String worldName, WorldSettings worldSettings) {
+		this.changeWorld((World)null);
 		System.gc();
-		if(this.saveLoader.isOldMapFormat(string1)) {
-			this.converMapToMCRegion(string1, string2);
+		
+		if(this.saveLoader.isOldMapFormat(forlderName)) {
+			this.converMapToMCRegion(forlderName, worldName);
 		} else {
-			ISaveHandler iSaveHandler5 = this.saveLoader.getSaveLoader(string1, false);
+			ISaveHandler saveHandler = this.saveLoader.getSaveLoader(forlderName, false);
 			
-			World world6 = null;
+			World world = null;
 			
 			do {
-				world6 = new World(iSaveHandler5, string2, worldSettings, this.gameSettings);
-				if(world6.findingSpawnPoint) {
-					System.out.println("Couldn't find a valid spawn point - trying again!");
+				GlobalVars.initializeGameFlags();
+				
+				world = new World(saveHandler, worldName, worldSettings);
+				boolean isNew = world.isNewWorld; System.out.println ("New World? " + isNew);
+				this.preloadWorld(world, "Generating Level", isNew);
+				
+				if(isNew && (world.findingSpawnPoint || !world.levelIsValidUponWorldTheme())) {
+					System.out.println("World not valid - trying again!");
 					Random rand = new Random(worldSettings.getSeed());
 					worldSettings = new WorldSettings(
 						rand.nextLong(), 
@@ -1280,16 +1286,16 @@ public abstract class Minecraft implements Runnable {
 						worldSettings.isGenerateCities(),
 						worldSettings.getTerrainType());
 				}
-			} while(world6.findingSpawnPoint);
+			} while(world.findingSpawnPoint || !world.levelIsValidUponWorldTheme());
 				
-			if(world6.isNewWorld) {
+			if(world.isNewWorld) {
 				this.statFileWriter.readStat(StatList.createWorldStat, 1);
 				this.statFileWriter.readStat(StatList.startGameStat, 1);
-				this.changeWorld2(world6, "Generating level");
+				this.changeWorld(world, "Generating level");
 			} else {
 				this.statFileWriter.readStat(StatList.loadWorldStat, 1);
 				this.statFileWriter.readStat(StatList.startGameStat, 1);
-				this.changeWorld2(world6, "Loading level");
+				this.changeWorld(world, "Loading level");
 			}
 		}
 
@@ -1318,7 +1324,7 @@ public abstract class Minecraft implements Runnable {
 			}
 
 			world7 = null;
-			world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(-1), this.gameSettings);
+			world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(-1));
 			this.changeWorld(world7, "Entering the Nether", this.thePlayer);
 		} else {
 			d1 *= d5;
@@ -1329,7 +1335,7 @@ public abstract class Minecraft implements Runnable {
 			}
 
 			world7 = null;
-			world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(0), this.gameSettings); 
+			world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(0)); 
 			this.changeWorld(world7, "Leaving the Nether", this.thePlayer);
 		}
 
@@ -1342,45 +1348,54 @@ public abstract class Minecraft implements Runnable {
 
 	}
 
-	public void changeWorld1(World world1) {
-		this.changeWorld2(world1, "");
+	public void changeWorld(World world1) {
+		this.changeWorld(world1, "");
 	}
 
-	public void changeWorld2(World world1, String string2) {
+	public void changeWorld(World world1, String string2) {
 		this.changeWorld(world1, string2, (EntityPlayer)null);
 	}
 
-	public void changeWorld(World world1, String string2, EntityPlayer entityPlayer3) {
+	public void changeWorld(World world, String caption, EntityPlayer entityPlayer) {
 		this.statFileWriter.func_27175_b();
 		this.statFileWriter.syncStats();
 		this.renderViewEntity = null;
-		this.loadingScreen.printText(string2);
+		this.loadingScreen.printText(caption);
 		this.loadingScreen.displayLoadingString("");
 		this.sndManager.playStreaming((String)null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+
+		// If there is a current world, save it before proceeding
 		if(this.theWorld != null) {
 			this.theWorld.saveWorldIndirectly(this.loadingScreen);
 		}
 
-		this.theWorld = world1;
-		if(world1 != null) {
-			this.playerController.onWorldChange(world1);
-			if(!this.isMultiplayerWorld()) {
-				if(entityPlayer3 == null) {
-					this.thePlayer = (EntityPlayerSP)world1.func_4085_a(EntityPlayerSP.class);
+		// Make new world the current world
+		this.theWorld = world;
+
+		if(world != null) {
+			this.playerController.onWorldChange(world);
+			
+			if(!this.isRemote()) {
+				if(entityPlayer == null) {
+					this.thePlayer = (EntityPlayerSP)world.func_4085_a(EntityPlayerSP.class);
 				}
 			} else if(this.thePlayer != null) {
 				this.thePlayer.preparePlayerToSpawn();
-				if(world1 != null) {
-					world1.entityJoinedWorld(this.thePlayer);
+				if(world != null) {
+					world.entityJoinedWorld(this.thePlayer);
 				}
 			}
 
-			if(!world1.multiplayerWorld) {
-				this.preloadWorld(string2);
+			// Precalculate all chunks!
+			/*
+			if(!world.isRemote) {
+				this.preloadWorld(caption);
 			}
+			*/
+			// I've moved this to startWorld!
 
 			if(this.thePlayer == null) {
-				this.thePlayer = (EntityPlayerSP)this.playerController.createPlayer(world1);
+				this.thePlayer = (EntityPlayerSP)this.playerController.createPlayer(world);
 				this.thePlayer.preparePlayerToSpawn();
 				this.thePlayer.isCreative = this.gameSettings.isCreative;
 				this.thePlayer.enableCheats = this.gameSettings.enableCheats;
@@ -1390,29 +1405,21 @@ public abstract class Minecraft implements Runnable {
 
 			this.thePlayer.movementInput = new MovementInputFromOptions(this.gameSettings);
 			if(this.renderGlobal != null) {
-				this.renderGlobal.changeWorld(world1);
+				this.renderGlobal.changeWorld(world);
 			}
 
 			if(this.effectRenderer != null) {
-				this.effectRenderer.clearEffects(world1);
+				this.effectRenderer.clearEffects(world);
 			}
 
 			this.playerController.func_6473_b(this.thePlayer);
-			if(entityPlayer3 != null) {
-				world1.emptyMethod1();
+			if(entityPlayer != null) {
+				world.emptyMethod1();
 			}
 
-			IChunkProvider iChunkProvider4 = world1.getIChunkProvider();
-			if(iChunkProvider4 instanceof ChunkProviderLoadOrGenerate) {
-				ChunkProviderLoadOrGenerate chunkProviderLoadOrGenerate5 = (ChunkProviderLoadOrGenerate)iChunkProvider4;
-				int i6 = MathHelper.floor_float((float)((int)this.thePlayer.posX)) >> 4;
-				int i7 = MathHelper.floor_float((float)((int)this.thePlayer.posZ)) >> 4;
-				chunkProviderLoadOrGenerate5.setCurrentChunkOver(i6, i7);
-			}
-
-			world1.spawnPlayerWithLoadedChunks(this.thePlayer);
-			if(world1.isNewWorld) {
-				world1.saveWorldIndirectly(this.loadingScreen);
+			world.spawnPlayerWithLoadedChunks(this.thePlayer);
+			if(world.isNewWorld) {
+				world.saveWorldIndirectly(this.loadingScreen);
 			}
 
 			this.renderViewEntity = this.thePlayer;
@@ -1431,41 +1438,21 @@ public abstract class Minecraft implements Runnable {
 		this.startWorld(string1, string2, new WorldSettings(0L, 0, true, false, false, WorldType.DEFAULT));
 	}
 
-	private void preloadWorld(String string1) {
+	private void preloadWorld(World world, String string1, boolean isNew) {
 		this.loadingScreen.printText(string1);
-		this.loadingScreen.displayLoadingString("Building terrain");
-		short s2 = 128;
+		this.loadingScreen.displayLoadingString(isNew ? "Building terrain" : "Loading terrain");
+
 		int i3 = 0;
-		int i4 = s2 * 2 / 16 + 1;
-		i4 *= i4;
-		IChunkProvider iChunkProvider5 = this.theWorld.getIChunkProvider();
-		ChunkCoordinates chunkCoordinates6 = this.theWorld.getSpawnPoint();
-		if(this.thePlayer != null) {
-			chunkCoordinates6.posX = (int)this.thePlayer.posX;
-			chunkCoordinates6.posZ = (int)this.thePlayer.posZ;
-		}
-
-		if(iChunkProvider5 instanceof ChunkProviderLoadOrGenerate) {
-			ChunkProviderLoadOrGenerate chunkProviderLoadOrGenerate7 = (ChunkProviderLoadOrGenerate)iChunkProvider5;
-			chunkProviderLoadOrGenerate7.setCurrentChunkOver(chunkCoordinates6.posX >> 4, chunkCoordinates6.posZ >> 4);
-		}
-
+		
 		// Preload ALL world
-		for(int i10 = 0; i10 < WorldSize.width; i10 += 16) {
-			for(int i8 = 0 ; i8 < WorldSize.length; i8 += 16) {
+		for(int x = 0; x < WorldSize.width; x += 16) {
+			for(int z = 0 ; z < WorldSize.length; z += 16) {
 				this.loadingScreen.setLoadingProgress(i3++ * 100 / WorldSize.getTotalChunks());
-				this.theWorld.getBlockId(i10, 64, i8);
-				
-				if(this.gameSettings.threadedLighting) {
-					while(this.theWorld.getLightingToUpdate().size() > 0);
-				} else {
-					while(this.theWorld.updatingLighting());
-				}
+				world.getBlockId(x, 64, z);
 			}
 		}
 
 		this.loadingScreen.displayLoadingString("Simulating world for a bit");		
-		this.theWorld.dropOldChunks();
 	}
 
 	public void installResource(String string1, File file2) {
@@ -1513,7 +1500,7 @@ public abstract class Minecraft implements Runnable {
 	}
 
 	public void respawn(boolean z1, int i2) {
-		if(!this.theWorld.multiplayerWorld && !this.theWorld.worldProvider.canRespawnHere()) {
+		if(!this.theWorld.isRemote && !this.theWorld.worldProvider.canRespawnHere()) {
 			this.usePortal();
 		}
 
@@ -1537,12 +1524,6 @@ public abstract class Minecraft implements Runnable {
 		if(chunkCoordinates4 == null) {
 			chunkCoordinates4 = this.theWorld.getSpawnPoint();
 			z5 = false;
-		}
-
-		IChunkProvider iChunkProvider6 = this.theWorld.getIChunkProvider();
-		if(iChunkProvider6 instanceof ChunkProviderLoadOrGenerate) {
-			ChunkProviderLoadOrGenerate chunkProviderLoadOrGenerate7 = (ChunkProviderLoadOrGenerate)iChunkProvider6;
-			chunkProviderLoadOrGenerate7.setCurrentChunkOver(chunkCoordinates4.posX >> 4, chunkCoordinates4.posZ >> 4);
 		}
 
 		this.theWorld.setSpawnLocation();
@@ -1577,7 +1558,7 @@ public abstract class Minecraft implements Runnable {
 		this.thePlayer.entityId = i8;
 		this.thePlayer.func_6420_o();
 		this.playerController.func_6473_b(this.thePlayer);
-		this.preloadWorld("Respawning");
+		this.preloadWorld(this.theWorld, "Respawning", false);
 		if(this.currentScreen instanceof GuiGameOver) {
 			this.displayGuiScreen((GuiScreen)null);
 		}
@@ -1594,7 +1575,7 @@ public abstract class Minecraft implements Runnable {
 		Canvas canvas6 = new Canvas();
 		frame5.setLayout(new BorderLayout());
 		frame5.add(canvas6, "Center");
-		canvas6.setPreferredSize(new Dimension(854, 480));
+		canvas6.setPreferredSize(new Dimension(852, 480));
 		frame5.pack();
 		frame5.setLocationRelativeTo((Component)null);
 		MinecraftImpl minecraftImpl7 = new MinecraftImpl(frame5, canvas6, (MinecraftApplet)null, 854, 480, z3, frame5);
@@ -1617,12 +1598,6 @@ public abstract class Minecraft implements Runnable {
 		thread8.start();
 	}
 
-	public static void startLightingThread() {
-		lightingUpdater = new ThreadLightingUpdater(theMinecraft);
-		Thread thread = new Thread(lightingUpdater);
-		thread.start();
-	}
-
 	public NetClientHandler getSendQueue() {
 		return this.thePlayer instanceof EntityClientPlayerMP ? ((EntityClientPlayerMP)this.thePlayer).sendQueue : null;
 	}
@@ -1641,7 +1616,7 @@ public abstract class Minecraft implements Runnable {
 		}
 
 		startMainThread(string1, string2);
-		startLightingThread();
+		//startLightingThread();
 	}
 
 	public static boolean isGuiEnabled() {

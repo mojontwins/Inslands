@@ -30,31 +30,43 @@ public abstract class StructureStart {
 
 	}
 
+	/*
+	 * Will iterate all existing components and make the overall BB contain the BBs of all the components. 
+	 */
 	protected void updateBoundingBox() {
 		this.boundingBox = StructureBoundingBox.getNewBoundingBox();
-		Iterator<StructureComponent> iterator1 = this.components.iterator();
+		Iterator<StructureComponent> iterator = this.components.iterator();
 
-		while(iterator1.hasNext()) {
-			StructureComponent structureComponent2 = iterator1.next();
-			this.boundingBox.expandTo(structureComponent2.getBoundingBox());
+		while(iterator.hasNext()) {
+			StructureComponent component = iterator.next();
+			this.boundingBox.expandTo(component.getBoundingBox());
 		}
 
 	}
 
-	protected void markAvailableHeight(World world1, Random random2, int i3) {
-		int i4 = 63 - i3;
-		int i5 = this.boundingBox.getYSize() + 1;
-		if(i5 < i4) {
-			i5 += random2.nextInt(i4 - i5);
+	protected void markAvailableHeight(World world, Random rand, int blocksUnderground) {
+		// Set a maximum top for the structure! By default, this is 63-10 = 50
+		int maxY = 63 - blocksUnderground;
+		
+		// The whole structure height in blocks, plus 1
+		int structureHeight = this.boundingBox.getYSize() + 1;
+		
+		// If structure fits under maxY, consider a slightly bigger height
+		if(structureHeight < maxY) {
+			structureHeight += rand.nextInt(maxY - structureHeight);
 		}
 
-		int i6 = i5 - this.boundingBox.maxY;
-		this.boundingBox.offset(0, i6, 0);
-		Iterator<StructureComponent> iterator7 = this.components.iterator();
-
-		while(iterator7.hasNext()) {
-			StructureComponent structureComponent8 = iterator7.next();
-			structureComponent8.getBoundingBox().offset(0, i6, 0);
+		// This will raise the structure by a bit without surpassing maxY.
+		int maxBottomY = structureHeight - this.boundingBox.maxY;
+		
+		// Offset this bb
+		this.boundingBox.offset(0, maxBottomY, 0);
+		
+		// Offset all components.
+		Iterator<StructureComponent> iterator = this.components.iterator();
+		while(iterator.hasNext()) {
+			StructureComponent structureComponent8 = iterator.next();
+			structureComponent8.getBoundingBox().offset(0, maxBottomY, 0);
 		}
 
 	}

@@ -32,6 +32,10 @@ public class Seasons {
 		this.world = world;
 	}
 	
+	public static void setMidSeason(int seasonId) {
+		dayOfTheYear = 7 * seasonId + SEASON_DURATION / 2;
+	}
+	
 	public static void updateSeasonCounters() {
 		dayOfTheYear = dayOfTheYear % (SEASON_DURATION * 4);
 		dayOfTheSeason = dayOfTheYear % SEASON_DURATION;

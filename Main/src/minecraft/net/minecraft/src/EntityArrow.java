@@ -275,7 +275,7 @@ public class EntityArrow extends Entity {
 	}
 
 	public void onCollideWithPlayer(EntityPlayer entityPlayer) {
-		if(!this.worldObj.multiplayerWorld) {
+		if(!this.worldObj.isRemote) {
 			if(this.inGround && this.doesArrowBelongToPlayer && this.arrowShake <= 0 && entityPlayer.inventory.addItemStackToInventory(new ItemStack(Item.arrow, 1))) {
 				this.worldObj.playSoundAtEntity(this, "random.pop", 0.2F, ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
 				entityPlayer.onItemPickup(this, 1);

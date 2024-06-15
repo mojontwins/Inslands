@@ -97,7 +97,7 @@ public class EntitySlime extends EntityLiving implements IMob {
 
 	public void setEntityDead() {
 		int i1 = this.getSlimeSize();
-		if(!this.worldObj.multiplayerWorld && i1 > 1 && this.health == 0) {
+		if(!this.worldObj.isRemote && i1 > 1 && this.health == 0) {
 			for(int i2 = 0; i2 < 4; ++i2) {
 				float f3 = ((float)(i2 % 2) - 0.5F) * (float)i1 / 4.0F;
 				float f4 = ((float)(i2 / 2) - 0.5F) * (float)i1 / 4.0F;

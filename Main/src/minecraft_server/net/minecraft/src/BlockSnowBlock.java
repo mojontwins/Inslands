@@ -2,10 +2,13 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockSnowBlock extends Block {
 	protected BlockSnowBlock(int id, int blockIndex) {
 		super(id, blockIndex, Material.builtSnow);
 		this.setTickOnLoad(true);
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
 	public int idDropped(int metadata, Random rand) {

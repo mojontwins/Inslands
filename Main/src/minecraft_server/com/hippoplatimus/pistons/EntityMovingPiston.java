@@ -338,7 +338,7 @@ public class EntityMovingPiston extends Entity {
 				}
 
 				this.setEntityDead();
-			} else if(this.timeout > 100 && !this.worldObj.multiplayerWorld) {
+			} else if(this.timeout > 100 && !this.worldObj.isRemote) {
 				this.setEntityDead();
 			}
 

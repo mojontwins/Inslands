@@ -2,12 +2,16 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockSponge extends Block {
 	static final byte radius = 2;
 
 	protected BlockSponge(int i) {
 		super(i, Material.sponge);
 		this.blockIndexInTexture = 48;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
 	public void onBlockAdded(World world, int a, int b, int c) {

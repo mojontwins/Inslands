@@ -3,6 +3,14 @@ package net.minecraft.src;
 import java.util.Random;
 
 public class WorldGenRockBoulder extends WorldGenerator {
+	private boolean bigBoulder = false;
+	
+	public WorldGenRockBoulder() {
+	}
+	
+	public WorldGenRockBoulder(boolean b) {
+		this.bigBoulder = b;
+	}
 
 	private void raiseColumn (World world, Random rand, int x, int y, int z, int l) {
 		int blockID;
@@ -48,7 +56,7 @@ public class WorldGenRockBoulder extends WorldGenerator {
 	
 	private void spawnColumn (World world, Random rand, int x, int y, int z, int height) {
 		int blockId = world.getBlockId(x, y - 1, z);
-		while (blockId == 0 && y > 1) {
+		while (!Block.opaqueCubeLookup[blockId] && y > 1) {
 			y --; blockId = world.getBlockId(x, y - 1, z);
 		}
 		
@@ -59,16 +67,17 @@ public class WorldGenRockBoulder extends WorldGenerator {
 		
 		// Spawn new columns
 		if(height > 5) {
-			if (world.getBlockId (x - 1, y, z) == 0) spawnColumn (world, rand, x - 1, y, z, height - rand.nextInt(2) - 1);
-			if (world.getBlockId (x + 1, y, z) == 0) spawnColumn (world, rand, x + 1, y, z, height - rand.nextInt(2) - 1);
-			if (world.getBlockId (x, y, z - 1) == 0) spawnColumn (world, rand, x, y, z - 1, height - rand.nextInt(2) - 1);
-			if (world.getBlockId (x, y, z + 1) == 0) spawnColumn (world, rand, x, y, z + 1, height - rand.nextInt(2) - 1);
+			if (!Block.opaqueCubeLookup[world.getBlockId (x - 1, y, z)]) spawnColumn (world, rand, x - 1, y, z, height - rand.nextInt(2) - 1);
+			if (!Block.opaqueCubeLookup[world.getBlockId (x + 1, y, z)]) spawnColumn (world, rand, x + 1, y, z, height - rand.nextInt(2) - 1);
+			if (!Block.opaqueCubeLookup[world.getBlockId (x, y, z - 1)]) spawnColumn (world, rand, x, y, z - 1, height - rand.nextInt(2) - 1);
+			if (!Block.opaqueCubeLookup[world.getBlockId (x, y, z + 1)]) spawnColumn (world, rand, x, y, z + 1, height - rand.nextInt(2) - 1);
 		}
 	}
 	
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z) {
-		this.spawnColumn (world, rand, x, y, z, 8 + rand.nextInt(8));
+		int h = this.bigBoulder ? 16:8;
+		this.spawnColumn (world, rand, x, y, z, h + rand.nextInt(h));
 		return true;
 	}
 

@@ -157,7 +157,7 @@ public class BlockDoor extends Block {
 			}
 
 			if(z7) {
-				if(!world.multiplayerWorld) {
+				if(!world.isRemote) {
 					this.dropBlockAsItem(world, x, y, z, i6);
 				}
 			} else if(id > 0 && Block.blocksList[id].canProvidePower()) {

@@ -404,54 +404,126 @@ public class EntityRenderer {
 	private void updateLightmap() {
 		World world1 = this.mc.theWorld;
 		if(world1 != null) {
-			for(int i2 = 0; i2 < 256; ++i2) {
-				float f3 = world1.getSunBrightness(1.0F) * 0.95F + 0.05F;
-				float f4 = world1.worldProvider.lightBrightnessTable[i2 / 16] * f3;
-				float f5 = world1.worldProvider.lightBrightnessTable[i2 % 16]/* * (this.torchFlickerX * 0.1F + 1.5F)*/;
-				if(world1.lightningFlash > 0) {
-					f4 = world1.worldProvider.lightBrightnessTable[i2 / 16];
+			float sb = world1.getSunBrightness(1.0F);
+			
+			if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.paradise.id) {
+				// Bluish & lighter
+				for(int i2 = 0; i2 < 256; ++i2) {
+					float f3 = sb * 0.95F + 0.05F;
+					float f4 = world1.worldProvider.lightBrightnessTable[i2 / 16] * f3;
+					float f5 = world1.worldProvider.lightBrightnessTable[i2 % 16]/* * (this.torchFlickerX * 0.1F + 1.5F)*/;
+					if(world1.lightningFlash > 0) {
+						f4 = world1.worldProvider.lightBrightnessTable[i2 / 16];
+					}
+	
+					float f6 = f4 * (sb * 0.55F + 0.45F);
+					float rg = f4 + f5;
+					float b = f6 + f5;
+					
+					rg = rg * 0.96F + 0.03F;
+					b = b * 0.9F + 0.1F;
+					b = b * 1.1F;
+	
+					if(world1.worldProvider.worldType == 1) {
+						b = rg = 0.22F + f5 * 0.75F;
+					}
+	
+					// Set up night vision with code somewhat stolen from r1.5.2!
+					if(this.mc.thePlayer.divingHelmetOn() && this.mc.thePlayer.isInsideOfMaterial(Material.water)) {
+						float nVB = 0.5F;					
+						float fNV = 1.0F / rg;					
+						b = rg = rg * (1.0F - nVB) + rg * fNV * nVB;
+					}
+					
+					if(rg > 1.0F) {
+						rg = 1.0F;
+					}
+					if (b > 1.0F) {
+						b = 1.0F;
+					}
+			
+					float f15 = this.mc.gameSettings.gammaSetting - 0.2F;
+					float f16 = 1.0F - rg;
+			
+					f16 = 1.0F - f16 * f16 * f16 * f16;				
+					rg = rg * (1.0F - f15) + f16 * f15;
+					rg = rg * 0.96F + 0.03F;
+					
+					b = b * (1.0F - f15) + f16 * f15;
+					b = b * 0.9F + 0.1F;
+	
+					if(rg > 1.0F) {
+						rg = 1.0F;
+					}
+	
+					if(rg < 0.0F) {
+						rg = 0.0F;
+					}
+					
+					if(b > 1.0F) {
+						b = 1.0F;
+					}
+					
+					if (b < 0.0F) {
+						b = 0.0F;
+					}
+	
+					short s19 = 255;
+					int i20 = (int)(rg * 255.0F);
+					int i21 = (int)(b * 255.0F);
+					this.lightmapColors[i2] = s19 << 24 | i20 << 16 | i20 << 8 | i21;
 				}
-
-				float f6 = f4 * (world1.getSunBrightness(1.0F) * 0.65F + 0.35F);
-				float f12 = f6 + f5;
-
-				f12 = f12 * 0.96F + 0.03F;
-
-				if(world1.worldProvider.worldType == 1) {
-					f12 = 0.22F + f5 * 0.75F;
-				}
-
-				// Set up night vision with code somewhat stolen from r1.5.2!
-				if(this.mc.thePlayer.divingHelmetOn() && this.mc.thePlayer.isInsideOfMaterial(Material.water)) {
-					float nVB = 0.5F;					
-					float fNV = 1.0F / f12;					
-					f12 = f12 * (1.0F - nVB) + f12 * fNV * nVB;
-				}
+			} else {
 				
-				if(f12 > 1.0F) {
-					f12 = 1.0F;
+				for(int i2 = 0; i2 < 256; ++i2) {
+					float f3 = sb * 0.95F + 0.05F;
+					float f4 = world1.worldProvider.lightBrightnessTable[i2 / 16] * f3;
+					float f5 = world1.worldProvider.lightBrightnessTable[i2 % 16]/* * (this.torchFlickerX * 0.1F + 1.5F)*/;
+					if(world1.lightningFlash > 0) {
+						f4 = world1.worldProvider.lightBrightnessTable[i2 / 16];
+					}
+	
+					float f6 = f4 * (sb * 0.65F + 0.35F);
+					float f12 = f6 + f5;
+	
+					f12 = f12 * 0.96F + 0.03F;
+	
+					if(world1.worldProvider.worldType == 1) {
+						f12 = 0.22F + f5 * 0.75F;
+					}
+	
+					// Set up night vision with code somewhat stolen from r1.5.2!
+					if(this.mc.thePlayer.divingHelmetOn() && this.mc.thePlayer.isInsideOfMaterial(Material.water)) {
+						float nVB = 0.5F;					
+						float fNV = 1.0F / f12;					
+						f12 = f12 * (1.0F - nVB) + f12 * fNV * nVB;
+					}
+					
+					if(f12 > 1.0F) {
+						f12 = 1.0F;
+					}
+			
+					float f15 = this.mc.gameSettings.gammaSetting - 0.4F;
+					float f16 = 1.0F - f12;
+			
+					f16 = 1.0F - f16 * f16 * f16 * f16;				
+					f12 = f12 * (1.0F - f15) + f16 * f15;
+					f12 = f12 * 0.96F + 0.03F;
+	
+					if(f12 > 1.0F) {
+						f12 = 1.0F;
+					}
+	
+					if(f12 < 0.0F) {
+						f12 = 0.0F;
+					}
+	
+					short s19 = 255;
+					int i20 = (int)(f12 * 255.0F);
+					this.lightmapColors[i2] = s19 << 24 | i20 << 16 | i20 << 8 | i20;
 				}
-		
-				float f15 = this.mc.gameSettings.gammaSetting - 0.4F;
-				float f16 = 1.0F - f12;
-		
-				f16 = 1.0F - f16 * f16 * f16 * f16;				
-				f12 = f12 * (1.0F - f15) + f16 * f15;
-				f12 = f12 * 0.96F + 0.03F;
-
-				if(f12 > 1.0F) {
-					f12 = 1.0F;
-				}
-
-				if(f12 < 0.0F) {
-					f12 = 0.0F;
-				}
-
-				short s19 = 255;
-				int i20 = (int)(f12 * 255.0F);
-				this.lightmapColors[i2] = s19 << 24 | i20 << 16 | i20 << 8 | i20;
 			}
-
+			
 			this.mc.renderEngine.createTextureFromBytes(this.lightmapColors, 16, 16, this.lightmapTexture);
 			this.lightmapUpdateNeeded = false; // NEW
 		}
@@ -586,15 +658,6 @@ public class EntityRenderer {
 		double d7 = entityLiving4.lastTickPosX + (entityLiving4.posX - entityLiving4.lastTickPosX) * (double)f1;
 		double d9 = entityLiving4.lastTickPosY + (entityLiving4.posY - entityLiving4.lastTickPosY) * (double)f1;
 		double d11 = entityLiving4.lastTickPosZ + (entityLiving4.posZ - entityLiving4.lastTickPosZ) * (double)f1;
-		IChunkProvider iChunkProvider13 = this.mc.theWorld.getIChunkProvider();
-		int i16;
-		if(iChunkProvider13 instanceof ChunkProviderLoadOrGenerate) {
-			ChunkProviderLoadOrGenerate chunkProviderLoadOrGenerate14 = (ChunkProviderLoadOrGenerate)iChunkProvider13;
-			int i15 = MathHelper.floor_float((float)((int)d7)) >> 4;
-			i16 = MathHelper.floor_float((float)((int)d11)) >> 4;
-			chunkProviderLoadOrGenerate14.setCurrentChunkOver(i15, i16);
-		}
-
 		for(int i18 = 0; i18 < 2; ++i18) {
 			if(this.mc.gameSettings.anaglyph) {
 				anaglyphField = i18;
@@ -668,7 +731,7 @@ public class EntityRenderer {
 				}
 
 				GL11.glColorMask(false, false, false, false);
-				i16 = renderGlobal5.sortAndRender(entityLiving4, 1, (double)f1);
+				int i16 = renderGlobal5.sortAndRender(entityLiving4, 1, (double)f1);
 				if(this.mc.gameSettings.anaglyph) {
 					if(anaglyphField == 0) {
 						GL11.glColorMask(false, true, true, true);

@@ -7,8 +7,6 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.smoothbeta.VboPool;
-import net.minecraft.src.smoothbeta.gl.VertexBuffer;
 
 public class WorldRenderer {
 	
@@ -48,9 +46,6 @@ public class WorldRenderer {
 	private boolean isInitialized = false;
 	public List<TileEntity> tileEntityRenderers = new ArrayList<TileEntity>();
 	private List<TileEntity> tileEntities;
-
-	private VertexBuffer[] buffers;
-	private int currentBufferIndex = -1;
 	
 	Minecraft mc = Minecraft.getMinecraft();
 	
@@ -65,12 +60,6 @@ public class WorldRenderer {
 		this.needsUpdate = false;
 				
 		if (!this.mc.legacyOpenGL) {
-			this.buffers = new VertexBuffer[skipRenderPass.length];
-			
-			VboPool pool = this.mc.renderGlobal.getTerrainVboPool();
-			for (int i = 0; i < buffers.length; i++) {
-				this.buffers[i] = new VertexBuffer(pool);
-			}
 		}
 	}
 
@@ -152,15 +141,10 @@ public class WorldRenderer {
 									
 									this.setupGLTranslation();
 									
-									if(mc.legacyOpenGL) {
 									float f19 = 1.000001F;
 									GL11.glTranslatef((float)(-this.sizeDepth) / 2.0F, (float)(-this.sizeHeight) / 2.0F, (float)(-this.sizeDepth) / 2.0F);
 									GL11.glScalef(f19, f19, f19);
 									GL11.glTranslatef((float)this.sizeDepth / 2.0F, (float)this.sizeHeight / 2.0F, (float)this.sizeDepth / 2.0F);
-									} else {
-										this.currentBufferIndex = i11;
-										tessellator.startRenderingTerrain(this);
-									}
 									
 									tessellator.startDrawingQuads();
 									
@@ -195,13 +179,8 @@ public class WorldRenderer {
 
 				if(z14) {
 					tessellator.draw();
-					if(this.mc.legacyOpenGL) {
 					GL11.glPopMatrix();
 					GL11.glEndList();
-					} else {
-						this.currentBufferIndex = -1;
-						tessellator.stopRenderingTerrain();
-					}
 					tessellator.setTranslationD(0.0D, 0.0D, 0.0D);
 				} else {
 					z13 = false;
@@ -267,13 +246,5 @@ public class WorldRenderer {
 	public void markDirty() {
 		this.needsUpdate = true;
 	}
-	
-	public VertexBuffer getBuffer(int pass) {
-		return this.buffers[pass];
-	}
-
-	public VertexBuffer getCurrentBuffer() {
-		return this.buffers[this.currentBufferIndex];
-	}
-	
+		
 }

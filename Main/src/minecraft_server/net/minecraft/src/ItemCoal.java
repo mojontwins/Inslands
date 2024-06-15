@@ -1,10 +1,14 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemCoal extends Item {
 	public ItemCoal(int i1) {
 		super(i1);
 		this.setHasSubtypes(true);
 		this.setMaxDamage(0);
+		
+		this.displayOnCreativeTab = CreativeTabs.tabMaterials;
 	}
 
 	public String getItemNameIS(ItemStack itemStack1) {

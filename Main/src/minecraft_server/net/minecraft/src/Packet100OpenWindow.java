@@ -9,6 +9,8 @@ public class Packet100OpenWindow extends Packet {
 	public int inventoryType;
 	public String windowTitle;
 	public int slotsCount;
+	// ADD Currency
+	// ADD trader name
 
 	public Packet100OpenWindow() {
 	}

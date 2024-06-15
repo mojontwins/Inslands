@@ -23,8 +23,7 @@ public class GuiVideoSettings extends GuiScreen {
 			EnumOptions.GUI_SCALE, 		
 			EnumOptions.HAND,
 			
-			EnumOptions.ADVANCED_OPENGL,
-			EnumOptions.THREADED_LIGHT
+			EnumOptions.ADVANCED_OPENGL
 	};
 
 	public GuiVideoSettings(GuiScreen guiScreen1, GameSettings gameSettings2) {

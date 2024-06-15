@@ -1,11 +1,15 @@
 package net.minecraft.src;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class ItemSeeds extends Item {
 	private int blockType;
 
 	public ItemSeeds(int i1, int i2) {
 		super(i1);
 		this.blockType = i2;
+
+		this.displayOnCreativeTab = CreativeTabs.tabMaterials;		
 	}
 
 	public boolean onItemUse(ItemStack itemStack1, EntityPlayer entityPlayer2, World world3, int i4, int i5, int i6, int i7) {

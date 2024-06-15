@@ -2,10 +2,14 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.mojang.minecraft.creative.CreativeTabs;
+
 public class BlockLockedChest extends Block {
 	protected BlockLockedChest(int i1) {
 		super(i1, Material.wood);
 		this.blockIndexInTexture = 26;
+		
+		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	public int getBlockTexture(IBlockAccess iBlockAccess1, int i2, int i3, int i4, int i5) {

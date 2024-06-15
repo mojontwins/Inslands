@@ -19,8 +19,13 @@ lastServer:localhost
 FOV:0
 gammaSetting0.0
 colouredAthmosphericstrue
+<<<<<<< HEAD
 displayMode:1280x720x32 60Hz
 meltBuild:true
+=======
+displayMode:640x480x32 60Hz
+meltBuild:false
+>>>>>>> ef0a5049a2fb0df07901f0aa9072a20cdd486d06
 key_key.forward:17
 key_key.left:30
 key_key.back:31

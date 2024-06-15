@@ -1495,6 +1495,8 @@ public class MapGenUnderwater extends MapGenBase {
 	}
 	
 	public void raise(int x0, int y0, int z0, int w, int h, byte[] data) {
+		if(y0 < 16) return;
+		
 		// Builds a w*h platform made of dirt from x0, y0, z0 to ground level 
 		// assuming underwater!
 		

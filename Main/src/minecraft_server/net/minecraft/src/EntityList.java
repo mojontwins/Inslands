@@ -3,6 +3,9 @@ package net.minecraft.src;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.benimatic.twilightforest.EntityTFKobold;
+import com.benimatic.twilightforest.EntityTFMinoshroom;
+import com.benimatic.twilightforest.EntityTFMinotaur;
 import com.benimatic.twilightforest.EntityTFRedcap;
 import com.benimatic.twilightforest.EntityTFSwarmSpider;
 import com.benimatic.twilightforest.EntityTFWraith;
@@ -12,6 +15,11 @@ import com.chocolatin.betterdungeons.EntityPirateArcher;
 import com.chocolatin.betterdungeons.EntityPirateBoss;
 import com.chocolatin.betterdungeons.EntitySecretBoss;
 import com.hippoplatimus.pistons.EntityMovingPiston;
+import com.misc.aether.EntityFlyingCow;
+import com.misc.aether.EntityMimic;
+import com.misc.aether.EntityPhyg;
+import com.misc.aether.EntitySheepuff;
+import com.misc.aether.EntitySlider;
 import com.mojang.minecraft.ocelot.EntityBetaOcelot;
 import com.mojang.minecraft.ocelot.EntityCatBlack;
 import com.mojang.minecraft.ocelot.EntityCatRed;
@@ -154,6 +162,9 @@ public class EntityList {
 		addMapping(EntityTFRedcap.class, "Redcap", 30);
 		addMapping(EntityTFSwarmSpider.class, "SwarmSpider", 31);
 		addMapping(EntityTFWraith.class, "TwilightWraith", 32);
+		addMapping(EntityTFMinotaur.class, "Minotaur", 33);
+		addMapping(EntityTFMinoshroom.class, "Minoshroom", 34);
+		addMapping(EntityTFKobold.class, "Kobold", 35);
 		
 		// Better Dungeons
 		addMapping(EntityPirate.class, "PirateArmored", 70);
@@ -174,6 +185,13 @@ public class EntityList {
 		addMapping(EntityIceBoss.class, "IceBoss", 124);
 		
 		addMapping(EntityPigZombieVolcanoes.class, "PigZombieVolcanoes", 125);
+		
+		// Aether
+		addMapping(EntityMimic.class, "Mimic", 60);
+		addMapping(EntitySlider.class, "Slider", 61);
+		addMapping(EntityPhyg.class, "Phyg", 62);
+		addMapping(EntityFlyingCow.class, "FlyingCow", 63);
+		addMapping(EntitySheepuff.class, "Sheepuff", 64);
 		
 		// Trading
 		/*

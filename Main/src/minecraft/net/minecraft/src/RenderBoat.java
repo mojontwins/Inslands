@@ -28,7 +28,11 @@ public class RenderBoat extends Render {
 		float f12 = 0.75F;
 		GL11.glScalef(f12, f12, f12);
 		GL11.glScalef(1.0F / f12, 1.0F / f12, 1.0F / f12);
-		this.loadTexture("/item/boat.png");
+		if(entityBoat1.fireResistant) {
+			this.loadTexture("/item/boat_iron.png");
+		} else {
+			this.loadTexture("/item/boat.png");
+		}
 		GL11.glScalef(-1.0F, -1.0F, 1.0F);
 		this.modelBoat.render(0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		GL11.glPopMatrix();

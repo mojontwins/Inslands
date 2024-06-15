@@ -21,6 +21,10 @@ public class SlotFurnace extends Slot {
 		if(itemStack1.itemID == Item.fishCooked.shiftedIndex) {
 			this.thePlayer.addStat(AchievementList.cookFish, 1);
 		}
+		
+		if(itemStack1.itemID == Item.charcoal.shiftedIndex) {
+			this.thePlayer.addStat(AchievementList.charcoal, 1);
+		}
 
 		super.onPickupFromSlot(itemStack1);
 	}

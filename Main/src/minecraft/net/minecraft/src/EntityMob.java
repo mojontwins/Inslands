@@ -20,7 +20,7 @@ public class EntityMob extends EntityCreature implements IMob {
 
 	public void onUpdate() {
 		super.onUpdate();
-		if(!this.worldObj.multiplayerWorld && this.worldObj.difficultySetting == 0) {
+		if(!this.worldObj.isRemote && this.worldObj.difficultySetting == 0) {
 			this.setEntityDead();
 		}
 
@@ -61,7 +61,7 @@ public class EntityMob extends EntityCreature implements IMob {
 		return 0.5F - this.worldObj.getLightBrightness(i1, i2, i3);
 	}
 	
-	protected boolean attackEntityAsMob(Entity entity1) {
+	public boolean attackEntityAsMob(Entity entity1) {
 		return entity1.attackEntityFrom(this, this.attackStrength);
 	}
 

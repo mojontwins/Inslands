@@ -115,7 +115,7 @@ public class EntityAlphaWitch extends EntityArmoredMob {
 	@Override
 	public void onLivingUpdate() {
 		// Refill!
-		if(!this.worldObj.multiplayerWorld) {
+		if(!this.worldObj.isRemote) {
 			if(this.isExhausted() && this.rand.nextInt(10000) == 0) {
 				this.fillInventory();
 				this.setExhausted(false);

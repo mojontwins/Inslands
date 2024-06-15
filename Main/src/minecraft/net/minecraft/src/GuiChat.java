@@ -56,7 +56,7 @@ public class GuiChat extends GuiScreen {
 		} else if(i2 == 28) {
 			String string3 = this.message.trim();
 			if(string3.length() > 0) {
-				if(this.mc.isMultiplayerWorld()) {
+				if(this.mc.isRemote()) {
 					String string4 = this.message.trim();
 					if(!this.mc.lineIsCommand(string4)) {
 						this.mc.thePlayer.sendChatMessage(string4);
