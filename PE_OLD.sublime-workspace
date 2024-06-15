@@ -4,10 +4,6 @@
 		"selected_items":
 		[
 			[
-				"back",
-				"background-color\tproperty"
-			],
-			[
 				"fa",
 				"fAux2\tabc"
 			],
@@ -514,75 +510,29 @@
 			[
 				"write",
 				"write_log"
+			],
+			[
+				"webdav_abook",
+				"webdav_abook_user_url"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/GuiMainMenu.java",
+			"file": "README.md",
 			"settings":
 			{
-				"buffer_size": 4461,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Main/src/minecraft/net/minecraft/src/Gui.java",
-			"settings":
-			{
-				"buffer_size": 3998,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "web/index.html",
-			"settings":
-			{
-				"buffer_size": 2981,
+				"buffer_size": 5450,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "Main/src-b1.7.3_vanilla/minecraft_server/net/minecraft/src/ChunkProviderServer.java",
+			"file": "/C/cosas/MB6/dosbox.conf",
 			"settings":
 			{
-				"buffer_size": 5596,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/na_th/AppData/Local/Temp/8121b75d-07a1-4619-a3e6-372b152c7c21_src--20230518b--Client-feature-complete.7z.c21/src/minecraft_server/net/minecraft/src/ChunkProviderServer.java",
-			"settings":
-			{
-				"buffer_size": 5869,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Main/jars/server.properties",
-			"settings":
-			{
-				"buffer_size": 349,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "web/mystyle.css",
-			"settings":
-			{
-				"buffer_size": 302,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "chagelog.txt",
-			"settings":
-			{
-				"buffer_size": 720,
+				"buffer_size": 16127,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -672,17 +622,14 @@
 	},
 	"expanded_folders":
 	[
-		"/D/Cosas/Inslands",
-		"/D/Cosas/Inslands/Main",
-		"/D/Cosas/Inslands/Main/src-b1.7.3_vanilla",
-		"/D/Cosas/Inslands/Main/src-b1.7.3_vanilla/minecraft_server",
-		"/D/Cosas/Inslands/Main/src-b1.7.3_vanilla/minecraft_server/net",
-		"/D/Cosas/Inslands/Main/src-b1.7.3_vanilla/minecraft_server/net/minecraft",
-		"/D/Cosas/Inslands/Main/src-b1.7.3_vanilla/minecraft_server/net/minecraft/src",
-		"/D/Cosas/Inslands/web"
+		"/C/cosas/inslands",
+		"/C/cosas/inslands/Main"
 	],
 	"file_history":
 	[
+		"/C/cosas/DOS/MB6/dosbox.conf",
+		"/C/cosas/inslands/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/GuiMainMenu.java",
+		"/C/cosas/inslands/Main/src/minecraft/net/minecraft/src/Gui.java",
 		"/D/Cosas/PE_OLD/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/World.java",
 		"/D/Cosas/PE_OLD/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/BiomeGenForest.java",
 		"/D/Cosas/PE_OLD/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/BiomeGenRainforest.java",
@@ -807,10 +754,7 @@
 		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntitySlime.java",
 		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntitySquid.java",
 		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntityTracker.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntityTrackerEntry.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntityWolf.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EnumArt.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EnumCreatureType.java"
+		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntityTrackerEntry.java"
 	],
 	"find":
 	{
@@ -829,7 +773,6 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"containskey",
 			"getskycolor",
 			"i56",
 			"d47",
@@ -1026,231 +969,52 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/GuiMainMenu.java",
+					"file": "README.md",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4461,
+						"buffer_size": 5450,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3326,
-								3326
+								5444,
+								5444
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Java/Java.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1150.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "Main/src/minecraft/net/minecraft/src/Gui.java",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3998,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3048,
-								3048
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Java/Java.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 734.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "web/index.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2981,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2829,
-								2829
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "Main/src-b1.7.3_vanilla/minecraft_server/net/minecraft/src/ChunkProviderServer.java",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5596,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1677,
-								1687
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Java/Java.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 351.0,
+						"translation.y": 1579.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "/C/Users/na_th/AppData/Local/Temp/8121b75d-07a1-4619-a3e6-372b152c7c21_src--20230518b--Client-feature-complete.7z.c21/src/minecraft_server/net/minecraft/src/ChunkProviderServer.java",
+					"buffer": 1,
+					"file": "/C/cosas/MB6/dosbox.conf",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5869,
+						"buffer_size": 16127,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								811,
-								825
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Java/Java.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "Main/jars/server.properties",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 349,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								288,
-								288
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Java/JavaProperties.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 6,
-					"file": "web/mystyle.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 302,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								300,
-								300
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "chagelog.txt",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 720,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								606,
-								719
+								1806,
+								1806
 							]
 						],
 						"settings":
@@ -1261,9 +1025,14 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 0,
 					"type": "text"
 				}
+			]
+		},
+		{
+			"sheets":
+			[
 			]
 		}
 	],
@@ -1313,7 +1082,7 @@
 	"project": "PE_OLD.sublime-project",
 	"replace":
 	{
-		"height": 44.0
+		"height": 94.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1355,7 +1124,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 333.0,
+	"side_bar_width": 218.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

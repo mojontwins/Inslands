@@ -126,4 +126,5 @@ Now spice it up a bit:
 * [ ] Message "retrying world generation".
 * [X] Modify feature provider so it doesn't try outside of the map!
 * [X] Very important modification! upon processing the entity list, only update those within a square radius of 8 chunks in every direction, which saves TONS of time in BIG and HUGE levels! 
->>>>>>> ef0a5049a2fb0df07901f0aa9072a20cdd486d06
+
+* [ ] Themed dungeons ? was that a thing? (i.e. select spawner characteristics)
