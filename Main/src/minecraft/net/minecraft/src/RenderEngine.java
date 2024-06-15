@@ -1,7 +1,10 @@
 package net.minecraft.src;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.IOException;
@@ -13,9 +16,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import javax.imageio.ImageIO;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+import org.lwjgl.opengl.GLContext;
 
 public class RenderEngine {
 	public static boolean useMipmaps = false;
@@ -33,7 +39,23 @@ public class RenderEngine {
 	private TexturePackList texturePack;
 	private BufferedImage missingTextureImage = new BufferedImage(64, 64, 2);
 
+	// Optifine 
+	private int terrainTextureId = -1;
+	private int guiItemsTextureId = -1;
+	private Map<Integer, Dimension> textureDimensionsMap = new HashMap<Integer, Dimension>();
+	private Map<String, byte[]> textureDataMap = new HashMap<String, byte[]>();
+	private int tickCounter = 0;
+	private ByteBuffer[] mipImageDatas;
+	private boolean dynamicTexturesUpdated = false;
+	
 	public RenderEngine(TexturePackList texturePackList1, GameSettings gameSettings2) {
+		this.allocateImageData(256);
+		this.textureList = new ArrayList<TextureFX>();
+		this.urlToImageDataMap = new HashMap<String, ThreadDownloadImageData>();
+		this.clampTexture = false;
+		this.blurTexture = false;
+		this.missingTextureImage = new BufferedImage(64, 64, 2);
+		
 		this.texturePack = texturePackList1;
 		this.options = gameSettings2;
 		Graphics graphics3 = this.missingTextureImage.getGraphics();
@@ -50,6 +72,7 @@ public class RenderEngine {
 		if(i3 != null) {
 			return i3;
 		} else {
+
 			try {
 				if(string1.startsWith("##")) {
 					i3 = this.getImageContentsAndAllocate(this.unwrapImageByColumns(this.readTextureImage(texturePackBase2.getResourceAsStream(string1.substring(2)))));
@@ -123,6 +146,14 @@ public class RenderEngine {
 					this.blurTexture = false;
 					this.clampTexture = false;
 				} else {
+					if(string1.equals("/terrain.png")) {
+						this.terrainTextureId = i6;
+					}
+
+					if(string1.equals("/gui/items.png")) {
+						this.guiItemsTextureId = i6;
+					}
+					
 					InputStream inputStream7 = texturePackBase2.getResourceAsStream(string1);
 					if(inputStream7 == null) {
 						this.setupTexture(this.missingTextureImage, i6);
@@ -168,9 +199,28 @@ public class RenderEngine {
 
 	public void setupTexture(BufferedImage bufferedImage1, int i2) {
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, i2);
-		if(useMipmaps) {
-			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST_MIPMAP_LINEAR);
+		
+		useMipmaps = Config.isUseMipmaps();
+		int width;
+		int height;
+		
+		if(useMipmaps && i2 != this.guiItemsTextureId) {
+			width = Config.getMipmapType();
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, width);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+			if(GLContext.getCapabilities().OpenGL12) {
+				GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL12.GL_TEXTURE_BASE_LEVEL, 0);
+				height = Config.getMipmapLevel();
+				if(height >= 4) {
+					int ai = Math.min(bufferedImage1.getWidth(), bufferedImage1.getHeight());
+					height = this.getMaxMipmapLevel(ai) - 4;
+					if(height < 0) {
+						height = 0;
+					}
+				}
+
+				GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL12.GL_TEXTURE_MAX_LEVEL, height);
+			}
 		} else {
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
@@ -189,11 +239,12 @@ public class RenderEngine {
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_REPEAT);
 		}
 
-		int i3 = bufferedImage1.getWidth();
-		int i4 = bufferedImage1.getHeight();
-		int[] i5 = new int[i3 * i4];
-		byte[] b6 = new byte[i3 * i4 * 4];
-		bufferedImage1.getRGB(0, 0, i3, i4, i5, 0, i3);
+		width = bufferedImage1.getWidth();
+		height = bufferedImage1.getHeight();
+		this.setTextureDimension(i2, new Dimension(width, height));
+		int[] i5 = new int[width * height];
+		byte[] b6 = new byte[width * height * 4];
+		bufferedImage1.getRGB(0, 0, width, height, i5, 0, width);
 
 		int i7;
 		int i8;
@@ -217,35 +268,52 @@ public class RenderEngine {
 				i11 = i14;
 			}
 
+			if(i8 == 0) { i9 = i10 = i11 = 255; }
+			
 			b6[i7 * 4 + 0] = (byte)i9;
 			b6[i7 * 4 + 1] = (byte)i10;
 			b6[i7 * 4 + 2] = (byte)i11;
 			b6[i7 * 4 + 3] = (byte)i8;
 		}
 
+		this.checkImageDataSize(width);
 		this.imageData.clear();
 		this.imageData.put(b6);
 		this.imageData.position(0).limit(b6.length);
-		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, i3, i4, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, this.imageData);
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, this.imageData);
 		if(useMipmaps) {
-			for(i7 = 1; i7 <= 4; ++i7) {
-				i8 = i3 >> i7 - 1;
-				i9 = i3 >> i7;
-				i10 = i4 >> i7;
+			this.generateMipMaps(this.imageData, width, height);
+		}
 
-				for(i11 = 0; i11 < i9; ++i11) {
-					for(i12 = 0; i12 < i10; ++i12) {
-						i13 = this.imageData.getInt((i11 * 2 + 0 + (i12 * 2 + 0) * i8) * 4);
-						i14 = this.imageData.getInt((i11 * 2 + 1 + (i12 * 2 + 0) * i8) * 4);
-						int i15 = this.imageData.getInt((i11 * 2 + 1 + (i12 * 2 + 1) * i8) * 4);
-						int i16 = this.imageData.getInt((i11 * 2 + 0 + (i12 * 2 + 1) * i8) * 4);
-						int i17 = this.weightedAverageColor(this.weightedAverageColor(i13, i14), this.weightedAverageColor(i15, i16));
-						this.imageData.putInt((i11 + i12 * i9) * 4, i17);
-					}
-				}
+	}
+	
 
-				GL11.glTexImage2D(GL11.GL_TEXTURE_2D, i7, GL11.GL_RGBA, i9, i10, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, this.imageData);
+	private void generateMipMaps(ByteBuffer data, int width, int height) {
+		ByteBuffer parMipData = data;
+
+		for(int level = 1; level <= 16; ++level) {
+			int parWidth = width >> level - 1;
+			int mipWidth = width >> level;
+			int mipHeight = height >> level;
+			if(mipWidth <= 0 || mipHeight <= 0) {
+				break;
 			}
+
+			ByteBuffer mipData = this.mipImageDatas[level - 1];
+
+			for(int mipX = 0; mipX < mipWidth; ++mipX) {
+				for(int mipY = 0; mipY < mipHeight; ++mipY) {
+					int p1 = parMipData.getInt((mipX * 2 + 0 + (mipY * 2 + 0) * parWidth) * 4);
+					int p2 = parMipData.getInt((mipX * 2 + 1 + (mipY * 2 + 0) * parWidth) * 4);
+					int p3 = parMipData.getInt((mipX * 2 + 1 + (mipY * 2 + 1) * parWidth) * 4);
+					int p4 = parMipData.getInt((mipX * 2 + 0 + (mipY * 2 + 1) * parWidth) * 4);
+					int pixel = this.weightedAverageColor(p1, p2, p3, p4);
+					mipData.putInt((mipX + mipY * mipWidth) * 4, pixel);
+				}
+			}
+
+			GL11.glTexImage2D(GL11.GL_TEXTURE_2D, level, GL11.GL_RGBA, mipWidth, mipHeight, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, mipData);
+			parMipData = mipData;
 		}
 
 	}
@@ -350,85 +418,155 @@ public class RenderEngine {
 
 	}
 
-	public void registerTextureFX(TextureFX textureFX1) {
-		this.textureList.add(textureFX1);
-		textureFX1.onTick();
+	public void registerTextureFX(TextureFX texturefx) {
+		for(int i = 0; i < this.textureList.size(); ++i) {
+			TextureFX tex = (TextureFX)this.textureList.get(i);
+			if(tex.tileImage == texturefx.tileImage && tex.iconIndex == texturefx.iconIndex) {
+				this.textureList.remove(i);
+				--i;
+				Config.dbg("Texture removed: " + tex + ", image: " + tex.tileImage + ", index: " + tex.iconIndex);
+			}
+		}
+
+		this.textureList.add(texturefx);
+		texturefx.onTick();
+		Config.dbg("Texture registered: " + texturefx + ", image: " + texturefx.tileImage + ", index: " + texturefx.iconIndex);
+		this.dynamicTexturesUpdated = false;
+	}
+	
+
+	private void generateMipMapsSub(int xOffset, int yOffset, int width, int height, ByteBuffer data, int numTiles, boolean fastColor) {
+		ByteBuffer parMipData = data;
+
+		for(int level = 1; level <= 16; ++level) {
+			int parWidth = width >> level - 1;
+			int mipWidth = width >> level;
+			int mipHeight = height >> level;
+			int xMipOffset = xOffset >> level;
+			int yMipOffset = yOffset >> level;
+			if(mipWidth <= 0 || mipHeight <= 0) {
+				break;
+			}
+
+			ByteBuffer mipData = this.mipImageDatas[level - 1];
+
+			int ix;
+			int iy;
+			int dx;
+			int dy;
+			for(ix = 0; ix < mipWidth; ++ix) {
+				for(iy = 0; iy < mipHeight; ++iy) {
+					dx = parMipData.getInt((ix * 2 + 0 + (iy * 2 + 0) * parWidth) * 4);
+					dy = parMipData.getInt((ix * 2 + 1 + (iy * 2 + 0) * parWidth) * 4);
+					int p3 = parMipData.getInt((ix * 2 + 1 + (iy * 2 + 1) * parWidth) * 4);
+					int p4 = parMipData.getInt((ix * 2 + 0 + (iy * 2 + 1) * parWidth) * 4);
+					int pixel;
+					if(fastColor) {
+						pixel = this.averageColor(this.averageColor(dx, dy), this.averageColor(p3, p4));
+					} else {
+						pixel = this.weightedAverageColor(dx, dy, p3, p4);
+					}
+
+					mipData.putInt((ix + iy * mipWidth) * 4, pixel);
+				}
+			}
+
+			for(ix = 0; ix < numTiles; ++ix) {
+				for(iy = 0; iy < numTiles; ++iy) {
+					dx = ix * mipWidth;
+					dy = iy * mipHeight;
+					GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, level, xMipOffset + dx, yMipOffset + dy, mipWidth, mipHeight, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, mipData);
+				}
+			}
+
+			parMipData = mipData;
+		}
+
 	}
 
 	public void updateDynamicTextures() {
-		int i1;
-		TextureFX textureFX2;
-		int i3;
-		int i4;
-		int i5;
-		int i6;
-		int i7;
-		int i8;
-		int i9;
-		int i10;
-		int i11;
-		int i12;
-		for(i1 = 0; i1 < this.textureList.size(); ++i1) {
-			textureFX2 = (TextureFX)this.textureList.get(i1);
-			textureFX2.anaglyphEnabled = this.options.anaglyph;
-			textureFX2.onTick();
-			this.imageData.clear();
-			this.imageData.put(textureFX2.imageData);
-			this.imageData.position(0).limit(textureFX2.imageData.length);
-			textureFX2.bindImage(this);
+		this.checkHdTextures();
+		++this.tickCounter;
+		this.terrainTextureId = this.getTexture("/terrain.png");
+		this.guiItemsTextureId = this.getTexture("/gui/items.png");
 
-			for(i3 = 0; i3 < textureFX2.tileSize; ++i3) {
-				for(i4 = 0; i4 < textureFX2.tileSize; ++i4) {
-					GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, textureFX2.iconIndex % 16 * 16 + i3 * 16, textureFX2.iconIndex / 16 * 16 + i4 * 16, 16, 16, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, this.imageData);
-					if(useMipmaps) {
-						for(i5 = 1; i5 <= 4; ++i5) {
-							i6 = 16 >> i5 - 1;
-							i7 = 16 >> i5;
+		int i;
+		TextureFX texturefx1;
+		for(i = 0; i < this.textureList.size(); ++i) {
+			texturefx1 = (TextureFX)this.textureList.get(i);
+			texturefx1.anaglyphEnabled = this.options.anaglyph;
+			if(!texturefx1.getClass().getName().equals("ModTextureStatic") || !this.dynamicTexturesUpdated) {
+				int i13;
+				if(texturefx1.tileImage == 0) {
+					i13 = this.terrainTextureId;
+				} else {
+					i13 = this.guiItemsTextureId;
+				}
 
-							for(i8 = 0; i8 < i7; ++i8) {
-								for(i9 = 0; i9 < i7; ++i9) {
-									i10 = this.imageData.getInt((i8 * 2 + 0 + (i9 * 2 + 0) * i6) * 4);
-									i11 = this.imageData.getInt((i8 * 2 + 1 + (i9 * 2 + 0) * i6) * 4);
-									i12 = this.imageData.getInt((i8 * 2 + 1 + (i9 * 2 + 1) * i6) * 4);
-									int i13 = this.imageData.getInt((i8 * 2 + 0 + (i9 * 2 + 1) * i6) * 4);
-									int i14 = this.averageColor(this.averageColor(i10, i11), this.averageColor(i12, i13));
-									this.imageData.putInt((i8 + i9 * i7) * 4, i14);
-								}
+				Dimension dim = this.getTextureDimensions(i13);
+				if(dim == null) {
+					throw new IllegalArgumentException("Unknown dimensions for texture id: " + i13);
+				}
+
+				int tileWidth = dim.width / 16;
+				int tileHeight = dim.height / 16;
+				this.checkImageDataSize(dim.width);
+				this.imageData.limit(0);
+				boolean customOk = this.updateCustomTexture(texturefx1, this.imageData, dim.width / 16);
+				if(!customOk || this.imageData.limit() > 0) {
+					boolean fastColor;
+					if(this.imageData.limit() <= 0) {
+						fastColor = this.updateDefaultTexture(texturefx1, this.imageData, dim.width / 16);
+						if(fastColor && this.imageData.limit() <= 0) {
+							continue;
+						}
+					}
+
+					if(this.imageData.limit() <= 0) {
+						texturefx1.onTick();
+						if(texturefx1.imageData == null) {
+							continue;
+						}
+
+						int i14 = tileWidth * tileHeight * 4;
+						if(texturefx1.imageData.length == i14) {
+							this.imageData.clear();
+							this.imageData.put(texturefx1.imageData);
+							this.imageData.position(0).limit(texturefx1.imageData.length);
+						} else {
+							this.copyScaled(texturefx1.imageData, this.imageData, tileWidth);
+						}
+					}
+
+					texturefx1.bindImage(this);
+					fastColor = this.scalesWithFastColor(texturefx1);
+
+					for(int ix = 0; ix < texturefx1.tileSize; ++ix) {
+						for(int iy = 0; iy < texturefx1.tileSize; ++iy) {
+							int xOffset = texturefx1.iconIndex % 16 * tileWidth + ix * tileWidth;
+							int yOffset = texturefx1.iconIndex / 16 * tileHeight + iy * tileHeight;
+							GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, xOffset, yOffset, tileWidth, tileHeight, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, this.imageData);
+							if(useMipmaps && ix == 0 && iy == 0) {
+								this.generateMipMapsSub(xOffset, yOffset, tileWidth, tileHeight, this.imageData, texturefx1.tileSize, fastColor);
 							}
-
-							GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, i5, textureFX2.iconIndex % 16 * i7, textureFX2.iconIndex / 16 * i7, i7, i7, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, this.imageData);
 						}
 					}
 				}
 			}
 		}
 
-		for(i1 = 0; i1 < this.textureList.size(); ++i1) {
-			textureFX2 = (TextureFX)this.textureList.get(i1);
-			if(textureFX2.textureId > 0) {
+		this.dynamicTexturesUpdated = true;
+
+		for(i = 0; i < this.textureList.size(); ++i) {
+			texturefx1 = (TextureFX)this.textureList.get(i);
+			if(texturefx1.textureId > 0) {
 				this.imageData.clear();
-				this.imageData.put(textureFX2.imageData);
-				this.imageData.position(0).limit(textureFX2.imageData.length);
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureFX2.textureId);
+				this.imageData.put(texturefx1.imageData);
+				this.imageData.position(0).limit(texturefx1.imageData.length);
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturefx1.textureId);
 				GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, 0, 0, 16, 16, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, this.imageData);
 				if(useMipmaps) {
-					for(i3 = 1; i3 <= 4; ++i3) {
-						i4 = 16 >> i3 - 1;
-						i5 = 16 >> i3;
-
-						for(i6 = 0; i6 < i5; ++i6) {
-							for(i7 = 0; i7 < i5; ++i7) {
-								i8 = this.imageData.getInt((i6 * 2 + 0 + (i7 * 2 + 0) * i4) * 4);
-								i9 = this.imageData.getInt((i6 * 2 + 1 + (i7 * 2 + 0) * i4) * 4);
-								i10 = this.imageData.getInt((i6 * 2 + 1 + (i7 * 2 + 1) * i4) * 4);
-								i11 = this.imageData.getInt((i6 * 2 + 0 + (i7 * 2 + 1) * i4) * 4);
-								i12 = this.averageColor(this.averageColor(i8, i9), this.averageColor(i10, i11));
-								this.imageData.putInt((i6 + i7 * i5) * 4, i12);
-							}
-						}
-
-						GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, i3, 0, 0, i5, i5, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, this.imageData);
-					}
+					this.generateMipMapsSub(0, 0, 16, 16, this.imageData, texturefx1.tileSize, false);
 				}
 			}
 		}
@@ -441,29 +579,49 @@ public class RenderEngine {
 		return (i3 + i4 >> 1 << 24) + ((i1 & 16711422) + (i2 & 16711422) >> 1);
 	}
 
-	private int weightedAverageColor(int i1, int i2) {
-		int i3 = (i1 & 0xFF000000) >> 24 & 255;
-		int i4 = (i2 & 0xFF000000) >> 24 & 255;
-		short s5 = 255;
-		if(i3 + i4 == 0) {
-			i3 = 1;
-			i4 = 1;
-			s5 = 0;
+	private int weightedAverageColor(int c1, int c2, int c3, int c4) {
+		int cx1 = this.weightedAverageColor(c1, c2);
+		int cx2 = this.weightedAverageColor(c3, c4);
+		int cx = this.weightedAverageColor(cx1, cx2);
+		return cx;
+	}
+	
+	private int weightedAverageColor(int c1, int c2) {
+		int a1 = (c1 & 0xFF000000) >> 24 & 255;
+		int a2 = (c2 & 0xFF000000) >> 24 & 255;
+		int ax = (a1 + a2) / 2;
+		if(a1 == 0 && a2 == 0) {
+			a1 = 1;
+			a2 = 1;
+		} else {
+			if(a1 == 0) {
+				c1 = c2;
+				ax /= 2;
+			}
+
+			if(a2 == 0) {
+				c2 = c1;
+				ax /= 2;
+			}
 		}
 
-		int i6 = (i1 >> 16 & 255) * i3;
-		int i7 = (i1 >> 8 & 255) * i3;
-		int i8 = (i1 & 255) * i3;
-		int i9 = (i2 >> 16 & 255) * i4;
-		int i10 = (i2 >> 8 & 255) * i4;
-		int i11 = (i2 & 255) * i4;
-		int i12 = (i6 + i9) / (i3 + i4);
-		int i13 = (i7 + i10) / (i3 + i4);
-		int i14 = (i8 + i11) / (i3 + i4);
-		return s5 << 24 | i12 << 16 | i13 << 8 | i14;
+		int r1 = (c1 >> 16 & 255) * a1;
+		int g1 = (c1 >> 8 & 255) * a1;
+		int b1 = (c1 & 255) * a1;
+		int r2 = (c2 >> 16 & 255) * a2;
+		int g2 = (c2 >> 8 & 255) * a2;
+		int b2 = (c2 & 255) * a2;
+		int rx = (r1 + r2) / (a1 + a2);
+		int gx = (g1 + g2) / (a1 + a2);
+		int bx = (b1 + b2) / (a1 + a2);
+		return ax << 24 | rx << 16 | gx << 8 | bx;
 	}
 
 	public void refreshTextures() {
+		this.textureDataMap.clear();
+		this.dynamicTexturesUpdated = false;
+		Config.setFontRendererUpdated(false);
+		
 		TexturePackBase texturePackBase1 = this.texturePack.selectedTexturePack;
 		Iterator<Integer> iterator2 = this.textureNameToImageMap.keySet().iterator();
 
@@ -539,16 +697,300 @@ public class RenderEngine {
 		}
 
 	}
-
-	private BufferedImage readTextureImage(InputStream inputStream1) throws IOException {
-		BufferedImage bufferedImage2 = ImageIO.read(inputStream1);
-		inputStream1.close();
-		return bufferedImage2;
+	private BufferedImage readTextureImage(InputStream inputstream) throws IOException {
+		BufferedImage bufferedimage = ImageIO.read(inputstream);
+		inputstream.close();
+		return bufferedimage;
 	}
 
-	public void bindTexture(int i1) {
-		if(i1 >= 0) {
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, i1);
+	public void bindTexture(int i) {
+		if(i >= 0) {
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, i);
 		}
+	}
+
+	private void setTextureDimension(int id, Dimension dim) {
+		this.textureDimensionsMap.put(new Integer(id), dim);
+		if(id == this.terrainTextureId) {
+			Config.setIconWidthTerrain(dim.width / 16);
+			this.updateDinamicTextures(0, dim);
+		}
+
+		if(id == this.guiItemsTextureId) {
+			Config.setIconWidthItems(dim.width / 16);
+			this.updateDinamicTextures(1, dim);
+		}
+
+	}
+
+	private Dimension getTextureDimensions(int id) {
+		return (Dimension)this.textureDimensionsMap.get(new Integer(id));
+	}
+
+	private void updateDinamicTextures(int texNum, Dimension dim) {
+		this.checkHdTextures();
+
+		/*
+		for(int i = 0; i < this.textureList.size(); ++i) {
+			TextureFX tex = (TextureFX)this.textureList.get(i);
+			if(tex.tileImage == texNum && tex instanceof TextureHDFX) {
+				TextureHDFX texHD = (TextureHDFX)tex;
+				texHD.setTexturePackBase(this.texturePack.selectedTexturePack);
+				texHD.setTileWidth(dim.width / 16);
+				texHD.onTick();
+			}
+		}
+		*/
+
+	}
+
+	public boolean updateCustomTexture(TextureFX texturefx, ByteBuffer imgData, int tileWidth) {
+		return texturefx.iconIndex == Block.waterStill.blockIndexInTexture ? (Config.isGeneratedWater() ? false : this.updateCustomTexture(texturefx, "/custom_water_still.png", imgData, tileWidth, Config.isAnimatedWater(), 1)) : (texturefx.iconIndex == Block.waterStill.blockIndexInTexture + 1 ? (Config.isGeneratedWater() ? false : this.updateCustomTexture(texturefx, "/custom_water_flowing.png", imgData, tileWidth, Config.isAnimatedWater(), 1)) : (texturefx.iconIndex == Block.lavaStill.blockIndexInTexture ? (Config.isGeneratedLava() ? false : this.updateCustomTexture(texturefx, "/custom_lava_still.png", imgData, tileWidth, Config.isAnimatedLava(), 1)) : (texturefx.iconIndex == Block.lavaStill.blockIndexInTexture + 1 ? (Config.isGeneratedLava() ? false : this.updateCustomTexture(texturefx, "/custom_lava_flowing.png", imgData, tileWidth, Config.isAnimatedLava(), 1)) : (texturefx.iconIndex == Block.portal.blockIndexInTexture ? this.updateCustomTexture(texturefx, "/custom_portal.png", imgData, tileWidth, Config.isAnimatedPortal(), 1) : (texturefx.iconIndex == Block.fire.blockIndexInTexture ? this.updateCustomTexture(texturefx, "/custom_fire_n_s.png", imgData, tileWidth, Config.isAnimatedFire(), 1) : (texturefx.iconIndex == Block.fire.blockIndexInTexture + 16 ? this.updateCustomTexture(texturefx, "/custom_fire_e_w.png", imgData, tileWidth, Config.isAnimatedFire(), 1) : false))))));
+	}
+
+	private boolean updateDefaultTexture(TextureFX texturefx, ByteBuffer imgData, int tileWidth) {
+		return this.texturePack.selectedTexturePack instanceof TexturePackDefault ? false : (texturefx.iconIndex == Block.waterStill.blockIndexInTexture ? (Config.isGeneratedWater() ? false : this.updateDefaultTexture(texturefx, imgData, tileWidth, false, 1)) : (texturefx.iconIndex == Block.waterStill.blockIndexInTexture + 1 ? (Config.isGeneratedWater() ? false : this.updateDefaultTexture(texturefx, imgData, tileWidth, Config.isAnimatedWater(), 1)) : (texturefx.iconIndex == Block.lavaStill.blockIndexInTexture ? (Config.isGeneratedLava() ? false : this.updateDefaultTexture(texturefx, imgData, tileWidth, false, 1)) : (texturefx.iconIndex == Block.lavaStill.blockIndexInTexture + 1 ? (Config.isGeneratedLava() ? false : this.updateDefaultTexture(texturefx, imgData, tileWidth, Config.isAnimatedLava(), 3)) : false))));
+	}
+
+	private boolean updateDefaultTexture(TextureFX texturefx, ByteBuffer imgData, int tileWidth, boolean scrolling, int scrollDiv) {
+		int iconIndex = texturefx.iconIndex;
+		if(!scrolling && this.dynamicTexturesUpdated) {
+			return true;
+		} else {
+			byte[] tileData = this.getTerrainIconData(iconIndex, tileWidth);
+			if(tileData == null) {
+				return false;
+			} else {
+				imgData.clear();
+				int imgLen = tileData.length;
+				if(scrolling) {
+					int movNum = tileWidth - this.tickCounter / scrollDiv % tileWidth;
+					int offset = movNum * tileWidth * 4;
+					imgData.put(tileData, offset, imgLen - offset);
+					imgData.put(tileData, 0, offset);
+				} else {
+					imgData.put(tileData, 0, imgLen);
+				}
+
+				imgData.position(0).limit(imgLen);
+				return true;
+			}
+		}
+	}
+
+	private boolean updateCustomTexture(TextureFX texturefx, String imagePath, ByteBuffer imgData, int tileWidth, boolean animated, int animDiv) {
+		byte[] imageBytes = this.getCustomTextureData(imagePath, tileWidth);
+		if(imageBytes == null) {
+			return false;
+		} else if(!animated && this.dynamicTexturesUpdated) {
+			return true;
+		} else {
+			int imgLen = tileWidth * tileWidth * 4;
+			int imgCount = imageBytes.length / imgLen;
+			int imgNum = this.tickCounter / animDiv % imgCount;
+			int offset = 0;
+			if(animated) {
+				offset = imgLen * imgNum;
+			}
+
+			imgData.clear();
+			imgData.put(imageBytes, offset, imgLen);
+			imgData.position(0).limit(imgLen);
+			return true;
+		}
+	}
+
+	private byte[] getTerrainIconData(int tileNum, int tileWidth) {
+		String tileIdStr = "Tile-" + tileNum;
+		byte[] tileData = this.getCustomTextureData(tileIdStr, tileWidth);
+		if(tileData != null) {
+			return tileData;
+		} else {
+			byte[] terrainData = this.getCustomTextureData("/terrain.png", tileWidth * 16);
+			if(terrainData == null) {
+				return null;
+			} else {
+				tileData = new byte[tileWidth * tileWidth * 4];
+				int tx = tileNum % 16;
+				int ty = tileNum / 16;
+				int xMin = tx * tileWidth;
+				int yMin = ty * tileWidth;
+				for(int y = 0; y < tileWidth; ++y) {
+					int ys = yMin + y;
+
+					for(int x = 0; x < tileWidth; ++x) {
+						int xs = xMin + x;
+						int posSrc = 4 * (xs + ys * tileWidth * 16);
+						int posDst = 4 * (x + y * tileWidth);
+						tileData[posDst + 0] = terrainData[posSrc + 0];
+						tileData[posDst + 1] = terrainData[posSrc + 1];
+						tileData[posDst + 2] = terrainData[posSrc + 2];
+						tileData[posDst + 3] = terrainData[posSrc + 3];
+					}
+				}
+
+				this.setCustomTextureData(tileIdStr, tileData);
+				return tileData;
+			}
+		}
+	}
+
+	public byte[] getCustomTextureData(String imagePath, int tileWidth) {
+		byte[] imageBytes = (byte[])((byte[])this.textureDataMap.get(imagePath));
+		if(imageBytes == null) {
+			if(this.textureDataMap.containsKey(imagePath)) {
+				return null;
+			}
+
+			imageBytes = this.loadImage(imagePath, tileWidth);
+			this.textureDataMap.put(imagePath, imageBytes);
+		}
+
+		return imageBytes;
+	}
+
+	private void setCustomTextureData(String imagePath, byte[] data) {
+		this.textureDataMap.put(imagePath, data);
+	}
+
+	private byte[] loadImage(String name, int targetWidth) {
+		try {
+			TexturePackBase e = this.texturePack.selectedTexturePack;
+			if(e == null) {
+				return null;
+			} else {
+				InputStream in = e.getResourceAsStream(name);
+				if(in == null) {
+					return null;
+				} else {
+					BufferedImage image = this.readTextureImage(in);
+					if(image == null) {
+						return null;
+					} else {
+						if(targetWidth > 0 && image.getWidth() != targetWidth) {
+							double width = (double)(image.getHeight() / image.getWidth());
+							int ai = (int)((double)targetWidth * width);
+							image = scaleBufferedImage(image, targetWidth, ai);
+						}
+
+						int i19 = image.getWidth();
+						int height = image.getHeight();
+						int[] i20 = new int[i19 * height];
+						byte[] byteBuf = new byte[i19 * height * 4];
+						image.getRGB(0, 0, i19, height, i20, 0, i19);
+
+						for(int l = 0; l < i20.length; ++l) {
+							int alpha = i20[l] >> 24 & 255;
+							int red = i20[l] >> 16 & 255;
+							int green = i20[l] >> 8 & 255;
+							int blue = i20[l] & 255;
+							if(this.options != null && this.options.anaglyph) {
+								int j3 = (red * 30 + green * 59 + blue * 11) / 100;
+								int l3 = (red * 30 + green * 70) / 100;
+								int j4 = (red * 30 + blue * 70) / 100;
+								red = j3;
+								green = l3;
+								blue = j4;
+							}
+
+							byteBuf[l * 4 + 0] = (byte)red;
+							byteBuf[l * 4 + 1] = (byte)green;
+							byteBuf[l * 4 + 2] = (byte)blue;
+							byteBuf[l * 4 + 3] = (byte)alpha;
+						}
+
+						return byteBuf;
+					}
+				}
+			}
+		} catch (Exception exception18) {
+			exception18.printStackTrace();
+			return null;
+		}
+	}
+
+	public static BufferedImage scaleBufferedImage(BufferedImage image, int width, int height) {
+		BufferedImage scaledImage = new BufferedImage(width, height, 2);
+		Graphics2D gr = scaledImage.createGraphics();
+		gr.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		gr.drawImage(image, 0, 0, width, height, (ImageObserver)null);
+		return scaledImage;
+	}
+
+	private void checkImageDataSize(int width) {
+		if(this.imageData != null) {
+			int len = width * width * 4;
+			if(this.imageData.capacity() >= len) {
+				return;
+			}
+		}
+
+		this.allocateImageData(width);
+	}
+
+	private void allocateImageData(int width) {
+		int imgLen = width * width * 4;
+		this.imageData = GLAllocation.createDirectByteBuffer(imgLen);
+		ArrayList<ByteBuffer> list = new ArrayList<ByteBuffer>();
+
+		for(int mipWidth = width / 2; mipWidth > 0; mipWidth /= 2) {
+			int mipLen = mipWidth * mipWidth * 4;
+			ByteBuffer buf = GLAllocation.createDirectByteBuffer(mipLen);
+			list.add(buf);
+		}
+
+		this.mipImageDatas = (ByteBuffer[])((ByteBuffer[])list.toArray(new ByteBuffer[list.size()]));
+	}
+
+	public void checkHdTextures() {
+		// No, sorry
+	}
+
+	private int getMaxMipmapLevel(int size) {
+		int level;
+		for(level = 0; size > 0; ++level) {
+			size /= 2;
+		}
+
+		return level - 1;
+	}
+
+	private void copyScaled(byte[] buf, ByteBuffer dstBuf, int dstWidth) {
+		int srcWidth = (int)Math.sqrt((double)(buf.length / 4));
+		int scale = dstWidth / srcWidth;
+		byte[] buf4 = new byte[4];
+		dstBuf.clear();
+		if(scale > 1) {
+			for(int y = 0; y < srcWidth; ++y) {
+				int yMul = y * srcWidth;
+				int ty = y * scale;
+				int tyMul = ty * dstWidth;
+
+				for(int x = 0; x < srcWidth; ++x) {
+					int srcPos = (x + yMul) * 4;
+					buf4[0] = buf[srcPos];
+					buf4[1] = buf[srcPos + 1];
+					buf4[2] = buf[srcPos + 2];
+					buf4[3] = buf[srcPos + 3];
+					int tx = x * scale;
+					int dstPosBase = tx + tyMul;
+
+					for(int tdy = 0; tdy < scale; ++tdy) {
+						int dstPosY = dstPosBase + tdy * dstWidth;
+						dstBuf.position(dstPosY * 4);
+
+						for(int tdx = 0; tdx < scale; ++tdx) {
+							dstBuf.put(buf4);
+						}
+					}
+				}
+			}
+		}
+
+		dstBuf.position(0).limit(dstWidth * dstWidth * 4);
+	}
+
+	private boolean scalesWithFastColor(TextureFX texturefx) {
+		return !texturefx.getClass().getName().equals("ModTextureStatic");
 	}
 }

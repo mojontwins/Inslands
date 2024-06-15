@@ -97,6 +97,8 @@ public class RenderBlocks {
 	
 	private int activeRenderPass = 0;
 
+	public static float[][] redstoneColors = new float[16][];
+	
 	public RenderBlocks(IBlockAccess iBlockAccess1) {
 		this.blockAccess = iBlockAccess1;
 	}
@@ -4861,5 +4863,29 @@ public class RenderBlocks {
 	public static boolean renderItemIn3d(int i0) {
 		//return i0 == 0 ? true : (i0 == 13 ? true : (i0 == 10 ? true : (i0 == 11 ? true : i0 == 16)));
 		return (i0 == 0 || i0 == 13 || i0 == 10 || i0 == 11 || i0 == 16 || (i0 >= 102 && i0 <= 109) || i0 == 112 || i0 == 255);
+	}
+	
+
+	static {
+		for(int i = 0; i < redstoneColors.length; ++i) {
+			float f = (float)i / 15.0F;
+			float f1 = f * 0.6F + 0.4F;
+			if(i == 0) {
+				f = 0.0F;
+			}
+
+			float f2 = f * f * 0.7F - 0.5F;
+			float f3 = f * f * 0.6F - 0.7F;
+			if(f2 < 0.0F) {
+				f2 = 0.0F;
+			}
+
+			if(f3 < 0.0F) {
+				f3 = 0.0F;
+			}
+
+			redstoneColors[i] = new float[]{f1, f2, f3};
+		}
+
 	}
 }
