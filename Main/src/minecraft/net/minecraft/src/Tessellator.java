@@ -83,9 +83,9 @@ public class Tessellator {
 					GL11.glTexCoordPointer(2, 32, this.floatBuffer);
 					
 					// Brightness
-					this.shortBuffer.position(14);
+					/*this.shortBuffer.position(14);
 					GL11.glTexCoordPointer(2, 32, this.shortBuffer);
-					
+					*/
 					// Color
 					this.byteBuffer.position(20);
 					GL11.glColorPointer(4, true, 32, this.byteBuffer);
@@ -103,10 +103,10 @@ public class Tessellator {
 
 				GL11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
 				
-				OpenGlHelper.setClientActiveTexture(OpenGlHelper.lightmapTexUnit);
+				/*OpenGlHelper.setClientActiveTexture(OpenGlHelper.lightmapTexUnit);
 				GL11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
 				OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit);
-				
+				*/
 				GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);
 				GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
 			}
