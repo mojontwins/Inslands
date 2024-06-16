@@ -3,6 +3,7 @@ package net.minecraft.src;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -466,6 +467,7 @@ public class RenderGlobal implements IWorldAccess {
 		}
 
 		byte b41 = 0;
+		int i42 = 0;
 		if(this.occlusionEnabled && this.mc.gameSettings.advancedOpengl && !this.mc.gameSettings.anaglyph && renderPass == 0) {
 			byte firstIndex = 0;
 			byte b43 = 20;
@@ -553,6 +555,7 @@ public class RenderGlobal implements IWorldAccess {
 							wr.callOcclusionQueryList();
 							ARBOcclusionQuery.glEndQueryARB(GL15.GL_SAMPLES_PASSED);
 							wr.isWaitingOnOcclusionQuery = true;
+							++i42;
 						}
 					}
 				}
@@ -1008,13 +1011,13 @@ public class RenderGlobal implements IWorldAccess {
 				if(i != null) {
 					++numValid;
 					if(!i.needsUpdate) {
-						this.worldRenderersToUpdate.set(dstIndex, (WorldRenderer)null);
+						this.worldRenderersToUpdate.set(dstIndex, (Object)null);
 					} else {
 						float wr = i.distanceToEntitySquared(entityliving);
 						if(wr <= 256.0F && this.isActingNow()) {
 							i.updateRenderer();
 							i.needsUpdate = false;
-							this.worldRenderersToUpdate.set(dstIndex, (WorldRenderer)null);
+							this.worldRenderersToUpdate.set(dstIndex, (Object)null);
 							++num;
 						} else {
 							if(wr > 256.0F && num >= maxNum) {
@@ -1043,7 +1046,7 @@ public class RenderGlobal implements IWorldAccess {
 			if(wrBest != null) {
 				wrBest.updateRenderer();
 				wrBest.needsUpdate = false;
-				this.worldRenderersToUpdate.set(indexBest, (WorldRenderer)null);
+				this.worldRenderersToUpdate.set(indexBest, (Object)null);
 				++num;
 				float f15 = distSqBest / 5.0F;
 
@@ -1059,7 +1062,7 @@ public class RenderGlobal implements IWorldAccess {
 						if(diffDistSq < f15) {
 							worldRenderer17.updateRenderer();
 							worldRenderer17.needsUpdate = false;
-							this.worldRenderersToUpdate.set(i16, (WorldRenderer)null);
+							this.worldRenderersToUpdate.set(i16, (Object)null);
 							++num;
 						}
 					}
@@ -1074,7 +1077,7 @@ public class RenderGlobal implements IWorldAccess {
 				dstIndex = 0;
 
 				for(i16 = 0; i16 < this.worldRenderersToUpdate.size(); ++i16) {
-					WorldRenderer object18 = this.worldRenderersToUpdate.get(i16);
+					Object object18 = this.worldRenderersToUpdate.get(i16);
 					if(object18 != null && i16 != dstIndex) {
 						this.worldRenderersToUpdate.set(dstIndex, object18);
 						++dstIndex;
@@ -1489,7 +1492,4 @@ public class RenderGlobal implements IWorldAccess {
 
 	}
 
-	public int renderAllSortedRenderers(int renderPass, double partialTicks) {
-		return this.renderSortedRenderers(0, this.sortedWorldRenderers.length, renderPass, partialTicks);
-	}
 }
