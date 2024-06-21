@@ -1081,6 +1081,10 @@ public class GameSettings {
 		}
 
 	}
+	
+	public boolean shouldRenderClouds() {
+		return this.renderDistance < 2;
+	}
 
 	static {
 		DisplayMode current = Display.getDisplayMode();

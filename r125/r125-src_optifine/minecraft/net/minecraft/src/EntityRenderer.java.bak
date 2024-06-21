@@ -1137,7 +1137,6 @@ public class EntityRenderer {
 			}
 
 			if(this.mc.gameSettings.shouldRenderClouds()) {
-				// Clouds
 				Profiler.endStartSection("clouds");
 				GL11.glPushMatrix();
 				this.setupFog(0, par1);

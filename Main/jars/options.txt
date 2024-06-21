@@ -9,10 +9,10 @@ anaglyph3d:false
 advancedOpengl:true
 fpsLimit:0
 difficulty:2
-fancyGraphics:true
+fancyGraphics:false
 hand:true
 threadedLighting:false
-clearWaters:false
+clearWaters:true
 ao:false
 skin:Default
 lastServer:localhost

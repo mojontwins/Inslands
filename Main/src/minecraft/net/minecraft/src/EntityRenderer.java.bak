@@ -785,7 +785,7 @@ public class EntityRenderer {
 
 			// Weather
 			if(
-				!Config.isRainOff() && (
+				Config.isRainOff() && (
 					this.mc.theWorld.rainingStrength > 0.0F || 
 					this.mc.theWorld.snowingStrength > 0.0F
 				)
