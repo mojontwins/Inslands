@@ -624,9 +624,9 @@ public class RenderGlobal implements IWorldAccess {
 
 		this.glListBuffer.flip();
 		EntityLiving entityLiving14 = this.mc.renderViewEntity;
-		double d15 = entityLiving14.lastTickPosX + (entityLiving14.posX - entityLiving14.lastTickPosX) * partialTicks;
+		double d15 = entityLiving14.lastTickPosX + (entityLiving14.posX - entityLiving14.lastTickPosX) * partialTicks - (double)WorldRenderer.globalChunkOffsetX;
 		double partialY = entityLiving14.lastTickPosY + (entityLiving14.posY - entityLiving14.lastTickPosY) * partialTicks;
-		double partialZ = entityLiving14.lastTickPosZ + (entityLiving14.posZ - entityLiving14.lastTickPosZ) * partialTicks;
+		double partialZ = entityLiving14.lastTickPosZ + (entityLiving14.posZ - entityLiving14.lastTickPosZ) * partialTicks - (double)WorldRenderer.globalChunkOffsetZ;
 		this.mc.entityRenderer.enableLightmap(partialTicks);
 		GL11.glTranslatef((float)(-d15), (float)(-partialY), (float)(-partialZ));
 		GL11.glCallLists(this.glListBuffer);

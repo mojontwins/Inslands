@@ -51,7 +51,6 @@ public class RenderGlobal implements IWorldAccess {
 	private int renderersBeingOccluded;
 	private int renderersBeingRendered;
 	private int renderersSkippingRenderPass;
-	private int dummyRenderInt;
 	private int worldRenderersCheckIndex;
 	private IntBuffer glListBuffer = BufferUtils.createIntBuffer(65536);
 	double prevSortX = -9999.0D;
@@ -615,7 +614,7 @@ public class RenderGlobal implements IWorldAccess {
 			}
 
 			if(!renderer.skipRenderPass[renderPass] && renderer.isInFrustum && (!this.occlusionEnabled || renderer.isVisible)) {
-				int glCallList = partialX.getGLCallListForPass(renderPass);
+				int glCallList = renderer.getGLCallListForPass(renderPass);
 				if(glCallList >= 0) {
 					this.glListBuffer.put(glCallList);
 					++l;
@@ -849,7 +848,7 @@ public class RenderGlobal implements IWorldAccess {
 		}
 	}
 
-	public boolean func_27307_a(double d1, double d3, double d5, float f7) {
+	public boolean clipRenderersByFrustrum(double d1, double d3, double d5, float f7) {
 		return false;
 	}
 
@@ -1101,26 +1100,7 @@ public class RenderGlobal implements IWorldAccess {
 			return true;
 		}
 	}
-
-	private boolean isMoving(EntityLiving entityliving) {
-		boolean moving = this.isMovingNow(entityliving);
-		if(moving) {
-			this.lastMovedTime = System.currentTimeMillis();
-			return true;
-		} else {
-			return System.currentTimeMillis() - this.lastMovedTime < 2000L;
-		}
-	}
-
-	private boolean isMovingNow(EntityLiving entityliving) {
-		double maxDiff = 0.001D;
-		return entityliving.isJumping ? true : (entityliving.isSneaking() ? true : ((double)entityliving.prevSwingProgress > maxDiff ? true : (this.mc.mouseHelper.deltaX != 0 ? true : (this.mc.mouseHelper.deltaY != 0 ? true : (Math.abs(entityliving.posX - entityliving.prevPosX) > maxDiff ? true : (Math.abs(entityliving.posY - entityliving.prevPosY) > maxDiff ? true : Math.abs(entityliving.posZ - entityliving.prevPosZ) > maxDiff))))));
-	}
-
-	private boolean isActingNow() {
-		return Mouse.isButtonDown(0) ? true : Mouse.isButtonDown(1);
-	}
-
+	
 	public void drawBlockBreaking(EntityPlayer entityPlayer1, MovingObjectPosition movingObjectPosition2, int i3, ItemStack itemStack4, float f5) {
 		Tessellator tessellator6 = Tessellator.instance;
 		GL11.glEnable(GL11.GL_BLEND);
@@ -1282,11 +1262,11 @@ public class RenderGlobal implements IWorldAccess {
 	}
 
 	public void markBlockNeedsUpdate(int i1, int i2, int i3) {
-		this.func_949_a(i1 - 1, i2 - 1, i3 - 1, i1 + 1, i2 + 1, i3 + 1);
+		this.markBlocksForUpdate(i1 - 1, i2 - 1, i3 - 1, i1 + 1, i2 + 1, i3 + 1);
 	}
 
 	public void markBlockRangeNeedsUpdate(int i1, int i2, int i3, int i4, int i5, int i6) {
-		this.func_949_a(i1 - 1, i2 - 1, i3 - 1, i4 + 1, i5 + 1, i6 + 1);
+		this.markBlocksForUpdate(i1 - 1, i2 - 1, i3 - 1, i4 + 1, i5 + 1, i6 + 1);
 	}
 
 	public void clipRenderersByFrustum(ICamera par1ICamera, float par2) {
@@ -1437,7 +1417,7 @@ public class RenderGlobal implements IWorldAccess {
 	}
 
 	public void deleteDisplayLists() {
-		GLAllocation.deleteDisplayLists(this.glRenderListBase); 
+		GLAllocation.deleteDisplayLists(this.glRenderListBase);
 	}
 
 	public void playAuxSFX(EntityPlayer entityPlayer1, int i2, int i3, int i4, int i5, int i6) {
@@ -1499,6 +1479,35 @@ public class RenderGlobal implements IWorldAccess {
 			this.mc.effectRenderer.addBlockDestroyEffects(i3, i4, i5, i6 & 255, i6 >> 8 & 255);
 		}
 
+	}
+
+	public boolean isMoving(EntityLiving entityliving) {
+		boolean moving = this.isMovingNow(entityliving);
+		if(moving) {
+			this.lastMovedTime = System.currentTimeMillis();
+			return true;
+		} else {
+			return System.currentTimeMillis() - this.lastMovedTime < 2000L;
+		}
+	}
+
+	private boolean isMovingNow(EntityLiving entityliving) {
+		double maxDiff = 0.001D;
+		return entityliving.isJumping ? true : (entityliving.isSneaking() ? true : ((double)entityliving.prevSwingProgress > maxDiff ? true : (this.mc.mouseHelper.deltaX != 0 ? true : (this.mc.mouseHelper.deltaY != 0 ? true : (Math.abs(entityliving.posX - entityliving.prevPosX) > maxDiff ? true : (Math.abs(entityliving.posY - entityliving.prevPosY) > maxDiff ? true : Math.abs(entityliving.posZ - entityliving.prevPosZ) > maxDiff))))));
+	}
+
+	public boolean isActing() {
+		boolean acting = this.isActingNow();
+		if(acting) {
+			this.lastActionTime = System.currentTimeMillis();
+			return true;
+		} else {
+			return System.currentTimeMillis() - this.lastActionTime < 500L;
+		}
+	}
+
+	public boolean isActingNow() {
+		return Mouse.isButtonDown(0) ? true : Mouse.isButtonDown(1);
 	}
 
 	public int renderAllSortedRenderers(int renderPass, double partialTicks) {

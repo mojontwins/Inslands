@@ -110,7 +110,7 @@ public class WorldRenderer {
 				ChunkCache chunkcache = new ChunkCache(this.worldObj, i24 - one, yMin - one, zMin - one, xMax + one, yMax + one, zMax + one);
 
 					++chunksUpdated;
-					RenderBlocks hashset1 = new RenderBlocks(chunkcache);
+					RenderBlocks renderblocks = new RenderBlocks(chunkcache);
 					this.bytesDrawn = 0;
 					Tessellator tessellator = Tessellator.instance;
 					
@@ -121,7 +121,7 @@ public class WorldRenderer {
 						boolean hasGlList = false;
 						
 						// Added: Make renderBlocks aware of the current render pass
-						hashset1.setActiveRenderPass(renderPass);
+						renderblocks.setActiveRenderPass(renderPass);
 
 						for(int y = yMin; y < yMax; ++y) {
 							for(int z = zMin; z < zMax; ++z) {
@@ -157,7 +157,7 @@ public class WorldRenderer {
 										}
 
 										if(canRender || blockPass == 2) {
-											hasRenderedBlocks |= hashset1.renderBlockByRenderType(block, x, y, z);
+											hasRenderedBlocks |= renderblocks.renderBlockByRenderType(block, x, y, z);
 										}
 									}
 								}
