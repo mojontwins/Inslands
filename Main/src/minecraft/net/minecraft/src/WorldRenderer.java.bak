@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.Minecraft;
-
 public class WorldRenderer {
 	
 	/*
@@ -53,8 +51,6 @@ public class WorldRenderer {
 	private boolean needsBoxUpdate = false;
 	public boolean isInFrustrumFully = false;
 	
-	Minecraft mc = Minecraft.getMinecraft();
-	
 	public WorldRenderer(World world1, List<TileEntity> list2, int i3, int i4, int i5, int i6, int i7) {
 		this.worldObj = world1;
 		this.tileEntities = list2;
@@ -64,9 +60,6 @@ public class WorldRenderer {
 		this.posX = -999;
 		this.setPosition(i3, i4, i5);
 		this.needsUpdate = false;
-				
-		if (!this.mc.legacyOpenGL) {
-		}
 	}
 
 	public void setPosition(int px, int py, int pz) {
@@ -92,6 +85,7 @@ public class WorldRenderer {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void setupGLTranslation() {
 		GL11.glTranslatef((float)this.posXClip, (float)this.posYClip, (float)this.posZClip);
 	}
@@ -127,7 +121,7 @@ public class WorldRenderer {
 			}
 
 			Chunk.isLit = false;
-			HashSet hashset = new HashSet();
+			HashSet<TileEntity> hashset = new HashSet<TileEntity>();
 			hashset.addAll(this.tileEntityRenderers);
 			this.tileEntityRenderers.clear();
 			byte one = 1;
@@ -140,7 +134,7 @@ public class WorldRenderer {
 				boolean hasGlList = false;
 
 				// Added: Make renderBlocks aware of the current render pass
-				renderBlocks10.setActiveRenderPass(renderPâss);
+				renderblocks.setActiveRenderPass(renderPass);
 
 				for(int y = yMin; y < yMax; ++y) {
 					for(int z = zMin; z < zMax; ++z) {
@@ -191,7 +185,7 @@ public class WorldRenderer {
 				}
 			}
 
-			HashSet hashSet24 = new HashSet();
+			HashSet<TileEntity> hashSet24 = new HashSet<TileEntity>();
 			hashSet24.addAll(this.tileEntityRenderers);
 			hashSet24.removeAll(hashset);
 			this.tileEntities.addAll(hashSet24);

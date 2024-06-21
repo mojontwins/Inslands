@@ -133,6 +133,7 @@ public class GameSettings {
 		this.optionsFile = new File(file2, "options.txt");
 		this.loadOptions();
 		Config.setGameSettings(this);
+		Config.setMinecraft(minecraft1);
 	}
 
 	public GameSettings() {

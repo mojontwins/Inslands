@@ -1,0 +1,71 @@
+package net.minecraft.src;
+
+import java.util.Iterator;
+import java.util.List;
+
+public class EntityAIFollowGolem extends EntityAIBase {
+	private EntityVillager theVillager;
+	private EntityIronGolem theGolem;
+	private int field_48215_c;
+	private boolean field_48213_d = false;
+
+	public EntityAIFollowGolem(EntityVillager entityVillager1) {
+		this.theVillager = entityVillager1;
+		this.setMutexBits(3);
+	}
+
+	public boolean shouldExecute() {
+		if(this.theVillager.getGrowingAge() >= 0) {
+			return false;
+		} else if(!this.theVillager.worldObj.isDaytime()) {
+			return false;
+		} else {
+			List list1 = this.theVillager.worldObj.getEntitiesWithinAABB(EntityIronGolem.class, this.theVillager.boundingBox.expand(6.0D, 2.0D, 6.0D));
+			if(list1.size() == 0) {
+				return false;
+			} else {
+				Iterator iterator2 = list1.iterator();
+
+				while(iterator2.hasNext()) {
+					Entity entity3 = (Entity)iterator2.next();
+					EntityIronGolem entityIronGolem4 = (EntityIronGolem)entity3;
+					if(entityIronGolem4.func_48382_m_() > 0) {
+						this.theGolem = entityIronGolem4;
+						break;
+					}
+				}
+
+				return this.theGolem != null;
+			}
+		}
+	}
+
+	public boolean continueExecuting() {
+		return this.theGolem.func_48382_m_() > 0;
+	}
+
+	public void startExecuting() {
+		this.field_48215_c = this.theVillager.getRNG().nextInt(320);
+		this.field_48213_d = false;
+		this.theGolem.getNavigator().clearPathEntity();
+	}
+
+	public void resetTask() {
+		this.theGolem = null;
+		this.theVillager.getNavigator().clearPathEntity();
+	}
+
+	public void updateTask() {
+		this.theVillager.getLookHelper().setLookPositionWithEntity(this.theGolem, 30.0F, 30.0F);
+		if(this.theGolem.func_48382_m_() == this.field_48215_c) {
+			this.theVillager.getNavigator().func_48652_a(this.theGolem, 0.15F);
+			this.field_48213_d = true;
+		}
+
+		if(this.field_48213_d && this.theVillager.getDistanceSqToEntity(this.theGolem) < 4.0D) {
+			this.theGolem.func_48383_a(false);
+			this.theVillager.getNavigator().clearPathEntity();
+		}
+
+	}
+}

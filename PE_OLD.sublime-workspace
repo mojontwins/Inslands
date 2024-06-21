@@ -520,21 +520,29 @@
 	"buffers":
 	[
 		{
-			"file": "README.md",
+			"file": "r125-src_optifine/minecraft/net/minecraft/src/Config.java",
 			"settings":
 			{
-				"buffer_size": 5450,
-				"encoding": "UTF-8",
+				"buffer_size": 22388,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/C/cosas/MB6/dosbox.conf",
+			"file": "r125-src_optifine/minecraft/net/minecraft/src/BlockStep.java",
 			"settings":
 			{
-				"buffer_size": 16127,
-				"encoding": "UTF-8",
+				"buffer_size": 3574,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "Searching 1019 files for \"setMinecraft\" (whole word)\n\n0 matches",
+			"settings":
+			{
+				"buffer_size": 63,
+				"line_ending": "Windows",
+				"name": "Find Results",
+				"scratch": true
 			}
 		}
 	],
@@ -623,10 +631,16 @@
 	"expanded_folders":
 	[
 		"/C/cosas/inslands",
-		"/C/cosas/inslands/Main"
+		"/C/cosas/inslands/r125-src_optifine",
+		"/C/cosas/inslands/r125-src_optifine/minecraft",
+		"/C/cosas/inslands/r125-src_optifine/minecraft/net",
+		"/C/cosas/inslands/r125-src_optifine/minecraft/net/minecraft",
+		"/C/cosas/inslands/r125-src_optifine/minecraft/net/minecraft/src"
 	],
 	"file_history":
 	[
+		"/C/cosas/inslands/README.md",
+		"/C/cosas/MB6/dosbox.conf",
 		"/C/cosas/DOS/MB6/dosbox.conf",
 		"/C/cosas/inslands/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/GuiMainMenu.java",
 		"/C/cosas/inslands/Main/src/minecraft/net/minecraft/src/Gui.java",
@@ -752,9 +766,7 @@
 		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntityPlayerMP.java",
 		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntitySheep.java",
 		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntitySlime.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntitySquid.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntityTracker.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntityTrackerEntry.java"
+		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntitySquid.java"
 	],
 	"find":
 	{
@@ -765,6 +777,7 @@
 		"height": 134.0,
 		"where_history":
 		[
+			"C:\\cosas\\inslands\\r125-src_optifine\\minecraft\\net\\minecraft\\src",
 			"D:\\Cosas\\PE_OLD\\Main\\src-b1.7.3_vanilla\\minecraft\\net\\minecraft\\src"
 		]
 	},
@@ -773,6 +786,25 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"minecraft",
+			"setMinecraft",
+			"mipmap",
+			"tessellator3",
+			"i8",
+			"entity7",
+			"i6",
+			"entityLiving4",
+			"f3",
+			"iCamera2",
+			"vec3D1",
+			"(i6 * this.renderChunksTall + i5) * this.renderChunksWide + i4",
+			"i1",
+			"guibutton",
+			"scaledresolution\\d",
+			"exception",
+			"exception1",
+			"i",
+			"enumoptions",
 			"getskycolor",
 			"i56",
 			"d47",
@@ -871,6 +903,22 @@
 		"regex": false,
 		"replace_history":
 		[
+			"tessellator",
+			"l",
+			"entity1",
+			"k",
+			"entityliving",
+			"f",
+			"icamera",
+			"vec3d",
+			"wri",
+			"numBlocks",
+			"guiButton1",
+			"settingsScreen",
+			"printWriter1",
+			"string3",
+			"i2",
+			"enumOptions1",
 			"blockID",
 			"volume",
 			"zScalingFactor",
@@ -963,76 +1011,112 @@
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": false,
+		"whole_word": true,
 		"wrap": true
 	},
 	"groups":
 	[
 		{
-			"selected": 1,
+			"sheets":
+			[
+			]
+		},
+		{
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "README.md",
+					"file": "r125-src_optifine/minecraft/net/minecraft/src/Config.java",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5450,
+						"buffer_size": 22388,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5444,
-								5444
+								4446,
+								4446
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
+							"syntax": "Packages/Java/Java.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1579.0,
+						"translation.y": 1134.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "/C/cosas/MB6/dosbox.conf",
-					"semi_transient": false,
+					"file": "r125-src_optifine/minecraft/net/minecraft/src/BlockStep.java",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 16127,
+						"buffer_size": 3574,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1806,
-								1806
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/Java/Java.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 63,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"line_numbers": false,
+							"output_tag": 1,
+							"result_base_dir": "",
+							"result_file_regex": "^([^ \t].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
 					"type": "text"
 				}
-			]
-		},
-		{
-			"sheets":
-			[
 			]
 		}
 	],
@@ -1116,7 +1200,7 @@
 		],
 		"width": 510.0
 	},
-	"selected_group": 0,
+	"selected_group": 1,
 	"settings":
 	{
 	},
@@ -1124,7 +1208,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 218.0,
+	"side_bar_width": 210.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

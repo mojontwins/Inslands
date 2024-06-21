@@ -573,4 +573,12 @@ public class Config {
 	public static boolean isClearWater() {
 		return gameSettings == null ? false : gameSettings.ofClearWater;
 	}
+
+	public static int getAnisotropicFilterLevel() {
+		return gameSettings == null ? 1 : gameSettings.ofMipmapLevel;
+	}
+	
+	public static boolean isMultiTexture() {
+		return getAnisotropicFilterLevel() > 1;
+	}
 }

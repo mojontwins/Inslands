@@ -249,7 +249,7 @@ public class RenderManager {
 
 	}
 
-	public void func_852_a(World world1) {
+	public void set(World world1) {
 		this.worldObj = world1;
 	}
 

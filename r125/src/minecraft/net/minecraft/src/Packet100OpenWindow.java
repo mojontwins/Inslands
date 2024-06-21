@@ -1,0 +1,34 @@
+package net.minecraft.src;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
+public class Packet100OpenWindow extends Packet {
+	public int windowId;
+	public int inventoryType;
+	public String windowTitle;
+	public int slotsCount;
+
+	public void processPacket(NetHandler netHandler1) {
+		netHandler1.handleOpenWindow(this);
+	}
+
+	public void readPacketData(DataInputStream dataInputStream1) throws IOException {
+		this.windowId = dataInputStream1.readByte() & 255;
+		this.inventoryType = dataInputStream1.readByte() & 255;
+		this.windowTitle = readString(dataInputStream1, 32);
+		this.slotsCount = dataInputStream1.readByte() & 255;
+	}
+
+	public void writePacketData(DataOutputStream dataOutputStream1) throws IOException {
+		dataOutputStream1.writeByte(this.windowId & 255);
+		dataOutputStream1.writeByte(this.inventoryType & 255);
+		writeString(this.windowTitle, dataOutputStream1);
+		dataOutputStream1.writeByte(this.slotsCount & 255);
+	}
+
+	public int getPacketSize() {
+		return 3 + this.windowTitle.length();
+	}
+}

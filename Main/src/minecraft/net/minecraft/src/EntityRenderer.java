@@ -298,7 +298,7 @@ public class EntityRenderer {
 		d4 = entityLiving2.prevPosX + (entityLiving2.posX - entityLiving2.prevPosX) * (double)f1;
 		d6 = entityLiving2.prevPosY + (entityLiving2.posY - entityLiving2.prevPosY) * (double)f1 - (double)f3;
 		d8 = entityLiving2.prevPosZ + (entityLiving2.posZ - entityLiving2.prevPosZ) * (double)f1;
-		this.cloudFog = this.mc.renderGlobal.func_27307_a(d4, d6, d8, f1);
+		this.cloudFog = this.mc.renderGlobal.clipRenderersByFrustrum(d4, d6, d8, f1);
 	}
 
 	private void setupCameraTransform(float f1, int i2) {
@@ -687,7 +687,7 @@ public class EntityRenderer {
 
 			Frustrum frustrum19 = new Frustrum();
 			frustrum19.setPosition(d7, d9, d11);
-			this.mc.renderGlobal.clipRenderersByFrustrum(frustrum19, f1);
+			this.mc.renderGlobal.clipRenderersByFrustum(frustrum19, f1);
 			if(i18 == 0) {
 				while(!this.mc.renderGlobal.updateRenderers(entityLiving4, false) && j2 != 0L) {
 					long j20 = j2 - System.nanoTime();
@@ -933,12 +933,12 @@ public class EntityRenderer {
 							tessellator.setBrightness(world.getLightBrightnessForSkyBlocks(x, y, z, 0));
 							tessellator.setColorRGBA_F(1, 1, 1, ((1.0F - hypotenuse * hypotenuse) * 0.5F + 0.5F) * fRain);
 							
-							tessellator.setTranslationD(-interpolatedX * 1.0D, -interpolatedY * 1.0D, -interpolatedZ * 1.0D);
+							tessellator.setTranslation(-interpolatedX * 1.0D, -interpolatedY * 1.0D, -interpolatedZ * 1.0D);
 							tessellator.addVertexWithUV((double)((float)x - distanceX) + 0.5D, y1, (double)((float)z - distanceZ) + 0.5D, 0.0F, ((float)y1) / 4F + f9);
 							tessellator.addVertexWithUV((double)((float)x + distanceX) + 0.5D, y1, (double)((float)z + distanceZ) + 0.5D, 1.0F, ((float)y1) / 4F + f9);
 							tessellator.addVertexWithUV((double)((float)x + distanceX) + 0.5D, y2, (double)((float)z + distanceZ) + 0.5D, 1.0F, ((float)y2) / 4F + f9);
 							tessellator.addVertexWithUV((double)((float)x - distanceX) + 0.5D, y2, (double)((float)z - distanceZ) + 0.5D, 0.0F, ((float)y2) / 4F + f9);
-							tessellator.setTranslationD(0.0D, 0.0D, 0.0D);
+							tessellator.setTranslation(0.0D, 0.0D, 0.0D);
 							break;
 							
 						case Weather.SNOW:
@@ -965,12 +965,12 @@ public class EntityRenderer {
 							tessellator.setBrightness(world.getLightBrightnessForSkyBlocks(x, y, z, 0));
 							tessellator.setColorRGBA_F(1, 1, 1, ((1.0F - hypotenuse2 * hypotenuse2) * 0.3F + 0.5F) * fSnow);
 							
-							tessellator.setTranslationD(-interpolatedX * 1.0D, -interpolatedY * 1.0D, -interpolatedZ * 1.0D);
+							tessellator.setTranslation(-interpolatedX * 1.0D, -interpolatedY * 1.0D, -interpolatedZ * 1.0D);
 							tessellator.addVertexWithUV((double)((float)x - distanceX) + 0.5D, y1, (double)((float)z - distanceZ) + 0.5D, 0.0F + f11, ((float)y1) / 4F + f10 + f12);
 							tessellator.addVertexWithUV((double)((float)x + distanceX) + 0.5D, y1, (double)((float)z + distanceZ) + 0.5D, 1.0F + f11, ((float)y1) / 4F + f10 + f12);
 							tessellator.addVertexWithUV((double)((float)x + distanceX) + 0.5D, y2, (double)((float)z + distanceZ) + 0.5D, 1.0F + f11, ((float)y2) / 4F + f10 + f12);
 							tessellator.addVertexWithUV((double)((float)x - distanceX) + 0.5D, y2, (double)((float)z - distanceZ) + 0.5D, 0.0F + f11, ((float)y2) / 4F + f10 + f12);
-							tessellator.setTranslationD(0.0D, 0.0D, 0.0D);
+							tessellator.setTranslation(0.0D, 0.0D, 0.0D);
 							break;
 
 					}

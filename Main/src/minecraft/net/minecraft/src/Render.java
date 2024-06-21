@@ -168,7 +168,7 @@ public abstract class Render {
 		Tessellator tessellator7 = Tessellator.instance;
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		tessellator7.startDrawingQuads();
-		tessellator7.setTranslationD(d1, d3, d5);
+		tessellator7.setTranslation(d1, d3, d5);
 		tessellator7.setNormal(0.0F, 0.0F, -1.0F);
 		tessellator7.addVertex(axisAlignedBB0.minX, axisAlignedBB0.maxY, axisAlignedBB0.minZ);
 		tessellator7.addVertex(axisAlignedBB0.maxX, axisAlignedBB0.maxY, axisAlignedBB0.minZ);
@@ -199,7 +199,7 @@ public abstract class Render {
 		tessellator7.addVertex(axisAlignedBB0.maxX, axisAlignedBB0.maxY, axisAlignedBB0.minZ);
 		tessellator7.addVertex(axisAlignedBB0.maxX, axisAlignedBB0.maxY, axisAlignedBB0.maxZ);
 		tessellator7.addVertex(axisAlignedBB0.maxX, axisAlignedBB0.minY, axisAlignedBB0.maxZ);
-		tessellator7.setTranslationD(0.0D, 0.0D, 0.0D);
+		tessellator7.setTranslation(0.0D, 0.0D, 0.0D);
 		tessellator7.draw();
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 	}
