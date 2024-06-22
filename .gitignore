@@ -3,6 +3,7 @@ Main/reobf/*
 Main/jars/resources/*
 Main/jars/saves/*
 Main/jars/world/*
+Main/jars/stats/*
 Main/temp/*
 Main/src-b1.7.3_vanilla
 Main/workspace/Client/bin/*
