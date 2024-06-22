@@ -48,6 +48,9 @@ public class TextureAnimatedFX extends TextureFX {
 					animationData [i][4 * j + 2] = (byte) (rawAnimationData[idx] & 0xff); 
 					animationData [i][4 * j + 3] = (byte) (rawAnimationData[idx] >> 24 & 0xff); 
 				}
+	
+			// Preload in case animations are not activated
+			imageData = animationData [0];
 			
 			System.out.println ("TextureAnimatedFX " + textureIndex + ", " + tileImage + ", textureAtlasURI = " + textureAtlasURI + " (" + animationFrames + " frames)");
 		} catch (Exception e) {

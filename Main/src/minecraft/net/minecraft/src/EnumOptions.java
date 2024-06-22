@@ -62,7 +62,8 @@ public enum EnumOptions {
 	DISPLAY_MODES("DISPLAY_MODES", 57, "options.displayModes", false, false),
 	MELTBUILD("MELTBUILD", 58, "options.meltBuild", false, true), 
 	HAND("HAND", 59, "options.hand", false, true),
-	THREADED_LIGHT("THREADED_LIGHT", 60, "options.threaded_light", false, true)
+	THREADED_LIGHT("THREADED_LIGHT", 60, "options.threaded_light", false, true), 
+	ANIMATED_TEXTURES("ANIMATED_TEXTURES", 61, "Animated Textures", false, false)
 	;
 
 	private final boolean enumFloat;

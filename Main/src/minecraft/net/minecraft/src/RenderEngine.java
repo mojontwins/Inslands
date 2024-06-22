@@ -47,6 +47,7 @@ public class RenderEngine {
 	private int tickCounter = 0;
 	private ByteBuffer[] mipImageDatas;
 	private boolean dynamicTexturesUpdated = false;
+	private boolean animatedTexturesFirstTime = false;
 	
 	public RenderEngine(TexturePackList texturePackList1, GameSettings gameSettings2) {
 		this.allocateImageData(256);
@@ -64,6 +65,8 @@ public class RenderEngine {
 		graphics3.setColor(Color.BLACK);
 		graphics3.drawString("missingtex", 1, 10);
 		graphics3.dispose();
+		
+		this.animatedTexturesFirstTime = false;
 	}
 
 	public int[] getTextureContents(String string1) {
@@ -523,7 +526,12 @@ public class RenderEngine {
 					}
 
 					if(this.imageData.limit() <= 0) {
+						
+						if(!Config.isAnimatedTextures() && this.animatedTexturesFirstTime) continue; 
+						this.animatedTexturesFirstTime = true;
+						
 						texturefx1.onTick();
+							
 						if(texturefx1.imageData == null) {
 							continue;
 						}
@@ -793,7 +801,42 @@ public class RenderEngine {
 	}
 
 	private boolean updateDefaultTexture(TextureFX texturefx, ByteBuffer imgData, int tileWidth) {
-		return this.texturePack.selectedTexturePack instanceof TexturePackDefault ? false : (texturefx.iconIndex == Block.waterStill.blockIndexInTexture ? (Config.isGeneratedWater() ? false : this.updateDefaultTexture(texturefx, imgData, tileWidth, false, 1)) : (texturefx.iconIndex == Block.waterStill.blockIndexInTexture + 1 ? (Config.isGeneratedWater() ? false : this.updateDefaultTexture(texturefx, imgData, tileWidth, Config.isAnimatedWater(), 1)) : (texturefx.iconIndex == Block.lavaStill.blockIndexInTexture ? (Config.isGeneratedLava() ? false : this.updateDefaultTexture(texturefx, imgData, tileWidth, false, 1)) : (texturefx.iconIndex == Block.lavaStill.blockIndexInTexture + 1 ? (Config.isGeneratedLava() ? false : this.updateDefaultTexture(texturefx, imgData, tileWidth, Config.isAnimatedLava(), 3)) : false))));
+		return this.texturePack.selectedTexturePack instanceof TexturePackDefault ? 
+				false 
+			: 
+				(texturefx.iconIndex == Block.waterStill.blockIndexInTexture ? 
+						(Config.isGeneratedWater() ? 
+								false 
+							: 
+								this.updateDefaultTexture(texturefx, imgData, tileWidth, false, 1)
+						) 
+					: 
+						(texturefx.iconIndex == Block.waterStill.blockIndexInTexture + 1 ? 
+								(Config.isGeneratedWater() ? 
+										false 
+									: 
+										this.updateDefaultTexture(texturefx, imgData, tileWidth, Config.isAnimatedWater(), 1)
+								) 
+							: 
+								(texturefx.iconIndex == Block.lavaStill.blockIndexInTexture ? 
+										(Config.isGeneratedLava() ? 
+												false 
+											: 
+												this.updateDefaultTexture(texturefx, imgData, tileWidth, false, 1)
+										) 
+									: 
+										(texturefx.iconIndex == Block.lavaStill.blockIndexInTexture + 1 ? 
+												(Config.isGeneratedLava() ? 
+														false 
+													: 
+														this.updateDefaultTexture(texturefx, imgData, tileWidth, Config.isAnimatedLava(), 3)
+												) 
+											: 
+												false
+										)
+								)
+						)
+				);
 	}
 
 	private boolean updateDefaultTexture(TextureFX texturefx, ByteBuffer imgData, int tileWidth, boolean scrolling, int scrollDiv) {

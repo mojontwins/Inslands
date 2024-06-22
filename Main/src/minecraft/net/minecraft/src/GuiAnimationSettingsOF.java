@@ -4,7 +4,17 @@ public class GuiAnimationSettingsOF extends GuiScreen {
 	private GuiScreen prevScreen;
 	protected String title = "Animation Settings";
 	private GameSettings settings;
-	private static EnumOptions[] enumOptions = new EnumOptions[]{EnumOptions.ANIMATED_WATER, EnumOptions.ANIMATED_LAVA, EnumOptions.ANIMATED_FIRE, EnumOptions.ANIMATED_PORTAL, EnumOptions.ANIMATED_REDSTONE, EnumOptions.ANIMATED_EXPLOSION, EnumOptions.ANIMATED_FLAME, EnumOptions.ANIMATED_SMOKE};
+	private static EnumOptions[] enumOptions = new EnumOptions[]{
+			EnumOptions.ANIMATED_WATER, 
+			EnumOptions.ANIMATED_LAVA, 
+			EnumOptions.ANIMATED_FIRE, 
+			EnumOptions.ANIMATED_PORTAL, 
+			EnumOptions.ANIMATED_REDSTONE, 
+			EnumOptions.ANIMATED_EXPLOSION, 
+			EnumOptions.ANIMATED_FLAME, 
+			EnumOptions.ANIMATED_SMOKE,
+			EnumOptions.ANIMATED_TEXTURES
+		};
 
 	public GuiAnimationSettingsOF(GuiScreen guiscreen, GameSettings gamesettings) {
 		this.prevScreen = guiscreen;

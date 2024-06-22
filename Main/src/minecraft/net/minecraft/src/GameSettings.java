@@ -125,6 +125,7 @@ public class GameSettings {
 	public float gammaSetting = 0.0F;
 	
 	public String displayMode = DEFAULT_DISPLAY_STRING;
+	public boolean animatedTextures = true;
 
     public static final ArrayList<String> MODES = new ArrayList<String>();
 
@@ -404,6 +405,11 @@ public class GameSettings {
 
 		if(enumOptions1 == EnumOptions.ANIMATED_FIRE) {
 			this.ofAnimatedFire = !this.ofAnimatedFire;
+			this.mc.renderEngine.refreshTextures();
+		}
+		
+		if(enumOptions1 == EnumOptions.ANIMATED_TEXTURES) {
+			this.animatedTextures = !this.animatedTextures;
 			this.mc.renderEngine.refreshTextures();
 		}
 
@@ -921,6 +927,10 @@ public class GameSettings {
 					if(string3[0].equals("ofAnimatedFire") && string3.length >= 2) {
 						this.ofAnimatedFire = Boolean.valueOf(string3[1]).booleanValue();
 					}
+					
+					if(string3[0].equals("animatedTextures") && string3.length >= 2) {
+						this.animatedTextures = Boolean.valueOf(string3[1]).booleanValue();
+					}
 
 					if(string3[0].equals("ofAnimatedPortal") && string3.length >= 2) {
 						this.ofAnimatedPortal = Boolean.valueOf(string3[1]).booleanValue();
@@ -1057,6 +1067,7 @@ public class GameSettings {
 			printWriter1.println("ofAnimatedWater:" + this.ofAnimatedWater);
 			printWriter1.println("ofAnimatedLava:" + this.ofAnimatedLava);
 			printWriter1.println("ofAnimatedFire:" + this.ofAnimatedFire);
+			printWriter1.println("animatedTextures:" + this.animatedTextures);
 			printWriter1.println("ofAnimatedPortal:" + this.ofAnimatedPortal);
 			printWriter1.println("ofAnimatedRedstone:" + this.ofAnimatedRedstone);
 			printWriter1.println("ofAnimatedExplosion:" + this.ofAnimatedExplosion);

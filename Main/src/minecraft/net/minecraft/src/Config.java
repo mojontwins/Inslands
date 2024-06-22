@@ -581,4 +581,8 @@ public class Config {
 	public static boolean isMultiTexture() {
 		return getAnisotropicFilterLevel() > 1;
 	}
+
+	public static boolean isAnimatedTextures() {
+		return gameSettings == null ? true : gameSettings.animatedTextures;
+	}
 }

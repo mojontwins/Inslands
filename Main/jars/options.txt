@@ -51,6 +51,7 @@ ofWater:0
 ofAnimatedWater:0
 ofAnimatedLava:0
 ofAnimatedFire:true
+animatedTextures:true
 ofAnimatedPortal:true
 ofAnimatedRedstone:true
 ofAnimatedExplosion:true
