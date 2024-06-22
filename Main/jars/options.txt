@@ -34,7 +34,7 @@ key_key.fog:33
 key_key.creativeInventory:46
 ofFogFancy:false
 ofFogStart:0.8
-ofMipmapLevel:0
+ofMipmapLevel:4
 ofMipmapLinear:true
 ofLoadFar:false
 ofPreloadedChunks:0

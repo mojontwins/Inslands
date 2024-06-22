@@ -1,10 +1,9 @@
-
 OptiFine_1.7.3_HD_G
-Fri Jun 21 19:47:44 CEST 2024
+Sat Jun 22 09:02:59 CEST 2024
 OS: Windows 10 (amd64) version 10.0
-Java: 1.8.0_411, Oracle Corporation
-VM: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+Java: 1.8.0_412, Azul Systems, Inc.
+VM: OpenJDK 64-Bit Server VM (mixed mode), Azul Systems, Inc.
 LWJGL: 2.9.3
-OpenGL: Intel(R) HD Graphics 505 version 4.6.0 - Build 31.0.101.2128, Intel
+OpenGL: Intel(R) HD Graphics 400 version 4.4.0 - Build 20.19.15.5171, Intel
 OpenGL Version: 4.0
 OpenGL Fancy fog: Not available (GL_NV_fog_distance)

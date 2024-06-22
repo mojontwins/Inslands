@@ -745,7 +745,51 @@ public class RenderEngine {
 	}
 
 	public boolean updateCustomTexture(TextureFX texturefx, ByteBuffer imgData, int tileWidth) {
-		return texturefx.iconIndex == Block.waterStill.blockIndexInTexture ? (Config.isGeneratedWater() ? false : this.updateCustomTexture(texturefx, "/custom_water_still.png", imgData, tileWidth, Config.isAnimatedWater(), 1)) : (texturefx.iconIndex == Block.waterStill.blockIndexInTexture + 1 ? (Config.isGeneratedWater() ? false : this.updateCustomTexture(texturefx, "/custom_water_flowing.png", imgData, tileWidth, Config.isAnimatedWater(), 1)) : (texturefx.iconIndex == Block.lavaStill.blockIndexInTexture ? (Config.isGeneratedLava() ? false : this.updateCustomTexture(texturefx, "/custom_lava_still.png", imgData, tileWidth, Config.isAnimatedLava(), 1)) : (texturefx.iconIndex == Block.lavaStill.blockIndexInTexture + 1 ? (Config.isGeneratedLava() ? false : this.updateCustomTexture(texturefx, "/custom_lava_flowing.png", imgData, tileWidth, Config.isAnimatedLava(), 1)) : (texturefx.iconIndex == Block.portal.blockIndexInTexture ? this.updateCustomTexture(texturefx, "/custom_portal.png", imgData, tileWidth, Config.isAnimatedPortal(), 1) : (texturefx.iconIndex == Block.fire.blockIndexInTexture ? this.updateCustomTexture(texturefx, "/custom_fire_n_s.png", imgData, tileWidth, Config.isAnimatedFire(), 1) : (texturefx.iconIndex == Block.fire.blockIndexInTexture + 16 ? this.updateCustomTexture(texturefx, "/custom_fire_e_w.png", imgData, tileWidth, Config.isAnimatedFire(), 1) : false))))));
+		return 
+				texturefx.iconIndex == Block.waterStill.blockIndexInTexture ? 
+						(Config.isGeneratedWater() ? 
+								false 
+							: 
+								this.updateCustomTexture(texturefx, "/custom_water_still.png", imgData, tileWidth, Config.isAnimatedWater(), 1)
+						) 
+					: 
+						(texturefx.iconIndex == Block.waterStill.blockIndexInTexture + 1 ? 
+								(Config.isGeneratedWater() ? 
+										false 
+									: 
+										this.updateCustomTexture(texturefx, "/custom_water_flowing.png", imgData, tileWidth, Config.isAnimatedWater(), 1)
+								) 
+							: 
+								(texturefx.iconIndex == Block.lavaStill.blockIndexInTexture ? 
+										(Config.isGeneratedLava() ? 
+												false 
+											: 
+												this.updateCustomTexture(texturefx, "/custom_lava_still.png", imgData, tileWidth, Config.isAnimatedLava(), 1)
+										) 
+									: 
+										(texturefx.iconIndex == Block.lavaStill.blockIndexInTexture + 1 ? 
+												(Config.isGeneratedLava() ? 
+														false 
+													: 
+														this.updateCustomTexture(texturefx, "/custom_lava_flowing.png", imgData, tileWidth, Config.isAnimatedLava(), 1)
+												) 
+											: 
+												(texturefx.iconIndex == Block.portal.blockIndexInTexture ? 
+														this.updateCustomTexture(texturefx, "/custom_portal.png", imgData, tileWidth, Config.isAnimatedPortal(), 1) 
+													: 
+														(texturefx.iconIndex == Block.fire.blockIndexInTexture ? 
+																this.updateCustomTexture(texturefx, "/custom_fire_n_s.png", imgData, tileWidth, Config.isAnimatedFire(), 1) 
+															: 
+																(texturefx.iconIndex == Block.fire.blockIndexInTexture + 16 ? 
+																		this.updateCustomTexture(texturefx, "/custom_fire_e_w.png", imgData, tileWidth, Config.isAnimatedFire(), 1)
+																	: 
+																		false
+																)
+														)
+												)
+										)
+								)
+						);
 	}
 
 	private boolean updateDefaultTexture(TextureFX texturefx, ByteBuffer imgData, int tileWidth) {
