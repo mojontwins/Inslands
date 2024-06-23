@@ -97,6 +97,8 @@ public class RenderBlocks {
 	
 	private int activeRenderPass = 0;
 
+	public static float[][] redstoneColors = new float[16][];
+	
 	public RenderBlocks(IBlockAccess iBlockAccess1) {
 		this.blockAccess = iBlockAccess1;
 	}
@@ -3208,36 +3210,36 @@ public class RenderBlocks {
 		if(this.renderAllFaces || block1.shouldSideBeRendered(this.blockAccess, i2, i3, i4 - 1, 2)) {
 			tessellator8.setBrightness(block1.minZ > 0.0D ? i28 : block1.getMixedBrightnessForBlock(this.blockAccess, i2, i3, i4 - 1));
 			tessellator8.setColorOpaque_F(f16, f20, f24);
-			tessellator8.setTranslationF(0.0F, 0.0F, f26);
+			tessellator8.addTranslation(0.0F, 0.0F, f26);
 			this.renderEastFace(block1, (double)i2, (double)i3, (double)i4, block1.getBlockTexture(this.blockAccess, i2, i3, i4, 2));
-			tessellator8.setTranslationF(0.0F, 0.0F, -f26);
+			tessellator8.addTranslation(0.0F, 0.0F, -f26);
 			z9 = true;
 		}
 
 		if(this.renderAllFaces || block1.shouldSideBeRendered(this.blockAccess, i2, i3, i4 + 1, 3)) {
 			tessellator8.setBrightness(block1.maxZ < 1.0D ? i28 : block1.getMixedBrightnessForBlock(this.blockAccess, i2, i3, i4 + 1));
 			tessellator8.setColorOpaque_F(f16, f20, f24);
-			tessellator8.setTranslationF(0.0F, 0.0F, -f26);
+			tessellator8.addTranslation(0.0F, 0.0F, -f26);
 			this.renderWestFace(block1, (double)i2, (double)i3, (double)i4, block1.getBlockTexture(this.blockAccess, i2, i3, i4, 3));
-			tessellator8.setTranslationF(0.0F, 0.0F, f26);
+			tessellator8.addTranslation(0.0F, 0.0F, f26);
 			z9 = true;
 		}
 
 		if(this.renderAllFaces || block1.shouldSideBeRendered(this.blockAccess, i2 - 1, i3, i4, 4)) {
 			tessellator8.setBrightness(block1.minX > 0.0D ? i28 : block1.getMixedBrightnessForBlock(this.blockAccess, i2 - 1, i3, i4));
 			tessellator8.setColorOpaque_F(f17, f21, f25);
-			tessellator8.setTranslationF(f26, 0.0F, 0.0F);
+			tessellator8.addTranslation(f26, 0.0F, 0.0F);
 			this.renderNorthFace(block1, (double)i2, (double)i3, (double)i4, block1.getBlockTexture(this.blockAccess, i2, i3, i4, 4));
-			tessellator8.setTranslationF(-f26, 0.0F, 0.0F);
+			tessellator8.addTranslation(-f26, 0.0F, 0.0F);
 			z9 = true;
 		}
 
 		if(this.renderAllFaces || block1.shouldSideBeRendered(this.blockAccess, i2 + 1, i3, i4, 5)) {
 			tessellator8.setBrightness(block1.maxX < 1.0D ? i28 : block1.getMixedBrightnessForBlock(this.blockAccess, i2 + 1, i3, i4));
 			tessellator8.setColorOpaque_F(f17, f21, f25);
-			tessellator8.setTranslationF(-f26, 0.0F, 0.0F);
+			tessellator8.addTranslation(-f26, 0.0F, 0.0F);
 			this.renderSouthFace(block1, (double)i2, (double)i3, (double)i4, block1.getBlockTexture(this.blockAccess, i2, i3, i4, 5));
-			tessellator8.setTranslationF(f26, 0.0F, 0.0F);
+			tessellator8.addTranslation(f26, 0.0F, 0.0F);
 			z9 = true;
 		}
 
@@ -4690,27 +4692,27 @@ public class RenderBlocks {
 				tessellator4.draw();
 				tessellator4.startDrawingQuads();
 				tessellator4.setNormal(0.0F, 0.0F, -1.0F);
-				tessellator4.setTranslationF(0.0F, 0.0F, f6);
+				tessellator4.addTranslation(0.0F, 0.0F, f6);
 				this.renderEastFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(2));
-				tessellator4.setTranslationF(0.0F, 0.0F, -f6);
+				tessellator4.addTranslation(0.0F, 0.0F, -f6);
 				tessellator4.draw();
 				tessellator4.startDrawingQuads();
 				tessellator4.setNormal(0.0F, 0.0F, 1.0F);
-				tessellator4.setTranslationF(0.0F, 0.0F, -f6);
+				tessellator4.addTranslation(0.0F, 0.0F, -f6);
 				this.renderWestFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(3));
-				tessellator4.setTranslationF(0.0F, 0.0F, f6);
+				tessellator4.addTranslation(0.0F, 0.0F, f6);
 				tessellator4.draw();
 				tessellator4.startDrawingQuads();
 				tessellator4.setNormal(-1.0F, 0.0F, 0.0F);
-				tessellator4.setTranslationF(f6, 0.0F, 0.0F);
+				tessellator4.addTranslation(f6, 0.0F, 0.0F);
 				this.renderNorthFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(4));
-				tessellator4.setTranslationF(-f6, 0.0F, 0.0F);
+				tessellator4.addTranslation(-f6, 0.0F, 0.0F);
 				tessellator4.draw();
 				tessellator4.startDrawingQuads();
 				tessellator4.setNormal(1.0F, 0.0F, 0.0F);
-				tessellator4.setTranslationF(-f6, 0.0F, 0.0F);
+				tessellator4.addTranslation(-f6, 0.0F, 0.0F);
 				this.renderSouthFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(5));
-				tessellator4.setTranslationF(f6, 0.0F, 0.0F);
+				tessellator4.addTranslation(f6, 0.0F, 0.0F);
 				tessellator4.draw();
 				GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 			} else if(i5 == 6) {
@@ -4861,5 +4863,29 @@ public class RenderBlocks {
 	public static boolean renderItemIn3d(int i0) {
 		//return i0 == 0 ? true : (i0 == 13 ? true : (i0 == 10 ? true : (i0 == 11 ? true : i0 == 16)));
 		return (i0 == 0 || i0 == 13 || i0 == 10 || i0 == 11 || i0 == 16 || (i0 >= 102 && i0 <= 109) || i0 == 112 || i0 == 255);
+	}
+	
+
+	static {
+		for(int i = 0; i < redstoneColors.length; ++i) {
+			float f = (float)i / 15.0F;
+			float f1 = f * 0.6F + 0.4F;
+			if(i == 0) {
+				f = 0.0F;
+			}
+
+			float f2 = f * f * 0.7F - 0.5F;
+			float f3 = f * f * 0.6F - 0.7F;
+			if(f2 < 0.0F) {
+				f2 = 0.0F;
+			}
+
+			if(f3 < 0.0F) {
+				f3 = 0.0F;
+			}
+
+			redstoneColors[i] = new float[]{f1, f2, f3};
+		}
+
 	}
 }

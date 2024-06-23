@@ -19,4 +19,12 @@ public class Frustrum implements ICamera {
 	public boolean isBoundingBoxInFrustum(AxisAlignedBB axisAlignedBB1) {
 		return this.isBoxInFrustum(axisAlignedBB1.minX, axisAlignedBB1.minY, axisAlignedBB1.minZ, axisAlignedBB1.maxX, axisAlignedBB1.maxY, axisAlignedBB1.maxZ);
 	}
+	
+	public boolean isBoxInFrustumFully(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
+		return this.clippingHelper.isBoxInFrustumFully(minX - this.xPosition, minY - this.yPosition, minZ - this.zPosition, maxX - this.xPosition, maxY - this.yPosition, maxZ - this.zPosition);
+	}
+
+	public boolean isBoundingBoxInFrustumFully(AxisAlignedBB aab) {
+		return this.isBoxInFrustumFully(aab.minX, aab.minY, aab.minZ, aab.maxX, aab.maxY, aab.maxZ);
+	}
 }

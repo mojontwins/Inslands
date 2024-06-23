@@ -157,7 +157,7 @@ public class WorldRenderer {
 										}
 
 										if(canRender || blockPass == 2) {
-											hasRenderedBlocks |= renderblocks.renderBlockByRenderType(block, x, y, z);
+											hasRenderedBlocks |= hashset1.renderBlockByRenderType(block, x, y, z);
 										}
 									}
 								}

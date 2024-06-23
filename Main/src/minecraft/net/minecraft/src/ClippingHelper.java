@@ -6,9 +6,64 @@ public class ClippingHelper {
 	public float[] modelviewMatrix = new float[16];
 	public float[] clippingMatrix = new float[16];
 
-	public boolean isBoxInFrustum(double d1, double d3, double d5, double d7, double d9, double d11) {
-		for(int i13 = 0; i13 < 6; ++i13) {
-			if((double)this.frustum[i13][0] * d1 + (double)this.frustum[i13][1] * d3 + (double)this.frustum[i13][2] * d5 + (double)this.frustum[i13][3] <= 0.0D && (double)this.frustum[i13][0] * d7 + (double)this.frustum[i13][1] * d3 + (double)this.frustum[i13][2] * d5 + (double)this.frustum[i13][3] <= 0.0D && (double)this.frustum[i13][0] * d1 + (double)this.frustum[i13][1] * d9 + (double)this.frustum[i13][2] * d5 + (double)this.frustum[i13][3] <= 0.0D && (double)this.frustum[i13][0] * d7 + (double)this.frustum[i13][1] * d9 + (double)this.frustum[i13][2] * d5 + (double)this.frustum[i13][3] <= 0.0D && (double)this.frustum[i13][0] * d1 + (double)this.frustum[i13][1] * d3 + (double)this.frustum[i13][2] * d11 + (double)this.frustum[i13][3] <= 0.0D && (double)this.frustum[i13][0] * d7 + (double)this.frustum[i13][1] * d3 + (double)this.frustum[i13][2] * d11 + (double)this.frustum[i13][3] <= 0.0D && (double)this.frustum[i13][0] * d1 + (double)this.frustum[i13][1] * d9 + (double)this.frustum[i13][2] * d11 + (double)this.frustum[i13][3] <= 0.0D && (double)this.frustum[i13][0] * d7 + (double)this.frustum[i13][1] * d9 + (double)this.frustum[i13][2] * d11 + (double)this.frustum[i13][3] <= 0.0D) {
+	// Optifine
+	
+	public boolean isBoxInFrustum(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
+		for(int i = 0; i < 6; ++i) {
+			float minXf = (float)minX;
+			float minYf = (float)minY;
+			float minZf = (float)minZ;
+			float maxXf = (float)maxX;
+			float maxYf = (float)maxY;
+			float maxZf = (float)maxZ;
+			if(
+					this.frustum[i][0] * minXf + this.frustum[i][1] * minYf + this.frustum[i][2] * minZf + this.frustum[i][3] <= 0.0F && 
+					this.frustum[i][0] * maxXf + this.frustum[i][1] * minYf + this.frustum[i][2] * minZf + this.frustum[i][3] <= 0.0F && 
+					this.frustum[i][0] * minXf + this.frustum[i][1] * maxYf + this.frustum[i][2] * minZf + this.frustum[i][3] <= 0.0F && 
+					this.frustum[i][0] * maxXf + this.frustum[i][1] * maxYf + this.frustum[i][2] * minZf + this.frustum[i][3] <= 0.0F && 
+					this.frustum[i][0] * minXf + this.frustum[i][1] * minYf + this.frustum[i][2] * maxZf + this.frustum[i][3] <= 0.0F && 
+					this.frustum[i][0] * maxXf + this.frustum[i][1] * minYf + this.frustum[i][2] * maxZf + this.frustum[i][3] <= 0.0F && 
+					this.frustum[i][0] * minXf + this.frustum[i][1] * maxYf + this.frustum[i][2] * maxZf + this.frustum[i][3] <= 0.0F && 
+					this.frustum[i][0] * maxXf + this.frustum[i][1] * maxYf + this.frustum[i][2] * maxZf + this.frustum[i][3] <= 0.0F
+			) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	public boolean isBoxInFrustumFully(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
+		for(int i = 0; i < 6; ++i) {
+			float minXf = (float)minX;
+			float minYf = (float)minY;
+			float minZf = (float)minZ;
+			float maxXf = (float)maxX;
+			float maxYf = (float)maxY;
+			float maxZf = (float)maxZ;
+			if(i < 4) {
+				if(
+						this.frustum[i][0] * minXf + this.frustum[i][1] * minYf + this.frustum[i][2] * minZf + this.frustum[i][3] <= 0.0F || 
+						this.frustum[i][0] * maxXf + this.frustum[i][1] * minYf + this.frustum[i][2] * minZf + this.frustum[i][3] <= 0.0F || 
+						this.frustum[i][0] * minXf + this.frustum[i][1] * maxYf + this.frustum[i][2] * minZf + this.frustum[i][3] <= 0.0F || 
+						this.frustum[i][0] * maxXf + this.frustum[i][1] * maxYf + this.frustum[i][2] * minZf + this.frustum[i][3] <= 0.0F || 
+						this.frustum[i][0] * minXf + this.frustum[i][1] * minYf + this.frustum[i][2] * maxZf + this.frustum[i][3] <= 0.0F || 
+						this.frustum[i][0] * maxXf + this.frustum[i][1] * minYf + this.frustum[i][2] * maxZf + this.frustum[i][3] <= 0.0F || 
+						this.frustum[i][0] * minXf + this.frustum[i][1] * maxYf + this.frustum[i][2] * maxZf + this.frustum[i][3] <= 0.0F || 
+						this.frustum[i][0] * maxXf + this.frustum[i][1] * maxYf + this.frustum[i][2] * maxZf + this.frustum[i][3] <= 0.0F
+				) {
+					return false;
+				}
+			} else if(
+					this.frustum[i][0] * minXf + this.frustum[i][1] * minYf + this.frustum[i][2] * minZf + this.frustum[i][3] <= 0.0F && 
+					this.frustum[i][0] * maxXf + this.frustum[i][1] * minYf + this.frustum[i][2] * minZf + this.frustum[i][3] <= 0.0F && 
+					this.frustum[i][0] * minXf + this.frustum[i][1] * maxYf + this.frustum[i][2] * minZf + this.frustum[i][3] <= 0.0F && 
+					this.frustum[i][0] * maxXf + this.frustum[i][1] * maxYf + this.frustum[i][2] * minZf + this.frustum[i][3] <= 0.0F && 
+					this.frustum[i][0] * minXf + this.frustum[i][1] * minYf + this.frustum[i][2] * maxZf + this.frustum[i][3] <= 0.0F && 
+					this.frustum[i][0] * maxXf + this.frustum[i][1] * minYf + this.frustum[i][2] * maxZf + this.frustum[i][3] <= 0.0F && 
+					this.frustum[i][0] * minXf + this.frustum[i][1] * maxYf + this.frustum[i][2] * maxZf + this.frustum[i][3] <= 0.0F && 
+					this.frustum[i][0] * maxXf + this.frustum[i][1] * maxYf + this.frustum[i][2] * maxZf + this.frustum[i][3] <= 0.0F
+			) {
 				return false;
 			}
 		}

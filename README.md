@@ -34,14 +34,12 @@ I did a very nice vanilla Indev in beta, it's so nice but:
 1.- Add passing of days to get seasons working.
 2.- SMP of course
 
-<<<<<<< HEAD
 # 2nd iteration
 
 Most of the stuff never got done, but I have limited worlds with Indev themes. Now I want to take every theme and make a slightly different experience. The 1st I'm visiting is the Hell theme which would need a ways to make trees renewable. Remember that trees spawn without canopy.
 
 THe way is using acorn seeds, which you can plan in the groudn to get oak saplings. Acorn seeds are sometimes dropped by skeletons.  
 
-=======
 # Wha
 
 Added 0 notes during months. It's quite evolved and works great. Uses lightmaps and starlight and actually runs at a very good frame rate on very old or very limited hardware, which was the goal.
@@ -128,4 +126,38 @@ Now spice it up a bit:
 * [X] Very important modification! upon processing the entity list, only update those within a square radius of 8 chunks in every direction, which saves TONS of time in BIG and HUGE levels! 
 
 * [ ] Themed dungeons ? was that a thing? (i.e. select spawner characteristics)
+
+## Added optifine
+
+Yay! fps boosted on shitty systems!
+
+## New stuff
+
+* [ ] Use b173 Twilight Forest entities for animales in the forest theme.
+* [ ] Undo (if done) the level theme based temperature/humidity and extract it from the biome.
+* [ ] Make it so if the level theme based fixed biome is null, it uses the normal ramp for a new theme "biomes".
+* [ ] Attempt to make a more flexible day cycle management (i.e. fixed celestial angle based upon level theme, not world provider) 
+	(RN how does it do the fixed hour in paradise / hell? Can't understand HOW!!) 
+
+	In hell you can get night, not in paradise. The only difference is on level theme settings: dayCycle = false. But that flag only seems to be used to run the bad moon logic or not.
+
+	OH. It seems to be tied to the world provider. FUCK. It is fixed to 0 for the world provider sky. I would get day cycle in another world provider for paradise. Time to make properl logic for this.
+
+	`fixedCelestialAngle`.
+
+	* For hell: Day cycle.
+	* For forest: Check vanilla twilite
+	* For paradise: `1.0F` (still doesn't seem to affect????  HOW TF DO I DO THIS LOL)
+
+	Celestial angle is advancing normally, or so it seems. So it has to be lightmap related? Nah I was being stupid. Paradise is summer so time set night which sets 13000 still gets daylight.
+
+	OK
+
+	Forget the ton of paragraphs. Implemeting this rn.
+
+
+* [ ] Think about gameplay items for a desert and a glacier based theme (for the future).
+* [ ] Add "Override level test" to level creation extra options to override "level is valid" check
+* [ ] Add a biome map. Simple, don't over do it. Use PostAlpha's.
+* [ ] Remove optifog log and other stupid shit.
 * [ ] Add "preferredWorldgen" to levelthemes and de-hardcode it

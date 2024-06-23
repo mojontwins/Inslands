@@ -38,10 +38,13 @@ public class RenderEngine {
 	private boolean blurTexture = false;
 	private TexturePackList texturePack;
 	private BufferedImage missingTextureImage = new BufferedImage(64, 64, 2);
+	private int field_48512_n;
 
 	// Optifine 
-	private int terrainTextureId = -1;
-	private int guiItemsTextureId = -1;
+	public int terrainTextureId = -1;
+	public int guiItemsTextureId = -1;
+	public int ctmTextureId = -1;
+	
 	private Map<Integer, Dimension> textureDimensionsMap = new HashMap<Integer, Dimension>();
 	private Map<String, byte[]> textureDataMap = new HashMap<String, byte[]>();
 	private int tickCounter = 0;
@@ -49,28 +52,34 @@ public class RenderEngine {
 	private boolean dynamicTexturesUpdated = false;
 	
 	public RenderEngine(TexturePackList texturePackList1, GameSettings gameSettings2) {
-		this.allocateImageData(256);
+
+		this.textureMap = new HashMap();
+		this.textureContentsMap = new HashMap();
+		this.textureNameToImageMap = new IntHashMap();
+		this.singleIntBuffer = GLAllocation.createDirectIntBuffer(1);
+
+		this.allocateImageData(256, 256);
 		this.textureList = new ArrayList<TextureFX>();
 		this.urlToImageDataMap = new HashMap<String, ThreadDownloadImageData>();
 		this.clampTexture = false;
 		this.blurTexture = false;
 		this.missingTextureImage = new BufferedImage(64, 64, 2);
-		
-		this.texturePack = texturePackList1;
-		this.options = gameSettings2;
-		Graphics graphics3 = this.missingTextureImage.getGraphics();
-		graphics3.setColor(Color.WHITE);
-		graphics3.fillRect(0, 0, 64, 64);
-		graphics3.setColor(Color.BLACK);
-		graphics3.drawString("missingtex", 1, 10);
-		graphics3.dispose();
+		this.field_48512_n = 16;
+		this.texturePack = par1TexturePackList;
+		this.options = par2GameSettings;
+		Graphics g1 = this.missingTextureImage.getGraphics();
+		g1.setColor(Color.WHITE);
+		g1.fillRect(0, 0, 64, 64);
+		g1.setColor(Color.BLACK);
+		g1.drawString("missingtex", 1, 10);
+		g1.dispose();
 	}
 
-	public int[] getTextureContents(String string1) {
-		TexturePackBase texturePackBase2 = this.texturePack.selectedTexturePack;
-		int[] i3 = (int[])this.textureContentsMap.get(string1);
-		if(i3 != null) {
-			return i3;
+	public int[] getTextureContents(String par1Str) {
+		TexturePackBase texturepackbase = this.texturePack.selectedTexturePack;
+		int[] ai = (int[])((int[])this.textureContentsMap.get(par1Str));
+		if(ai != null) {
+			return ai;
 		} else {
 
 			try {
@@ -146,18 +155,21 @@ public class RenderEngine {
 					this.blurTexture = false;
 					this.clampTexture = false;
 				} else {
-					if(string1.equals("/terrain.png")) {
-						this.terrainTextureId = i6;
-					}
-
-					if(string1.equals("/gui/items.png")) {
-						this.guiItemsTextureId = i6;
-					}
-					
-					InputStream inputStream7 = texturePackBase2.getResourceAsStream(string1);
-					if(inputStream7 == null) {
+					InputStream inputstream = texturepackbase.getResourceAsStream(par1Str);
+					if(inputstream == null) {
 						this.setupTexture(this.missingTextureImage, i6);
 					} else {
+						if(string1.equals("/terrain.png")) {
+							this.terrainTextureId = i6;
+						}
+	
+						if(string1.equals("/gui/items.png")) {
+							this.guiItemsTextureId = i6;
+
+						if(par1Str.equals("/ctm.png")) {
+							this.ctmTextureId = i6;
+						}
+
 						this.setupTexture(this.readTextureImage(inputStream7), i6);
 					}
 				}
@@ -300,6 +312,7 @@ public class RenderEngine {
 			}
 
 			ByteBuffer mipData = this.mipImageDatas[level - 1];
+			mipData.limit(mipWidth * mipHeight * 4);
 
 			for(int mipX = 0; mipX < mipWidth; ++mipX) {
 				for(int mipY = 0; mipY < mipHeight; ++mipY) {
@@ -523,11 +536,7 @@ public class RenderEngine {
 					}
 
 					if(this.imageData.limit() <= 0) {
-						
-						if(!Config.isAnimatedTextures()) continue; 
-						
 						texturefx1.onTick();
-							
 						if(texturefx1.imageData == null) {
 							continue;
 						}
@@ -749,90 +758,11 @@ public class RenderEngine {
 	}
 
 	public boolean updateCustomTexture(TextureFX texturefx, ByteBuffer imgData, int tileWidth) {
-		return 
-				texturefx.iconIndex == Block.waterStill.blockIndexInTexture ? 
-						(Config.isGeneratedWater() ? 
-								false 
-							: 
-								this.updateCustomTexture(texturefx, "/custom_water_still.png", imgData, tileWidth, Config.isAnimatedWater(), 1)
-						) 
-					: 
-						(texturefx.iconIndex == Block.waterStill.blockIndexInTexture + 1 ? 
-								(Config.isGeneratedWater() ? 
-										false 
-									: 
-										this.updateCustomTexture(texturefx, "/custom_water_flowing.png", imgData, tileWidth, Config.isAnimatedWater(), 1)
-								) 
-							: 
-								(texturefx.iconIndex == Block.lavaStill.blockIndexInTexture ? 
-										(Config.isGeneratedLava() ? 
-												false 
-											: 
-												this.updateCustomTexture(texturefx, "/custom_lava_still.png", imgData, tileWidth, Config.isAnimatedLava(), 1)
-										) 
-									: 
-										(texturefx.iconIndex == Block.lavaStill.blockIndexInTexture + 1 ? 
-												(Config.isGeneratedLava() ? 
-														false 
-													: 
-														this.updateCustomTexture(texturefx, "/custom_lava_flowing.png", imgData, tileWidth, Config.isAnimatedLava(), 1)
-												) 
-											: 
-												(texturefx.iconIndex == Block.portal.blockIndexInTexture ? 
-														this.updateCustomTexture(texturefx, "/custom_portal.png", imgData, tileWidth, Config.isAnimatedPortal(), 1) 
-													: 
-														(texturefx.iconIndex == Block.fire.blockIndexInTexture ? 
-																this.updateCustomTexture(texturefx, "/custom_fire_n_s.png", imgData, tileWidth, Config.isAnimatedFire(), 1) 
-															: 
-																(texturefx.iconIndex == Block.fire.blockIndexInTexture + 16 ? 
-																		this.updateCustomTexture(texturefx, "/custom_fire_e_w.png", imgData, tileWidth, Config.isAnimatedFire(), 1)
-																	: 
-																		false
-																)
-														)
-												)
-										)
-								)
-						);
+		return texturefx.iconIndex == Block.waterStill.blockIndexInTexture ? (Config.isGeneratedWater() ? false : this.updateCustomTexture(texturefx, "/custom_water_still.png", imgData, tileWidth, Config.isAnimatedWater(), 1)) : (texturefx.iconIndex == Block.waterStill.blockIndexInTexture + 1 ? (Config.isGeneratedWater() ? false : this.updateCustomTexture(texturefx, "/custom_water_flowing.png", imgData, tileWidth, Config.isAnimatedWater(), 1)) : (texturefx.iconIndex == Block.lavaStill.blockIndexInTexture ? (Config.isGeneratedLava() ? false : this.updateCustomTexture(texturefx, "/custom_lava_still.png", imgData, tileWidth, Config.isAnimatedLava(), 1)) : (texturefx.iconIndex == Block.lavaStill.blockIndexInTexture + 1 ? (Config.isGeneratedLava() ? false : this.updateCustomTexture(texturefx, "/custom_lava_flowing.png", imgData, tileWidth, Config.isAnimatedLava(), 1)) : (texturefx.iconIndex == Block.portal.blockIndexInTexture ? this.updateCustomTexture(texturefx, "/custom_portal.png", imgData, tileWidth, Config.isAnimatedPortal(), 1) : (texturefx.iconIndex == Block.fire.blockIndexInTexture ? this.updateCustomTexture(texturefx, "/custom_fire_n_s.png", imgData, tileWidth, Config.isAnimatedFire(), 1) : (texturefx.iconIndex == Block.fire.blockIndexInTexture + 16 ? this.updateCustomTexture(texturefx, "/custom_fire_e_w.png", imgData, tileWidth, Config.isAnimatedFire(), 1) : false))))));
 	}
 
 	private boolean updateDefaultTexture(TextureFX texturefx, ByteBuffer imgData, int tileWidth) {
-		return this.texturePack.selectedTexturePack instanceof TexturePackDefault ? 
-				false 
-			: 
-				(texturefx.iconIndex == Block.waterStill.blockIndexInTexture ? 
-						(Config.isGeneratedWater() ? 
-								false 
-							: 
-								this.updateDefaultTexture(texturefx, imgData, tileWidth, false, 1)
-						) 
-					: 
-						(texturefx.iconIndex == Block.waterStill.blockIndexInTexture + 1 ? 
-								(Config.isGeneratedWater() ? 
-										false 
-									: 
-										this.updateDefaultTexture(texturefx, imgData, tileWidth, Config.isAnimatedWater(), 1)
-								) 
-							: 
-								(texturefx.iconIndex == Block.lavaStill.blockIndexInTexture ? 
-										(Config.isGeneratedLava() ? 
-												false 
-											: 
-												this.updateDefaultTexture(texturefx, imgData, tileWidth, false, 1)
-										) 
-									: 
-										(texturefx.iconIndex == Block.lavaStill.blockIndexInTexture + 1 ? 
-												(Config.isGeneratedLava() ? 
-														false 
-													: 
-														this.updateDefaultTexture(texturefx, imgData, tileWidth, Config.isAnimatedLava(), 3)
-												) 
-											: 
-												false
-										)
-								)
-						)
-				);
+		return this.texturePack.selectedTexturePack instanceof TexturePackDefault ? false : (texturefx.iconIndex == Block.waterStill.blockIndexInTexture ? (Config.isGeneratedWater() ? false : this.updateDefaultTexture(texturefx, imgData, tileWidth, false, 1)) : (texturefx.iconIndex == Block.waterStill.blockIndexInTexture + 1 ? (Config.isGeneratedWater() ? false : this.updateDefaultTexture(texturefx, imgData, tileWidth, Config.isAnimatedWater(), 1)) : (texturefx.iconIndex == Block.lavaStill.blockIndexInTexture ? (Config.isGeneratedLava() ? false : this.updateDefaultTexture(texturefx, imgData, tileWidth, false, 1)) : (texturefx.iconIndex == Block.lavaStill.blockIndexInTexture + 1 ? (Config.isGeneratedLava() ? false : this.updateDefaultTexture(texturefx, imgData, tileWidth, Config.isAnimatedLava(), 3)) : false))));
 	}
 
 	private boolean updateDefaultTexture(TextureFX texturefx, ByteBuffer imgData, int tileWidth, boolean scrolling, int scrollDiv) {

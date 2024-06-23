@@ -23,7 +23,7 @@ public class TileEntityRendererPiston extends TileEntitySpecialRenderer {
 			}
 
 			tessellator10.startDrawingQuads();
-			tessellator10.setTranslationD((double)((float)d2 - (float)tileEntityPiston1.xCoord + tileEntityPiston1.func_31017_b(f8)), (double)((float)d4 - (float)tileEntityPiston1.yCoord + tileEntityPiston1.func_31014_c(f8)), (double)((float)d6 - (float)tileEntityPiston1.zCoord + tileEntityPiston1.func_31013_d(f8)));
+			tessellator10.setTranslation((double)((float)d2 - (float)tileEntityPiston1.xCoord + tileEntityPiston1.func_31017_b(f8)), (double)((float)d4 - (float)tileEntityPiston1.yCoord + tileEntityPiston1.func_31014_c(f8)), (double)((float)d6 - (float)tileEntityPiston1.zCoord + tileEntityPiston1.func_31013_d(f8)));
 			tessellator10.setColorOpaque(1, 1, 1);
 			if(block9 == Block.pistonExtension && tileEntityPiston1.getProgress(f8) < 0.5F) {
 				this.field_31071_b.renderPistonExtensionAllFaces(block9, tileEntityPiston1.xCoord, tileEntityPiston1.yCoord, tileEntityPiston1.zCoord, false);
@@ -31,13 +31,13 @@ public class TileEntityRendererPiston extends TileEntitySpecialRenderer {
 				Block.pistonExtension.setHeadTexture(((BlockPistonBase)block9).getPistonExtensionTexture());
 				this.field_31071_b.renderPistonExtensionAllFaces(Block.pistonExtension, tileEntityPiston1.xCoord, tileEntityPiston1.yCoord, tileEntityPiston1.zCoord, tileEntityPiston1.getProgress(f8) < 0.5F);
 				Block.pistonExtension.clearHeadTexture();
-				tessellator10.setTranslationD((double)((float)d2 - (float)tileEntityPiston1.xCoord), (double)((float)d4 - (float)tileEntityPiston1.yCoord), (double)((float)d6 - (float)tileEntityPiston1.zCoord));
+				tessellator10.setTranslation((double)((float)d2 - (float)tileEntityPiston1.xCoord), (double)((float)d4 - (float)tileEntityPiston1.yCoord), (double)((float)d6 - (float)tileEntityPiston1.zCoord));
 				this.field_31071_b.renderPistonBaseAllFaces(block9, tileEntityPiston1.xCoord, tileEntityPiston1.yCoord, tileEntityPiston1.zCoord);
 			} else {
 				this.field_31071_b.func_31075_a(block9, tileEntityPiston1.xCoord, tileEntityPiston1.yCoord, tileEntityPiston1.zCoord);
 			}
 
-			tessellator10.setTranslationD(0.0D, 0.0D, 0.0D);
+			tessellator10.setTranslation(0.0D, 0.0D, 0.0D);
 			tessellator10.draw();
 			RenderHelper.enableStandardItemLighting();
 		}

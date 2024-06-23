@@ -1,53 +1,90 @@
 package net.minecraft.src;
 
 public enum EnumOptions {
-	MUSIC("options.music", true, false),
-	SOUND("options.sound", true, false),
-	INVERT_MOUSE("options.invertMouse", false, true),
-	SENSITIVITY("options.sensitivity", true, false),
-	RENDER_DISTANCE("options.renderDistance", false, false),
-	VIEW_BOBBING("options.viewBobbing", false, true),
-	ANAGLYPH("options.anaglyph", false, true),
-	ADVANCED_OPENGL("options.advancedOpengl", false, true),
-	FRAMERATE_LIMIT("options.framerateLimit", false, false),
-	DIFFICULTY("options.difficulty", false, false),
-	GRAPHICS("options.graphics", false, false),
-	AMBIENT_OCCLUSION("options.ao", false, true),
-	GUI_SCALE("options.guiScale", false, false),
+	MUSIC("MUSIC", 0, "options.music", true, false),
+	SOUND("SOUND", 1, "options.sound", true, false),
+	INVERT_MOUSE("INVERT_MOUSE", 2, "options.invertMouse", false, true),
+	SENSITIVITY("SENSITIVITY", 3, "options.sensitivity", true, false),
+	RENDER_DISTANCE("RENDER_DISTANCE", 4, "options.renderDistance", false, false),
+	VIEW_BOBBING("VIEW_BOBBING", 5, "options.viewBobbing", false, true),
+	ANAGLYPH("ANAGLYPH", 6, "options.anaglyph", false, true),
+	ADVANCED_OPENGL("ADVANCED_OPENGL", 7, "options.advancedOpengl", false, true),
+	FRAMERATE_LIMIT("FRAMERATE_LIMIT", 8, "options.framerateLimit", false, false),
+	DIFFICULTY("DIFFICULTY", 9, "options.difficulty", false, false),
+	GRAPHICS("GRAPHICS", 10, "options.graphics", false, false),
+	AMBIENT_OCCLUSION("AMBIENT_OCCLUSION", 11, "options.ao", false, true),
+	GUI_SCALE("GUI_SCALE", 12, "options.guiScale", false, false),
 	
-	IS_CREATIVE("options.isCreative", false, false),
-	ENABLE_CHEATS("options.enableCheats", false, false),
-	CRAFT_GUIDE("options.craftingGuide", false, false),
+	FOG_FANCY("FOG_FANCY", 13, "Fog", false, false),
+	FOG_START("FOG_START", 14, "Fog Start", false, false),
+	MIPMAP_LEVEL("MIPMAP_LEVEL", 15, "Mipmap Level", false, false),
+	MIPMAP_TYPE("MIPMAP_TYPE", 16, "Mipmap Type", false, false),
+	LOAD_FAR("LOAD_FAR", 18, "Load Far", false, false),
+	PRELOADED_CHUNKS("PRELOADED_CHUNKS", 19, "Preloaded Chunks", false, false),
+	SMOOTH_FPS("SMOOTH_FPS", 20, "Smooth FPS", false, false),
+	BRIGHTNESS("BRIGHTNESS", 21, "Brightness", true, false),
+	CLOUDS("CLOUDS", 22, "Clouds", false, false),
+	CLOUD_HEIGHT("CLOUD_HEIGHT", 23, "Cloud Height", true, false),
+	TREES("TREES", 24, "Trees", false, false),
+	GRASS("GRASS", 25, "Grass", false, false),
+	RAIN("RAIN", 27, "Rain & Snow", false, false),
+	WATER("RAIN", 28, "Water", false, false),
+	ANIMATED_WATER("ANIMATED_WATER", 29, "Water Animated", false, false),
+	ANIMATED_LAVA("ANIMATED_LAVA", 30, "Lava Animated", false, false),
+	ANIMATED_FIRE("ANIMATED_FLAMES", 31, "Fire Animated", false, false),
+	ANIMATED_PORTAL("ANIMATED_PORTAL", 32, "Portal Animated", false, false),
+	AO_LEVEL("AO_LEVEL", 33, "Smooth Lighting", true, false),
+	FAST_DEBUG_INFO("FAST_DEBUG_INFO", 34, "Fast Debug Info", false, false),
+	AUTOSAVE_TICKS("AUTOSAVE_TICKS", 35, "Autosave", false, false),
+	BETTER_GRASS("BETTER_GRASS", 36, "Better Grass", false, false),
+	ANIMATED_REDSTONE("ANIMATED_REDSTONE", 37, "Redstone Animated", false, false),
+	ANIMATED_EXPLOSION("ANIMATED_EXPLOSION", 38, "Explosion Animated", false, false),
+	ANIMATED_FLAME("ANIMATED_FLAME", 39, "Flame Animated", false, false),
+	ANIMATED_SMOKE("ANIMATED_SMOKE", 40, "Smoke Animated", false, false),
+	WEATHER("WEATHER", 41, "Weather", false, false),
+	SKY("SKY", 42, "Sky", false, false),
+	STARS("STARS", 43, "Stars", false, false),
+	FAR_VIEW("FAR_VIEW", 44, "Far View", false, false),
+	CHUNK_UPDATES("CHUNK_UPDATES", 45, "Chunk Updates", false, false),
+	CHUNK_UPDATES_DYNAMIC("CHUNK_UPDATES_DYNAMIC", 46, "Dynamic Updates", false, false),
+	TIME("TIME", 47, "Time", false, false),
+	CLEAR_WATER("CLEAR_WATER", 48, "Clear Water", false, false),
+	SMOOTH_INPUT("SMOOTH_INPUT", 49, "Smooth Input", false, false),
 	
-	CLEAR_WATERS("options.clearWaters", false, false),
-	FOV("options.fov", true, false),
-	GAMMA("options.gamma", true, false),
-	COLOURED_ATHMOSPHERICS("options.colouredAthmospherics", false, false),
-	DISPLAY_MODES("options.displayModes", false, false),
-	MELTBUILD("options.meltBuild", false, true), 
-	HAND("options.hand", false, true),
-	THREADED_LIGHT("options.threaded_light", false, true)
+	IS_CREATIVE("IS_CREATIVE", 50, "options.isCreative", false, false),
+	ENABLE_CHEATS("ENABLE_CHEATS", 51, "options.enableCheats", false, false),
+	CRAFT_GUIDE("CRAFTING_GUIDE", 52, "options.craftingGuide", false, false),
+	
+	CLEAR_WATERS("CLEAR_WATERS", 53, "options.clearWaters", false, false),
+	FOV("FOV", 54, "options.fov", true, false),
+	GAMMA("GAMMA", 55, "options.gamma", true, false),
+	COLOURED_ATHMOSPHERICS("COLOURED_ATHMOSPHERICS", 56, "options.colouredAthmospherics", false, false),
+	DISPLAY_MODES("DISPLAY_MODES", 57, "options.displayModes", false, false),
+	MELTBUILD("MELTBUILD", 58, "options.meltBuild", false, true), 
+	HAND("HAND", 59, "options.hand", false, true),
+	THREADED_LIGHT("THREADED_LIGHT", 60, "options.threaded_light", false, true), 
+	ANIMATED_TEXTURES("ANIMATED_TEXTURES", 61, "Animated Textures", false, false)
 	;
 
 	private final boolean enumFloat;
 	private final boolean enumBoolean;
 	private final String enumString;
 
-	public static EnumOptions getEnumOptions(int i0) {
-		EnumOptions[] enumOptions1 = values();
-		int i2 = enumOptions1.length;
+	public static EnumOptions getEnumOptions(int i) {
+		EnumOptions[] aenumoptions = values();
+		int j = aenumoptions.length;
 
-		for(int i3 = 0; i3 < i2; ++i3) {
-			EnumOptions enumOptions4 = enumOptions1[i3];
-			if(enumOptions4.returnEnumOrdinal() == i0) {
-				return enumOptions4;
+		for(int k = 0; k < j; ++k) {
+			EnumOptions enumoptions = aenumoptions[k];
+			if(enumoptions.returnEnumOrdinal() == i) {
+				return enumoptions;
 			}
 		}
 
 		return null;
 	}
 
-	private EnumOptions(String caption, boolean isFloat, boolean isBoolean) {
+	private EnumOptions(String whatever, int whatnot, String caption, boolean isFloat, boolean isBoolean) {
 		this.enumString = caption;
 		this.enumFloat = isFloat;
 		this.enumBoolean = isBoolean;
