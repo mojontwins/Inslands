@@ -34,14 +34,12 @@ I did a very nice vanilla Indev in beta, it's so nice but:
 1.- Add passing of days to get seasons working.
 2.- SMP of course
 
-<<<<<<< HEAD
 # 2nd iteration
 
 Most of the stuff never got done, but I have limited worlds with Indev themes. Now I want to take every theme and make a slightly different experience. The 1st I'm visiting is the Hell theme which would need a ways to make trees renewable. Remember that trees spawn without canopy.
 
 THe way is using acorn seeds, which you can plan in the groudn to get oak saplings. Acorn seeds are sometimes dropped by skeletons.  
 
-=======
 # Wha
 
 Added 0 notes during months. It's quite evolved and works great. Uses lightmaps and starlight and actually runs at a very good frame rate on very old or very limited hardware, which was the goal.
@@ -162,3 +160,4 @@ Yay! fps boosted on shitty systems!
 * [ ] Add "Override level test" to level creation extra options to override "level is valid" check
 * [ ] Add a biome map. Simple, don't over do it. Use PostAlpha's.
 * [ ] Remove optifog log and other stupid shit.
+* [ ] Add "preferredWorldgen" to levelthemes and de-hardcode it

@@ -1,0 +1,13 @@
+{
+  "user":{
+    "name":"Player415",
+    "sessionid":"local"
+  },
+  "stats-change":[
+    {"1002":1},
+    {"1000":1},
+    {"5242932":1},
+    {"1100":174}
+  ],
+  "checksum":"2a5cc2b2ac6642b8f2596a81ae496814"
+}
