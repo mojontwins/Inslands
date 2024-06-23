@@ -128,3 +128,4 @@ Now spice it up a bit:
 * [X] Very important modification! upon processing the entity list, only update those within a square radius of 8 chunks in every direction, which saves TONS of time in BIG and HUGE levels! 
 
 * [ ] Themed dungeons ? was that a thing? (i.e. select spawner characteristics)
+* [ ] Add "preferredWorldgen" to levelthemes and de-hardcode it
