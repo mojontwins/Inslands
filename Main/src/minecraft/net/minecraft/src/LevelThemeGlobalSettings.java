@@ -13,21 +13,25 @@ public class LevelThemeGlobalSettings {
 	public static boolean canSnow = true;
 	public static boolean canRain = true;
 	public static boolean canThunder = true;
+	public static float fixedCelestialAngle = -1;
+	public static boolean sunriseSunsetColors = false;
 	
 	public static void loadThemeById(int id) {
 		LevelThemeSettings settings = LevelThemeSettings.findThemeById(id);
 		if(settings != null) {
 			lightMultiplier = settings.lightMultiplier;
 			dayCycle = settings.dayCycle;
-			levelThemeMainBiome = settings.levelThemeMainBiome; // TODO: If this is null, do natural ramp-based biomes
-			temperature = settings.temperature; 				// So those 
-			humidity = settings.humidity;						// should be somehow ignored? 
+			levelThemeMainBiome = settings.levelThemeMainBiome;
+			temperature = settings.temperature;
+			humidity = settings.humidity;
 			permaSeason = settings.permaSeason;
 			overlay = -1;
 			canSnow = settings.canSnow;
 			canRain = settings.canRain;
 			canThunder = settings.canThunder;
 			themeID = id;
+			fixedCelestialAngle = settings.fixedCelestialAngle;
+			sunriseSunsetColors = settings.sunriseSunsetColors;
 		}
 	}
 

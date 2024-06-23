@@ -1259,7 +1259,6 @@ public class World implements IBlockAccess {
 	}
 
 	public float getSunBrightness(float f1) {
-		//float f2 = this.getCelestialAngle(f1);
 		float f2 = this.getCelestialAngle(f1);
 		float f3 = 1.0F - (MathHelper.cos(f2 * (float)Math.PI * 2.0F) * 2.0F + 0.2F);
 		if(f3 < 0.0F) {
@@ -1361,6 +1360,7 @@ public class World implements IBlockAccess {
 	}
 
 	public float getCelestialAngle(float f1) {
+		if(LevelThemeGlobalSettings.fixedCelestialAngle >= 0) return LevelThemeGlobalSettings.fixedCelestialAngle;
 		return this.worldProvider.calculateCelestialAngle(this.worldInfo.getWorldTime(), f1);
 	}
 

@@ -682,47 +682,46 @@ public class RenderGlobal implements IWorldAccess {
 			float f11;
 			float f12;
 
-			// Softlocked for a1.1.2
-			/*
-			float[] f18 = this.worldObj.worldProvider.calcSunriseSunsetColors(this.worldObj.getCelestialAngle(f1), f1);
-			if(f18 != null) {
-				GL11.glDisable(GL11.GL_TEXTURE_2D);
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				GL11.glPushMatrix();
-				GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
-				f8 = this.worldObj.getCelestialAngle(f1);
-				GL11.glRotatef(f8 > 0.5F ? 180.0F : 0.0F, 0.0F, 0.0F, 1.0F);
-				f9 = f18[0];
-				f10 = f18[1];
-				f11 = f18[2];
-				float f14;
-				if(this.mc.gameSettings.anaglyph) {
-					f12 = (f9 * 30.0F + f10 * 59.0F + f11 * 11.0F) / 100.0F;
-					float f13 = (f9 * 30.0F + f10 * 70.0F) / 100.0F;
-					f14 = (f9 * 30.0F + f11 * 70.0F) / 100.0F;
-					f9 = f12;
-					f10 = f13;
-					f11 = f14;
+			if(LevelThemeGlobalSettings.sunriseSunsetColors) {
+				float[] f18 = this.worldObj.worldProvider.calcSunriseSunsetColors(this.worldObj.getCelestialAngle(f1), f1);
+				if(f18 != null) {
+					GL11.glDisable(GL11.GL_TEXTURE_2D);
+					GL11.glShadeModel(GL11.GL_SMOOTH);
+					GL11.glPushMatrix();
+					GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
+					f8 = this.worldObj.getCelestialAngle(f1);
+					GL11.glRotatef(f8 > 0.5F ? 180.0F : 0.0F, 0.0F, 0.0F, 1.0F);
+					f9 = f18[0];
+					f10 = f18[1];
+					f11 = f18[2];
+					float f14;
+					if(this.mc.gameSettings.anaglyph) {
+						f12 = (f9 * 30.0F + f10 * 59.0F + f11 * 11.0F) / 100.0F;
+						float f13 = (f9 * 30.0F + f10 * 70.0F) / 100.0F;
+						f14 = (f9 * 30.0F + f11 * 70.0F) / 100.0F;
+						f9 = f12;
+						f10 = f13;
+						f11 = f14;
+					}
+	
+					tessellator17.startDrawing(6);
+					tessellator17.setColorRGBA_F(f9, f10, f11, f18[3]);
+					tessellator17.addVertex(0.0D, 100.0D, 0.0D);
+					byte b19 = 16;
+					tessellator17.setColorRGBA_F(f18[0], f18[1], f18[2], 0.0F);
+	
+					for(int i20 = 0; i20 <= b19; ++i20) {
+						f14 = (float)i20 * (float)Math.PI * 2.0F / (float)b19;
+						float f15 = MathHelper.sin(f14);
+						float f16 = MathHelper.cos(f14);
+						tessellator17.addVertex((double)(f15 * 120.0F), (double)(f16 * 120.0F), (double)(-f16 * 40.0F * f18[3]));
+					}
+	
+					tessellator17.draw();
+					GL11.glPopMatrix();
+					GL11.glShadeModel(GL11.GL_FLAT);
 				}
-
-				tessellator17.startDrawing(6);
-				tessellator17.setColorRGBA_F(f9, f10, f11, f18[3]);
-				tessellator17.addVertex(0.0D, 100.0D, 0.0D);
-				byte b19 = 16;
-				tessellator17.setColorRGBA_F(f18[0], f18[1], f18[2], 0.0F);
-
-				for(int i20 = 0; i20 <= b19; ++i20) {
-					f14 = (float)i20 * (float)Math.PI * 2.0F / (float)b19;
-					float f15 = MathHelper.sin(f14);
-					float f16 = MathHelper.cos(f14);
-					tessellator17.addVertex((double)(f15 * 120.0F), (double)(f16 * 120.0F), (double)(-f16 * 40.0F * f18[3]));
-				}
-
-				tessellator17.draw();
-				GL11.glPopMatrix();
-				GL11.glShadeModel(GL11.GL_FLAT);
 			}
-			*/
 
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);

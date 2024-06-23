@@ -147,6 +147,17 @@ Yay! fps boosted on shitty systems!
 
 	`fixedCelestialAngle`.
 
-	* For hell: `0.8F`
+	* For hell: Day cycle.
+	* For forest: Check vanilla twilite
 	* For paradise: `1.0F` (still doesn't seem to affect????  HOW TF DO I DO THIS LOL)
+
+	Celestial angle is advancing normally, or so it seems. So it has to be lightmap related? Nah I was being stupid. Paradise is summer so time set night which sets 13000 still gets daylight.
+
+	OK
+
+	Forget the ton of paragraphs. Implemeting this rn.
+
+
 * [ ] Think about gameplay items for a desert and a glacier based theme (for the future).
+* [ ] Add "Override level test" to level creation extra options to override "level is valid" check
+* [ ] Add a biome map. Simple, don't over do it. Use PostAlpha's.

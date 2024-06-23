@@ -416,7 +416,7 @@ public class EntityRenderer {
 				for(int i2 = 0; i2 < 256; ++i2) {
 					float f3 = sb * 0.95F + 0.05F;
 					float f4 = world1.worldProvider.lightBrightnessTable[i2 / 16] * f3;
-					float f5 = world1.worldProvider.lightBrightnessTable[i2 % 16]/* * (this.torchFlickerX * 0.1F + 1.5F)*/;
+					float f5 = world1.worldProvider.lightBrightnessTable[i2 % 16];
 					if(world1.lightningFlash > 0) {
 						f4 = world1.worldProvider.lightBrightnessTable[i2 / 16];
 					}
