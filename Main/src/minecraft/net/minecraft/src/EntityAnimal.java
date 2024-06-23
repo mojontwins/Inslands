@@ -21,10 +21,14 @@ public abstract class EntityAnimal extends EntityCreature implements IAnimals {
 		int i1 = MathHelper.floor_double(this.posX);
 		int i2 = MathHelper.floor_double(this.boundingBox.minY);
 		int i3 = MathHelper.floor_double(this.posZ);
-		return this.worldObj.getBlockId(i1, i2 - 1, i3) == Block.grass.blockID && this.worldObj.getFullBlockLightValue(i1, i2, i3) > 8 && super.getCanSpawnHere();
+		return this.worldObj.getBlockId(i1, i2 - 1, i3) == Block.grass.blockID && (this.worldObj.getFullBlockLightValue(i1, i2, i3) > 8 || !this.needsLitBlockToSpawn()) && super.getCanSpawnHere();
 	}
 
 	public int getTalkInterval() {
 		return 120;
+	}
+	
+	public boolean needsLitBlockToSpawn() {
+		return true;
 	}
 }

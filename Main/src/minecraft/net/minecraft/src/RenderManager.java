@@ -12,10 +12,17 @@ import com.benimatic.twilightforest.EntityTFMinotaur;
 import com.benimatic.twilightforest.EntityTFRedcap;
 import com.benimatic.twilightforest.EntityTFSwarmSpider;
 import com.benimatic.twilightforest.EntityTFWraith;
+import com.benimatic.twilightforest.EntityTwilightBighorn;
+import com.benimatic.twilightforest.EntityTwilightBoar;
+import com.benimatic.twilightforest.EntityTwilightDeer;
+import com.benimatic.twilightforest.ModelBighornFur;
 import com.benimatic.twilightforest.ModelTFKobold;
 import com.benimatic.twilightforest.ModelTFMinoshroom;
 import com.benimatic.twilightforest.ModelTFMinotaur;
 import com.benimatic.twilightforest.ModelTFRedcap;
+import com.benimatic.twilightforest.ModelTwilightBighorn;
+import com.benimatic.twilightforest.ModelTwilightBoar;
+import com.benimatic.twilightforest.ModelTwilightDeer;
 import com.benimatic.twilightforest.RenderTFMinoshroom;
 import com.benimatic.twilightforest.RenderTFSwarmSpider;
 import com.benimatic.twilightforest.RenderTFWraith;
@@ -145,6 +152,9 @@ public class RenderManager {
 		this.entityRenderMap.put(EntityTFMinoshroom.class, new RenderTFMinoshroom(new ModelTFMinoshroom(), 0.625F));
 		this.entityRenderMap.put(EntityTFKobold.class, new RenderBiped(new ModelTFKobold(), 0.625F));
 		this.entityRenderMap.put(EntityTFSwarmSpider.class, new RenderTFSwarmSpider());
+		this.entityRenderMap.put(EntityTwilightBoar.class, new RenderPig(new ModelTwilightBoar(), new ModelPig(0.5F), 0.7F));
+		this.entityRenderMap.put(EntityTwilightBighorn.class, new RenderSheep(new ModelTwilightBighorn(), new ModelBighornFur(), 0.7F));
+		this.entityRenderMap.put(EntityTwilightDeer.class, new RenderCow(new ModelTwilightDeer(), 0.7F));
 		
 		// Better Dungeons
 		this.entityRenderMap.put(EntityPirate.class, new RenderHuman(new ModelHuman(), 0.5F));

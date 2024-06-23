@@ -5,11 +5,15 @@ import java.util.Random;
 import com.benimatic.twilightforest.EntityTFHedgeSpider;
 import com.benimatic.twilightforest.EntityTFKobold;
 import com.benimatic.twilightforest.EntityTFRedcap;
+import com.benimatic.twilightforest.EntityTwilightBighorn;
+import com.benimatic.twilightforest.EntityTwilightBoar;
+import com.benimatic.twilightforest.EntityTwilightDeer;
+import com.benimatic.twilightforest.TFGenCanopyTree;
 import com.benimatic.twilightforest.TFGenHillMaze;
 import com.mojang.minecraft.ocelot.EntityBetaOcelot;
 
-public class BiomeGenThickForest extends BiomeGenForest {
-	public BiomeGenThickForest() {
+public class BiomeGenThemeForest extends BiomeGenForest {
+	public BiomeGenThemeForest() {
 		super();
 		this.overrideSkyColor = 0x757D87;
 		this.overrideFogColor = 0x4D5A5B;
@@ -21,6 +25,13 @@ public class BiomeGenThickForest extends BiomeGenForest {
 		this.redFlowersAttempts = 16;
 		this.yellowFlowersAttempts = 24;
 		
+		// Replace with TF variants
+		this.spawnableCreatureList.clear();
+		this.spawnableCreatureList.add(new SpawnListEntry(EntityTwilightBighorn.class, 12));
+		this.spawnableCreatureList.add(new SpawnListEntry(EntityTwilightBoar.class, 10));
+		this.spawnableCreatureList.add(new SpawnListEntry(EntityChickenBlack.class, 10));
+		this.spawnableCreatureList.add(new SpawnListEntry(EntityTwilightDeer.class, 8));
+				
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityWolf.class, 2));
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityBetaOcelot.class, 5, true));
 		
@@ -42,6 +53,7 @@ public class BiomeGenThickForest extends BiomeGenForest {
 	}
 	
 	public WorldGenerator getTreeGen(Random rand) {
+		if(rand.nextInt(5) == 0) return new TFGenCanopyTree();
 		if(rand.nextBoolean()) {
 			return new WorldGenTrees();
 		} else {

@@ -19,18 +19,30 @@ public class LevelThemeSettings {
 	public boolean canThunder = true;
 	public float fixedCelestialAngle = -1;
 	public boolean sunriseSunsetColors = false;
+	public boolean colourfulFlock = false;
+	public int preferredWorldType = -1;
 
 	public static List<LevelThemeSettings> allThemeSettings = new ArrayList<LevelThemeSettings> ();
 	
 	public static LevelThemeSettings normal = new LevelThemeSettings(0).setName("Normal").setLightMultiplier(1.0F).setDayCycle(true).setLevelThemeMainBiome(BiomeGenBase.biomeDefault).setTemperature(0.6D).setHumidity(0.6D).setOverlay(-1);
 	public static LevelThemeSettings hell = new LevelThemeSettings(1).setName("Hell").setLightMultiplier(0.4F).setDayCycle(true).setLevelThemeMainBiome(BiomeGenBase.themeHell).setTemperature(1.0D).setHumidity(0.1D).setOverlay(-1);
-	public static LevelThemeSettings forest = new LevelThemeSettings(2).setName("Forest").setLightMultiplier(0.8F).setDayCycle(true).setLevelThemeMainBiome(BiomeGenBase.themeForest).withFixedCelestialAngle(0.24F).withSunriseSunsetColors(true).setTemperature(0.4D).setHumidity(0.9D).setOverlay(-1);
-	public static LevelThemeSettings paradise = new LevelThemeSettings(3).setName("Paradise").setLightMultiplier(1.0F).setDayCycle(false).setLevelThemeMainBiome(BiomeGenBase.themeParadise).withFixedCelestialAngle(1.0F).setTemperature(0.6D).setHumidity(0.6D).setPermaSeason(Seasons.SUMMER).setOverlay(0x20F9FFA0).setCanRain(false).setCanSnow(false).setCanThunder(false);
+	public static LevelThemeSettings forest = new LevelThemeSettings(2).setName("Forest").setLightMultiplier(0.8F).setDayCycle(true).setLevelThemeMainBiome(BiomeGenBase.themeForest).withPreferredWorldType(WorldType.INFDEV.id).withFixedCelestialAngle(0.24F).withSunriseSunsetColors(true).withColourfulFlock(true).setTemperature(0.4D).setHumidity(0.9D).setOverlay(-1);
+	public static LevelThemeSettings paradise = new LevelThemeSettings(3).setName("Paradise").setLightMultiplier(1.0F).setDayCycle(false).setLevelThemeMainBiome(BiomeGenBase.themeParadise).withPreferredWorldType(WorldType.SKY.id).withFixedCelestialAngle(1.0F).setTemperature(0.6D).setHumidity(0.6D).setPermaSeason(Seasons.SUMMER).setOverlay(0x20F9FFA0).setCanRain(false).setCanSnow(false).setCanThunder(false);
 	public static LevelThemeSettings biomes = new LevelThemeSettings(4).setName("Multi Biomes").setLightMultiplier(1.0F).setDayCycle(true).setLevelThemeMainBiome(null);
 	
 	public LevelThemeSettings(int id) {
 		this.id = id;
 		allThemeSettings.add(id, this);
+	}
+
+	private LevelThemeSettings withPreferredWorldType(int id2) {
+		this.preferredWorldType = id2;
+		return this;
+	}
+
+	private LevelThemeSettings withColourfulFlock(boolean b) {
+		this.colourfulFlock = b;
+		return this;
 	}
 
 	public static LevelThemeSettings findThemeById(int id) {

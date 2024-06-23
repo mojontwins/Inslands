@@ -133,10 +133,10 @@ Yay! fps boosted on shitty systems!
 
 ## New stuff
 
-* [ ] Use b173 Twilight Forest entities for animales in the forest theme.
-* [ ] Undo (if done) the level theme based temperature/humidity and extract it from the biome.
-* [ ] Make it so if the level theme based fixed biome is null, it uses the normal ramp for a new theme "biomes".
-* [ ] Attempt to make a more flexible day cycle management (i.e. fixed celestial angle based upon level theme, not world provider) 
+* [X] Use b173 Twilight Forest entities for animales in the forest theme.
+* [X] Undo (if done) the level theme based temperature/humidity and extract it from the biome.
+* [X] Make it so if the level theme based fixed biome is null, it uses the normal ramp for a new theme "biomes".
+* [X] Attempt to make a more flexible day cycle management (i.e. fixed celestial angle based upon level theme, not world provider) 
 	(RN how does it do the fixed hour in paradise / hell? Can't understand HOW!!) 
 
 	In hell you can get night, not in paradise. The only difference is on level theme settings: dayCycle = false. But that flag only seems to be used to run the bad moon logic or not.
@@ -160,4 +160,5 @@ Yay! fps boosted on shitty systems!
 * [ ] Add "Override level test" to level creation extra options to override "level is valid" check
 * [ ] Add a biome map. Simple, don't over do it. Use PostAlpha's.
 * [ ] Remove optifog log and other stupid shit.
-* [ ] Add "preferredWorldgen" to levelthemes and de-hardcode it
+* [X] Add "preferredWorldgen" to levelthemes and de-hardcode it
+* [X] Add torches to some trees, somehow

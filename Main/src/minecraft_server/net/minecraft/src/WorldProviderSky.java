@@ -5,14 +5,18 @@ public class WorldProviderSky extends WorldProvider {
 	public IChunkProvider getChunkProvider() {
 		return new ChunkProviderSky(this.worldObj, this.worldObj.getRandomSeed());
 	}
-
+ 
+	/*
 	public float calculateCelestialAngle(long j1, float f3) {
 		return 0.0F;
 	}
+	*/
 
+	/*
 	public float[] calcSunriseSunsetColors(float f1, float f2) {
 		return null;
 	}
+	*/
 
 	public boolean func_28112_c() {
 		return false;

@@ -27,9 +27,9 @@ import com.mojang.minecraft.creative.GuiContainerCreative;
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.BiomeGenBase;
-import net.minecraft.src.BiomeGenParadise;
+import net.minecraft.src.BiomeGenThemeParadise;
 import net.minecraft.src.BiomeGenThemeHell;
-import net.minecraft.src.BiomeGenThickForest;
+import net.minecraft.src.BiomeGenThemeForest;
 import net.minecraft.src.Block;
 import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.src.ColorizerFoliage;
@@ -1235,9 +1235,9 @@ public abstract class Minecraft implements Runnable {
 				BiomeGenBase biome = this.theWorld.getBiomeGenAt((int)this.thePlayer.posX, (int)this.thePlayer.posZ);
 				if(biome instanceof BiomeGenThemeHell) {
 					this.thePlayer.triggerAchievement(AchievementList.themeHell);
-				} else if(biome instanceof BiomeGenThickForest) {
+				} else if(biome instanceof BiomeGenThemeForest) {
 					this.thePlayer.triggerAchievement(AchievementList.themeForest);
-				} else if(biome instanceof BiomeGenParadise) {
+				} else if(biome instanceof BiomeGenThemeParadise) {
 					this.thePlayer.triggerAchievement(AchievementList.themeParadise);
 				}
 			}

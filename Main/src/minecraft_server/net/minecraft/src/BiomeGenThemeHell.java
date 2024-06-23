@@ -10,7 +10,7 @@ public class BiomeGenThemeHell extends BiomeGenBase {
 		this.overrideFogColor = 0x100400;
 		this.overrideCloudColor = 0x210800;
 		
-		this.bigTreesEach10Trees = 2;
+		this.bigTreesEach10Trees = 1;
 		this.mushroomBrownChance = 1;
 		this.mushroomRedChance = 2;
 		this.lavaAttempts = 50;

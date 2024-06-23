@@ -237,8 +237,12 @@ public class GuiCreateWorld extends GuiScreen {
 					this.themeId = 0;
 				}
 
+				/*
 				if(this.themeId == LevelThemeSettings.paradise.id) this.worldType = WorldType.SKY.id;
 				if(this.themeId == LevelThemeSettings.forest.id) this.worldType = WorldType.INFDEV.id;
+				*/
+				int tentativeWorldType = LevelThemeSettings.findThemeById(this.themeId).preferredWorldType;
+				if(tentativeWorldType >= 0) this.worldType = tentativeWorldType;
 				
 				this.updateCaptions();
 			} else if(par1GuiButton.id == 9) {

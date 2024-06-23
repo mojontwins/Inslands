@@ -3,6 +3,7 @@ package com.misc.aether;
 import java.util.Random;
 
 import net.minecraft.src.Block;
+import net.minecraft.src.GlobalVars;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.TileEntityChest;
@@ -63,6 +64,9 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
 				chest.setInventorySlotContents(random.nextInt(chest.getSizeInventory()), q);
 			}
 
+			// Mark as generated
+			GlobalVars.hasBronzeDungeon = true;
+			
 			x = i + 20;
 			z = k + 2;
 			if(!this.isBoxSolidRelaxed(world, x, j, z, 12, 12, 12)) {

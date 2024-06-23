@@ -8,9 +8,9 @@ import com.misc.aether.EntityFlyingCow;
 import com.misc.aether.EntityPhyg;
 import com.misc.aether.EntitySheepuff;
 
-public class BiomeGenParadise extends BiomeGenBase {
+public class BiomeGenThemeParadise extends BiomeGenBase {
 
-	public BiomeGenParadise() {
+	public BiomeGenThemeParadise() {
 		this.overrideSkyColor = 0xC6DEFF;
 		this.overrideFogColor = 0xC6DEFF;
 		this.overrideCloudColor = 0xEEEEFF;
@@ -20,7 +20,7 @@ public class BiomeGenParadise extends BiomeGenBase {
 		
 		this.foliageColorizer = 0;
 		
-		// TODO: Refine which monsters should appear...
+		// Refine which monsters should appear...
 		this.spawnableMonsterList.clear();
 		this.spawnableMonsterList.add(new SpawnListEntry(EntitySpider.class, 10));
 		this.spawnableMonsterList.add(new SpawnListEntry(EntityZombie.class, 10));
@@ -28,7 +28,7 @@ public class BiomeGenParadise extends BiomeGenBase {
 		this.spawnableMonsterList.add(new SpawnListEntry(EntityCreeper.class, 10));
 		this.spawnableMonsterList.add(new SpawnListEntry(EntitySlime.class, 10));
 		
-		// TODO: Replace with aether variants
+		// Replace with aether variants
 		this.spawnableCreatureList.clear();
 		this.spawnableCreatureList.add(new SpawnListEntry(EntitySheepuff.class, 12));
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityPhyg.class, 10));
