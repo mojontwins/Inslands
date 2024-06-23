@@ -161,3 +161,4 @@ Yay! fps boosted on shitty systems!
 * [ ] Think about gameplay items for a desert and a glacier based theme (for the future).
 * [ ] Add "Override level test" to level creation extra options to override "level is valid" check
 * [ ] Add a biome map. Simple, don't over do it. Use PostAlpha's.
+* [ ] Remove optifog log and other stupid shit.
