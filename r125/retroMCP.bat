@@ -1,1 +1,0 @@
-"C:\Program Files\Java\jdk-1.8\bin\javaw.exe" -jar RetroMCP-Java-all.jar
