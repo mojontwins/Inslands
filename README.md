@@ -128,3 +128,25 @@ Now spice it up a bit:
 * [X] Very important modification! upon processing the entity list, only update those within a square radius of 8 chunks in every direction, which saves TONS of time in BIG and HUGE levels! 
 
 * [ ] Themed dungeons ? was that a thing? (i.e. select spawner characteristics)
+
+## Added optifine
+
+Yay! fps boosted on shitty systems!
+
+## New stuff
+
+* [ ] Use b173 Twilight Forest entities for animales in the forest theme.
+* [ ] Undo (if done) the level theme based temperature/humidity and extract it from the biome.
+* [ ] Make it so if the level theme based fixed biome is null, it uses the normal ramp for a new theme "biomes".
+* [ ] Attempt to make a more flexible day cycle management (i.e. fixed celestial angle based upon level theme, not world provider) 
+	(RN how does it do the fixed hour in paradise / hell? Can't understand HOW!!) 
+
+	In hell you can get night, not in paradise. The only difference is on level theme settings: dayCycle = false. But that flag only seems to be used to run the bad moon logic or not.
+
+	OH. It seems to be tied to the world provider. FUCK. It is fixed to 0 for the world provider sky. I would get day cycle in another world provider for paradise. Time to make properl logic for this.
+
+	`fixedCelestialAngle`.
+
+	* For hell: `0.8F`
+	* For paradise: `1.0F` (still doesn't seem to affect????  HOW TF DO I DO THIS LOL)
+* [ ] Think about gameplay items for a desert and a glacier based theme (for the future).

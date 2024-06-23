@@ -17,6 +17,7 @@ public class LevelThemeSettings {
 	public boolean canSnow = true;
 	public boolean canRain = true;
 	public boolean canThunder = true;
+	public float fixedCelestialAngle = -1;
 
 	public static List<LevelThemeSettings> allThemeSettings = new ArrayList<LevelThemeSettings> ();
 	
@@ -98,6 +99,11 @@ public class LevelThemeSettings {
 	
 	public LevelThemeSettings setCanThunder(boolean canThunder) {
 		this.canThunder = canThunder;
+		return this;
+	}
+	
+	public LevelThemeSettings withFixedCelestialAngle(float celestialAngle) {
+		this.fixedCelestialAngle = celestialAngle;
 		return this;
 	}
 }

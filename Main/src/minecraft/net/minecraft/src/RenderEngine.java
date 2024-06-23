@@ -47,7 +47,6 @@ public class RenderEngine {
 	private int tickCounter = 0;
 	private ByteBuffer[] mipImageDatas;
 	private boolean dynamicTexturesUpdated = false;
-	private boolean animatedTexturesFirstTime = false;
 	
 	public RenderEngine(TexturePackList texturePackList1, GameSettings gameSettings2) {
 		this.allocateImageData(256);
@@ -65,8 +64,6 @@ public class RenderEngine {
 		graphics3.setColor(Color.BLACK);
 		graphics3.drawString("missingtex", 1, 10);
 		graphics3.dispose();
-		
-		this.animatedTexturesFirstTime = false;
 	}
 
 	public int[] getTextureContents(String string1) {
@@ -527,8 +524,7 @@ public class RenderEngine {
 
 					if(this.imageData.limit() <= 0) {
 						
-						if(!Config.isAnimatedTextures() && this.animatedTexturesFirstTime) continue; 
-						this.animatedTexturesFirstTime = true;
+						if(!Config.isAnimatedTextures()) continue; 
 						
 						texturefx1.onTick();
 							

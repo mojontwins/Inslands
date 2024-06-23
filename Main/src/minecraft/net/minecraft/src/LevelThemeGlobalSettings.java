@@ -19,9 +19,9 @@ public class LevelThemeGlobalSettings {
 		if(settings != null) {
 			lightMultiplier = settings.lightMultiplier;
 			dayCycle = settings.dayCycle;
-			levelThemeMainBiome = settings.levelThemeMainBiome;
-			temperature = settings.temperature;
-			humidity = settings.humidity;
+			levelThemeMainBiome = settings.levelThemeMainBiome; // TODO: If this is null, do natural ramp-based biomes
+			temperature = settings.temperature; 				// So those 
+			humidity = settings.humidity;						// should be somehow ignored? 
 			permaSeason = settings.permaSeason;
 			overlay = -1;
 			canSnow = settings.canSnow;

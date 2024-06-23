@@ -214,7 +214,7 @@ public class GuiIngame extends Gui {
 			fontRenderer8.drawStringWithShadow("Pos: " + (int)this.mc.thePlayer.posX + ", " + (int)this.mc.thePlayer.posY + ", " + (int)this.mc.thePlayer.posZ + " [" + (int)this.mc.thePlayer.rotationYaw + "]", 2, 42, 0xFFFFFF);
 			
 			float timeAdjusted = (float) (this.mc.theWorld.worldInfo.getWorldTime() % 24000);
-			fontRenderer8.drawStringWithShadow("Time: " + this.twoDigits((int)((timeAdjusted / 1000.0F) + 6) % 24) + ":" + this.twoDigits((int)((timeAdjusted % 1000.0F) * 60 / 1000)), 2, 52, 0xFFFFFF);
+			fontRenderer8.drawStringWithShadow("Time: " + this.twoDigits((int)((timeAdjusted / 1000.0F) + 6) % 24) + ":" + this.twoDigits((int)((timeAdjusted % 1000.0F) * 60 / 1000)) + " CA:" + this.mc.theWorld.getCelestialAngle(1.0F), 2, 52, 0xFFFFFF);
 			
 			String string21 = "Seed: " + this.mc.theWorld.getRandomSeed();
 			this.drawString(fontRenderer8, string21, i6 - fontRenderer8.getStringWidth(string21) - 2, 22, 14737632);

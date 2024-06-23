@@ -505,6 +505,8 @@ public class GameSettings {
 		if(enumOptions1 == EnumOptions.SENSITIVITY) return this.mouseSensitivity;
 		if(enumOptions1 == EnumOptions.FOV) return (float)this.FOV / 60.0F;
 		if(enumOptions1 == EnumOptions.GAMMA) return this.gammaSetting;
+		if(enumOptions1 == EnumOptions.CLOUD_HEIGHT) return this.gammaSetting;
+		if(enumOptions1 == EnumOptions.AO_LEVEL) return this.ofAoLevel;
 		
 		return 0.0F;
 	}
@@ -555,6 +557,14 @@ public class GameSettings {
 				return s + df.format(f5);
 			} else if(enumOptions1 == EnumOptions.FOV) {
 				return s + (70 + (int)(f5 * 60)) + "º";
+			} else if(enumOptions1 == EnumOptions.AO_LEVEL) {
+				if(f5 == 0.0F) {
+					return s + stringTranslate2.translateKey("options.off");
+				} else if(f5 == 1.0F) {
+					return s + "Full";
+				} else {
+					return s + (int)(f5 * 100.0F) + "%";
+				}
 			} else {
 				if(f5 == 0.0F) {
 					return s + stringTranslate2.translateKey("options.off");
@@ -666,6 +676,7 @@ public class GameSettings {
 					}
 				}
 				case ANIMATED_FIRE: return this.ofAnimatedFire ? s + "ON" : s + "OFF";
+				case ANIMATED_TEXTURES: return this.animatedTextures ? s + "ON" : s + "OFF";
 				case ANIMATED_PORTAL: return this.ofAnimatedPortal ? s + "ON" : s + "OFF";
 				case ANIMATED_REDSTONE: return this.ofAnimatedRedstone ? s + "ON" : s + "OFF";
 				case ANIMATED_EXPLOSION: return this.ofAnimatedExplosion ? s + "ON" : s + "OFF";
@@ -769,7 +780,7 @@ public class GameSettings {
 						this.threadedLighting = string3[1].equals("true");
 					}
 
-					if(string3[0].equals("ao")) {
+					if(string3[0].equals("	")) {
 						this.ambientOcclusion = string3[1].equals("true");
 						if(this.ambientOcclusion) {
 							this.ofAoLevel = 1.0F;
