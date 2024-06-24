@@ -1,0 +1,127 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 1396736 bytes for card table expansion
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_windows.cpp:3488), pid=6948, tid=0x0000000000000b98
+#
+# JRE version:  (8.0_412-b08) (build )
+# Java VM: OpenJDK 64-Bit Server VM (25.412-b08 mixed mode windows-amd64 compressed oops)
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x0000020e81ec5000):  JavaThread "Unknown thread" [_thread_in_vm, id=2968, stack(0x000000132da00000,0x000000132db00000)]
+
+Stack: [0x000000132da00000,0x000000132db00000]
+[error occurred during error reporting (printing stack bounds), id 0xc0000005]
+
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+
+Other Threads:
+
+=>0x0000020e81ec5000 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=2968, stack(0x000000132da00000,0x000000132db00000)]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+heap address: 0x00000000c0000000, size: 1024 MB, Compressed Oops mode: Non-zero based:0x00000000bffff000
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 0
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (0 events):
+No events
+
+
+Dynamic libraries:
+0x00007ff707c20000 - 0x00007ff707c71000 	C:\cosas\zulu8.78.0.19-ca-jdk8.0.412-win_x64\bin\javaw.exe
+0x00007fff3faa0000 - 0x00007fff3fc8d000 	C:\Windows\SYSTEM32\ntdll.dll
+0x00007fff3f7e0000 - 0x00007fff3f893000 	C:\Windows\System32\KERNEL32.DLL
+0x00007fff3c040000 - 0x00007fff3c2d3000 	C:\Windows\System32\KERNELBASE.dll
+0x00007fff3ce00000 - 0x00007fff3cea3000 	C:\Windows\System32\ADVAPI32.dll
+0x00007fff3d3d0000 - 0x00007fff3d46e000 	C:\Windows\System32\msvcrt.dll
+0x00007fff3d330000 - 0x00007fff3d3ce000 	C:\Windows\System32\sechost.dll
+0x00007fff3d5c0000 - 0x00007fff3d6e2000 	C:\Windows\System32\RPCRT4.dll
+0x00007fff3ec80000 - 0x00007fff3ee17000 	C:\Windows\System32\USER32.dll
+0x00007fff3cc30000 - 0x00007fff3cc50000 	C:\Windows\System32\win32u.dll
+0x00007fff3ee20000 - 0x00007fff3ee49000 	C:\Windows\System32\GDI32.dll
+0x00007fff3bb70000 - 0x00007fff3bd0a000 	C:\Windows\System32\gdi32full.dll
+0x00007fff3bfa0000 - 0x00007fff3c040000 	C:\Windows\System32\msvcp_win.dll
+0x00007fff3bea0000 - 0x00007fff3bf9c000 	C:\Windows\System32\ucrtbase.dll
+0x00007fff2cec0000 - 0x00007fff2d139000 	C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.17763.253_none_05b2388e0721fece\COMCTL32.dll
+0x00007fff3f320000 - 0x00007fff3f64d000 	C:\Windows\System32\combase.dll
+0x00007fff3cc50000 - 0x00007fff3ccce000 	C:\Windows\System32\bcryptPrimitives.dll
+0x00007fff3d6f0000 - 0x00007fff3d71e000 	C:\Windows\System32\IMM32.DLL
+0x00007fff32cd0000 - 0x00007fff32ce5000 	C:\cosas\zulu8.78.0.19-ca-jdk8.0.412-win_x64\jre\bin\vcruntime140.dll
+0x00007fff1b0b0000 - 0x00007fff1b14b000 	C:\cosas\zulu8.78.0.19-ca-jdk8.0.412-win_x64\jre\bin\msvcp140.dll
+0x0000000061220000 - 0x0000000061a91000 	C:\cosas\zulu8.78.0.19-ca-jdk8.0.412-win_x64\jre\bin\server\jvm.dll
+0x00007fff3f0b0000 - 0x00007fff3f0b8000 	C:\Windows\System32\PSAPI.DLL
+0x00007fff31900000 - 0x00007fff31909000 	C:\Windows\SYSTEM32\WSOCK32.dll
+0x00007fff3fa00000 - 0x00007fff3fa6d000 	C:\Windows\System32\WS2_32.dll
+0x00007fff38860000 - 0x00007fff38884000 	C:\Windows\SYSTEM32\WINMM.dll
+0x00007fff2a670000 - 0x00007fff2a67a000 	C:\Windows\SYSTEM32\VERSION.dll
+0x00007fff38830000 - 0x00007fff3885d000 	C:\Windows\SYSTEM32\winmmbase.dll
+0x00007fff3be50000 - 0x00007fff3be9a000 	C:\Windows\System32\cfgmgr32.dll
+0x00007fff3baa0000 - 0x00007fff3bab1000 	C:\Windows\System32\kernel.appcore.dll
+0x00007fff386b0000 - 0x00007fff386c0000 	C:\cosas\zulu8.78.0.19-ca-jdk8.0.412-win_x64\jre\bin\verify.dll
+0x00007fff2da90000 - 0x00007fff2dabb000 	C:\cosas\zulu8.78.0.19-ca-jdk8.0.412-win_x64\jre\bin\java.dll
+0x00007fff2e680000 - 0x00007fff2e698000 	C:\cosas\zulu8.78.0.19-ca-jdk8.0.412-win_x64\jre\bin\zip.dll
+
+VM Arguments:
+jvm_args: -Xmx1024M -Xms1024M -Djava.util.Arrays.useLegacyMergeSort=true -Dhttp.proxyHost=betacraft.uk -Dhttp.proxyPort=11705 -Djava.library.path=D:\Cosas\Inslands\Main\lib\client\natives -Dfile.encoding=Cp1252 
+java_command: Start
+java_class_path (initial): D:\Cosas\Inslands\Main\workspace\Client\bin;D:\Cosas\Inslands\Main\lib\client\jinput.jar;D:\Cosas\Inslands\Main\lib\client\lwjgl_util.jar;D:\Cosas\Inslands\Main\lib\client\lwjgl.jar;D:\Cosas\Inslands\Main\lib\client\minecraft.jar
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=C:\cosas\zulu8.78.0.19-ca-jdk8.0.412-win_x64\
+PATH=D:/Cosas/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin/server;D:/Cosas/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin;C:\cosas\zulu8.78.0.19-ca-jdk8.0.412-win_x64\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files (x86)\PC-BASIC 2.0\;C:\Program Files\WinMerge;C:\Users\Popotoch\AppData\Local\Microsoft\WindowsApps;;D:\Cosas\eclipse;
+USERNAME=Popotoch
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 76 Stepping 4, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 10 , 64 bit Build 17763 (10.0.17763.1)
+
+CPU:total 4 (initial active 4) (4 cores per cpu, 1 threads per core) family 6 model 76 stepping 4, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, aes, clmul, erms, 3dnowpref, tsc, tscinvbit
+
+Memory: 4k page, physical 2019428k(543104k free), swap 5757408k(5864k free)
+
+vm_info: OpenJDK 64-Bit Server VM (25.412-b08) for windows-amd64 JRE (Zulu 8.78.0.19-CA-win64) (1.8.0_412-b08), built on Mar 28 2024 10:49:41 by "abrygin" with MS VC++ 15.9 (VS2017)
+
+time: Mon Jun 24 16:50:14 2024
+timezone: Hora de verano romance
+elapsed time: 0.105683 seconds (0d 0h 0m 0s)
+

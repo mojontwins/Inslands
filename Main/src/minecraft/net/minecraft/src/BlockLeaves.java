@@ -297,8 +297,10 @@ public class BlockLeaves extends BlockLeavesBase {
 
 	// Not as complex as a colorizer, but allows for some freedom!
 	@Override
-	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z) {
-		return this.getRenderColor(blockAccess.getBlockMetadata(x, y, z));
+	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
+		if(LevelThemeGlobalSettings.colorizedPlants) {
+			return world.getFoliageColorFromCache(x, z);
+		} else 	return this.getRenderColor(world.getBlockMetadata(x, y, z));
 	}
 
 	@Override

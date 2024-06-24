@@ -22,4 +22,8 @@ public interface IBlockAccess {
 	int getLightBrightnessForSkyBlocks(int i2, int i3, int i4, int i);
 
 	boolean isAirBlock(int i, int j, int z);
+
+	int getGrassColorFromCache(int x, int z);
+
+	int getFoliageColorFromCache(int x, int z);
 }

@@ -27,9 +27,9 @@ import com.mojang.minecraft.creative.GuiContainerCreative;
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.BiomeGenBase;
-import net.minecraft.src.BiomeGenThemeParadise;
-import net.minecraft.src.BiomeGenThemeHell;
 import net.minecraft.src.BiomeGenThemeForest;
+import net.minecraft.src.BiomeGenThemeHell;
+import net.minecraft.src.BiomeGenThemeParadise;
 import net.minecraft.src.Block;
 import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.src.ColorizerFoliage;
@@ -267,10 +267,11 @@ public abstract class Minecraft implements Runnable {
 		this.renderEngine = new RenderEngine(this.texturePackList, this.gameSettings);
 		this.fontRenderer = new FontRenderer(this.gameSettings, "/font/default.png", this.renderEngine);
 		
-		// Init ramps (not used)
+		// Init ramps
 		ColorizerWater.setColorRamp(this.renderEngine.getTextureContents("/misc/watercolor.png"));
 		ColorizerGrass.setColorRamp(this.renderEngine.getTextureContents("/misc/grasscolor.png"));
 		ColorizerFoliage.setColorRamp(this.renderEngine.getTextureContents("/misc/foliagecolor.png"));
+		
 		this.entityRenderer = new EntityRenderer(this);
 		RenderManager.instance.itemRenderer = new ItemRenderer(this);
 		this.statFileWriter = new StatFileWriter(this.session, this.mcDataDir);
@@ -1260,6 +1261,8 @@ public abstract class Minecraft implements Runnable {
 	public void startWorld(String forlderName, String worldName, WorldSettings worldSettings) {
 		this.changeWorld((World)null);
 		System.gc();
+		
+		BiomeGenBase.generateBiomeLookup();
 		
 		if(this.saveLoader.isOldMapFormat(forlderName)) {
 			this.converMapToMCRegion(forlderName, worldName);

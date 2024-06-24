@@ -222,4 +222,18 @@ public class ChunkCache implements IBlockAccess {
 			return enumSkyBlock1.defaultLightValue;
 		}
 	}
+
+	@Override
+	public int getGrassColorFromCache(int x, int z) {
+		int i4 = (x >> 4) - this.chunkX;
+		int i5 = (z >> 4) - this.chunkZ;
+		return this.chunkArray[i4][i5].getGrassColorFromCache(x & 15, z & 15);
+	}
+	
+	@Override
+	public int getFoliageColorFromCache(int x, int z) {
+		int i4 = (x >> 4) - this.chunkX;
+		int i5 = (z >> 4) - this.chunkZ;
+		return this.chunkArray[i4][i5].getFoliageColorFromCache(x & 15, z & 15);
+	}
 }

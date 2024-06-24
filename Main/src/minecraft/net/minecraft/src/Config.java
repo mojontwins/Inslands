@@ -1,20 +1,17 @@
 package net.minecraft.src;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.client.Minecraft;
-
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
+
+import net.minecraft.client.Minecraft;
 
 public class Config {
 	private static GameSettings gameSettings = null;
@@ -24,7 +21,7 @@ public class Config {
 	private static int iconWidthItems = 16;
 	private static Map<String, Class<?>> foundClassesMap = new HashMap<String, Class<?>>();
 	private static boolean fontRendererUpdated = false;
-	private static File logFile = null;
+	public static File logFile = null;
 	public static final Boolean DEF_FOG_FANCY = true;
 	public static final Float DEF_FOG_START = 0.2F;
 	public static final Boolean DEF_OPTIMIZE_RENDER_DISTANCE = false;
@@ -141,6 +138,7 @@ public class Config {
 	public static void log(String s) {
 		dbg(s);
 
+		/*
 		try {
 			if(logFile == null) {
 				logFile = new File(Minecraft.getMinecraftDir(), "optifog.log");
@@ -161,7 +159,7 @@ public class Config {
 		} catch (IOException iOException7) {
 			iOException7.printStackTrace();
 		}
-
+		*/
 	}
 
 	public static int getUpdatesPerFrame() {

@@ -3316,4 +3316,14 @@ public class World implements IBlockAccess {
 		
 		return true;
 	}
+
+	@Override
+	public int getGrassColorFromCache(int x, int z) {
+		return x >= 0 && z >= 0 && x < WorldSize.width && z < WorldSize.length ? this.getChunkFromChunkCoords(x >> 4, z >> 4).getGrassColorFromCache(x & 15, z & 15) : 0;
+	}
+	
+	@Override
+	public int getFoliageColorFromCache(int x, int z) {
+		return x >= 0 && z >= 0 && x < WorldSize.width && z < WorldSize.length ? this.getChunkFromChunkCoords(x >> 4, z >> 4).getFoliageColorFromCache(x & 15, z & 15) : 0;
+	}
 }

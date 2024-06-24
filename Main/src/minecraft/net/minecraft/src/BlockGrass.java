@@ -21,7 +21,7 @@ public class BlockGrass extends Block {
 		
 			switch(side) {
 				case 0: return 2;
-				case 1: return 0;
+				case 1: return LevelThemeGlobalSettings.colorizedPlants ? 253 : 0;
 				default: 
 					Block block = Block.blocksList[blockAccess.getBlockId(x, y + 1, z)];
 					
@@ -76,6 +76,18 @@ public class BlockGrass extends Block {
 		return ColorizerGrass.getGrassColor(d5, d7);
 	}
 	*/
+	
+	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
+		if(LevelThemeGlobalSettings.colorizedPlants) {
+			return world.getGrassColorFromCache(x, z);
+		} else return 0xffffff;
+	}
+	
+	public int getRenderColor(int meta) {
+		if(LevelThemeGlobalSettings.colorizedPlants) {
+			return ColorizerFoliage.getFoliageColorBasic();
+		} else return 0xffffff;
+	}
 
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		if(!world.isRemote) {

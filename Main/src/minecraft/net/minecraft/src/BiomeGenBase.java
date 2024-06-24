@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.misc.bo3import.WorldGenBo3Tree;
+import com.mojang.minecraft.betabiomes.BiomeGenBeta;
 
 public class BiomeGenBase {
 	public static final BiomeGenBase biomeDefault = new BiomeGenBase().setBiomeName("Default Alpha");
@@ -171,6 +172,8 @@ public class BiomeGenBase {
 	}
 
 	public static BiomeGenBase getBiome(float temperature, float humidity) {
+		if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.biomes.id) return BiomeGenBeta.getBiome(temperature, humidity);
+		
 		humidity *= temperature;
 		
 		BiomeGenBase biome = biomeDefault;
@@ -328,9 +331,5 @@ public class BiomeGenBase {
 
 	public boolean isHumid() {
 		return false;
-	}
-
-	static {
-		generateBiomeLookup();
 	}
 }
