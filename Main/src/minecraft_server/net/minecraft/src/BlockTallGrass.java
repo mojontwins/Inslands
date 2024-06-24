@@ -55,12 +55,14 @@ public class BlockTallGrass extends BlockFlower {
 	
 	@Override
 	public int getBlockTextureFromSideAndMetadata(int side, int meta) {
-		return meta == 0 ? 13 * 16 + 13 : 15 * 16 + 10;
+		return ((meta >> 4) & 7) == 0 && !LevelThemeGlobalSettings.colorizedPlants ? 13 * 16 + 13 : 15 * 16 + 10;
 	}
 	
 	@Override
 	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z) {
-		return this.getRenderColor(blockAccess.getBlockMetadata(x, y, z));
+		int meta = blockAccess.getBlockMetadata(x, y, z);
+		if (((meta >> 4) & 7) == 0 && LevelThemeGlobalSettings.colorizedPlants) return blockAccess.getFoliageColorFromCache(x, z);
+		return this.getRenderColor(meta);
 	}
 
 	@Override

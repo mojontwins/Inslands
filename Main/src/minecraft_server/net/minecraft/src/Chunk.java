@@ -54,6 +54,9 @@ public class Chunk {
 	
 	public boolean beingDecorated = false;
 
+	public int[] grassColorCache;
+	public int[] foliageColorCache;
+
 	@SuppressWarnings("unchecked")
 	public Chunk(World world, int chunkX, int chunkZ) {
 		this.chunkTileEntityMap = new HashMap<ChunkPosition, TileEntity>();
@@ -809,9 +812,23 @@ public class Chunk {
 	}
 	
 	public void refreshCaches() {
+		WorldChunkManager worldChunkManager = this.worldObj.getWorldChunkManager();
 		BiomeGenBase biomeGen [] = null;
-		biomeGen = this.worldObj.getWorldChunkManager().loadBlockGeneratorData(biomeGen, this.xPosition << 4, this.zPosition << 4, 16, 16);
+		biomeGen = worldChunkManager.loadBlockGeneratorData(biomeGen, this.xPosition << 4, this.zPosition << 4, 16, 16);
 		this.biomeGenCache = biomeGen.clone();
+		
+		int biomeIndex = 0;
+		this.grassColorCache = new int[256];
+		this.foliageColorCache = new int[256];
+		for(int x = 0; x < 16; ++x) {
+			for(int z = 0; z < 16; ++z) {
+				double t = worldChunkManager.temperature[biomeIndex];
+				double h = worldChunkManager.humidity[biomeIndex];
+				this.grassColorCache[biomeIndex] = ColorizerGrass.getGrassColor(t, h);
+				this.foliageColorCache[biomeIndex] = ColorizerFoliage.getFoliageColor(t, h);
+				biomeIndex ++;
+			}
+		}
 	}
 	
 	public BiomeGenBase getBiomeGenAt (int x, int z) {
@@ -888,5 +905,21 @@ public class Chunk {
 		if (!this.worldObj.worldProvider.hasNoSky) {
 			this.worldObj.skyLight.checkSkyEmittance(worldX, worldY, worldZ);
 		}
+	}
+
+	public int getGrassColorFromCache(int x, int z) {
+		if(this.grassColorCache == null) {
+			this.refreshCaches();
+		} 
+		
+		return this.grassColorCache[x << 4 | z];
+	}
+	
+	public int getFoliageColorFromCache(int x, int z) {
+		if(this.foliageColorCache == null) {
+			this.refreshCaches();
+		}
+		
+		return this.foliageColorCache[x << 4 | z];
 	}
 }

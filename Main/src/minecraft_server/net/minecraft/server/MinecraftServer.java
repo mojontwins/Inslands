@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.minecraft.src.AxisAlignedBB;
+import net.minecraft.src.BiomeGenBase;
 import net.minecraft.src.ConsoleCommandHandler;
 import net.minecraft.src.ConsoleLogManager;
 import net.minecraft.src.ConvertProgressUpdater;
@@ -170,6 +171,8 @@ public class MinecraftServer implements Runnable, ICommandListener {
 	}
 
 	private void initWorld(ISaveFormat saveHandler, String folderName, long seed, WorldType worldType) {
+		BiomeGenBase.generateBiomeLookup();
+		
 		if(saveHandler.isOldMapFormat(folderName)) {
 			logger.info("Converting map!");
 			saveHandler.converMapToMCRegion(folderName, new ConvertProgressUpdater(this));

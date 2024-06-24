@@ -27,7 +27,9 @@ public class ChunkProvider implements IChunkProvider {
 		Chunk chunk = new Chunk(this.worldObj, new byte[32768], new byte[32768], 0, 0);
 		chunk.neverSave = true;
 		
-		Block mainLiquid = Block.blocksList[LevelThemeGlobalSettings.levelThemeMainBiome.mainLiquid];
+		int mainLiquidFromBiome = Block.waterStill.blockID;
+		if (LevelThemeGlobalSettings.levelThemeMainBiome != null) mainLiquidFromBiome = LevelThemeGlobalSettings.levelThemeMainBiome.mainLiquid;
+		Block mainLiquid = Block.blocksList[mainLiquidFromBiome];
 		
 		if(LevelThemeGlobalSettings.worldTypeID != WorldType.SKY.getId()) {
 			// Fill with water up to y = 63

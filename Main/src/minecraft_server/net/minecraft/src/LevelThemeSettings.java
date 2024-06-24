@@ -21,6 +21,7 @@ public class LevelThemeSettings {
 	public boolean sunriseSunsetColors = false;
 	public boolean colourfulFlock = false;
 	public int preferredWorldType = -1;
+	public boolean colorizedPlants = false;
 
 	public static List<LevelThemeSettings> allThemeSettings = new ArrayList<LevelThemeSettings> ();
 	
@@ -28,11 +29,16 @@ public class LevelThemeSettings {
 	public static LevelThemeSettings hell = new LevelThemeSettings(1).setName("Hell").setLightMultiplier(0.4F).setDayCycle(true).setLevelThemeMainBiome(BiomeGenBase.themeHell).setTemperature(1.0D).setHumidity(0.1D).setOverlay(-1);
 	public static LevelThemeSettings forest = new LevelThemeSettings(2).setName("Forest").setLightMultiplier(0.8F).setDayCycle(true).setLevelThemeMainBiome(BiomeGenBase.themeForest).withPreferredWorldType(WorldType.INFDEV.id).withFixedCelestialAngle(0.24F).withSunriseSunsetColors(true).withColourfulFlock(true).setTemperature(0.4D).setHumidity(0.9D).setOverlay(-1);
 	public static LevelThemeSettings paradise = new LevelThemeSettings(3).setName("Paradise").setLightMultiplier(1.0F).setDayCycle(false).setLevelThemeMainBiome(BiomeGenBase.themeParadise).withPreferredWorldType(WorldType.SKY.id).withFixedCelestialAngle(1.0F).setTemperature(0.6D).setHumidity(0.6D).setPermaSeason(Seasons.SUMMER).setOverlay(0x20F9FFA0).setCanRain(false).setCanSnow(false).setCanThunder(false);
-	public static LevelThemeSettings biomes = new LevelThemeSettings(4).setName("Multi Biomes").setLightMultiplier(1.0F).setDayCycle(true).setLevelThemeMainBiome(null);
+	public static LevelThemeSettings biomes = new LevelThemeSettings(4).setName("Biomes").setLightMultiplier(1.0F).setDayCycle(true).setLevelThemeMainBiome(null).withPreferredWorldType(WorldType.DEFAULT.id).withColorizedPlants(true);
 	
 	public LevelThemeSettings(int id) {
 		this.id = id;
 		allThemeSettings.add(id, this);
+	}
+
+	private LevelThemeSettings withColorizedPlants(boolean b) {
+		this.colorizedPlants = b;
+		return this;
 	}
 
 	private LevelThemeSettings withPreferredWorldType(int id2) {

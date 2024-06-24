@@ -118,13 +118,12 @@ public class WorldChunkManager {
 					if(humidity > 1.0D) {
 						humidity = 1.0D;
 					}
-	
-					this.temperature[biomeIndex] = temperature;
-					this.humidity[biomeIndex] = humidity;
-					
+		
 					biome = BiomeGenBase.getBiomeFromLookup(temperature, humidity);
 				}
 				
+				this.temperature[biomeIndex] = temperature;
+				this.humidity[biomeIndex] = humidity;
 				biomeGenArray[biomeIndex] = biome;
 				biomeIndex ++;
 			}

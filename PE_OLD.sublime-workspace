@@ -520,29 +520,29 @@
 	"buffers":
 	[
 		{
-			"file": "r125-src_optifine/minecraft/net/minecraft/src/Config.java",
+			"file": "/D/Cosas/b1.7.3 optifine plasticraft/src/minecraft/net/minecraft/src/BiomeGenBase.java",
 			"settings":
 			{
-				"buffer_size": 22388,
+				"buffer_size": 5400,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "r125-src_optifine/minecraft/net/minecraft/src/BlockStep.java",
+			"file": "README.md",
 			"settings":
 			{
-				"buffer_size": 3574,
+				"buffer_size": 7596,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "Searching 1019 files for \"setMinecraft\" (whole word)\n\n0 matches",
+			"file": "Main/jars/server.properties",
 			"settings":
 			{
-				"buffer_size": 63,
-				"line_ending": "Windows",
-				"name": "Find Results",
-				"scratch": true
+				"buffer_size": 348,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -630,20 +630,28 @@
 	},
 	"expanded_folders":
 	[
-		"/C/cosas/inslands",
-		"/C/cosas/inslands/r125-src_optifine",
-		"/C/cosas/inslands/r125-src_optifine/minecraft",
-		"/C/cosas/inslands/r125-src_optifine/minecraft/net",
-		"/C/cosas/inslands/r125-src_optifine/minecraft/net/minecraft",
-		"/C/cosas/inslands/r125-src_optifine/minecraft/net/minecraft/src"
+		"/D/Cosas/Inslands",
+		"/D/Cosas/Inslands/Main",
+		"/D/Cosas/Inslands/Main/src",
+		"/D/Cosas/Inslands/Main/src/minecraft",
+		"/D/Cosas/Inslands/Main/src/minecraft/misc",
+		"/D/Cosas/Inslands/Main/src-aether",
+		"/D/Cosas/Inslands/web"
 	],
 	"file_history":
 	[
-		"/C/cosas/inslands/README.md",
-		"/C/cosas/MB6/dosbox.conf",
-		"/C/cosas/DOS/MB6/dosbox.conf",
-		"/C/cosas/inslands/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/GuiMainMenu.java",
-		"/C/cosas/inslands/Main/src/minecraft/net/minecraft/src/Gui.java",
+		"/D/Cosas/b1.7.3 optifine plasticraft/src/minecraft/net/minecraft/src/EntityCaveOgre.java",
+		"/D/Cosas/b1.7.3 optifine plasticraft/src/minecraft/net/minecraft/src/EntityFireOgre.java",
+		"/D/Cosas/b1.7.3 optifine plasticraft/src/minecraft/net/minecraft/src/GameSettings.java",
+		"/D/Cosas/Inslands/.gitignore",
+		"/D/Cosas/Inslands/README.md",
+		"/D/Cosas/b1.7.3 optifine plasticraft/src/minecraft/net/minecraft/src/GuiVideoSettings.java",
+		"/D/Cosas/b1.7.3 optifine plasticraft/src/minecraft/net/minecraft/src/EnumOptions.java",
+		"/D/Cosas/Inslands/chagelog.txt",
+		"/D/Cosas/Inslands/web/index.html",
+		"/D/Cosas/Inslands/Main/jars/server.properties",
+		"/D/Cosas/Inslands/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/GuiMainMenu.java",
+		"/D/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/Gui.java",
 		"/D/Cosas/PE_OLD/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/World.java",
 		"/D/Cosas/PE_OLD/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/BiomeGenForest.java",
 		"/D/Cosas/PE_OLD/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/BiomeGenRainforest.java",
@@ -759,14 +767,7 @@
 		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntityItem.java",
 		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntityLightningBolt.java",
 		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntityLiving.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntityMinecart.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntityPainting.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntityPig.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntityPlayer.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntityPlayerMP.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntitySheep.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntitySlime.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntitySquid.java"
+		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/EntityMinecart.java"
 	],
 	"find":
 	{
@@ -777,7 +778,6 @@
 		"height": 134.0,
 		"where_history":
 		[
-			"C:\\cosas\\inslands\\r125-src_optifine\\minecraft\\net\\minecraft\\src",
 			"D:\\Cosas\\PE_OLD\\Main\\src-b1.7.3_vanilla\\minecraft\\net\\minecraft\\src"
 		]
 	},
@@ -786,25 +786,49 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"minecraft",
-			"setMinecraft",
-			"mipmap",
-			"tessellator3",
-			"i8",
-			"entity7",
+			"AO_LEVEL",
 			"i6",
-			"entityLiving4",
-			"f3",
-			"iCamera2",
-			"vec3D1",
-			"(i6 * this.renderChunksTall + i5) * this.renderChunksWide + i4",
+			"saveOldDir5",
+			"z7",
+			"worldType5",
+			"j3",
+			"string2",
+			"iSaveFormat1",
+			"tileEntity8",
+			"iterator6",
+			"chunk7",
+			"tileEntity5",
+			"iterator10",
+			"i4",
+			"i3",
 			"i1",
-			"guibutton",
-			"scaledresolution\\d",
-			"exception",
-			"exception1",
-			"i",
-			"enumoptions",
+			"entity2",
+			"12 5",
+			"10 8",
+			"0 0",
+			"8 8",
+			"entityPlayer3",
+			"string2",
+			"world1",
+			"world6",
+			"iSaveHandler5",
+			"string2",
+			"string1",
+			"i2",
+			"itemStack3",
+			"itemStack1",
+			"i12",
+			"i11",
+			"i10",
+			"i9",
+			"i8",
+			"i7",
+			"i6",
+			"i5",
+			"i4",
+			"world3",
+			"entityPlayer2",
+			"itemStack1",
 			"getskycolor",
 			"i56",
 			"d47",
@@ -889,13 +913,7 @@
 			"i1",
 			"chunk4",
 			"i3",
-			"i2",
-			"i1",
-			"i2",
-			"i1",
-			"b2",
-			"i3",
-			"i1"
+			"i2"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -903,22 +921,43 @@
 		"regex": false,
 		"replace_history":
 		[
-			"tessellator",
-			"l",
-			"entity1",
-			"k",
-			"entityliving",
-			"f",
-			"icamera",
-			"vec3d",
-			"wri",
-			"numBlocks",
-			"guiButton1",
-			"settingsScreen",
-			"printWriter1",
-			"string3",
-			"i2",
-			"enumOptions1",
+			"i",
+			"saveOldDir",
+			"generateStructures",
+			"worldType",
+			"seed",
+			"folderName",
+			"saveHandler",
+			"tileEntity",
+			"tileEntityIt",
+			"chunk",
+			"tileEntity",
+			"entitiesIt",
+			"z",
+			"x",
+			"i",
+			"curEntity",
+			"entityPlayer",
+			"caption",
+			"world",
+			"saveHandler",
+			"worldName",
+			"forlderName",
+			"slotIdx",
+			"stackInSlot",
+			"pickedStack",
+			"zz",
+			"yy",
+			"xx",
+			"attempts",
+			"blockID",
+			"side",
+			"z",
+			"y",
+			"x",
+			"world",
+			"thePlayer",
+			"itemStack",
 			"blockID",
 			"volume",
 			"zScalingFactor",
@@ -1011,64 +1050,30 @@
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": true,
+		"whole_word": false,
 		"wrap": true
 	},
 	"groups":
 	[
-		{
-			"sheets":
-			[
-			]
-		},
 		{
 			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "r125-src_optifine/minecraft/net/minecraft/src/Config.java",
+					"file": "/D/Cosas/b1.7.3 optifine plasticraft/src/minecraft/net/minecraft/src/BiomeGenBase.java",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 22388,
+						"buffer_size": 5400,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4446,
-								4446
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Java/Java.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1134.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "r125-src_optifine/minecraft/net/minecraft/src/BlockStep.java",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 3574,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
+								3137,
+								3137
 							]
 						],
 						"settings":
@@ -1082,39 +1087,68 @@
 					},
 					"stack_index": 2,
 					"type": "text"
-				},
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
 				{
-					"buffer": 2,
+					"buffer": 1,
+					"file": "README.md",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 63,
+						"buffer_size": 7596,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								7596,
+								7596
 							]
 						],
 						"settings":
 						{
-							"detect_indentation": false,
-							"line_numbers": false,
-							"output_tag": 1,
-							"result_base_dir": "",
-							"result_file_regex": "^([^ \t].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+							"syntax": "Packages/Markdown/Markdown.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2380.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "Main/jars/server.properties",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 348,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								322,
+								322
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/JavaProperties.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -1126,7 +1160,7 @@
 	},
 	"input":
 	{
-		"height": 43.0
+		"height": 46.0
 	},
 	"layout":
 	{
@@ -1148,7 +1182,7 @@
 		"cols":
 		[
 			0.0,
-			0.5,
+			0.499140154772,
 			1.0
 		],
 		"rows":
@@ -1166,7 +1200,7 @@
 	"project": "PE_OLD.sublime-project",
 	"replace":
 	{
-		"height": 94.0
+		"height": 44.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1208,7 +1242,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 210.0,
+	"side_bar_width": 203.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

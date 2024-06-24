@@ -37,6 +37,23 @@ public class BlockVine extends Block {
     public boolean renderAsNormalBlock() {
         return false;
     }
+    
+	@Override
+	public int getBlockTextureFromSideAndMetadata(int side, int meta) {
+		return LevelThemeGlobalSettings.colorizedPlants ? 15 * 16 + 11 : this.blockIndexInTexture;
+	}
+	
+	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
+		if(LevelThemeGlobalSettings.colorizedPlants) {
+			return world.getGrassColorFromCache(x, z);
+		} else return 0xffffff;
+	}
+	
+	public int getRenderColor(int meta) {
+		if(LevelThemeGlobalSettings.colorizedPlants) {
+			return ColorizerFoliage.getFoliageColorBasic();
+		} else return 0xffffff;
+	}
 
     public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4) {
         int i = par1IBlockAccess.getBlockMetadata(par2, par3, par4);

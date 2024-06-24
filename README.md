@@ -160,9 +160,10 @@ Yay! fps boosted on shitty systems!
 	* [ ] cold mechanics. Need to reactivate code for freeze
 
 * [ ] Add "Override level test" to level creation extra options to override "level is valid" check
-* [ ] Add a biome map. Simple, don't over do it. Use PostAlpha's. Which is almost vanilla's. Recreate new biomegen classes. BiomeGenBetaForest... etc
+* [X] Add a biome map. Simple, don't over do it. Use PostAlpha's. Which is almost vanilla's. Recreate new biomegen classes. BiomeGenBetaForest... etc
 * [X] Remove optifog log and other stupid shit.
 * [X] Add "preferredWorldgen" to levelthemes and de-hardcode it
 * [X] Add torches to some trees, somehow
 * [X] Biomes level theme uses PostAlpha ramps;
 * [ ] optional fancy grass?
+* [ ] Make sure the needed initialization is due so multibiomes work in SMP
