@@ -73,6 +73,7 @@ public class AchievementList {
 	
 	public static Achievement minoshroom = (new Achievement(61, "minoshroom",      14, -2, Item.superAxe, themeForest)).setSpecial().registerAchievement();
 	public static Achievement scareKobold = (new Achievement(62, "scareKobold",    14, -1, Item.koboldFace, themeForest)).registerAchievement();
+	public static Achievement twilightHunter = (new Achievement(63, "forestHunter",14, 0, Item.bow, themeForest)).registerAchievement();
 	
 	public static void func_27374_a() {
 	}

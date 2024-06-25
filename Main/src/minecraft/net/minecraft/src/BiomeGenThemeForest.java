@@ -9,7 +9,14 @@ import com.benimatic.twilightforest.EntityTwilightBighorn;
 import com.benimatic.twilightforest.EntityTwilightBoar;
 import com.benimatic.twilightforest.EntityTwilightDeer;
 import com.benimatic.twilightforest.TFGenCanopyTree;
+import com.benimatic.twilightforest.TFGenFoundation;
 import com.benimatic.twilightforest.TFGenHillMaze;
+import com.benimatic.twilightforest.TFGenMonolith;
+import com.benimatic.twilightforest.TFGenOutsideStalagmite;
+import com.benimatic.twilightforest.TFGenStoneCircle;
+import com.benimatic.twilightforest.TFGenWell;
+import com.benimatic.twilightforest.TFGenWitchHut;
+import com.benimatic.twilightforest.TFGenerator;
 import com.mojang.minecraft.ocelot.EntityBetaOcelot;
 
 public class BiomeGenThemeForest extends BiomeGenForest {
@@ -72,6 +79,19 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 	
 	public void prePopulate(World world, Random rand, int x0, int z0) {
 		super.prePopulate(world, rand, x0, z0);
+		
+		int x, y, z;
+		
+		if(rand.nextInt(3) == 0) {
+			x = x0 + rand.nextInt(16) + 8;
+			z = z0 + rand.nextInt(16) + 8;
+			y = world.getLandSurfaceHeightValue(x, z) + 1;
+			TFGenerator tFGenerator22 = this.randomFeature(rand);
+			//System.out.println(tFGenerator22 + " attempt at " + x + ", " + y + ", " + z);
+			if(tFGenerator22.generate(world, rand, x, y, z)) {
+				System.out.println(tFGenerator22 + " success at " + x + ", " + y + ", " + z);
+			}
+		}
 	}
 	
 	public void populate(World world, Random rand, int chunkX, int chunkZ) {	
@@ -140,5 +160,25 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 	@Override
 	public boolean isHumid() {
 		return true;
+	}
+	
+	public TFGenerator randomFeature(Random rand) {
+		int rf = rand.nextInt(6);
+		switch(rf) {
+		case 0:
+			return new TFGenStoneCircle();
+		case 1:
+			return new TFGenWell();
+		case 2:
+			return new TFGenWitchHut();
+		case 3:
+			return new TFGenOutsideStalagmite();
+		case 4:
+			return new TFGenFoundation();
+		case 5:
+			return new TFGenMonolith();
+		default:
+			return new TFGenStoneCircle();
+		}
 	}
 }

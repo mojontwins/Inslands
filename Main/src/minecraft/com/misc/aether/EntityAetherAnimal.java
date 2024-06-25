@@ -11,7 +11,7 @@ public abstract class EntityAetherAnimal extends EntityAnimal {
 		super(world);
 	}
 
-	protected float getBlockPathWeight(int i, int j, int k) {
+	public float getBlockPathWeight(int i, int j, int k) {
 		return this.worldObj.getBlockId(i, j - 1, k) == Block.grass.blockID ? 10.0F : this.worldObj.getLightBrightness(i, j, k) - 0.5F;
 	}
 

@@ -9,6 +9,7 @@ public class TileEntityMobSpawnerOneshot extends TileEntityMobSpawner {
 		if(this.anyPlayerInRange() && !this.worldObj.isRemote) {				
 			// Generate entity in place
 			EntityLiving entityLiving = (EntityLiving)EntityList.createEntityByName(this.mobID, this.worldObj);
+			
 			if(entityLiving == null) {
 				return;
 			}

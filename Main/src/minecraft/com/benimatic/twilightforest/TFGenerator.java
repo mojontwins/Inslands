@@ -175,13 +175,14 @@ public abstract class TFGenerator extends WorldGenerator {
 		boolean flag = true;
 
 		for(int cx = 0; cx < dx; ++cx) {
-			for(int cz = 0; cz < dy; ++cz) {
+			for(int cz = 0; cz < dz; ++cz) {
 				Material m = world.getBlockMaterial(x + cx, y - 1, z + cz);
-				if(m != Material.grass && m != Material.rock) {
+				if(m != Material.grass && m != Material.rock && m != Material.ground && m != Material.sand) {
+					//ystem.out.println ("FOUNDMAERIAL " + m);
 					flag = false;
 				}
 
-				for(int cy = 0; cy < dz; ++cy) {
+				for(int cy = 0; cy < dy; ++cy) {
 					if(!world.isAirBlock(x + cx, y + cy, z + cz)) {
 						flag = false;
 					}
@@ -189,6 +190,33 @@ public abstract class TFGenerator extends WorldGenerator {
 			}
 		}
 
+		return flag;
+	}
+
+	protected boolean isAreaMostlyClear(World world, Random rand, int x, int y, int z, int dx, int dy, int dz, int percent) {
+		
+		int notAir = 0;
+		int ntotal = dx*dy*dz;
+
+		for(int cx = 0; cx < dx; ++cx) {
+			for(int cz = 0; cz < dz; ++cz) {
+				Material m = world.getBlockMaterial(x + cx, y - 1, z + cz);
+				//if(m != Material.grass && m != Material.rock && m != Material.ground) {
+				if(m == Material.air || m == Material.water) {
+					//System.out.println ("Failed ground mat = " + m);
+					return false;
+				}
+
+				for(int cy = 0; cy < dy; ++cy) {
+					if(!world.isAirBlock(x + cx, y + cy, z + cz)) {
+						notAir ++;
+					}
+				}
+			}
+		}
+
+		boolean flag = (notAir < ntotal * (100 - percent) / 100 );
+		//if(!flag) System.out.println ("Failed percent - " + notAir + " " + ntotal + " (" + percent + ")");
 		return flag;
 	}
 	

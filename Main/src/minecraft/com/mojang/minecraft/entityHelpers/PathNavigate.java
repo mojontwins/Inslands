@@ -50,7 +50,7 @@ public class PathNavigate {
 		return this.canPassClosedWoodenDoors;
 	}
 
-	public void setNoSunPathfind(boolean z1) {
+	public void setAvoidSun(boolean z1) {
 		this.noSunPathfind = z1;
 	}
 

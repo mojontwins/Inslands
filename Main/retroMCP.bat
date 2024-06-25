@@ -1,1 +1,1 @@
-"C:\Program Files\Java\jdk1.8.0_361\bin\javaw.exe" -jar RetroMCP-Java-all.jar
+"C:\cosas\zulu8.78.0.19-ca-jdk8.0.412-win_x64\bin\javaw.exe" -jar RetroMCP-Java-all.jar

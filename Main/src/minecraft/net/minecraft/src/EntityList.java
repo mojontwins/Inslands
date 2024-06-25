@@ -7,6 +7,7 @@ import com.benimatic.twilightforest.EntityTFKobold;
 import com.benimatic.twilightforest.EntityTFMinoshroom;
 import com.benimatic.twilightforest.EntityTFMinotaur;
 import com.benimatic.twilightforest.EntityTFRedcap;
+import com.benimatic.twilightforest.EntityTFSkeletonDruid;
 import com.benimatic.twilightforest.EntityTFSwarmSpider;
 import com.benimatic.twilightforest.EntityTFWraith;
 import com.benimatic.twilightforest.EntityTwilightBighorn;
@@ -171,6 +172,7 @@ public class EntityList {
 		addMapping(EntityTwilightBoar.class, "Boar", 36);
 		addMapping(EntityTwilightDeer.class, "Deer", 37);
 		addMapping(EntityTwilightBighorn.class, "BigHorn", 38);
+		addMapping(EntityTFSkeletonDruid.class, "SkeletonWitch", 39);
 		
 		// Better Dungeons
 		addMapping(EntityPirate.class, "PirateArmored", 70);

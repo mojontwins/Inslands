@@ -57,7 +57,7 @@ public class EntityMob extends EntityCreature implements IMob {
 
 	}
 
-	protected float getBlockPathWeight(int i1, int i2, int i3) {
+	public float getBlockPathWeight(int i1, int i2, int i3) {
 		return 0.5F - this.worldObj.getLightBrightness(i1, i2, i3);
 	}
 	
@@ -74,22 +74,30 @@ public class EntityMob extends EntityCreature implements IMob {
 	}
 
 	public boolean getCanSpawnHere() {
-		int i1 = MathHelper.floor_double(this.posX);
-		int i2 = MathHelper.floor_double(this.boundingBox.minY);
-		int i3 = MathHelper.floor_double(this.posZ);
-		if(this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, i1, i2, i3) > this.rand.nextInt(32)) {
-			return false;
-		} else {
-			int i4 = this.worldObj.getBlockLightValue(i1, i2, i3);
-			if(this.worldObj.thundering()) {
-				int i5 = this.worldObj.skylightSubtracted;
-				this.worldObj.skylightSubtracted = 10;
-				i4 = this.worldObj.getBlockLightValue(i1, i2, i3);
-				this.worldObj.skylightSubtracted = i5;
+		if(this.needsLightCheck()) {
+			int i1 = MathHelper.floor_double(this.posX);
+			int i2 = MathHelper.floor_double(this.boundingBox.minY);
+			int i3 = MathHelper.floor_double(this.posZ);
+			if(this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, i1, i2, i3) > this.rand.nextInt(32)) {
+				return false;
+			} else {
+				int i4 = this.worldObj.getBlockLightValue(i1, i2, i3);
+				if(this.worldObj.thundering()) {
+					int i5 = this.worldObj.skylightSubtracted;
+					this.worldObj.skylightSubtracted = 10;
+					i4 = this.worldObj.getBlockLightValue(i1, i2, i3);
+					this.worldObj.skylightSubtracted = i5;
+				}
+	
+				return i4 <= this.rand.nextInt(8) && super.getCanSpawnHere();
 			}
-
-			return i4 <= this.rand.nextInt(8) && super.getCanSpawnHere();
+		} else {
+			return super.getCanSpawnHere();
 		}
+	}
+	
+	public boolean needsLightCheck() {
+		return true;
 	}
 	
 	public int getFullHealth() {
