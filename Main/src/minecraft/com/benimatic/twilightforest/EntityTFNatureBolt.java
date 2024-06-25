@@ -37,12 +37,13 @@ public class EntityTFNatureBolt extends EntitySnowball {
 			double dx = this.posX + 0.5D * (this.rand.nextDouble() - this.rand.nextDouble());
 			double dy = this.posY + 0.5D * (this.rand.nextDouble() - this.rand.nextDouble());
 			double dz = this.posZ + 0.5D * (this.rand.nextDouble() - this.rand.nextDouble());
-			this.worldObj.spawnParticle("crit", dx, dy, dz, 0.0D, 0.0D, 0.0D);
+			this.worldObj.spawnParticle("glowdust", dx, dy, dz, 0.0D, 0.0D, 0.0D);
 		}
 
 	}
 
-	protected void onImpact(MovingObjectPosition par1MovingObjectPosition) {
+	@Override
+	public void throwableHitEntity(MovingObjectPosition par1MovingObjectPosition) {
 		int i;
 		if(par1MovingObjectPosition.entityHit != null && par1MovingObjectPosition.entityHit instanceof EntityLiving) {
 			if(par1MovingObjectPosition.entityHit.attackEntityFrom(this.thrower, 2)) {
