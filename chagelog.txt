@@ -36,3 +36,13 @@ Infhell. Will leave for later (next?).
 ## Big? problem
 
 Still using b1.7.3 netcode, a situation which won't change for a while.
+
+# v240625
+
+* Optifine! That means you can tweak for speed, get free mipmaps, and a much faster chunk renderer and tessellator.
+* Paradise theme is always at noon, mid-summer.
+* Forest theme is now a permanent twilight. Seasons do hapen, tho.
+* Configurable sunset/sunrise colours per theme basis. Activated for the Forest theme.
+* Underhill, hedge and minotaur mazes for the Forest theme.
+* Twilight animals and baddies for the Forest theme.
+* Preliminary multi-biome level theme, using ramps and special beta-based biomes complete with colorizers. Everything is cached so no impact.
