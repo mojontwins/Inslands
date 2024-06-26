@@ -19,7 +19,7 @@ public class StructureTFMinotaurMazeStart extends StructureStart {
 			y = world.getWorldInfo().getTerrainType().getSeaLevel(world) + 14;
 		}
 		
-		System.out.println ("Minotaur maze" + x + " " + y + " " + z);
+		System.out.println ("Minotaur maze " + x + " " + y + " " + z);
 		GlobalVars.hasCorrectMinoshroomMaze = true;
 		
 		ComponentTFMazeRuins lair = new ComponentTFMazeRuins(world, rand, 0, x, y, z);

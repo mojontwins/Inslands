@@ -142,7 +142,11 @@ public class ChunkProvider implements IChunkProvider {
 	}
 	
 	public Chunk justGenerateForHeight(int chunkX, int chunkZ) {
-		return this.chunkProvider.justGenerateForHeight(chunkX, chunkZ);
+		if(chunkX >= 0 && chunkX < WorldSize.xChunks && chunkZ >= 0 && chunkZ < WorldSize.zChunks) {
+			return this.chunkProvider.justGenerateForHeight(chunkX, chunkZ);
+		} else {
+			return this.blankChunk;
+		}
 	}
 
 	private Chunk loadChunkFromFile(int i1, int i2) {

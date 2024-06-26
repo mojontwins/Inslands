@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.benimatic.twilightforest.BlockTFHedge;
 import com.benimatic.twilightforest.BlockTFMazestone;
 import com.benimatic.twilightforest.BlockTFMazestone2;
 import com.hippoplatimus.pistons.Piston;
@@ -220,6 +221,7 @@ public class Block {
 	public static final Block lockedDungeonStone = (new BlockDungeon(206)).setHardness(-1.0F).setResistance(1000000.0F).setStepSound(Block.soundStoneFootstep).setBlockName("LockedDungeonStone");
 	public static final Block lockedLightDungeonStone = (new BlockDungeon(208)).setHardness(-1.0F).setResistance(1000000.0F).setStepSound(Block.soundStoneFootstep).setLightValue(0.5F).setBlockName("LightLockedDungeonStone");
 	public static final Block mazeStone2 = (new BlockTFMazestone2(209, 14*16 + 5)).setHardness(20.0F).setResistance(5.0F).setStepSound(soundStoneFootstep).setBlockName("mazeStone");
+	public static final Block hedge = (new BlockTFHedge(210)).setBlockName("hedge");
 	
 	// Pistons - sorry, different IDs
 	public static final Block classicPistonBase = (new PistonBase(252, 22, false)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("piston");

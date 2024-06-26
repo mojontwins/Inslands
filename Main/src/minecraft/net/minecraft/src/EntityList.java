@@ -3,6 +3,8 @@ package net.minecraft.src;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.benimatic.twilightforest.EntityTFHedgeSpider;
+import com.benimatic.twilightforest.EntityTFHostileWolf;
 import com.benimatic.twilightforest.EntityTFKobold;
 import com.benimatic.twilightforest.EntityTFMinoshroom;
 import com.benimatic.twilightforest.EntityTFMinotaur;
@@ -173,6 +175,8 @@ public class EntityList {
 		addMapping(EntityTwilightDeer.class, "Deer", 37);
 		addMapping(EntityTwilightBighorn.class, "BigHorn", 38);
 		addMapping(EntityTFSkeletonDruid.class, "SkeletonWitch", 39);
+		addMapping(EntityTFHostileWolf.class, "HostileWolf", 40);
+		addMapping(EntityTFHedgeSpider.class, "HedgeSpider", 41);
 		
 		// Better Dungeons
 		addMapping(EntityPirate.class, "PirateArmored", 70);

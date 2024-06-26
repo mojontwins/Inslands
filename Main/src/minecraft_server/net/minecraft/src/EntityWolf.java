@@ -49,7 +49,7 @@ public class EntityWolf extends EntityAnimal {
 
 	public void readEntityFromNBT(NBTTagCompound nBTTagCompound1) {
 		super.readEntityFromNBT(nBTTagCompound1);
-		this.setWolfAngry(nBTTagCompound1.getBoolean("Angry"));
+		this.setAngry(nBTTagCompound1.getBoolean("Angry"));
 		this.setIsSitting(nBTTagCompound1.getBoolean("Sitting"));
 		String string2 = nBTTagCompound1.getString("Owner");
 		if(string2.length() > 0) {
@@ -255,7 +255,7 @@ public class EntityWolf extends EntityAnimal {
 			
 			if(!this.isTamed() && !this.isWolfAngry()) {
 				if(entity1 instanceof EntityPlayer) {
-					this.setWolfAngry(true);
+					this.setAngry(true);
 					this.entityToAttack = (Entity)entity1;
 				}
 
@@ -273,7 +273,7 @@ public class EntityWolf extends EntityAnimal {
 						if(!entityWolf6.isTamed() && entityWolf6.entityToAttack == null) {
 							entityWolf6.entityToAttack = (Entity)entity1;
 							if(entity1 instanceof EntityPlayer) {
-								entityWolf6.setWolfAngry(true);
+								entityWolf6.setAngry(true);
 							}
 						}
 					}
@@ -434,7 +434,7 @@ public class EntityWolf extends EntityAnimal {
 		return (this.dataWatcher.getWatchableObjectByte(16) & 2) != 0;
 	}
 
-	public void setWolfAngry(boolean z1) {
+	public void setAngry(boolean z1) {
 		byte b2 = this.dataWatcher.getWatchableObjectByte(16);
 		if(z1) {
 			this.dataWatcher.updateObject(16, (byte)(b2 | 2));

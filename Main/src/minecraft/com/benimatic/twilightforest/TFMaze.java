@@ -372,4 +372,8 @@ public class TFMaze {
 			this.rbGen(sx, sz);
 		}
 	}
+	
+	public void setSeed(long newSeed) {
+		this.rand.setSeed(newSeed);
+	}
 }
