@@ -117,12 +117,15 @@ public class FeatureProvider {
 	 */	
 	public boolean getNearestFeatures(int chunkX, int chunkZ, Chunk chunk) {
 		boolean featureInChunk = false;
+		if(chunkX < 0 || chunkX >= WorldSize.xChunks || chunkZ < 0 || chunkZ >= WorldSize.zChunks) return featureInChunk;
 		
 		HashSet<Long> featureHashes = new HashSet<Long>();
 		
 		for(int i = 0; i <= 3; i ++) {
 			for(int x = chunkX - i; x <= chunkX + i; x ++) {
 				for(int z = chunkZ - i; z <= chunkZ + i; z ++) {
+					if(x < 0 || x >= WorldSize.xChunks || z < 0 || z >= WorldSize.zChunks) continue;
+					
 					Feature feature = null;
 					
 					// First check already calculated features
@@ -160,6 +163,7 @@ public class FeatureProvider {
 	 *  Populates structures for this chunk
 	 */
 	public void populateFeatures(World world, Random rand, int chunkX, int chunkZ) {
+		if(chunkX < 0 || chunkX >= WorldSize.xChunks || chunkZ < 0 || chunkZ >= WorldSize.zChunks) return;
 		
 		// Failsafe (shouldn't fire, but just in case)
 		long thisChunkHash = ChunkCoordIntPair.chunkXZ2Long(chunkX, chunkZ);
@@ -173,6 +177,8 @@ public class FeatureProvider {
 		int i = 3; {
 			for(int x = chunkX - i; x <= chunkX + i; x ++) {
 				for(int z = chunkZ - i; z <= chunkZ + i; z ++) {
+					if(x < 0 || x >= WorldSize.xChunks || z < 0 || z >= WorldSize.zChunks) continue;
+										
 					long chunkHash = ChunkCoordIntPair.chunkXZ2Long(x, z);
 					
 					Feature feature = this.featureList.get(chunkHash);
