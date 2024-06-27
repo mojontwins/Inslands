@@ -148,7 +148,7 @@ public class EntityCreature extends EntityLiving {
 	protected void attackBlockedEntity(Entity entity1, float f2) {
 	}
 
-	protected float getBlockPathWeight(int i1, int i2, int i3) {
+	public float getBlockPathWeight(int i1, int i2, int i3) {
 		return 0.0F;
 	}
 

@@ -55,7 +55,7 @@ public class EntityDungeonMob extends EntityCreature implements IMob {
 
 	}
 
-	protected float getBlockPathWeight(int i, int j, int k) {
+	public float getBlockPathWeight(int i, int j, int k) {
 		return 0.5F - this.worldObj.getLightBrightness(i, j, k);
 	}
 

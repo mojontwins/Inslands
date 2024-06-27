@@ -44,16 +44,17 @@ public class PlayerControllerSP extends PlayerController {
 		return wasRemoved;
 	}
 
-	public void clickBlock(int i1, int i2, int i3, int i4) {
-		this.mc.theWorld.onBlockHit(this.mc.thePlayer, i1, i2, i3, i4);
-		int i5 = this.mc.theWorld.getBlockId(i1, i2, i3);
-		int meta = this.mc.theWorld.getBlockMetadata(i1, i2, i3);
+	@Override
+	public void clickBlock(EntityPlayer entityPlayer, World world, ItemStack itemStack, int x, int y, int z, int side, float xWithinFace, float yWithinFace, float zWithinFace) {
+		this.mc.theWorld.onBlockHit(this.mc.thePlayer, x, y, z, side);
+		int i5 = this.mc.theWorld.getBlockId(x, y, z);
+		int meta = this.mc.theWorld.getBlockMetadata(x, y, z);
 		if(i5 > 0 && this.curBlockDamage == 0.0F) {
-			Block.blocksList[i5].onBlockClicked(this.mc.theWorld, i1, i2, i3, this.mc.thePlayer);
+			Block.blocksList[i5].onBlockClicked(this.mc.theWorld, x, y, z, this.mc.thePlayer);
 		}
 
 		if(i5 > 0 && Block.blocksList[i5].blockStrength(this.mc.thePlayer, meta) >= 1.0F) {
-			this.sendBlockRemoved(i1, i2, i3, i4);
+			this.sendBlockRemoved(x, y, z, side);
 		}
 
 	}

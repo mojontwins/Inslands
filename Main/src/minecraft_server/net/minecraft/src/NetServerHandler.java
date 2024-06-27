@@ -238,6 +238,8 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 	}
 
 	public void handleBlockDig(Packet14BlockDig packet14BlockDig1) {
+		// TODO: Intercept possible item special left click handler!
+		
 		WorldServer worldServer2 = this.mcServer.getWorldManager(this.playerEntity.dimension);
 		if(packet14BlockDig1.status == 4) {
 			this.playerEntity.dropCurrentItem();

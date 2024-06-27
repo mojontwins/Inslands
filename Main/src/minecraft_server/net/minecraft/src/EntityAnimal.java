@@ -5,7 +5,7 @@ public abstract class EntityAnimal extends EntityCreature implements IAnimals {
 		super(world1);
 	}
 
-	protected float getBlockPathWeight(int i1, int i2, int i3) {
+	public float getBlockPathWeight(int i1, int i2, int i3) {
 		return this.worldObj.getBlockId(i1, i2 - 1, i3) == Block.grass.blockID ? 10.0F : this.worldObj.getLightBrightness(i1, i2, i3) - 0.5F;
 	}
 

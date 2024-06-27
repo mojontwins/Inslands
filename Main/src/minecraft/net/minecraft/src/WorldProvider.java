@@ -142,7 +142,7 @@ public abstract class WorldProvider {
 		int z = (int)entity1.posZ;
 		BiomeGenBase biome = this.worldObj.getBiomeGenAt(x, z);
 		
-		if(biome.overrideFogColor != -1) {
+		if(biome != null && biome.overrideFogColor != -1) {
 			fogColor = biome.overrideFogColor;
 		} else {
 			fogColor= Seasons.getFogColorForToday();

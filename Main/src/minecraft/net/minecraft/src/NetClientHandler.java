@@ -763,6 +763,7 @@ public class NetClientHandler extends NetHandler {
 		System.out.println ("Got finite world settings: sizeID = " + packet.sizeID + ", themeID = " + packet.themeID);
 		WorldSize.setSizeById(packet.sizeID);
 		LevelThemeGlobalSettings.loadThemeById(packet.themeID);
+		BiomeGenBase.generateBiomeLookup();
 	}
 
 }

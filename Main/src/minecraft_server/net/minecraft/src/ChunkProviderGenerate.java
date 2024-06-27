@@ -2,6 +2,7 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.benimatic.twilightforest.MapGenTFHedgeMaze;
 import com.benimatic.twilightforest.MapGenTFMinotaurMaze;
 import com.mojang.minecraft.structure.mineshaft.MapGenMineshaft;
 import com.mojang.minecraft.structure.stronghold.MapGenStronghold;
@@ -30,6 +31,7 @@ public class ChunkProviderGenerate implements IChunkProvider {
 	protected MapGenMineshaft mineshaftGenerator;
 	protected MapGenStronghold strongholdGenerator;
 	protected MapGenTFMinotaurMaze minotaurMazeGenerator;
+	protected MapGenTFHedgeMaze hedgeMazeGenerator;
 	protected BiomeGenBase[] biomesForGeneration;
 	double[] mainArray;
 	double[] minLimitArray;
@@ -70,6 +72,7 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		this.mineshaftGenerator = new MapGenMineshaft(world);
 		this.strongholdGenerator = new MapGenStronghold(world);
 		this.minotaurMazeGenerator = new MapGenTFMinotaurMaze(world);
+		this.hedgeMazeGenerator = new MapGenTFHedgeMaze(world);
 		
 	}
 
@@ -305,6 +308,7 @@ public class ChunkProviderGenerate implements IChunkProvider {
 			this.mineshaftGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
 			this.strongholdGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
 			this.minotaurMazeGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
+			this.hedgeMazeGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
 		}		
 
 		// Ravines
@@ -651,6 +655,7 @@ public class ChunkProviderGenerate implements IChunkProvider {
 			this.mineshaftGenerator.generateStructuresInChunk(this.worldObj, this.rand, chunkX, chunkZ, false);
 			this.strongholdGenerator.generateStructuresInChunk(this.worldObj, this.rand, chunkX, chunkZ, true);
 			this.minotaurMazeGenerator.generateStructuresInChunk(this.worldObj, this.rand, chunkX, chunkZ, this.worldObj.worldProvider instanceof WorldProviderSky);
+			this.hedgeMazeGenerator.generateStructuresInChunk(this.worldObj, this.rand, chunkX, chunkZ, this.worldObj.worldProvider instanceof WorldProviderSky);
 		}
 	}
 	

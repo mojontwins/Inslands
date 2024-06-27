@@ -1,5 +1,7 @@
 package com.benimatic.twilightforest;
 
+import java.util.Random;
+
 import com.mojang.minecraft.structure.MapGenStructure;
 import com.mojang.minecraft.structure.StructureStart;
 
@@ -9,12 +11,12 @@ import net.minecraft.src.World;
 import net.minecraft.src.WorldSize;
 import net.minecraft.src.WorldType;
 
-public class MapGenTFMinotaurMaze extends MapGenStructure {
-	public MapGenTFMinotaurMaze(World world) {
+public class MapGenTFHedgeMaze extends MapGenStructure {
+	
+	public MapGenTFHedgeMaze(World world) {
 		this.world = world;
 	}
-		
-	@Override
+	
 	protected boolean canSpawnStructureAtCoords(World world, int chunkX, int chunkZ) {
 		if(chunkX < 0 || chunkX >= WorldSize.xChunks || chunkZ < 0 || chunkZ >= WorldSize.zChunks) return false;
 		
@@ -26,21 +28,21 @@ public class MapGenTFMinotaurMaze extends MapGenStructure {
 			return false;
 		}
 		
-		// TODO: Check if this maze breaks small level and don't use it
-		if(WorldSize.xChunks < 16) return chunkX == WorldSize.xChunks / 2 && chunkZ == WorldSize.zChunks / 2;
-		//
+		// Seed must be consistent
+		long seed = world.getRandomSeed() + chunkX * 25117 + chunkZ * 151121;
+		final Random rand = new Random(seed);
 		
 		boolean res = false;
 		if((chunkX & 0x0f) == 8 && (chunkZ & 0x0f) == 8) {
-			res = rand.nextInt(3) == 0;
+			res = rand.nextBoolean();
 		}
 		
 		return res;
 	}
 
-	@Override
 	protected StructureStart getStructureStart(int chunkX, int chunkZ) {
-		return new StructureTFMinotaurMazeStart(this.world, this.rand, chunkX, chunkZ);
+		return new StructureTFHedgeMazeStart(this.world, this.rand, chunkX, chunkZ);
 	}
+
 
 }

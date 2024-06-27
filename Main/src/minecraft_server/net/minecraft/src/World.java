@@ -1293,7 +1293,7 @@ public class World implements IBlockAccess {
 		int z = (int)entity1.posZ;
 		BiomeGenBase biome = this.getBiomeGenAt(x, z);
 		
-		if(biome.overrideSkyColor != -1) {
+		if(biome != null && biome.overrideSkyColor != -1) {
 			skyColor = biome.overrideSkyColor;
 		} else {
 			skyColor = Seasons.getSkyColorForToday();

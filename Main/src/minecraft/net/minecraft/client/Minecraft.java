@@ -851,11 +851,12 @@ public abstract class Minecraft implements Runnable {
 				float xWithinFace = (float) (this.objectMouseOver.hitVec.xCoord - (float)x);
 				float yWithinFace = (float) (this.objectMouseOver.hitVec.yCoord - (float)y);
 				float zWithinFace = (float) (this.objectMouseOver.hitVec.zCoord - (float)z);
-
+				
+				ItemStack itemStack = this.thePlayer.inventory.getCurrentItem();
+				
 				if(i1 == 0) {
-					this.playerController.clickBlock(x, y, z, this.objectMouseOver.sideHit);
+					this.playerController.clickBlock(this.thePlayer, this.theWorld, itemStack, x, y, z, face, xWithinFace, yWithinFace, zWithinFace);
 				} else {
-					ItemStack itemStack = this.thePlayer.inventory.getCurrentItem();
 					int stackSize = itemStack != null ? itemStack.stackSize : 0;
 					if(this.playerController.sendPlaceBlock(this.thePlayer, this.theWorld, itemStack, x, y, z, face, xWithinFace, yWithinFace, zWithinFace)) {
 						z2 = false;

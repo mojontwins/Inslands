@@ -42,28 +42,29 @@ public class PlayerControllerMP extends PlayerController {
 		}
 	}
 
-	public void clickBlock(int i1, int i2, int i3, int i4) {
+	@Override
+	public void clickBlock(EntityPlayer entityPlayer, World world, ItemStack itemStack, int x, int y, int z, int side, float xWithinFace, float yWithinFace, float zWithinFace) {
 		if(this.mc.thePlayer.isCreative) {
-			this.netClientHandler.addToSendQueue(new Packet14BlockDig(0, i1, i2, i3, i4));
-			if (!this.mc.theWorld.onBlockHit((EntityPlayer)null, i1, i2, i3, i4)) {
-				this.sendBlockRemoved(i1, i2, i3, i4);
+			this.netClientHandler.addToSendQueue(new Packet14BlockDig(0, x, y, z, side, itemStack, xWithinFace, yWithinFace, zWithinFace));
+			if (!this.mc.theWorld.onBlockHit((EntityPlayer)null, x, y, z, side)) {
+				this.sendBlockRemoved(x, y, z, side);
 			}
 			this.blockHitDelay = 5;
-		} else if(!this.isHittingBlock || i1 != this.currentBlockX || i2 != this.currentBlockY || i3 != this.currentblockZ) {
-			this.netClientHandler.addToSendQueue(new Packet14BlockDig(0, i1, i2, i3, i4));
-			int i5 = this.mc.theWorld.getBlockId(i1, i2, i3);
-			int meta = this.mc.theWorld.getBlockMetadata(i1, i2, i3);
+		} else if(!this.isHittingBlock || x != this.currentBlockX || y != this.currentBlockY || z != this.currentblockZ) {
+			this.netClientHandler.addToSendQueue(new Packet14BlockDig(0, x, y, z, side, itemStack, xWithinFace, yWithinFace, zWithinFace));
+			int i5 = this.mc.theWorld.getBlockId(x, y, z);
+			int meta = this.mc.theWorld.getBlockMetadata(x, y, z);
 			if(i5 > 0 && this.curBlockDamageMP == 0.0F) {
-				Block.blocksList[i5].onBlockClicked(this.mc.theWorld, i1, i2, i3, this.mc.thePlayer);
+				Block.blocksList[i5].onBlockClicked(this.mc.theWorld, x, y, z, this.mc.thePlayer);
 			}
 
 			if(i5 > 0 && Block.blocksList[i5].blockStrength(this.mc.thePlayer, meta) >= 1.0F) {
-				this.sendBlockRemoved(i1, i2, i3, i4);
+				this.sendBlockRemoved(x, y, z, side);
 			} else {
 				this.isHittingBlock = true;
-				this.currentBlockX = i1;
-				this.currentBlockY = i2;
-				this.currentblockZ = i3;
+				this.currentBlockX = x;
+				this.currentBlockY = y;
+				this.currentblockZ = z;
 				this.curBlockDamageMP = 0.0F;
 				this.prevBlockDamageMP = 0.0F;
 				this.stepSoundTickCounter = 0.0F;
@@ -84,7 +85,7 @@ public class PlayerControllerMP extends PlayerController {
 				--this.blockHitDelay;
 			} else if(this.mc.thePlayer.isCreative) {
 				this.blockHitDelay = 5;
-				this.netClientHandler.addToSendQueue(new Packet14BlockDig(0, i1, i2, i3, i4));
+				this.netClientHandler.addToSendQueue(new Packet14BlockDig(0, i1, i2, i3, i4, null, 0, 0, 0));
 				if (!this.mc.theWorld.onBlockHit((EntityPlayer)null, i1, i2, i3, i4)) {
 					this.sendBlockRemoved(i1, i2, i3, i4);
 				}
@@ -107,7 +108,7 @@ public class PlayerControllerMP extends PlayerController {
 					++this.stepSoundTickCounter;
 					if(this.curBlockDamageMP >= 1.0F) {
 						this.isHittingBlock = false;
-						this.netClientHandler.addToSendQueue(new Packet14BlockDig(2, i1, i2, i3, i4));
+						this.netClientHandler.addToSendQueue(new Packet14BlockDig(2, i1, i2, i3, i4, null, 0, 0, 0));
 						this.sendBlockRemoved(i1, i2, i3, i4);
 						this.curBlockDamageMP = 0.0F;
 						this.prevBlockDamageMP = 0.0F;
@@ -115,7 +116,7 @@ public class PlayerControllerMP extends PlayerController {
 						this.blockHitDelay = 5;
 					}
 				} else {
-					this.clickBlock(i1, i2, i3, i4);
+					this.clickBlock(null, null, null, i1, i2, i3, i4, 0, 0, 0);
 				}
 
 			}
