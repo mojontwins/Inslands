@@ -10,11 +10,12 @@ public class WorldServer extends World {
 	public boolean disableSpawnProtection = false;
 	public boolean levelSaving;
 	private MinecraftServer mcServer;
-	private MCHash entityRemoval = new MCHash();
+	private MCHash entityRemoval;
 
 	public WorldServer(MinecraftServer minecraftServer1, ISaveHandler iSaveHandler2, String string3, int i4, WorldSettings worldSettings5) {
 		super(iSaveHandler2, string3, worldSettings5, WorldProvider.getProviderForDimension(i4));
 		this.mcServer = minecraftServer1;
+		this.entityRemoval = new MCHash();
 	}
 
 	public void updateEntityWithOptionalForce(Entity entity1, boolean z2) {
@@ -63,6 +64,7 @@ public class WorldServer extends World {
 
 	protected void obtainEntitySkin(Entity entity1) {
 		super.obtainEntitySkin(entity1);
+		if(this.entityRemoval == null) this.entityRemoval = new MCHash();
 		this.entityRemoval.addKey(entity1.entityId, entity1);
 	}
 

@@ -200,9 +200,9 @@ public class MinecraftServer implements Runnable, ICommandListener {
 				
 				WorldServer worldMngr = this.worldMngr[i];				
 				
-				this.worldMngr[i].addWorldAccess(new WorldManager(this, this.worldMngr[i]));
-				this.worldMngr[i].difficultySetting = this.propertyManagerObj.getBooleanProperty("spawn-monsters", true) ? 1 : 0;
-				this.worldMngr[i].setAllowedMobSpawns(this.propertyManagerObj.getBooleanProperty("spawn-monsters", true), this.spawnPeacefulMobs);
+				worldMngr.addWorldAccess(new WorldManager(this, this.worldMngr[i]));
+				worldMngr.difficultySetting = this.propertyManagerObj.getBooleanProperty("spawn-monsters", true) ? 1 : 0;
+				worldMngr.setAllowedMobSpawns(this.propertyManagerObj.getBooleanProperty("spawn-monsters", true), this.spawnPeacefulMobs);
 				this.configManager.setPlayerManager(this.worldMngr);
 				
 				// Check if valid
@@ -224,10 +224,17 @@ public class MinecraftServer implements Runnable, ICommandListener {
 					} else if(!worldMngr.levelIsValidUponWorldTheme()) {
 						logger.info("Generated overworld doesn't meet requirements for selected level theme " + LevelThemeSettings.findThemeById(LevelThemeGlobalSettings.themeID).name + ". Retrying");
 						levelsAreOk = false;
+						seed = worldMngr.rand.nextLong();
 						break;
 					}
 				}
 	
+			}
+			if(!levelsAreOk) {
+				for(int i = 0; i < this.worldMngr.length; i ++) {
+					this.worldMngr[i] = null;
+				}
+				System.gc();
 			}
 		} while (!levelsAreOk);
 

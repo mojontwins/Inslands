@@ -3,6 +3,7 @@ package net.minecraft.src;
 import java.util.StringTokenizer;
 
 import com.misc.bo3import.WorldGenBo3Tree;
+import com.mojontwins.minecraft.worldedit.WorldEdit;
 
 import net.minecraft.client.Minecraft;
 
@@ -211,10 +212,11 @@ public class SinglePlayerCommands {
 						double d7 = (double)(this.mc.theWorld.rand.nextFloat() * f6) + (double)(1.0F - f6) * 0.5D;
 						double d9 = (double)(this.mc.theWorld.rand.nextFloat() * f6) + (double)(1.0F - f6) * 0.5D;
 						double d11 = (double)(this.mc.theWorld.rand.nextFloat() * f6) + (double)(1.0F - f6) * 0.5D;
+						System.out.println ("Spawing  " + blockID + ":" + metadata + " " + quantity);
 						EntityItem entityItem13 = new EntityItem(this.mc.theWorld, this.mc.thePlayer.posX + d7, this.mc.thePlayer.posY + d9, this.mc.thePlayer.posZ + d11, new ItemStack(blockID, quantity, metadata));
 						entityItem13.delayBeforeCanPickup = 10;
 						this.mc.theWorld.entityJoinedWorld(entityItem13);
-					} catch (Exception e) { }
+					} catch (Exception e) {this.mc.ingameGUI.addChatMessage(e.getMessage()); }
 
 				}
 			} else if ("/bo3tree".equals(cmd)) {
@@ -249,6 +251,12 @@ public class SinglePlayerCommands {
 					e.printStackTrace();
 				}
 			}
+			
+			// WorldEdit commands
+			else {
+				WorldEdit.processCommands(this.mc, cmd, tokens);
+			}
+			
 		}
 	}
 }

@@ -3221,3 +3221,382 @@ net.minecraft.src.MinecraftException: Failed to check session lock, aborting
 2024-06-27 09:19:56 [INFO] Stopping server
 2024-06-27 09:19:56 [INFO] Saving chunks
 2024-06-27 09:19:57 [INFO] Saving chunks
+2024-06-27 09:25:12 [INFO] Starting minecraft server InSlands v240612
+2024-06-27 09:25:12 [INFO] Loading properties
+2024-06-27 09:25:12 [INFO] Starting Minecraft server on *:25565
+2024-06-27 09:25:12 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-27 09:25:12 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-27 09:25:12 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-27 09:25:12 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-27 09:25:12 [INFO] Preparing level "world"
+2024-06-27 09:25:12 [INFO] ** DIM 0
+2024-06-27 09:25:12 [INFO] Loading existing world
+2024-06-27 09:25:12 [INFO] ** DIM -1
+2024-06-27 09:25:12 [INFO] Loading existing world
+2024-06-27 09:25:13 [INFO] Done (988218601ns)! For help, type "help" or "?"
+2024-06-27 09:25:31 [INFO] Popoch [/127.0.0.1:61362] logged in with entity id 958 at (138.5, 71.59375, 227.5)
+2024-06-27 09:25:31 [SEVERE] Unexpected exception
+java.lang.NullPointerException
+	at net.minecraft.src.EntityList.getEntityID(EntityList.java:103)
+	at net.minecraft.src.Packet24MobSpawn.<init>(Packet24MobSpawn.java:24)
+	at net.minecraft.src.EntityTrackerEntry.getSpawnPacket(EntityTrackerEntry.java:231)
+	at net.minecraft.src.EntityTrackerEntry.updatePlayerEntity(EntityTrackerEntry.java:168)
+	at net.minecraft.src.EntityTrackerEntry.updatePlayerEntities(EntityTrackerEntry.java:197)
+	at net.minecraft.src.EntityTracker.trackEntity(EntityTracker.java:84)
+	at net.minecraft.src.EntityTracker.trackEntity(EntityTracker.java:70)
+	at net.minecraft.src.EntityTracker.trackEntity(EntityTracker.java:58)
+	at net.minecraft.src.WorldManager.obtainEntitySkin(WorldManager.java:18)
+	at net.minecraft.src.World.obtainEntitySkin(World.java:1113)
+	at net.minecraft.src.WorldServer.obtainEntitySkin(WorldServer.java:65)
+	at net.minecraft.src.World.entityJoinedWorld(World.java:1106)
+	at net.minecraft.src.SpawnerAnimals.performSpawning(SpawnerAnimals.java:179)
+	at net.minecraft.src.World.tick(World.java:2152)
+	at net.minecraft.server.MinecraftServer.doTick(MinecraftServer.java:374)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:301)
+	at net.minecraft.src.ThreadServerApplication.run(ThreadServerApplication.java:14)
+2024-06-27 09:25:40 [INFO] Stopping server
+2024-06-27 09:25:40 [INFO] Saving chunks
+2024-06-27 09:25:41 [INFO] Saving chunks
+2024-06-27 09:26:08 [INFO] Starting minecraft server InSlands v240612
+2024-06-27 09:26:08 [INFO] Loading properties
+2024-06-27 09:26:08 [INFO] Starting Minecraft server on *:25565
+2024-06-27 09:26:08 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-27 09:26:08 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-27 09:26:08 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-27 09:26:08 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-27 09:26:08 [INFO] Preparing level "world"
+2024-06-27 09:26:08 [INFO] ** DIM 0
+2024-06-27 09:26:09 [SEVERE] Unexpected exception
+java.lang.NullPointerException
+	at net.minecraft.src.WorldServer.obtainEntitySkin(WorldServer.java:67)
+	at net.minecraft.src.World.entityJoinedWorld(World.java:1106)
+	at net.minecraft.src.Block.dropBlockAsItem_do(Block.java:467)
+	at net.minecraft.src.Block.dropBlockAsItemWithChance(Block.java:451)
+	at net.minecraft.src.Block.dropBlockAsItem(Block.java:440)
+	at net.minecraft.src.BlockTorch.checkIfAttachedToBlock(BlockTorch.java:130)
+	at net.minecraft.src.BlockTorch.onBlockAdded(BlockTorch.java:93)
+	at net.minecraft.src.Chunk.setBlockIDWithMetadata(Chunk.java:289)
+	at net.minecraft.src.Chunk.setBlockID(Chunk.java:364)
+	at net.minecraft.src.World.setBlock(World.java:467)
+	at net.minecraft.src.World.setBlockWithNotify(World.java:552)
+	at net.minecraft.src.WorldGenIndevHouse.generate(WorldGenIndevHouse.java:58)
+	at net.minecraft.src.World.getInitialSpawnLocation(World.java:285)
+	at net.minecraft.src.World.<init>(World.java:243)
+	at net.minecraft.src.WorldServer.<init>(WorldServer.java:16)
+	at net.minecraft.server.MinecraftServer.initWorld(MinecraftServer.java:193)
+	at net.minecraft.server.MinecraftServer.startServer(MinecraftServer.java:150)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:277)
+	at net.minecraft.src.ThreadServerApplication.run(ThreadServerApplication.java:14)
+2024-06-27 09:26:14 [INFO] Stopping server
+2024-06-27 09:28:41 [INFO] Starting minecraft server InSlands v240612
+2024-06-27 09:28:41 [INFO] Loading properties
+2024-06-27 09:28:41 [INFO] Starting Minecraft server on *:25565
+2024-06-27 09:28:41 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-27 09:28:41 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-27 09:28:41 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-27 09:28:41 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-27 09:28:41 [INFO] Preparing level "world"
+2024-06-27 09:28:41 [INFO] ** DIM 0
+2024-06-27 09:28:41 [INFO] Generating new world
+2024-06-27 09:28:42 [INFO] Preparing spawn area: 12%
+2024-06-27 09:28:43 [INFO] Preparing spawn area: 25%
+2024-06-27 09:28:44 [INFO] Preparing spawn area: 37%
+2024-06-27 09:28:45 [INFO] Preparing spawn area: 55%
+2024-06-27 09:28:46 [INFO] Preparing spawn area: 69%
+2024-06-27 09:28:47 [INFO] Preparing spawn area: 84%
+2024-06-27 09:28:48 [INFO] Preparing spawn area: 97%
+2024-06-27 09:28:48 [INFO] ** DIM -1
+2024-06-27 09:28:48 [INFO] Generating new world
+2024-06-27 09:28:49 [INFO] Preparing spawn area: 39%
+2024-06-27 09:28:50 [INFO] Preparing spawn area: 82%
+2024-06-27 09:28:51 [INFO] Done (10018630001ns)! For help, type "help" or "?"
+2024-06-27 09:29:08 [WARNING] Failed to load player data for Popoch
+2024-06-27 09:29:08 [INFO] Popoch [/127.0.0.1:61398] logged in with entity id 58 at (305.5, 74.62000000476837, 260.5)
+2024-06-27 09:29:20 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 09:29:21 [INFO] Stopping server
+2024-06-27 09:29:21 [INFO] Saving chunks
+2024-06-27 09:29:21 [INFO] Saving chunks
+2024-06-27 09:33:36 [INFO] Starting minecraft server InSlands v240612
+2024-06-27 09:33:36 [INFO] Loading properties
+2024-06-27 09:33:36 [INFO] Starting Minecraft server on *:25565
+2024-06-27 09:33:36 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-27 09:33:36 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-27 09:33:36 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-27 09:33:37 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-27 09:33:37 [INFO] Preparing level "world"
+2024-06-27 09:33:37 [INFO] ** DIM 0
+2024-06-27 09:33:37 [INFO] Loading existing world
+2024-06-27 09:33:37 [INFO] ** DIM -1
+2024-06-27 09:33:37 [INFO] Loading existing world
+2024-06-27 09:33:37 [INFO] Done (931306600ns)! For help, type "help" or "?"
+2024-06-27 09:33:50 [INFO] Popoch [/127.0.0.1:61451] logged in with entity id 136 at (305.5, 74.62000000476837, 260.5)
+2024-06-27 09:33:55 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 09:33:58 [INFO] Stopping server
+2024-06-27 09:33:58 [INFO] Saving chunks
+2024-06-27 09:33:58 [INFO] Saving chunks
+2024-06-27 09:36:20 [INFO] Starting minecraft server InSlands v240612
+2024-06-27 09:36:20 [INFO] Loading properties
+2024-06-27 09:36:20 [INFO] Starting Minecraft server on *:25565
+2024-06-27 09:36:20 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-27 09:36:20 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-27 09:36:20 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-27 09:36:20 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-27 09:36:20 [INFO] Preparing level "world"
+2024-06-27 09:36:20 [INFO] ** DIM 0
+2024-06-27 09:36:20 [INFO] Loading existing world
+2024-06-27 09:36:21 [INFO] ** DIM -1
+2024-06-27 09:36:21 [INFO] Loading existing world
+2024-06-27 09:36:21 [INFO] Done (854227201ns)! For help, type "help" or "?"
+2024-06-27 09:36:32 [INFO] Popoch [/127.0.0.1:61484] logged in with entity id 136 at (305.5, 74.62000000476837, 260.5)
+2024-06-27 09:36:36 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 09:36:37 [INFO] Stopping server
+2024-06-27 09:36:37 [INFO] Saving chunks
+2024-06-27 09:36:37 [INFO] Saving chunks
+2024-06-27 09:37:11 [INFO] Starting minecraft server InSlands v240612
+2024-06-27 09:37:11 [INFO] Loading properties
+2024-06-27 09:37:11 [INFO] Starting Minecraft server on *:25565
+2024-06-27 09:37:11 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-27 09:37:11 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-27 09:37:11 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-27 09:37:11 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-27 09:37:11 [INFO] Preparing level "world"
+2024-06-27 09:37:11 [INFO] ** DIM 0
+2024-06-27 09:37:11 [INFO] Generating new world
+2024-06-27 09:37:12 [INFO] Preparing spawn area: 49%
+2024-06-27 09:37:13 [INFO] Preparing spawn area: 88%
+2024-06-27 09:37:13 [INFO] ** DIM -1
+2024-06-27 09:37:13 [INFO] Generating new world
+2024-06-27 09:37:14 [INFO] Done (3235937400ns)! For help, type "help" or "?"
+2024-06-27 09:37:23 [WARNING] Failed to load player data for Popoch
+2024-06-27 09:37:23 [INFO] Popoch [/127.0.0.1:61501] logged in with entity id 5 at (131.5, 78.62000000476837, 114.5)
+2024-06-27 09:37:31 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 09:37:31 [INFO] Stopping server
+2024-06-27 09:37:31 [INFO] Saving chunks
+2024-06-27 09:37:31 [INFO] Saving chunks
+2024-06-27 09:39:52 [INFO] Starting minecraft server InSlands v240625
+2024-06-27 09:39:52 [INFO] Loading properties
+2024-06-27 09:39:52 [INFO] Starting Minecraft server on *:25565
+2024-06-27 09:39:52 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-27 09:39:52 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-27 09:39:52 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-27 09:39:52 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-27 09:39:52 [INFO] Preparing level "world"
+2024-06-27 09:39:52 [INFO] ** DIM 0
+2024-06-27 09:39:53 [SEVERE] Unexpected exception
+java.lang.NullPointerException
+	at net.minecraft.src.WorldServer.obtainEntitySkin(WorldServer.java:67)
+	at net.minecraft.src.World.entityJoinedWorld(World.java:1106)
+	at net.minecraft.src.Block.dropBlockAsItem_do(Block.java:469)
+	at net.minecraft.src.Block.dropBlockAsItemWithChance(Block.java:453)
+	at net.minecraft.src.Block.dropBlockAsItem(Block.java:442)
+	at net.minecraft.src.BlockTorch.checkIfAttachedToBlock(BlockTorch.java:130)
+	at net.minecraft.src.BlockTorch.onBlockAdded(BlockTorch.java:93)
+	at net.minecraft.src.Chunk.setBlockIDWithMetadata(Chunk.java:292)
+	at net.minecraft.src.Chunk.setBlockID(Chunk.java:367)
+	at net.minecraft.src.World.setBlock(World.java:467)
+	at net.minecraft.src.World.setBlockWithNotify(World.java:552)
+	at net.minecraft.src.WorldGenIndevHouse.generate(WorldGenIndevHouse.java:59)
+	at net.minecraft.src.World.getInitialSpawnLocation(World.java:285)
+	at net.minecraft.src.World.<init>(World.java:243)
+	at net.minecraft.src.WorldServer.<init>(WorldServer.java:16)
+	at net.minecraft.server.MinecraftServer.initWorld(MinecraftServer.java:196)
+	at net.minecraft.server.MinecraftServer.startServer(MinecraftServer.java:151)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:280)
+	at net.minecraft.src.ThreadServerApplication.run(ThreadServerApplication.java:14)
+2024-06-27 09:39:58 [INFO] Stopping server
+2024-06-27 09:41:59 [INFO] Starting minecraft server InSlands v240625
+2024-06-27 09:41:59 [INFO] Loading properties
+2024-06-27 09:41:59 [INFO] Starting Minecraft server on *:25565
+2024-06-27 09:41:59 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-27 09:41:59 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-27 09:41:59 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-27 09:41:59 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-27 09:41:59 [INFO] Preparing level "world"
+2024-06-27 09:41:59 [INFO] ** DIM 0
+2024-06-27 09:41:59 [INFO] Generating new world
+2024-06-27 09:42:00 [INFO] Preparing spawn area: 42%
+2024-06-27 09:42:01 [INFO] Preparing spawn area: 93%
+2024-06-27 09:42:01 [INFO] Could not find a valid spawn point for dim 0. Retrying
+2024-06-27 09:42:01 [INFO] ** DIM 0
+2024-06-27 09:42:01 [INFO] Generating new world
+2024-06-27 09:42:02 [INFO] Preparing spawn area: 59%
+2024-06-27 09:42:03 [INFO] ** DIM -1
+2024-06-27 09:42:03 [INFO] Generating new world
+2024-06-27 09:42:04 [INFO] Done (5167860099ns)! For help, type "help" or "?"
+2024-06-27 09:44:27 [WARNING] Failed to load player data for Popoch
+2024-06-27 09:44:27 [INFO] Popoch [/127.0.0.1:61563] logged in with entity id 52 at (131.5, 98.62000000476837, 107.5)
+2024-06-27 09:45:12 [INFO] Popoch [/127.0.0.1:61577] logged in with entity id 4838 at (127.21875, 96.0, 110.75)
+2024-06-27 09:57:07 [INFO] Popoch lost connection: disconnect.quitting
+2024-06-27 10:02:32 [INFO] Popoch [/127.0.0.1:61656] logged in with entity id 86259 at (105.63475605124927, 65.0, 27.28630845619261)
+2024-06-27 10:02:34 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 10:04:16 [INFO] Popoch [/127.0.0.1:61682] logged in with entity id 86561 at (105.63475605124927, 65.0, 27.28630845619261)
+2024-06-27 10:04:19 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 10:05:53 [INFO] Popoch [/127.0.0.1:61694] logged in with entity id 86927 at (105.63475605124927, 65.0, 27.28630845619261)
+2024-06-27 10:06:55 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 10:10:10 [INFO] Popoch [/127.0.0.1:61732] logged in with entity id 94801 at (92.75318232053573, 66.0, 7.300000011920931)
+2024-06-27 10:10:51 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 10:14:07 [INFO] Stopping server
+2024-06-27 10:14:07 [INFO] Saving chunks
+2024-06-27 10:14:08 [INFO] Saving chunks
+2024-06-27 10:14:11 [INFO] Starting minecraft server InSlands v240625
+2024-06-27 10:14:11 [INFO] Loading properties
+2024-06-27 10:14:11 [INFO] Starting Minecraft server on *:25565
+2024-06-27 10:14:11 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-27 10:14:11 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-27 10:14:11 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-27 10:14:11 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-27 10:14:11 [INFO] Preparing level "world"
+2024-06-27 10:14:11 [INFO] ** DIM 0
+2024-06-27 10:14:11 [INFO] Loading existing world
+2024-06-27 10:14:11 [INFO] ** DIM -1
+2024-06-27 10:14:11 [INFO] Loading existing world
+2024-06-27 10:14:11 [INFO] Done (303788199ns)! For help, type "help" or "?"
+2024-06-27 10:14:25 [INFO] Popoch [/127.0.0.1:61767] logged in with entity id 71 at (123.5, 95.0, 100.5)
+2024-06-27 10:15:10 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 10:17:18 [INFO] Popoch [/127.0.0.1:61800] logged in with entity id 4020 at (144.03125, 81.75, 126.71875)
+2024-06-27 10:17:48 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 10:19:02 [INFO] Popoch [/127.0.0.1:61817] logged in with entity id 6415 at (144.03125, 81.75, 126.71875)
+2024-06-27 10:19:32 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 10:21:35 [INFO] Popoch [/127.0.0.1:61845] logged in with entity id 8749 at (144.03125, 81.75, 126.71875)
+2024-06-27 10:21:43 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 10:22:10 [INFO] Popoch [/127.0.0.1:61860] logged in with entity id 9411 at (144.03125, 81.75, 126.71875)
+2024-06-27 10:22:15 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 10:22:23 [INFO] Popoch [/127.0.0.1:61872] logged in with entity id 9801 at (144.03125, 81.75, 126.71875)
+2024-06-27 10:22:26 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 10:26:16 [INFO] Popoch [/127.0.0.1:61919] logged in with entity id 10022 at (144.03125, 81.75, 126.71875)
+2024-06-27 10:26:46 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 10:28:14 [INFO] Starting minecraft server InSlands v240625
+2024-06-27 10:28:14 [INFO] Loading properties
+2024-06-27 10:28:14 [INFO] Starting Minecraft server on *:25565
+2024-06-27 10:28:14 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-27 10:28:14 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-27 10:28:14 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-27 10:28:14 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-27 10:28:14 [INFO] Preparing level "world"
+2024-06-27 10:28:14 [INFO] ** DIM 0
+2024-06-27 10:28:14 [INFO] Generating new world
+2024-06-27 10:28:15 [INFO] Preparing spawn area: 40%
+2024-06-27 10:28:16 [INFO] ** DIM -1
+2024-06-27 10:28:16 [INFO] Generating new world
+2024-06-27 10:28:17 [INFO] Done (3177376799ns)! For help, type "help" or "?"
+2024-06-27 10:28:20 [WARNING] Failed to load player data for Popoch
+2024-06-27 10:28:20 [INFO] Popoch [/127.0.0.1:61998] logged in with entity id 25 at (144.5, 69.62000000476837, 99.5)
+2024-06-27 10:28:51 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 10:29:16 [INFO] Popoch [/127.0.0.1:62026] logged in with entity id 1374 at (144.5, 70.59375, 99.5)
+2024-06-27 10:29:32 [INFO] Popoch issued server command: tp 64 100 64
+2024-06-27 10:30:41 [INFO] Popoch issued server command: gamemode 1
+2024-06-27 10:30:41 [INFO] Popoch: Game mode changed to creative for Popoch
+2024-06-27 10:30:51 [WARNING] class net.minecraft.src.NetServerHandler wasn't prepared to deal with a class net.minecraft.src.Packet107CreativeSetSlot
+2024-06-27 10:33:52 [INFO] Popoch [/127.0.0.1:62088] logged in with entity id 4692 at (144.5, 70.59375, 99.5)
+2024-06-27 10:34:46 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 10:34:51 [INFO] Popoch [/127.0.0.1:62107] logged in with entity id 6677 at (144.5, 69.0, 99.5)
+2024-06-27 10:34:54 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 10:35:21 [INFO] Popoch [/127.0.0.1:62122] logged in with entity id 6774 at (144.5, 69.0, 99.5)
+2024-06-27 10:35:24 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 10:36:52 [INFO] Popoch [/127.0.0.1:62139] logged in with entity id 6870 at (144.5, 69.0, 99.5)
+2024-06-27 10:36:57 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 10:37:19 [INFO] Popoch [/127.0.0.1:62152] logged in with entity id 7036 at (144.5, 69.0, 99.5)
+2024-06-27 10:37:22 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 10:38:18 [INFO] Popoch [/127.0.0.1:62171] logged in with entity id 7153 at (144.5, 69.0, 99.5)
+2024-06-27 10:38:31 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 10:40:41 [SEVERE] Unexpected exception
+net.minecraft.src.MinecraftException: Failed to check session lock, aborting
+	at net.minecraft.src.SaveHandler.checkSessionLock(SaveHandler.java:67)
+	at net.minecraft.src.World.checkSessionLock(World.java:2993)
+	at net.minecraft.src.World.saveLevel(World.java:350)
+	at net.minecraft.src.World.saveWorld(World.java:340)
+	at net.minecraft.src.World.tick(World.java:2173)
+	at net.minecraft.server.MinecraftServer.doTick(MinecraftServer.java:377)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:304)
+	at net.minecraft.src.ThreadServerApplication.run(ThreadServerApplication.java:14)
+2024-06-27 10:40:43 [INFO] Stopping server
+2024-06-27 10:40:43 [INFO] Saving chunks
+2024-06-27 10:41:57 [INFO] Starting minecraft server InSlands v240625
+2024-06-27 10:41:57 [INFO] Loading properties
+2024-06-27 10:41:57 [INFO] Starting Minecraft server on *:25565
+2024-06-27 10:41:57 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-27 10:41:57 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-27 10:41:57 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-27 10:41:57 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-27 10:41:57 [INFO] Preparing level "world"
+2024-06-27 10:41:57 [INFO] ** DIM 0
+2024-06-27 10:41:59 [INFO] Generating new world
+2024-06-27 10:42:00 [INFO] Preparing spawn area: 20%
+2024-06-27 10:42:01 [INFO] Preparing spawn area: 46%
+2024-06-27 10:42:02 [INFO] Preparing spawn area: 68%
+2024-06-27 10:42:03 [INFO] Preparing spawn area: 92%
+2024-06-27 10:42:03 [INFO] Generated overworld doesn't meet requirements for selected level theme Forest. Retrying
+2024-06-27 10:42:03 [INFO] ** DIM 0
+2024-06-27 10:42:04 [INFO] Generating new world
+2024-06-27 10:42:05 [INFO] Preparing spawn area: 38%
+2024-06-27 10:42:06 [INFO] Preparing spawn area: 61%
+2024-06-27 10:42:07 [INFO] Preparing spawn area: 86%
+2024-06-27 10:42:07 [INFO] Generated overworld doesn't meet requirements for selected level theme Forest. Retrying
+2024-06-27 10:42:07 [INFO] ** DIM 0
+2024-06-27 10:42:08 [INFO] Generating new world
+2024-06-27 10:42:09 [INFO] Preparing spawn area: 36%
+2024-06-27 10:42:10 [INFO] Preparing spawn area: 60%
+2024-06-27 10:42:11 [INFO] Preparing spawn area: 83%
+2024-06-27 10:42:12 [INFO] Generated overworld doesn't meet requirements for selected level theme Forest. Retrying
+2024-06-27 10:42:12 [INFO] ** DIM 0
+2024-06-27 10:42:13 [INFO] Generating new world
+2024-06-27 10:42:14 [INFO] Preparing spawn area: 36%
+2024-06-27 10:42:15 [INFO] Preparing spawn area: 60%
+2024-06-27 10:42:16 [INFO] Preparing spawn area: 82%
+2024-06-27 10:42:16 [INFO] Generated overworld doesn't meet requirements for selected level theme Forest. Retrying
+2024-06-27 10:42:16 [INFO] ** DIM 0
+2024-06-27 10:42:17 [INFO] Generating new world
+2024-06-27 10:42:18 [INFO] Preparing spawn area: 36%
+2024-06-27 10:42:19 [INFO] Preparing spawn area: 59%
+2024-06-27 10:42:20 [INFO] Preparing spawn area: 81%
+2024-06-27 10:42:21 [INFO] Generated overworld doesn't meet requirements for selected level theme Forest. Retrying
+2024-06-27 10:42:21 [INFO] ** DIM 0
+2024-06-27 10:42:22 [INFO] Generating new world
+2024-06-27 10:42:23 [INFO] Preparing spawn area: 39%
+2024-06-27 10:42:24 [INFO] Preparing spawn area: 61%
+2024-06-27 10:42:25 [INFO] Preparing spawn area: 83%
+2024-06-27 10:42:26 [INFO] Generated overworld doesn't meet requirements for selected level theme Forest. Retrying
+2024-06-27 10:42:26 [INFO] ** DIM 0
+2024-06-27 10:42:27 [INFO] Generating new world
+2024-06-27 10:42:28 [INFO] Preparing spawn area: 36%
+2024-06-27 10:42:29 [INFO] Preparing spawn area: 58%
+2024-06-27 10:42:30 [INFO] Preparing spawn area: 79%
+2024-06-27 10:42:31 [INFO] Generated overworld doesn't meet requirements for selected level theme Forest. Retrying
+2024-06-27 10:42:31 [INFO] ** DIM 0
+2024-06-27 10:42:31 [INFO] Generating new world
+2024-06-27 10:42:32 [INFO] Preparing spawn area: 35%
+2024-06-27 10:42:33 [INFO] Preparing spawn area: 57%
+2024-06-27 10:42:34 [INFO] Preparing spawn area: 78%
+2024-06-27 10:42:35 [INFO] Could not find a valid spawn point for dim 0. Retrying
+2024-06-27 10:42:35 [INFO] ** DIM 0
+2024-06-27 10:42:36 [INFO] Generating new world
+2024-06-27 10:42:37 [INFO] Preparing spawn area: 36%
+2024-06-27 10:42:38 [INFO] Preparing spawn area: 60%
+2024-06-27 10:42:39 [INFO] Preparing spawn area: 85%
+2024-06-27 10:42:40 [INFO] Could not find a valid spawn point for dim 0. Retrying
+2024-06-27 10:42:40 [INFO] ** DIM 0
+2024-06-27 10:42:41 [INFO] Generating new world
+2024-06-27 10:42:42 [INFO] Preparing spawn area: 35%
+2024-06-27 10:49:05 [INFO] Starting minecraft server InSlands v240625
+2024-06-27 10:49:05 [INFO] Loading properties
+2024-06-27 10:49:05 [INFO] Starting Minecraft server on *:25565
+2024-06-27 10:49:05 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-27 10:49:05 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-27 10:49:05 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-27 10:49:05 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-27 10:49:05 [INFO] Preparing level "world"
+2024-06-27 10:49:05 [INFO] ** DIM 0
+2024-06-27 10:49:06 [INFO] Generating new world
+2024-06-27 10:49:07 [INFO] Preparing spawn area: 26%
+2024-06-27 10:49:08 [INFO] Preparing spawn area: 43%
+2024-06-27 10:49:09 [INFO] Preparing spawn area: 66%
+2024-06-27 10:49:10 [INFO] Preparing spawn area: 96%
+2024-06-27 10:49:10 [INFO] ** DIM -1
+2024-06-27 10:49:10 [INFO] Generating new world
+2024-06-27 10:49:11 [INFO] Done (5475808900ns)! For help, type "help" or "?"
+2024-06-27 10:49:19 [WARNING] Failed to load player data for Popoch
+2024-06-27 10:49:19 [INFO] Popoch [/127.0.0.1:62278] logged in with entity id 112 at (91.5, 89.62000000476837, 157.5)
+2024-06-27 10:50:00 [INFO] Popoch lost connection: disconnect.genericReason
+2024-06-27 11:42:12 [INFO] Stopping server
+2024-06-27 11:42:12 [INFO] Saving chunks
+2024-06-27 11:42:12 [INFO] Saving chunks

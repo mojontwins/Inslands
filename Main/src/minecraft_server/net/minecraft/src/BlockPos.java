@@ -48,4 +48,12 @@ public class BlockPos {
 		}
 	}
 	
+	public String toString() {
+		return "(" + this.x + ", " + this.y + ", " + this.z + ")";
+	}
+
+	public BlockPos copy() {
+		return new BlockPos().set(this.x, this.y, this.z);
+	}
+	
 }

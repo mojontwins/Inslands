@@ -74,6 +74,14 @@ public final class ItemStack {
 
 		return z7;
 	}
+	
+	public boolean itemLeftClick(EntityPlayer entityPlayer, World world, int x, int y, int z, int face, float xWithinFace, float yWithinFace, float zWithinFace) {
+		Item item = this.getItem();
+		if(item != null) {
+			return item.onItemLeftClick(this, entityPlayer, world, x, y, z, face, xWithinFace, yWithinFace, zWithinFace);
+		}
+		return false;
+	}
 
 	public float getStrVsBlock(Block block1) {
 		return this.getItem().getStrVsBlock(this, block1);

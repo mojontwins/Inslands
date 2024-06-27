@@ -15,9 +15,10 @@ public class PlayerController {
 	public void onWorldChange(World world1) {
 	}
 
-	public void clickBlock(EntityPlayer entityPlayer, World world, ItemStack itemStack, int x, int y, int z, int side, float xWithinFace, float yWithinFace, float zWithinFace) {
+	public boolean clickBlock(EntityPlayer entityPlayer, World world, ItemStack itemStack, int x, int y, int z, int side, float xWithinFace, float yWithinFace, float zWithinFace) {
 		this.mc.theWorld.onBlockHit(entityPlayer, x, y, z, side);
 		this.sendBlockRemoved(x, y, z, side);
+		return false;
 	}
 
 	public boolean sendBlockRemoved(int i1, int i2, int i3, int i4) {

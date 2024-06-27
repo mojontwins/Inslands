@@ -45,16 +45,22 @@ public class PlayerControllerSP extends PlayerController {
 	}
 
 	@Override
-	public void clickBlock(EntityPlayer entityPlayer, World world, ItemStack itemStack, int x, int y, int z, int side, float xWithinFace, float yWithinFace, float zWithinFace) {
-		this.mc.theWorld.onBlockHit(this.mc.thePlayer, x, y, z, side);
-		int i5 = this.mc.theWorld.getBlockId(x, y, z);
-		int meta = this.mc.theWorld.getBlockMetadata(x, y, z);
-		if(i5 > 0 && this.curBlockDamage == 0.0F) {
-			Block.blocksList[i5].onBlockClicked(this.mc.theWorld, x, y, z, this.mc.thePlayer);
-		}
-
-		if(i5 > 0 && Block.blocksList[i5].blockStrength(this.mc.thePlayer, meta) >= 1.0F) {
-			this.sendBlockRemoved(x, y, z, side);
+	public boolean clickBlock(EntityPlayer entityPlayer, World world, ItemStack itemStack, int x, int y, int z, int side, float xWithinFace, float yWithinFace, float zWithinFace) {
+		
+		if(itemStack == null || !itemStack.itemLeftClick(entityPlayer, world, x, y, z, side, xWithinFace, yWithinFace, zWithinFace)) {	
+			this.mc.theWorld.onBlockHit(this.mc.thePlayer, x, y, z, side);
+			int i5 = this.mc.theWorld.getBlockId(x, y, z);
+			int meta = this.mc.theWorld.getBlockMetadata(x, y, z);
+			if(i5 > 0 && this.curBlockDamage == 0.0F) {
+				Block.blocksList[i5].onBlockClicked(this.mc.theWorld, x, y, z, this.mc.thePlayer);
+			}
+	
+			if(i5 > 0 && Block.blocksList[i5].blockStrength(this.mc.thePlayer, meta) >= 1.0F) {
+				this.sendBlockRemoved(x, y, z, side);
+			}
+			return false;
+		} else {
+			return true;
 		}
 
 	}

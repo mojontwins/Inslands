@@ -6,6 +6,7 @@ import java.util.Random;
 import com.misc.aether.ItemAetherKey;
 import com.mojang.minecraft.creative.CreativeTabs;
 import com.mojontwins.minecraft.entity.status.Status;
+import com.mojontwins.minecraft.worldedit.ItemMagicWand;
 
 public class Item {
 	protected static Random rand = new Random();
@@ -198,6 +199,8 @@ public class Item {
 	public static Item battleWood = (new ItemBattleAxe(436, EnumToolMaterial.WOOD, false)).setIconCoord(0, 11).setItemName("battleAxeWood");
 	public static Item knifeWood = (new ItemKnife(437, EnumToolMaterial.WOOD, false)).setIconCoord(0, 12).setItemName("knifeWood");
 	
+	public static Item magicWand = (new ItemMagicWand(999-256)).setIconCoord(8, 12).setItemName("magic wand");
+	
 	public final int shiftedIndex;
 	protected int maxStackSize = 64;
 	protected int maxDamage = 0;
@@ -284,6 +287,10 @@ public class Item {
 
 	public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int face, float xWithinFace, float yWithinFace, float zWithinFace) {
 		return this.onItemUse(itemStack, entityPlayer, world, x, y, z, face);
+	}
+	
+	public boolean onItemLeftClick(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int face, float xWithinFace, float yWithinFace, float zWithinFace) {
+		return false;
 	}
 	
 	public float getStrVsBlock(ItemStack itemStack1, Block block2) {

@@ -22,4 +22,6 @@ public interface IWorldAccess {
 	void playAuxSFX(EntityPlayer entityPlayer1, int i2, int i3, int i4, int i5, int i6);
 	
 	void showString(String string);
+	
+	void showChatMessage(String string);
 }

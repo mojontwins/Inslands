@@ -798,6 +798,7 @@ public abstract class Minecraft implements Runnable {
 	}
 
 	private void sendClickBlockToController(int i1, boolean z2) {
+		
 		if(!this.playerController.isInTestMode) {
 			if(!z2) {
 				this.leftClickCounter = 0;
@@ -819,6 +820,8 @@ public abstract class Minecraft implements Runnable {
 	}
 
 	private void clickMouse(int i1) {
+		boolean override = false;
+		
 		if(i1 != 0 || this.leftClickCounter <= 0) {
 			if(i1 == 0) {
 				this.thePlayer.swingItem();
@@ -855,7 +858,8 @@ public abstract class Minecraft implements Runnable {
 				ItemStack itemStack = this.thePlayer.inventory.getCurrentItem();
 				
 				if(i1 == 0) {
-					this.playerController.clickBlock(this.thePlayer, this.theWorld, itemStack, x, y, z, face, xWithinFace, yWithinFace, zWithinFace);
+					override = this.playerController.clickBlock(this.thePlayer, this.theWorld, itemStack, x, y, z, face, xWithinFace, yWithinFace, zWithinFace);
+					if(override) this.leftClickCounter = 20;
 				} else {
 					int stackSize = itemStack != null ? itemStack.stackSize : 0;
 					if(this.playerController.sendPlaceBlock(this.thePlayer, this.theWorld, itemStack, x, y, z, face, xWithinFace, yWithinFace, zWithinFace)) {
@@ -864,7 +868,7 @@ public abstract class Minecraft implements Runnable {
 					}
 
 					if(itemStack == null) {
-						return;
+						return ;
 					}
 
 					if(itemStack.stackSize == 0) {
@@ -883,6 +887,7 @@ public abstract class Minecraft implements Runnable {
 			}
 
 		}
+		
 	}
 
 	public void toggleFullscreen() {

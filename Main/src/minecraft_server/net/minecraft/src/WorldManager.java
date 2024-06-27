@@ -49,4 +49,9 @@ public class WorldManager implements IWorldAccess {
 	public void showString(String s) {
 		this.mcServer.configManager.sendChatMessageToAllPlayers(s);
 	}
+
+	@Override
+	public void showChatMessage(String s) {
+		this.mcServer.configManager.sendChatMessageToAllPlayers(s);		
+	}
 }

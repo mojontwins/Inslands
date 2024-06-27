@@ -9,6 +9,8 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.mojontwins.minecraft.worldedit.WorldEdit;
+
 import ca.spottedleaf.starlight.StarlightEngine;
 
 public class World implements IBlockAccess {
@@ -125,6 +127,8 @@ public class World implements IBlockAccess {
 		this.chunkProvider = this.getChunkProvider();
 		this.calculateInitialSkylight();
 		this.calculateInitialWeather();
+		
+		WorldEdit.init();
 	}
 
 	public World(World world1, WorldProvider worldProvider2) {
@@ -173,6 +177,8 @@ public class World implements IBlockAccess {
 
 		this.calculateInitialSkylight();
 		this.calculateInitialWeather();
+		
+		WorldEdit.init();
 	}
 
 	public World(ISaveHandler iSaveHandler1, String string2, WorldSettings par3WorldSettings) {
@@ -254,6 +260,8 @@ public class World implements IBlockAccess {
 
 		this.calculateInitialSkylight();
 		this.calculateInitialWeather();
+		
+		WorldEdit.init();
 	}
 
 	protected IChunkProvider getChunkProvider() {
@@ -1559,6 +1567,10 @@ public class World implements IBlockAccess {
 			
 			// Prune by near chunks
 			boolean processThis = false;
+			
+			if(curEntity instanceof EntityPlayer) {
+				processThis = true;
+			} else {
 			for(int j = 0; j < playerEntities.size(); j ++) {
 				EntityPlayer curPlayer = playerEntities.get(j);
 				if(
@@ -1566,6 +1578,7 @@ public class World implements IBlockAccess {
 						Math.abs(curPlayer.curChunkZ - curEntity.chunkCoordZ) <= 8)  {
 					processThis = true;
 					break;
+					}
 				}
 			}
 

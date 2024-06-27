@@ -166,4 +166,7 @@ Yay! fps boosted on shitty systems!
 * [X] Add torches to some trees, somehow
 * [X] Biomes level theme uses PostAlpha ramps;
 * [ ] optional fancy grass?
-* [ ] Make sure the needed initialization is due so multibiomes work in SMP
+* [X] Make sure the needed initialization is due so multibiomes work in SMP
+* [ ] {SMP} Add TP to SMP
+* [ ] {SMP} Still no border chunks.
+* [ ] {SMP} TileEntityMobSpawnerOneShot not working.

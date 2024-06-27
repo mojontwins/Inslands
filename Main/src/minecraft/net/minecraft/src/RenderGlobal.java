@@ -1302,6 +1302,12 @@ public class RenderGlobal implements IWorldAccess {
 			this.mc.ingameGUI.showString(s);
 		}
 	}
+	
+	public void showChatMessage(String s) {
+		if (s != null) {
+			this.mc.ingameGUI.addChatMessage(s);
+		}
+	}
 
 	public void spawnParticle(String particle, double posX, double posY, double posZ, double motionX, double motionY, double motionZ) {
 		if(this.mc != null && this.mc.renderViewEntity != null && this.mc.effectRenderer != null) {

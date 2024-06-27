@@ -417,6 +417,7 @@ public class Chunk {
 		int i3 = MathHelper.floor_double(entity1.posZ / 16.0D);
 		if(i2 != this.xPosition || i3 != this.zPosition) {
 			System.out.println("Wrong location! " + entity1);
+			System.out.println("This chunk " + this.xPosition + " " + this.zPosition + " vs attempted " + i2 + " " + i3);
 			Thread.dumpStack();
 		}
 
@@ -921,5 +922,33 @@ public class Chunk {
 		}
 		
 		return this.foliageColorCache[x << 4 | z];
+	}
+
+	public static Chunk makeBlank(World world) {
+		Chunk chunk = new Chunk(world, new byte[32768], new byte[32768], 0, 0);
+		chunk.neverSave = true;
+		
+		int mainLiquidFromBiome = Block.waterStill.blockID;
+		if (LevelThemeGlobalSettings.levelThemeMainBiome != null) mainLiquidFromBiome = LevelThemeGlobalSettings.levelThemeMainBiome.mainLiquid;
+		Block mainLiquid = Block.blocksList[mainLiquidFromBiome];
+		
+		if(LevelThemeGlobalSettings.worldTypeID != WorldType.SKY.getId()) {
+			// Fill with water up to y = 63
+			for(int x = 0; x < 16; x ++) {
+				for(int z = 0; z < 16; z ++) {
+					int index = x << 11 | z << 7;
+					for(int y = 0; y < 64; y ++) {
+						chunk.blocks[index ++] =  y < 56 ? (byte)Block.stone.blockID : (byte)mainLiquid.blockID;
+					}
+					
+					chunk.blocklightMap.setNibble(x, 63, z, Block.lightValue[mainLiquid.blockID]);
+				}
+			}
+		}
+		
+		chunk.generateSkylightMapSimple();
+		chunk.isTerrainPopulated = true;
+		
+		return chunk;
 	}
 }

@@ -50,13 +50,17 @@ class PlayerInstance {
 					PlayerManager.getPlayerInstancesToUpdate(this.playerManager).remove(this);
 				}
 
-				this.playerManager.getMinecraftServer().chunkProviderServer.dropChunk(this.chunkX, this.chunkZ);
+				//Removed
+				//this.playerManager.getMinecraftServer().chunkProviderServer.dropChunk(this.chunkX, this.chunkZ);
 			}
 
+			//Removed
+			/*
 			entityPlayerMP1.loadedChunks.remove(this.currentChunk);
 			if(entityPlayerMP1.listeningChunks.contains(this.currentChunk)) {
 				entityPlayerMP1.playerNetServerHandler.sendPacket(new Packet50PreChunk(this.chunkX, this.chunkZ, false));
 			}
+			*/
 
 		}
 	}
