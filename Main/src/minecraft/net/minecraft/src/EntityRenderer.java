@@ -663,6 +663,7 @@ public class EntityRenderer {
 		double d7 = entityliving.lastTickPosX + (entityliving.posX - entityliving.lastTickPosX) * (double)f1;
 		double d9 = entityliving.lastTickPosY + (entityliving.posY - entityliving.lastTickPosY) * (double)f1;
 		double d11 = entityliving.lastTickPosZ + (entityliving.posZ - entityliving.lastTickPosZ) * (double)f1;
+
 		for(int i18 = 0; i18 < 2; ++i18) {
 			if(this.mc.gameSettings.anaglyph) {
 				anaglyphField = i18;
@@ -712,6 +713,7 @@ public class EntityRenderer {
 			GL11.glShadeModel(GL11.GL_FLAT);
 			EntityPlayer entityPlayer21;
 			RenderHelper.enableStandardItemLighting();
+			
 			// Entities
 			renderglobal.renderEntities(entityliving.getPosition(f1), frustrum19, f1);
 			
@@ -887,7 +889,7 @@ public class EntityRenderer {
 	}
 
 	protected void renderWeather(float renderPartialTick) {
-		
+	
 		this.enableLightmap((double)renderPartialTick);
 		
 		EntityLiving entityPlayerSP = this.mc.renderViewEntity;

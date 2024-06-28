@@ -1,6 +1,7 @@
 package com.mojontwins.minecraft.worldedit;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 import net.minecraft.src.Vec3i;
 
@@ -9,6 +10,7 @@ public abstract class ExporterBase {
 	public static int lastId = 0;
 	
 	public static ExporterBase raw = new ExporterBaseRaw().register();
+	public static ExporterBase columnsArray = new ExporterBaseColumnsArray().register();
 	
 	public int id;
 	
@@ -25,7 +27,21 @@ public abstract class ExporterBase {
 		return exporterList.get(name);
 	}
 	
+	public static String getList() {
+		String res = "Known exporters: ";
+		
+		Iterator<String> it = exporterList.keySet().iterator();
+		while(it.hasNext()) {
+			res += exporterList.get(it.next()).getName();
+			if(it.hasNext()) res += ", ";
+		}
+		
+		return res;
+	}
+	
 	public abstract String getName();
 	
-	public abstract boolean export(int [][][] buffer, Vec3i dims, String fileName);
+	public abstract boolean export(int [][][] buffer, Vec3i dims, String fileName, String arg);
+	
+	public abstract String getHelp();
 }

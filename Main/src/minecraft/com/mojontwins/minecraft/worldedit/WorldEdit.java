@@ -1,5 +1,7 @@
 package com.mojontwins.minecraft.worldedit;
 
+import java.util.StringTokenizer;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.BlockPos;
 import net.minecraft.src.EntityPlayer;
@@ -117,6 +119,10 @@ public class WorldEdit {
 	}
 	
 	public static int clear(World world) {
+		return fill(world, 0, 0);
+	}
+	
+	public static int fill(World world, int blockID, int meta) {
 		BlockPos from = getFrom();
 		BlockPos to = getTo();
 		int cleared = 0;
@@ -130,7 +136,32 @@ public class WorldEdit {
 		for(int x = from.x; x <= to.x; x ++) {
 			for(int z = from.z; z <= to.z; z ++) {
 				for(int y = from.y; y <= to.y; y ++) {
-					world.setBlockAndMetadataWithNotify(x, y, z, 0, 0);
+					world.setBlockAndMetadataWithNotify(x, y, z, blockID, meta);
+					cleared ++;
+				}
+			}
+		}
+		
+		return cleared;
+	}
+	
+	public static int substitute(World world, int existingBlockID, int existingMeta, int blockID, int meta) {
+		BlockPos from = getFrom();
+		BlockPos to = getTo();
+		int cleared = 0;
+		
+		// Save undo
+		undoOrigin = from.copy();
+		undo = initBuffer(undoDims, undoOrigin, to);
+		copyToBuffer(undo, world, undoOrigin, to);
+		hasUndo = true;
+		
+		for(int x = from.x; x <= to.x; x ++) {
+			for(int z = from.z; z <= to.z; z ++) {
+				for(int y = from.y; y <= to.y; y ++) {
+					int worldBlockID = world.getBlockId(x, y, z);
+					int worldMeta = world.getBlockMetadata(x, y, z);
+					if(worldBlockID == existingBlockID && (existingMeta == -1 || worldMeta == existingMeta)) world.setBlockAndMetadataWithNotify(x, y, z, blockID, meta);
 					cleared ++;
 				}
 			}
@@ -202,10 +233,10 @@ public class WorldEdit {
 		}
 	}
 	
-	public static boolean export(World world, int args, boolean flag, EntityPlayer entityPlayer, String filename, ExporterBase exporter) {
+	public static boolean export(World world, int args, boolean flag, EntityPlayer entityPlayer, String filename, ExporterBase exporter, String arg) {
 		// Make sure it's in the clipboard
 		copy(world, entityPlayer);
-		return exporter.export(clipboard, clipboardDims, filename);
+		return exporter.export(clipboard, clipboardDims, filename, arg);
 	}
 	
 	public static int clipboardSize() {
@@ -239,6 +270,53 @@ public class WorldEdit {
 			} else {
 				mc.ingameGUI.addChatMessage("Set points first!");
 			}
+		} else if("//fill".equals(cmd)) {
+			if(idx > 1) {
+				int blockID = 0;
+				int meta = 0;
+				
+				try {
+					blockID = Integer.parseInt(tokens[1]);
+					if(idx > 2) meta = Integer.parseInt(tokens[2]);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				if(checkCorners()) {
+					int cleared = fill(mc.theWorld, blockID, meta);
+					mc.ingameGUI.addChatMessage(cleared + " blocks filled.");
+				} else {
+					mc.ingameGUI.addChatMessage("Set points first!");
+				}
+			} else {
+				mc.ingameGUI.addChatMessage("//fill <blockID> [<meta>]");
+			}
+		} else if("//replace".equals(cmd)) {
+			if(idx > 4) {
+				int existingBlockID = -1;
+				int existingMeta = -1;
+				int blockID = 0;
+				int meta = 0;
+				
+				try {
+					existingBlockID = Integer.parseInt(tokens[1]);
+					existingMeta = Integer.parseInt(tokens[2]);
+					blockID = Integer.parseInt(tokens[3]);
+					if(idx > 4) meta = Integer.parseInt(tokens[4]);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				if(checkCorners()) {
+					int cleared = substitute(mc.theWorld, existingBlockID, existingMeta, blockID, meta);
+					mc.ingameGUI.addChatMessage(cleared + " blocks filled.");
+				} else {
+					mc.ingameGUI.addChatMessage("Set points first!");
+				}
+			} else {
+				mc.ingameGUI.addChatMessage("Use //replace <existingBlockID> <existingMeta> <blockID> <meta>");
+				mc.ingameGUI.addChatMessage("Use -1 as existingMeta for any existing meta");
+			}
 		} else if("//cut".equals(cmd)) {
 			if(checkCorners()) {
 				cut(mc.theWorld, mc.thePlayer);
@@ -264,14 +342,29 @@ public class WorldEdit {
 			mc.ingameGUI.addChatMessage("Clipboard rotated cw around the y axis");
 		} else if("//export".equals(cmd)) {
 			// Syntax rn is //export exporter filename
-			if(checkCorners()) {
-				if(idx >= 3) {
+		
+			if(idx == 2 && "list".equals(tokens [1])) {
+				mc.ingameGUI.addChatMessage(ExporterBase.getList());
+			} else if(idx == 3 && "help".equals(tokens [1])) {
+				ExporterBase exporter = ExporterBase.getByName(tokens [2]);
+				if(exporter != null) {
+					mc.ingameGUI.addChatMessage("[" + exporter.getName() + "] ");
+					StringTokenizer tokenizer = new StringTokenizer(exporter.getHelp(), "\n");
+					while(tokenizer.hasMoreTokens()) {
+						mc.ingameGUI.addChatMessage(tokenizer.nextToken());
+					}
+				} else {
+					mc.ingameGUI.addChatMessage("Unknown exporter \"" + tokens[2] + "\"");
+				}
+			} else if(idx > 3) {
+				if(checkCorners()) {
 					String exporterName = tokens [1];
 					String fileName = tokens [2];
+					String arg = idx > 3 ? tokens [3] : "";
 					
 					ExporterBase exporter = ExporterBase.getByName(exporterName);
 					if (exporter != null) {
-						if(export(mc.theWorld, 0, true, mc.thePlayer, fileName, exporter)) {
+						if(export(mc.theWorld, 0, true, mc.thePlayer, fileName, exporter, arg)) {
 							mc.ingameGUI.addChatMessage(clipboardSize() + " block exported to " + fileName + " using exporter " + exporterName);
 						} else {
 							mc.ingameGUI.addChatMessage(clipboardSize() + " Error exporting D: Check console for more info...");
@@ -279,11 +372,14 @@ public class WorldEdit {
 					} else {
 						mc.ingameGUI.addChatMessage("Unknown exporter \"" + exporterName + "\"");
 					}
+					
 				} else {
-					mc.ingameGUI.addChatMessage("//export <exporter> <filename>");
+					mc.ingameGUI.addChatMessage("Set points first!");
 				}
 			} else {
-				mc.ingameGUI.addChatMessage("Set points first!");
+				mc.ingameGUI.addChatMessage("//export <exporter> <filename> [<arg>]");
+				mc.ingameGUI.addChatMessage("//export list");
+				mc.ingameGUI.addChatMessage("//export help <exporter>");
 			}
 			
 		} else if("//corner1".equals(cmd)) {
@@ -312,4 +408,5 @@ public class WorldEdit {
 			}
 		}
 	}
+
 }

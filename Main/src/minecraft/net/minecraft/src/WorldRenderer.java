@@ -7,6 +7,11 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 public class WorldRenderer {
+	
+	/*
+	 * This class should be called ChunkRenderer, btw!
+	 */
+	
 	public World worldObj;
 	protected int glRenderList = -1;
 	public static volatile int chunksUpdated = 0;

@@ -76,7 +76,7 @@ public abstract class EntityLiving extends Entity {
 	private ChunkCoordinates homePosition = new ChunkCoordinates(0, 0, 0);
 	private float maximumHomeDistance = -1.0F;
 	
-	// To simulate "new AI" STILL UNUSED - or who knows :)
+	// New AI
 	protected float AImoveSpeed;
 	protected EntityLookHelper lookHelper;
 	protected EntityMoveHelper moveHelper;
@@ -168,7 +168,11 @@ public abstract class EntityLiving extends Entity {
 		}
 
 		int i1;
-		if(this.isEntityAlive() && this.isInsideOfMaterial(Material.water) && !this.canBreatheUnderwater()) {
+		if(
+			this.isEntityAlive() && 
+			this.isInsideOfMaterial(Material.water) && 
+			!this.canBreatheUnderwater()
+		) {
 			this.setAir(this.decreaseAirSupply(this.getAir()));
 			if(this.getAir() == -20) {
 				this.setAir(0);

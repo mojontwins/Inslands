@@ -116,6 +116,10 @@ public class WorldEdit {
 	}
 	
 	public static int clear(World world) {
+		return fill(world, 0, 0);
+	}
+	
+	public static int fill(World world, int blockID, int meta) {
 		BlockPos from = getFrom();
 		BlockPos to = getTo();
 		int cleared = 0;
@@ -129,7 +133,32 @@ public class WorldEdit {
 		for(int x = from.x; x <= to.x; x ++) {
 			for(int z = from.z; z <= to.z; z ++) {
 				for(int y = from.y; y <= to.y; y ++) {
-					world.setBlockAndMetadataWithNotify(x, y, z, 0, 0);
+					world.setBlockAndMetadataWithNotify(x, y, z, blockID, meta);
+					cleared ++;
+				}
+			}
+		}
+		
+		return cleared;
+	}
+	
+	public static int substitute(World world, int existingBlockID, int existingMeta, int blockID, int meta) {
+		BlockPos from = getFrom();
+		BlockPos to = getTo();
+		int cleared = 0;
+		
+		// Save undo
+		undoOrigin = from.copy();
+		undo = initBuffer(undoDims, undoOrigin, to);
+		copyToBuffer(undo, world, undoOrigin, to);
+		hasUndo = true;
+		
+		for(int x = from.x; x <= to.x; x ++) {
+			for(int z = from.z; z <= to.z; z ++) {
+				for(int y = from.y; y <= to.y; y ++) {
+					int worldBlockID = world.getBlockId(x, y, z);
+					int worldMeta = world.getBlockMetadata(x, y, z);
+					if(worldBlockID == existingBlockID && worldMeta == existingMeta) world.setBlockAndMetadataWithNotify(x, y, z, blockID, meta);
 					cleared ++;
 				}
 			}
