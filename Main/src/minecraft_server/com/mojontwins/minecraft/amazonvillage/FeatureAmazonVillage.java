@@ -172,7 +172,7 @@ public class FeatureAmazonVillage extends FeatureVillage {
 
 	@Override
 	public int getSpawnChance() {
-		return 3;
+		return 30;
 	}
 	
 	@Override
