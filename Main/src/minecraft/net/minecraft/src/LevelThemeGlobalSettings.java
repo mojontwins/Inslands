@@ -17,6 +17,7 @@ public class LevelThemeGlobalSettings {
 	public static boolean sunriseSunsetColors = false;
 	public static boolean colourfulFlock = false;
 	public static boolean colorizedPlants = false;
+	public static boolean levelChecks = true;
 	
 	public static void loadThemeById(int id) {
 		LevelThemeSettings settings = LevelThemeSettings.findThemeById(id);

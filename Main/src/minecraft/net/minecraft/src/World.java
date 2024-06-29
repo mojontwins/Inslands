@@ -3307,7 +3307,7 @@ public class World implements IBlockAccess {
 	}
 
 	public boolean levelIsValidUponWorldTheme() {
-		if(this.isNewWorld) {	
+		if(this.isNewWorld && LevelThemeGlobalSettings.levelChecks) {	
 			// World theme based invalidations ahead!
 			
 			// Paradise must have at least one bronze dungeon

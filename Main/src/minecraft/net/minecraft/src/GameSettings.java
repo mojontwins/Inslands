@@ -84,6 +84,7 @@ public class GameSettings {
 	
 	// Custom
 	public boolean meltBuild = true;
+	
 	public String skin = "Default";
 	public KeyBinding keyBindForward = new KeyBinding("key.forward", 17);
 	public KeyBinding keyBindLeft = new KeyBinding("key.left", 30);
@@ -114,11 +115,11 @@ public class GameSettings {
 	public boolean retardedArm = true;
 	public boolean threadedLighting = true;
 	
+	// Mine
 	public boolean enableCheats = false;
 	public boolean craftGuide = false;
 	public boolean isCreative = false;
 	
-	// Mine
 	public boolean clearWaters = true;
 	public boolean colouredAthmospherics = true;
 	public int FOV = 0;
@@ -126,7 +127,7 @@ public class GameSettings {
 	
 	public String displayMode = DEFAULT_DISPLAY_STRING;
 	public boolean animatedTextures = true;
-
+	
     public static final ArrayList<String> MODES = new ArrayList<String>();
 
 	public GameSettings(Minecraft minecraft1, File file2) {

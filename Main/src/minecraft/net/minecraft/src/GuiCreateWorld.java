@@ -23,6 +23,7 @@ public class GuiCreateWorld extends GuiScreen {
 	private GuiButton worldTypeButton;
 	private GuiButton enableCheatsButton;
 	private GuiButton craftingGuideButton;
+	private GuiButton levelChecksButton;
 	private String seed;
 	private String localizedNewWorldText;
 	private int worldType = -1;
@@ -30,7 +31,8 @@ public class GuiCreateWorld extends GuiScreen {
 	private int sizeId = 1;
 	
 	private final String sizeStrings[] = WorldSize.sizeNames;
-	private boolean generateCities;
+	private boolean generateCities = true;
+	private boolean levelChecks = true;
 
 	public GuiCreateWorld(GuiScreen par1GuiScreen) {
 		this.parentGuiScreen = par1GuiScreen;
@@ -59,7 +61,8 @@ public class GuiCreateWorld extends GuiScreen {
 		
 		this.controlList.add(this.generateStructuresButton = new GuiButton(4, this.width / 2 - 155, 100, 150, 20, var1.translateKey("selectWorld.mapFeatures")));
 		this.generateStructuresButton.drawButton = false;
-		
+		this.controlList.add(this.levelChecksButton = new GuiButton(10, this.width / 2 + 5, 100, 150, 20, "Level checks"));
+		this.levelChecksButton.drawButton = false;
 		this.controlList.add(this.enableCheatsButton = new GuiButton(6, this.width / 2 - 155, 140, 150, 20, var1.translateKey("selectWorld.enableCheats")));
 		this.enableCheatsButton.drawButton = false;
 		this.controlList.add(this.craftingGuideButton = new GuiButton(7, this.width / 2 + 5, 140, 150, 20, var1.translateKey("selectWorld.craftingGuide")));
@@ -106,6 +109,7 @@ public class GuiCreateWorld extends GuiScreen {
 		this.generateStructuresButton.displayString = var1.translateKey("selectWorld.mapFeatures") + ": " + (this.generateStructures ? var1.translateKey("options.on") : var1.translateKey("options.off"));
 		this.enableCheatsButton.displayString = var1.translateKey("selectWorld.enableCheats") + ": " + (this.enableCheats ? var1.translateKey("options.on") : var1.translateKey("options.off"));
 		this.craftingGuideButton.displayString = var1.translateKey("selectWorld.craftingGuide") + ": " + (this.craftGuide ? var1.translateKey("options.on") : var1.translateKey("options.off"));
+		this.levelChecksButton.displayString = "Level checks: " + (this.levelChecks ? var1.translateKey("options.on") : var1.translateKey("options.off")); 
 		
 		int i = this.worldType; if(i == -1) i = 0;
 		this.worldTypeButton.displayString = var1.translateKey("selectWorld.mapType") + ": " + var1.translateKey(WorldType.worldTypes[i].getTranslateName());
@@ -166,6 +170,7 @@ public class GuiCreateWorld extends GuiScreen {
 				
 				if(this.worldType == -1) this.worldType = WorldType.INFDEV.id;
 				
+				LevelThemeGlobalSettings.levelChecks = !this.levelChecks;
 				WorldType.worldTypes[this.worldType].onGUICreateWorldPress();
 				this.mc.playerController = new PlayerControllerSP(this.mc);
 				LevelThemeGlobalSettings.loadThemeById(this.themeId);
@@ -190,6 +195,7 @@ public class GuiCreateWorld extends GuiScreen {
 				this.generateStructuresButton.drawButton = this.moreOptions;
 				this.enableCheatsButton.drawButton = this.moreOptions;
 				this.craftingGuideButton.drawButton = this.moreOptions;
+				this.levelChecksButton.drawButton = this.moreOptions;
 				StringTranslate stringTranslate8;
 				if(this.moreOptions) {
 					stringTranslate8 = StringTranslate.getInstance();
@@ -230,6 +236,9 @@ public class GuiCreateWorld extends GuiScreen {
 				this.updateCaptions(); 
 			} else if(par1GuiButton.id == 7) {
 				this.craftGuide = !this.craftGuide;
+				this.updateCaptions();
+			} else if(par1GuiButton.id == 10) {
+				this.levelChecks = !this.levelChecks;
 				this.updateCaptions();
 			} else if(par1GuiButton.id == 8) {
 				this.themeId ++;
@@ -295,6 +304,7 @@ public class GuiCreateWorld extends GuiScreen {
 			this.drawString(this.fontRenderer, var4.translateKey("selectWorld.enterSeed"), this.width / 2 - 100, 47, 10526880);
 			this.drawString(this.fontRenderer, var4.translateKey("selectWorld.seedInfo"), this.width / 2 - 100, 85, 10526880);
 			this.drawString(this.fontRenderer, var4.translateKey("selectWorld.mapFeatures.info"), this.width / 2 - 150, 122, 10526880);
+			this.drawString(this.fontRenderer, var4.translateKey("Retry gen. if not correct"), this.width / 2 + 5, 122, 10526880);
 			this.textboxSeed.drawTextBox();
 		}
 
