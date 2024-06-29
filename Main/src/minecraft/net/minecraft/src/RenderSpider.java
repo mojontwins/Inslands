@@ -19,7 +19,7 @@ public class RenderSpider extends RenderLiving {
 			this.loadTexture("/mob/spider_eyes.png");
 			float f4 = 1.0F;
 			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glDisable(GL11.GL_ALPHA_TEST);
+			//GL11.glDisable(GL11.GL_ALPHA_TEST);
 			GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
 			int i5 = 61680;
 			int i6 = i5 % 65536;

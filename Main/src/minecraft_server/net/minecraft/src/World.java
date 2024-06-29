@@ -1568,7 +1568,7 @@ public class World implements IBlockAccess {
 			// Prune by near chunks
 			boolean processThis = false;
 			
-			if(curEntity instanceof EntityPlayer) {
+			if(curEntity instanceof EntityPlayer || this.isRemote || this.amITheServer()) {
 				processThis = true;
 			} else {
 			for(int j = 0; j < playerEntities.size(); j ++) {
@@ -3307,7 +3307,7 @@ public class World implements IBlockAccess {
 	}
 
 	public boolean levelIsValidUponWorldTheme() {
-		if(this.isNewWorld) {	
+		if(this.isNewWorld && LevelThemeGlobalSettings.levelChecks) {	
 			// World theme based invalidations ahead!
 			
 			// Paradise must have at least one bronze dungeon
@@ -3338,5 +3338,9 @@ public class World implements IBlockAccess {
 	@Override
 	public int getFoliageColorFromCache(int x, int z) {
 		return x >= 0 && z >= 0 && x < WorldSize.width && z < WorldSize.length ? this.getChunkFromChunkCoords(x >> 4, z >> 4).getFoliageColorFromCache(x & 15, z & 15) : 0;
+	}
+
+	public boolean amITheServer() {
+		return false;
 	}
 }

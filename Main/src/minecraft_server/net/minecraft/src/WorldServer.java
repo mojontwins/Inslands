@@ -139,4 +139,8 @@ public class WorldServer extends World {
 			this.mcServer.configManager.sendPacketToAllPlayers(new Packet96BadMoonDecide(this.badMoonDecide));
 		}
 	}
+	
+	public boolean amITheServer() {
+		return true;
+	}
 }

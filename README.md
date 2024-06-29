@@ -155,11 +155,9 @@ Yay! fps boosted on shitty systems!
 
 	Forget the ton of paragraphs. Implemeting this rn.
 
-* [ ] Think about gameplay items for a desert and a glacier based theme (for the future).
-	* [ ] both lack trees, dirt and saplings must be obtained. Make sure skeletons still drop acorns.
-	* [ ] cold mechanics. Need to reactivate code for freeze
 
-* [ ] Add "Override level test" to level creation extra options to override "level is valid" check
+
+* [X] Add "Override level test" to level creation extra options to override "level is valid" check
 * [X] Add a biome map. Simple, don't over do it. Use PostAlpha's. Which is almost vanilla's. Recreate new biomegen classes. BiomeGenBetaForest... etc
 * [X] Remove optifog log and other stupid shit.
 * [X] Add "preferredWorldgen" to levelthemes and de-hardcode it
@@ -167,6 +165,17 @@ Yay! fps boosted on shitty systems!
 * [X] Biomes level theme uses PostAlpha ramps;
 * [ ] optional fancy grass?
 * [X] Make sure the needed initialization is due so multibiomes work in SMP
+* [ ] Renderpass for shiny eyes is broken and entities show white.
+
+* [ ] Think about gameplay items for a desert and a glacier based theme (for the future).
+	* [ ] both lack trees, dirt and saplings must be obtained. Make sure skeletons still drop acorns.
+	* [ ] cold mechanics. Need to reactivate code for freeze
+
+# Server
+
 * [ ] {SMP} Add TP to SMP
 * [ ] {SMP} Still no border chunks.
 * [ ] {SMP} TileEntityMobSpawnerOneShot not working.
+* [ ] {SMP} Calculate spawn point properly.
+* [ ] {SMP} Client is no aware of effects from the Server.
+

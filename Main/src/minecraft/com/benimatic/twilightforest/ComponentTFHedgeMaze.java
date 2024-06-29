@@ -20,6 +20,8 @@ public class ComponentTFHedgeMaze extends StructureTFComponent {
 	}
 
 	public boolean addComponentParts(World world, Random rand, StructureBoundingBox sbb, boolean notUsed) {
+		this.fillWithBlocks(world, sbb, 1, 1, 1, DIAMETER-2, 3, DIAMETER-2, 0, 0, true);
+		
 		TFMazeNew maze = new TFMazeNew(MSIZE, MSIZE);
 		maze.oddBias = 2;
 		maze.torchBlockID = Block.torchWood.blockID;

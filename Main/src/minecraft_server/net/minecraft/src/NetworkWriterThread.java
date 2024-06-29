@@ -10,7 +10,9 @@ class NetworkWriterThread extends Thread {
 		this.netManager = networkManager1;
 	}
 
+	@SuppressWarnings("unused")
 	public void run() {
+		Object object1 = NetworkManager.threadSyncObject;
 		synchronized(NetworkManager.threadSyncObject) {
 			++NetworkManager.numWriteThreads;
 		}
@@ -46,6 +48,7 @@ class NetworkWriterThread extends Thread {
 				}
 			} finally {
 				if(z13) {
+					Object object5 = NetworkManager.threadSyncObject;
 					synchronized(NetworkManager.threadSyncObject) {
 						--NetworkManager.numWriteThreads;
 					}
@@ -53,6 +56,7 @@ class NetworkWriterThread extends Thread {
 			}
 		}
 
+		object1 = NetworkManager.threadSyncObject;
 		synchronized(NetworkManager.threadSyncObject) {
 			--NetworkManager.numWriteThreads;
 		}

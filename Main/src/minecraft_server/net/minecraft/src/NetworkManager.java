@@ -62,8 +62,10 @@ public class NetworkManager {
 		this.netHandler = netHandler1;
 	}
 
+	@SuppressWarnings("unused")
 	public void addToSendQueue(Packet packet1) {
 		if(!this.isServerTerminating) {
+			Object object2 = this.sendQueueLock;
 			synchronized(this.sendQueueLock) {
 				this.sendQueueByteLength += packet1.getPacketSize() + 1;
 				if(packet1.isChunkDataPacket) {
@@ -76,6 +78,7 @@ public class NetworkManager {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private boolean sendPacket() {
 		boolean z1 = false;
 
@@ -83,7 +86,9 @@ public class NetworkManager {
 			int[] i10000;
 			int i10001;
 			Packet packet2;
+			Object object3;
 			if(!this.dataPackets.isEmpty() && (this.chunkDataSendCounter == 0 || System.currentTimeMillis() - ((Packet)this.dataPackets.get(0)).creationTimeMillis >= (long)this.chunkDataSendCounter)) {
+				object3 = this.sendQueueLock;
 				synchronized(this.sendQueueLock) {
 					packet2 = (Packet)this.dataPackets.remove(0);
 					this.sendQueueByteLength -= packet2.getPacketSize() + 1;
@@ -97,6 +102,7 @@ public class NetworkManager {
 			}
 
 			if(this.field_20100_w-- <= 0 && !this.chunkDataPackets.isEmpty() && (this.chunkDataSendCounter == 0 || System.currentTimeMillis() - ((Packet)this.chunkDataPackets.get(0)).creationTimeMillis >= (long)this.chunkDataSendCounter)) {
+				object3 = this.sendQueueLock;
 				synchronized(this.sendQueueLock) {
 					packet2 = (Packet)this.chunkDataPackets.remove(0);
 					this.sendQueueByteLength -= packet2.getPacketSize() + 1;

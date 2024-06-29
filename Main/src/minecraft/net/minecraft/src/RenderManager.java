@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
 
+import com.benimatic.twilightforest.EntityTFHedgeSpider;
 import com.benimatic.twilightforest.EntityTFKobold;
 import com.benimatic.twilightforest.EntityTFMinoshroom;
 import com.benimatic.twilightforest.EntityTFMinotaur;
@@ -160,6 +161,7 @@ public class RenderManager {
 		this.entityRenderMap.put(EntityTwilightDeer.class, new RenderCow(new ModelTwilightDeer(), 0.7F));
 		this.entityRenderMap.put(EntityTFSkeletonDruid.class, new RenderBiped(new ModelTFSkeletonDruid(), 0.5F));
 		this.entityRenderMap.put(EntityTFNatureBolt.class, new RenderSnowball(Item.slimeBall.getIconFromDamage(0)));
+		this.entityRenderMap.put(EntityTFHedgeSpider.class, new RenderSpider());
 		
 		// Better Dungeons
 		this.entityRenderMap.put(EntityPirate.class, new RenderHuman(new ModelHuman(), 0.5F));

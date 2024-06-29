@@ -67,7 +67,7 @@ public class EntityTFSwarmSpider extends EntitySpider {
 		this.attackStrength = !this.onGround && this.rand.nextInt(4) == 0 ? 1 : 0;
 		if(this.attackStrength > 0 && entity instanceof EntityLiving) {
 			if(!((EntityLiving)entity).isStatusActive(Status.statusPoisoned)) {
-				((EntityLiving)entity).addStatusEffect(new StatusEffect(Status.statusPoisoned.id, 100, 1));
+				((EntityLiving)entity).addStatusEffect(new StatusEffect(Status.statusPoisoned.id, 40, 1));
 			}
 		}
 		super.attackEntity(entity, f);
