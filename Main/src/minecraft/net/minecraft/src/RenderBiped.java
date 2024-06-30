@@ -61,28 +61,33 @@ public class RenderBiped extends RenderLiving {
 
 	}
 	
-	protected boolean shouldRenderPass(EntityLiving var1, int var2, float f3) {
-		if(var2 == 1) {
+	protected boolean shouldRenderPass(EntityLiving entityLiving, int pass, float f3) {
+		if(pass < 4) {
 			
-			IInventory inventory = var1.getIInventory();
+			IInventory inventory = entityLiving.getIInventory();
 			if (inventory != null && inventory instanceof InventoryMob) {
 				//System.out.println(inventory);
-				ItemStack var3 = ((InventoryMob)inventory).getArmorItemInSlot(3 - var2);
+				ItemStack itemStack = ((InventoryMob)inventory).getArmorItemInSlot(3 - pass);
 	
-				if(var3 != null) { 
-					Item var4 = var3.getItem(); 
-					if(var4 instanceof ItemArmor) {
-						ItemArmor var5 = (ItemArmor)var4;
-						this.loadTexture("/armor/" + armorFilenamePrefix[var5.renderIndex] + "_" + (var2 == 2 ? 2 : 1) + ".png");
-						ModelBiped var6 = var2 == 2 ? this.modelArmor : this.modelArmorChestplate;
-						var6.bipedHead.showModel = var2 == 0;
-						var6.bipedHeadwear.showModel = var2 == 0;
-						var6.bipedBody.showModel = var2 == 1 || var2 == 2;
-						var6.bipedRightArm.showModel = var2 == 1;
-						var6.bipedLeftArm.showModel = var2 == 1;
-						var6.bipedRightLeg.showModel = var2 == 2 || var2 == 3;
-						var6.bipedLeftLeg.showModel = var2 == 2 || var2 == 3;
-						this.setRenderPassModel(var6);
+				if(itemStack != null) { 
+					Item item = itemStack.getItem(); 
+					if(item instanceof ItemArmor) {
+						ItemArmor armorPart = (ItemArmor)item;
+						this.loadTexture("/armor/" + armorFilenamePrefix[armorPart.renderIndex] + "_" + (pass == 2 ? 2 : 1) + ".png");
+
+						ModelBiped modelArmor = pass == 2 ? this.modelArmor : this.modelArmorChestplate;
+						
+						modelArmor.bipedHead.showModel = pass == 0;
+						modelArmor.bipedHeadwear.showModel = pass == 0;
+						
+						modelArmor.bipedBody.showModel = pass == 1 || pass == 2;
+						modelArmor.bipedRightArm.showModel = pass == 1;
+						modelArmor.bipedLeftArm.showModel = pass == 1;
+						
+						modelArmor.bipedRightLeg.showModel = pass == 2 || pass == 3;
+						modelArmor.bipedLeftLeg.showModel = pass == 2 || pass == 3;
+						
+						this.setRenderPassModel(modelArmor);
 						return true;
 					}
 				}

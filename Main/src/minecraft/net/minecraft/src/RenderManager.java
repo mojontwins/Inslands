@@ -186,6 +186,8 @@ public class RenderManager {
 		this.entityRenderMap.put(EntityFlyingCow.class, new RenderFlyingCow(new ModelFlyingCow1(), new ModelFlyingCow2(), 0.7F));
 		this.entityRenderMap.put(EntitySheepuff.class, new RenderSheepuff(new ModelSheepuff1(), new ModelSheepuff2(), new ModelSheepuff3(), 0.7F));
 		
+		this.entityRenderMap.put(EntityTwoLayeredTest.class, new RenderTwoLayeredBiped());
+		
 		// Traders
 		/*
 		this.entityRenderMap.put(EntityPigman.class, new RenderBiped(new ModelBiped(), 0.5F));

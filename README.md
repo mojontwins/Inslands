@@ -171,6 +171,20 @@ Yay! fps boosted on shitty systems!
 	* [ ] both lack trees, dirt and saplings must be obtained. Make sure skeletons still drop acorns.
 	* [ ] cold mechanics. Need to reactivate code for freeze
 
+* [ ] Special renderbiped for 2 layer-skin bipeds. Need to research how renderpass armor is made "bigger" than the main body.
+
+	* RenderPlayer has 3 models: `modelBipedMain`, `modelArmorChestPlate` and `modelArmor`.
+	* On object instantiation, `modelBipedMain` is assigned a "new ModelBiped(0.0F)".
+	* `modelArmorChestPlate` is a `ModelBiped(1.0F);`
+	* `modelArmor` is a `ModelBiped(0.5F);`
+	* Constructor `ModelBiped(f1)` calls `ModelBiped(f1, 0)`. 
+	* Constructor `ModelBiped(f1, f2)` uses f2 as an angle for the (unused?) headwear box, and f1 for each `addBox` method call.
+	* **That value is used to be subtracted/added to vertex coordinates, effectively making every box bigger (or smaller)**
+	* So that's what I need: an extra `ModelBiped(0.5F)` mapped to the extra texture?
+
+	I need to add an offset to `modelBiped` so it can pick up the lower half of the texture by default for the 2nd layer.
+	
+
 # Server
 
 * [ ] {SMP} Add TP to SMP

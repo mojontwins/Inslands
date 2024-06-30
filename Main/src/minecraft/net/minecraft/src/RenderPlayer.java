@@ -14,23 +14,28 @@ public class RenderPlayer extends RenderLiving {
 		super(new ModelBiped(0.0F), 0.5F);
 	}
 
-	protected boolean setArmorModel(EntityPlayer entityPlayer1, int i2, float f3) {
-		ItemStack itemStack4 = entityPlayer1.inventory.armorItemInSlot(3 - i2);
-		if(itemStack4 != null) {
-			Item item5 = itemStack4.getItem();
-			if(item5 instanceof ItemArmor) {
-				ItemArmor itemArmor6 = (ItemArmor)item5;
-				this.loadTexture("/armor/" + armorFilenamePrefix[itemArmor6.renderIndex] + "_" + (i2 == 2 ? 2 : 1) + ".png");
-				ModelBiped modelBiped7 = i2 == 2 ? this.modelArmor : this.modelArmorChestplate;
-				modelBiped7.bipedHead.showModel = i2 == 0;
-				modelBiped7.bipedHeadwear.showModel = i2 == 0;
-				modelBiped7.bipedBody.showModel = i2 == 1 || i2 == 2;
-				modelBiped7.bipedRightArm.showModel = i2 == 1;
-				modelBiped7.bipedLeftArm.showModel = i2 == 1;
-				modelBiped7.bipedRightLeg.showModel = i2 == 2 || i2 == 3;
-				modelBiped7.bipedLeftLeg.showModel = i2 == 2 || i2 == 3;
-				this.setRenderPassModel(modelBiped7);
-				return true;
+	protected boolean setArmorModel(EntityPlayer entityPlayer, int pass, float renderPartialTicks) {
+		if(pass < 4) {
+			ItemStack armorStack = entityPlayer.inventory.armorItemInSlot(3 - pass);
+			if(armorStack != null) {
+				Item item = armorStack.getItem();
+				if(item instanceof ItemArmor) {
+					ItemArmor armorPart = (ItemArmor)item;
+					this.loadTexture("/armor/" + armorFilenamePrefix[armorPart.renderIndex] + "_" + (pass == 2 ? 2 : 1) + ".png");
+	
+					ModelBiped armorModel = pass == 2 ? this.modelArmor : this.modelArmorChestplate;
+	
+					armorModel.bipedHead.showModel = pass == 0;
+					armorModel.bipedHeadwear.showModel = pass == 0;
+					armorModel.bipedBody.showModel = pass == 1 || pass == 2;
+					armorModel.bipedRightArm.showModel = pass == 1;
+					armorModel.bipedLeftArm.showModel = pass == 1;
+					armorModel.bipedRightLeg.showModel = pass == 2 || pass == 3;
+					armorModel.bipedLeftLeg.showModel = pass == 2 || pass == 3;
+					this.setRenderPassModel(armorModel);
+					
+					return true;
+				}
 			}
 		}
 

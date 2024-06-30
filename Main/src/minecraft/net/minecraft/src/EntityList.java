@@ -198,6 +198,8 @@ public class EntityList {
 		
 		addMapping(EntityPigZombieVolcanoes.class, "PigZombieVolcanoes", 125);
 		
+		addMapping(EntityTwoLayeredTest.class, "TwoLayeredTest", 126);
+		
 		// Aether
 		addMapping(EntityMimic.class, "Mimic", 60);
 		addMapping(EntitySlider.class, "Slider", 61);

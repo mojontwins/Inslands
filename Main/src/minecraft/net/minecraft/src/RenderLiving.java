@@ -63,8 +63,8 @@ public class RenderLiving extends Render {
 			this.mainModel.setLivingAnimations(entityLiving1, f16, f15, f9);
 			this.mainModel.render(f16, f15, f13, f11 - f10, f12, f14);
 
-			for(int i17 = 0; i17 < 4; ++i17) {
-				if(this.shouldRenderPass(entityLiving1, i17, f9)) {
+			for(int pass = 0; pass< 5; ++pass) {
+				if(this.shouldRenderPass(entityLiving1, pass, f9)) {
 					this.renderPassModel.render(f16, f15, f13, f11 - f10, f12, f14);
 					GL11.glDisable(GL11.GL_BLEND);
 					GL11.glEnable(GL11.GL_ALPHA_TEST);

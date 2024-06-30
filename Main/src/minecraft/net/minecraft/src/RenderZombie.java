@@ -12,7 +12,7 @@ public class RenderZombie extends RenderBiped {
 	}
 
 	protected boolean setZombieEyeBrightness(EntityLiving entityZombie, int i2, float f3) {
-		if (i2 == 0 && entityZombie.worldObj.worldInfo.isBloodMoon()) {
+		if (i2 == 4 && entityZombie.worldObj.worldInfo.isBloodMoon()) {
 			this.setRenderPassModel(this.mainModel);
 			this.loadTexture(this.renderPassTexture);
 			float f4 = 1.0F;
@@ -26,8 +26,12 @@ public class RenderZombie extends RenderBiped {
 	}
 	
 	protected boolean shouldRenderPass(EntityLiving entityLiving1, int i2, float f3) {
+		// This renders biped's armor
 		boolean superOk = super.shouldRenderPass(entityLiving1, i2, f3);
+		
+		// This adds pass 4 for eye brightness
 		boolean thisOk = this.setZombieEyeBrightness(entityLiving1, i2, f3);
+		
 		return thisOk || superOk;
 	}
 }

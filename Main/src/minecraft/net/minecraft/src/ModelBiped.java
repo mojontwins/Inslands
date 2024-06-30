@@ -25,33 +25,41 @@ public class ModelBiped extends ModelBase {
 	}
 
 	public ModelBiped(float f1, float f2) {
+		this(f1, f2, 0);
+	}
+	
+	public ModelBiped (float f1, float f2, int texYOffs) {
+		this(f1, f2, texYOffs, 64, 32);
+	}
+	
+	public ModelBiped(float f1, float f2, int texYOffs, int tw, int th) {
 		this.heldItemLeft = false;
 		this.heldItemRight = false;
 		this.isSneak = false;
-		this.bipedCloak = new ModelRenderer(0, 0);
+		this.bipedCloak = new ModelRenderer(0, 0 + texYOffs).setTextureSize(tw, th);
 		this.bipedCloak.addBox(-5.0F, 0.0F, -1.0F, 10, 16, 1, f1);
-		this.bipedEars = new ModelRenderer(24, 0);
+		this.bipedEars = new ModelRenderer(24, 0 + texYOffs).setTextureSize(tw, th);
 		this.bipedEars.addBox(-3.0F, -6.0F, -1.0F, 6, 6, 1, f1);
-		this.bipedHead = new ModelRenderer(0, 0);
+		this.bipedHead = new ModelRenderer(0, 0 + texYOffs).setTextureSize(tw, th);
 		this.bipedHead.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, f1);
 		this.bipedHead.setRotationPoint(0.0F, 0.0F + f2, 0.0F);
-		this.bipedHeadwear = new ModelRenderer(32, 0);
+		this.bipedHeadwear = new ModelRenderer(32, 0 + texYOffs).setTextureSize(tw, th);
 		this.bipedHeadwear.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, f1 + 0.5F);
 		this.bipedHeadwear.setRotationPoint(0.0F, 0.0F + f2, 0.0F);
-		this.bipedBody = new ModelRenderer(16, 16);
+		this.bipedBody = new ModelRenderer(16, 16 + texYOffs).setTextureSize(tw, th);
 		this.bipedBody.addBox(-4.0F, 0.0F, -2.0F, 8, 12, 4, f1);
 		this.bipedBody.setRotationPoint(0.0F, 0.0F + f2, 0.0F);
-		this.bipedRightArm = new ModelRenderer(40, 16);
+		this.bipedRightArm = new ModelRenderer(40, 16 + texYOffs).setTextureSize(tw, th);
 		this.bipedRightArm.addBox(-3.0F, -2.0F, -2.0F, 4, 12, 4, f1);
 		this.bipedRightArm.setRotationPoint(-5.0F, 2.0F + f2, 0.0F);
-		this.bipedLeftArm = new ModelRenderer(40, 16);
+		this.bipedLeftArm = new ModelRenderer(40, 16 + texYOffs).setTextureSize(tw, th);
 		this.bipedLeftArm.mirror = true;
 		this.bipedLeftArm.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, f1);
 		this.bipedLeftArm.setRotationPoint(5.0F, 2.0F + f2, 0.0F);
-		this.bipedRightLeg = new ModelRenderer(0, 16);
+		this.bipedRightLeg = new ModelRenderer(0, 16 + texYOffs).setTextureSize(tw, th);
 		this.bipedRightLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, f1);
 		this.bipedRightLeg.setRotationPoint(-2.0F, 12.0F + f2, 0.0F);
-		this.bipedLeftLeg = new ModelRenderer(0, 16);
+		this.bipedLeftLeg = new ModelRenderer(0, 16 + texYOffs).setTextureSize(tw, th);
 		this.bipedLeftLeg.mirror = true;
 		this.bipedLeftLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, f1);
 		this.bipedLeftLeg.setRotationPoint(2.0F, 12.0F + f2, 0.0F);
