@@ -16,16 +16,11 @@ public class EntityTFSwarmSpider extends EntitySpider {
 
 	public EntityTFSwarmSpider(World world, boolean spawnMore) {
 		super(world);
-		this.setSize(0.8F, 0.4F);
+		this.setSize(0.7F, 0.4F);
 		this.attackStrength = 0;
 		this.setSpawnMore(spawnMore);
 		this.texture = "/mob/swarmspider.png";
 		this.health = 3;
-	}
-
-	public EntityTFSwarmSpider(World world, double x, double y, double z) {
-		this(world);
-		this.setPosition(x, y, z);
 	}
 
 	public int getFullHealth() {
@@ -33,11 +28,7 @@ public class EntityTFSwarmSpider extends EntitySpider {
 	}
 
 	public float spiderScaleAmount() {
-		return 0.5F;
-	}
-
-	public float getRenderSizeModifier() {
-		return 0.5F;
+		return 0.6F;
 	}
 
 	public void onUpdate() {
@@ -67,7 +58,7 @@ public class EntityTFSwarmSpider extends EntitySpider {
 		this.attackStrength = !this.onGround && this.rand.nextInt(4) == 0 ? 1 : 0;
 		if(this.attackStrength > 0 && entity instanceof EntityLiving) {
 			if(!((EntityLiving)entity).isStatusActive(Status.statusPoisoned)) {
-				((EntityLiving)entity).addStatusEffect(new StatusEffect(Status.statusPoisoned.id, 100, 1));
+				((EntityLiving)entity).addStatusEffect(new StatusEffect(Status.statusPoisoned.id, 40, 1));
 			}
 		}
 		super.attackEntity(entity, f);

@@ -18,7 +18,7 @@ public class ExporterBaseRaw extends ExporterBase {
 	}
 
 	@Override
-	public boolean export(int[][][] buffer, Vec3i dims, String fileName) {
+	public boolean export(int[][][] buffer, Vec3i dims, String fileName, String arg) {
 		DataOutputStream out = null;
 		
 		try {
@@ -51,6 +51,11 @@ public class ExporterBaseRaw extends ExporterBase {
 		}
 		
 		return true;
+	}
+
+	@Override
+	public String getHelp() {
+		return "No extra parameters for this exporter.";
 	}
 
 }

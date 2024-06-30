@@ -28,7 +28,6 @@ import com.benimatic.twilightforest.ModelTwilightBighorn;
 import com.benimatic.twilightforest.ModelTwilightBoar;
 import com.benimatic.twilightforest.ModelTwilightDeer;
 import com.benimatic.twilightforest.RenderTFMinoshroom;
-import com.benimatic.twilightforest.RenderTFSwarmSpider;
 import com.benimatic.twilightforest.RenderTFWraith;
 import com.bigbang87.deadlymonsters.EntityHauntedCow;
 import com.bigbang87.deadlymonsters.ModelHauntedCow;
@@ -155,7 +154,7 @@ public class RenderManager {
 		this.entityRenderMap.put(EntityTFMinotaur.class, new RenderBiped(new ModelTFMinotaur(), 0.625F));
 		this.entityRenderMap.put(EntityTFMinoshroom.class, new RenderTFMinoshroom(new ModelTFMinoshroom(), 0.625F));
 		this.entityRenderMap.put(EntityTFKobold.class, new RenderBiped(new ModelTFKobold(), 0.625F));
-		this.entityRenderMap.put(EntityTFSwarmSpider.class, new RenderTFSwarmSpider());
+		this.entityRenderMap.put(EntityTFSwarmSpider.class, new RenderSpider());
 		this.entityRenderMap.put(EntityTwilightBoar.class, new RenderPig(new ModelTwilightBoar(), new ModelPig(0.5F), 0.7F));
 		this.entityRenderMap.put(EntityTwilightBighorn.class, new RenderSheep(new ModelTwilightBighorn(), new ModelBighornFur(), 0.7F));
 		this.entityRenderMap.put(EntityTwilightDeer.class, new RenderCow(new ModelTwilightDeer(), 0.7F));
