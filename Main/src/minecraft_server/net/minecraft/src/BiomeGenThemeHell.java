@@ -25,11 +25,11 @@ public class BiomeGenThemeHell extends BiomeGenBase {
 		this.forceBlockLightInitLikeNether = true;
 	}
 	
-	public WorldGenerator getTreeGen(Random rand) {
+	public WorldGenerator getTreeGen(World world, Random rand, int chunkX, int chunkZ) {
 		return new WorldGenTreesDead();
 	}
 	
-	public WorldGenerator getBigTreeGen(Random rand) {
+	public WorldGenerator getBigTreeGen(World world, Random rand, int chunkX, int chunkZ) {
 		return rand.nextBoolean() ? new WorldGenTreesDead() : new WorldGenTrees();
 	}
 	

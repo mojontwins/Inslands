@@ -37,11 +37,11 @@ public class BiomeGenMangrove extends BiomeGenBase {
 		return new TFGenMangroveTree();
 	}
 	
-	public WorldGenerator getTreeGen(Random rand) {
+	public WorldGenerator getTreeGen(World world, Random rand, int chunkX, int chunkZ) {
 		return new WorldGenTrees();
 	}
 	
-	public WorldGenerator getBigTreeGen(Random rand) {
+	public WorldGenerator getBigTreeGen(World world, Random rand, int chunkX, int chunkZ) {
 		if(rand.nextInt(64) == 0) return new WorldGenHugeTrees(16 + rand.nextInt(16));
 		return new TFGenMangroveTree();
 	}

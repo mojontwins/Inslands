@@ -2,6 +2,7 @@ package com.mojang.minecraft.betabiomes;
 
 import java.util.Random;
 
+import net.minecraft.src.World;
 import net.minecraft.src.WorldGenShrub;
 import net.minecraft.src.WorldGenTrees;
 import net.minecraft.src.WorldGenWillow;
@@ -16,14 +17,14 @@ public class BiomeGenShrubland extends BiomeGenBetaForest {
 		this.tallGrassAttempts = 8;
 	}
 
-	public WorldGenerator getTreeGen(Random rand) {
+	public WorldGenerator getTreeGen(World world, Random rand, int chunkX, int chunkZ) {
 		if (rand.nextInt(6) != 0) {
 			return new WorldGenShrub();
 		} else
 			return new WorldGenTrees();
 	}
 
-	public WorldGenerator getBigTreeGen(Random rand) {
+	public WorldGenerator getBigTreeGen(World world, Random rand, int chunkX, int chunkZ) {
 		return new WorldGenWillow(4 + rand.nextInt(4));
 	}
 }

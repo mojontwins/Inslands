@@ -61,11 +61,11 @@ public class BiomeGenBetaTaiga extends BiomeGenBetaForest {
 		return 8;
 	}
 	
-	public WorldGenerator getTreeGen(Random rand) {
+	public WorldGenerator getTreeGen(World world, Random rand, int chunkX, int chunkZ) {
 		return new WorldGenTaigaTree2();
 	}
 	
-	public WorldGenerator getBigTreeGen(Random rand) {
+	public WorldGenerator getBigTreeGen(World world, Random rand, int chunkX, int chunkZ) {
 		if(rand.nextInt(100) == 0) return new WorldGenPineTree(); //new WorldGenFir(4 + rand.nextInt(7), true);
 		if(rand.nextInt(10) == 0) return new WorldGenFir(3 + rand.nextInt(3), false);
 		return new WorldGenTaigaTree1();

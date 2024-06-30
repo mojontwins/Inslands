@@ -129,11 +129,11 @@ public class BiomeGenBase {
 		return null;
 	}
 	
-	public WorldGenerator getTreeGen(Random rand) {
+	public WorldGenerator getTreeGen(World world, Random rand, int chunkX, int chunkZ) {
 		return new WorldGenTrees();
 	}
 	
-	public WorldGenerator getBigTreeGen(Random rand) {
+	public WorldGenerator getBigTreeGen(World world, Random rand, int chunkX, int chunkZ) {
 		return new WorldGenBigTree();
 	}
 	

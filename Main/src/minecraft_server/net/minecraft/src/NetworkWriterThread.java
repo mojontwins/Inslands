@@ -31,7 +31,7 @@ class NetworkWriterThread extends Thread {
 				}
 
 				try {
-					sleep(100L);
+					sleep(2L); // Vanilla was: 100L
 				} catch (InterruptedException interruptedException16) {
 				}
 

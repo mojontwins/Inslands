@@ -59,7 +59,7 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 		return 64;
 	}
 	
-	public WorldGenerator getTreeGen(Random rand) {
+	public WorldGenerator getTreeGen(World world, Random rand, int chunkX, int chunkZ) {
 		if(rand.nextInt(5) == 0) return new TFGenCanopyTree();
 		if(rand.nextBoolean()) {
 			return new WorldGenTrees();
@@ -68,7 +68,7 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 		}
 	}
 	
-	public WorldGenerator getBigTreeGen(Random rand) {
+	public WorldGenerator getBigTreeGen(World world, Random rand, int chunkX, int chunkZ) {
 		if(rand.nextInt(64) == 0) return new WorldGenHugeTrees(16 + rand.nextInt(16));
 		if(rand.nextBoolean()) {
 			return new WorldGenPineTree(); // WorldGenFir(5+rand.nextInt(5), true);

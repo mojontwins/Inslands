@@ -1,8 +1,6 @@
 package com.mojontwins.minecraft.worldedit;
 
-import java.util.StringTokenizer;
-
-import net.minecraft.client.Minecraft;
+//import net.minecraft.client.Minecraft;
 import net.minecraft.src.BlockPos;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.Vec3i;

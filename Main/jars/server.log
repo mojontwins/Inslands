@@ -4017,3 +4017,27 @@ net.minecraft.src.MinecraftException: Failed to check session lock, aborting
 2024-06-29 15:38:42 [INFO] Stopping server
 2024-06-29 15:38:42 [INFO] Saving chunks
 2024-06-29 15:38:42 [INFO] Saving chunks
+2024-06-30 08:58:17 [INFO] Starting minecraft server InSlands v240625
+2024-06-30 08:58:17 [INFO] Loading properties
+2024-06-30 08:58:17 [INFO] Starting Minecraft server on *:25565
+2024-06-30 08:58:17 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2024-06-30 08:58:17 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2024-06-30 08:58:17 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2024-06-30 08:58:17 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2024-06-30 08:58:17 [INFO] Preparing level "world"
+2024-06-30 08:58:18 [INFO] ** DIM 0
+2024-06-30 08:58:18 [INFO] Loading existing world
+2024-06-30 08:58:19 [INFO] Preparing spawn area: 96%
+2024-06-30 08:58:19 [INFO] ** DIM -1
+2024-06-30 08:58:19 [INFO] Loading existing world
+2024-06-30 08:58:20 [INFO] Preparing spawn area: 98%
+2024-06-30 08:58:20 [INFO] Done (2625927500ns)! For help, type "help" or "?"
+2024-06-30 08:59:12 [WARNING] Failed to load player data for Player447
+2024-06-30 08:59:12 [INFO] Player447 [/127.0.0.1:50257] logged in with entity id 50 at (97.5, 98.62000000476837, 127.5)
+2024-06-30 08:59:21 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2024-06-30 08:59:24 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2024-06-30 08:59:27 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2024-06-30 09:01:22 [INFO] Player447 lost connection: disconnect.genericReason
+2024-06-30 09:02:09 [INFO] Stopping server
+2024-06-30 09:02:09 [INFO] Saving chunks
+2024-06-30 09:02:09 [INFO] Saving chunks

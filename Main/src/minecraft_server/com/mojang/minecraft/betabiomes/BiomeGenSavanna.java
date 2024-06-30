@@ -32,14 +32,14 @@ public class BiomeGenSavanna extends BiomeGenBeta {
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityBetaOcelot.class, 10, true));
 	}
 
-	public WorldGenerator getTreeGen(Random rand) {
+	public WorldGenerator getTreeGen(World world, Random rand, int chunkX, int chunkZ) {
 		if (rand.nextInt(3) == 0) {
 			return new WorldGenPalmTree1();
 		} else
 			return new WorldGenBaobab(2 + rand.nextInt(3));
 	}
 
-	public WorldGenerator getBigTreeGen(Random rand) {
+	public WorldGenerator getBigTreeGen(World world, Random rand, int chunkX, int chunkZ) {
 		return new WorldGenBaobab(6 + rand.nextInt(7));
 	}
 

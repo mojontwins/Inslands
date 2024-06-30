@@ -55,7 +55,7 @@ public class BiomeGenSwampLand extends BiomeGenBeta {
 		this.maxHeight = 0.125F;
 	}
 	
-	public WorldGenerator getBigTreeGen(Random rand) {
+	public WorldGenerator getBigTreeGen(World world, Random rand, int chunkX, int chunkZ) {
 		return rand.nextInt(10) == 0 ? new WorldGenBigTree() : new WorldGenSwamp();
 	}
 	

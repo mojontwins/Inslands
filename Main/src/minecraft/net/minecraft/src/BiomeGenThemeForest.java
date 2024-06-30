@@ -8,10 +8,12 @@ import com.benimatic.twilightforest.EntityTFRedcap;
 import com.benimatic.twilightforest.EntityTwilightBighorn;
 import com.benimatic.twilightforest.EntityTwilightBoar;
 import com.benimatic.twilightforest.EntityTwilightDeer;
+import com.benimatic.twilightforest.TFGenCanopyMushroom;
 import com.benimatic.twilightforest.TFGenCanopyTree;
 import com.benimatic.twilightforest.TFGenFoundation;
 import com.benimatic.twilightforest.TFGenHillMaze;
 import com.benimatic.twilightforest.TFGenMonolith;
+import com.benimatic.twilightforest.TFGenMyceliumBlob;
 import com.benimatic.twilightforest.TFGenOutsideStalagmite;
 import com.benimatic.twilightforest.TFGenStoneCircle;
 import com.benimatic.twilightforest.TFGenWell;
@@ -20,6 +22,20 @@ import com.benimatic.twilightforest.TFGenerator;
 import com.mojang.minecraft.ocelot.EntityBetaOcelot;
 
 public class BiomeGenThemeForest extends BiomeGenForest {
+	
+	private WorldGenPineTree pineTreeGen = new WorldGenPineTree();
+	private WorldGenTrees normalTreeGen = new WorldGenTrees();
+	private WorldGenBigTree bigTreeGen = new WorldGenBigTree();
+	private WorldGenBigTree bigBigTreeGen = new WorldGenBigTree();
+	private TFGenCanopyTree canopyTreeGen = new TFGenCanopyTree();
+	private TFGenCanopyMushroom canopyMushroomGen = new TFGenCanopyMushroom();
+	private TFGenMyceliumBlob myceliumBlobGen = new TFGenMyceliumBlob(5);
+	private WorldGenBigMushroom brownMushroomGen = new WorldGenBigMushroom(0);
+	private WorldGenBigMushroom redMushroomGen = new WorldGenBigMushroom(1);
+	private WorldGenBigMushroom greenMushroomGen = new WorldGenBigMushroom(2);
+	
+	private int myceliumPerChunk = 3;
+	
 	public BiomeGenThemeForest() {
 		super();
 		this.overrideSkyColor = 0x757D87;
@@ -45,6 +61,8 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 		this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityTFKobold.class, 10));
 		this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityTFRedcap.class, 5));
 		this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityTFHedgeSpider.class, 5));
+		
+		this.bigBigTreeGen.setScale(2.0F, 3.0F, 2.0F);
 	}
 	
 	public int getAlgaeAmount() {
@@ -59,19 +77,30 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 		return 64;
 	}
 	
-	public WorldGenerator getTreeGen(Random rand) {
-		if(rand.nextInt(5) == 0) return new TFGenCanopyTree();
+	public WorldGenerator getTreeGen(World world, Random rand, int chunkX, int chunkZ) {
+		if(world.getWorldChunkManager().isAltChunk(chunkX, chunkZ, 0.0D)) {
+			if(rand.nextInt(8) != 0) return rand.nextInt(10) == 0 ? this.greenMushroomGen : (rand.nextInt(3) == 0 ? this.redMushroomGen : this.brownMushroomGen) ;
+		}
+		
+		if(rand.nextInt(5) == 0) return this.canopyTreeGen;
 		if(rand.nextBoolean()) {
-			return new WorldGenTrees();
+			return this.normalTreeGen;
 		} else {
 			return new WorldGenFir(3+rand.nextInt(3), false);
 		}
 	}
 	
-	public WorldGenerator getBigTreeGen(Random rand) {
+	public WorldGenerator getBigTreeGen(World world, Random rand, int chunkX, int chunkZ) {
+		if(world.getWorldChunkManager().isAltChunk(chunkX, chunkZ, 0.0D)) {
+			if(rand.nextInt(8) != 0) return this.canopyMushroomGen;
+		}
+		
+		if(rand.nextInt(256) == 0) return this.bigBigTreeGen;
 		if(rand.nextInt(64) == 0) return new WorldGenHugeTrees(16 + rand.nextInt(16));
+		if(rand.nextInt(32) == 0) return this.bigTreeGen;
+		
 		if(rand.nextBoolean()) {
-			return new WorldGenPineTree(); // WorldGenFir(5+rand.nextInt(5), true);
+			return this.pineTreeGen;
 		} else {
 			return new WorldGenCypress(5+rand.nextInt(5));
 		}
@@ -80,16 +109,24 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 	public void prePopulate(World world, Random rand, int x0, int z0) {
 		super.prePopulate(world, rand, x0, z0);
 		
-		int x, y, z;
+		int i, x, y, z;
 		
 		if(rand.nextInt(3) == 0) {
 			x = x0 + rand.nextInt(16) + 8;
 			z = z0 + rand.nextInt(16) + 8;
 			y = world.getLandSurfaceHeightValue(x, z) + 1;
 			TFGenerator tFGenerator22 = this.randomFeature(rand);
-			//System.out.println(tFGenerator22 + " attempt at " + x + ", " + y + ", " + z);
 			if(tFGenerator22.generate(world, rand, x, y, z)) {
 				System.out.println(tFGenerator22 + " success at " + x + ", " + y + ", " + z);
+			}
+		}
+		
+		if(world.getWorldChunkManager().isAltChunk(x0 >> 4, z0 >> 4, 0.0D)) {
+			for(i = 0; i < this.myceliumPerChunk ; ++i) {
+				x = x0 + rand.nextInt(16) + 8;
+				z = z0 + rand.nextInt(16) + 8;
+				y = world.getHeightValue(x, z);
+				this.myceliumBlobGen.generate(world, rand, x, y, z);
 			}
 		}
 	}

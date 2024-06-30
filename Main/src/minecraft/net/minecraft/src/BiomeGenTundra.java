@@ -23,7 +23,7 @@ public class BiomeGenTundra extends BiomeGenPlains {
 		return true;
 	}
 	
-	public WorldGenerator getTreeGen(Random rand) {
+	public WorldGenerator getTreeGen(World world, Random rand, int chunkX, int chunkZ) {
 		return new WorldGenShrub();
 	}
 	

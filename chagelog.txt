@@ -46,3 +46,8 @@ Still using b1.7.3 netcode, a situation which won't change for a while.
 * Underhill, hedge and minotaur mazes for the Forest theme.
 * Twilight animals and baddies for the Forest theme.
 * Preliminary multi-biome level theme, using ramps and special beta-based biomes complete with colorizers. Everything is cached so no impact.
+
+# v240701
+
+* Fixed some entities.
+* Still no release netcode, but applied a small patch to reader/writer threads for more responsiveness?

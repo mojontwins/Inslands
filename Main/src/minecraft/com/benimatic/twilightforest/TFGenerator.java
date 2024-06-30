@@ -53,7 +53,7 @@ public abstract class TFGenerator extends WorldGenerator {
 		this.drawBresehnam(x1, y1, z1, x2, y2, z2, blockValue, (byte)0, priority);
 	}
 
-	protected void drawBresehnam(int x1, int y1, int z1, int x2, int y2, int z2, byte blockValue, byte metaValue, boolean priority) {
+	protected void drawBresehnam(int x1, int y1, int z1, int x2, int y2, int z2, int treeBlock, int branchMeta, boolean priority) {
 		int[] pixel = new int[]{x1, y1, z1};
 		int dx = x2 - x1;
 		int dy = y2 - y1;
@@ -75,7 +75,7 @@ public abstract class TFGenerator extends WorldGenerator {
 			err_2 = dz2 - l;
 
 			for(i = 0; i < l; ++i) {
-				this.putBlockAndMetadata(pixel, blockValue, metaValue, priority);
+				this.putBlockAndMetadata(pixel, treeBlock, branchMeta, priority);
 				if(err_1 > 0) {
 					pixel[1] += y_inc;
 					err_1 -= dx2;
@@ -95,7 +95,7 @@ public abstract class TFGenerator extends WorldGenerator {
 			err_2 = dz2 - m;
 
 			for(i = 0; i < m; ++i) {
-				this.putBlockAndMetadata(pixel, blockValue, metaValue, priority);
+				this.putBlockAndMetadata(pixel, treeBlock, branchMeta, priority);
 				if(err_1 > 0) {
 					pixel[0] += x_inc;
 					err_1 -= dy2;
@@ -115,7 +115,7 @@ public abstract class TFGenerator extends WorldGenerator {
 			err_2 = dx2 - n;
 
 			for(i = 0; i < n; ++i) {
-				this.putBlockAndMetadata(pixel, blockValue, metaValue, priority);
+				this.putBlockAndMetadata(pixel, treeBlock, branchMeta, priority);
 				if(err_1 > 0) {
 					pixel[1] += y_inc;
 					err_1 -= dz2;
@@ -132,7 +132,7 @@ public abstract class TFGenerator extends WorldGenerator {
 			}
 		}
 
-		this.putBlockAndMetadata(pixel, blockValue, metaValue, priority);
+		this.putBlockAndMetadata(pixel, treeBlock, branchMeta, priority);
 	}
 
 	public void drawCircle(int sx, int sy, int sz, byte rad, byte blockValue, int metaValue, boolean priority) {

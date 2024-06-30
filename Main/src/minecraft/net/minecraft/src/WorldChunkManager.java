@@ -6,6 +6,8 @@ public class WorldChunkManager {
 	private NoiseGeneratorOctaves2 ngo1;
 	private NoiseGeneratorOctaves2 ngo2;
 	private NoiseGeneratorOctaves2 ngo3;
+	private NoiseGeneratorPerlin ngp;
+	
 	public double[] temperature;
 	public double[] humidity;
 	public double[] variation;
@@ -14,10 +16,17 @@ public class WorldChunkManager {
 	protected WorldChunkManager() {
 	}
 
-	public WorldChunkManager(World world1) {
-		this.ngo1 = new NoiseGeneratorOctaves2(new Random(world1.getRandomSeed() * 9871L), 4);
-		this.ngo2 = new NoiseGeneratorOctaves2(new Random(world1.getRandomSeed() * 39811L), 4);
-		this.ngo3 = new NoiseGeneratorOctaves2(new Random(world1.getRandomSeed() * 543321L), 2);
+	public WorldChunkManager(World world) {
+		this.ngo1 = new NoiseGeneratorOctaves2(new Random(world.getRandomSeed() * 9871L), 4);
+		this.ngo2 = new NoiseGeneratorOctaves2(new Random(world.getRandomSeed() * 39811L), 4);
+		this.ngo3 = new NoiseGeneratorOctaves2(new Random(world.getRandomSeed() * 543321L), 2);
+		
+		this.ngp = new NoiseGeneratorPerlin(new Random(world.getRandomSeed() * 9871L));
+	}
+	
+	// For easy alternate chunk decoration in single biome themes (or whatever) you can use this
+	public boolean isAltChunk(int chunkX, int chunkZ, double threshold) {
+	    return this.ngp.generateNoise(chunkX / 16.0F, chunkZ / 16.0F) > threshold;
 	}
 
 	public BiomeGenBase getBiomeGenAtChunkCoord(ChunkCoordIntPair chunkCoordIntPair1) {

@@ -746,9 +746,9 @@ public class ChunkProviderGenerate implements IChunkProvider {
 			
 			if(treeGen == null || treeGen.generate(this.worldObj, this.rand, x, y, z) == false) {	
 				if (this.rand.nextInt(10) < biomeGen.bigTreesEach10Trees) {
-					treeGen = biomeGen.getBigTreeGen(this.rand);
+					treeGen = biomeGen.getBigTreeGen(this.worldObj, this.rand, chunkX, chunkZ);
 				} else {
-					treeGen = biomeGen.getTreeGen(this.rand);
+					treeGen = biomeGen.getTreeGen(this.worldObj, this.rand, chunkX, chunkZ);
 				}
 				
 				if(treeGen != null) treeGen.generate(this.worldObj, this.rand, x, y, z);
