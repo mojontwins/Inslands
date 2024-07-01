@@ -1368,6 +1368,15 @@ public class RenderGlobal implements IWorldAccess {
 					EntityStatusEffectFX entityFX = new EntityStatusEffectFX(this.worldObj, posX, posY, posZ, 0, 0, 0);
 					entityFX.setParticleColor((float)motionX, (float)motionY, (float)motionZ);
 					this.mc.effectRenderer.addEffect(entityFX);
+				} else {
+					int i24;
+					if(particle.startsWith("iconcrack_")) {
+						i24 = Integer.parseInt(particle.substring(particle.indexOf("_") + 1));
+						this.mc.effectRenderer.addEffect(new EntityBreakingFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ, Item.itemsList[i24]));
+					} else if(particle.startsWith("tilecrack_")) {
+						i24 = Integer.parseInt(particle.substring(particle.indexOf("_") + 1));
+						this.mc.effectRenderer.addEffect(new EntityDiggingFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ, Block.blocksList[i24], 0, 0));
+					}
 				}
 
 			}

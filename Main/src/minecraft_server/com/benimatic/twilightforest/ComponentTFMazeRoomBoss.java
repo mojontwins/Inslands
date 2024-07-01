@@ -92,7 +92,7 @@ public class ComponentTFMazeRoomBoss extends ComponentTFMazeRoom {
 				EntityTFMinoshroom var10 = new EntityTFMinoshroom(var1);
 				var10.setPosition((double) var4, (double) var5, (double) var6);
 				var10.setHomeArea(var4, var5, var6, 7);
-				var1.entityJoinedWorld(var10);
+				var1.spawnEntityInWorld(var10);
 			}
 		}
 

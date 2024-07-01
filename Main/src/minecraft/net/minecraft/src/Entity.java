@@ -911,7 +911,7 @@ public abstract class Entity {
 	public EntityItem entityDropItem(ItemStack itemStack1, float f2) {
 		EntityItem entityItem3 = new EntityItem(this.worldObj, this.posX, this.posY + (double)f2, this.posZ, itemStack1);
 		entityItem3.delayBeforeCanPickup = 10;
-		this.worldObj.entityJoinedWorld(entityItem3);
+		this.worldObj.spawnEntityInWorld(entityItem3);
 		return entityItem3;
 	}
 

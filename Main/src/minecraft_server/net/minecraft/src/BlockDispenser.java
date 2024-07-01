@@ -110,27 +110,27 @@ public class BlockDispenser extends BlockContainer {
 				EntityArrow entityArrow19 = new EntityArrow(world1, d13, d15, d17);
 				entityArrow19.setArrowHeading((double)b9, (double)0.1F, (double)b10, 1.1F, 6.0F);
 				entityArrow19.doesArrowBelongToPlayer = true;
-				world1.entityJoinedWorld(entityArrow19);
+				world1.spawnEntityInWorld(entityArrow19);
 				world1.playAuxSFX(1002, i2, i3, i4, 0);
 			} else if(itemStack12.itemID == Item.egg.shiftedIndex) {
 				EntityEgg entityEgg22 = new EntityEgg(world1, d13, d15, d17);
 				entityEgg22.setEggHeading((double)b9, (double)0.1F, (double)b10, 1.1F, 6.0F);
-				world1.entityJoinedWorld(entityEgg22);
+				world1.spawnEntityInWorld(entityEgg22);
 				world1.playAuxSFX(1002, i2, i3, i4, 0);
 			} else if(itemStack12.itemID == Item.snowball.shiftedIndex) {
 				EntitySnowball entitySnowball23 = new EntitySnowball(world1, d13, d15, d17);
 				entitySnowball23.setThrowableHeading((double)b9, (double)0.1F, (double)b10, 1.1F, 6.0F);
-				world1.entityJoinedWorld(entitySnowball23);
+				world1.spawnEntityInWorld(entitySnowball23);
 				world1.playAuxSFX(1002, i2, i3, i4, 0);
 			} else if(itemStack12.itemID == Item.pebble.shiftedIndex) {
 				EntityPebble entitySnowball23 = new EntityPebble(world1, d13, d15, d17);
 				entitySnowball23.setThrowableHeading((double)b9, (double)0.1F, (double)b10, 1.1F, 6.0F);
-				world1.entityJoinedWorld(entitySnowball23);
+				world1.spawnEntityInWorld(entitySnowball23);
 				world1.playAuxSFX(1002, i2, i3, i4, 0);
 			} else if(item != null && item instanceof ItemPotion) {
 				EntityThrowablePotion entityThrowablePotion = new EntityThrowablePotion(world1, d13, d15, d17, (ItemPotion)item);
 				entityThrowablePotion.setThrowableHeading((double)b9, (double)0.1F, (double)b10, 1.1F, 6.0F);
-				world1.entityJoinedWorld(entityThrowablePotion);
+				world1.spawnEntityInWorld(entityThrowablePotion);
 				world1.playAuxSFX(1002, i2, i3, i4, 0);
 			} else {
 				EntityItem entityItem24 = new EntityItem(world1, d13, d15 - 0.3D, d17, itemStack12);
@@ -141,7 +141,7 @@ public class BlockDispenser extends BlockContainer {
 				entityItem24.motionX += random5.nextGaussian() * (double)0.0075F * 6.0D;
 				entityItem24.motionY += random5.nextGaussian() * (double)0.0075F * 6.0D;
 				entityItem24.motionZ += random5.nextGaussian() * (double)0.0075F * 6.0D;
-				world1.entityJoinedWorld(entityItem24);
+				world1.spawnEntityInWorld(entityItem24);
 				world1.playAuxSFX(1000, i2, i3, i4, 0);
 			}
 
@@ -213,7 +213,7 @@ public class BlockDispenser extends BlockContainer {
 					entityItem12.motionX = (double)((float)this.random.nextGaussian() * f13);
 					entityItem12.motionY = (double)((float)this.random.nextGaussian() * f13 + 0.2F);
 					entityItem12.motionZ = (double)((float)this.random.nextGaussian() * f13);
-					world1.entityJoinedWorld(entityItem12);
+					world1.spawnEntityInWorld(entityItem12);
 				}
 			}
 		}

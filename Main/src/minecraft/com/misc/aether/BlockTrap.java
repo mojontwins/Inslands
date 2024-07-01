@@ -51,7 +51,7 @@ public class BlockTrap extends BlockBreakable {
 				entityvalk1.setAmazonAngry(true);
 				
 				entityvalk1.setPosition((double)x + 0.5D, (double)y + 1.5D, (double)z + 0.5D);
-				world.entityJoinedWorld(entityvalk1);
+				world.spawnEntityInWorld(entityvalk1);
 				break;
 			case 1:
 				// EntityValkyrie entityvalk = new EntityValkyrie(world);
@@ -59,7 +59,7 @@ public class BlockTrap extends BlockBreakable {
 				entityvalk.setAmazonAngry(true);
 				
 				entityvalk.setPosition((double)x + 0.5D, (double)y + 1.5D, (double)z + 0.5D);
-				world.entityJoinedWorld(entityvalk);
+				world.spawnEntityInWorld(entityvalk);
 			}
 
 			world.setBlockAndMetadataWithNotify(i, j, k, Block.obsidian.blockID, world.getBlockMetadata(i, j, k));

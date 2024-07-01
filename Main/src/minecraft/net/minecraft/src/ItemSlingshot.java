@@ -14,7 +14,7 @@ public class ItemSlingshot extends Item {
 		if(entityPlayer.isCreative || entityPlayer.inventory.consumeInventoryItem(Item.pebble.shiftedIndex)) {
 			world.playSoundAtEntity(entityPlayer, "random.bow", 1.0F, 1.0F / (Item.rand.nextFloat() * 0.4F + 0.8F));
 			if(!world.isRemote) {
-				world.entityJoinedWorld(new EntityPebble(world, entityPlayer));
+				world.spawnEntityInWorld(new EntityPebble(world, entityPlayer));
 			}
 		}
 

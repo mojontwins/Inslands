@@ -14,7 +14,7 @@ public abstract class BlockEntity extends Block {
 		world.setBlockEntity(x, y, z, entity);
 		entity.setLocationAndAngles((double)x + 0.5D, (double)y - 0.5D, (double)z + 0.5D, world.rand.nextFloat() * 360.0F, 0.0F);
 		entity.setTilePosition(x, y, z);
-		world.entityJoinedWorld(entity);
+		world.spawnEntityInWorld(entity);
 		
 	}
 	

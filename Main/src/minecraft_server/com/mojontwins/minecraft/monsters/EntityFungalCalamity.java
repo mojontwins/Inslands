@@ -82,7 +82,7 @@ public class EntityFungalCalamity extends EntityMob {
 					double dy = living.posY + (double)living.getEyeHeight() - (double)0.2F - fungalInfection.posY;
 					float f10 = MathHelper.sqrt_double(dX * dX + dZ * dZ) * 0.2F;
 					this.worldObj.playSoundAtEntity(this, "\"mob.witch.throw", 1.0F, 1.0F / (this.rand.nextFloat() * 0.4F + 0.8F));
-					this.worldObj.entityJoinedWorld(fungalInfection);
+					this.worldObj.spawnEntityInWorld(fungalInfection);
 					fungalInfection.setThrowableHeading(dX, dy + (double)f10, dZ, 0.6F, 12.0F);
 					this.attackTime = 30;
 				}

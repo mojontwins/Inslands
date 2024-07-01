@@ -41,7 +41,7 @@ public class EntitySkeleton extends EntityArmoredMob {
 				double d8 = entity1.posY + (double)entity1.getEyeHeight() - (double)0.2F - entityArrow7.posY;
 				float f10 = MathHelper.sqrt_double(d3 * d3 + d5 * d5) * 0.2F;
 				this.worldObj.playSoundAtEntity(this, "random.bow", 1.0F, 1.0F / (this.rand.nextFloat() * 0.4F + 0.8F));
-				this.worldObj.entityJoinedWorld(entityArrow7);
+				this.worldObj.spawnEntityInWorld(entityArrow7);
 				entityArrow7.setArrowHeading(d3, d8 + (double)f10, d5, 0.6F, 12.0F);
 				this.attackTime = 30;
 			}

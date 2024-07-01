@@ -93,7 +93,7 @@ public class EntityCow extends EntityAnimal {
 				this.setEntityDead();
 				EntityHauntedCow entityHauntedCow = new EntityHauntedCow(this.worldObj);
 				entityHauntedCow.setPositionAndRotation(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
-				this.worldObj.entityJoinedWorld(entityHauntedCow);
+				this.worldObj.spawnEntityInWorld(entityHauntedCow);
 				
 				// Night time!
 				long worldTime = this.worldObj.getWorldTime();

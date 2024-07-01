@@ -38,7 +38,7 @@ public class ItemPotion extends Item {
 		if(entityPlayer.isCreative || entityPlayer.inventory.consumeInventoryItem(this.shiftedIndex)) {
 			world.playSoundAtEntity(entityPlayer, "mob.witch.throw", 1.0F, 1.0F / (Item.rand.nextFloat() * 0.4F + 0.8F));
 			if(!world.isRemote) {
-				world.entityJoinedWorld(new EntityThrowablePotion(world, entityPlayer, this));
+				world.spawnEntityInWorld(new EntityThrowablePotion(world, entityPlayer, this));
 			}
 		}
 

@@ -101,6 +101,23 @@ public class MoreResourcesInstaller {
 			this.mc.installResourceURL("sound/mob/wraith2.ogg", this.getURLfromResource(this.resourceDirectory +"/wraith2.ogg"));
 			this.mc.installResourceURL("sound/mob/wraith3.ogg", this.getURLfromResource(this.resourceDirectory +"/wraith3.ogg"));
 			
+			// Eat
+			this.mc.installResourceURL("sound/random/burp.ogg", this.getURLfromResource(this.resourceDirectory +"/burp.ogg"));
+			this.mc.installResourceURL("sound/random/drink.ogg", this.getURLfromResource(this.resourceDirectory +"/drink.ogg"));
+			this.mc.installResourceURL("sound/random/eat0.ogg", this.getURLfromResource(this.resourceDirectory +"/eat1.ogg"));
+			this.mc.installResourceURL("sound/random/eat1.ogg", this.getURLfromResource(this.resourceDirectory +"/eat2.ogg"));
+			this.mc.installResourceURL("sound/random/eat2.ogg", this.getURLfromResource(this.resourceDirectory +"/eat3.ogg"));
+			
+			// Goat
+			this.mc.installResourceURL("sound/mocreatures/goateating.ogg", this.getURLfromResource(this.resourceDirectory +"/goateating.ogg"));
+			this.mc.installResourceURL("sound/mocreatures/goatsmack.ogg", this.getURLfromResource(this.resourceDirectory +"/goatsmack.ogg"));
+			this.mc.installResourceURL("sound/mocreatures/goatdigg.ogg", this.getURLfromResource(this.resourceDirectory +"/goatdigg.ogg"));
+			this.mc.installResourceURL("sound/mocreatures/goathurt.ogg", this.getURLfromResource(this.resourceDirectory +"/goathurt.ogg"));
+			this.mc.installResourceURL("sound/mocreatures/goatfemale.ogg", this.getURLfromResource(this.resourceDirectory +"/goatfemale.ogg"));
+			this.mc.installResourceURL("sound/mocreatures/goatkid.ogg", this.getURLfromResource(this.resourceDirectory +"/goatkid.ogg"));
+			this.mc.installResourceURL("sound/mocreatures/goatgrunt.ogg", this.getURLfromResource(this.resourceDirectory +"/goatgrunt.ogg"));			
+			this.mc.installResourceURL("sound/mocreatures/goatdying.ogg", this.getURLfromResource(this.resourceDirectory +"/goatdying.ogg"));
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

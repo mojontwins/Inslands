@@ -128,7 +128,7 @@ public class EntitySecretBoss extends EntitySlime {
 					EntitySlime entityslime1 = new EntitySlime(this.worldObj);
 					entityslime1.setSlimeSize(size / 2);
 					entityslime1.setLocationAndAngles(this.posX + (double)f1, this.posY + 0.5D, this.posZ + (double)entityslime, this.rand.nextFloat() * 360.0F, 0.0F);
-					this.worldObj.entityJoinedWorld(entityslime1);
+					this.worldObj.spawnEntityInWorld(entityslime1);
 				}
 			}
 		} else {
@@ -138,7 +138,7 @@ public class EntitySecretBoss extends EntitySlime {
 					f1 = ((float)(j / 2) - 0.5F) * (float)this.lvl / 10.0F / 4.0F;
 					EntitySecretBoss EntitySecretBoss7 = new EntitySecretBoss(this.worldObj, this.lvl - 1);
 					EntitySecretBoss7.setLocationAndAngles(this.posX + (double)f6, this.posY + 0.5D, this.posZ + (double)f1, this.rand.nextFloat() * 360.0F, 0.0F);
-					this.worldObj.entityJoinedWorld(EntitySecretBoss7);
+					this.worldObj.spawnEntityInWorld(EntitySecretBoss7);
 				}
 			}
 		}

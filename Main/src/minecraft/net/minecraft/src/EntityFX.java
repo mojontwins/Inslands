@@ -102,4 +102,13 @@ public class EntityFX extends Entity {
 
 	public void readEntityFromNBT(NBTTagCompound nBTTagCompound1) {
 	}
+
+	public void setParticleTextureIndex(int i1) {
+		this.particleTextureIndex = i1;
+	}
+
+	public int getParticleTextureIndex() {
+		return this.particleTextureIndex;
+	}
+	
 }

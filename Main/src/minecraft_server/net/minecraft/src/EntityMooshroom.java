@@ -31,10 +31,10 @@ public class EntityMooshroom extends EntityCow {
 				entitycow.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
 				entitycow.health = this.health;
 				entitycow.renderYawOffset = this.renderYawOffset;
-				this.worldObj.entityJoinedWorld(entitycow);
+				this.worldObj.spawnEntityInWorld(entitycow);
 
 				for (int i = 0; i < 5; i++) {
-					this.worldObj.entityJoinedWorld(new EntityItem(this.worldObj, this.posX, this.posY + (double)this.height, this.posZ, new ItemStack(Block.mushroomRed)));
+					this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY + (double)this.height, this.posZ, new ItemStack(Block.mushroomRed)));
 				}
 			}
 

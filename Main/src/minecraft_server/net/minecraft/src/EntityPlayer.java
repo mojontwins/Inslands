@@ -500,7 +500,7 @@ public abstract class EntityPlayer extends EntityLiving {
 	}
 
 	protected void joinEntityItemWithWorld(EntityItem entityItem1) {
-		this.worldObj.entityJoinedWorld(entityItem1);
+		this.worldObj.spawnEntityInWorld(entityItem1);
 	}
 
 	public float getCurrentPlayerStrVsBlock(Block block1) {

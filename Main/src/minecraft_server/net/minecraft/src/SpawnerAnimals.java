@@ -178,7 +178,7 @@ public final class SpawnerAnimals {
 											
 											if(entityLiving.getCanSpawnHere()) {
 												++spawnedCount;
-												world.entityJoinedWorld(entityLiving);
+												world.spawnEntityInWorld(entityLiving);
 												creatureSpecificInit(entityLiving, world, xF, yF, zF);
 												if(spawnedCount >= entityLiving.getMaxSpawnedInChunk()) {
 													continue label130;
@@ -223,7 +223,7 @@ public final class SpawnerAnimals {
 	
 	private static EntityLiving spawnSpecial(EntityLiving entityLiving, World world, float posX, float posY, float posZ, float rotationYaw, float rotationPitch) {
 		entityLiving.setLocationAndAngles(posX, posY, posZ, rotationYaw, rotationPitch);
-		world.entityJoinedWorld(entityLiving);
+		world.spawnEntityInWorld(entityLiving);
 		return entityLiving;
 	}
 	
@@ -354,7 +354,7 @@ public final class SpawnerAnimals {
 								}
 
 								entityLiving17.setLocationAndAngles((double)((float)chunkCoordinates20.posX + 0.5F), (double)chunkCoordinates20.posY, (double)((float)chunkCoordinates20.posZ + 0.5F), 0.0F, 0.0F);
-								world.entityJoinedWorld(entityLiving17);
+								world.spawnEntityInWorld(entityLiving17);
 								creatureSpecificInit(entityLiving17, world, (float)chunkCoordinates20.posX + 0.5F, (float)chunkCoordinates20.posY, (float)chunkCoordinates20.posZ + 0.5F);
 								entityPlayer5.wakeUpPlayer(true, false, false);
 								entityLiving17.playLivingSound();

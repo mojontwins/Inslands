@@ -105,7 +105,7 @@ public class EntityMinecart extends Entity implements IInventory {
 								entityItem10.motionX = (double)((float)this.rand.nextGaussian() * f11);
 								entityItem10.motionY = (double)((float)this.rand.nextGaussian() * f11 + 0.2F);
 								entityItem10.motionZ = (double)((float)this.rand.nextGaussian() * f11);
-								this.worldObj.entityJoinedWorld(entityItem10);
+								this.worldObj.spawnEntityInWorld(entityItem10);
 							}
 						}
 					}
@@ -152,7 +152,7 @@ public class EntityMinecart extends Entity implements IInventory {
 					entityItem7.motionX = (double)((float)this.rand.nextGaussian() * f8);
 					entityItem7.motionY = (double)((float)this.rand.nextGaussian() * f8 + 0.2F);
 					entityItem7.motionZ = (double)((float)this.rand.nextGaussian() * f8);
-					this.worldObj.entityJoinedWorld(entityItem7);
+					this.worldObj.spawnEntityInWorld(entityItem7);
 				}
 			}
 		}

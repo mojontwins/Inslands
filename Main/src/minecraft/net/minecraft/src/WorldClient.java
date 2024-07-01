@@ -41,7 +41,7 @@ public class WorldClient extends World {
 		for(i2 = 0; i2 < 10 && !this.entitySpawnQueue.isEmpty(); ++i2) {
 			Entity entity3 = (Entity)this.entitySpawnQueue.iterator().next();
 			if(!this.loadedEntityList.contains(entity3)) {
-				this.entityJoinedWorld(entity3);
+				this.spawnEntityInWorld(entity3);
 			}
 		}
 
@@ -101,8 +101,8 @@ public class WorldClient extends World {
 
 	}
 
-	public boolean entityJoinedWorld(Entity entity1) {
-		boolean z2 = super.entityJoinedWorld(entity1);
+	public boolean spawnEntityInWorld(Entity entity1) {
+		boolean z2 = super.spawnEntityInWorld(entity1);
 		this.entityList.add(entity1);
 		if(!z2) {
 			this.entitySpawnQueue.add(entity1);
@@ -140,7 +140,7 @@ public class WorldClient extends World {
 
 		this.entityList.add(entity2);
 		entity2.entityId = i1;
-		if(!this.entityJoinedWorld(entity2)) {
+		if(!this.spawnEntityInWorld(entity2)) {
 			this.entitySpawnQueue.add(entity2);
 		}
 

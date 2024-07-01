@@ -163,7 +163,7 @@ public class EntityEgg extends Entity {
 				for(int i17 = 0; i17 < b16; ++i17) {
 					EntityChicken entityChicken21 = new EntityChicken(this.worldObj);
 					entityChicken21.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
-					this.worldObj.entityJoinedWorld(entityChicken21);
+					this.worldObj.spawnEntityInWorld(entityChicken21);
 				}
 			}
 

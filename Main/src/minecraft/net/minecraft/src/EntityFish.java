@@ -365,7 +365,7 @@ public class EntityFish extends Entity {
 			entityItem13.motionX = d3 * d11;
 			entityItem13.motionY = d5 * d11 + (double)MathHelper.sqrt_double(d9) * 0.08D;
 			entityItem13.motionZ = d7 * d11;
-			this.worldObj.entityJoinedWorld(entityItem13);
+			this.worldObj.spawnEntityInWorld(entityItem13);
 			this.angler.addStat(StatList.fishCaughtStat, 1);
 			b1 = 1;
 		}

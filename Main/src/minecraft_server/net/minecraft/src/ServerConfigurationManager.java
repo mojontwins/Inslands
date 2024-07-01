@@ -85,7 +85,7 @@ public class ServerConfigurationManager {
 			entityPlayerMP1.setPosition(entityPlayerMP1.posX, entityPlayerMP1.posY + 1.0D, entityPlayerMP1.posZ);
 		}
 
-		worldServer2.entityJoinedWorld(entityPlayerMP1);
+		worldServer2.spawnEntityInWorld(entityPlayerMP1);
 		this.getPlayerManager(entityPlayerMP1.dimension).addPlayer(entityPlayerMP1);
 	}
 
@@ -168,7 +168,7 @@ public class ServerConfigurationManager {
 		entityPlayerMP4.playerNetServerHandler.teleportTo(entityPlayerMP4.posX, entityPlayerMP4.posY, entityPlayerMP4.posZ, entityPlayerMP4.rotationYaw, entityPlayerMP4.rotationPitch);
 		this.joinNewPlayerManager(entityPlayerMP4, worldServer5);
 		this.getPlayerManager(entityPlayerMP4.dimension).addPlayer(entityPlayerMP4);
-		worldServer5.entityJoinedWorld(entityPlayerMP4);
+		worldServer5.spawnEntityInWorld(entityPlayerMP4);
 		this.playerEntities.add(entityPlayerMP4);
 		entityPlayerMP4.sendUpdateTimeAndWeather();
 		entityPlayerMP4.s_func_22068_s();
@@ -209,7 +209,7 @@ public class ServerConfigurationManager {
 		}
 
 		if(entityPlayerMP1.isEntityAlive()) {
-			worldServer4.entityJoinedWorld(entityPlayerMP1);
+			worldServer4.spawnEntityInWorld(entityPlayerMP1);
 			entityPlayerMP1.setLocationAndAngles(d5, entityPlayerMP1.posY, d7, entityPlayerMP1.rotationYaw, entityPlayerMP1.rotationPitch);
 			worldServer4.updateEntityWithOptionalForce(entityPlayerMP1, false);
 			worldServer4.chunkProviderServer.chunkLoadOverride = true;

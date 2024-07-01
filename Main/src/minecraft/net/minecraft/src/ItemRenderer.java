@@ -236,10 +236,30 @@ public class ItemRenderer {
 		} else if(itemStack5 != null) {
 			GL11.glPushMatrix();
 			f14 = 0.8F;
-			f8 = entityPlayerSP3.getSwingProgress(f1);
-			f9 = MathHelper.sin(f8 * (float)Math.PI);
-			f10 = MathHelper.sin(MathHelper.sqrt_float(f8) * (float)Math.PI);
-			GL11.glTranslatef(-f10 * 0.4F, MathHelper.sin(MathHelper.sqrt_float(f8) * (float)Math.PI * 2.0F) * 0.2F, -f9 * 0.2F);
+			
+			float f12;
+			if(entityPlayerSP3.getItemInUseCount() > 0) {
+				EnumAction enumAction17 = itemStack5.getItemUseAction();
+				if(enumAction17 == EnumAction.eat || enumAction17 == EnumAction.drink) {
+					f9 = (float)entityPlayerSP3.getItemInUseCount() - f1 + 1.0F;
+					f10 = 1.0F - f9 / (float)itemStack5.getMaxItemUseDuration();
+					f12 = 1.0F - f10;
+					f12 = f12 * f12 * f12;
+					f12 = f12 * f12 * f12;
+					f12 = f12 * f12 * f12;
+					float f13 = 1.0F - f12;
+					GL11.glTranslatef(0.0F, MathHelper.abs(MathHelper.cos(f9 / 4.0F * (float)Math.PI) * 0.1F) * (float)((double)f10 > 0.2D ? 1 : 0), 0.0F);
+					GL11.glTranslatef(f13 * 0.6F, -f13 * 0.5F, 0.0F);
+					GL11.glRotatef(f13 * 90.0F, 0.0F, 1.0F, 0.0F);
+					GL11.glRotatef(f13 * 10.0F, 1.0F, 0.0F, 0.0F);
+					GL11.glRotatef(f13 * 30.0F, 0.0F, 0.0F, 1.0F);
+				}			
+			} else {
+				f8 = entityPlayerSP3.getSwingProgress(f1);
+				f9 = MathHelper.sin(f8 * (float)Math.PI);
+				f10 = MathHelper.sin(MathHelper.sqrt_float(f8) * (float)Math.PI);
+				GL11.glTranslatef(-f10 * 0.4F, MathHelper.sin(MathHelper.sqrt_float(f8) * (float)Math.PI * 2.0F) * 0.2F, -f9 * 0.2F);
+			}				
 			GL11.glTranslatef(0.7F * f14, -0.65F * f14 - (1.0F - f2) * 0.6F, -0.9F * f14);
 			GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
 			GL11.glEnable(GL12.GL_RESCALE_NORMAL);

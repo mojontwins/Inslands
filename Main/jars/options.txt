@@ -2,7 +2,7 @@ music:1.0
 sound:1.0
 invertYMouse:false
 mouseSensitivity:0.5
-viewDistance:2
+viewDistance:0
 guiScale:0
 bobView:true
 anaglyph3d:false
@@ -34,7 +34,7 @@ key_key.fog:33
 key_key.creativeInventory:46
 ofFogFancy:false
 ofFogStart:0.8
-ofMipmapLevel:3
+ofMipmapLevel:4
 ofMipmapLinear:true
 ofLoadFar:false
 ofPreloadedChunks:0

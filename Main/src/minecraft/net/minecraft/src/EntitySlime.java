@@ -104,7 +104,7 @@ public class EntitySlime extends EntityLiving implements IMob {
 				EntitySlime entitySlime5 = new EntitySlime(this.worldObj);
 				entitySlime5.setSlimeSize(i1 / 2);
 				entitySlime5.setLocationAndAngles(this.posX + (double)f3, this.posY + 0.5D, this.posZ + (double)f4, this.rand.nextFloat() * 360.0F, 0.0F);
-				this.worldObj.entityJoinedWorld(entitySlime5);
+				this.worldObj.spawnEntityInWorld(entitySlime5);
 			}
 		}
 

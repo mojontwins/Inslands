@@ -91,7 +91,7 @@ public class EntityGhast extends EntityFlying implements IMob {
 					entityFireball17.posX = this.posX + vec3D20.xCoord * d18;
 					entityFireball17.posY = this.posY + (double)(this.height / 2.0F) + 0.5D;
 					entityFireball17.posZ = this.posZ + vec3D20.zCoord * d18;
-					this.worldObj.entityJoinedWorld(entityFireball17);
+					this.worldObj.spawnEntityInWorld(entityFireball17);
 					this.attackCounter = -40;
 				}
 			} else if(this.attackCounter > 0) {

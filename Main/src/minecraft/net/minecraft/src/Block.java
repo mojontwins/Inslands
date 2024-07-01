@@ -466,7 +466,7 @@ public class Block {
 			double d11 = (double)(world.rand.nextFloat() * f6) + (double)(1.0F - f6) * 0.5D;
 			EntityItem entityItem13 = new EntityItem(world, (double)x + d7, (double)y + d9, (double)z + d11, itemStack);
 			entityItem13.delayBeforeCanPickup = 10;
-			world.entityJoinedWorld(entityItem13);
+			world.spawnEntityInWorld(entityItem13);
 		}
 	}
 

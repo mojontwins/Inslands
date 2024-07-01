@@ -122,7 +122,7 @@ public class ConsoleCommandHandler {
 							//if(entity instanceof EntityTrader) ((EntityTrader)entity).fillTradingRecipeList(this.worldMngr, false);
 
 							commandListener.log("Spawned " + argument + " @ " + x + " " + y + " " + z);
-							worldServer.entityJoinedWorld(entity);
+							worldServer.spawnEntityInWorld(entity);
 							spawned = true;
 						}
 						

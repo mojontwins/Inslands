@@ -1391,7 +1391,7 @@ public abstract class Minecraft implements Runnable {
 			} else if(this.thePlayer != null) {
 				this.thePlayer.preparePlayerToSpawn();
 				if(world != null) {
-					world.entityJoinedWorld(this.thePlayer);
+					world.spawnEntityInWorld(this.thePlayer);
 				}
 			}
 

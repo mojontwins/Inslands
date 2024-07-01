@@ -149,7 +149,7 @@ public class SinglePlayerCommands {
 						}
 						
 						this.mc.ingameGUI.addChatMessage("Spawned " + tokens [1] + " @ " + x + " " + y + " " + z);
-						this.mc.theWorld.entityJoinedWorld(entity);
+						this.mc.theWorld.spawnEntityInWorld(entity);
 						spawned = true;
 					}
 					
@@ -215,7 +215,7 @@ public class SinglePlayerCommands {
 						System.out.println ("Spawing  " + blockID + ":" + metadata + " " + quantity);
 						EntityItem entityItem13 = new EntityItem(this.mc.theWorld, this.mc.thePlayer.posX + d7, this.mc.thePlayer.posY + d9, this.mc.thePlayer.posZ + d11, new ItemStack(blockID, quantity, metadata));
 						entityItem13.delayBeforeCanPickup = 10;
-						this.mc.theWorld.entityJoinedWorld(entityItem13);
+						this.mc.theWorld.spawnEntityInWorld(entityItem13);
 					} catch (Exception e) {this.mc.ingameGUI.addChatMessage(e.getMessage()); }
 
 				}

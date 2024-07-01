@@ -27,7 +27,7 @@ public class ItemFishingRod extends Item {
 		} else {
 			world2.playSoundAtEntity(entityPlayer3, "random.bow", 0.5F, 0.4F / (rand.nextFloat() * 0.4F + 0.8F));
 			if(!world2.isRemote) {
-				world2.entityJoinedWorld(new EntityFish(world2, entityPlayer3));
+				world2.spawnEntityInWorld(new EntityFish(world2, entityPlayer3));
 			}
 
 			entityPlayer3.swingItem();

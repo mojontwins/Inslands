@@ -57,7 +57,7 @@ public class EntityPirateArcher extends EntityMob implements ISentient {
 				++entityArrow7.posY;
 				double d8 = entity.posY + (double)entity.getEyeHeight() - (double)0.2F - entityArrow7.posY;
 				float f10 = MathHelper.sqrt_double(d * d + d1 * d1) * 0.2F;
-				this.worldObj.entityJoinedWorld(entityArrow7);
+				this.worldObj.spawnEntityInWorld(entityArrow7);
 				entityArrow7.setArrowHeading(d, d8 + (double)f10, d1, 0.6F, 12.0F);
 				
 				this.worldObj.playSoundAtEntity(this, "random.bow", 1.0F, 1.0F / (this.rand.nextFloat() * 0.4F + 0.8F));

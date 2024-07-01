@@ -77,7 +77,7 @@ public class EntityAITFMagicAttack extends EntityAIBase {
 			float heightOffset = MathHelper.sqrt_double(tx * tx + tz * tz) * 0.2F;
 			projectile.setThrowableHeading(tx, ty + (double)heightOffset, tz, 0.6F, 6.0F);
 			this.worldObj.playSoundAtEntity(this.entityHost, "mob.ghast.fireball", 1.0F, 1.0F / (this.entityHost.getRNG().nextFloat() * 0.4F + 0.8F));
-			this.worldObj.entityJoinedWorld(projectile);
+			this.worldObj.spawnEntityInWorld(projectile);
 		}
 
 	}

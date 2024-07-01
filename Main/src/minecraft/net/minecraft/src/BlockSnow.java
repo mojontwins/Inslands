@@ -78,7 +78,7 @@ public class BlockSnow extends Block {
 		double d13 = (double)(world1.rand.nextFloat() * f8) + (double)(1.0F - f8) * 0.5D;
 		EntityItem entityItem15 = new EntityItem(world1, (double)i3 + d9, (double)i4 + d11, (double)i5 + d13, new ItemStack(i7, 1, 0));
 		entityItem15.delayBeforeCanPickup = 10;
-		world1.entityJoinedWorld(entityItem15);
+		world1.spawnEntityInWorld(entityItem15);
 		world1.setBlockWithNotify(i3, i4, i5, 0);
 		entityPlayer2.addStat(StatList.mineBlockStatArray[this.blockID], 1);
 	}

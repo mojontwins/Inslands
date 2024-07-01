@@ -49,7 +49,7 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
 			EntitySlider slider = new EntitySlider(world);
 			slider.setPosition((double)(i + 8), (double)(j + 2), (double)(k + 8));
 			slider.setDungeon(i, j, k);
-			world.entityJoinedWorld(slider);
+			world.spawnEntityInWorld(slider);
 			
 			
 			int x = i + 7 + random.nextInt(2);

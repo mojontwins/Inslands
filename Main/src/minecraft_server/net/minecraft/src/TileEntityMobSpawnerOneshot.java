@@ -32,7 +32,7 @@ public class TileEntityMobSpawnerOneshot extends TileEntityMobSpawner {
 				((EntityAlphaWitch)entityLiving).fillInventory();
 			}
 			
-			this.worldObj.entityJoinedWorld(entityLiving);
+			this.worldObj.spawnEntityInWorld(entityLiving);
 
 			for(int i17 = 0; i17 < 20; ++i17) {
 				double d1 = (double)this.xCoord + 0.5D + ((double)this.worldObj.rand.nextFloat() - 0.5D) * 2.0D;

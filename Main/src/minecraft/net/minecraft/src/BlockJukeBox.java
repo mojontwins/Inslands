@@ -46,7 +46,7 @@ public class BlockJukeBox extends BlockContainer {
 				double d13 = (double)(world1.rand.nextFloat() * f8) + (double)(1.0F - f8) * 0.5D;
 				EntityItem entityItem15 = new EntityItem(world1, (double)i2 + d9, (double)i3 + d11, (double)i4 + d13, new ItemStack(i6, 1, 0));
 				entityItem15.delayBeforeCanPickup = 10;
-				world1.entityJoinedWorld(entityItem15);
+				world1.spawnEntityInWorld(entityItem15);
 			}
 		}
 	}

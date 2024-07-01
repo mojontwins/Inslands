@@ -63,7 +63,7 @@ public class EntityPig extends EntityAnimal {
 		if(!this.worldObj.isRemote) {
 			EntityPigZombie entityPigZombie2 = new EntityPigZombie(this.worldObj);
 			entityPigZombie2.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
-			this.worldObj.entityJoinedWorld(entityPigZombie2);
+			this.worldObj.spawnEntityInWorld(entityPigZombie2);
 			this.setEntityDead();
 		}
 	}

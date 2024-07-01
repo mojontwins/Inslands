@@ -132,7 +132,7 @@ public class EntityPainting extends Entity {
 			this.tickCounter = 0;
 			if(!this.onValidSurface()) {
 				this.setEntityDead();
-				this.worldObj.entityJoinedWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(Item.painting)));
+				this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(Item.painting)));
 			}
 		}
 
@@ -201,7 +201,7 @@ public class EntityPainting extends Entity {
 		if(!this.isDead && !this.worldObj.isRemote) {
 			this.setEntityDead();
 			this.setBeenAttacked();
-			this.worldObj.entityJoinedWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(Item.painting)));
+			this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(Item.painting)));
 		}
 
 		return true;
@@ -241,7 +241,7 @@ public class EntityPainting extends Entity {
 	public void moveEntity(double d1, double d3, double d5) {
 		if(!this.worldObj.isRemote && d1 * d1 + d3 * d3 + d5 * d5 > 0.0D) {
 			this.setEntityDead();
-			this.worldObj.entityJoinedWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(Item.painting)));
+			this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(Item.painting)));
 		}
 
 	}
@@ -249,7 +249,7 @@ public class EntityPainting extends Entity {
 	public void addVelocity(double d1, double d3, double d5) {
 		if(!this.worldObj.isRemote && d1 * d1 + d3 * d3 + d5 * d5 > 0.0D) {
 			this.setEntityDead();
-			this.worldObj.entityJoinedWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(Item.painting)));
+			this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(Item.painting)));
 		}
 
 	}

@@ -90,7 +90,7 @@ public class TileEntityMobSpawner extends TileEntity {
 						// Special inits
 						SpawnerAnimals.creatureSpecificInit(entityLiving9, this.worldObj, (int)d11, (int)d13, (int)d15);
 						
-						this.worldObj.entityJoinedWorld(entityLiving9);
+						this.worldObj.spawnEntityInWorld(entityLiving9);
 
 						for(int i17 = 0; i17 < 20; ++i17) {
 							d1 = (double)this.xCoord + 0.5D + ((double)this.worldObj.rand.nextFloat() - 0.5D) * 2.0D;

@@ -151,7 +151,7 @@ public class BlockChest extends BlockContainer {
 						entityItem12.motionX = (double)((float)this.rand.nextGaussian() * f13);
 						entityItem12.motionY = (double)((float)this.rand.nextGaussian() * f13 + 0.2F);
 						entityItem12.motionZ = (double)((float)this.rand.nextGaussian() * f13);
-						world.entityJoinedWorld(entityItem12);
+						world.spawnEntityInWorld(entityItem12);
 					}
 				}
 			}

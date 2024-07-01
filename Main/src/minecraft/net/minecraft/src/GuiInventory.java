@@ -39,7 +39,8 @@ public class GuiInventory extends GuiContainer {
 		
 		drawGuyInGui(
 				this.mc, 
-				i3 + 51, i4 + 75, 30, 
+				i3 + 51, i4 + 75, 
+				30, // <-- Scale! 
 				(float) (i3 + 51) - this.xSize_lo,
 				(float) (i4 + 75 - 50) - this.ySize_lo
 			);
@@ -50,7 +51,7 @@ public class GuiInventory extends GuiContainer {
 		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) par1, (float) par2, 50.0F);
-		float f5 = 30.0F;
+		float f5 = (float)par3;
 		GL11.glScalef(-f5, f5, f5);
 		GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
 		float var6 = par0Minecraft.thePlayer.renderYawOffset;

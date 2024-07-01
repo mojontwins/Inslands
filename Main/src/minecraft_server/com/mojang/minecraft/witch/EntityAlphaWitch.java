@@ -174,7 +174,7 @@ public class EntityAlphaWitch extends EntityArmoredMob {
 					double d8 = entity1.posY + (double)entity1.getEyeHeight() - (double)0.2F - entityThrowablePotion.posY;
 					float f10 = MathHelper.sqrt_double(d3 * d3 + d5 * d5) * 0.2F;
 					this.worldObj.playSoundAtEntity(this, "mob.witch.throw", 1.0F, 1.0F / (this.rand.nextFloat() * 0.4F + 0.8F));
-					this.worldObj.entityJoinedWorld(entityThrowablePotion);
+					this.worldObj.spawnEntityInWorld(entityThrowablePotion);
 					entityThrowablePotion.setThrowableHeading(d3, d8 + (double)f10, d5, 0.6F, 12.0F);
 				}
 				this.setNextPotion(null);

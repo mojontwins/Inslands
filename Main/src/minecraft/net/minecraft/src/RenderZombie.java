@@ -31,7 +31,7 @@ public class RenderZombie extends RenderBiped {
 		
 		// This adds pass 4 for eye brightness
 		boolean thisOk = this.setZombieEyeBrightness(entityLiving1, i2, f3);
-		
+
 		return thisOk || superOk;
 	}
 }

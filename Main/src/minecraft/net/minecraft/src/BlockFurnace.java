@@ -163,7 +163,7 @@ public class BlockFurnace extends BlockContainer {
 							entityItem12.motionX = (double)((float)this.furnaceRand.nextGaussian() * f13);
 							entityItem12.motionY = (double)((float)this.furnaceRand.nextGaussian() * f13 + 0.2F);
 							entityItem12.motionZ = (double)((float)this.furnaceRand.nextGaussian() * f13);
-							world1.entityJoinedWorld(entityItem12);
+							world1.spawnEntityInWorld(entityItem12);
 						}
 					}
 				}

@@ -42,7 +42,7 @@ public class ItemBoat extends Item {
 						--i26;
 					}
 
-					world2.entityJoinedWorld(new EntityBoat(world2, i25 + 0.5D, i26 + 1.0D, i27 + 0.5D, this.fireResistant));
+					world2.spawnEntityInWorld(new EntityBoat(world2, i25 + 0.5D, i26 + 1.0D, i27 + 0.5D, this.fireResistant));
 				}
 
 				if(!entityPlayer3.isCreative) --itemStack1.stackSize;

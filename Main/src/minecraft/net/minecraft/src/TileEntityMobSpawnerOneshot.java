@@ -9,7 +9,7 @@ public class TileEntityMobSpawnerOneshot extends TileEntityMobSpawner {
 		if(this.anyPlayerInRange() && !this.worldObj.isRemote) {				
 			// Generate entity in place
 			EntityLiving entityLiving = (EntityLiving)EntityList.createEntityByName(this.mobID, this.worldObj);
-			
+
 			if(entityLiving == null) {
 				return;
 			}
@@ -20,7 +20,7 @@ public class TileEntityMobSpawnerOneshot extends TileEntityMobSpawner {
 			
 			entityLiving.setLocationAndAngles(d11, d13, d15, this.worldObj.rand.nextFloat() * 360.0F, 0.0F);
 			
-			if(!entityLiving.getCanSpawnHere()) return;
+			//if(!entityLiving.getCanSpawnHere()) return;
 			
 			// If entity supports levels, set level with metadata
 			if(entityLiving instanceof IMobWithLevel) {
@@ -32,7 +32,7 @@ public class TileEntityMobSpawnerOneshot extends TileEntityMobSpawner {
 				((EntityAlphaWitch)entityLiving).fillInventory();
 			}
 			
-			this.worldObj.entityJoinedWorld(entityLiving);
+			this.worldObj.spawnEntityInWorld(entityLiving);
 
 			for(int i17 = 0; i17 < 20; ++i17) {
 				double d1 = (double)this.xCoord + 0.5D + ((double)this.worldObj.rand.nextFloat() - 0.5D) * 2.0D;

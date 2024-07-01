@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
 public class TileEntityChest extends TileEntity implements IInventory {
-	private ItemStack[] chestContents = new ItemStack[36];
+	public ItemStack[] chestContents = new ItemStack[36];
 
 	public int getSizeInventory() {
 		return 27;
@@ -11,6 +11,10 @@ public class TileEntityChest extends TileEntity implements IInventory {
 		return this.chestContents[i1];
 	}
 
+	public void setStackInSlot(int slot, ItemStack itemStack) {
+		this.chestContents[slot] = itemStack;
+	}
+	
 	public ItemStack decrStackSize(int i1, int i2) {
 		if(this.chestContents[i1] != null) {
 			ItemStack itemStack3;

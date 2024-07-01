@@ -152,7 +152,7 @@ public class EntityIceBoss extends EntityHumanBase {
 					entityIceBall17.posX = this.posX;
 					entityIceBall17.posY = this.posY + 1.0D;
 					entityIceBall17.posZ = this.posZ;
-					this.worldObj.entityJoinedWorld(entityIceBall17);
+					this.worldObj.spawnEntityInWorld(entityIceBall17);
 					this.attackCounter = -60;
 				}
 			} else if(this.attackCounter > 0) {

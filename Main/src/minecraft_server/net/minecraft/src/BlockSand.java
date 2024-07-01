@@ -47,7 +47,7 @@ public class BlockSand extends Block {
 				byte b8 = 32;
 				if(!fallInstantly && world.checkChunksExist(x - b8, y - b8, z - b8, x + b8, y + b8, z + b8)) {
 					EntityFallingSand entityFallingSand9 = new EntityFallingSand(world, (double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, this.blockID);
-					world.entityJoinedWorld(entityFallingSand9);
+					world.spawnEntityInWorld(entityFallingSand9);
 				} else {
 					world.setBlockWithNotify(x, y, z, 0);
 	

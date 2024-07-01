@@ -332,7 +332,7 @@ public class World implements IBlockAccess {
 				this.worldInfo.setPlayerNBTTagCompound((NBTTagCompound)null);
 			}
 
-			this.entityJoinedWorld(entityPlayer1);
+			this.spawnEntityInWorld(entityPlayer1);
 		} catch (Exception exception6) {
 			exception6.printStackTrace();
 		}
@@ -1092,7 +1092,7 @@ public class World implements IBlockAccess {
 		return true;
 	}
 
-	public boolean entityJoinedWorld(Entity entity1) {
+	public boolean spawnEntityInWorld(Entity entity1) {
 		int i2 = MathHelper.floor_double(entity1.posX / 16.0D);
 		int i3 = MathHelper.floor_double(entity1.posZ / 16.0D);
 		boolean z4 = false;

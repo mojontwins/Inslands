@@ -79,7 +79,7 @@ public class BlockFlower extends Block {
 			double d13 = (double)(world.rand.nextFloat() * f8) + (double)(1.0F - f8) * 0.5D;
 			EntityItem entityItem15 = new EntityItem(world, (double)x + d9, (double)y + d11, (double)z + d13, new ItemStack(itemID, 1, 0));
 			entityItem15.delayBeforeCanPickup = 10;
-			world.entityJoinedWorld(entityItem15);
+			world.spawnEntityInWorld(entityItem15);
 			world.setBlockWithNotify(x, y, z, 0);
 			entityPlayer.addStat(StatList.mineBlockStatArray[this.blockID], 1);
 		} 

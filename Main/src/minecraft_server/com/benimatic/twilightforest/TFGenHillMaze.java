@@ -277,7 +277,7 @@ public class TFGenHillMaze extends TFGenerator {
 
 		if(painting != null && painting.onValidSurface()) {
 			if(!this.worldObj.isRemote) {
-				this.worldObj.entityJoinedWorld(painting);
+				this.worldObj.spawnEntityInWorld(painting);
 			}
 		} else {
 			System.out.println("Painting fail!! " + painting.art.title + " at " + painting.xPosition + " , " + painting.yPosition + ", " + painting.zPosition + " : " + painting.direction);

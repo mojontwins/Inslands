@@ -171,7 +171,7 @@ Yay! fps boosted on shitty systems!
 	* [ ] both lack trees, dirt and saplings must be obtained. Make sure skeletons still drop acorns.
 	* [ ] cold mechanics. Need to reactivate code for freeze
 
-* [ ] Special renderbiped for 2 layer-skin bipeds. Need to research how renderpass armor is made "bigger" than the main body.
+* [x] Special renderbiped for 2 layer-skin bipeds. Need to research how renderpass armor is made "bigger" than the main body.
 
 	* RenderPlayer has 3 models: `modelBipedMain`, `modelArmorChestPlate` and `modelArmor`.
 	* On object instantiation, `modelBipedMain` is assigned a "new ModelBiped(0.0F)".
@@ -184,6 +184,7 @@ Yay! fps boosted on shitty systems!
 
 	I need to add an offset to `modelBiped` so it can pick up the lower half of the texture by default for the 2nd layer.
 	
+* [ ] Port eat animation from Infhell
 
 # Server
 

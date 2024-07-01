@@ -88,7 +88,7 @@ public class EntityMovingPiston extends Entity {
 			this.worldObj.setBlockWithNotify(this.xstart, this.ystart, this.zstart, 0);
 		}
 
-		this.worldObj.entityJoinedWorld(this);
+		this.worldObj.spawnEntityInWorld(this);
 	}
 
 	private static TileEntity getTileEntity(World world0, int i1, int i2, int i3) {
@@ -208,7 +208,7 @@ public class EntityMovingPiston extends Entity {
 					movingPiston20.worldObj.setBlockWithNotify(movingPiston20.xstart, movingPiston20.ystart, movingPiston20.zstart, 0);
 					EntityFallingSand entityFallingSand21 = new EntityFallingSand(movingPiston20.worldObj, (double)((float)movingPiston20.xstart + 0.5F), (double)((float)movingPiston20.ystart + 0.5F), (double)((float)movingPiston20.zstart + 0.5F), movingPiston20.blockid);
 					entityFallingSand21.motionY += d25;
-					movingPiston20.worldObj.entityJoinedWorld(entityFallingSand21);
+					movingPiston20.worldObj.spawnEntityInWorld(entityFallingSand21);
 					arrayList5.remove(i19);
 					d25 -= 0.2D;
 					if(d25 < 0.4D) {
@@ -242,7 +242,7 @@ public class EntityMovingPiston extends Entity {
 		movingPiston12.zmove = i11;
 		movingPiston12.extending = false;
 		movingPiston12.data = i7;
-		world0.entityJoinedWorld(movingPiston12);
+		world0.spawnEntityInWorld(movingPiston12);
 
 		while(z8) {
 			i1 -= i9;
@@ -281,7 +281,7 @@ public class EntityMovingPiston extends Entity {
 			movingPiston12.extending = false;
 			movingPiston12.data = i15;
 			movingPiston12.tileEntity = getTileEntity(world0, i1, i2, i3);
-			world0.entityJoinedWorld(movingPiston12);
+			world0.spawnEntityInWorld(movingPiston12);
 			world0.setBlockWithNotify(i1, i2, i3, 0);
 		}
 

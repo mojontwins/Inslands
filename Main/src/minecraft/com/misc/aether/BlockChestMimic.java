@@ -134,7 +134,7 @@ public class BlockChestMimic extends Block {
 		world.setBlockWithNotify(i, j, k, 0);
 		EntityMimic mimic = new EntityMimic(world);
 		mimic.setPosition((double)i + 0.5D, (double)j + 1.5D, (double)k + 0.5D);
-		world.entityJoinedWorld(mimic);
+		world.spawnEntityInWorld(mimic);
 	}
 
 	public boolean blockActivated(World world, int i, int j, int k, EntityPlayer entityplayer) {

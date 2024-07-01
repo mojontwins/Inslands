@@ -73,7 +73,7 @@ public class EntityTFSwarmSpider extends EntitySpider {
 		if(!another.getCanSpawnHere()) {
 			return false;
 		} else {
-			this.worldObj.entityJoinedWorld(another);
+			this.worldObj.spawnEntityInWorld(another);
 			return true;
 		}
 	}
