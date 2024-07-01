@@ -5,6 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.benimatic.twilightforest.EntityTFNatureBolt;
+import com.mojontwins.minecraft.monsters.EntityThrowableToxicFungus;
+
 public class EntityTrackerEntry {
 	public Entity trackedEntity;
 	public int trackingDistanceThreshold;
@@ -238,9 +241,11 @@ public class EntityTrackerEntry {
 				EntityLiving entityLiving5 = ((EntityThrowablePotion)this.trackedEntity).thrower;
 				return new Packet23VehicleSpawn(this.trackedEntity, 101, entityLiving5 != null ? entityLiving5.entityId : this.trackedEntity.entityId, ((EntityThrowablePotion)this.trackedEntity).getPotionAsIndex());
 			} else if(this.trackedEntity instanceof EntityPebble) {
-				/*EntityLiving entityLiving5 = ((EntityPebble)this.trackedEntity).thrower;
-				return new Packet23VehicleSpawn(this.trackedEntity, 100, entityLiving5 != null ? entityLiving5.entityId : this.trackedEntity.entityId);*/
 				return new Packet23VehicleSpawn(this.trackedEntity, 100);
+			} else if(this.trackedEntity instanceof EntityTFNatureBolt) {
+				return new Packet23VehicleSpawn(this.trackedEntity, 102);
+			} else if(this.trackedEntity instanceof EntityThrowableToxicFungus) {
+				return new Packet23VehicleSpawn(this.trackedEntity, 103);
 			} else if(this.trackedEntity instanceof EntitySnowball) {
 				return new Packet23VehicleSpawn(this.trackedEntity, 61);
 			} else if(this.trackedEntity instanceof EntityFireball) {

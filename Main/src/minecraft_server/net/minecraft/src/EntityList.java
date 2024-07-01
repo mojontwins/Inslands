@@ -35,6 +35,7 @@ import com.mojontwins.minecraft.amazonvillage.EntityAmazon;
 import com.mojontwins.minecraft.icepalace.EntityIceArcher;
 import com.mojontwins.minecraft.icepalace.EntityIceBoss;
 import com.mojontwins.minecraft.icepalace.EntityIceWarrior;
+import com.mojontwins.minecraft.monsters.EntityFungalCalamity;
 import com.mojontwins.minecraft.oceanruins.EntityTriton;
 
 public class EntityList {
@@ -197,6 +198,8 @@ public class EntityList {
 		addMapping(EntityIceBoss.class, "IceBoss", 124);
 		
 		addMapping(EntityPigZombieVolcanoes.class, "PigZombieVolcanoes", 125);
+		
+		addMapping(EntityFungalCalamity.class, "FungalCalamity", 126);
 		
 		// Aether
 		addMapping(EntityMimic.class, "Mimic", 60);

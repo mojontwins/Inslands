@@ -156,7 +156,9 @@ achievement.forestHunter.desc=Obliterate a skeleton druid!
 achievement.minoshroom=Gime some MOOre!
 achievement.minoshroom.desc=Defeat the Minoshroom!
 achievement.scareKobold=Booo!
-achievement.scareKobold=Scare a Kobold to death!
+achievement.scareKobold.desc=Scare a Kobold to death!
+achievement.fungalInfection=Lucy in the Sky with Diamonds
+achievement.fungalInfection.desc=Get infected by a Fungal Calamity!
 
 achievement.themeParadise=Up here in heaven
 achievement.themeParadise.desc=Start a new word  with the  "Paradise" theme!

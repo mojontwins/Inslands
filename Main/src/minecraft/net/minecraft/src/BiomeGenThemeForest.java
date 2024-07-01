@@ -20,6 +20,7 @@ import com.benimatic.twilightforest.TFGenWell;
 import com.benimatic.twilightforest.TFGenWitchHut;
 import com.benimatic.twilightforest.TFGenerator;
 import com.mojang.minecraft.ocelot.EntityBetaOcelot;
+import com.mojontwins.minecraft.monsters.EntityFungalCalamity;
 
 public class BiomeGenThemeForest extends BiomeGenForest {
 	
@@ -34,7 +35,7 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 	private WorldGenBigMushroom redMushroomGen = new WorldGenBigMushroom(1);
 	private WorldGenBigMushroom greenMushroomGen = new WorldGenBigMushroom(2);
 	
-	private int myceliumPerChunk = 3;
+	private int myceliumPerChunk = 8;
 	
 	public BiomeGenThemeForest() {
 		super();
@@ -54,6 +55,8 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityTwilightBoar.class, 10));
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityChickenBlack.class, 10));
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityTwilightDeer.class, 8));
+		
+		this.spawnableMonsterList.add(new SpawnListEntry(EntityFungalCalamity.class, 20));
 				
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityWolf.class, 2));
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityBetaOcelot.class, 5, true));

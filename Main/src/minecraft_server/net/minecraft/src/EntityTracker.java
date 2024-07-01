@@ -40,8 +40,6 @@ public class EntityTracker {
 			this.trackEntity(entity1, 64, 20, false);
 		} else if(entity1 instanceof EntityFireball) {
 			this.trackEntity(entity1, 64, 10, false);
-		} else if(entity1 instanceof EntityPebble) { 
-			this.trackEntity(entity1, 64, 10, true);
 		} else if(entity1 instanceof EntitySnowball) {
 			this.trackEntity(entity1, 64, 10, true);
 		} else if(entity1 instanceof EntityEgg) { 

@@ -75,6 +75,8 @@ import com.mojontwins.minecraft.icepalace.EntityIceWarrior;
 import com.mojontwins.minecraft.icepalace.ModelIceBoss;
 import com.mojontwins.minecraft.icepalace.RenderIceBall;
 import com.mojontwins.minecraft.icepalace.RenderIceBoss;
+import com.mojontwins.minecraft.monsters.EntityFungalCalamity;
+import com.mojontwins.minecraft.monsters.EntityThrowableToxicFungus;
 import com.mojontwins.minecraft.oceanruins.EntityTriton;
 import com.mojontwins.minecraft.oceanruins.RenderTriton;
 
@@ -186,7 +188,8 @@ public class RenderManager {
 		this.entityRenderMap.put(EntityFlyingCow.class, new RenderFlyingCow(new ModelFlyingCow1(), new ModelFlyingCow2(), 0.7F));
 		this.entityRenderMap.put(EntitySheepuff.class, new RenderSheepuff(new ModelSheepuff1(), new ModelSheepuff2(), new ModelSheepuff3(), 0.7F));
 		
-		this.entityRenderMap.put(EntityTwoLayeredTest.class, new RenderTwoLayeredBiped());
+		this.entityRenderMap.put(EntityFungalCalamity.class, new RenderTwoLayeredBiped());
+		this.entityRenderMap.put(EntityThrowableToxicFungus.class, new RenderSnowball(Item.fungaInfection.getIconFromDamage(0)));
 		
 		// Traders
 		/*

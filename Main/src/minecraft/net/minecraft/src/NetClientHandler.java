@@ -10,6 +10,9 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Random;
 
+import com.benimatic.twilightforest.EntityTFNatureBolt;
+import com.mojontwins.minecraft.monsters.EntityThrowableToxicFungus;
+
 import net.minecraft.client.Minecraft;
 
 public class NetClientHandler extends NetHandler {
@@ -122,6 +125,14 @@ public class NetClientHandler extends NetHandler {
 					packet23VehicleSpawn1.metadata);
 			break;
 			
+		case 102:
+			entityToSpawn = new EntityTFNatureBolt(this.worldClient, posX, posY, posZ);
+			break;
+			
+		case 103:
+			entityToSpawn = new EntityThrowableToxicFungus(this.worldClient, posX, posY, posZ);
+			break;
+			
 		case 120:
 			entityToSpawn = new EntityBoat(this.worldClient, posX, posY, posZ, true);
 			break;
@@ -137,19 +148,22 @@ public class NetClientHandler extends NetHandler {
 			((Entity) entityToSpawn).entityId = packet23VehicleSpawn1.entityId;
 			this.worldClient.addEntityToLookup(packet23VehicleSpawn1.entityId, (Entity) entityToSpawn);
 			if (packet23VehicleSpawn1.throwerEntityId > 0) {
-				switch (packet23VehicleSpawn1.type) {
-				case 60:
-					Entity entity9 = this.getEntityByID(packet23VehicleSpawn1.throwerEntityId);
-					if (entity9 instanceof EntityLiving) {
-						((EntityArrow) entityToSpawn).shootingEntity = (EntityLiving) entity9;
+				Entity e = this.getEntityByID(packet23VehicleSpawn1.throwerEntityId);
+				if (e instanceof EntityLiving) {
+					switch (packet23VehicleSpawn1.type) {
+					case 60:
+						((EntityArrow) entityToSpawn).shootingEntity = (EntityLiving) e;
+						break;
+					case 101:
+						((EntityThrowablePotion) entityToSpawn).thrower = (EntityLiving) e;
+						break;
+					case 102:
+						((EntityTFNatureBolt) entityToSpawn).thrower = (EntityLiving) e;
+						break;
+					case 103:
+						((EntityThrowableToxicFungus) entityToSpawn).thrower = (EntityLiving) e;
+						break;
 					}
-					break;
-				case 101:
-					Entity entity10 = this.getEntityByID(packet23VehicleSpawn1.throwerEntityId);
-					if (entity10 instanceof EntityLiving) {
-						((EntityThrowablePotion) entityToSpawn).thrower = (EntityLiving) entity10;
-					}
-					break;
 				}
 
 				((Entity) entityToSpawn).setVelocity((double) packet23VehicleSpawn1.motionXencoded / 8000.0D,

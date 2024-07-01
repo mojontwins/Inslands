@@ -173,6 +173,7 @@ public class Item {
 	public static Item potionAutoHealing = new ItemPotion(3003, 0xFF8989, ItemPotion.AUTOHEALING).setItemName("potionAutoHealing");
 	public static Item potionInstantDamage = new ItemPotion(3004, 0xFFFFFF, ItemPotion.INSTANTDAMAGE).setIconIndex(14*16 + 3).setItemName("potionInstantDamage");
 	public static Item potionDizzy = new ItemPotion(3005, 0x98A739, ItemPotion.DIZZY).setStatusTime(300).setItemName("potionDizziness");
+	public static Item fungaInfection = new Item(3100).setIconIndex(12*16+9).setItemName("fungalInfection");
 	
 	public static Item ingotCopper = (new Item(401)).setIconIndex(14*16 + 1).setItemName("ingotCopper").setCreativeTab(CreativeTabs.tabMaterials);
 	
