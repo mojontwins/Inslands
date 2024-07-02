@@ -165,11 +165,7 @@ Yay! fps boosted on shitty systems!
 * [X] Biomes level theme uses PostAlpha ramps;
 * [ ] optional fancy grass?
 * [X] Make sure the needed initialization is due so multibiomes work in SMP
-* [ ] Renderpass for shiny eyes is broken and entities show white.
-
-* [ ] Think about gameplay items for a desert and a glacier based theme (for the future).
-	* [ ] both lack trees, dirt and saplings must be obtained. Make sure skeletons still drop acorns.
-	* [ ] cold mechanics. Need to reactivate code for freeze
+* [X] Renderpass for shiny eyes is broken and entities show white.
 
 * [x] Special renderbiped for 2 layer-skin bipeds. Need to research how renderpass armor is made "bigger" than the main body.
 
@@ -184,7 +180,16 @@ Yay! fps boosted on shitty systems!
 
 	I need to add an offset to `modelBiped` so it can pick up the lower half of the texture by default for the 2nd layer.
 	
-* [ ] Port eat animation from Infhell
+* [X] Port eat animation from Infhell
+* [ ] Make corridors in hedge mazes hollow if they overwrite terrain!
+
+# More
+
+
+* [ ] Think about gameplay items for a desert and a glacier based theme (for the future).
+	* [ ] both lack trees, dirt and saplings must be obtained. Make sure skeletons still drop acorns.
+	* [ ] cold mechanics. Need to reactivate code for freeze
+
 
 # Server
 

@@ -11,11 +11,12 @@ import com.mojang.minecraft.modernAI.EntityAIWatchClosest;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityMob;
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.IMob;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
 
-public class EntityTFMinotaur extends EntityMob {
+public class EntityTFMinotaur extends EntityMob implements IMob {
 	private static final ItemStack defaultHeldItem = new ItemStack(Item.axeSteel, 1);
 
 	public EntityTFMinotaur(World var1) {

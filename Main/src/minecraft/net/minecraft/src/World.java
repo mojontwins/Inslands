@@ -41,7 +41,7 @@ public class World implements IBlockAccess {
 	protected List<IWorldAccess> worldAccesses;
 	public IChunkProvider chunkProvider;
 	protected final ISaveHandler saveHandler;
-	protected WorldInfo worldInfo;
+	public WorldInfo worldInfo;
 	public boolean findingSpawnPoint;
 	private boolean allPlayersSleeping;
 	public MapStorage mapStorage;

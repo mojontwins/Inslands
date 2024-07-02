@@ -38,6 +38,9 @@ import com.chocolatin.betterdungeons.EntityPirateBoss;
 import com.chocolatin.betterdungeons.ModelArcher;
 import com.chocolatin.betterdungeons.ModelHuman;
 import com.chocolatin.betterdungeons.RenderHuman;
+import com.gw.dm.EntityGhoul;
+import com.gw.dm.ModelGhoul;
+import com.gw.dm.RenderGhoul;
 import com.hippoplatimus.pistons.EntityMovingPiston;
 import com.hippoplatimus.pistons.MovingPistonRenderer;
 import com.misc.aether.EntityFlyingCow;
@@ -190,6 +193,9 @@ public class RenderManager {
 		
 		this.entityRenderMap.put(EntityFungalCalamity.class, new RenderTwoLayeredBiped());
 		this.entityRenderMap.put(EntityThrowableToxicFungus.class, new RenderSnowball(Item.fungaInfection.getIconFromDamage(0)));
+		
+		// Hell
+		this.entityRenderMap.put(EntityGhoul.class, new RenderGhoul(new ModelGhoul(), 0.5F));
 		
 		// Traders
 		/*

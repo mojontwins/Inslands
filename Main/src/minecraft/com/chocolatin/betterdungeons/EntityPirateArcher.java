@@ -9,6 +9,7 @@ import net.minecraft.src.EntityArrow;
 import net.minecraft.src.EntityArrowWithEffect;
 import net.minecraft.src.EntityMob;
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.IMob;
 import net.minecraft.src.ISentient;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
@@ -16,7 +17,7 @@ import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
 
-public class EntityPirateArcher extends EntityMob implements ISentient {
+public class EntityPirateArcher extends EntityMob implements IMob, ISentient {
 	private static final ItemStack defaultHeldItem = new ItemStack(Item.bow, 1);
 	protected boolean angryAtPlayer = false;
 

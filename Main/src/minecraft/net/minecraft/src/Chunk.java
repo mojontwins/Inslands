@@ -75,7 +75,7 @@ public class Chunk {
 		for(int i4 = 0; i4 < this.entities.length; ++i4) {
 			this.entities[i4] = new ArrayList<Entity>();
 		}
-
+		
 	}
 
 	public Chunk(World world, byte[] blocks, byte[] metadata, int chunkX, int chunkZ) {
@@ -410,6 +410,18 @@ public class Chunk {
 
 		return i5;
 	}
+	
+	public EnumCreatureType getCreatureType(Entity entity) {
+		EnumCreatureType[] availableCreatureTypes = EnumCreatureType.values();
+		for(int i = 0; i < availableCreatureTypes.length; i ++) {
+			EnumCreatureType creatureType = availableCreatureTypes[i];
+			if(creatureType.getCreatureClass().isAssignableFrom(entity.getClass())) {
+				return creatureType;
+			}
+		}
+		
+		return null;
+	}
 
 	public void addEntity(Entity entity1) {
 		this.hasEntities = true;
@@ -435,10 +447,26 @@ public class Chunk {
 		entity1.chunkCoordY = i4;
 		entity1.chunkCoordZ = this.zPosition;
 		this.entities[i4].add(entity1);
+	
 	}
 
 	public void removeEntity(Entity entity1) {
 		this.removeEntityAtIndex(entity1, entity1.chunkCoordY);
+
+	}
+	
+	public int getCreatureTypeCounter(EnumCreatureType creatureType) {
+		int count = 0;
+		for(int i = 0; i < 8; i ++) {
+			List<Entity> l = this.entities[i];
+			for(int j = 0; j < l.size(); j ++) {
+				if(creatureType.getCreatureClass().isAssignableFrom(l.get(j).getClass())) {
+					count ++;
+				}
+			}
+		}
+		
+		return count;
 	}
 
 	public void removeEntityAtIndex(Entity entity1, int i2) {

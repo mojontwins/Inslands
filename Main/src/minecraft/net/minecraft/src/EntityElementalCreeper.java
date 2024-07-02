@@ -1,6 +1,6 @@
 package net.minecraft.src;
 
-public class EntityElementalCreeper extends EntityCreeper {
+public class EntityElementalCreeper extends EntityCreeper implements IMob {
 	public static final int ELEMENT_DIRT = 0;
 	public static final int ELEMENT_FIRE = 1;
 	public static final int ELEMENT_ICE = 2;

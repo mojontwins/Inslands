@@ -1,6 +1,6 @@
 package net.minecraft.src;
 
-public class EntityMob extends EntityCreature implements IMob {
+public class EntityMob extends EntityCreature {
 	protected int attackStrength = 2;
 	Vec3D homingTo = null;
 	

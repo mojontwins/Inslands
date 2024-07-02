@@ -3,7 +3,7 @@ package net.minecraft.src;
 import java.util.Iterator;
 import java.util.List;
 
-public class EntityIceSkeleton extends EntitySkeleton {
+public class EntityIceSkeleton extends EntitySkeleton implements IMob {
 	public EntityIceSkeleton(World world1) {
 		super(world1);
 		this.texture = "/mob/ice_skeleton.png";

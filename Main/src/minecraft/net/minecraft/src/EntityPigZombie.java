@@ -3,7 +3,7 @@ package net.minecraft.src;
 import java.util.Iterator;
 import java.util.List;
 
-public class EntityPigZombie extends EntityZombie {
+public class EntityPigZombie extends EntityZombie implements IMob {
 	private int angerLevel = 0;
 	private int randomSoundDelay = 0;
 	private ItemStack defaultHeldItem;

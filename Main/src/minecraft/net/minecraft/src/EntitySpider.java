@@ -1,6 +1,6 @@
 package net.minecraft.src;
 
-public class EntitySpider extends EntityMob {
+public class EntitySpider extends EntityMob implements IMob {
 	public EntitySpider(World world1) {
 		super(world1);
 		this.texture = "/mob/spider.png";

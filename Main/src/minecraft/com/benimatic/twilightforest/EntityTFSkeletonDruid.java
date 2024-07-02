@@ -13,12 +13,13 @@ import net.minecraft.src.AchievementList;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityMob;
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.IMob;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
 
-public class EntityTFSkeletonDruid extends EntityMob {
+public class EntityTFSkeletonDruid extends EntityMob implements IMob {
 	private static final ItemStack defaultHeldItem = new ItemStack(Item.hoeGold, 1);
 
 	public EntityTFSkeletonDruid(World world) {

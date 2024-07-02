@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.mojang.minecraft.ocelot.EntityBetaOcelot;
 
-public class EntityCreeper extends EntityMob {
+public class EntityCreeper extends EntityMob implements IMob {
 	int timeSinceIgnited;
 	int lastActiveTime;
 	protected static final int fuseDuration = 30;

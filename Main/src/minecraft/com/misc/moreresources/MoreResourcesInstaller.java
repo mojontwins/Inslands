@@ -118,6 +118,10 @@ public class MoreResourcesInstaller {
 			this.mc.installResourceURL("sound/mocreatures/goatgrunt.ogg", this.getURLfromResource(this.resourceDirectory +"/goatgrunt.ogg"));			
 			this.mc.installResourceURL("sound/mocreatures/goatdying.ogg", this.getURLfromResource(this.resourceDirectory +"/goatdying.ogg"));
 			
+			// Ghoul
+			this.mc.installResourceURL("sound/mob/g_d.ogg", this.getURLfromResource(this.resourceDirectory +"/g_d.ogg"));
+			this.mc.installResourceURL("sound/mob/g_l.ogg", this.getURLfromResource(this.resourceDirectory +"/g_l.ogg"));
+			this.mc.installResourceURL("sound/mob/g_h.ogg", this.getURLfromResource(this.resourceDirectory +"/g_h.ogg"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

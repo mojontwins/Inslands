@@ -1,11 +1,40 @@
-package net.minecraft.src;
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.entity.Entity
+ *  net.minecraft.entity.SharedMonsterAttributes
+ *  net.minecraft.entity.monster.EntityZombie
+ *  net.minecraft.potion.Potion
+ *  net.minecraft.potion.PotionEffect
+ *  net.minecraft.world.World
+ */
+package com.gw.dm;
 
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class EntityZombie extends EntityArmoredMob implements IMob {
-	
+import com.mojontwins.minecraft.entity.status.Status;
+import com.mojontwins.minecraft.entity.status.StatusEffect;
+
+import net.minecraft.src.AttackableTargetSorter;
+import net.minecraft.src.Block;
+import net.minecraft.src.BlockDoor;
+import net.minecraft.src.Entity;
+import net.minecraft.src.EntityLiving;
+import net.minecraft.src.EntityMob;
+import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.ICaveMob;
+import net.minecraft.src.ISentient;
+import net.minecraft.src.Item;
+import net.minecraft.src.MathHelper;
+import net.minecraft.src.PathEntity;
+import net.minecraft.src.PathPoint;
+import net.minecraft.src.World;
+
+public class EntityGhoul extends EntityMob implements ICaveMob {
+    public boolean ignoreHeight;
 	protected int doorPosX;
 	protected int doorPosY;
 	protected int doorPosZ;
@@ -17,44 +46,43 @@ public class EntityZombie extends EntityArmoredMob implements IMob {
 	protected boolean chasingDoor = false;
 	
 	protected int doorBreakTime;
-	protected String texturePrefix;
-	
-	public EntityZombie(World world1) {
-		super(world1);
-		this.texture = "/mob/zombie1.png";
-		this.texturePrefix = "zombie";
-		this.moveSpeed = 0.5F;
-		this.attackStrength = 5;
-		this.scoreValue = 15;
-		this.health = this.getFullHealth();
-	}
-	
-	protected int getMaxTextureVariations() {
-		return 5;
-	}
 
-	@Override
-	protected void entityInit() {
-		super.entityInit();
-		this.dataWatcher.addObject(16, (byte)0);
-		this.setTextureVariation((byte) (1 + rand.nextInt(this.getMaxTextureVariations())));
-	}
-	
-	public void setTextureVariation(byte variation) {
-		this.dataWatcher.updateObject(16, variation);
-	}
-	
-	public byte getTextureVariation() {
-		return this.dataWatcher.getWatchableObjectByte(16);
-	}
-		
-	@Override
-	public String getEntityTexture() {
-		if(this.getMaxTextureVariations() > 1) {
-			return "/mob/" + this.texturePrefix + this.dataWatcher.getWatchableObjectByte(16) + ".png";		
-		} else return this.texture;
-	}
-	
+    public EntityGhoul(World par1World) {
+        super(par1World);
+        this.health = this.getFullHealth();
+        this.texture = "/mob/ghoul.png";
+    }
+
+    protected String getLivingSound() {
+        return "mob.g_l";
+    }
+
+    protected String getHurtSound() {
+        return "mob.g_h";
+    }
+
+    protected String getDeathSound() {
+        return "mob.g_d";
+    }
+
+    public int getAttackStrength(Entity par1Entity) {
+        int var3 = 6;
+        return var3;
+    }
+
+    public boolean attackEntityAsMob(Entity par1) {
+        this.getAttackTarget().addStatusEffect(new StatusEffect(Status.statusSlowness.id, 40, 1));
+        return super.attackEntityAsMob(par1);
+    }
+
+    public boolean getCanSpawnHere() {
+        return super.getCanSpawnHere();
+    }
+
+    public void setIgnoreHeight(boolean par1) {
+        this.ignoreHeight = par1;
+    }
+    
 	@Override
 	public void onLivingUpdate() {
 		if(this.worldObj.isDaytime() && this.burnsOnDaylight()) {
@@ -113,6 +141,7 @@ public class EntityZombie extends EntityArmoredMob implements IMob {
 		}
 		super.onLivingUpdate();
 	}
+	
 
 	protected BlockDoor findDoorBlock(int x, int y, int z) {
 		int blockID = this.worldObj.getBlockId(x, y, z);
@@ -123,16 +152,12 @@ public class EntityZombie extends EntityArmoredMob implements IMob {
 	
 	@Override
 	protected Entity findPlayerToAttack() {
-		// Find close entities of type EntityMeatBlock
-		List<Entity> list = this.worldObj.getEntitiesWithinAABB(EntityMeatBlock.class, this.boundingBox.expand(24.0D, 6.0D, 24.0D));
-		Collections.sort(list, new AttackableTargetSorter(this));
-		if(list.size() > 0) return list.get(0);
-		
+			
 		EntityPlayer entityPlayer1 = this.worldObj.getClosestPlayerToEntity(this, 16.0D); 
 		if(entityPlayer1 != null && !entityPlayer1.isCreative && this.canEntityBeSeen(entityPlayer1)) return entityPlayer1;
 		
 		// Find close entities of type EntityAmazon, EntityPigman/EntityCowman, etc
-		list = this.worldObj.getEntitiesWithinAABB(ISentient.class, this.boundingBox.expand(16.0D, 4.0D, 16.0D));
+		List<Entity> list = this.worldObj.getEntitiesWithinAABB(ISentient.class, this.boundingBox.expand(16.0D, 4.0D, 16.0D));
 		Collections.sort(list, new AttackableTargetSorter(this));
 		
 		// Return closest
@@ -160,85 +185,16 @@ public class EntityZombie extends EntityArmoredMob implements IMob {
 	public boolean burnsOnDaylight() {
 		return true;
 	}
-
-	@Override
-	public void readEntityFromNBT(NBTTagCompound var1) {
-		super.readEntityFromNBT(var1);
-		byte textureVariation = 1;
-		if(var1.hasKey("TextureVariation")) {
-			textureVariation = var1.getByte("TextureVariation");
-		} else {
-			System.out.println("Importing old level, overrode texture variation for " + this.getClass() + " with default.");
-		}
-		this.setTextureVariation(textureVariation);
-	}
-
-	@Override
-	public void writeEntityToNBT(NBTTagCompound var1) {
-		super.writeEntityToNBT(var1);
-		var1.setByte("TextureVariation", this.getTextureVariation());
-	}
 	
 	@Override
-	protected String getLivingSound() {
-		return "mob.zombie";
-	}
-
-	@Override
-	protected String getHurtSound() {
-		return "mob.zombiehurt";
-	}
-
-	@Override
-	protected String getDeathSound() {
-		return "mob.zombiedeath";
-	}
-
-	@Override
 	protected int getDropItemId() {
-		return this.rand.nextInt(6) == 0 ? Item.rottenFlesh.shiftedIndex : Item.feather.shiftedIndex;
+		return this.rand.nextInt(6) == 0 ? Item.rottenFlesh.shiftedIndex : Item.egg.shiftedIndex;
 	}
 	
 	@Override
 	public int getFullHealth() {
-		return 20;
+		return 25;
 	}
-	
-	// Zombies take half damage during blood moons
-	@Override
-	public boolean attackEntityFrom(Entity entity, int damage) {
-		if(this.worldObj.worldInfo.isBloodMoon() && entity instanceof EntityPlayer) damage >>= 1;
-		return super.attackEntityFrom(entity, damage);
-	}
-	
-	// Will fetch you if you are hiding!
-	@Override
-	protected void updateEntityActionState() {
-		super.updateEntityActionState();
 
-		if(this.worldObj.getWorldInfo().isBloodMoon()) {
-			if(this.entityToAttack == null) {
-				if(this.homingTo != null) {
-					this.pathToEntity = this.worldObj.getEntityPathToXYZ(this, (int)this.homingTo.xCoord, (int)this.homingTo.yCoord, (int)this.homingTo.zCoord, 32.0F);
-				} else {
-					EntityPlayer closestPlayer = this.worldObj.getClosestPlayerUnderRoof(this.posX, this.posY, this.posZ, 64.0D); 
-					if(closestPlayer != null) {
-						this.homingTo = Vec3D.createVectorHelper(closestPlayer.posX, closestPlayer.posY, closestPlayer.posZ);
-					}
-				}
-			}
-		} else {
-			this.homingTo = null;
-		}
-	}
-	
-	@Override
-	public void onDeath(Entity entity) {
-		if(entity instanceof EntityPlayer) {
-			EntityPlayer entityPlayer = (EntityPlayer) entity;
-			entityPlayer.triggerAchievement(AchievementList.zombie);
-		}
-		
-		super.onDeath(entity);
-	}
 }
+

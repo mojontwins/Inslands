@@ -3,7 +3,7 @@ package net.minecraft.src;
 import com.mojontwins.minecraft.entity.status.Status;
 import com.mojontwins.minecraft.entity.status.StatusEffect;
 
-public class EntityToxicZombie extends EntityCityHusk {
+public class EntityToxicZombie extends EntityCityHusk implements IMob {
 
 	public EntityToxicZombie(World world) {
 		super(world);
