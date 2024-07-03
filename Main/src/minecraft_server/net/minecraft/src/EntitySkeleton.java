@@ -1,6 +1,6 @@
 package net.minecraft.src;
 
-public class EntitySkeleton extends EntityArmoredMob {
+public class EntitySkeleton extends EntityArmoredMob implements IMob {
 	public EntitySkeleton(World world1) {
 		super(world1);
 		this.texture = "/mob/skeleton.png";

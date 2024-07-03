@@ -1,6 +1,6 @@
 package net.minecraft.src;
 
-public class EntityCityHusk extends EntityHusk {
+public class EntityCityHusk extends EntityHusk implements IMob {
 	public int minArmorTier = 0;
 	public int maxArmorTier = 2;
 	

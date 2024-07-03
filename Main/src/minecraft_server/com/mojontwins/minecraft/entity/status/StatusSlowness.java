@@ -13,7 +13,6 @@ public class StatusSlowness extends Status {
 
 	@Override
 	public void performEffect (EntityLiving entityLiving, int amplifier, int duration) {
-		// Decrease half a heart
 		// Make slower somehow
 		entityLiving.speedModifier = 0.2F;
 	}

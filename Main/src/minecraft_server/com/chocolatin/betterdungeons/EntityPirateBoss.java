@@ -5,13 +5,14 @@ import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityMob;
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.IMob;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
 
-public class EntityPirateBoss extends EntityMob {
+public class EntityPirateBoss extends EntityMob implements IMob {
 	int invisibleCD = 10;
 	protected boolean angryAtPlayer = false;
 

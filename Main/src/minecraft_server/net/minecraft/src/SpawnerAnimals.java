@@ -32,10 +32,15 @@ public final class SpawnerAnimals {
 				int z0 = MathHelper.floor_double(entityPlayer4.posZ / 16.0D);
 				byte radius = 8;
 
+				int xx, zz;
 				for(int x = -radius; x <= radius; ++x) {
-					for(int z = -radius; z <= radius; ++z) {
-						if (x >= 0 && z >= 0 && x < WorldSize.xChunks && z < WorldSize.zChunks) {
-							eligibleChunksForSpawning.add(new ChunkCoordIntPair(x + x0, z + z0));
+					xx = x0 + x;
+					if(xx >= 0 && xx < WorldSize.xChunks) {
+						for(int z = -radius; z <= radius; ++z) {
+							zz = z0 + z;
+							if (zz >= 0 && zz < WorldSize.zChunks) {
+								eligibleChunksForSpawning.add(new ChunkCoordIntPair(xx, zz));
+							}
 						}
 					}
 				}
@@ -52,6 +57,17 @@ public final class SpawnerAnimals {
 
 				// Change the values of these parameters when suited in your mod!
 				int maxEntitiesOfThisType = creatureType.getMaxNumberOfCreature() * eligibleChunksForSpawning.size() / 256;
+				
+				//int activeEntitiesOfThisType = world.countEntities(creatureType.getCreatureClass());
+				// Let's try and count only entities of this time in active chunks
+				int activeEntitiesOfThisType = 0;
+				Iterator<ChunkCoordIntPair> chunksIt = eligibleChunksForSpawning.iterator();
+				while (chunksIt.hasNext()) {
+					ChunkCoordIntPair chunkCoords = chunksIt.next();
+					Chunk spawningChunk = world.getChunkFromChunkCoords(chunkCoords.chunkXPos, chunkCoords.chunkZPos);
+					activeEntitiesOfThisType += spawningChunk.getCreatureTypeCounter(creatureType);					
+				}
+				
 				int hordeSize = 4;
 
 				if(creatureType == EnumCreatureType.monster) {
@@ -67,10 +83,12 @@ public final class SpawnerAnimals {
 					else if(Seasons.currentSeason == 0) maxEntitiesOfThisType = (maxEntitiesOfThisType >> 2) + (maxEntitiesOfThisType >> 1); 	// 3/4
 				}
 
+				// System.out.println ("Chunks: " + eligibleChunksForSpawning.size() + ", TYPE: " + creatureType + " #" + activeEntitiesOfThisType + " of " + maxEntitiesOfThisType);
+								
 				if(
 					(!creatureType.getPeacefulCreature() || flag2) && 
 					(creatureType.getPeacefulCreature() || flag1) && 
-					world.countEntities(creatureType.getCreatureClass()) <= maxEntitiesOfThisType
+					activeEntitiesOfThisType <= maxEntitiesOfThisType
 				) {
 					Iterator<ChunkCoordIntPair> chunksForSpawningIt = eligibleChunksForSpawning.iterator();
 

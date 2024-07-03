@@ -11,10 +11,11 @@ import com.mojang.minecraft.modernAI.EntityAIWatchClosest;
 
 import net.minecraft.src.EntityMob;
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.ICaveMob;
 import net.minecraft.src.Item;
 import net.minecraft.src.World;
 
-public class EntityTFKobold extends EntityMob {
+public class EntityTFKobold extends EntityMob implements ICaveMob {
 	private boolean shy;
 
 	public EntityTFKobold(World var1) {

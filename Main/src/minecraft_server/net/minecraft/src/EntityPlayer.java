@@ -31,6 +31,7 @@ public abstract class EntityPlayer extends EntityLiving {
 	public float bedAdjustPosZ;
 	private ChunkCoordinates playerSpawnCoordinate;
 	private ChunkCoordinates startMinecartRidingCoordinate;
+	private ChunkCoordinates playerLastDeathCoordinate;
 	private boolean dontCheckSpawnCoordinates = false;
 	public int timeUntilPortal = 20;
 	protected boolean inPortal = false;
@@ -52,7 +53,8 @@ public abstract class EntityPlayer extends EntityLiving {
 	
 	public boolean isFlying = false;
 	public boolean isCreative = false;
-	public boolean enableCheats = true; // CHANGE THIS!
+	public boolean enableCheats = false;
+	public boolean deadManChest = false;
 	public boolean enableCraftingGuide = false;
 	public boolean isSprinting = false;
 	public int freezeLevel = 0;
@@ -333,12 +335,11 @@ public abstract class EntityPlayer extends EntityLiving {
 			}
 
 			// Freeze
-			/*
 			if(!this.worldObj.isRemote) {
 				if(this.isCreative || this.worldObj.difficultySetting <= 1) {
 					this.freezeLevel = 0;
 				} else {
-					if(this.ticksExisted % 20 == 0) {
+					if(this.ticksExisted % 20 == 0 /*&& this.world.freeze*/) {
 						// New freeze logic which works like this:
 						// During Winter on Cold biomes, increase freezeLevel.
 						// Covered and in proximity of a fire block, decrease freezeLevel.
@@ -354,10 +355,10 @@ public abstract class EntityPlayer extends EntityLiving {
 						} else if(this.freezeLevel > 0 && !this.worldObj.canBlockSeeTheSky(x, y, z)) {
 							// Indoors, recover with a fireplace
 							if(this.worldObj.getIsAnyBlockID(this.boundingBox.expand(8, 4, 8), Block.fire.blockID)) {
-								this.triggerAchievement(AchievementList.warmed);
+								//this.triggerAchievement(AchievementList.warmed);
 								this.freezeLevel -= 10;
 							} else if(this.worldObj.getIsAnyBlockID(this.boundingBox.expand(2, 2, 2), Block.stoneOvenActive.blockID)) { 
-								this.triggerAchievement(AchievementList.warmedByOven);
+								//this.triggerAchievement(AchievementList.warmedByOven);
 								this.freezeLevel -= 4;
 							} else if(this.moveForward != 0 || this.moveStrafing != 0) {
 								this.freezeLevel --;
@@ -387,7 +388,7 @@ public abstract class EntityPlayer extends EntityLiving {
 									this.freezeLevel += 8;
 								}
 								
-								if(freezeLevel > 100) this.triggerAchievement(AchievementList.gotChilly);
+								//if(freezeLevel > 100) this.triggerAchievement(AchievementList.gotChilly);
 								
 								if(this.dressedInRags()) this.freezeLevel -= 2;
 							}
@@ -407,7 +408,6 @@ public abstract class EntityPlayer extends EntityLiving {
 					}
 				}
 			}
-			*/
 		}
 
 	}
@@ -421,14 +421,55 @@ public abstract class EntityPlayer extends EntityLiving {
 	}
 
 	public void onDeath(Entity entity1) {
+		// Remember coordinates
+		this.setPlayerLastDeathCoordinate(new ChunkCoordinates((int)this.posX, (int)this.posY, (int)this.posZ));
+		
 		super.onDeath(entity1);
 		this.setSize(0.2F, 0.2F);
 		this.setPosition(this.posX, this.posY, this.posZ);
 		this.motionY = (double)0.1F;
-		if(this.username.equals("Notch")) {
+		if(this.username.equals("Notch") || this.username.equals("Popoch")) {
 			this.dropPlayerItemWithRandomChoice(new ItemStack(Item.appleRed, 1), true);
 		}
 
+		// Dead man's chest
+		if(this.deadManChest) {
+			// Place chest here
+			int x = (int)this.posX;
+			int y = (int)this.posY;
+			int z = (int)this.posZ;
+			while(!this.worldObj.isBlockOpaqueCube(x, y - 1, z) && y > 0) --y;
+			
+			if (y > 0) {
+				this.worldObj.setBlock(x, y, z, Block.chest.blockID);
+				this.worldObj.setBlock(x, y + 1, z, Block.torchWood.blockID);
+				
+				TileEntityChest chest = (TileEntityChest)this.worldObj.getBlockTileEntity(x, y, z);
+				
+				// Attempt to add as many inventory items as possible
+				int slotIndex = 0;
+				int armorInventoryIndex = 0;
+				while(armorInventoryIndex < 4) {
+					ItemStack itemStack = this.inventory.armorInventory[armorInventoryIndex];
+					if(itemStack != null) {
+						chest.setStackInSlot(slotIndex ++, itemStack);
+					}
+					this.inventory.armorInventory[armorInventoryIndex ++] = null;
+				}	
+				
+				int mainInventoryIndex = 0;
+				while(mainInventoryIndex < 36 && slotIndex < 27) {
+					ItemStack itemStack = this.inventory.mainInventory[mainInventoryIndex];
+					if(itemStack != null) {
+						chest.setStackInSlot(slotIndex ++, itemStack);
+					}
+					this.inventory.mainInventory[mainInventoryIndex ++] = null;
+				}
+								
+				// Rest: just drop remaining
+			}
+		}
+		
 		this.inventory.dropAllItems();
 		if(entity1 != null) {
 			this.motionX = (double)(-MathHelper.cos((this.attackedAtYaw + this.rotationYaw) * (float)Math.PI / 180.0F) * 0.1F);
@@ -537,9 +578,14 @@ public abstract class EntityPlayer extends EntityLiving {
 			this.dontCheckSpawnCoordinates = nBTTagCompound1.getBoolean("DontVerifySpawn");
 		}
 	
+		if(nBTTagCompound1.hasKey("DeathX") && nBTTagCompound1.hasKey("DeathY") && nBTTagCompound1.hasKey("DeathZ")) {
+			this.playerLastDeathCoordinate = new ChunkCoordinates(nBTTagCompound1.getInteger("DeathX"), nBTTagCompound1.getInteger("DeathY"), nBTTagCompound1.getInteger("DeathZ"));
+		}
+	
 		this.isCreative = nBTTagCompound1.getBoolean("isCreative");
 		this.isFlying = nBTTagCompound1.getBoolean("isFlying");
 		this.enableCheats = nBTTagCompound1.getBoolean("enableCheats");
+		this.deadManChest = nBTTagCompound1.getBoolean("deadManChest");
 		this.enableCraftingGuide = nBTTagCompound1.getBoolean("enableCraftingGuide");
 		this.freezeLevel = nBTTagCompound1.getInteger("freezeLevel");
 	}
@@ -556,10 +602,16 @@ public abstract class EntityPlayer extends EntityLiving {
 			nBTTagCompound1.setInteger("SpawnZ", this.playerSpawnCoordinate.posZ);
 			nBTTagCompound1.setBoolean("DontVerifySpawn", this.dontCheckSpawnCoordinates);
 		}
+		if(this.playerLastDeathCoordinate != null) {
+			nBTTagCompound1.setInteger("DeathX", this.playerLastDeathCoordinate.posX);
+			nBTTagCompound1.setInteger("DeathY", this.playerLastDeathCoordinate.posY);
+			nBTTagCompound1.setInteger("DeathZ", this.playerLastDeathCoordinate.posZ);
+		}
 
 		nBTTagCompound1.setBoolean("isCreative", this.isCreative);
 		nBTTagCompound1.setBoolean("isFlying", this.isFlying);
 		nBTTagCompound1.setBoolean("enableCheats", this.enableCheats);
+		nBTTagCompound1.setBoolean("deadManChest", this.deadManChest);
 		nBTTagCompound1.setBoolean("enableCraftingGuide", this.enableCraftingGuide);
 		nBTTagCompound1.setInteger("freezeLevel", this.freezeLevel);
 	}
@@ -902,10 +954,10 @@ public abstract class EntityPlayer extends EntityLiving {
 		iChunkProvider2.prepareChunk(chunkCoordinates1.posX + 3 >> 4, chunkCoordinates1.posZ - 3 >> 4);
 		iChunkProvider2.prepareChunk(chunkCoordinates1.posX - 3 >> 4, chunkCoordinates1.posZ + 3 >> 4);
 		iChunkProvider2.prepareChunk(chunkCoordinates1.posX + 3 >> 4, chunkCoordinates1.posZ + 3 >> 4);
-		int blockID = world0.getBlockId(chunkCoordinates1.posX, chunkCoordinates1.posY, chunkCoordinates1.posZ);
+		/*int blockID = world0.getBlockId(chunkCoordinates1.posX, chunkCoordinates1.posY, chunkCoordinates1.posZ);
 		if(blockID != Block.blockBed.blockID) {
 			return null;
-		} else {
+		} else*/ {
 			ChunkCoordinates chunkCoordinates3 = BlockBed.getNearestEmptyChunkCoordinates(world0, chunkCoordinates1.posX, chunkCoordinates1.posY, chunkCoordinates1.posZ, 0);
 			return chunkCoordinates3;
 		}
@@ -949,6 +1001,12 @@ public abstract class EntityPlayer extends EntityLiving {
 		return this.playerSpawnCoordinate;
 	}
 
+
+	public ChunkCoordinates getPlayerLastDeathCoordinate() {
+		if (this.playerLastDeathCoordinate == null) return this.getPlayerSpawnCoordinate();
+		return this.playerLastDeathCoordinate;
+	}
+
 	public void setPlayerSpawnCoordinate(ChunkCoordinates chunkCoordinates1) {
 		if(chunkCoordinates1 != null) {
 			this.playerSpawnCoordinate = new ChunkCoordinates(chunkCoordinates1);
@@ -956,6 +1014,14 @@ public abstract class EntityPlayer extends EntityLiving {
 			this.playerSpawnCoordinate = null;
 		}
 
+	}
+	
+	public void setPlayerLastDeathCoordinate(ChunkCoordinates chunkCoordinates) {
+		if(chunkCoordinates != null) {
+			this.playerLastDeathCoordinate = new ChunkCoordinates(chunkCoordinates);
+		} else {
+			this.playerLastDeathCoordinate = null;
+		}
 	}
 
 	public void triggerAchievement(StatBase statBase1) {

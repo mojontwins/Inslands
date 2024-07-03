@@ -1,6 +1,6 @@
 package net.minecraft.src;
 
-public class EntityZombieAlex extends EntityZombie {
+public class EntityZombieAlex extends EntityZombie implements IMob {
 	
 	public EntityZombieAlex(World world) {
 		super(world);

@@ -12,12 +12,13 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntityMob;
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.IMob;
 import net.minecraft.src.ISentient;
 import net.minecraft.src.Item;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
 
-public class EntityFungalCalamity extends EntityMob {
+public class EntityFungalCalamity extends EntityMob implements IMob {
 
 	public EntityFungalCalamity(World world1) {
 		super(world1);

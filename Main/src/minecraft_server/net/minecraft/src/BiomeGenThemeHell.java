@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import com.gw.dm.EntityGhoul;
+
 public class BiomeGenThemeHell extends BiomeGenBase {
 
 	public BiomeGenThemeHell() {
@@ -23,6 +25,8 @@ public class BiomeGenThemeHell extends BiomeGenBase {
 		this.foliageColorizer = 1;
 		
 		this.forceBlockLightInitLikeNether = true;
+		
+		this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityGhoul.class, 10));
 	}
 	
 	public WorldGenerator getTreeGen(World world, Random rand, int chunkX, int chunkZ) {

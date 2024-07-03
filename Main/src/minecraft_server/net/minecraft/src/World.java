@@ -41,7 +41,7 @@ public class World implements IBlockAccess {
 	protected List<IWorldAccess> worldAccesses;
 	public IChunkProvider chunkProvider;
 	protected final ISaveHandler saveHandler;
-	protected WorldInfo worldInfo;
+	public WorldInfo worldInfo;
 	public boolean findingSpawnPoint;
 	private boolean allPlayersSleeping;
 	public MapStorage mapStorage;
@@ -1571,13 +1571,13 @@ public class World implements IBlockAccess {
 			if(curEntity instanceof EntityPlayer || this.isRemote || this.amITheServer()) {
 				processThis = true;
 			} else {
-			for(int j = 0; j < playerEntities.size(); j ++) {
-				EntityPlayer curPlayer = playerEntities.get(j);
-				if(
-						Math.abs(curPlayer.curChunkX - curEntity.chunkCoordX) <= 8 &&
-						Math.abs(curPlayer.curChunkZ - curEntity.chunkCoordZ) <= 8)  {
-					processThis = true;
-					break;
+				for(int j = 0; j < playerEntities.size(); j ++) {
+					EntityPlayer curPlayer = playerEntities.get(j);
+					if(
+							Math.abs(curPlayer.curChunkX - curEntity.chunkCoordX) <= 8 &&
+							Math.abs(curPlayer.curChunkZ - curEntity.chunkCoordZ) <= 8)  {
+						processThis = true;
+						break;
 					}
 				}
 			}
@@ -3339,7 +3339,7 @@ public class World implements IBlockAccess {
 	public int getFoliageColorFromCache(int x, int z) {
 		return x >= 0 && z >= 0 && x < WorldSize.width && z < WorldSize.length ? this.getChunkFromChunkCoords(x >> 4, z >> 4).getFoliageColorFromCache(x & 15, z & 15) : 0;
 	}
-
+	
 	public boolean amITheServer() {
 		return false;
 	}

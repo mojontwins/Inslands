@@ -20,6 +20,7 @@ import com.chocolatin.betterdungeons.EntityPirate;
 import com.chocolatin.betterdungeons.EntityPirateArcher;
 import com.chocolatin.betterdungeons.EntityPirateBoss;
 import com.chocolatin.betterdungeons.EntitySecretBoss;
+import com.gw.dm.EntityGhoul;
 import com.hippoplatimus.pistons.EntityMovingPiston;
 import com.misc.aether.EntityFlyingCow;
 import com.misc.aether.EntityMimic;
@@ -200,6 +201,7 @@ public class EntityList {
 		addMapping(EntityPigZombieVolcanoes.class, "PigZombieVolcanoes", 125);
 		
 		addMapping(EntityFungalCalamity.class, "FungalCalamity", 126);
+		addMapping(EntityGhoul.class, "Ghoul", 127);
 		
 		// Aether
 		addMapping(EntityMimic.class, "Mimic", 60);

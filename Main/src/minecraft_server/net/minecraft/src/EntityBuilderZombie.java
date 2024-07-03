@@ -1,6 +1,6 @@
 package net.minecraft.src;
 
-public class EntityBuilderZombie extends EntityMob {
+public class EntityBuilderZombie extends EntityMob implements IMob {
 	private int collidingTicks;
 	public int ticksToBuild = 10;
 
