@@ -243,6 +243,8 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 		WorldServer worldServer2 = this.mcServer.getWorldManager(this.playerEntity.dimension);
 		if(packet14BlockDig1.status == 4) {
 			this.playerEntity.dropCurrentItem();
+		} else if(packet14BlockDig1.status == 5) {
+			this.playerEntity.stopUsingItem();
 		} else {
 			boolean z3 = worldServer2.disableSpawnProtection = worldServer2.worldProvider.worldType != 0
 					|| this.mcServer.configManager.isOp(this.playerEntity.username);
@@ -306,58 +308,66 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 	public void handlePlace(Packet15Place packet15Place1) {
 		WorldServer worldServer2 = this.mcServer.getWorldManager(this.playerEntity.dimension);
 		ItemStack itemStack3 = this.playerEntity.inventory.getCurrentItem();
-		boolean z4 = worldServer2.disableSpawnProtection = worldServer2.worldProvider.worldType != 0
+		boolean z4 = false;
+
+		int i5 = packet15Place1.xPosition;
+		int i6 = packet15Place1.yPosition;
+		int i7 = packet15Place1.zPosition;
+		int i8 = packet15Place1.direction;
+		float xWithinFace = packet15Place1.xWithinFace;
+		float yWithinFace = packet15Place1.yWithinFace;
+		float zWithinFace = packet15Place1.zWithinFace;				
+				
+		boolean z9 = worldServer2.disableSpawnProtection = worldServer2.worldProvider.worldType != 0
 				|| this.mcServer.configManager.isOp(this.playerEntity.username);
-		if(packet15Place1.direction == 255) {
-			if(itemStack3 == null) {
+		if (packet15Place1.direction == 255) {
+			if (itemStack3 == null) {
 				return;
 			}
 
 			this.playerEntity.itemInWorldManager.itemUsed(this.playerEntity, worldServer2, itemStack3);
 		} else {
-			int i5 = packet15Place1.xPosition;
-			int i6 = packet15Place1.yPosition;
-			int i7 = packet15Place1.zPosition;
-			int i8 = packet15Place1.direction;
-			float xWithinFace = packet15Place1.xWithinFace;
-			float yWithinFace = packet15Place1.yWithinFace;
-			float zWithinFace = packet15Place1.zWithinFace;
-			
+			// Is in reach check
+
 			ChunkCoordinates chunkCoordinates9 = worldServer2.getSpawnPoint();
-			int i10 = (int)MathHelper.abs((float)(i5 - chunkCoordinates9.posX));
-			int i11 = (int)MathHelper.abs((float)(i7 - chunkCoordinates9.posZ));
-			if(i10 > i11) {
+			int i10 = (int) MathHelper.abs((float) (i5 - chunkCoordinates9.posX));
+			int i11 = (int) MathHelper.abs((float) (i7 - chunkCoordinates9.posZ));
+			if (i10 > i11) {
 				i11 = i10;
 			}
 
 			if (this.hasMoved && this.playerEntity.getDistanceSq((double) i5 + 0.5D, (double) i6 + 0.5D,
-					(double) i7 + 0.5D) < 64.0D && (i11 > 16 || z4)) {
+					(double) i7 + 0.5D) < 64.0D && (i11 > 16 || z9)) {
 				this.playerEntity.itemInWorldManager.activeBlockOrUseItem(this.playerEntity, worldServer2, itemStack3,
 						i5, i6, i7, i8, xWithinFace, yWithinFace, zWithinFace);
 			}
 
+			z4 = true;
+		}
+		
+		if(z4) {
 			this.playerEntity.playerNetServerHandler.sendPacket(new Packet53BlockChange(i5, i6, i7, worldServer2));
-			if(i8 == 0) {
+			if (i8 == 0) {
 				--i6;
 			}
 
-			if(i8 == 1) {
+			if (i8 == 1) {
 				++i6;
 			}
 
-			if(i8 == 2) {
+			if (i8 == 2) {
 				--i7;
 			}
 
-			if(i8 == 3) {
+			if (i8 == 3) {
 				++i7;
 			}
 
-			if(i8 == 4) {
+			if (i8 == 4) {
 				--i5;
 			}
 
-			if(i8 == 5) {
+			if (i8 == 5) {
 				++i5;
 			}
 
@@ -365,20 +375,23 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 		}
 
 		itemStack3 = this.playerEntity.inventory.getCurrentItem();
-		if(itemStack3 != null && itemStack3.stackSize == 0) {
+		if (itemStack3 != null && itemStack3.stackSize == 0) {
 			this.playerEntity.inventory.mainInventory[this.playerEntity.inventory.currentItem] = null;
+			itemStack3 = null;
 		}
 
-		this.playerEntity.isChangingQuantityOnly = true;
-		this.playerEntity.inventory.mainInventory[this.playerEntity.inventory.currentItem] = ItemStack
+		if(itemStack3 == null || itemStack3.getMaxItemUseDuration() == 0) {
+			this.playerEntity.isChangingQuantityOnly = true;
+			this.playerEntity.inventory.mainInventory[this.playerEntity.inventory.currentItem] = ItemStack
 				.copyItemStack(this.playerEntity.inventory.mainInventory[this.playerEntity.inventory.currentItem]);
-		Slot slot12 = this.playerEntity.craftingInventory.findCurrentItem(this.playerEntity.inventory,
+			Slot slot12 = this.playerEntity.craftingInventory.findCurrentItem(this.playerEntity.inventory,
 				this.playerEntity.inventory.currentItem);
-		this.playerEntity.craftingInventory.updateCraftingResults();
-		this.playerEntity.isChangingQuantityOnly = false;
-		if(!ItemStack.areItemStacksEqual(this.playerEntity.inventory.getCurrentItem(), packet15Place1.itemStack)) {
-			this.sendPacket(new Packet103SetSlot(this.playerEntity.craftingInventory.windowId, slot12.id,
-					this.playerEntity.inventory.getCurrentItem()));
+			this.playerEntity.craftingInventory.updateCraftingResults();
+			this.playerEntity.isChangingQuantityOnly = false;
+			if (!ItemStack.areItemStacksEqual(this.playerEntity.inventory.getCurrentItem(), packet15Place1.itemStack)) {
+				this.sendPacket(new Packet103SetSlot(this.playerEntity.craftingInventory.windowId, slot12.id,
+						this.playerEntity.inventory.getCurrentItem()));
+			}
 		}
 
 		worldServer2.disableSpawnProtection = false;

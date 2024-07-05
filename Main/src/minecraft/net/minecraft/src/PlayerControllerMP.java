@@ -227,5 +227,10 @@ public class PlayerControllerMP extends PlayerController {
 
 	}
 	
-	
+	@Override
+	public void onStoppedUsingItem(EntityPlayer entityplayer) {
+		this.syncCurrentPlayItem();
+		if(this.netClientHandler != null) this.netClientHandler.addToSendQueue(new Packet14BlockDig(5, 0, 0, 0, 255, null, 0, 0, 0));
+		super.onStoppedUsingItem(entityplayer);
+	}
 }

@@ -130,4 +130,8 @@ public class PlayerController {
 
 	public void sendSetItemStackCreative(ItemStack itemStack) {
 	}
+	
+	public void onStoppedUsingItem(EntityPlayer entityplayer) {
+		entityplayer.stopUsingItem();
+	}
 }

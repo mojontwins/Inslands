@@ -1059,18 +1059,26 @@ public abstract class Minecraft implements Runnable {
 									while(true) {
 										do {
 											if(!Keyboard.next()) {
-												if(this.currentScreen == null) {
-													if(Mouse.isButtonDown(0) && (float)(this.ticksRan - this.mouseTicksRan) >= this.timer.ticksPerSecond / 4.0F && this.inGameHasFocus) {
-														this.clickMouse(0);
-														this.mouseTicksRan = this.ticksRan;
+												// Fix to using item in pure beta codebase
+												if(this.thePlayer.isUsingItem()) {
+													if(!Mouse.isButtonDown(1)) {
+														this.playerController.onStoppedUsingItem(this.thePlayer);
 													}
-
-													if(Mouse.isButtonDown(1) && (float)(this.ticksRan - this.mouseTicksRan) >= this.timer.ticksPerSecond / 4.0F && this.inGameHasFocus) {
-														this.clickMouse(1);
-														this.mouseTicksRan = this.ticksRan;
+												} else {
+											
+													if(this.currentScreen == null) {
+														if(Mouse.isButtonDown(0) && (float)(this.ticksRan - this.mouseTicksRan) >= this.timer.ticksPerSecond / 4.0F && this.inGameHasFocus) {
+															this.clickMouse(0);
+															this.mouseTicksRan = this.ticksRan;
+														}
+	
+														if(Mouse.isButtonDown(1) && (float)(this.ticksRan - this.mouseTicksRan) >= this.timer.ticksPerSecond / 4.0F && this.inGameHasFocus) {
+															this.clickMouse(1);
+															this.mouseTicksRan = this.ticksRan;
+														}
 													}
 												}
-
+												
 												this.sendClickBlockToController(0, this.currentScreen == null && Mouse.isButtonDown(0) && this.inGameHasFocus);
 												break label301;
 											}
