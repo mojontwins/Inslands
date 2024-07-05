@@ -195,7 +195,8 @@ Yay! fps boosted on shitty systems!
 
 * [ ] {SMP} Add TP to SMP
 * [ ] {SMP} Still no border chunks.
-* [ ] {SMP} TileEntityMobSpawnerOneShot not working.
+* [X] {SMP} TileEntityMobSpawnerOneShot not working.
 * [ ] {SMP} Calculate spawn point properly.
 * [ ] {SMP} Client is no aware of effects from the Server.
+* [ ] {SMP} Packet52 stuff (multiblock change) not 8bit metadata aware!
 
