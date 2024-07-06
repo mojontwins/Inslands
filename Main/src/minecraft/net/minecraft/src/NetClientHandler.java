@@ -1,6 +1,8 @@
 package net.minecraft.src;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
@@ -319,24 +321,37 @@ public class NetClientHandler extends NetHandler {
 		this.worldClient.doPreChunk(packet50PreChunk1.xPosition, packet50PreChunk1.yPosition, packet50PreChunk1.mode);
 	}
 
-	public void handleMultiBlockChange(Packet52MultiBlockChange packet52MultiBlockChange1) {
-		Chunk chunk2 = this.worldClient.getChunkFromChunkCoords(packet52MultiBlockChange1.xPosition,
-				packet52MultiBlockChange1.zPosition);
-		int i3 = packet52MultiBlockChange1.xPosition * 16;
-		int i4 = packet52MultiBlockChange1.zPosition * 16;
+	public void handleMultiBlockChange(Packet52MultiBlockChange packet52MultiBlockChange) {
+		int x0 = packet52MultiBlockChange.xPosition * 16;
+		int z0 = packet52MultiBlockChange.zPosition * 16;
 
-		for (int i5 = 0; i5 < packet52MultiBlockChange1.size; ++i5) {
-			short s6 = packet52MultiBlockChange1.coordinateArray[i5];
-			int i7 = packet52MultiBlockChange1.typeArray[i5] & 255;
-			byte b8 = packet52MultiBlockChange1.metadataArray[i5];
-			int i9 = s6 >> 12 & 15;
-			int i10 = s6 >> 8 & 15;
-			int i11 = s6 & 255;
-			chunk2.setBlockIDWithMetadata(i9, i11, i10, i7, b8);
-			this.worldClient.invalidateBlockReceiveRegion(i9 + i3, i11, i10 + i4, i9 + i3, i11, i10 + i4);
-			this.worldClient.markBlocksDirty(i9 + i3, i11, i10 + i4, i9 + i3, i11, i10 + i4);
+		System.out.println ("Getting multiblock change for chunk " + packet52MultiBlockChange.xPosition + " " + packet52MultiBlockChange.zPosition + " with " + packet52MultiBlockChange.size + " blocks" );
+		
+		if(packet52MultiBlockChange.encodedBlocks != null) {
+			DataInputStream dataInputStream4 = new DataInputStream(new ByteArrayInputStream(packet52MultiBlockChange.encodedBlocks));
+
+			try {
+				// This had to be adapted to decode 8 bit block ID and 8 bit metadata
+				for(int i = 0; i < packet52MultiBlockChange.size; ++i) {
+					short encodedPos = dataInputStream4.readShort();
+					short encodedBlockMeta = dataInputStream4.readShort();
+
+					int blockID = (encodedBlockMeta >> 8) & 255;
+					int metadata = encodedBlockMeta & 255;
+					
+					int x = encodedPos >> 12 & 15;
+					int z = encodedPos >> 8 & 15;
+					int y = encodedPos & 255;
+					
+					this.worldClient.setBlockAndMetadataAndInvalidate(x + x0, y, z + z0, blockID, metadata);
+				}
+			} catch (IOException iOException13) {
+				// Fail silently
+				System.out.println ("IO Exception");
+				iOException13.printStackTrace ();
+			}
+
 		}
-
 	}
 
 	public void handleMapChunk(Packet51MapChunk packet51MapChunk1) {

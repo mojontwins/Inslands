@@ -20,6 +20,14 @@ public class WorldSize {
 		System.out.println ("Size set: " + xChunks + " x " + zChunks);
 	}
 	
+	public static int getXChunks(IChunkProvider chunkProvider) {
+		return (chunkProvider instanceof ChunkProviderHell) && (WorldSize.xChunks >= 16 && WorldSize.zChunks >= 16) ? xChunks / 2 : xChunks;
+	}
+	
+	public static int getZChunks(IChunkProvider chunkProvider) {
+		return (chunkProvider instanceof ChunkProviderHell) && (WorldSize.xChunks >= 16 && WorldSize.zChunks >= 16) ? zChunks / 2 : zChunks;
+	}
+	
 	public static int coords2hash(int x, int z) {
 		return x + z * xChunks;
 	}

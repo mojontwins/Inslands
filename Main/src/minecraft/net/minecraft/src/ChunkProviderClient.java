@@ -16,6 +16,10 @@ public class ChunkProviderClient implements IChunkProvider {
 		this.blankChunk = new EmptyChunk(world1, new byte[32768], new byte[32768], 0, 0);
 		this.worldObj = world1;
 	}
+	
+	public IChunkProvider getChunkProviderGenerate() {
+		return this;
+	}
 
 	@SuppressWarnings("unused")
 	public boolean chunkExists(int i1, int i2) {
@@ -58,6 +62,10 @@ public class ChunkProviderClient implements IChunkProvider {
 		return this.provideChunk(chunkX, chunkZ);
 	}
 
+	public Chunk makeBlank(World world) {
+		return this.blankChunk; // TODO: Do this properly
+	}
+	
 	public boolean saveChunks(boolean z1, IProgressUpdate iProgressUpdate2) {
 		return true;
 	}

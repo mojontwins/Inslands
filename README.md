@@ -185,6 +185,22 @@ Yay! fps boosted on shitty systems!
 
 # More
 
+* [ ] Nether!
+	* [/] Nether should be 1/2 the size of the overworld in sizes >= normal or 1/1 in size small. The chunk provider should take this in account automaticly. The teleporter should also convert coordinates accordingly.
+	* [/] Nether should have cool all-bedrock (with holes) walls. Think on a nice algorithm to make irregular surfaces in all 4 lateral sides.
+
+	In my first attempt, I made it so the nether is actually half the size, and the Provider adjusts and returns the fake chunk for x/z = half, but this is not satisfactory as the bedrock in these chunks can't be lit.
+
+	So maybe the thing would be having the provider generate the full world size but only having a 1/2 sized portion in the center, generating REAL chunks of bedrock surrounding it, via the WorldProviderHell.
+
+	So when travelling to the nether, `X = SizeX/4 + X/2`. When going back, `X = (X - SizeX/4) * 2`.
+
+	Also Starlight is NOT running when creating the nether, but it does when reloading the world.
+	
+
+	* [ ] Nether should be somewhat themed. Good look on thinking on "paradise nether" features :-D 
+
+	So level Themes should store separate (fixed or multi) biome info for both dimensions.
 
 * [ ] Think about gameplay items for a desert and a glacier based theme (for the future).
 	* [ ] both lack trees, dirt and saplings must be obtained. Make sure skeletons still drop acorns.
@@ -198,5 +214,5 @@ Yay! fps boosted on shitty systems!
 * [X] {SMP} TileEntityMobSpawnerOneShot not working.
 * [ ] {SMP} Calculate spawn point properly.
 * [ ] {SMP} Client is no aware of effects from the Server.
-* [ ] {SMP} Packet52 stuff (multiblock change) not 8bit metadata aware!
+* [X] {SMP} Packet52 stuff (multiblock change) not 8bit metadata aware!
 

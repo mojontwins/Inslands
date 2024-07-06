@@ -50,7 +50,7 @@ public class FeatureProvider {
 	 * Selects a feature at random for chunkX, chunkZ. If succeeded, feature is initialized and returned.
 	 */
 	public Feature getFeatureForChunkCoords(int chunkX, int chunkZ) {
-		if (chunkX < 0 || chunkZ < 0 || chunkX >= WorldSize.xChunks || chunkZ >= WorldSize.zChunks) return null;
+		if (chunkX < 0 || chunkZ < 0 || chunkX >= WorldSize.getXChunks(this.chunkProvider) || chunkZ >= WorldSize.getZChunks(this.chunkProvider)) return null;
 		
 		// Provide a feature.
 		Feature feature = null;
@@ -117,14 +117,14 @@ public class FeatureProvider {
 	 */	
 	public boolean getNearestFeatures(int chunkX, int chunkZ, Chunk chunk) {
 		boolean featureInChunk = false;
-		if(chunkX < 0 || chunkX >= WorldSize.xChunks || chunkZ < 0 || chunkZ >= WorldSize.zChunks) return featureInChunk;
+		if(chunkX < 0 || chunkX >= WorldSize.getXChunks(this.chunkProvider) || chunkZ < 0 || chunkZ >= WorldSize.getZChunks(this.chunkProvider)) return featureInChunk;
 		
 		HashSet<Long> featureHashes = new HashSet<Long>();
 		
 		for(int i = 0; i <= 3; i ++) {
 			for(int x = chunkX - i; x <= chunkX + i; x ++) {
 				for(int z = chunkZ - i; z <= chunkZ + i; z ++) {
-					if(x < 0 || x >= WorldSize.xChunks || z < 0 || z >= WorldSize.zChunks) continue;
+					if(x < 0 || x >= WorldSize.getXChunks(this.chunkProvider) || z < 0 || z >= WorldSize.getZChunks(this.chunkProvider)) continue;
 					
 					Feature feature = null;
 					
@@ -163,7 +163,7 @@ public class FeatureProvider {
 	 *  Populates structures for this chunk
 	 */
 	public void populateFeatures(World world, Random rand, int chunkX, int chunkZ) {
-		if(chunkX < 0 || chunkX >= WorldSize.xChunks || chunkZ < 0 || chunkZ >= WorldSize.zChunks) return;
+		if(chunkX < 0 || chunkX >= WorldSize.getXChunks(this.chunkProvider) || chunkZ < 0 || chunkZ >= WorldSize.getZChunks(this.chunkProvider)) return;
 		
 		// Failsafe (shouldn't fire, but just in case)
 		long thisChunkHash = ChunkCoordIntPair.chunkXZ2Long(chunkX, chunkZ);
@@ -177,7 +177,7 @@ public class FeatureProvider {
 		int i = 3; {
 			for(int x = chunkX - i; x <= chunkX + i; x ++) {
 				for(int z = chunkZ - i; z <= chunkZ + i; z ++) {
-					if(x < 0 || x >= WorldSize.xChunks || z < 0 || z >= WorldSize.zChunks) continue;
+					if(x < 0 || x >= WorldSize.getXChunks(this.chunkProvider) || z < 0 || z >= WorldSize.getZChunks(this.chunkProvider)) continue;
 										
 					long chunkHash = ChunkCoordIntPair.chunkXZ2Long(x, z);
 					

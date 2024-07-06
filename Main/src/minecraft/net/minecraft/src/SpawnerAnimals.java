@@ -19,6 +19,8 @@ public final class SpawnerAnimals {
 	}
 
 	public static final int performSpawning(World world, boolean flag1, boolean flag2) {
+		IChunkProvider chunkProvider = world.getChunkProvider().getChunkProviderGenerate();
+		
 		if(!flag1 && !flag2) {
 			return 0;
 		} else {
@@ -35,10 +37,10 @@ public final class SpawnerAnimals {
 				int xx, zz;
 				for(int x = -radius; x <= radius; ++x) {
 					xx = x0 + x;
-					if(xx >= 0 && xx < WorldSize.xChunks) {
+					if(xx >= 0 && xx < WorldSize.getXChunks(chunkProvider)) {
 						for(int z = -radius; z <= radius; ++z) {
 							zz = z0 + z;
-							if (zz >= 0 && zz < WorldSize.zChunks) {
+							if (zz >= 0 && zz < WorldSize.getZChunks(chunkProvider)) {
 								eligibleChunksForSpawning.add(new ChunkCoordIntPair(xx, zz));
 							}
 						}

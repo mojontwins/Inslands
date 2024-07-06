@@ -78,7 +78,7 @@ public class LoadingScreenRenderer implements IProgressUpdate {
 				GL11.glTranslatef(0.0F, 0.0F, -200.0F);
 				GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 				Tessellator tessellator7 = Tessellator.instance;
-				int i8 = this.mc.renderEngine.getTexture("/gui/background.png");
+				int i8 = this.mc.renderEngine.getTexture("/misc/water.png");
 				GL11.glBindTexture(GL11.GL_TEXTURE_2D, i8);
 				float f9 = 32.0F;
 				tessellator7.startDrawingQuads();

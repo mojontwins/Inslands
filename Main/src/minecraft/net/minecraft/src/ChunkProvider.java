@@ -23,17 +23,26 @@ public class ChunkProvider implements IChunkProvider {
 		this.chunkCache = new Chunk[WorldSize.getTotalChunks()];		
 	}
 	
+	public IChunkProvider getChunkProviderGenerate() {
+		return this.chunkProvider;
+	}
+	
 	private Chunk getBlankChunk() {
-		return Chunk.makeBlank(this.worldObj);
+		return this.chunkProvider.makeBlank(this.worldObj);
+	}
+	
+	// Shouldn't be needed
+	public Chunk makeBlank(World world) {
+		return this.chunkProvider.makeBlank(this.worldObj);
 	}
 
 	public boolean chunkExists(int xChunk, int zChunk) {
-		if(xChunk < 0 || zChunk < 0 || xChunk >= WorldSize.xChunks || zChunk >= WorldSize.zChunks) return true;
+		if(xChunk < 0 || zChunk < 0 || xChunk >= WorldSize.getXChunks(this.chunkProvider) || zChunk >= WorldSize.getZChunks(this.chunkProvider)) return true;
 		return this.chunkCache[WorldSize.coords2hash(xChunk, zChunk)] != null;
 	}
 
 	public Chunk prepareChunk(int xChunk, int zChunk) {
-		if(xChunk < 0 || xChunk >= WorldSize.xChunks || zChunk < 0 || zChunk >= WorldSize.zChunks) {
+		if(xChunk < 0 || xChunk >= WorldSize.getXChunks(this.chunkProvider) || zChunk < 0 || zChunk >= WorldSize.getZChunks(this.chunkProvider)) {
 			return this.blankChunk;
 		} else {
 			int hash = WorldSize.coords2hash(xChunk, zChunk);
@@ -109,7 +118,7 @@ public class ChunkProvider implements IChunkProvider {
 	}
 
 	public Chunk provideChunk(int x, int z) { 
-		if(x < 0 || x >= WorldSize.xChunks || z < 0 || z >= WorldSize.zChunks) {
+		if(x < 0 || x >= WorldSize.getXChunks(this.chunkProvider) || z < 0 || z >= WorldSize.getZChunks(this.chunkProvider)) {
 			return this.blankChunk;
 		} else {
 			Chunk chunk = this.chunkCache[WorldSize.coords2hash(x, z)];
@@ -118,7 +127,7 @@ public class ChunkProvider implements IChunkProvider {
 	}
 	
 	public Chunk justGenerateForHeight(int chunkX, int chunkZ) {
-		if(chunkX >= 0 && chunkX < WorldSize.xChunks && chunkZ >= 0 && chunkZ < WorldSize.zChunks) {
+		if(chunkX >= 0 && chunkX < WorldSize.getXChunks(this.chunkProvider) && chunkZ >= 0 && chunkZ < WorldSize.getZChunks(this.chunkProvider)) {
 			return this.chunkProvider.justGenerateForHeight(chunkX, chunkZ);
 		} else {
 			return this.blankChunk;

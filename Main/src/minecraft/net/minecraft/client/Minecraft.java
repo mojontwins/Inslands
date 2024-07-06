@@ -1330,7 +1330,9 @@ public abstract class Minecraft implements Runnable {
 		this.thePlayer.isDead = false;
 		double d1 = this.thePlayer.posX;
 		double d3 = this.thePlayer.posZ;
-		double d5 = 8.0D;
+		
+		double d5 = (WorldSize.xChunks >= 16 && WorldSize.zChunks >= 16) ? 2.0D : 1.0D;
+		
 		World world7;
 		if(this.thePlayer.dimension == -1) {
 			d1 /= d5;
