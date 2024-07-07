@@ -588,7 +588,6 @@ public class StarlightEngine {
 	public final void initBlockLight(final int chunkX, final int chunkZ, boolean forcePerBiome) {
 		this.setupCaches(this.world, (chunkX << 4) | 7, 64, (chunkZ << 4) | 7, true);
 		try {
-			System.out.println ("IS  NETER? " + this.world.worldProvider.isNether);
 			if (this.world.worldProvider.isNether || forcePerBiome) {
 				final Chunk chunk = this.getChunkInCache(chunkX, chunkZ);
 				if(chunk != null) {

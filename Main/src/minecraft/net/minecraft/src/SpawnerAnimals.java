@@ -19,13 +19,18 @@ public final class SpawnerAnimals {
 	}
 
 	public static final int performSpawning(World world, boolean flag1, boolean flag2) {
-		IChunkProvider chunkProvider = world.getChunkProvider().getChunkProviderGenerate();
-		
 		if(!flag1 && !flag2) {
 			return 0;
 		} else {
 			eligibleChunksForSpawning.clear();
 
+			IChunkProvider chunkProvider = world.getChunkProvider().getChunkProviderGenerate();
+			
+			int minXChunk = WorldSize.getXChunkMinForReal(chunkProvider);
+			int maxXChunk = WorldSize.getXChunkMaxForReal(chunkProvider);
+			int minZChunk = WorldSize.getZChunkMinForReal(chunkProvider);
+			int maxZChunk = WorldSize.getZChunkMinForReal(chunkProvider);
+			
 			int totalSpawned;
 			
 			for(int i = 0; i < world.playerEntities.size(); ++i) {
@@ -33,14 +38,14 @@ public final class SpawnerAnimals {
 				int x0 = MathHelper.floor_double(entityPlayer4.posX / 16.0D);
 				int z0 = MathHelper.floor_double(entityPlayer4.posZ / 16.0D);
 				byte radius = 8;
-
+	
 				int xx, zz;
 				for(int x = -radius; x <= radius; ++x) {
 					xx = x0 + x;
-					if(xx >= 0 && xx < WorldSize.getXChunks(chunkProvider)) {
+					if(xx >= minXChunk && xx < maxXChunk) {
 						for(int z = -radius; z <= radius; ++z) {
 							zz = z0 + z;
-							if (zz >= 0 && zz < WorldSize.getZChunks(chunkProvider)) {
+							if (zz >= minZChunk && zz < maxZChunk) {
 								eligibleChunksForSpawning.add(new ChunkCoordIntPair(xx, zz));
 							}
 						}

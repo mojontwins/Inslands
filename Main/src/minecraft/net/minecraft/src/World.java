@@ -108,7 +108,7 @@ public class World implements IBlockAccess {
 		this.lightningFlash = 0;
 		this.editingBlocks = false;
 		this.lockTimestamp = System.currentTimeMillis();
-		this.autosavePeriod = 40;
+		this.autosavePeriod = Config.AUTOSAVE_PERIOD;;
 		this.rand = new Random();
 		this.isNewWorld = false;
 		this.worldAccesses = new ArrayList<IWorldAccess>();
@@ -150,7 +150,7 @@ public class World implements IBlockAccess {
 		this.lightningFlash = 0;
 		this.editingBlocks = false;
 		this.lockTimestamp = System.currentTimeMillis();
-		this.autosavePeriod = 40;
+		this.autosavePeriod = Config.AUTOSAVE_PERIOD;;
 		this.rand = new Random();
 		this.isNewWorld = false;
 		this.worldAccesses = new ArrayList<IWorldAccess>();
@@ -204,7 +204,7 @@ public class World implements IBlockAccess {
 		this.lightningFlash = 0;
 		this.editingBlocks = false;
 		this.lockTimestamp = System.currentTimeMillis();
-		this.autosavePeriod = 40;
+		this.autosavePeriod = Config.AUTOSAVE_PERIOD;
 		this.rand = new Random();
 		this.isNewWorld = false;
 		this.worldAccesses = new ArrayList<IWorldAccess>();

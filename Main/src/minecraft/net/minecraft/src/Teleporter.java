@@ -12,86 +12,99 @@ public class Teleporter {
 		}
 	}
 
-	public boolean findExitLocation(World world1, Entity entity2) {
-		short s3 = 128;
-		double d4 = -1.0D;
-		int i6 = 0;
-		int i7 = 0;
-		int i8 = 0;
-		int i9 = MathHelper.floor_double(entity2.posX);
-		int i10 = MathHelper.floor_double(entity2.posZ);
+	public boolean findExitLocation(World world, Entity entity) {
+		IChunkProvider chunkProvider = world.getChunkProvider().getChunkProviderGenerate();
+		short searchRange = 128;
+		double distance = -1.0D;
+		int x = 0;
+		int y = 0;
+		int z = 0;
 
-		double d18;
-		for(int i11 = i9 - s3; i11 <= i9 + s3; ++i11) {
-			double d12 = (double)i11 + 0.5D - entity2.posX;
+		int x0 = MathHelper.floor_double(entity.posX);
+		int z0 = MathHelper.floor_double(entity.posZ);
 
-			for(int i14 = i10 - s3; i14 <= i10 + s3; ++i14) {
-				double d15 = (double)i14 + 0.5D - entity2.posZ;
+		double posYi;
+		for(int xI = x0 - searchRange; xI <= x0 + searchRange; ++xI) {
+			if(xI < WorldSize.getXChunkMinForRealBlocks(chunkProvider) || xI >= WorldSize.getXChunkMaxForRealBlocks(chunkProvider)) continue;
+			double posXi = (double)xI + 0.5D - entity.posX;
 
-				for(int i17 = 127; i17 >= 0; --i17) {
-					if(world1.getBlockId(i11, i17, i14) == Block.portal.blockID) {
-						while(world1.getBlockId(i11, i17 - 1, i14) == Block.portal.blockID) {
-							--i17;
+			for(int zI = z0 - searchRange; zI <= z0 + searchRange; ++zI) {
+				if(zI < WorldSize.getZChunkMinForRealBlocks(chunkProvider) || zI >= WorldSize.getZChunkMaxForRealBlocks(chunkProvider)) continue;
+				double posZi = (double)zI + 0.5D - entity.posZ;
+
+				for(int yI = 127; yI >= 0; --yI) {
+					if(world.getBlockId(xI, yI, zI) == Block.portal.blockID) {
+						while(world.getBlockId(xI, yI - 1, zI) == Block.portal.blockID) {
+							--yI;
 						}
 
-						d18 = (double)i17 + 0.5D - entity2.posY;
-						double d20 = d12 * d12 + d18 * d18 + d15 * d15;
-						if(d4 < 0.0D || d20 < d4) {
-							d4 = d20;
-							i6 = i11;
-							i7 = i17;
-							i8 = i14;
+						posYi = (double)yI + 0.5D - entity.posY;
+						double curDistance = posXi * posXi + posYi * posYi + posZi * posZi;
+						if(distance < 0.0D || curDistance < distance) {
+							distance = curDistance;
+							x = xI;
+							y = yI;
+							z = zI;
 						}
 					}
 				}
 			}
 		}
 
-		if(d4 >= 0.0D) {
-			double d22 = (double)i6 + 0.5D;
-			double d16 = (double)i7 + 0.5D;
-			d18 = (double)i8 + 0.5D;
-			if(world1.getBlockId(i6 - 1, i7, i8) == Block.portal.blockID) {
-				d22 -= 0.5D;
+		if(distance >= 0.0D) {
+			double xPos = (double)x + 0.5D;
+			double yPos = (double)y + 0.5D;
+			double zPos = (double)z + 0.5D;
+			if(world.getBlockId(x - 1, y, z) == Block.portal.blockID) {
+				xPos -= 0.5D;
 			}
 
-			if(world1.getBlockId(i6 + 1, i7, i8) == Block.portal.blockID) {
-				d22 += 0.5D;
+			if(world.getBlockId(x + 1, y, z) == Block.portal.blockID) {
+				xPos += 0.5D;
 			}
 
-			if(world1.getBlockId(i6, i7, i8 - 1) == Block.portal.blockID) {
-				d18 -= 0.5D;
+			if(world.getBlockId(x, y, z - 1) == Block.portal.blockID) {
+				zPos -= 0.5D;
 			}
 
-			if(world1.getBlockId(i6, i7, i8 + 1) == Block.portal.blockID) {
-				d18 += 0.5D;
+			if(world.getBlockId(x, y, z + 1) == Block.portal.blockID) {
+				zPos += 0.5D;
 			}
 
-			entity2.setLocationAndAngles(d22, d16, d18, entity2.rotationYaw, 0.0F);
-			entity2.motionX = entity2.motionY = entity2.motionZ = 0.0D;
+			entity.setLocationAndAngles(xPos, yPos, zPos, entity.rotationYaw, 0.0F);
+			entity.motionX = entity.motionY = entity.motionZ = 0.0D;
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	public boolean createExitLocation(World world1, Entity entity2) {
-		byte b3 = 16;
-		double d4 = -1.0D;
-		int i6 = MathHelper.floor_double(entity2.posX);
-		int i7 = MathHelper.floor_double(entity2.posY);
-		int i8 = MathHelper.floor_double(entity2.posZ);
-		int i9 = i6;
-		int i10 = i7;
-		int i11 = i8;
+	public boolean createExitLocation(World world, Entity entity) {
+		System.out.println ("Creating exit location");
+
+		IChunkProvider chunkProvider = world.getChunkProvider().getChunkProviderGenerate();
+		System.out.println ("Chunk provider is " + chunkProvider.makeString() + 
+				", WorldSize real limits are (" + WorldSize.getXChunkMinForRealBlocks(chunkProvider) + ", " + WorldSize.getZChunkMinForRealBlocks(chunkProvider) + ") to " +
+				"(" + WorldSize.getXChunkMaxForRealBlocks(chunkProvider) + ", " + WorldSize.getZChunkMaxForRealBlocks(chunkProvider) + ")");
+		
+		byte range = 16;
+		double distance = -1.0D;
+		int x0 = MathHelper.floor_double(entity.posX);
+		int y0 = MathHelper.floor_double(entity.posY);
+		int z0 = MathHelper.floor_double(entity.posZ);
+
+		int x = x0;
+		int y = y0;
+		int z = z0;
+		
 		int i12 = 0;
 		int i13 = this.rand.nextInt(4);
 
-		int i14;
-		double d15;
-		int i17;
-		double d18;
-		int i20;
+		int xI;
+		double posXI;
+		int zI;
+		double posZI;
+		int yI;
 		int i21;
 		int i22;
 		int i23;
@@ -100,21 +113,50 @@ public class Teleporter {
 		int i26;
 		int i27;
 		int i28;
-		double d32;
-		double d33;
-		for(i14 = i6 - b3; i14 <= i6 + b3; ++i14) {
-			d15 = (double)i14 + 0.5D - entity2.posX;
+		double posYI;
+		double curDistance;
 
-			for(i17 = i8 - b3; i17 <= i8 + b3; ++i17) {
-				d18 = (double)i17 + 0.5D - entity2.posZ;
+		// New for limited levels: Make sure the search range fits in the level!
+		int x1 = x0 - range; 
+		int x2 = x0 + range;
+		if(x1 < WorldSize.getXChunkMinForRealBlocks(chunkProvider)) {
+			x1 = WorldSize.getXChunkMinForRealBlocks(chunkProvider);
+			x2 = x1 + 2 * range;
+		} else if(x2 >= WorldSize.getXChunkMaxForRealBlocks(chunkProvider)) {
+			x2 = WorldSize.getXChunkMaxForRealBlocks(chunkProvider) - 1;
+			x1 = x2 - 2 * range;
+		}
+
+		int z1 = z0 - range;
+		int z2 = z0 + range;
+		if(z1 < WorldSize.getZChunkMinForRealBlocks(chunkProvider)) {
+			z1 = WorldSize.getZChunkMinForRealBlocks(chunkProvider);
+			z2 = z1 + 2 * range;
+		} else if(z2 >= WorldSize.getZChunkMaxForRealBlocks(chunkProvider)) {
+			z2 = WorldSize.getZChunkMaxForRealBlocks(chunkProvider) - 1;
+			z1 = z2 - 2 * range;
+		}
+
+		System.out.println ("Search range is XZ (" + x1 + ", " + z1 + ") to (" + x2 + ", " + z2 + ")");
+		
+		for(xI = x1; xI <= x2; ++xI) {
+			posXI = (double)xI + 0.5D - entity.posX;
+
+			for(zI = z1; zI <= z2; ++zI) {
+				posZI = (double)zI + 0.5D - entity.posZ;
 
 				label293:
-				for(i20 = 127; i20 >= 0; --i20) {
-					if(world1.isAirBlock(i14, i20, i17)) {
-						while(i20 > 0 && world1.isAirBlock(i14, i20 - 1, i17)) {
-							--i20;
+				for(yI = 127; yI >= 0; --yI) {
+					
+					// Found air?
+					if(world.isAirBlock(xI, yI, zI)) {
+						
+						// Down until floor
+						while(yI > 0 && world.isAirBlock(xI, yI - 1, zI)) {
+							--yI;
 						}
 
+						// Find somewhere to fit the portal
 						for(i21 = i13; i21 < i13 + 4; ++i21) {
 							i22 = i21 % 2;
 							i23 = 1 - i22;
@@ -126,23 +168,23 @@ public class Teleporter {
 							for(i24 = 0; i24 < 3; ++i24) {
 								for(i25 = 0; i25 < 4; ++i25) {
 									for(i26 = -1; i26 < 4; ++i26) {
-										i27 = i14 + (i25 - 1) * i22 + i24 * i23;
-										i28 = i20 + i26;
-										int i29 = i17 + (i25 - 1) * i23 - i24 * i22;
-										if(i26 < 0 && !world1.getBlockMaterial(i27, i28, i29).isSolid() || i26 >= 0 && !world1.isAirBlock(i27, i28, i29)) {
+										i27 = xI + (i25 - 1) * i22 + i24 * i23;
+										i28 = yI + i26;
+										int i29 = zI + (i25 - 1) * i23 - i24 * i22;
+										if(i26 < 0 && !world.getBlockMaterial(i27, i28, i29).isSolid() || i26 >= 0 && !world.isAirBlock(i27, i28, i29)) {
 											continue label293;
 										}
 									}
 								}
 							}
 
-							d32 = (double)i20 + 0.5D - entity2.posY;
-							d33 = d15 * d15 + d32 * d32 + d18 * d18;
-							if(d4 < 0.0D || d33 < d4) {
-								d4 = d33;
-								i9 = i14;
-								i10 = i20;
-								i11 = i17;
+							posYI = (double)yI + 0.5D - entity.posY;
+							curDistance = posXI * posXI + posYI * posYI + posZI * posZI;
+							if(distance < 0.0D || curDistance < distance) {
+								distance = curDistance;
+								x = xI;
+								y = yI;
+								z = zI;
 								i12 = i21 % 4;
 							}
 						}
@@ -151,18 +193,18 @@ public class Teleporter {
 			}
 		}
 
-		if(d4 < 0.0D) {
-			for(i14 = i6 - b3; i14 <= i6 + b3; ++i14) {
-				d15 = (double)i14 + 0.5D - entity2.posX;
+		if(distance < 0.0D) {
+			for(xI = x1; xI <= x2; ++xI) {
+				posXI = (double)xI + 0.5D - entity.posX;
 
-				for(i17 = i8 - b3; i17 <= i8 + b3; ++i17) {
-					d18 = (double)i17 + 0.5D - entity2.posZ;
+				for(zI = z1; zI <= z2; ++zI) {
+					posZI = (double)zI + 0.5D - entity.posZ;
 
 					label231:
-					for(i20 = 127; i20 >= 0; --i20) {
-						if(world1.isAirBlock(i14, i20, i17)) {
-							while(world1.isAirBlock(i14, i20 - 1, i17)) {
-								--i20;
+					for(yI = 127; yI >= 0; --yI) {
+						if(world.isAirBlock(xI, yI, zI)) {
+							while(world.isAirBlock(xI, yI - 1, zI)) {
+								--yI;
 							}
 
 							for(i21 = i13; i21 < i13 + 2; ++i21) {
@@ -171,22 +213,22 @@ public class Teleporter {
 
 								for(i24 = 0; i24 < 4; ++i24) {
 									for(i25 = -1; i25 < 4; ++i25) {
-										i26 = i14 + (i24 - 1) * i22;
-										i27 = i20 + i25;
-										i28 = i17 + (i24 - 1) * i23;
-										if(i25 < 0 && !world1.getBlockMaterial(i26, i27, i28).isSolid() || i25 >= 0 && !world1.isAirBlock(i26, i27, i28)) {
+										i26 = xI + (i24 - 1) * i22;
+										i27 = yI + i25;
+										i28 = zI + (i24 - 1) * i23;
+										if(i25 < 0 && !world.getBlockMaterial(i26, i27, i28).isSolid() || i25 >= 0 && !world.isAirBlock(i26, i27, i28)) {
 											continue label231;
 										}
 									}
 								}
 
-								d32 = (double)i20 + 0.5D - entity2.posY;
-								d33 = d15 * d15 + d32 * d32 + d18 * d18;
-								if(d4 < 0.0D || d33 < d4) {
-									d4 = d33;
-									i9 = i14;
-									i10 = i20;
-									i11 = i17;
+								posYI = (double)yI + 0.5D - entity.posY;
+								curDistance = posXI * posXI + posYI * posYI + posZI * posZI;
+								if(distance < 0.0D || curDistance < distance) {
+									distance = curDistance;
+									x = xI;
+									y = yI;
+									z = zI;
 									i12 = i21 % 2;
 								}
 							}
@@ -196,9 +238,11 @@ public class Teleporter {
 			}
 		}
 
-		int i30 = i9;
-		int i16 = i10;
-		i17 = i11;
+		System.out.println ("Drawing portal in world");
+
+		int i30 = x;
+		int i16 = y;
+		zI = z;
 		int i31 = i12 % 2;
 		int i19 = 1 - i31;
 		if(i12 % 4 >= 2) {
@@ -207,51 +251,51 @@ public class Teleporter {
 		}
 
 		boolean z34;
-		if(d4 < 0.0D) {
-			if(i10 < 70) {
-				i10 = 70;
+		if(distance < 0.0D) {
+			if(y < 70) {
+				y = 70;
 			}
 
-			if(i10 > 118) {
-				i10 = 118;
+			if(y > 118) {
+				y = 118;
 			}
 
-			i16 = i10;
+			i16 = y;
 
-			for(i20 = -1; i20 <= 1; ++i20) {
+			for(yI = -1; yI <= 1; ++yI) {
 				for(i21 = 1; i21 < 3; ++i21) {
 					for(i22 = -1; i22 < 3; ++i22) {
-						i23 = i30 + (i21 - 1) * i31 + i20 * i19;
+						i23 = i30 + (i21 - 1) * i31 + yI * i19;
 						i24 = i16 + i22;
-						i25 = i17 + (i21 - 1) * i19 - i20 * i31;
+						i25 = zI + (i21 - 1) * i19 - yI * i31;
 						z34 = i22 < 0;
-						world1.setBlockWithNotify(i23, i24, i25, z34 ? Block.obsidian.blockID : 0);
+						world.setBlockWithNotify(i23, i24, i25, z34 ? Block.obsidian.blockID : 0);
 					}
 				}
 			}
 		}
 
-		for(i20 = 0; i20 < 4; ++i20) {
-			world1.editingBlocks = true;
+		for(yI = 0; yI < 4; ++yI) {
+			world.editingBlocks = true;
 
 			for(i21 = 0; i21 < 4; ++i21) {
 				for(i22 = -1; i22 < 4; ++i22) {
 					i23 = i30 + (i21 - 1) * i31;
 					i24 = i16 + i22;
-					i25 = i17 + (i21 - 1) * i19;
+					i25 = zI + (i21 - 1) * i19;
 					z34 = i21 == 0 || i21 == 3 || i22 == -1 || i22 == 3;
-					world1.setBlockWithNotify(i23, i24, i25, z34 ? Block.obsidian.blockID : Block.portal.blockID);
+					world.setBlockWithNotify(i23, i24, i25, z34 ? Block.obsidian.blockID : Block.portal.blockID);
 				}
 			}
 
-			world1.editingBlocks = false;
+			world.editingBlocks = false;
 
 			for(i21 = 0; i21 < 4; ++i21) {
 				for(i22 = -1; i22 < 4; ++i22) {
 					i23 = i30 + (i21 - 1) * i31;
 					i24 = i16 + i22;
-					i25 = i17 + (i21 - 1) * i19;
-					world1.notifyBlocksOfNeighborChange(i23, i24, i25, world1.getBlockId(i23, i24, i25));
+					i25 = zI + (i21 - 1) * i19;
+					world.notifyBlocksOfNeighborChange(i23, i24, i25, world.getBlockId(i23, i24, i25));
 				}
 			}
 		}

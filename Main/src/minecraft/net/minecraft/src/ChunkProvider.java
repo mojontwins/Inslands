@@ -12,6 +12,7 @@ public class ChunkProvider implements IChunkProvider {
 	private boolean populateDebug = false;
 	
 	// Modified, simplified version for finite worlds by na_th_an
+	// "simplified", that's what I thought XD
 
 	private Chunk[] chunkCache;
 	

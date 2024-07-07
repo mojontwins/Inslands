@@ -34,6 +34,7 @@ public class Config {
 	public static final Integer DEF_CHUNKS_LIMIT = 25;
 	public static final Integer DEF_UPDATES_PER_FRAME = 3;
 	public static final Boolean DEF_DYNAMIC_UPDATES = false;
+	public static final int AUTOSAVE_PERIOD = 20 * 300;
 
 	private static String getVersion() {
 		return "OptiFine_1.7.3_HD_G";

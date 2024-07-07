@@ -197,6 +197,12 @@ Yay! fps boosted on shitty systems!
 
 	Also Starlight is NOT running when creating the nether, but it does when reloading the world.
 	
+	So new approach: 
+
+	* [X] add `getMinXChunk/getMaxXChunk` methods and apply where necessary - i.e. when spawning animals.
+	* [X] Change the nether chunk provider generate to generate actual bedrock filled chunks for `X < SizeX/4` and `X >= 3*SizeX/4`. (for the small size, just generate 1 chunk wide border)	  
+
+	COOL. Now the nether spawns correctly but there's no lights still. Need to check why is this.
 
 	* [ ] Nether should be somewhat themed. Good look on thinking on "paradise nether" features :-D 
 

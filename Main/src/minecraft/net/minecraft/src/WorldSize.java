@@ -21,11 +21,62 @@ public class WorldSize {
 	}
 	
 	public static int getXChunks(IChunkProvider chunkProvider) {
-		return (chunkProvider instanceof ChunkProviderHell) && (WorldSize.xChunks >= 16 && WorldSize.zChunks >= 16) ? xChunks / 2 : xChunks;
+		return xChunks;
 	}
 	
 	public static int getZChunks(IChunkProvider chunkProvider) {
-		return (chunkProvider instanceof ChunkProviderHell) && (WorldSize.xChunks >= 16 && WorldSize.zChunks >= 16) ? zChunks / 2 : zChunks;
+		return zChunks;
+	}
+	
+	public static int getXChunkMinForReal(IChunkProvider chunkProvider) {
+		if(chunkProvider instanceof ChunkProviderHell) {
+			if(WorldSize.xChunks < 16 || WorldSize.zChunks < 16) return 1;
+			return WorldSize.xChunks / 4;
+		} else return 0;
+	}
+	
+	public static int getXChunkMinForRealBlocks(IChunkProvider chunkProvider) {
+		return getXChunkMinForReal(chunkProvider) << 4;
+	}
+	
+	public static int getZChunkMinForReal(IChunkProvider chunkProvider) {
+		if(chunkProvider instanceof ChunkProviderHell) {
+			if(WorldSize.xChunks < 16 || WorldSize.zChunks < 16) return 1;
+			return WorldSize.zChunks / 4;
+		} else return 0;
+	}
+
+	public static int getZChunkMinForRealBlocks(IChunkProvider chunkProvider) {
+		return getZChunkMinForReal(chunkProvider) << 4;
+	}
+	
+	public static int getXChunkMaxForReal(IChunkProvider chunkProvider) {
+		if(chunkProvider instanceof ChunkProviderHell) {
+			if(WorldSize.xChunks < 16 || WorldSize.zChunks < 16) return xChunks - 1;
+			return 3 * WorldSize.xChunks / 4;
+		} else return xChunks;
+	}
+	
+	public static int getXChunkMaxForRealBlocks(IChunkProvider chunkProvider) {
+		return getXChunkMaxForReal(chunkProvider) << 4;
+	}
+	
+	public static int getZChunkMaxForReal(IChunkProvider chunkProvider) {
+		if(chunkProvider instanceof ChunkProviderHell) {
+			if(WorldSize.xChunks < 16 || WorldSize.zChunks < 16) return zChunks - 1;
+			return 3 * WorldSize.xChunks / 4;
+		} else return zChunks;
+	}
+
+	public static int getZChunkMaxForRealBlocks(IChunkProvider chunkProvider) {
+		return getZChunkMaxForReal(chunkProvider) << 4;
+	}
+	
+	public static boolean inRange(IChunkProvider chunkProvider, int chunkX, int chunkZ) {
+		return chunkX >= WorldSize.getXChunkMinForReal(chunkProvider) &&
+				chunkZ >= WorldSize.getZChunkMinForReal(chunkProvider) &&
+				chunkX < WorldSize.getXChunkMaxForReal(chunkProvider) &&
+				chunkZ < WorldSize.getZChunkMaxForReal(chunkProvider);
 	}
 	
 	public static int coords2hash(int x, int z) {

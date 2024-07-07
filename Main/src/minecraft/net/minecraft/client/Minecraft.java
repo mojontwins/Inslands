@@ -1331,12 +1331,23 @@ public abstract class Minecraft implements Runnable {
 		double d1 = this.thePlayer.posX;
 		double d3 = this.thePlayer.posZ;
 		
-		double d5 = (WorldSize.xChunks >= 16 && WorldSize.zChunks >= 16) ? 2.0D : 1.0D;
+		//double d5 = (WorldSize.xChunks >= 16 && WorldSize.zChunks >= 16) ? 2.0D : 1.0D;
 		
 		World world7;
 		if(this.thePlayer.dimension == -1) {
+			if(WorldSize.xChunks >= 16 && WorldSize.zChunks >= 16) {
+				d1 = WorldSize.xChunks / 4 + d1 / 2;
+				d3 = WorldSize.zChunks / 4 + d3 / 2;
+			} else {
+				if(d1 == 0) d1 = 0;
+				if(d1 == WorldSize.xChunks - 1) d1 --;
+				if(d3 == 0) d3 = 0;
+				if(d3 == WorldSize.zChunks - 1) d3 --;
+			}
+			/*
 			d1 /= d5;
 			d3 /= d5;
+			*/
 			this.thePlayer.setLocationAndAngles(d1, this.thePlayer.posY, d3, this.thePlayer.rotationYaw, this.thePlayer.rotationPitch);
 			if(this.thePlayer.isEntityAlive()) {
 				this.theWorld.updateEntityWithOptionalForce(this.thePlayer, false);
@@ -1344,10 +1355,17 @@ public abstract class Minecraft implements Runnable {
 
 			world7 = null;
 			world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(-1));
+			this.preloadWorld(world7, "Entering the Nether", false);
 			this.changeWorld(world7, "Entering the Nether", this.thePlayer);
 		} else {
+			if(WorldSize.xChunks >= 16 && WorldSize.zChunks >= 16) {
+				d1 = (d1 - WorldSize.xChunks / 4) * 2;
+				d3 = (d3 - WorldSize.zChunks / 4) * 2;
+			} 
+			/*
 			d1 *= d5;
 			d3 *= d5;
+			*/
 			this.thePlayer.setLocationAndAngles(d1, this.thePlayer.posY, d3, this.thePlayer.rotationYaw, this.thePlayer.rotationPitch);
 			if(this.thePlayer.isEntityAlive()) {
 				this.theWorld.updateEntityWithOptionalForce(this.thePlayer, false);
@@ -1355,16 +1373,21 @@ public abstract class Minecraft implements Runnable {
 
 			world7 = null;
 			world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(0)); 
+			this.preloadWorld(world7, "Leaving the Nether", fullscreen);
 			this.changeWorld(world7, "Leaving the Nether", this.thePlayer);
 		}
 
 		this.thePlayer.worldObj = this.theWorld;
 		if(this.thePlayer.isEntityAlive()) {
+			System.out.println("Setting location and angles " + d1 + " " + d3);
 			this.thePlayer.setLocationAndAngles(d1, this.thePlayer.posY, d3, this.thePlayer.rotationYaw, this.thePlayer.rotationPitch);
+			System.out.println("Updating entity player");
 			this.theWorld.updateEntityWithOptionalForce(this.thePlayer, false);
+			System.out.println("Setting exit location in teleporter");
 			(new Teleporter()).setExitLocation(this.theWorld, this.thePlayer);
 		}
-
+		
+		System.out.println("Finished usePortal");
 	}
 
 	public void changeWorld(World world1) {
@@ -1385,6 +1408,7 @@ public abstract class Minecraft implements Runnable {
 
 		// If there is a current world, save it before proceeding
 		if(this.theWorld != null) {
+			System.out.println("Saving");
 			this.theWorld.saveWorldIndirectly(this.loadingScreen);
 		}
 
@@ -1414,6 +1438,7 @@ public abstract class Minecraft implements Runnable {
 			// I've moved this to startWorld!
 
 			if(this.thePlayer == null) {
+				System.out.println("(RE)Creating player");
 				this.thePlayer = (EntityPlayerSP)this.playerController.createPlayer(world);
 				this.thePlayer.preparePlayerToSpawn();
 				this.thePlayer.isCreative = this.gameSettings.isCreative;
@@ -1438,6 +1463,7 @@ public abstract class Minecraft implements Runnable {
 
 			world.spawnPlayerWithLoadedChunks(this.thePlayer);
 			if(world.isNewWorld) {
+				System.out.println("Saving NEW world");
 				world.saveWorldIndirectly(this.loadingScreen);
 			}
 
@@ -1448,6 +1474,7 @@ public abstract class Minecraft implements Runnable {
 
 		System.gc();
 		this.systemTime = 0L;
+		System.out.println("World changed");
 	}
 
 	private void converMapToMCRegion(String string1, String string2) {
@@ -1458,6 +1485,7 @@ public abstract class Minecraft implements Runnable {
 	}
 
 	private void preloadWorld(World world, String string1, boolean isNew) {
+		System.out.println ("Preload World");
 		this.loadingScreen.printText(string1);
 		this.loadingScreen.displayLoadingString(isNew ? "Building terrain" : "Loading terrain");
 
