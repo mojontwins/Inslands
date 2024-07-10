@@ -549,6 +549,25 @@ public abstract class StructureComponent {
 
 	}
 	
+	protected void fillWithBlocksNoClipVert(World world, StructureBoundingBox structureBoundingBox, int x1, int y1, int z1, int x2, int y2, int z2, int blockID1, int blockID2, boolean z11) {
+		
+		for(int y = y1; y <= y2; ++y) {
+			if(this.getYWithOffset(y) > 127) break;
+			for(int x = x1; x <= x2; ++x) {
+				for(int z = z1; z <= z2; ++z) {
+					if(!z11 || this.getBlockIdAtCurrentPositionNoVertClip(world, x, y, z, structureBoundingBox) != 0) {
+						if(y != y1 && y != y2 && x != x1 && x != x2 && z != z1 && z != z2) {
+							this.placeBlockAtCurrentPositionNoVertClip(world, blockID2, 0, x, y, z, structureBoundingBox);
+						} else {
+							this.placeBlockAtCurrentPositionNoVertClip(world, blockID1, 0, x, y, z, structureBoundingBox);
+						}
+					}
+				}
+			}
+		}
+
+	}
+	
 	protected void fillWithBlocksIfRock(World world, StructureBoundingBox structureBoundingBox, int x1, int y1, int z1, int x2, int y2, int z2, int blockID1, int blockID2, boolean z11) {
 		for(int y = y1; y <= y2; ++y) {
 			for(int x = x1; x <= x2; ++x) {

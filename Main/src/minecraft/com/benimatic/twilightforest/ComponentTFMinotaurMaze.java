@@ -5,8 +5,10 @@ import java.util.Random;
 
 import com.mojang.minecraft.structure.StructureBoundingBox;
 import com.mojang.minecraft.structure.StructureComponent;
+import com.mojontwins.minecraft.feature.FeatureAABB;
 
 import net.minecraft.src.Block;
+import net.minecraft.src.GlobalVars;
 import net.minecraft.src.World;
 
 public class ComponentTFMinotaurMaze extends StructureTFComponent {
@@ -19,6 +21,16 @@ public class ComponentTFMinotaurMaze extends StructureTFComponent {
 		super(var1);
 		this.setCoordBaseMode(0);
 		this.level = var7;
+
+		GlobalVars.minoshroomMazeBB = new FeatureAABB(
+				var2 - this.getRadius(),
+				0,
+				var4 - this.getRadius(),
+				var2 + this.getRadius(),
+				127,
+				var4 + this.getRadius()
+			);
+		
 		this.boundingBox = StructureTFComponent.getComponentToAddBoundingBox(var2, var3, var4, -this.getRadius(), 0,
 				-this.getRadius(), this.getRadius() * 2, 5, this.getRadius() * 2, 0);
 		this.maze = new TFMazeNew(this.getMazeSize(), this.getMazeSize());

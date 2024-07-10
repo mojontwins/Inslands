@@ -170,7 +170,7 @@ public class GuiCreateWorld extends GuiScreen {
 				
 				if(this.worldType == -1) this.worldType = WorldType.INFDEV.id;
 				
-				LevelThemeGlobalSettings.levelChecks = !this.levelChecks;
+				LevelThemeGlobalSettings.levelChecks = this.levelChecks;
 				WorldType.worldTypes[this.worldType].onGUICreateWorldPress();
 				this.mc.playerController = new PlayerControllerSP(this.mc);
 				LevelThemeGlobalSettings.loadThemeById(this.themeId);

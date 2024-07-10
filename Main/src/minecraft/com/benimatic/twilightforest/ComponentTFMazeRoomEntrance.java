@@ -37,8 +37,8 @@ public class ComponentTFMazeRoomEntrance extends StructureTFComponent {
 	 * Spawners, it closes Mineshafts at the end, it adds Fences...
 	 */
 	public boolean addComponentParts(World var1, Random var2, StructureBoundingBox var3, boolean mostlySolid) {
-		this.fillWithBlocks(var1, var3, 0, -10, 0, 5, 30, 5, Block.stoneBricks.blockID, 0, true);
-		this.fillWithBlocks(var1, var3, 1, -10, 1, 4, 30, 4, 0, 0, true);
+		this.fillWithBlocks(var1, var3, 0, -10, 0, 5, 64, 5, Block.stoneBricks.blockID, 0, true);
+		this.fillWithBlocks(var1, var3, 1, -10, 1, 4, 64, 4, 0, 0, true);
 		return true;
 	}
 }

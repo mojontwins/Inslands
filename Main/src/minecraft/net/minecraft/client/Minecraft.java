@@ -1285,6 +1285,7 @@ public abstract class Minecraft implements Runnable {
 			
 			World world = null;
 			
+			boolean valid = true;
 			do {
 				GlobalVars.initializeGameFlags();
 				
@@ -1292,18 +1293,23 @@ public abstract class Minecraft implements Runnable {
 				boolean isNew = world.isNewWorld; System.out.println ("New World? " + isNew);
 				this.preloadWorld(world, "Generating Level", isNew);
 				
-				if(isNew && (world.findingSpawnPoint || !world.levelIsValidUponWorldTheme())) {
-					System.out.println("World not valid - trying again!");
-					Random rand = new Random(worldSettings.getSeed());
-					worldSettings = new WorldSettings(
-						rand.nextLong(), 
-						worldSettings.getGameType(),
-						worldSettings.isMapFeaturesEnabled(), 
-						worldSettings.getHardcoreEnabled(), 
-						worldSettings.isGenerateCities(),
-						worldSettings.getTerrainType());
+				if(isNew) {
+					valid = world.levelIsValidUponWorldTheme();
+					if(world.findingSpawnPoint || !valid) {
+						System.out.println("World not valid [ Found spawn point? " + world.findingSpawnPoint + 
+								", Valid upon theme? " + valid + 
+								" ] - trying again!");
+						Random rand = new Random(worldSettings.getSeed());
+						worldSettings = new WorldSettings(
+							rand.nextLong(), 
+							worldSettings.getGameType(),
+							worldSettings.isMapFeaturesEnabled(), 
+							worldSettings.getHardcoreEnabled(), 
+							worldSettings.isGenerateCities(),
+							worldSettings.getTerrainType());
+					}
 				}
-			} while(world.findingSpawnPoint || !world.levelIsValidUponWorldTheme());
+			} while(world.findingSpawnPoint || !valid);
 				
 			if(world.isNewWorld) {
 				this.statFileWriter.readStat(StatList.createWorldStat, 1);

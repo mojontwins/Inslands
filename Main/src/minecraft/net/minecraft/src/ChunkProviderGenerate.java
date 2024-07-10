@@ -2,7 +2,6 @@ package net.minecraft.src;
 
 import java.util.Random;
 
-import com.benimatic.twilightforest.MapGenTFHedgeMaze;
 import com.benimatic.twilightforest.MapGenTFMinotaurMaze;
 import com.mojang.minecraft.structure.mineshaft.MapGenMineshaft;
 import com.mojang.minecraft.structure.stronghold.MapGenStronghold;
@@ -31,7 +30,7 @@ public class ChunkProviderGenerate implements IChunkProvider {
 	protected MapGenMineshaft mineshaftGenerator;
 	protected MapGenStronghold strongholdGenerator;
 	protected MapGenTFMinotaurMaze minotaurMazeGenerator;
-	protected MapGenTFHedgeMaze hedgeMazeGenerator;
+
 	protected BiomeGenBase[] biomesForGeneration;
 	double[] mainArray;
 	double[] minLimitArray;
@@ -72,7 +71,6 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		this.mineshaftGenerator = new MapGenMineshaft(world);
 		this.strongholdGenerator = new MapGenStronghold(world);
 		this.minotaurMazeGenerator = new MapGenTFMinotaurMaze(world);
-		this.hedgeMazeGenerator = new MapGenTFHedgeMaze(world);
 		
 	}
 	
@@ -312,7 +310,6 @@ public class ChunkProviderGenerate implements IChunkProvider {
 			this.mineshaftGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
 			this.strongholdGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
 			this.minotaurMazeGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
-			this.hedgeMazeGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
 		}		
 
 		// Ravines
@@ -659,7 +656,6 @@ public class ChunkProviderGenerate implements IChunkProvider {
 			this.mineshaftGenerator.generateStructuresInChunk(this.worldObj, this.rand, chunkX, chunkZ, false);
 			this.strongholdGenerator.generateStructuresInChunk(this.worldObj, this.rand, chunkX, chunkZ, true);
 			this.minotaurMazeGenerator.generateStructuresInChunk(this.worldObj, this.rand, chunkX, chunkZ, this.worldObj.worldProvider instanceof WorldProviderSky);
-			this.hedgeMazeGenerator.generateStructuresInChunk(this.worldObj, this.rand, chunkX, chunkZ, this.worldObj.worldProvider instanceof WorldProviderSky);
 		}
 	}
 	
@@ -904,15 +900,15 @@ public class ChunkProviderGenerate implements IChunkProvider {
 					blockBeneath.blockMaterial.getIsSolid() && 
 					blockBeneath.blockMaterial != Material.ice
 				) {
-					if(blockBeneath.isOpaqueCube()) {
+					if(blockBeneath.isOpaqueCube() || blockBeneath.blockID == Block.leaves.blockID) {
 						Block block = Block.blocksList[this.worldObj.getBlockId(x, y, z)];
 						if(block != null) {
 							if (block.getRenderType() == 111) {
 								this.worldObj.setBlockMetadata(x, y, z, (this.worldObj.getBlockMetadata(x, y, z) & 0xf0) | rand.nextInt(5));
 							}
 						} else {
-					this.worldObj.setBlockAndMetadata(x, y, z, Block.snow.blockID, rand.nextInt(5) + 1);
-				}
+							this.worldObj.setBlockAndMetadata(x, y, z, Block.snow.blockID, rand.nextInt(5) + 1);
+						}
 					} else if(blockBeneath.blockID == Block.layeredSand.blockID) {
 						this.worldObj.setBlockAndMetadata(x, y - 1, z, Block.layeredSand.blockID, this.worldObj.getBlockMetadata(x, y - 1, z));
 					}

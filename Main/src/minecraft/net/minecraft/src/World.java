@@ -642,6 +642,18 @@ public class World implements IBlockAccess {
 	public boolean canBlockSeeTheSky(int i1, int i2, int i3) {
 		return this.getChunkFromChunkCoords(i1 >> 4, i3 >> 4).canBlockSeeTheSky(i1 & 15, i2, i3 & 15);
 	}
+	
+	public boolean canBlockSeeTheSkyThruCanopy(int x, int y, int z) {
+		Chunk chunk = this.getChunkFromChunkCoords(x >> 4, z >> 4);
+		x = x & 15; z = z & 15;
+		
+		for(int yy = 127; yy > y; yy --) {
+			int blockID = chunk.getBlockID(x, yy, z);
+			if(Block.opaqueCubeLookup[blockID]) return false;
+		}
+
+		return true;
+	}
 
 	public int getFullBlockLightValue(int i1, int i2, int i3) {
 		if(i2 < 0) {
@@ -3307,6 +3319,7 @@ public class World implements IBlockAccess {
 	}
 
 	public boolean levelIsValidUponWorldTheme() {
+		System.out.println ("levelIsValidUponWorldTheme, isNewWorld?" + this.isNewWorld + ", do checks?" + LevelThemeGlobalSettings.levelChecks);
 		if(this.isNewWorld && LevelThemeGlobalSettings.levelChecks) {	
 			// World theme based invalidations ahead!
 			
@@ -3320,9 +3333,11 @@ public class World implements IBlockAccess {
 				if(this.worldInfo.getTerrainType() != WorldType.SKY) {
 					// a) A minotaur maze which main body is under y = 64, for island terrain.
 					if(!GlobalVars.hasCorrectMinoshroomMaze) return false;
+					// b) 1 hedge maze 
+					if(GlobalVars.numHedgeMazes == 0) return false;
 				} else {
 					// b) At least one maze, for floating islands
-					if(!GlobalVars.hasUnderHillMaze) return false;
+					if(GlobalVars.numUnderHillMazes == 0) return false;
 				}
 			}
 		}
