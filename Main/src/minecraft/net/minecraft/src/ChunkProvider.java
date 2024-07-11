@@ -48,7 +48,7 @@ public class ChunkProvider implements IChunkProvider {
 		} else {
 			int hash = WorldSize.coords2hash(xChunk, zChunk);
 			Chunk chunk = this.chunkCache[hash];
-			
+			boolean generated = false;
 			if(chunk == null) {
 				chunk = this.loadChunkFromFile(xChunk, zChunk);
 				
@@ -58,6 +58,7 @@ public class ChunkProvider implements IChunkProvider {
 					} else {
 						if(this.debug) System.out.println ("PROVIDING " + xChunk + " " + zChunk);
 						chunk = this.chunkProvider.provideChunk(xChunk, zChunk);
+						generated = true;
 					}
 				} else if(this.debug) System.out.println ("LOADED " + xChunk + " " + zChunk);
 	
@@ -65,7 +66,7 @@ public class ChunkProvider implements IChunkProvider {
 				
 				if(chunk != null) {
 					chunk.onChunkLoad();
-					chunk.initLightingForRealNotJustHeightmap();
+					if(generated) chunk.initLightingForRealNotJustHeightmap();
 				}
 	
 				if(
