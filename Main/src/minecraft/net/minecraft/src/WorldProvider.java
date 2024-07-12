@@ -175,7 +175,7 @@ public abstract class WorldProvider {
 		return false;
 	}
 
-	public int[] updateLightmap(EntityPlayerSP thePlayer, float gammaSetting) {
+	public int[] updateLightmap(EntityPlayer thePlayer, float gammaSetting) {
 		int[] lightmapColors = new int[256];
 		
 		World world1 = this.worldObj;

@@ -112,11 +112,11 @@ public class TFMaze {
 					int mdz = dz + z / 2 * (this.evenBias + this.oddBias);
 					int i;
 					if(this.isEven(x) && this.isEven(z)) {
-						/*
+						
 						if(this.type == 4 && this.shouldTree(x, z)) {
 							(new TFGenCanopyTree()).generate(world, this.rand, mdx, dy, mdz);
 						} else 
-						*/{
+						{
 							for(i = 0; i < this.tall; ++i) {
 								this.putWallBlock(world, mdx, dy + i, mdz);
 							}

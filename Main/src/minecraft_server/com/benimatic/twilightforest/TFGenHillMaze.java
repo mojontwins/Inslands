@@ -5,7 +5,6 @@ import java.util.Random;
 import net.minecraft.src.Block;
 import net.minecraft.src.EntityPainting;
 import net.minecraft.src.EnumArt;
-import net.minecraft.src.GlobalVars;
 import net.minecraft.src.TileEntityMobSpawner;
 import net.minecraft.src.World;
 
@@ -67,7 +66,6 @@ public class TFGenHillMaze extends TFGenerator {
 		this.decorate3x3Rooms(rcoords);
 		
 		System.out.println ("Hill maze @ " + x + " " + y + " " + z);
-		GlobalVars.hasUnderHillMaze = true;
 		
 		return true;
 	}

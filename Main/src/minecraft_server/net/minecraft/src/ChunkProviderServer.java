@@ -226,4 +226,14 @@ public class ChunkProviderServer implements IChunkProvider {
 	public Chunk justGenerateForHeight(int i, int j) {
 		return this.serverChunkGenerator.justGenerateForHeight(i, i);
 	}
+
+	@Override
+	public IChunkProvider getChunkProviderGenerate() {
+		return serverChunkGenerator;
+	}
+
+	@Override
+	public Chunk makeBlank(World worldObj) {
+		return this.serverChunkGenerator.makeBlank(worldObj);
+	}
 }

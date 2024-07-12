@@ -15,6 +15,7 @@ import ca.spottedleaf.starlight.StarlightEngine;
 
 public class World implements IBlockAccess {
 	private static final int blocksToTickPerFrame = 80;
+	private static final int AUTOSAVE_PERIOD = 20 * 300;
 		
 	public boolean scheduledUpdatesAreImmediate;
 	
@@ -108,7 +109,7 @@ public class World implements IBlockAccess {
 		this.lightningFlash = 0;
 		this.editingBlocks = false;
 		this.lockTimestamp = System.currentTimeMillis();
-		this.autosavePeriod = Config.AUTOSAVE_PERIOD;;
+		this.autosavePeriod = AUTOSAVE_PERIOD;
 		this.rand = new Random();
 		this.isNewWorld = false;
 		this.worldAccesses = new ArrayList<IWorldAccess>();
@@ -150,7 +151,7 @@ public class World implements IBlockAccess {
 		this.lightningFlash = 0;
 		this.editingBlocks = false;
 		this.lockTimestamp = System.currentTimeMillis();
-		this.autosavePeriod = Config.AUTOSAVE_PERIOD;;
+		this.autosavePeriod = AUTOSAVE_PERIOD;
 		this.rand = new Random();
 		this.isNewWorld = false;
 		this.worldAccesses = new ArrayList<IWorldAccess>();
@@ -204,7 +205,7 @@ public class World implements IBlockAccess {
 		this.lightningFlash = 0;
 		this.editingBlocks = false;
 		this.lockTimestamp = System.currentTimeMillis();
-		this.autosavePeriod = Config.AUTOSAVE_PERIOD;
+		this.autosavePeriod = AUTOSAVE_PERIOD;
 		this.rand = new Random();
 		this.isNewWorld = false;
 		this.worldAccesses = new ArrayList<IWorldAccess>();

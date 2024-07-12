@@ -51,7 +51,7 @@ public class BlockLeaves extends BlockLeavesBase {
 	}
 	
 	public boolean isOpaqueCube() {
-		return !this.graphicsLevel;
+		return false;
 	}
 
 	public void setGraphicsLevel(boolean flag) {

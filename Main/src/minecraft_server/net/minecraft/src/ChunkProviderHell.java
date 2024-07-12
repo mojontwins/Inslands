@@ -35,6 +35,10 @@ public class ChunkProviderHell implements IChunkProvider {
 		this.noiseGen5 = new NoiseGeneratorOctaves(this.rand, 10);
 		this.noiseGen6 = new NoiseGeneratorOctaves(this.rand, 16);
 	}
+	
+	public IChunkProvider getChunkProviderGenerate() {
+		return this;
+	}
 
 	public void generateTerrain(int chunkX, int chunkZ, byte[] blocks) {
 		double noiseScale = 0.125D;
@@ -188,16 +192,32 @@ public class ChunkProviderHell implements IChunkProvider {
 		// Empty block array & new Chunk
 		byte[] blockArray = new byte[32768];
 		byte[] metadata = new byte[32768];
-		Chunk chunk = new Chunk(this.worldObj, blockArray, metadata, chunkX, chunkZ);
-
-		// Generate terrain for this chunk
-		this.generateTerrain(chunkX, chunkZ, blockArray);
 		
-		// Replace blocks
-		this.replaceBlocksForBiome(chunkX, chunkZ, blockArray);
-
-		// Generate caves
-		this.caveGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
+		Chunk chunk = new Chunk(this.worldObj, blockArray, metadata, chunkX, chunkZ);
+		
+		if(WorldSize.inRange(this, chunkX, chunkZ)) {
+			// Generate terrain for this chunk
+			this.generateTerrain(chunkX, chunkZ, blockArray);
+			
+			// Replace blocks
+			this.replaceBlocksForBiome(chunkX, chunkZ, blockArray);
+	
+			// Generate caves
+			this.caveGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
+		} else {
+			// Fill with fancy bedrock
+			for(int x = 0; x < 16; x ++) {
+				for(int z = 0; z < 16; z ++) {
+					int index = x << 11 | z << 7;
+					for(int y = 0; y < 128; y ++) {
+						byte blockID = (byte)(((x < 3 || x > 12 || z < 3 || z > 12) && rand.nextBoolean()) ? 0 : Block.bedrock.blockID);
+						blockArray[index ++] =  blockID;
+					}
+				}
+			}
+			
+			chunk.isTerrainPopulated = true;
+		}
 
 		// Done
 		return chunk;	
@@ -401,5 +421,13 @@ public class ChunkProviderHell implements IChunkProvider {
 
 	public String makeString() {
 		return "HellRandomLevelSource";
+	}
+	
+	public Chunk makeBlank(World world) {
+		Chunk chunk = new Chunk(world, new byte[32768], new byte[32768], 0, 0);
+		chunk.neverSave = true;
+		chunk.isTerrainPopulated = true;
+		
+		return chunk;
 	}
 }

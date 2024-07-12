@@ -11,6 +11,7 @@ import com.benimatic.twilightforest.EntityTwilightDeer;
 import com.benimatic.twilightforest.TFGenCanopyMushroom;
 import com.benimatic.twilightforest.TFGenCanopyTree;
 import com.benimatic.twilightforest.TFGenFoundation;
+import com.benimatic.twilightforest.TFGenHedgeMaze;
 import com.benimatic.twilightforest.TFGenHillMaze;
 import com.benimatic.twilightforest.TFGenMonolith;
 import com.benimatic.twilightforest.TFGenMyceliumBlob;
@@ -113,6 +114,37 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 		super.prePopulate(world, rand, x0, z0);
 		
 		int i, x, y, z;
+		int cx = x0 >> 4; 
+		int cz = z0 >> 4;
+		
+		// Attempt a hedge maze
+		byte border = 6;
+		if(cx > border && cz > border && cz < WorldSize.xChunks - border && cz < WorldSize.zChunks - border && rand.nextInt(WorldSize.xChunks * WorldSize.zChunks / 32) == 0) {
+			x = x0 + 8;
+			z = z0 + 8;
+			
+			// Mazes cover from x - 7 - 48 to (x - 7 - 48 + 48) = x - 7?!
+			int x1 = x - 7 - 48;
+			int x2 = x1 + 47;
+			int z1 = z - 7 - 48;
+			int z2 = z1 + 47;
+			
+			// Get land surface height for corners
+			int h1 = world.getLandSurfaceHeightValue(x1, z1);
+			int h2 = world.getLandSurfaceHeightValue(x1, z2);
+			int h3 = world.getLandSurfaceHeightValue(x2, z1);
+			int h4 = world.getLandSurfaceHeightValue(x2, z2);
+			
+			// Get min
+			y = h1;
+			if(h2 < y) y = h2;
+			if(h3 < y) y = h3;
+			if(h4 < y) y = h4;
+			
+			if((new TFGenHedgeMaze(3)).generate(world, rand, x, y+1, z)) {
+				GlobalVars.numHedgeMazes ++;
+			}
+		}
 		
 		if(rand.nextInt(3) == 0) {
 			x = x0 + rand.nextInt(16) + 8;
@@ -120,7 +152,7 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 			y = world.getLandSurfaceHeightValue(x, z) + 1;
 			TFGenerator tFGenerator22 = this.randomFeature(rand);
 			if(tFGenerator22.generate(world, rand, x, y, z)) {
-				System.out.println(tFGenerator22 + " success at " + x + ", " + y + ", " + z);
+				//System.out.println(tFGenerator22 + " success at " + x + ", " + y + ", " + z);
 			}
 		}
 		
@@ -178,12 +210,15 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 		int cz = chunkZ >> 4;
 		if(cx > 3 && cz > 3 && cz < WorldSize.xChunks - 3 && cz < WorldSize.zChunks - 3) {
 			if(world.worldProvider instanceof WorldProviderSky) {
-				x = chunkX + 7;
-				y = rand.nextInt(64) + 32;
-				z = chunkZ + 7;
-				if ((new TFGenHillMaze(2, true, 80)).generate(world, rand, x, y, z)) {
-					(new WorldGenMazeMarker(true)).generate(world, rand, x, y + 4, z);
-				};
+				if(rand.nextInt(WorldSize.xChunks * WorldSize.zChunks / 2) == 0) {
+					x = chunkX + 7;
+					y = rand.nextInt(64) + 32;
+					z = chunkZ + 7;
+					if ((new TFGenHillMaze(2, true, 80)).generate(world, rand, x, y, z)) {
+						(new WorldGenMazeMarker(true)).generate(world, rand, x, y + 4, z);
+						GlobalVars.numUnderHillMazes ++;
+					};
+				}
 			} else if(WorldSize.xChunks > 16) {
 				if(rand.nextInt(WorldSize.xChunks * WorldSize.zChunks / 4) == 0) {
 					x = chunkX + rand.nextInt(16) + 8;
@@ -191,8 +226,10 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 					z = chunkZ + rand.nextInt(16) + 8;
 					if ((new TFGenHillMaze(3, true, 90)).generate(world, rand, x, y, z)) {
 						(new WorldGenMazeMarker(false)).generate(world, rand, x, world.getLandSurfaceHeightValue(x, z), z);
+						GlobalVars.numUnderHillMazes ++;
 					}
 				}
+				
 			}
 		}
 	}

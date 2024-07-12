@@ -1,6 +1,8 @@
 package net.minecraft.src;
 
 public interface IChunkProvider {
+	public IChunkProvider getChunkProviderGenerate();
+	
 	boolean chunkExists(int i1, int i2);
 
 	Chunk provideChunk(int i1, int i2);
@@ -18,4 +20,6 @@ public interface IChunkProvider {
 	String makeString();
 
 	Chunk justGenerateForHeight(int i, int j);
+
+	public Chunk makeBlank(World worldObj);
 }
