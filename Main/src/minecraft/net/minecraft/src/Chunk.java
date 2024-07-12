@@ -284,8 +284,8 @@ public class Chunk {
 						this.relightBlock(x, y, z);
 					}
 				}
-				this.updateLight(x, y, z);
 			}
+			this.updateLight(x, y, z);
 
 			block = Block.blocksList[id];
 			if(block != null) {

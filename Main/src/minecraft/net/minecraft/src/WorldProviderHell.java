@@ -9,7 +9,7 @@ public class WorldProviderHell extends WorldProvider {
 		this.worldType = -1;
 	}
 
-	public Vec3D getFogColor(float f1, float f2, Entity entity1) {
+	public Vec3D getFogColor(float f1, float f2, Entity entity1, boolean blevis) {
 		return Vec3D.createVector((double)0.2F, (double)0.03F, (double)0.03F);
 	}
 

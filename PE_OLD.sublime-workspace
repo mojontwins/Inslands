@@ -520,6 +520,25 @@
 	"buffers":
 	[
 		{
+			"contents": "package net.minecraft.src;\n\nimport java.util.ArrayList;\nimport java.util.HashMap;\nimport java.util.Iterator;\nimport java.util.List;\nimport java.util.Map;\nimport java.util.Random;\n\npublic class Chunk {\n\tpublic static boolean isLit;\n\tpublic byte[] blocks;\n\tpublic boolean isChunkLoaded;\n\tpublic World worldObj;\n\tpublic NibbleArray data;\n\tpublic NibbleArray skylightMap;\n\tpublic NibbleArray blocklightMap;\n\tpublic byte[] heightMap;\n\tpublic int lowestBlockHeight;\n\tpublic final int xPosition;\n\tpublic final int zPosition;\n\tpublic Map chunkTileEntityMap;\n\tpublic List[] entities;\n\tpublic boolean isTerrainPopulated;\n\tpublic boolean isModified;\n\tpublic boolean neverSave;\n\tpublic boolean hasEntities;\n\tpublic long lastSaveTime;\n\n\tpublic Chunk(World world1, int i2, int i3) {\n\t\tthis.chunkTileEntityMap = new HashMap();\n\t\tthis.entities = new List[8];\n\t\tthis.isTerrainPopulated = false;\n\t\tthis.isModified = false;\n\t\tthis.hasEntities = false;\n\t\tthis.lastSaveTime = 0L;\n\t\tthis.worldObj = world1;\n\t\tthis.xPosition = i2;\n\t\tthis.zPosition = i3;\n\t\tthis.heightMap = new byte[256];\n\n\t\tfor(int i4 = 0; i4 < this.entities.length; ++i4) {\n\t\t\tthis.entities[i4] = new ArrayList();\n\t\t}\n\n\t}\n\n\tpublic Chunk(World world1, byte[] b2, int i3, int i4) {\n\t\tthis(world1, i3, i4);\n\t\tthis.blocks = b2;\n\t\tthis.data = new NibbleArray(b2.length);\n\t\tthis.skylightMap = new NibbleArray(b2.length);\n\t\tthis.blocklightMap = new NibbleArray(b2.length);\n\t}\n\n\tpublic boolean isAtLocation(int i1, int i2) {\n\t\treturn i1 == this.xPosition && i2 == this.zPosition;\n\t}\n\n\tpublic int getHeightValue(int i1, int i2) {\n\t\treturn this.heightMap[i2 << 4 | i1] & 255;\n\t}\n\n\tpublic void func_1014_a() {\n\t}\n\n\tpublic void generateHeightMap() {\n\t\tint i1 = 127;\n\n\t\tfor(int i2 = 0; i2 < 16; ++i2) {\n\t\t\tfor(int i3 = 0; i3 < 16; ++i3) {\n\t\t\t\tint i4 = 127;\n\n\t\t\t\tfor(int i5 = i2 << 11 | i3 << 7; i4 > 0 && Block.lightOpacity[this.blocks[i5 + i4 - 1] & 255] == 0; --i4) {\n\t\t\t\t}\n\n\t\t\t\tthis.heightMap[i3 << 4 | i2] = (byte)i4;\n\t\t\t\tif(i4 < i1) {\n\t\t\t\t\ti1 = i4;\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n\t\tthis.lowestBlockHeight = i1;\n\t\tthis.isModified = true;\n\t}\n\n\tpublic void func_1024_c() {\n\t\tint i1 = 127;\n\n\t\tint i2;\n\t\tint i3;\n\t\tfor(i2 = 0; i2 < 16; ++i2) {\n\t\t\tfor(i3 = 0; i3 < 16; ++i3) {\n\t\t\t\tint i4 = 127;\n\n\t\t\t\tint i5;\n\t\t\t\tfor(i5 = i2 << 11 | i3 << 7; i4 > 0 && Block.lightOpacity[this.blocks[i5 + i4 - 1] & 255] == 0; --i4) {\n\t\t\t\t}\n\n\t\t\t\tthis.heightMap[i3 << 4 | i2] = (byte)i4;\n\t\t\t\tif(i4 < i1) {\n\t\t\t\t\ti1 = i4;\n\t\t\t\t}\n\n\t\t\t\tif(!this.worldObj.worldProvider.hasNoSky) {\n\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n\n\t\tthis.isModified = true;\n\t}\n\n\tpublic void func_4143_d() {\n\t}\n\n\tprivate void func_1003_g(int i1, int i2, int i3) {\n\t\tint i4 = this.heightMap[i3 << 4 | i1] & 255;\n\t\tint i5 = i4;\n\t\tif(i2 > i4) {\n\t\t\ti5 = i2;\n\t\t}\n\n\t\tfor(int i6 = i1 << 11 | i3 << 7; i5 > 0 && Block.lightOpacity[this.blocks[i6 + i5 - 1] & 255] == 0; --i5) {\n\t\t}\n\n\t\tif(i5 != i4) {\n\t\t\tthis.worldObj.markBlocksDirtyVertical(i1, i3, i5, i4);\n\t\t\tthis.heightMap[i3 << 4 | i1] = (byte)i5;\n\t\t\tint i7;\n\t\t\tint i8;\n\t\t\tint i9;\n\t\t\tif(i5 < this.lowestBlockHeight) {\n\t\t\t\tthis.lowestBlockHeight = i5;\n\t\t\t} else {\n\t\t\t\ti7 = 127;\n\n\t\t\t\tfor(i8 = 0; i8 < 16; ++i8) {\n\t\t\t\t\tfor(i9 = 0; i9 < 16; ++i9) {\n\t\t\t\t\t\tif((this.heightMap[i9 << 4 | i8] & 255) < i7) {\n\t\t\t\t\t\t\ti7 = this.heightMap[i9 << 4 | i8] & 255;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tthis.lowestBlockHeight = i7;\n\t\t\t}\n\n\t\t\t\n\t\t\tthis.isModified = true;\n\t\t}\n\t}\n\n\tpublic int getBlockID(int i1, int i2, int i3) {\n\t\treturn this.blocks[i1 << 11 | i3 << 7 | i2] & 255;\n\t}\n\n\tpublic boolean setBlockIDWithMetadata(int i1, int i2, int i3, int i4, int i5) {\n\t\tbyte b6 = (byte)i4;\n\t\t\n\t\tint i7 = this.heightMap[i3 << 4 | i1] & 255;\n\t\tint i8 = this.blocks[i1 << 11 | i3 << 7 | i2] & 255;\n\t\tif(i8 == i4 && this.data.getNibble(i1, i2, i3) == i5) {\n\t\t\treturn false;\n\t\t} else {\n\t\t\tint i9 = this.xPosition * 16 + i1;\n\t\t\tint i10 = this.zPosition * 16 + i3;\n\t\t\tthis.blocks[i1 << 11 | i3 << 7 | i2] = (byte)(b6 & 255);\n\t\t\tif(i8 != 0 && !this.worldObj.multiplayerWorld) {\n\t\t\t\tBlock.blocksList[i8].onBlockRemoval(this.worldObj, i9, i2, i10);\n\t\t\t}\n\n\t\t\tthis.data.setNibble(i1, i2, i3, i5);\n\t\t\tif(!this.worldObj.worldProvider.hasNoSky) {\n\t\t\t\tif(Block.lightOpacity[b6 & 255] != 0) {\n\t\t\t\t\tif(i2 >= i7) {\n\t\t\t\t\t\tthis.func_1003_g(i1, i2 + 1, i3);\n\t\t\t\t\t}\n\t\t\t\t} else if(i2 == i7 - 1) {\n\t\t\t\t\tthis.func_1003_g(i1, i2, i3);\n\t\t\t\t}\n\n\t\t\t\t//this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, i9, i2, i10, i9, i2, i10);\n\t\t\t}\n\n\t\t\t//this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Block, i9, i2, i10, i9, i2, i10);\n\t\t\t//this.func_996_c(i1, i3);\n\t\t\tthis.updateLight(i1, i2, i3); // Canyon - starlight\n\t\t\t\n\t\t\tthis.data.setNibble(i1, i2, i3, i5);\n\t\t\tif(i4 != 0) {\n\t\t\t\tBlock.blocksList[i4].onBlockAdded(this.worldObj, i9, i2, i10);\n\t\t\t}\n\n\t\t\tthis.isModified = true;\n\t\t\treturn true;\n\t\t}\n\t}\n\n\tpublic boolean setBlockID(int i1, int i2, int i3, int i4) {\n\t\tbyte b5 = (byte)i4;\n\t\tint i6 = this.heightMap[i3 << 4 | i1] & 255;\n\t\tint i7 = this.blocks[i1 << 11 | i3 << 7 | i2] & 255;\n\t\tif(i7 == i4) {\n\t\t\treturn false;\n\t\t} else {\n\t\t\tint i8 = this.xPosition * 16 + i1;\n\t\t\tint i9 = this.zPosition * 16 + i3;\n\t\t\tthis.blocks[i1 << 11 | i3 << 7 | i2] = (byte)(b5 & 255);\n\t\t\tif(i7 != 0) {\n\t\t\t\tBlock.blocksList[i7].onBlockRemoval(this.worldObj, i8, i2, i9);\n\t\t\t}\n\n\t\t\tthis.data.setNibble(i1, i2, i3, 0);\n\t\t\tif(Block.lightOpacity[b5 & 255] != 0) {\n\t\t\t\tif(i2 >= i6) {\n\t\t\t\t\tthis.func_1003_g(i1, i2 + 1, i3);\n\t\t\t\t}\n\t\t\t} else if(i2 == i6 - 1) {\n\t\t\t\tthis.func_1003_g(i1, i2, i3);\n\t\t\t}\n\n\t\t\t//this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, i8, i2, i9, i8, i2, i9);\n\t\t\t//this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Block, i8, i2, i9, i8, i2, i9);\n\t\t\t//this.func_996_c(i1, i3);\n\t\t\tthis.updateLight(i1,  i2,  i3);\n\t\t\tif(i4 != 0 && !this.worldObj.multiplayerWorld) {\n\t\t\t\tBlock.blocksList[i4].onBlockAdded(this.worldObj, i8, i2, i9);\n\t\t\t}\n\n\t\t\tthis.isModified = true;\n\t\t\treturn true;\n\t\t}\n\t}\n\n\tpublic int getBlockMetadata(int i1, int i2, int i3) {\n\t\treturn this.data.getNibble(i1, i2, i3);\n\t}\n\n\tpublic void setBlockMetadata(int i1, int i2, int i3, int i4) {\n\t\tthis.isModified = true;\n\t\tthis.data.setNibble(i1, i2, i3, i4);\n\t}\n\n\tpublic int getSavedLightValue(EnumSkyBlock enumSkyBlock1, int i2, int i3, int i4) {\n\t\treturn enumSkyBlock1 == EnumSkyBlock.Sky ? this.skylightMap.getNibble(i2, i3, i4) : (enumSkyBlock1 == EnumSkyBlock.Block ? this.blocklightMap.getNibble(i2, i3, i4) : 0);\n\t}\n\n\tpublic void setLightValue(EnumSkyBlock enumSkyBlock1, int i2, int i3, int i4, int i5) {\n\t\tthis.isModified = true;\n\t\tif(enumSkyBlock1 == EnumSkyBlock.Sky) {\n\t\t\tthis.skylightMap.setNibble(i2, i3, i4, i5);\n\t\t} else {\n\t\t\tif(enumSkyBlock1 != EnumSkyBlock.Block) {\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tthis.blocklightMap.setNibble(i2, i3, i4, i5);\n\t\t}\n\n\t}\n\n\tpublic int getBlockLightValue(int i1, int i2, int i3, int i4) {\n\t\tint i5 = this.skylightMap.getNibble(i1, i2, i3);\n\t\tif(i5 > 0) {\n\t\t\tisLit = true;\n\t\t}\n\n\t\ti5 -= i4;\n\t\tint i6 = this.blocklightMap.getNibble(i1, i2, i3);\n\t\tif(i6 > i5) {\n\t\t\ti5 = i6;\n\t\t}\n\n\t\treturn i5;\n\t}\n\n\tpublic void addEntity(Entity entity1) {\n\t\tthis.hasEntities = true;\n\t\tint i2 = MathHelper.floor_double(entity1.posX / 16.0D);\n\t\tint i3 = MathHelper.floor_double(entity1.posZ / 16.0D);\n\t\tif(i2 != this.xPosition || i3 != this.zPosition) {\n\t\t\tSystem.out.println(\"Wrong location! \" + entity1);\n\t\t\tThread.dumpStack();\n\t\t}\n\n\t\tint i4 = MathHelper.floor_double(entity1.posY / 16.0D);\n\t\tif(i4 < 0) {\n\t\t\ti4 = 0;\n\t\t}\n\n\t\tif(i4 >= this.entities.length) {\n\t\t\ti4 = this.entities.length - 1;\n\t\t}\n\n\t\tentity1.addedToChunk = true;\n\t\tentity1.chunkCoordX = this.xPosition;\n\t\tentity1.chunkCoordY = i4;\n\t\tentity1.chunkCoordZ = this.zPosition;\n\t\tthis.entities[i4].add(entity1);\n\t}\n\n\tpublic void removeEntity(Entity entity1) {\n\t\tthis.removeEntityAtIndex(entity1, entity1.chunkCoordY);\n\t}\n\n\tpublic void removeEntityAtIndex(Entity entity1, int i2) {\n\t\tif(i2 < 0) {\n\t\t\ti2 = 0;\n\t\t}\n\n\t\tif(i2 >= this.entities.length) {\n\t\t\ti2 = this.entities.length - 1;\n\t\t}\n\n\t\tthis.entities[i2].remove(entity1);\n\t}\n\n\tpublic boolean canBlockSeeTheSky(int i1, int i2, int i3) {\n\t\treturn i2 >= (this.heightMap[i3 << 4 | i1] & 255);\n\t}\n\n\tpublic TileEntity getChunkBlockTileEntity(int i1, int i2, int i3) {\n\t\tChunkPosition chunkPosition4 = new ChunkPosition(i1, i2, i3);\n\t\tTileEntity tileEntity5 = (TileEntity)this.chunkTileEntityMap.get(chunkPosition4);\n\t\tif(tileEntity5 == null) {\n\t\t\tint i6 = this.getBlockID(i1, i2, i3);\n\t\t\tif(!Block.isBlockContainer[i6]) {\n\t\t\t\treturn null;\n\t\t\t}\n\n\t\t\tBlockContainer blockContainer7 = (BlockContainer)Block.blocksList[i6];\n\t\t\tblockContainer7.onBlockAdded(this.worldObj, this.xPosition * 16 + i1, i2, this.zPosition * 16 + i3);\n\t\t\ttileEntity5 = (TileEntity)this.chunkTileEntityMap.get(chunkPosition4);\n\t\t}\n\n\t\tif(tileEntity5 != null && tileEntity5.func_31006_g()) {\n\t\t\tthis.chunkTileEntityMap.remove(chunkPosition4);\n\t\t\treturn null;\n\t\t} else {\n\t\t\treturn tileEntity5;\n\t\t}\n\t}\n\n\tpublic void addTileEntity(TileEntity tileEntity1) {\n\t\tint i2 = tileEntity1.xCoord - this.xPosition * 16;\n\t\tint i3 = tileEntity1.yCoord;\n\t\tint i4 = tileEntity1.zCoord - this.zPosition * 16;\n\t\tthis.setChunkBlockTileEntity(i2, i3, i4, tileEntity1);\n\t\tif(this.isChunkLoaded) {\n\t\t\tthis.worldObj.loadedTileEntityList.add(tileEntity1);\n\t\t}\n\n\t}\n\n\tpublic void setChunkBlockTileEntity(int i1, int i2, int i3, TileEntity tileEntity4) {\n\t\tChunkPosition chunkPosition5 = new ChunkPosition(i1, i2, i3);\n\t\ttileEntity4.worldObj = this.worldObj;\n\t\ttileEntity4.xCoord = this.xPosition * 16 + i1;\n\t\ttileEntity4.yCoord = i2;\n\t\ttileEntity4.zCoord = this.zPosition * 16 + i3;\n\t\tif(this.getBlockID(i1, i2, i3) != 0 && Block.blocksList[this.getBlockID(i1, i2, i3)] instanceof BlockContainer) {\n\t\t\ttileEntity4.func_31004_j();\n\t\t\tthis.chunkTileEntityMap.put(chunkPosition5, tileEntity4);\n\t\t} else {\n\t\t\tSystem.out.println(\"Attempted to place a tile entity where there was no entity tile!\");\n\t\t}\n\t}\n\n\tpublic void removeChunkBlockTileEntity(int i1, int i2, int i3) {\n\t\tChunkPosition chunkPosition4 = new ChunkPosition(i1, i2, i3);\n\t\tif(this.isChunkLoaded) {\n\t\t\tTileEntity tileEntity5 = (TileEntity)this.chunkTileEntityMap.remove(chunkPosition4);\n\t\t\tif(tileEntity5 != null) {\n\t\t\t\ttileEntity5.func_31005_i();\n\t\t\t}\n\t\t}\n\n\t}\n\n\tpublic void onChunkLoad() {\n\t\tthis.isChunkLoaded = true;\n\t\tthis.worldObj.func_31054_a(this.chunkTileEntityMap.values());\n\n\t\tfor(int i1 = 0; i1 < this.entities.length; ++i1) {\n\t\t\tthis.worldObj.func_636_a(this.entities[i1]);\n\t\t}\n\n\t}\n\n\tpublic void onChunkUnload() {\n\t\tthis.isChunkLoaded = false;\n\t\tIterator iterator1 = this.chunkTileEntityMap.values().iterator();\n\n\t\twhile(iterator1.hasNext()) {\n\t\t\tTileEntity tileEntity2 = (TileEntity)iterator1.next();\n\t\t\ttileEntity2.func_31005_i();\n\t\t}\n\n\t\tfor(int i3 = 0; i3 < this.entities.length; ++i3) {\n\t\t\tthis.worldObj.func_632_b(this.entities[i3]);\n\t\t}\n\n\t}\n\n\tpublic void setChunkModified() {\n\t\tthis.isModified = true;\n\t}\n\n\tpublic void getEntitiesWithinAABBForEntity(Entity entity1, AxisAlignedBB axisAlignedBB2, List list3) {\n\t\tint i4 = MathHelper.floor_double((axisAlignedBB2.minY - 2.0D) / 16.0D);\n\t\tint i5 = MathHelper.floor_double((axisAlignedBB2.maxY + 2.0D) / 16.0D);\n\t\tif(i4 < 0) {\n\t\t\ti4 = 0;\n\t\t}\n\n\t\tif(i5 >= this.entities.length) {\n\t\t\ti5 = this.entities.length - 1;\n\t\t}\n\n\t\tfor(int i6 = i4; i6 <= i5; ++i6) {\n\t\t\tList list7 = this.entities[i6];\n\n\t\t\tfor(int i8 = 0; i8 < list7.size(); ++i8) {\n\t\t\t\tEntity entity9 = (Entity)list7.get(i8);\n\t\t\t\tif(entity9 != entity1 && entity9.boundingBox.intersectsWith(axisAlignedBB2)) {\n\t\t\t\t\tlist3.add(entity9);\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n\t}\n\n\tpublic void getEntitiesOfTypeWithinAAAB(Class class1, AxisAlignedBB axisAlignedBB2, List list3) {\n\t\tint i4 = MathHelper.floor_double((axisAlignedBB2.minY - 2.0D) / 16.0D);\n\t\tint i5 = MathHelper.floor_double((axisAlignedBB2.maxY + 2.0D) / 16.0D);\n\t\tif(i4 < 0) {\n\t\t\ti4 = 0;\n\t\t}\n\n\t\tif(i5 >= this.entities.length) {\n\t\t\ti5 = this.entities.length - 1;\n\t\t}\n\n\t\tfor(int i6 = i4; i6 <= i5; ++i6) {\n\t\t\tList list7 = this.entities[i6];\n\n\t\t\tfor(int i8 = 0; i8 < list7.size(); ++i8) {\n\t\t\t\tEntity entity9 = (Entity)list7.get(i8);\n\t\t\t\tif(class1.isAssignableFrom(entity9.getClass()) && entity9.boundingBox.intersectsWith(axisAlignedBB2)) {\n\t\t\t\t\tlist3.add(entity9);\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n\t}\n\n\tpublic boolean needsSaving(boolean z1) {\n\t\tif(this.neverSave) {\n\t\t\treturn false;\n\t\t} else {\n\t\t\tif(z1) {\n\t\t\t\tif(this.hasEntities && this.worldObj.getWorldTime() != this.lastSaveTime) {\n\t\t\t\t\treturn true;\n\t\t\t\t}\n\t\t\t} else if(this.hasEntities && this.worldObj.getWorldTime() >= this.lastSaveTime + 600L) {\n\t\t\t\treturn true;\n\t\t\t}\n\n\t\t\treturn this.isModified;\n\t\t}\n\t}\n\n\tpublic int setChunkData(byte[] b1, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {\n\t\tint i9;\n\t\tint i10;\n\t\tint i11;\n\t\tint i12;\n\t\tfor(i9 = i2; i9 < i5; ++i9) {\n\t\t\tfor(i10 = i4; i10 < i7; ++i10) {\n\t\t\t\ti11 = i9 << 11 | i10 << 7 | i3;\n\t\t\t\ti12 = i6 - i3;\n\t\t\t\tSystem.arraycopy(b1, i8, this.blocks, i11, i12);\n\t\t\t\ti8 += i12;\n\t\t\t}\n\t\t}\n\n\t\tthis.generateHeightMap();\n\n\t\tfor(i9 = i2; i9 < i5; ++i9) {\n\t\t\tfor(i10 = i4; i10 < i7; ++i10) {\n\t\t\t\ti11 = (i9 << 11 | i10 << 7 | i3) >> 1;\n\t\t\t\ti12 = (i6 - i3) / 2;\n\t\t\t\tSystem.arraycopy(b1, i8, this.data.data, i11, i12);\n\t\t\t\ti8 += i12;\n\t\t\t}\n\t\t}\n\n\t\tfor(i9 = i2; i9 < i5; ++i9) {\n\t\t\tfor(i10 = i4; i10 < i7; ++i10) {\n\t\t\t\ti11 = (i9 << 11 | i10 << 7 | i3) >> 1;\n\t\t\t\ti12 = (i6 - i3) / 2;\n\t\t\t\tSystem.arraycopy(b1, i8, this.blocklightMap.data, i11, i12);\n\t\t\t\ti8 += i12;\n\t\t\t}\n\t\t}\n\n\t\tfor(i9 = i2; i9 < i5; ++i9) {\n\t\t\tfor(i10 = i4; i10 < i7; ++i10) {\n\t\t\t\ti11 = (i9 << 11 | i10 << 7 | i3) >> 1;\n\t\t\t\ti12 = (i6 - i3) / 2;\n\t\t\t\tSystem.arraycopy(b1, i8, this.skylightMap.data, i11, i12);\n\t\t\t\ti8 += i12;\n\t\t\t}\n\t\t}\n\n\t\treturn i8;\n\t}\n\n\tpublic Random func_997_a(long j1) {\n\t\treturn new Random(this.worldObj.getRandomSeed() + (long)(this.xPosition * this.xPosition * 4987142) + (long)(this.xPosition * 5947611) + (long)(this.zPosition * this.zPosition) * 4392871L + (long)(this.zPosition * 389711) ^ j1);\n\t}\n\n\tpublic boolean func_21167_h() {\n\t\treturn false;\n\t}\n\n\tpublic void func_25124_i() {\n\t\tChunkBlockMap.func_26002_a(this.blocks);\n\t}\n\t\n    // Canyon start - starlight\n    public void initLightingForRealNotJustHeightmap() {\n        this.worldObj.blockLight.initBlockLight(this.xPosition, this.zPosition, false);\n\n        if (!this.worldObj.worldProvider.isNether) { // isHell\n            this.worldObj.skyLight.initSkylight(this.xPosition, this.zPosition);\n        }\n    }\n\n    public void updateLight(int localX, int worldY, int localZ) {\n        int worldX = localX | (this.xPosition << 4);\n        int worldZ = localZ | (this.zPosition << 4);\n\n        this.worldObj.blockLight.checkBlockEmittance(worldX, worldY, worldZ);\n        if (!this.worldObj.worldProvider.isNether) {\n            this.worldObj.skyLight.checkSkyEmittance(worldX, worldY, worldZ);\n        }\n    }\n    // Canyon end - starlight\n\n}\n",
+			"file": "Test-deleteme/src/minecraft/net/minecraft/src/Chunk.java",
+			"file_size": 15161,
+			"file_write_time": 133652457115716764,
+			"settings":
+			{
+				"buffer_size": 14611,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "\tpublic boolean setBlockIDWithMetadata(int x, int y, int z, int blockID, int metadata) {\n\t\tbyte b6 = (byte)blockID;\n\t\t\n\t\tint height = this.heightMap[z << 4 | x] & 255;\n\t\tint existingID = this.blocks[x << 11 | z << 7 | y] & 255;\n\t\tif(existingID == blockID && this.data.getNibble(x, y, z) == metadata) {\n\t\t\treturn false;\n\t\t} else {\n\t\t\tint absX = this.xPosition * 16 + x;\n\t\t\tint absZ = this.zPosition * 16 + z;\n\n\t\t\tthis.blocks[x << 11 | z << 7 | y] = (byte)(b6 & 255);\n\n\t\t\tif(existingID != 0 && !this.worldObj.multiplayerWorld) {\n\t\t\t\tBlock.blocksList[existingID].onBlockRemoval(this.worldObj, absX, y, absZ);\n\t\t\t}\n\n\t\t\tthis.data.setNibble(x, y, z, metadata);\n\t\t\t\n\t\t\tif(!this.worldObj.worldProvider.hasNoSky) {\n\t\t\t\tif(Block.lightOpacity[b6 & 255] != 0) {\n\t\t\t\t\tif(y >= height) {\n\t\t\t\t\t\tthis.func_1003_g(x, y + 1, z);\n\t\t\t\t\t}\n\t\t\t\t} else if(y == height - 1) {\n\t\t\t\t\tthis.func_1003_g(x, y, z);\n\t\t\t\t}\n\n\t\t\t\t//this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, absX, y, absZ, absX, y, absZ);\n\t\t\t}\n\n\t\t\t//this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Block, absX, y, absZ, absX, y, absZ);\n\t\t\t//this.func_996_c(x, z);\n\t\t\tthis.updateLight(x, y, z); // Canyon - starlight\n\t\t\t\n\t\t\tthis.data.setNibble(x, y, z, metadata);\n\t\t\tif(blockID != 0) {\n\t\t\t\tBlock.blocksList[blockID].onBlockAdded(this.worldObj, absX, y, absZ);\n\t\t\t}\n\n\t\t\tthis.isModified = true;\n\t\t\treturn true;\n\t\t}\n\t}",
+			"settings":
+			{
+				"buffer_size": 1358,
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "README.md",
 			"settings":
 			{
@@ -614,6 +633,7 @@
 	"expanded_folders":
 	[
 		"/D/Cosas/Inslands",
+		"/D/Cosas/Inslands/Test-deleteme",
 		"/D/Cosas/Inslands/web",
 		"/D/Cosas/Inslands/web/img"
 	],
@@ -769,6 +789,15 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"x0",
+			"i9",
+			"i8",
+			"i7",
+			"i5",
+			"i4",
+			"i3",
+			"i2",
+			"i1",
 			"twilightMushroom",
 			"PlayerBase",
 			"updatePlayerActionState",
@@ -886,6 +915,15 @@
 		"regex": false,
 		"replace_history":
 		[
+			"absZ",
+			"absX",
+			"existingID",
+			"height",
+			"metadata",
+			"blockID",
+			"z",
+			"y",
+			"x",
 			"zz",
 			"yy",
 			"xx",
@@ -990,8 +1028,66 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "Test-deleteme/src/minecraft/net/minecraft/src/Chunk.java",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 14611,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4716,
+								3437
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2067.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1358,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								658,
+								658
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		},
 		{
@@ -999,7 +1095,7 @@
 			"sheets":
 			[
 				{
-					"buffer": 0,
+					"buffer": 2,
 					"file": "README.md",
 					"semi_transient": false,
 					"settings":
@@ -1021,10 +1117,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3178.0,
+						"translation.y": 2216.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -1076,7 +1172,7 @@
 	"project": "PE_OLD.sublime-project",
 	"replace":
 	{
-		"height": 44.0
+		"height": 94.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1110,7 +1206,7 @@
 		],
 		"width": 510.0
 	},
-	"selected_group": 1,
+	"selected_group": 0,
 	"settings":
 	{
 	},
@@ -1118,7 +1214,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 176.0,
+	"side_bar_width": 277.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
