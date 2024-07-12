@@ -174,4 +174,132 @@ public abstract class WorldProvider {
 	public boolean func_28112_c() {
 		return false;
 	}
+
+	public int[] updateLightmap(EntityPlayerSP thePlayer, float gammaSetting) {
+		int[] lightmapColors = new int[256];
+		
+		World world1 = this.worldObj;
+		float sb = world1.getSunBrightness(1.0F);
+		
+		if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.paradise.id) {
+			// Bluish & lighter
+			for(int i2 = 0; i2 < 256; ++i2) {
+				float f3 = sb * 0.95F + 0.05F;
+				float f4 = world1.worldProvider.lightBrightnessTable[i2 / 16] * f3;
+				float f5 = world1.worldProvider.lightBrightnessTable[i2 % 16];
+				if(world1.lightningFlash > 0) {
+					f4 = world1.worldProvider.lightBrightnessTable[i2 / 16];
+				}
+
+				float f6 = f4 * (sb * 0.55F + 0.45F);
+				float rg = f4 + f5;
+				float b = f6 + f5;
+				
+				rg = rg * 0.96F + 0.03F;
+				b = b * 0.9F + 0.1F;
+				b = b * 1.1F;
+
+				if(world1.worldProvider.worldType == 1) {
+					b = rg = 0.22F + f5 * 0.75F;
+				}
+
+				// Set up night vision with code somewhat stolen from r1.5.2!
+				if(thePlayer.divingHelmetOn() && thePlayer.isInsideOfMaterial(Material.water)) {
+					float nVB = 0.5F;					
+					float fNV = 1.0F / rg;					
+					b = rg = rg * (1.0F - nVB) + rg * fNV * nVB;
+				}
+				
+				if(rg > 1.0F) {
+					rg = 1.0F;
+				}
+				if (b > 1.0F) {
+					b = 1.0F;
+				}
+		
+				float f15 = gammaSetting - 0.2F;
+				float f16 = 1.0F - rg;
+		
+				f16 = 1.0F - f16 * f16 * f16 * f16;				
+				rg = rg * (1.0F - f15) + f16 * f15;
+				rg = rg * 0.96F + 0.03F;
+				
+				b = b * (1.0F - f15) + f16 * f15;
+				b = b * 0.9F + 0.1F;
+
+				if(rg > 1.0F) {
+					rg = 1.0F;
+				}
+
+				if(rg < 0.0F) {
+					rg = 0.0F;
+				}
+				
+				if(b > 1.0F) {
+					b = 1.0F;
+				}
+				
+				if (b < 0.0F) {
+					b = 0.0F;
+				}
+
+				short s19 = 255;
+				int i20 = (int)(rg * 255.0F);
+				int i21 = (int)(b * 255.0F);
+				lightmapColors[i2] = s19 << 24 | i20 << 16 | i20 << 8 | i21;
+			}
+		} else {
+			
+			for(int i2 = 0; i2 < 256; ++i2) {
+				float f3 = sb * 0.95F + 0.05F;
+				float f4 = world1.worldProvider.lightBrightnessTable[i2 / 16] * f3;
+				float f5 = world1.worldProvider.lightBrightnessTable[i2 % 16]/* * (this.torchFlickerX * 0.1F + 1.5F)*/;
+				if(world1.lightningFlash > 0) {
+					f4 = world1.worldProvider.lightBrightnessTable[i2 / 16];
+				}
+
+				float f6 = f4 * (sb * 0.65F + 0.35F);
+				float f12 = f6 + f5;
+
+				f12 = f12 * 0.96F + 0.03F;
+
+				if(world1.worldProvider.worldType == 1) {
+					f12 = 0.22F + f5 * 0.75F;
+				}
+
+				// Set up night vision with code somewhat stolen from r1.5.2!
+				if(thePlayer.divingHelmetOn() && thePlayer.isInsideOfMaterial(Material.water)) {
+					float nVB = 0.5F;					
+					float fNV = 1.0F / f12;					
+					f12 = f12 * (1.0F - nVB) + f12 * fNV * nVB;
+				}
+				
+				if(f12 > 1.0F) {
+					f12 = 1.0F;
+				}
+		
+				float f15 = gammaSetting - 0.4F;
+				float f16 = 1.0F - f12;
+		
+				f16 = 1.0F - f16 * f16 * f16 * f16;				
+				f12 = f12 * (1.0F - f15) + f16 * f15;
+				f12 = f12 * 0.96F + 0.03F;
+
+				if(f12 > 1.0F) {
+					f12 = 1.0F;
+				}
+
+				if(f12 < 0.0F) {
+					f12 = 0.0F;
+				}
+
+				short s19 = 255;
+				int i20 = (int)(f12 * 255.0F);
+				lightmapColors[i2] = s19 << 24 | i20 << 16 | i20 << 8 | i20;
+			}
+		}
+		
+		return lightmapColors;
+	}
+
 }
