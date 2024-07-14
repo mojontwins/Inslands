@@ -223,6 +223,12 @@ public class Block {
 	public static final Block mazeStone2 = (new BlockTFMazestone2(209, 14*16 + 5)).setHardness(20.0F).setResistance(5.0F).setStepSound(soundStoneFootstep).setBlockName("mazeStone");
 	public static final Block hedge = (new BlockTFHedge(210)).setBlockName("hedge");
 	
+	// Nether ores
+	public static final Block oreQuartz = (new BlockOre(211, 10*16+12)).setHardness(2.0F).setResistance(5.0F).setStepSound(soundStoneFootstep).setBlockName("oreQuartz");
+	public static final Block oreNetherGold = (new BlockOre(212, 10*16+10)).setHardness(3.0F).setResistance(5.0F).setStepSound(soundStoneFootstep).setBlockName("oreGold");
+	public static final Block oreNetherDiamond = (new BlockOre(213, 10*16+11)).setHardness(3.0F).setResistance(5.0F).setStepSound(soundStoneFootstep).setBlockName("oreCoal");
+	public static final Block blockQuartz = (new BlockOreStorage(214, 10*16+9)).setHardness(3.0F).setResistance(10.0F).setStepSound(soundMetalFootstep).setBlockName("blockQuartz");
+	
 	// Pistons - sorry, different IDs
 	public static final Block classicPistonBase = (new PistonBase(252, 22, false)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("piston");
 	public static final Block classicPiston = (new Piston(253, 22, false)).setHardness(1.5F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("piston");

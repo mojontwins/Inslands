@@ -208,6 +208,21 @@ Yay! fps boosted on shitty systems!
 
 	So level Themes should store separate (fixed or multi) biome info for both dimensions.
 
+	* [X] Nether lighting works. It was a very, very stupid bug integrating starlight (it was in Chunk.setBlockIdAndMetadata)
+
+	* [ ] Nether biomes / content todo:
+		* [ ] Attempt to do this with the least amount possible of new blocks and textures!
+
+		* [ ] Create new fire proof, colorisable leaf block.
+		* [ ] Create new fire proof, colorisable log block.
+		* [ ] Use them for custom trees.
+
+		Bloodbark was gross but great for hell.
+
+		* [ ] Paradise theme nether should be bluish with blue lit stuff like transparents mushrooms and crystals. 
+		* [ ] Hell's nether is fleshy. I need vine-like hanging guts, a meta block, eyes and shit. Look for eye-themed mobs in old mods.
+		* [ ] Forest's nether should be full of trees, mushrooms and vines.
+
 * [ ] Think about gameplay items for a desert and a glacier based theme (for the future).
 	* [ ] both lack trees, dirt and saplings must be obtained. Make sure skeletons still drop acorns.
 	* [ ] cold mechanics. Need to reactivate code for freeze

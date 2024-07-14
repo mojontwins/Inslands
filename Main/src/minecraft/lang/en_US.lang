@@ -475,6 +475,8 @@ tile.DungeonStone.name=Dungeon Stone
 tile.LightDungeonStone.name=Dungeon Stone
 tile.LockedDungeonStone.name=Dungeon Stone
 tile.LightLockedDungeonStone.name=Dungeon Stone
+tile.oreQuartz.name=Quartz Ore
+tile.blockQuartz.name=Block of quartz
 
 item.shovelIron.name=Iron Shovel
 item.shovelIron.desc=
@@ -777,6 +779,7 @@ item.charcoal=Charcoal
 item.ironBoat.name=Iron Boat
 item.AetherKey=Aether Key
 item.superAxe=Super Axe
+item.quartz=Quartz
 
 itemGroup.buildingBlocks=Building Blocks
 itemGroup.decorations=Decoration Blocks
