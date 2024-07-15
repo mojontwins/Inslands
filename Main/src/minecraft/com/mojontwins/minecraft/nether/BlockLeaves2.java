@@ -13,7 +13,8 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
 
 public class BlockLeaves2 extends BlockLeaves {
-	public int blockIndexForMeta[] = new int[] { 168, 0, 0, 0 };
+	public static int blockIndexForMeta[] = new int[] { 168, 168, 0, 0 };
+	public static int colorForMeta[] = new int[] { 0xFFFFFF, 0xDDBBFF, 0xFFFFFF, 0xFFFFFF };
 	
 	public BlockLeaves2(int id) {
 		super(id, 168);
@@ -58,12 +59,12 @@ public class BlockLeaves2 extends BlockLeaves {
 
 	@Override
 	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
-		return 0xffffff;
+		return this.getRenderColor(world.getBlockMetadata(x, y, z));
 	}
 	
 	@Override
 	public int getRenderColor(int meta) {
-		return 0xffffff;
+		return colorForMeta[meta & 3];
 	}
 		
     @Override
