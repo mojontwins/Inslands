@@ -5,7 +5,7 @@ public class EntityDiggingFX extends EntityFX {
 	public EntityDiggingFX(World world1, double d2, double d4, double d6, double d8, double d10, double d12, Block block14, int i15, int i16) {
 		super(world1, d2, d4, d6, d8, d10, d12);
 		this.blockInstance = block14;
-		this.particleTextureIndex = block14.getBlockTextureFromSideAndMetadata(0, i16);
+		this.particleTextureIndex = block14.getBreakTexture(i16);
 		this.particleGravity = block14.blockParticleGravity;
 		this.particleRed = this.particleGreen = this.particleBlue = 0.6F;
 		this.particleScale /= 2.0F;

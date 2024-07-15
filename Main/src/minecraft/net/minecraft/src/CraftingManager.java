@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import com.mojontwins.minecraft.nether.RecipesNether;
+
 public class CraftingManager {
 	private static final CraftingManager instance = new CraftingManager();
 	private List<IRecipe> recipes = new ArrayList<IRecipe>();
@@ -95,12 +97,13 @@ public class CraftingManager {
 		
 		// Custom
 		(new RecipesMine()).addRecipes(this);
+		(new RecipesNether()).addRecipes(this);
 		
 		Collections.sort(this.recipes, new RecipeSorter(this));
 		System.out.println(this.recipes.size() + " recipes");
 	}
 
-	void addRecipe(ItemStack itemStack1, Object... object2) {
+	public void addRecipe(ItemStack itemStack1, Object... object2) {
 		String string3 = "";
 		int i4 = 0;
 		int i5 = 0;

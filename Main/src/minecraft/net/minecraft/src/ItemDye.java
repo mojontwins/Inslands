@@ -37,6 +37,16 @@ public class ItemDye extends Item {
 
 				return true;
 			}
+			
+			if(blockID == Block.sapling2.blockID) {
+				if(!world.isRemote) {
+					((BlockSapling)Block.sapling2).growTree(world, x, y, z, world.rand);
+					this.particles(world, "glowdust", x, y, z);
+					if(!thePlayer.isCreative) --itemStack.stackSize;
+				}
+
+				return true;
+			}
 
 			if(blockID == Block.crops.blockID) {
 				if(!world.isRemote) {
