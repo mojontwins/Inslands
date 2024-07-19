@@ -3356,6 +3356,15 @@ public class World implements IBlockAccess {
 		return x >= 0 && z >= 0 && x < WorldSize.width && z < WorldSize.length ? this.getChunkFromChunkCoords(x >> 4, z >> 4).getFoliageColorFromCache(x & 15, z & 15) : 0;
 	}
 	
+	public int findSurfaceInCave(int x, int y, int z) {
+		// Returns the y of the 1st non air block over a surface
+		
+		while(this.isAirBlock(x, y - 1, z) && y > 0) { y --; }
+		while(!this.isAirBlock(x, y, z) && y < 127) { y ++; }
+		
+		return y;
+	}
+	
 	public boolean amITheServer() {
 		return false;
 	}

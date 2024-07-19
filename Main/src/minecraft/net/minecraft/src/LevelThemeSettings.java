@@ -10,6 +10,7 @@ public class LevelThemeSettings {
 	public float lightMultiplier = 1.0F;
 	public boolean dayCycle = false;
 	public BiomeGenBase levelThemeMainBiome = null;
+	public BiomeGenBase levelThemeNetherBiome = null;
 	public double temperature = 0.6D;
 	public double humidity = 0.6D;
 	public int permaSeason = -1;
@@ -24,13 +25,61 @@ public class LevelThemeSettings {
 	public boolean colorizedPlants = false;
 
 	public static List<LevelThemeSettings> allThemeSettings = new ArrayList<LevelThemeSettings> ();
+
+	public static LevelThemeSettings normal = new LevelThemeSettings(0)
+			.setName("Normal")
+			.setLightMultiplier(1.0F)
+			.setDayCycle(true)
+			.setLevelThemeMainBiome(BiomeGenBase.biomeDefault)
+			.setTemperature(0.6D)
+			.setHumidity(0.6D)
+			.setOverlay(-1);
 	
-	public static LevelThemeSettings normal = new LevelThemeSettings(0).setName("Normal").setLightMultiplier(1.0F).setDayCycle(true).setLevelThemeMainBiome(BiomeGenBase.biomeDefault).setTemperature(0.6D).setHumidity(0.6D).setOverlay(-1);
-	public static LevelThemeSettings hell = new LevelThemeSettings(1).setName("Hell").setLightMultiplier(0.4F).setDayCycle(true).setLevelThemeMainBiome(BiomeGenBase.themeHell).setTemperature(1.0D).setHumidity(0.1D).setOverlay(-1);
-	public static LevelThemeSettings forest = new LevelThemeSettings(2).setName("Forest").setLightMultiplier(0.8F).setDayCycle(true).setLevelThemeMainBiome(BiomeGenBase.themeForest).withPreferredWorldType(WorldType.INFDEV.id).withFixedCelestialAngle(0.24F).withSunriseSunsetColors(true).withColourfulFlock(true).setTemperature(0.4D).setHumidity(0.9D).setOverlay(-1);
-	public static LevelThemeSettings paradise = new LevelThemeSettings(3).setName("Paradise").setLightMultiplier(1.0F).setDayCycle(false).setLevelThemeMainBiome(BiomeGenBase.themeParadise).withPreferredWorldType(WorldType.SKY.id).withFixedCelestialAngle(1.0F).setTemperature(0.6D).setHumidity(0.6D).setPermaSeason(Seasons.SUMMER).setOverlay(0x20F9FFA0).setCanRain(false).setCanSnow(false).setCanThunder(false);
-	public static LevelThemeSettings biomes = new LevelThemeSettings(4).setName("Biomes").setLightMultiplier(1.0F).setDayCycle(true).setLevelThemeMainBiome(null).withPreferredWorldType(WorldType.DEFAULT.id).withColorizedPlants(true);
+	public static LevelThemeSettings hell = new LevelThemeSettings(1)
+			.setName("Hell")
+			.setLightMultiplier(0.4F)
+			.setDayCycle(true)
+			.setLevelThemeMainBiome(BiomeGenBase.themeHell)
+			.setTemperature(1.0D)
+			.setHumidity(0.1D)
+			.setOverlay(-1);
 	
+	public static LevelThemeSettings forest = new LevelThemeSettings(2)
+			.setName("Forest")
+			.setLightMultiplier(0.8F)
+			.setDayCycle(true)
+			.setLevelThemeMainBiome(BiomeGenBase.themeForest)
+			.withPreferredWorldType(WorldType.INFDEV.id)
+			.withFixedCelestialAngle(0.24F)
+			.withSunriseSunsetColors(true)
+			.withColourfulFlock(true)
+			.setTemperature(0.4D)
+			.setHumidity(0.9D)
+			.setOverlay(-1);
+	
+	public static LevelThemeSettings paradise = new LevelThemeSettings(3)
+			.setName("Paradise")
+			.setLightMultiplier(1.0F)
+			.setDayCycle(false)
+			.setLevelThemeMainBiome(BiomeGenBase.themeParadise)
+			.withPreferredWorldType(WorldType.SKY.id)
+			.withFixedCelestialAngle(1.0F)
+			.setTemperature(0.6D)
+			.setHumidity(0.6D)
+			.setPermaSeason(Seasons.SUMMER)
+			.setOverlay(0x20F9FFA0)
+			.setCanRain(false)
+			.setCanSnow(false)
+			.setCanThunder(false);
+	
+	public static LevelThemeSettings biomes = new LevelThemeSettings(4)
+			.setName("Biomes")
+			.setLightMultiplier(1.0F)
+			.setDayCycle(true)
+			.setLevelThemeMainBiome(null)
+			.withPreferredWorldType(WorldType.DEFAULT.id)
+			.withColorizedPlants(true);
+
 	public LevelThemeSettings(int id) {
 		this.id = id;
 		allThemeSettings.add(id, this);
@@ -84,6 +133,11 @@ public class LevelThemeSettings {
 	
 	public LevelThemeSettings setLevelThemeMainBiome(BiomeGenBase levelThemeMainBiome) {
 		this.levelThemeMainBiome = levelThemeMainBiome;
+		return this;
+	}
+	
+	public LevelThemeSettings setLevelThemeNetherBiome(BiomeGenBase levelThemeNetherBiome) {
+		this.levelThemeNetherBiome = levelThemeNetherBiome;
 		return this;
 	}
 	
