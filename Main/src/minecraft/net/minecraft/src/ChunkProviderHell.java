@@ -23,6 +23,7 @@ public class ChunkProviderHell implements IChunkProvider {
 	double[] noise2;
 	double[] noise5;
 	double[] noise6;
+	private BiomeGenBase[] biomesForGeneration;
 
 	public ChunkProviderHell(World world1, long j2) {
 		this.worldObj = world1;
@@ -196,6 +197,12 @@ public class ChunkProviderHell implements IChunkProvider {
 		Chunk chunk = new Chunk(this.worldObj, blockArray, metadata, chunkX, chunkZ);
 		
 		if(WorldSize.inRange(this, chunkX, chunkZ)) {
+			// Calculate biomes & temperatures for this chunk
+			this.biomesForGeneration = this.worldObj.getWorldChunkManager().loadBlockGeneratorData(this.biomesForGeneration, chunkX * 16, chunkZ * 16, 16, 16);
+			
+			// Cache biomes in chunk
+			chunk.biomeGenCache = this.biomesForGeneration.clone();
+			
 			// Generate terrain for this chunk
 			this.generateTerrain(chunkX, chunkZ, blockArray);
 			
@@ -378,8 +385,22 @@ public class ChunkProviderHell implements IChunkProvider {
 		int x0 = chunkX * 16;
 		int z0 = chunkZ * 16;
 
-		Chunk thisChunk = chunkProvider.provideChunk(chunkX, chunkZ);
+		// We need the chunk
+		Chunk thisChunk = chunkProvider.provideChunk(chunkX, chunkZ);	
+		if(thisChunk.beingDecorated) {
+			System.out.println ("Being decorated " + chunkX + " " + chunkZ);
+			return;
+		}
+		thisChunk.beingDecorated = true;
+		
 		BiomeGenBase biomeGen = thisChunk.getBiomeGenAt(8, 8);
+		
+		this.rand.setSeed(this.worldObj.getRandomSeed());
+		long seed1 = this.rand.nextLong() / 2L * 2L + 1L;
+		long seed2 = this.rand.nextLong() / 2L * 2L + 1L;
+		this.rand.setSeed((long)chunkX * seed1 + (long)chunkZ * seed2 ^ this.worldObj.getRandomSeed());
+		
+		biomeGen.prePopulate(this.worldObj, this.rand, x0, z0);
 		
 		int i, x, y, z;
 
@@ -431,6 +452,9 @@ public class ChunkProviderHell implements IChunkProvider {
 		
 		this.populateOres(x0, z0, biomeGen);
 
+		// Biome based population
+		biomeGen.populate(this.worldObj, this.rand, x0, z0);
+		
 		BlockSand.fallInstantly = false;
 	}
 

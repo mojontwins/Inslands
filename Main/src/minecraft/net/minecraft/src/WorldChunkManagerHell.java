@@ -14,11 +14,11 @@ public class WorldChunkManagerHell extends WorldChunkManager {
 	}
 
 	public BiomeGenBase getBiomeGenAtChunkCoord(ChunkCoordIntPair chunkCoordIntPair1) {
-		return this.biomeHell;
+		return getHellBiome();
 	}
 
 	public BiomeGenBase getBiomeGenAt(int i1, int i2) {
-		return this.biomeHell;
+		return getHellBiome();
 	}
 
 	public double getTemperature(int i1, int i2) {
@@ -39,6 +39,7 @@ public class WorldChunkManagerHell extends WorldChunkManager {
 		return d1;
 	}
 
+	// Todo : do something for multi-biome theme
 	public BiomeGenBase[] loadBlockGeneratorData(BiomeGenBase[] biomeGenBase1, int i2, int i3, int i4, int i5) {
 		if(biomeGenBase1 == null || biomeGenBase1.length < i4 * i5) {
 			biomeGenBase1 = new BiomeGenBase[i4 * i5];
@@ -49,9 +50,15 @@ public class WorldChunkManagerHell extends WorldChunkManager {
 			this.humidity = new double[i4 * i5];
 		}
 
-		Arrays.fill(biomeGenBase1, 0, i4 * i5, this.biomeHell);
+		Arrays.fill(biomeGenBase1, 0, i4 * i5, getHellBiome());
 		Arrays.fill(this.humidity, 0, i4 * i5, this.humidityHell);
 		Arrays.fill(this.temperature, 0, i4 * i5, this.temperatureHell);
 		return biomeGenBase1;
+	}
+	
+	public BiomeGenBase getHellBiome() {
+		BiomeGenBase biomeHell = LevelThemeGlobalSettings.levelThemeNetherBiome;
+		if (biomeHell == null) biomeHell = this.biomeHell;
+		return biomeHell;
 	}
 }

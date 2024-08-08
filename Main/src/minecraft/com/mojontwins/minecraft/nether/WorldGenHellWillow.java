@@ -38,7 +38,8 @@ public class WorldGenHellWillow extends WorldGenerator {
 	public boolean generate(World world, Random rand, int x, int y, int z) {
 		int soilBlockId = world.getBlockId(x, y - 1, z);
 
-		if(!Block.opaqueCubeLookup[soilBlockId]) return false;
+		//if(!Block.opaqueCubeLookup[soilBlockId]) return false;
+		if(soilBlockId != Block.bloodStone.blockID) return false;
 
 		if (y + height > 126) return false;
 		

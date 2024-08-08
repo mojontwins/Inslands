@@ -240,6 +240,7 @@ public class Block {
 	public static final Block leaves2 = (new BlockLeaves2(216)).setHardness(0.2F).setLightOpacity(3).setStepSound(soundGrassFootstep).setBlockName("leaves").disableStats().setRequiresSelfNotify().setLightValue(0.875F).setCreativeTab(CreativeTabs.tabBlock);
 	public static final Block sapling2 = (new BlockSapling2(217)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("sapling").setRequiresSelfNotify().setCreativeTab(CreativeTabs.tabDeco);
 	public static final Block planks2 = (new Block(218, 167, Material.wood)).setHardness(2.0F).setResistance(10.0F).setStepSound(soundWoodFootstep).setBlockName("wood").setRequiresSelfNotify().setIsUrban(true).setCreativeTab(CreativeTabs.tabBlock);
+	public static final Block pop = (new BlockTranslucent(219, 12*16+4, Material.glass)).setHardness(0.3F).setResistance(15.0F).setStepSound(soundGlassFootstep).setBlockName("pop").setLightValue(0.875F).setLightOpacity(3).setCreativeTab(CreativeTabs.tabBlock);
 	
 	// Pistons - sorry, different IDs
 	public static final Block classicPistonBase = (new PistonBase(252, 22, false)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("piston");

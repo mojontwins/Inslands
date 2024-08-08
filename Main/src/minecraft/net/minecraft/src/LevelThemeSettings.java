@@ -49,6 +49,7 @@ public class LevelThemeSettings {
 			.setLightMultiplier(0.8F)
 			.setDayCycle(true)
 			.setLevelThemeMainBiome(BiomeGenBase.themeForest)
+			.setLevelThemeNetherBiome(BiomeGenBase.themeForestHell)
 			.withPreferredWorldType(WorldType.INFDEV.id)
 			.withFixedCelestialAngle(0.24F)
 			.withSunriseSunsetColors(true)
