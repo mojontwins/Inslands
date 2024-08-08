@@ -51,8 +51,8 @@ public class TFGenHedgeMaze extends TFGenerator {
 				total ++;
 			}
 		}
-		if(count < (int)((float)total * .5)) {
-			System.out.println ("Attempted hedge maze from " + sx + " " + sz + " but more than 50% would be covered.");
+		if(count < (int)((float)total * .4)) {
+			System.out.println ("Attempted hedge maze from " + sx + " " + sz + " but more than 60% would be covered.");
 			return false;
 		}
 		

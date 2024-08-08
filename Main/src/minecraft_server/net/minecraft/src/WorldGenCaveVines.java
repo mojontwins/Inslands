@@ -5,7 +5,8 @@ import java.util.Random;
 public class WorldGenCaveVines extends WorldGenerator {
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z) {
-		if(world.getBlockId(x, y, z) != Block.stone.blockID) return false;
+		if(world.getBlockId(x, y, z) != Block.stone.blockID &&
+				world.getBlockId(x, y, z) != Block.bloodStone.blockID) return false;
 		
 		while(!world.isAirBlock(x, y, z) && y > 2) {
 			y --;

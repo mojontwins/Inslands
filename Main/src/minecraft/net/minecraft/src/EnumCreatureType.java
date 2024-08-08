@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
 public enum EnumCreatureType {
-	monster(IMob.class, 70, Material.air, false, "Monster"),
+	monster(IMob.class, 90, Material.air, false, "Monster"),
 	creature(EntityAnimal.class, 15, Material.air, true, "Animal"),
 	waterCreature(IWaterMob.class, 5, Material.water, true, "Water Creature"),
 	caveCreature(ICaveMob.class, 50, Material.air, false, "Cave Creature");

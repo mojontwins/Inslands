@@ -202,6 +202,8 @@ public class Item {
 	
 	public static Item magicWand = (new ItemMagicWand(999-256)).setIconCoord(8, 12).setItemName("magic wand");
 	
+	public static Item quartz = new Item(1028).setIconIndex(12*16 + 14).setItemName("quartz").setCreativeTab(CreativeTabs.tabMaterials);
+	
 	public final int shiftedIndex;
 	protected int maxStackSize = 64;
 	protected int maxDamage = 0;

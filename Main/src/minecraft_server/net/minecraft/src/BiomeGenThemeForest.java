@@ -119,7 +119,7 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 		
 		// Attempt a hedge maze
 		byte border = 6;
-		if(cx > border && cz > border && cz < WorldSize.xChunks - border && cz < WorldSize.zChunks - border && rand.nextInt(WorldSize.xChunks * WorldSize.zChunks / 32) == 0) {
+		if(cx > border && cz > border && cz < WorldSize.xChunks - border && cz < WorldSize.zChunks - border && rand.nextInt(WorldSize.xChunks * WorldSize.zChunks / 128) == 0) {
 			x = x0 + 8;
 			z = z0 + 8;
 			

@@ -4,6 +4,7 @@ public class LevelThemeGlobalSettings {
 	public static float lightMultiplier = 1.0F;
 	public static boolean dayCycle = false;
 	public static BiomeGenBase levelThemeMainBiome = BiomeGenBase.themeParadise;
+	public static BiomeGenBase levelThemeNetherBiome = BiomeGenBase.hell;
 	public static double temperature = 0.6D;
 	public static double humidity = 0.6D;
 	public static int permaSeason = -1;
@@ -25,6 +26,7 @@ public class LevelThemeGlobalSettings {
 			lightMultiplier = settings.lightMultiplier;
 			dayCycle = settings.dayCycle;
 			levelThemeMainBiome = settings.levelThemeMainBiome;
+			levelThemeNetherBiome = settings.levelThemeNetherBiome;
 			temperature = settings.temperature;
 			humidity = settings.humidity;
 			permaSeason = settings.permaSeason;

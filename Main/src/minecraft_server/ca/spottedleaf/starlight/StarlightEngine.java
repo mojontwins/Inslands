@@ -11,7 +11,7 @@ import net.minecraft.src.World;
 
 public class StarlightEngine {
 	// https://github.com/PaperMC/Starlight
-	// Based on the b1.7.3 port.
+	// Based on the b1.7.3 port. https://github.com/canyonmodded/canyon/commit/13b3d11864176e0020a8d9b87f69c6113cc51fe4
 	// Adapted to MCRegion.
 
 	protected static final int AIR_BLOCK_STATE = 0;
@@ -179,7 +179,7 @@ public class StarlightEngine {
 		final NibbleArray nibble = this.getNibbleFromCache(worldX >> 4, worldZ >> 4);
 
 		if (nibble != null && worldY >= 0 && worldY <= 127) {
-			return nibble.getNibble(worldX & 15, worldY, worldZ & 15);
+			return nibble.getNibble(worldX & 15, worldY & 127, worldZ & 15);
 		}
 
 		if (this.skylightPropagator) {
@@ -197,7 +197,7 @@ public class StarlightEngine {
 		final NibbleArray nibble = this.getNibbleFromCache(worldX >> 4, worldZ >> 4);
 
 		if (nibble != null && worldY >= 0 && worldY <= 127) {
-			nibble.setNibble(worldX & 15, worldY, worldZ & 15, level);
+			nibble.setNibble(worldX & 15, worldY & 127, worldZ & 15, level);
 		}
 	}
 

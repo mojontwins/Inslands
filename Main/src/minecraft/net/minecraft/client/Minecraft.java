@@ -1296,7 +1296,7 @@ public abstract class Minecraft implements Runnable {
 				if(isNew) {
 					valid = world.levelIsValidUponWorldTheme();
 					if(world.findingSpawnPoint || !valid) {
-						System.out.println("World not valid [ Found spawn point? " + world.findingSpawnPoint + 
+						System.out.println("World not valid [ Found spawn point? " + !world.findingSpawnPoint + 
 								", Valid upon theme? " + valid + 
 								" ] - trying again!");
 						Random rand = new Random(worldSettings.getSeed());

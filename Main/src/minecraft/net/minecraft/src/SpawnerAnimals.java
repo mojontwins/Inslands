@@ -29,7 +29,7 @@ public final class SpawnerAnimals {
 			int minXChunk = WorldSize.getXChunkMinForReal(chunkProvider);
 			int maxXChunk = WorldSize.getXChunkMaxForReal(chunkProvider);
 			int minZChunk = WorldSize.getZChunkMinForReal(chunkProvider);
-			int maxZChunk = WorldSize.getZChunkMinForReal(chunkProvider);
+			int maxZChunk = WorldSize.getZChunkMaxForReal(chunkProvider);
 			
 			int totalSpawned;
 			
@@ -54,7 +54,7 @@ public final class SpawnerAnimals {
 			}
 
 			totalSpawned = 0;
-			ChunkCoordinates chunkCoordinates35 = world.getSpawnPoint();
+			ChunkCoordinates spawnPoint = world.getSpawnPoint();
 			EnumCreatureType[] availableCreatureTypes = EnumCreatureType.values();
 			int maxCreatureTypes = availableCreatureTypes.length;
 
@@ -90,7 +90,7 @@ public final class SpawnerAnimals {
 					else if(Seasons.currentSeason == 0) maxEntitiesOfThisType = (maxEntitiesOfThisType >> 2) + (maxEntitiesOfThisType >> 1); 	// 3/4
 				}
 
-				// System.out.println ("Chunks: " + eligibleChunksForSpawning.size() + ", TYPE: " + creatureType + " #" + activeEntitiesOfThisType + " of " + maxEntitiesOfThisType);
+				//System.out.println ("Chunks: " + eligibleChunksForSpawning.size() + ", TYPE: " + creatureType + " #" + activeEntitiesOfThisType + " of " + maxEntitiesOfThisType);
 								
 				if(
 					(!creatureType.getPeacefulCreature() || flag2) && 
@@ -175,14 +175,20 @@ public final class SpawnerAnimals {
 								y1 += world.rand.nextInt(1) - world.rand.nextInt(1);
 								z1 += world.rand.nextInt(spawnRadius) - world.rand.nextInt(spawnRadius);
 
+								x1 = x1 % WorldSize.width;
+								y1 = y1 % 128;
+								z1 = z1 % WorldSize.length;
+								
+								//System.out.println ("Attempting @ " + x1 + " " + y1 + " " + z1);
 								if(canCreatureTypeSpawnAtLocation(creatureType, world, x1, y1, z1)) {
 									float xF = (float)x1 + 0.5F;
 									float yF = (float)y1;
 									float zF = (float)z1 + 0.5F;
+									
 									if(world.getClosestPlayer((double)xF, (double)yF, (double)zF, 24.0D) == null) {
-										float xF1 = xF - (float)chunkCoordinates35.posX;
-										float yF1 = yF - (float)chunkCoordinates35.posY;
-										float zF1 = zF - (float)chunkCoordinates35.posZ;
+										float xF1 = xF - (float)spawnPoint.posX;
+										float yF1 = yF - (float)spawnPoint.posY;
+										float zF1 = zF - (float)spawnPoint.posZ;
 										float distanceSq = xF1 * xF1 + yF1 * yF1 + zF1 * zF1;
 										if(distanceSq >= 576.0F) {
 											EntityLiving entityLiving;
@@ -205,15 +211,17 @@ public final class SpawnerAnimals {
 												++spawnedCount;
 												world.spawnEntityInWorld(entityLiving);
 												creatureSpecificInit(entityLiving, world, xF, yF, zF);
+												
+												// Cut soon
 												if(spawnedCount >= entityLiving.getMaxSpawnedInChunk()) {
 													continue label130;
 												}
-											}
+											} //else System.out.println ("Failed 'canSpawnHere'");
 
 											totalSpawned += spawnedCount;
-										}
-									}
-								}
+										} //else System.out.println ("Failed 'tooCloseToSpawn'");
+									} //else System.out.println ("Failed 'playerTooCloase'");
+								} //else System.out.println ("Failed 'cancreatureSpawnAtlocation'");;
 							}
 						}
 					}

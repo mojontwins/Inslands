@@ -42,6 +42,8 @@ public class WorldProviderHell extends WorldProvider {
 	
 	@Override
 	public int[] updateLightmap(EntityPlayer thePlayer, float gammaSetting) {
+		if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.paradise.id) return super.updateLightmap(thePlayer, gammaSetting);
+		
 		int[] lightmapColors = new int[256];
 		
 		World world1 = this.worldObj;

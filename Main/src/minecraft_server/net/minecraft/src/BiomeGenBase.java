@@ -12,9 +12,10 @@ public class BiomeGenBase {
 	public static final BiomeGenBase biomeDefault = new BiomeGenBase().setBiomeName("Default Alpha");
 	
 	// Level themes
-	public static final BiomeGenBase themeHell = new BiomeGenThemeHell().setBiomeName("Hell Theme");
-	public static final BiomeGenBase themeForest = new BiomeGenThemeForest().setBiomeName("Forest Theme");
-	public static final BiomeGenBase themeParadise = new BiomeGenThemeParadise().setBiomeName("Paradise Theme");
+	public static final BiomeGenBase themeHell = new BiomeGenThemeHell().setBiomeName("Hell");
+	public static final BiomeGenBase themeForest = new BiomeGenThemeForest().setBiomeName("Forest");
+	public static final BiomeGenBase themeParadise = new BiomeGenThemeParadise().setBiomeName("Paradise");
+	public static final BiomeGenBase themeForestHell = new BiomeGenThemeForestHell().setBiomeName("Forest Hell").setDisableRain();
 	
 	// Leave these for compatibility
 	public static final BiomeGenBase hell = (new BiomeGenHell()).setColor(16711680).setBiomeName("Hell").setDisableRain();

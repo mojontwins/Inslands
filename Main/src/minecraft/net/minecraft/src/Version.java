@@ -1,8 +1,8 @@
 package net.minecraft.src;
 
 public class Version {
-	private static final String version = "InSlands v240715";
-	private static final String date = "20240715";
+	private static final String version = "InSlands v240815";
+	private static final String date = "20240815";
 	
 	public static String getVersion () { 
 		return version;

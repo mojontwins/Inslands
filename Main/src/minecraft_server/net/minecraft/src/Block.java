@@ -14,6 +14,12 @@ import com.misc.aether.BlockChestMimic;
 import com.misc.aether.BlockDungeon;
 import com.misc.aether.BlockTrap;
 import com.mojang.minecraft.creative.CreativeTabs;
+import com.mojontwins.minecraft.nether.BlockLeaves2;
+import com.mojontwins.minecraft.nether.BlockLog2;
+import com.mojontwins.minecraft.nether.BlockSapling2;
+import com.mojontwins.minecraft.nether.ItemLeaves2;
+import com.mojontwins.minecraft.nether.ItemLog2;
+import com.mojontwins.minecraft.nether.ItemSapling2;
 
 
 
@@ -222,6 +228,19 @@ public class Block {
 	public static final Block lockedLightDungeonStone = (new BlockDungeon(208)).setHardness(-1.0F).setResistance(1000000.0F).setStepSound(Block.soundStoneFootstep).setLightValue(0.5F).setBlockName("LightLockedDungeonStone");
 	public static final Block mazeStone2 = (new BlockTFMazestone2(209, 14*16 + 5)).setHardness(20.0F).setResistance(5.0F).setStepSound(soundStoneFootstep).setBlockName("mazeStone");
 	public static final Block hedge = (new BlockTFHedge(210)).setBlockName("hedge");
+	
+	// Nether ores
+	public static final Block oreQuartz = (new BlockOre(211, 10*16+12)).setHardness(2.0F).setResistance(5.0F).setStepSound(soundStoneFootstep).setBlockName("oreQuartz");
+	public static final Block oreNetherGold = (new BlockOre(212, 10*16+10)).setHardness(3.0F).setResistance(5.0F).setStepSound(soundStoneFootstep).setBlockName("oreGold");
+	public static final Block oreNetherDiamond = (new BlockOre(213, 10*16+11)).setHardness(3.0F).setResistance(5.0F).setStepSound(soundStoneFootstep).setBlockName("oreCoal");
+	public static final Block blockQuartz = (new BlockOreStorage(214, 10*16+9)).setHardness(3.0F).setResistance(10.0F).setStepSound(soundMetalFootstep).setBlockName("blockQuartz");
+	
+	// Nether blocks
+	public static final Block wood2 = (new BlockLog2(215)).setHardness(2.0F).setResistance(10.0F).setStepSound(soundWoodFootstep).setBlockName("log").setRequiresSelfNotify().setCreativeTab(CreativeTabs.tabBlock);
+	public static final Block leaves2 = (new BlockLeaves2(216)).setHardness(0.2F).setLightOpacity(3).setStepSound(soundGrassFootstep).setBlockName("leaves").disableStats().setRequiresSelfNotify().setLightValue(0.875F).setCreativeTab(CreativeTabs.tabBlock);
+	public static final Block sapling2 = (new BlockSapling2(217)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("sapling").setRequiresSelfNotify().setCreativeTab(CreativeTabs.tabDeco);
+	public static final Block planks2 = (new Block(218, 167, Material.wood)).setHardness(2.0F).setResistance(10.0F).setStepSound(soundWoodFootstep).setBlockName("wood").setRequiresSelfNotify().setIsUrban(true).setCreativeTab(CreativeTabs.tabBlock);
+	public static final Block pop = (new BlockTranslucent(219, 12*16+4, Material.glass)).setHardness(0.3F).setResistance(15.0F).setStepSound(soundGlassFootstep).setBlockName("pop").setLightValue(0.875F).setLightOpacity(3).setCreativeTab(CreativeTabs.tabBlock);
 	
 	// Pistons - sorry, different IDs
 	public static final Block classicPistonBase = (new PistonBase(252, 22, false)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("piston");
@@ -770,6 +789,11 @@ public class Block {
 		Item.itemsList[grass.blockID] = (new ItemGrass(grass.blockID - 256)).setItemName("grass");
 		Item.itemsList[tallGrass.blockID] = (new ItemTallGrass(tallGrass.blockID - 256)).setItemName("tallGrass");
 		
+		Item.itemsList[sapling2.blockID] = (new ItemSapling2(sapling2.blockID - 256)).setItemName("sapling");
+		Item.itemsList[leaves2.blockID] = (new ItemLeaves2(leaves2.blockID - 256)).setItemName("leaves");
+		Item.itemsList[wood2.blockID] = (new ItemLog2(wood2.blockID - 256)).setItemName("log");
+		
+		
 		for(int i0 = 0; i0 < 256; ++i0) {
 			if(blocksList[i0] != null) {
 				if(Item.itemsList[i0] == null) {
@@ -800,5 +824,9 @@ public class Block {
 
 		canBlockGrass[0] = true;
 		StatList.initBreakableStats();
+	}
+	
+	public int getBreakTexture(int metadata) {
+		return getBlockTextureFromSideAndMetadata(0, metadata);
 	}
 }

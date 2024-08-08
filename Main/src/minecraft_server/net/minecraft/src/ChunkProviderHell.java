@@ -23,6 +23,7 @@ public class ChunkProviderHell implements IChunkProvider {
 	double[] noise2;
 	double[] noise5;
 	double[] noise6;
+	private BiomeGenBase[] biomesForGeneration;
 
 	public ChunkProviderHell(World world1, long j2) {
 		this.worldObj = world1;
@@ -196,6 +197,12 @@ public class ChunkProviderHell implements IChunkProvider {
 		Chunk chunk = new Chunk(this.worldObj, blockArray, metadata, chunkX, chunkZ);
 		
 		if(WorldSize.inRange(this, chunkX, chunkZ)) {
+			// Calculate biomes & temperatures for this chunk
+			this.biomesForGeneration = this.worldObj.getWorldChunkManager().loadBlockGeneratorData(this.biomesForGeneration, chunkX * 16, chunkZ * 16, 16, 16);
+			
+			// Cache biomes in chunk
+			chunk.biomeGenCache = this.biomesForGeneration.clone();
+			
 			// Generate terrain for this chunk
 			this.generateTerrain(chunkX, chunkZ, blockArray);
 			
@@ -348,62 +355,106 @@ public class ChunkProviderHell implements IChunkProvider {
 		return true;
 	}
 
-	public void populate(IChunkProvider iChunkProvider1, int i2, int i3) {
+	public void populateOres(int x0, int z0, BiomeGenBase biomeGen) {
+		int i, x, y, z;
+		
+		for(i = 0; i < 128; ++i) {
+			x = x0 + this.rand.nextInt(16);
+			y = this.rand.nextInt(128);
+			z = z0 + this.rand.nextInt(16);
+			(new WorldGenNetherMinable(Block.oreQuartz.blockID, 16)).generate(this.worldObj, this.rand, x, y, z);
+		}
+
+		for(i = 0; i < 32; ++i) {
+			x = x0 + this.rand.nextInt(16);
+			y = this.rand.nextInt(128);
+			z = z0 + this.rand.nextInt(16);
+			(new WorldGenNetherMinable(Block.oreNetherGold.blockID, 8)).generate(this.worldObj, this.rand, x, y, z);
+		}
+
+		for(i = 0; i < 8; ++i) {
+			x = x0 + this.rand.nextInt(16);
+			y = this.rand.nextInt(128);
+			z = z0 + this.rand.nextInt(16);
+			(new WorldGenNetherMinable(Block.oreNetherDiamond.blockID, 7)).generate(this.worldObj, this.rand, x, y, z);
+		}
+	}
+
+	public void populate(IChunkProvider chunkProvider, int chunkX, int chunkZ) {
 		BlockSand.fallInstantly = true;
-		int i4 = i2 * 16;
-		int i5 = i3 * 16;
+		int x0 = chunkX * 16;
+		int z0 = chunkZ * 16;
 
-		int i6;
-		int i7;
-		int i8;
-		int i9;
-		for(i6 = 0; i6 < 8; ++i6) {
-			i7 = i4 + this.rand.nextInt(16) + 8;
-			i8 = this.rand.nextInt(120) + 4;
-			i9 = i5 + this.rand.nextInt(16) + 8;
-			(new WorldGenHellLava(Block.lavaMoving.blockID)).generate(this.worldObj, this.rand, i7, i8, i9);
+		// We need the chunk
+		Chunk thisChunk = chunkProvider.provideChunk(chunkX, chunkZ);	
+		if(thisChunk.beingDecorated) {
+			System.out.println ("Being decorated " + chunkX + " " + chunkZ);
+			return;
+		}
+		thisChunk.beingDecorated = true;
+		
+		BiomeGenBase biomeGen = thisChunk.getBiomeGenAt(8, 8);
+		
+		this.rand.setSeed(this.worldObj.getRandomSeed());
+		long seed1 = this.rand.nextLong() / 2L * 2L + 1L;
+		long seed2 = this.rand.nextLong() / 2L * 2L + 1L;
+		this.rand.setSeed((long)chunkX * seed1 + (long)chunkZ * seed2 ^ this.worldObj.getRandomSeed());
+		
+		biomeGen.prePopulate(this.worldObj, this.rand, x0, z0);
+		
+		int i, x, y, z;
+
+		for(i = 0; i < 8; ++i) {
+			x = x0 + this.rand.nextInt(16) + 8;
+			y = this.rand.nextInt(120) + 4;
+			z = z0 + this.rand.nextInt(16) + 8;
+			(new WorldGenHellLava(Block.lavaMoving.blockID)).generate(this.worldObj, this.rand, x, y, z);
 		}
 
-		i6 = this.rand.nextInt(this.rand.nextInt(10) + 1) + 1;
+		int fireAttempts = this.rand.nextInt(this.rand.nextInt(10) + 1) + 1;
 
-		int i10;
-		for(i7 = 0; i7 < i6; ++i7) {
-			i8 = i4 + this.rand.nextInt(16) + 8;
-			i9 = this.rand.nextInt(120) + 4;
-			i10 = i5 + this.rand.nextInt(16) + 8;
-			(new WorldGenFire()).generate(this.worldObj, this.rand, i8, i9, i10);
+		for(i = 0; i < fireAttempts*2; ++i) {
+			x = x0 + this.rand.nextInt(16) + 8;
+			y = this.rand.nextInt(120) + 4;
+			z = z0 + this.rand.nextInt(16) + 8;
+			(new WorldGenFire()).generate(this.worldObj, this.rand, x, y, z);
 		}
 
-		i6 = this.rand.nextInt(this.rand.nextInt(10) + 1);
+		i = this.rand.nextInt(this.rand.nextInt(10) + 1);
 
-		for(i7 = 0; i7 < i6; ++i7) {
-			i8 = i4 + this.rand.nextInt(16) + 8;
-			i9 = this.rand.nextInt(120) + 4;
-			i10 = i5 + this.rand.nextInt(16) + 8;
-			(new WorldGenGlowStone1()).generate(this.worldObj, this.rand, i8, i9, i10);
+		for(i = 0; i < i; ++i) {
+			x = x0 + this.rand.nextInt(16) + 8;
+			y = this.rand.nextInt(120) + 4;
+			z = z0 + this.rand.nextInt(16) + 8;
+			(new WorldGenGlowStone1()).generate(this.worldObj, this.rand, x, y, z);
 		}
 
-		for(i7 = 0; i7 < 10; ++i7) {
-			i8 = i4 + this.rand.nextInt(16) + 8;
-			i9 = this.rand.nextInt(128);
-			i10 = i5 + this.rand.nextInt(16) + 8;
-			(new WorldGenGlowStone2()).generate(this.worldObj, this.rand, i8, i9, i10);
+		for(i = 0; i < 10; ++i) {
+			x = x0 + this.rand.nextInt(16) + 8;
+			y = this.rand.nextInt(128);
+			z = z0 + this.rand.nextInt(16) + 8;
+			(new WorldGenGlowStone2()).generate(this.worldObj, this.rand, x, y, z);
 		}
 
 		if(this.rand.nextInt(1) == 0) {
-			i7 = i4 + this.rand.nextInt(16) + 8;
-			i8 = this.rand.nextInt(128);
-			i9 = i5 + this.rand.nextInt(16) + 8;
-			(new WorldGenFlowers(Block.mushroomBrown.blockID)).generate(this.worldObj, this.rand, i7, i8, i9);
+			x = x0 + this.rand.nextInt(16) + 8;
+			y = this.rand.nextInt(128);
+			z = z0 + this.rand.nextInt(16) + 8;
+			(new WorldGenFlowers(Block.mushroomBrown.blockID)).generate(this.worldObj, this.rand, x, y, z);
 		}
 
 		if(this.rand.nextInt(1) == 0) {
-			i7 = i4 + this.rand.nextInt(16) + 8;
-			i8 = this.rand.nextInt(128);
-			i9 = i5 + this.rand.nextInt(16) + 8;
-			(new WorldGenFlowers(Block.mushroomRed.blockID)).generate(this.worldObj, this.rand, i7, i8, i9);
+			x = x0 + this.rand.nextInt(16) + 8;
+			y = this.rand.nextInt(128);
+			z = z0 + this.rand.nextInt(16) + 8;
+			(new WorldGenFlowers(Block.mushroomRed.blockID)).generate(this.worldObj, this.rand, x, y, z);
 		}
+		
+		this.populateOres(x0, z0, biomeGen);
 
+		// Biome based population
+		biomeGen.populate(this.worldObj, this.rand, x0, z0);
+		
 		BlockSand.fallInstantly = false;
 	}
 

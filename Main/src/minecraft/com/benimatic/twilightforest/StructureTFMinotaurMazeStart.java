@@ -11,15 +11,7 @@ public class StructureTFMinotaurMazeStart extends StructureStart {
 	public StructureTFMinotaurMazeStart(World world, Random rand, int chunkX, int chunkZ) {
 		int x = (chunkX << 4) + rand.nextInt(16) - 8;
 		int z = (chunkZ << 4) + rand.nextInt(16) - 8;
-		/*
-		int y = world.getLandSurfaceHeightValue(x, z);
-		
-		// Condition so the majority of this maze spawns under the sea level
-		if(y > world.getWorldInfo().getTerrainType().getSeaLevel(world) + 8) {
-			System.out.println ("Had to bury entrance to the minotaur maze!");
-			y = world.getWorldInfo().getTerrainType().getSeaLevel(world) + 8;
-		}
-		*/
+
 		int y = world.getWorldInfo().getTerrainType().getSeaLevel(world);
 		
 		System.out.println ("Minotaur maze " + x + " " + y + " " + z);
