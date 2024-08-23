@@ -84,11 +84,19 @@ public class WorldChunkManager {
 		if(biomeGenArray == null || biomeGenArray.length < width * length) {
 			biomeGenArray = new BiomeGenBase[width * length];
 		}
-
-		this.temperature = this.ngo1.generateNoiseOctaves(this.temperature, (double)xPos, (double)zPos, width, length, 0.02500000037252903D, 0.02500000037252903D, 0.25D);
-		this.humidity = this.ngo2.generateNoiseOctaves(this.humidity, (double)xPos, (double)zPos, width, length, 0.05000000074505806D, 0.05000000074505806D, 0.3333333333333333D);
+		
+		xPos += GlobalVars.noiseOffsetX;
+		zPos += GlobalVars.noiseOffsetZ;
+		
+		this.temperature = this.ngo1.generateNoiseOctaves(this.temperature, (double)xPos, (double)zPos, width, length, 0.025D, 0.025D, 0.25D);
+		this.humidity = this.ngo2.generateNoiseOctaves(this.humidity, (double)xPos, (double)zPos, width, length, 0.05D, 0.05D, 0.33D);
 		this.variation = this.ngo3.generateNoiseOctaves(this.variation, (double)xPos, (double)zPos, width, length, 0.25D, 0.25D, 0.5882352941176471D);
 		
+		/*
+		this.temperature = this.ngo1.generateNoiseOctaves(this.temperature, (double)xPos, (double)zPos, width, length, 0.04D, 0.4D, 0.25D);
+		this.humidity = this.ngo2.generateNoiseOctaves(this.humidity, (double)xPos, (double)zPos, width, length, 0.08D, 0.08D, 0.33D);
+		this.variation = this.ngo3.generateNoiseOctaves(this.variation, (double)xPos, (double)zPos, width, length, 0.25D, 0.25D, 0.5882352941176471D);
+		*/
 		int biomeIndex = 0;
 
 		for(int x = 0; x < width; ++x) {

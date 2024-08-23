@@ -32,7 +32,7 @@ public class MapGenTFMinotaurMaze extends MapGenStructure {
 		
 		boolean res = false;
 		if((chunkX & 0x0f) == 8 && (chunkZ & 0x0f) == 8) {
-			res = rand.nextInt(3) == 0;
+			res = WorldSize.xChunks <= 16 || rand.nextInt(3) == 0;
 		}
 		
 		return res;

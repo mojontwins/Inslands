@@ -13,6 +13,10 @@ public class GlobalVars {
 	
 	public static FeatureAABB minoshroomMazeBB = null;
 	
+	// Used for then noise generators in themes with biomes
+	public static int noiseOffsetX = 0;
+	public static int noiseOffsetZ = 0;
+	
 	public static void initializeGameFlags() {
 		hasBronzeDungeon = false;
 		hasCorrectMinoshroomMaze = false;

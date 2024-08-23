@@ -137,32 +137,18 @@ public class GuiCreateWorld extends GuiScreen {
 				}
 
 				this.createClicked = true;
-				long var8 = (new Random()).nextLong();
+				long seed = (new Random()).nextLong();
 				String var4 = this.textboxSeed.getText();
 				if(!MathHelper.stringNullOrLengthZero(var4)) {
 					try {
 						long var9 = Long.parseLong(var4);
 						if(var9 != 0L) {
-							var8 = var9;
+							seed = var9;
 						}
 					} catch (NumberFormatException numberFormatException7) {
-						var8 = (long)var4.hashCode();
+						seed = (long)var4.hashCode();
 					}
 				}
-
-				/*
-				byte b9 = 0;
-				if(this.gameMode.equals("creative")) {
-					b9 = 1;
-					this.mc.playerController = new PlayerControllerCreative(this.mc);
-				} else {
-				this.mc.playerController = new PlayerControllerSP(this.mc);
-				}
-
-				WorldType.worldTypes[this.worldType].onGUICreateWorldPress();
-				this.mc.startWorld(this.folderName, this.textboxWorldName.getText(), new WorldSettings(var8, b9, this.generateStructures, this.field_40232_h, WorldType.worldTypes[this.worldType]));
-				this.mc.displayGuiScreen((GuiScreen)null);
-				*/
 				
 				this.mc.gameSettings.isCreative = this.gameMode.equals("creative");
 				this.mc.gameSettings.enableCheats = this.enableCheats;
@@ -171,13 +157,22 @@ public class GuiCreateWorld extends GuiScreen {
 				if(this.worldType == -1) this.worldType = WorldType.INFDEV.id;
 				
 				LevelThemeGlobalSettings.levelChecks = this.levelChecks;
+				
 				WorldType.worldTypes[this.worldType].onGUICreateWorldPress();
+				
 				this.mc.playerController = new PlayerControllerSP(this.mc);
+				
 				LevelThemeGlobalSettings.loadThemeById(this.themeId);
 				LevelThemeGlobalSettings.worldTypeID = this.worldType;
+				
 				WorldSize.setSizeById(this.sizeId);
+				
+				Random rand = new Random(seed);
+				GlobalVars.noiseOffsetX = rand.nextInt(1024) - rand.nextInt(1024);
+				GlobalVars.noiseOffsetZ = rand.nextInt(1024) - rand.nextInt(1024);
+				
 				this.mc.startWorld(this.folderName, this.textboxWorldName.getText(), new WorldSettings(
-						var8, 
+						seed, 
 						this.mc.gameSettings.isCreative ? 1 : 0, 
 						this.generateStructures, 
 						false, 

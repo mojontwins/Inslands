@@ -273,11 +273,13 @@ public class World implements IBlockAccess {
 	protected void getInitialSpawnLocation() {
 		this.findingSpawnPoint = true;
 
+		// Start @ the center of the map
 		int x = WorldSize.width / 2;
 		int z = WorldSize.length / 2;
 		int y = this.getHeightValue(x, z) + 1;
 
-		int attemptsLeft = 100;
+		// Try really hard
+		int attemptsLeft = 512;
 
 		while (attemptsLeft -- > 0 && (!this.worldProvider.canCoordinateBeSpawn(x, y, z) || y > 120)) {
 			x += this.rand.nextInt(64) - this.rand.nextInt(64);
