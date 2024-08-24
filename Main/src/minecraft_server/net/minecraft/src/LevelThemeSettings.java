@@ -23,6 +23,7 @@ public class LevelThemeSettings {
 	public boolean colourfulFlock = false;
 	public int preferredWorldType = -1;
 	public boolean colorizedPlants = false;
+	public boolean dynamicSnow = false;
 
 	public static List<LevelThemeSettings> allThemeSettings = new ArrayList<LevelThemeSettings> ();
 
@@ -33,6 +34,7 @@ public class LevelThemeSettings {
 			.setLevelThemeMainBiome(BiomeGenBase.biomeDefault)
 			.setTemperature(0.6D)
 			.setHumidity(0.6D)
+			.setCanSnow(false)
 			.setOverlay(-1);
 	
 	public static LevelThemeSettings hell = new LevelThemeSettings(1)
@@ -42,6 +44,7 @@ public class LevelThemeSettings {
 			.setLevelThemeMainBiome(BiomeGenBase.themeHell)
 			.setTemperature(1.0D)
 			.setHumidity(0.1D)
+			.setCanSnow(false)
 			.setOverlay(-1);
 	
 	public static LevelThemeSettings forest = new LevelThemeSettings(2)
@@ -56,6 +59,7 @@ public class LevelThemeSettings {
 			.withColourfulFlock(true)
 			.setTemperature(0.4D)
 			.setHumidity(0.9D)
+			.withDynamicSnow(true)
 			.setOverlay(-1);
 	
 	public static LevelThemeSettings paradise = new LevelThemeSettings(3)
@@ -79,11 +83,17 @@ public class LevelThemeSettings {
 			.setDayCycle(true)
 			.setLevelThemeMainBiome(null)
 			.withPreferredWorldType(WorldType.DEFAULT.id)
-			.withColorizedPlants(true);
+			.withColorizedPlants(true)
+			.withDynamicSnow(true);
 
 	public LevelThemeSettings(int id) {
 		this.id = id;
 		allThemeSettings.add(id, this);
+	}
+
+	private LevelThemeSettings withDynamicSnow(boolean b) {
+		this.dynamicSnow = true;
+		return this;
 	}
 
 	private LevelThemeSettings withColorizedPlants(boolean b) {

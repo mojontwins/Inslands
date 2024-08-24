@@ -80,7 +80,8 @@ public class WorldInfo {
 		this.themeId = nBTTagCompound1.getInteger("ThemeId");
 		LevelThemeGlobalSettings.loadThemeById(this.themeId);
 		LevelThemeGlobalSettings.worldTypeID = WorldType.getIdByName(generatorName);
-	System.out.println ("Generator name = " + generatorName + ", worldTypeID = " + LevelThemeGlobalSettings.worldTypeID);
+	
+		System.out.println ("Generator name = " + generatorName + ", worldTypeID = " + LevelThemeGlobalSettings.worldTypeID);
 		
 		int xChunks = nBTTagCompound1.getInteger("WidthInChunks");
 		int zChunks = nBTTagCompound1.getInteger("LengthInChunks");
@@ -92,6 +93,8 @@ public class WorldInfo {
 	
 		WorldSize.setSize(xChunks, zChunks);
 		
+		GlobalVars.noiseOffsetX = nBTTagCompound1.getInteger("noiseOffsetX");
+		GlobalVars.noiseOffsetZ = nBTTagCompound1.getInteger("noiseOffsetZ");
 	}
 
 	public WorldInfo(WorldSettings worldSettings1, String string2) {
@@ -177,6 +180,8 @@ public class WorldInfo {
 		nBTTagCompound1.setInteger("ThemeId", LevelThemeGlobalSettings.themeID);
 		nBTTagCompound1.setInteger("WidthInChunks", WorldSize.xChunks);
 		nBTTagCompound1.setInteger("LengthInChunks", WorldSize.zChunks);
+		nBTTagCompound1.setInteger("noiseOffsetX", GlobalVars.noiseOffsetX);
+		nBTTagCompound1.setInteger("noiseOffsetZ", GlobalVars.noiseOffsetZ);
 
 	}
 

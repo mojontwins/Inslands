@@ -9,6 +9,8 @@ public class WorldSize {
 	
 	public static int sizeID;
 	
+	public static byte chunkUpdateRadius;
+	
 	public static final String sizeNames[] = new String[] { "small", "normal", "big", "huge" };
 	
 	public static void setSize(int xChunks, int zChunks) {
@@ -16,6 +18,8 @@ public class WorldSize {
 		WorldSize.zChunks = zChunks;
 		WorldSize.width = xChunks * 16;
 		WorldSize.length = zChunks * 16;
+		
+		WorldSize.chunkUpdateRadius = (byte) (xChunks >= 16 ? 7 : xChunks / 2 + 1);
 		
 		System.out.println ("Size set: " + xChunks + " x " + zChunks);
 	}

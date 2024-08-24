@@ -14,7 +14,7 @@ import com.mojontwins.minecraft.worldedit.WorldEdit;
 import ca.spottedleaf.starlight.StarlightEngine;
 
 public class World implements IBlockAccess {
-	private static final int blocksToTickPerFrame = 80;
+	private static final int blocksToTickPerFrame = 40;
 	private static final int AUTOSAVE_PERIOD = 20 * 300;
 		
 	public boolean scheduledUpdatesAreImmediate;
@@ -409,21 +409,24 @@ public class World implements IBlockAccess {
 	}
 
 	public boolean doChunksNearChunkExist(int i1, int i2, int i3, int i4) {
-		return this.checkChunksExist(i1 - i4, i2 - i4, i3 - i4, i1 + i4, i2 + i4, i3 + i4);
+		return true;
+		// return this.checkChunksExist(i1 - i4, i2 - i4, i3 - i4, i1 + i4, i2 + i4, i3 + i4);
 	}
 
-	public boolean checkChunksExist(int i1, int i2, int i3, int i4, int i5, int i6) {
-		if(i5 >= 0 && i2 < 128) {
-			i1 >>= 4;
-			i2 >>= 4;
-			i3 >>= 4;
-			i4 >>= 4;
-			i5 >>= 4;
-			i6 >>= 4;
+	public boolean checkChunksExist(int x1, int y1, int z1, int x2, int y2, int z2) {
+		return true;
+		/*
+		if(y2 >= 0 && y1 < 128) {
+			x1 >>= 4;
+			y1 >>= 4;
+			z1 >>= 4;
+			x2 >>= 4;
+			y2 >>= 4;
+			z2 >>= 4;
 
-			for(int i7 = i1; i7 <= i4; ++i7) {
-				for(int i8 = i3; i8 <= i6; ++i8) {
-					if(!this.chunkExists(i7, i8)) {
+			for(int x = x1; x <= x2; ++x) {
+				for(int z = z1; z <= z2; ++z) {
+					if(!this.chunkExists(x, z)) {
 						return false;
 					}
 				}
@@ -433,6 +436,7 @@ public class World implements IBlockAccess {
 		} else {
 			return false;
 		}
+		*/
 	}
 
 	public boolean chunkExists(int i1, int i2) {
@@ -1537,31 +1541,9 @@ public class World implements IBlockAccess {
 			}
 		}
 
-		//this.loadedEntityList.removeAll(this.unloadedEntityList);
-
-		// Remove unloaded entities from their chunks
-
 		int x;
 		int z;
 		
-		/*
-		for(i = 0; i < this.unloadedEntityList.size(); ++i) {
-			curEntity = (Entity)this.unloadedEntityList.get(i);
-			x = curEntity.chunkCoordX;
-			z = curEntity.chunkCoordZ;
-			if(curEntity.addedToChunk && this.chunkExists(x, z)) {
-				this.getChunkFromChunkCoords(x, z).removeEntity(curEntity);
-			}
-		}
-
-		// And destroy
-
-		for(i = 0; i < this.unloadedEntityList.size(); ++i) {
-			this.releaseEntitySkin((Entity)this.unloadedEntityList.get(i));
-		}
-
-		this.unloadedEntityList.clear();
-		*/
 
 		// Process loaded entities
 
@@ -1676,66 +1658,83 @@ public class World implements IBlockAccess {
 		this.updateEntityWithOptionalForce(entity1, true);
 	}
 
-	public void updateEntityWithOptionalForce(Entity entity1, boolean z2) {
-		int i3 = MathHelper.floor_double(entity1.posX);
-		int i4 = MathHelper.floor_double(entity1.posZ);
-		byte b5 = 32;
-		if(!z2 || this.checkChunksExist(i3 - b5, 0, i4 - b5, i3 + b5, 128, i4 + b5)) {
-			entity1.lastTickPosX = entity1.posX;
-			entity1.lastTickPosY = entity1.posY;
-			entity1.lastTickPosZ = entity1.posZ;
-			entity1.prevRotationYaw = entity1.rotationYaw;
-			entity1.prevRotationPitch = entity1.rotationPitch;
-			if(z2 && entity1.addedToChunk) {
-				if(entity1.ridingEntity != null) {
-					entity1.updateRidden();
+	public void updateEntityWithOptionalForce(Entity entity, boolean z2) {
+		int x = MathHelper.floor_double(entity.posX);
+		int z = MathHelper.floor_double(entity.posZ);
+		byte radius = 32;
+		
+		if(!z2 || this.checkChunksExist(x - radius, 0, z - radius, x + radius, 128, z + radius)) {
+			
+			// Remember current position / rotation as "prev"
+
+			entity.lastTickPosX = entity.posX;
+			entity.lastTickPosY = entity.posY;
+			entity.lastTickPosZ = entity.posZ;
+			entity.prevRotationYaw = entity.rotationYaw;
+			entity.prevRotationPitch = entity.rotationPitch;
+
+			// Call onUpdate
+
+			if(z2 && entity.addedToChunk) {
+				if(entity.ridingEntity != null) {
+					entity.updateRidden();
 				} else {
-					entity1.onUpdate();
+					entity.onUpdate();
 				}
 			}
 
-			if(Double.isNaN(entity1.posX) || Double.isInfinite(entity1.posX)) {
-				entity1.posX = entity1.lastTickPosX;
+			// Safe: on invalid position / angle, back to "prev"
+
+			if(Double.isNaN(entity.posX) || Double.isInfinite(entity.posX)) {
+				entity.posX = entity.lastTickPosX;
 			}
 
-			if(Double.isNaN(entity1.posY) || Double.isInfinite(entity1.posY)) {
-				entity1.posY = entity1.lastTickPosY;
+			if(Double.isNaN(entity.posY) || Double.isInfinite(entity.posY)) {
+				entity.posY = entity.lastTickPosY;
 			}
 
-			if(Double.isNaN(entity1.posZ) || Double.isInfinite(entity1.posZ)) {
-				entity1.posZ = entity1.lastTickPosZ;
+			if(Double.isNaN(entity.posZ) || Double.isInfinite(entity.posZ)) {
+				entity.posZ = entity.lastTickPosZ;
 			}
 
-			if(Double.isNaN((double)entity1.rotationPitch) || Double.isInfinite((double)entity1.rotationPitch)) {
-				entity1.rotationPitch = entity1.prevRotationPitch;
+			if(Double.isNaN((double)entity.rotationPitch) || Double.isInfinite((double)entity.rotationPitch)) {
+				entity.rotationPitch = entity.prevRotationPitch;
 			}
 
-			if(Double.isNaN((double)entity1.rotationYaw) || Double.isInfinite((double)entity1.rotationYaw)) {
-				entity1.rotationYaw = entity1.prevRotationYaw;
+			if(Double.isNaN((double)entity.rotationYaw) || Double.isInfinite((double)entity.rotationYaw)) {
+				entity.rotationYaw = entity.prevRotationYaw;
 			}
 
-			int i6 = MathHelper.floor_double(entity1.posX / 16.0D);
-			int i7 = MathHelper.floor_double(entity1.posY / 16.0D);
-			int i8 = MathHelper.floor_double(entity1.posZ / 16.0D);
-			if(!entity1.addedToChunk || entity1.chunkCoordX != i6 || entity1.chunkCoordY != i7 || entity1.chunkCoordZ != i8) {
-				if(entity1.addedToChunk && this.chunkExists(entity1.chunkCoordX, entity1.chunkCoordZ)) {
-					this.getChunkFromChunkCoords(entity1.chunkCoordX, entity1.chunkCoordZ).removeEntityAtIndex(entity1, entity1.chunkCoordY);
+			// Did entity move to a different cubic 16x16x16 chunk?
+
+			int chunkX = MathHelper.floor_double(entity.posX / 16.0D);
+			int chunkY = MathHelper.floor_double(entity.posY / 16.0D);
+			int chunkZ = MathHelper.floor_double(entity.posZ / 16.0D);
+
+			if(!entity.addedToChunk || entity.chunkCoordX != chunkX || entity.chunkCoordY != chunkY || entity.chunkCoordZ != chunkZ) {
+				
+				// If entity is already in a chunk, remove entity from chunk
+
+				if(entity.addedToChunk && this.chunkExists(entity.chunkCoordX, entity.chunkCoordZ)) {
+					this.getChunkFromChunkCoords(entity.chunkCoordX, entity.chunkCoordZ).removeEntityAtIndex(entity, entity.chunkCoordY);
 				}
 
-				if(this.chunkExists(i6, i8)) {
-					entity1.addedToChunk = true;
-					this.getChunkFromChunkCoords(i6, i8).addEntity(entity1);
+				// Add entity to the new chunk
+
+				if(this.chunkExists(chunkX, chunkZ)) {
+					entity.addedToChunk = true;
+					this.getChunkFromChunkCoords(chunkX, chunkZ).addEntity(entity);
 				} else {
-					entity1.addedToChunk = false;
+					entity.addedToChunk = false;
 				}
 			}
 
-			if(z2 && entity1.addedToChunk && entity1.riddenByEntity != null) {
-				if(!entity1.riddenByEntity.isDead && entity1.riddenByEntity.ridingEntity == entity1) {
-					this.updateEntity(entity1.riddenByEntity);
+			if(z2 && entity.addedToChunk && entity.riddenByEntity != null) {
+				if(!entity.riddenByEntity.isDead && entity.riddenByEntity.ridingEntity == entity) {
+					this.updateEntity(entity.riddenByEntity);
 				} else {
-					entity1.riddenByEntity.ridingEntity = null;
-					entity1.riddenByEntity = null;
+					entity.riddenByEntity.ridingEntity = null;
+					entity.riddenByEntity = null;
 				}
 			}
 
@@ -2423,40 +2422,74 @@ public class World implements IBlockAccess {
 
 		int x0;
 		int z0;
+
 		int x;
 		int y;
 		int z;
+
 		int tIndex;
 		int blockID;
 
-		// First make a list of chunks to update: a square centered in *each* player
-		byte radius = 7; 	// Changed 9 to 7
+		int x1=0, z1=0, x2=0, z2=0;
 
-		for(int i1 = 0; i1 < this.playerEntities.size(); ++i1) {
-			EntityPlayer entityPlayer = (EntityPlayer)this.playerEntities.get(i1);
+		// First make a list of chunks to update: a square centered in *each* player
+		// But not here, start centered, move if colliding with the world edges.
+		// Problem is, worlds may be smaller than the vanilla 15x15 area
+
+		byte radius = WorldSize.chunkUpdateRadius; // Changed 9 to 7
+
+		for (int i1 = 0; i1 < this.playerEntities.size(); ++i1) {
+			EntityPlayer entityPlayer = (EntityPlayer) this.playerEntities.get(i1);
 			x0 = MathHelper.floor_double(entityPlayer.posX / 16.0D);
 			z0 = MathHelper.floor_double(entityPlayer.posZ / 16.0D);
 			entityPlayer.curChunkX = x0;
 			entityPlayer.curChunkZ = z0;
 
-			for(x = -radius; x <= radius; ++x) {
-				for(z = -radius; z <= radius; ++z) {
-					if(this.chunkExists(x + x0, z + z0)) {
-					this.positionsToUpdate.add(new ChunkCoordIntPair(x + x0, z + z0));
+			x1 = x0 - radius;
+			x2 = x0 + radius;
+			z1 = z0 - radius;
+			z2 = z0 + radius;
+
+			if (x1 < 0) {
+				x1 = 0;
+				x2 = radius << 1;
+			}
+			if (z1 < 0) {
+				z1 = 0;
+				z2 = radius << 1;
+			}
+			if (x2 >= WorldSize.xChunks) {
+				x1 = WorldSize.xChunks - (radius << 1);
+				x2 = WorldSize.xChunks - 1;
+			}
+			if (z2 >= WorldSize.zChunks) {
+				z1 = WorldSize.zChunks - (radius << 1);
+				z2 = WorldSize.zChunks - 1;
+			}
+
+			for (x = x1; x <= z2; ++x) {
+				for (z = z1; z <= z2; ++z) {
+					if (this.chunkExists(x, z)) {
+						this.positionsToUpdate.add(new ChunkCoordIntPair(x, z));
+					}
 				}
 			}
 		}
-		}
 
-		if(this.soundCounter > 0) {
+		//System.out.println ("bound " + x1 + "," + z1 + "-" + x2 + "," + z2 + " count = " + this.positionsToUpdate.size());
+		if (this.soundCounter > 0) {
 			--this.soundCounter;
 		}
 
 		// Update chunks
 		Iterator<ChunkCoordIntPair> chunkIterator = this.positionsToUpdate.iterator();
-
-		while(chunkIterator.hasNext()) {
-			ChunkCoordIntPair chunkCoordIntPair = (ChunkCoordIntPair)chunkIterator.next();
+	
+		this.snowTicker--;
+		int blocksToTick = World.blocksToTickPerFrame * 196 / positionsToUpdate.size();
+		int nextSnowTicker = 8 * 196 / positionsToUpdate.size();
+		
+		while (chunkIterator.hasNext()) {
+			ChunkCoordIntPair chunkCoordIntPair = (ChunkCoordIntPair) chunkIterator.next();
 
 			// Block coordinates at the beginning of this chunk
 			x0 = chunkCoordIntPair.chunkXPos * 16;
@@ -2467,7 +2500,7 @@ public class World implements IBlockAccess {
 
 			// Select a dark block and play an eerie sound on closest player
 
-			if(this.soundCounter == 0) {
+			if (this.soundCounter == 0) {
 				this.updateLCG = this.updateLCG * 3 + DIST_HASH_MAGIC;
 				tIndex = this.updateLCG >> 2;
 				x = tIndex & 15;
@@ -2476,32 +2509,36 @@ public class World implements IBlockAccess {
 				blockID = chunk.getBlockID(x, y, z);
 				x += x0;
 				z += z0;
-				if(blockID == 0 && this.getFullBlockLightValue(x, y, z) <= this.rand.nextInt(8) && this.getSavedLightValue(EnumSkyBlock.Sky, x, y, z) <= 0) {
-					EntityPlayer entityPlayer = this.getClosestPlayer((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, 8.0D);
-					
-					if(entityPlayer != null && entityPlayer.getDistanceSq((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D) > 4.0D) {
-						this.playSoundEffect((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, "ambient.cave.cave", 0.7F, 0.8F + this.rand.nextFloat() * 0.2F);
+				if (blockID == 0 && this.getFullBlockLightValue(x, y, z) <= this.rand.nextInt(8)
+						&& this.getSavedLightValue(EnumSkyBlock.Sky, x, y, z) <= 0) {
+					EntityPlayer entityPlayer = this.getClosestPlayer((double) x + 0.5D, (double) y + 0.5D,
+							(double) z + 0.5D, 8.0D);
+
+					if (entityPlayer != null && entityPlayer.getDistanceSq((double) x + 0.5D, (double) y + 0.5D,
+							(double) z + 0.5D) > 4.0D) {
+						this.playSoundEffect((double) x + 0.5D, (double) y + 0.5D, (double) z + 0.5D,
+								"ambient.cave.cave", 0.7F, 0.8F + this.rand.nextFloat() * 0.2F);
 						this.soundCounter = this.rand.nextInt(12000) + 6000;
 					}
 				}
 			}
 
 			// Thunder hits
-			if(this.worldInfo.getThundering() && this.rand.nextInt(this.lightningChance) == 0) {
+			if (this.worldInfo.getThundering() && this.rand.nextInt(this.lightningChance) == 0) {
 				this.updateLCG = this.updateLCG * 3 + DIST_HASH_MAGIC;
 				tIndex = this.updateLCG >> 2;
 				x = x0 + (tIndex & 15);
 				z = z0 + (tIndex >> 8 & 15);
 				y = this.findTopSolidBlockUsingBlockMaterial(x, z);
-				
-				// Let's find a lightning rod - that is, a close iron block which is higher than y
+
+				// Let's find a lightning rod - that is, a close iron block which is higher than
+				// y
 				byte rodRadius = 10;
-				outterRodCheck:
-				for(int xx = x - rodRadius; xx <= x + rodRadius; xx ++) {
-					for(int zz = z - rodRadius; zz <= z + rodRadius; zz ++) {
+				outterRodCheck: for (int xx = x - rodRadius; xx <= x + rodRadius; xx++) {
+					for (int zz = z - rodRadius; zz <= z + rodRadius; zz++) {
 						int yy = this.findTopSolidBlockUsingBlockMaterial(xx, zz);
-						if(yy > y) {
-							if(this.getBlockId(xx, yy, zz) == Block.blockSteel.blockID) {
+						if (yy > y) {
+							if (this.getBlockId(xx, yy, zz) == Block.blockSteel.blockID) {
 								x = xx;
 								y = yy;
 								z = zz;
@@ -2510,53 +2547,60 @@ public class World implements IBlockAccess {
 						}
 					}
 				}
-				
-				if(this.canBlockBeRainedOnForBolts(x, y, z)) {
-					this.addWeatherEffect(new EntityLightningBolt(this, (double)x, (double)y, (double)z));
+
+				if (this.canBlockBeRainedOnForBolts(x, y, z)) {
+					this.addWeatherEffect(new EntityLightningBolt(this, (double) x, (double) y, (double) z));
 					this.lastLightningBolt = 2;
 				}
 			}
 
 			// Select a top block and cover / uncover with snow
-			{
-				this.snowTicker --;
-				if(this.snowTicker <= 0) {
-					this.snowTicker = 6;
+			if(LevelThemeGlobalSettings.dynamicSnow) {
+				if (this.snowTicker <= 0) {
+					
+					// Set new snow ticker to a value depending on the # of chunks to be updated.
+					// Normal is 1/8 for 14*14 = 196 chunks
+					
+					this.snowTicker = nextSnowTicker;
+					
 					this.updateLCG = this.updateLCG * 3 + this.DIST_HASH_MAGIC;
 					tIndex = this.updateLCG >> 2;
 					x = tIndex & 15;
 					z = tIndex >> 8 & 15;
-					
+
 					// Cover if particle decide happens to be "snow"
 					BiomeGenBase biomegenbase = chunk.getBiomeGenAt(x, z);
-					
-					if(!biomegenbase.isPermaFrost()) {
+
+					if (!biomegenbase.isPermaFrost()) {
 						int particleType = Weather.particleDecide(biomegenbase, this);
 						y = this.findTopSolidBlockUsingBlockMaterial(x + x0, z + z0);
-						
-						if(y > 0) {
+
+						if (y > 0) {
 							int thisBlockID = chunk.getBlockID(x, y, z);
 							Block thisBlock = Block.blocksList[thisBlockID];
-						
+
 							blockID = chunk.getBlockID(x, y - 1, z);
-						
-							if(particleType == Weather.SNOW) { 
-								// Freeze / drop snow 
-							
-								if(thisBlockID == 0 || thisBlockID == Block.leafPile.blockID) {
+
+							if (particleType == Weather.SNOW) {
+								// Freeze / drop snow
+
+								if (thisBlockID == 0 || thisBlockID == Block.leafPile.blockID) {
 									if (Block.snow.canPlaceBlockAt(this, x + x0, y, z + z0)) {
 										this.setBlockWithNotify(x + x0, y, z + z0, Block.snow.blockID);
 									}
-								} else if(thisBlockID == Block.snow.blockID || (thisBlock != null && thisBlock.getRenderType() == 111)) {
+								} else if (thisBlockID == Block.snow.blockID
+										|| (thisBlock != null && thisBlock.getRenderType() == 111)) {
 									int meta = chunk.getBlockMetadata(x, y, z);
-									if((meta & 15) < 15) chunk.setBlockMetadata(x, y, z, meta + 1);
+									if ((meta & 15) < 15)
+										chunk.setBlockMetadata(x, y, z, meta + 1);
 								}
-		
-							} else if (rand.nextInt(4) == 0 && (Seasons.currentSeason != Seasons.WINTER || biomegenbase.weather != Weather.cold)) {
-								// Unfreeze / remove snow 
-							
+
+							} else if (rand.nextInt(4) == 0 && (Seasons.currentSeason != Seasons.WINTER
+									|| biomegenbase.weather != Weather.cold)) {
+								// Unfreeze / remove snow
+
 								if (thisBlockID == Block.snow.blockID) {
-									//this.setBlockWithNotify(x + x0, y, z + z0, 0);
+									// this.setBlockWithNotify(x + x0, y, z + z0, 0);
 									chunk.setBlockID(x, y, z, 0);
 								}
 
@@ -2567,14 +2611,14 @@ public class World implements IBlockAccess {
 			}
 
 			// Tick X random blocks
-			for(int i = 0; i < World.blocksToTickPerFrame; ++i) {
+			for (int i = 0; i < blocksToTick; ++i) {
 				this.updateLCG = this.updateLCG * 3 + this.DIST_HASH_MAGIC;
 				tIndex = this.updateLCG >> 2;
 				x = tIndex & 15;
 				z = tIndex >> 8 & 15;
 				y = tIndex >> 16 & 127;
 				blockID = (int) chunk.blocks[x << 11 | z << 7 | y] & 0xff;
-				if(Block.tickOnLoad[blockID]) {
+				if (Block.tickOnLoad[blockID]) {
 					Block.blocksList[blockID].updateTick(this, x + x0, y, z + z0, this.rand);
 				}
 			}

@@ -23,8 +23,8 @@ public abstract class EntityLiving extends Entity {
 	public float prevRenderYawOffset = 0.0F;
 	public float rotationYawHead = 0.0F;
 	public float prevRotationYawHead = 0.0F;
-	protected float ridingRotUnused;
-	protected float prevRidingRotUnused;
+	//protected float ridingRotUnused;
+	//protected float prevRidingRotUnused;
 	protected float rotationUnused;
 	protected float prevRotationUnused;
 	protected boolean unusedBool1 = true;
@@ -252,8 +252,9 @@ public abstract class EntityLiving extends Entity {
 
 	public void updateRidden() {
 		super.updateRidden();
-		this.ridingRotUnused = this.prevRidingRotUnused;
-		this.prevRidingRotUnused = 0.0F;
+		
+		//this.ridingRotUnused = this.prevRidingRotUnused;
+		//this.prevRidingRotUnused = 0.0F;
 	}
 
 	public void setPositionAndRotation2(double d1, double d3, double d5, float f7, float f8, int i9) {
@@ -269,15 +270,18 @@ public abstract class EntityLiving extends Entity {
 	public void onUpdate() {
 		super.onUpdate();
 		this.onLivingUpdate();
+		
 		double d1 = this.posX - this.prevPosX;
 		double d3 = this.posZ - this.prevPosZ;
 		float f5 = MathHelper.sqrt_double(d1 * d1 + d3 * d3);
 		float f6 = this.renderYawOffset;
 		float f7 = 0.0F;
-		this.ridingRotUnused = this.prevRidingRotUnused;
-		float f8 = 0.0F;
+		
+		//this.ridingRotUnused = this.prevRidingRotUnused;
+		
+		//float f8 = 0.0F;
 		if(f5 > 0.05F) {
-			f8 = 1.0F;
+			//f8 = 1.0F;
 			f7 = f5 * 3.0F;
 			f6 = (float)Math.atan2(d3, d1) * 180.0F / (float)Math.PI - 90.0F;
 		}
@@ -286,11 +290,13 @@ public abstract class EntityLiving extends Entity {
 			f6 = this.rotationYaw;
 		}
 
+		/*
 		if(!this.onGround) {
 			f8 = 0.0F;
 		}
+		*/
 
-		this.prevRidingRotUnused += (f8 - this.prevRidingRotUnused) * 0.3F;
+		//this.prevRidingRotUnused += (f8 - this.prevRidingRotUnused) * 0.3F;
 
 		float f9;
 		for(f9 = f6 - this.renderYawOffset; f9 < -180.0F; f9 += 360.0F) {

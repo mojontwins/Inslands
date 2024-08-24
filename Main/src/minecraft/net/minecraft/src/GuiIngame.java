@@ -194,12 +194,12 @@ public class GuiIngame extends Gui {
 			fontRenderer8.drawStringWithShadow(this.mc.debugInfoRenders(), 2, 12, 0xFFFFFF);
 			fontRenderer8.drawStringWithShadow(this.mc.getEntityDebug(), 2, 22, 0xFFFFFF);
 			fontRenderer8.drawStringWithShadow(this.mc.debugInfoEntities(), 2, 32, 0xFFFFFF);
-			//fontRenderer8.drawStringWithShadow(this.mc.getWorldProviderName(), 2, 42, 0xFFFFFF);
+
 			long j24 = Runtime.getRuntime().maxMemory();
 			long j29 = Runtime.getRuntime().totalMemory();
 			long j30 = Runtime.getRuntime().freeMemory();
 			long j21 = j29 - j30;
-			string23 = "Used: " + j21 * 100L / j24 + "% (" + j21 / 1024L / 1024L + "MB) of " + j24 / 1024L / 1024L + "MB";
+			string23 = "Used: " + j21 * 100L / j24 + "% of " + j24 / 1024L / 1024L + "MB";
 			this.drawString(fontRenderer8, string23, i6 - fontRenderer8.getStringWidth(string23) - 2, 2, 14737632);
 			string23 = "Allocated: " + j29 * 100L / j24 + "% (" + j29 / 1024L / 1024L + "MB)";
 			this.drawString(fontRenderer8, string23, i6 - fontRenderer8.getStringWidth(string23) - 2, 12, 14737632);
@@ -211,10 +211,13 @@ public class GuiIngame extends Gui {
 			this.drawString(fontRenderer8, "f: " + (MathHelper.floor_double((double)(this.mc.thePlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3), 2, 88, 14737632);
 			*/
 			
-			fontRenderer8.drawStringWithShadow("Pos: " + (int)this.mc.thePlayer.posX + ", " + (int)this.mc.thePlayer.posY + ", " + (int)this.mc.thePlayer.posZ + " [" + (int)this.mc.thePlayer.rotationYaw + "]", 2, 42, 0xFFFFFF);
+			fontRenderer8.drawStringWithShadow(
+					"Pos: " + (int)this.mc.thePlayer.posX + " " + (int)this.mc.thePlayer.posY + " " + (int)this.mc.thePlayer.posZ + 
+					" (" + (((int)this.mc.thePlayer.posX) >> 4) + " " + (((int)this.mc.thePlayer.posY) >> 4) + " " + (((int)this.mc.thePlayer.posZ) >> 4) + 
+							") [" + (int)this.mc.thePlayer.rotationYaw + "]", 2, 42, 0xFFFFFF);
 			
 			float timeAdjusted = (float) (this.mc.theWorld.worldInfo.getWorldTime() % 24000);
-			fontRenderer8.drawStringWithShadow("Time: " + this.twoDigits((int)((timeAdjusted / 1000.0F) + 6) % 24) + ":" + this.twoDigits((int)((timeAdjusted % 1000.0F) * 60 / 1000)) + " CA:" + this.mc.theWorld.getCelestialAngle(1.0F), 2, 52, 0xFFFFFF);
+			fontRenderer8.drawStringWithShadow("Time: " + this.twoDigits((int)((timeAdjusted / 1000.0F) + 6) % 24) + ":" + this.twoDigits((int)((timeAdjusted % 1000.0F) * 60 / 1000)), 2, 52, 0xFFFFFF);
 			
 			String string21 = "Seed: " + this.mc.theWorld.getRandomSeed();
 			this.drawString(fontRenderer8, string21, i6 - fontRenderer8.getStringWidth(string21) - 2, 22, 14737632);
