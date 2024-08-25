@@ -1,0 +1,15 @@
+--- a/net/minecraft/game/entity/monster/EntityGiantZombie.java
++++ b/net/minecraft/game/entity/monster/EntityGiantZombie.java
+@@ -1,6 +1,12 @@
+ package net.minecraft.game.entity.monster;
+ 
++import net.minecraft.game.world.World;
++
+ public class EntityGiantZombie extends EntityMob {
++	public EntityGiantZombie(World world) {
++		super(world);
++	}
++
+ 	protected final float getBlockPathWeight(int i1, int i2, int i3) {
+ 		return this.worldObj.getBrightness(i1, i2, i3) - 0.5F;
+ 	}

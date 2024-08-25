@@ -1,0 +1,1 @@
+"c:\Program Files\Java\jdk1.8.0_361\bin\javaw.exe" -jar RetroMCP-Java-GUI.jar

@@ -1,0 +1,16 @@
+--- a/net/minecraft/game/entity/animal/EntityPig.java
++++ b/net/minecraft/game/entity/animal/EntityPig.java
+@@ -1,8 +1,13 @@
+ package net.minecraft.game.entity.animal;
+ 
+ import net.minecraft.game.item.Item;
++import net.minecraft.game.world.World;
+ 
+ public class EntityPig extends EntityAnimal {
++	public EntityPig(World world) {
++		super(world);
++	}
++
+ 	protected final String getLivingSound() {
+ 		return "mob.pig";
+ 	}

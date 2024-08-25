@@ -1,0 +1,18 @@
+--- a/net/minecraft/game/entity/monster/EntitySpider.java
++++ b/net/minecraft/game/entity/monster/EntitySpider.java
+@@ -2,10 +2,14 @@
+ 
+ import net.minecraft.game.entity.Entity;
+ import net.minecraft.game.item.Item;
+-
++import net.minecraft.game.world.World;
+ import util.MathHelper;
+ 
+ public class EntitySpider extends EntityMob {
++	public EntitySpider(World world) {
++		super(world);
++	}
++
+ 	protected final Entity findPlayerToAttack() {
+ 		return this.getBrightness(1.0F) < 0.5F && this.worldObj.playerEntity.getDistanceToEntity(this) < 256.0D ? this.worldObj.playerEntity : null;
+ 	}

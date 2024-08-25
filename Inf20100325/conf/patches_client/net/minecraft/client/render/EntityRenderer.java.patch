@@ -1,0 +1,19 @@
+--- a/net/minecraft/client/render/EntityRenderer.java
++++ b/net/minecraft/client/render/EntityRenderer.java
+@@ -348,11 +348,11 @@
+ 				double d67 = (double)(-MathHelper.sin(entityPlayerSP58.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(entityPlayerSP58.rotationPitch / 180.0F * (float)Math.PI)) * 4.0D;
+ 				double d33 = (double)(MathHelper.cos(entityPlayerSP58.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(entityPlayerSP58.rotationPitch / 180.0F * (float)Math.PI)) * 4.0D;
+ 				d35 = (double)(-MathHelper.sin(entityPlayerSP58.rotationPitch / 180.0F * (float)Math.PI)) * 4.0D;
+-
+-				for(f46 = (float)false; f46 < 8; ++f46) {
+-					float f49 = (float)(((f46 & 1) << 1) - 1);
+-					float f44 = (float)(((f46 >> 1 & 1) << 1) - 1);
+-					f10 = (float)(((f46 >> 2 & 1) << 1) - 1);
++				
++				for(int i47 = 0; i47 < 8; ++i47) {
++					float f49 = (float)(((i47 & 1) << 1) - 1);
++					float f44 = (float)(((i47 >> 1 & 1) << 1) - 1);
++					f10 = (float)(((i47 >> 2 & 1) << 1) - 1);
+ 					f49 *= 0.1F;
+ 					f44 *= 0.1F;
+ 					f10 *= 0.1F;
