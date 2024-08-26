@@ -547,13 +547,64 @@
 			}
 		},
 		{
-			"contents": "Searching 1452 files for \"IWaterMob\"\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\mojontwins\\minecraft\\oceanruins\\EntityTriton.java:\n    4  import net.minecraft.src.Entity;\n    5  import net.minecraft.src.EntityArmoredMob;\n    6: import net.minecraft.src.IWaterMob;\n    7  import net.minecraft.src.Item;\n    8  import net.minecraft.src.ItemStack;\n    .\n   11  import net.minecraft.src.World;\n   12  \n   13: public class EntityTriton extends EntityArmoredMob implements IWaterMob {\n   14  \tpublic boolean isSwinging = false;\n   15  \tpublic int swingProgressInt = 0;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\BlockFluid.java:\n  171  \t\tVec3D vec3D7 = this.getFlowVector(world1, i2, i3, i4);\n  172  \t\tvec3D6.xCoord += vec3D7.xCoord;\n  173: \t\tif(!(entity5 instanceof IWaterMob)) vec3D6.yCoord += vec3D7.yCoord;\n  174  \t\tvec3D6.zCoord += vec3D7.zCoord;\n  175  \t}\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityDrowned.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityDrowned extends EntityZombie implements IWaterMob {\n    4  \tpublic EntityDrowned(World world) {\n    5  \t\tsuper(world);\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityWaterMob.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityWaterMob extends EntityCreature implements IAnimals, IWaterMob {\n    4  \tpublic EntityWaterMob(World world1) {\n    5  \t\tsuper(world1);\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EnumCreatureType.java:\n    4  \tmonster(IMob.class, 70, Material.air, false, \"Monster\"),\n    5  \tcreature(EntityAnimal.class, 15, Material.air, true, \"Animal\"),\n    6: \twaterCreature(IWaterMob.class, 5, Material.water, true, \"Water Creature\"),\n    7  \tcaveCreature(ICaveMob.class, 50, Material.air, false, \"Cave Creature\");\n    8  \n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\IWaterMob.java:\n    1  package net.minecraft.src;\n    2  \n    3: public interface IWaterMob extends IAnimals {\n    4  }\n    5  \n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\Pathfinder.java:\n  163  \t\t\t\t\t\t\t}\n  164  \n  165: \t\t\t\t\t\t\tif(material11 == Material.water && !(entity1 instanceof IWaterMob)) {\n  166  \t\t\t\t\t\t\t\treturn -1;\n  167  \t\t\t\t\t\t\t}\n\n8 matches across 7 files\n\n\nSearching 1452 files for \"implements IMob\"\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\benimatic\\twilightforest\\EntityTFMinotaur.java:\n   17  import net.minecraft.src.World;\n   18  \n   19: public class EntityTFMinotaur extends EntityMob implements IMob {\n   20  \tprivate static final ItemStack defaultHeldItem = new ItemStack(Item.axeSteel, 1);\n   21  \n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\benimatic\\twilightforest\\EntityTFSkeletonDruid.java:\n   20  import net.minecraft.src.World;\n   21  \n   22: public class EntityTFSkeletonDruid extends EntityMob implements IMob {\n   23  \tprivate static final ItemStack defaultHeldItem = new ItemStack(Item.hoeGold, 1);\n   24  \n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\chocolatin\\betterdungeons\\EntityHumanBase.java:\n    9  import net.minecraft.src.World;\n   10  \n   11: public class EntityHumanBase extends EntityMobWithLevel implements IMob, IMobWithLevel {\n   12  \tprotected int armor = 4;\n   13  \tprotected int armorIndex = 1;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\chocolatin\\betterdungeons\\EntityPirate.java:\n   15  import net.minecraft.src.World;\n   16  \n   17: public class EntityPirate extends EntityHumanBase implements IMobWithLevel, ISentient {\n   18  \tprotected boolean angryAtPlayer = false;\n   19  \t\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\chocolatin\\betterdungeons\\EntityPirateArcher.java:\n   18  import net.minecraft.src.World;\n   19  \n   20: public class EntityPirateArcher extends EntityMob implements IMob, ISentient {\n   21  \tprivate static final ItemStack defaultHeldItem = new ItemStack(Item.bow, 1);\n   22  \tprotected boolean angryAtPlayer = false;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\chocolatin\\betterdungeons\\EntityPirateBoss.java:\n   13  import net.minecraft.src.World;\n   14  \n   15: public class EntityPirateBoss extends EntityMob implements IMob {\n   16  \tint invisibleCD = 10;\n   17  \tprotected boolean angryAtPlayer = false;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\misc\\aether\\EntityDungeonMob.java:\n   10  import net.minecraft.src.World;\n   11  \n   12: public class EntityDungeonMob extends EntityCreature implements IMob {\n   13  \tprotected int attackStrength = 2;\n   14  \n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\mojontwins\\minecraft\\icepalace\\EntityIceWarrior.java:\n   16  import net.minecraft.src.World;\n   17  \n   18: public class EntityIceWarrior extends EntityHumanBase implements IMobWithLevel, ISentient {\n   19  \n   20  \tpublic EntityIceWarrior(World world) {\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\mojontwins\\minecraft\\monsters\\EntityFungalCalamity.java:\n   19  import net.minecraft.src.World;\n   20  \n   21: public class EntityFungalCalamity extends EntityMob implements IMob {\n   22  \n   23  \tpublic EntityFungalCalamity(World world1) {\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityBuilderZombie.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityBuilderZombie extends EntityMob implements IMob {\n    4  \tprivate int collidingTicks;\n    5  \tpublic int ticksToBuild = 10;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityCityHusk.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityCityHusk extends EntityHusk implements IMob {\n    4  \tpublic int minArmorTier = 0;\n    5  \tpublic int maxArmorTier = 2;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityCreeper.java:\n    5  import com.mojang.minecraft.ocelot.EntityBetaOcelot;\n    6  \n    7: public class EntityCreeper extends EntityMob implements IMob {\n    8  \tint timeSinceIgnited;\n    9  \tint lastActiveTime;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityElementalCreeper.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityElementalCreeper extends EntityCreeper implements IMob {\n    4  \tpublic static final int ELEMENT_DIRT = 0;\n    5  \tpublic static final int ELEMENT_FIRE = 1;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityExplodingZombie.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityExplodingZombie extends EntityMob implements IMob {\n    4  \tpublic int collidingTicks = 0;\n    5  \tpublic int ticksToExplode = 20;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityGhast.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityGhast extends EntityFlying implements IMob {\n    4  \tpublic int courseChangeCooldown = 0;\n    5  \tpublic double waypointX;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityGiantZombie.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityGiantZombie extends EntityMob implements IMob {\n    4  \tpublic EntityGiantZombie(World world1) {\n    5  \t\tsuper(world1);\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityHusk.java:\n    5  import java.util.List;\n    6  \n    7: public class EntityHusk extends EntityZombie implements IMob {\n    8  \t\n    9  \tpublic EntityHusk(World world) {\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityIceSkeleton.java:\n    4  import java.util.List;\n    5  \n    6: public class EntityIceSkeleton extends EntitySkeleton implements IMob {\n    7  \tpublic EntityIceSkeleton(World world1) {\n    8  \t\tsuper(world1);\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityMobWithLevel.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityMobWithLevel extends EntityMob implements IMobWithLevel {\n    4  \tpublic EntityMobWithLevel(World world) {\n    5  \t\tsuper(world);\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityPigZombie.java:\n    4  import java.util.List;\n    5  \n    6: public class EntityPigZombie extends EntityZombie implements IMob {\n    7  \tprivate int angerLevel = 0;\n    8  \tprivate int randomSoundDelay = 0;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntitySkeleton.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntitySkeleton extends EntityArmoredMob implements IMob {\n    4  \tpublic EntitySkeleton(World world1) {\n    5  \t\tsuper(world1);\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntitySlime.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntitySlime extends EntityLiving implements IMob {\n    4  \tpublic float squishFactor;\n    5  \tpublic float prevSquishFactor;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntitySpider.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntitySpider extends EntityMob implements IMob {\n    4  \tpublic EntitySpider(World world1) {\n    5  \t\tsuper(world1);\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityToxicZombie.java:\n    4  import com.mojontwins.minecraft.entity.status.StatusEffect;\n    5  \n    6: public class EntityToxicZombie extends EntityCityHusk implements IMob {\n    7  \n    8  \tpublic EntityToxicZombie(World world) {\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityZombie.java:\n    5  import java.util.List;\n    6  \n    7: public class EntityZombie extends EntityArmoredMob implements IMob {\n    8  \t\n    9  \tprotected int doorPosX;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityZombieAlex.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityZombieAlex extends EntityZombie implements IMob {\n    4  \t\n    5  \tpublic EntityZombieAlex(World world) {\n\n26 matches across 26 files\n",
+			"contents": "Searching 1452 files for \"IWaterMob\"\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\mojontwins\\minecraft\\oceanruins\\EntityTriton.java:\n    4  import net.minecraft.src.Entity;\n    5  import net.minecraft.src.EntityArmoredMob;\n    6: import net.minecraft.src.IWaterMob;\n    7  import net.minecraft.src.Item;\n    8  import net.minecraft.src.ItemStack;\n    .\n   11  import net.minecraft.src.World;\n   12  \n   13: public class EntityTriton extends EntityArmoredMob implements IWaterMob {\n   14  \tpublic boolean isSwinging = false;\n   15  \tpublic int swingProgressInt = 0;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\BlockFluid.java:\n  171  \t\tVec3D vec3D7 = this.getFlowVector(world1, i2, i3, i4);\n  172  \t\tvec3D6.xCoord += vec3D7.xCoord;\n  173: \t\tif(!(entity5 instanceof IWaterMob)) vec3D6.yCoord += vec3D7.yCoord;\n  174  \t\tvec3D6.zCoord += vec3D7.zCoord;\n  175  \t}\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityDrowned.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityDrowned extends EntityZombie implements IWaterMob {\n    4  \tpublic EntityDrowned(World world) {\n    5  \t\tsuper(world);\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityWaterMob.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityWaterMob extends EntityCreature implements IAnimals, IWaterMob {\n    4  \tpublic EntityWaterMob(World world1) {\n    5  \t\tsuper(world1);\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EnumCreatureType.java:\n    4  \tmonster(IMob.class, 70, Material.air, false, \"Monster\"),\n    5  \tcreature(EntityAnimal.class, 15, Material.air, true, \"Animal\"),\n    6: \twaterCreature(IWaterMob.class, 5, Material.water, true, \"Water Creature\"),\n    7  \tcaveCreature(ICaveMob.class, 50, Material.air, false, \"Cave Creature\");\n    8  \n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\IWaterMob.java:\n    1  package net.minecraft.src;\n    2  \n    3: public interface IWaterMob extends IAnimals {\n    4  }\n    5  \n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\Pathfinder.java:\n  163  \t\t\t\t\t\t\t}\n  164  \n  165: \t\t\t\t\t\t\tif(material11 == Material.water && !(entity1 instanceof IWaterMob)) {\n  166  \t\t\t\t\t\t\t\treturn -1;\n  167  \t\t\t\t\t\t\t}\n\n8 matches across 7 files\n\n\nSearching 1452 files for \"implements IMob\"\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\benimatic\\twilightforest\\EntityTFMinotaur.java:\n   17  import net.minecraft.src.World;\n   18  \n   19: public class EntityTFMinotaur extends EntityMob implements IMob {\n   20  \tprivate static final ItemStack defaultHeldItem = new ItemStack(Item.axeSteel, 1);\n   21  \n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\benimatic\\twilightforest\\EntityTFSkeletonDruid.java:\n   20  import net.minecraft.src.World;\n   21  \n   22: public class EntityTFSkeletonDruid extends EntityMob implements IMob {\n   23  \tprivate static final ItemStack defaultHeldItem = new ItemStack(Item.hoeGold, 1);\n   24  \n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\chocolatin\\betterdungeons\\EntityHumanBase.java:\n    9  import net.minecraft.src.World;\n   10  \n   11: public class EntityHumanBase extends EntityMobWithLevel implements IMob, IMobWithLevel {\n   12  \tprotected int armor = 4;\n   13  \tprotected int armorIndex = 1;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\chocolatin\\betterdungeons\\EntityPirate.java:\n   15  import net.minecraft.src.World;\n   16  \n   17: public class EntityPirate extends EntityHumanBase implements IMobWithLevel, ISentient {\n   18  \tprotected boolean angryAtPlayer = false;\n   19  \t\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\chocolatin\\betterdungeons\\EntityPirateArcher.java:\n   18  import net.minecraft.src.World;\n   19  \n   20: public class EntityPirateArcher extends EntityMob implements IMob, ISentient {\n   21  \tprivate static final ItemStack defaultHeldItem = new ItemStack(Item.bow, 1);\n   22  \tprotected boolean angryAtPlayer = false;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\chocolatin\\betterdungeons\\EntityPirateBoss.java:\n   13  import net.minecraft.src.World;\n   14  \n   15: public class EntityPirateBoss extends EntityMob implements IMob {\n   16  \tint invisibleCD = 10;\n   17  \tprotected boolean angryAtPlayer = false;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\misc\\aether\\EntityDungeonMob.java:\n   10  import net.minecraft.src.World;\n   11  \n   12: public class EntityDungeonMob extends EntityCreature implements IMob {\n   13  \tprotected int attackStrength = 2;\n   14  \n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\mojontwins\\minecraft\\icepalace\\EntityIceWarrior.java:\n   16  import net.minecraft.src.World;\n   17  \n   18: public class EntityIceWarrior extends EntityHumanBase implements IMobWithLevel, ISentient {\n   19  \n   20  \tpublic EntityIceWarrior(World world) {\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\mojontwins\\minecraft\\monsters\\EntityFungalCalamity.java:\n   19  import net.minecraft.src.World;\n   20  \n   21: public class EntityFungalCalamity extends EntityMob implements IMob {\n   22  \n   23  \tpublic EntityFungalCalamity(World world1) {\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityBuilderZombie.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityBuilderZombie extends EntityMob implements IMob {\n    4  \tprivate int collidingTicks;\n    5  \tpublic int ticksToBuild = 10;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityCityHusk.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityCityHusk extends EntityHusk implements IMob {\n    4  \tpublic int minArmorTier = 0;\n    5  \tpublic int maxArmorTier = 2;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityCreeper.java:\n    5  import com.mojang.minecraft.ocelot.EntityBetaOcelot;\n    6  \n    7: public class EntityCreeper extends EntityMob implements IMob {\n    8  \tint timeSinceIgnited;\n    9  \tint lastActiveTime;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityElementalCreeper.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityElementalCreeper extends EntityCreeper implements IMob {\n    4  \tpublic static final int ELEMENT_DIRT = 0;\n    5  \tpublic static final int ELEMENT_FIRE = 1;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityExplodingZombie.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityExplodingZombie extends EntityMob implements IMob {\n    4  \tpublic int collidingTicks = 0;\n    5  \tpublic int ticksToExplode = 20;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityGhast.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityGhast extends EntityFlying implements IMob {\n    4  \tpublic int courseChangeCooldown = 0;\n    5  \tpublic double waypointX;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityGiantZombie.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityGiantZombie extends EntityMob implements IMob {\n    4  \tpublic EntityGiantZombie(World world1) {\n    5  \t\tsuper(world1);\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityHusk.java:\n    5  import java.util.List;\n    6  \n    7: public class EntityHusk extends EntityZombie implements IMob {\n    8  \t\n    9  \tpublic EntityHusk(World world) {\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityIceSkeleton.java:\n    4  import java.util.List;\n    5  \n    6: public class EntityIceSkeleton extends EntitySkeleton implements IMob {\n    7  \tpublic EntityIceSkeleton(World world1) {\n    8  \t\tsuper(world1);\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityMobWithLevel.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityMobWithLevel extends EntityMob implements IMobWithLevel {\n    4  \tpublic EntityMobWithLevel(World world) {\n    5  \t\tsuper(world);\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityPigZombie.java:\n    4  import java.util.List;\n    5  \n    6: public class EntityPigZombie extends EntityZombie implements IMob {\n    7  \tprivate int angerLevel = 0;\n    8  \tprivate int randomSoundDelay = 0;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntitySkeleton.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntitySkeleton extends EntityArmoredMob implements IMob {\n    4  \tpublic EntitySkeleton(World world1) {\n    5  \t\tsuper(world1);\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntitySlime.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntitySlime extends EntityLiving implements IMob {\n    4  \tpublic float squishFactor;\n    5  \tpublic float prevSquishFactor;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntitySpider.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntitySpider extends EntityMob implements IMob {\n    4  \tpublic EntitySpider(World world1) {\n    5  \t\tsuper(world1);\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityToxicZombie.java:\n    4  import com.mojontwins.minecraft.entity.status.StatusEffect;\n    5  \n    6: public class EntityToxicZombie extends EntityCityHusk implements IMob {\n    7  \n    8  \tpublic EntityToxicZombie(World world) {\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityZombie.java:\n    5  import java.util.List;\n    6  \n    7: public class EntityZombie extends EntityArmoredMob implements IMob {\n    8  \t\n    9  \tprotected int doorPosX;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityZombieAlex.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityZombieAlex extends EntityZombie implements IMob {\n    4  \t\n    5  \tpublic EntityZombieAlex(World world) {\n\n26 matches across 26 files\n\n\nSearching 892 files for \"WorldEdit\"\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\Item.java:\n    7  import com.mojang.minecraft.creative.CreativeTabs;\n    8  import com.mojontwins.minecraft.entity.status.Status;\n    9: import com.mojontwins.minecraft.worldedit.ItemMagicWand;\n   10  \n   11  public class Item {\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\SinglePlayerCommands.java:\n    4  \n    5  import com.misc.bo3import.WorldGenBo3Tree;\n    6: import com.mojontwins.minecraft.worldedit.WorldEdit;\n    7  \n    8  import net.minecraft.client.Minecraft;\n    .\n  253  \t\t\t}\n  254  \t\t\t\n  255: \t\t\t// WorldEdit commands\n  256  \t\t\telse {\n  257: \t\t\t\tWorldEdit.processCommands(this.mc, cmd, tokens);\n  258  \t\t\t}\n  259  \t\t\t\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\World.java:\n   10  import java.util.TreeSet;\n   11  \n   12: import com.mojontwins.minecraft.worldedit.WorldEdit;\n   13  \n   14  import ca.spottedleaf.starlight.StarlightEngine;\n   ..\n  130  \t\tthis.calculateInitialWeather();\n  131  \t\t\n  132: \t\tWorldEdit.init();\n  133  \t}\n  134  \n  ...\n  180  \t\tthis.calculateInitialWeather();\n  181  \t\t\n  182: \t\tWorldEdit.init();\n  183  \t}\n  184  \n  ...\n  263  \t\tthis.calculateInitialWeather();\n  264  \t\t\n  265: \t\tWorldEdit.init();\n  266  \t}\n  267  \n\n10 matches across 3 files\n",
 			"settings":
 			{
-				"buffer_size": 9544,
+				"buffer_size": 10849,
 				"line_ending": "Windows",
 				"name": "Find Results",
 				"scratch": true
+			}
+		},
+		{
+			"file": "Main/src/minecraft/net/minecraft/src/World.java",
+			"settings":
+			{
+				"buffer_size": 104136,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Main/src/minecraft/net/minecraft/src/Item.java",
+			"settings":
+			{
+				"buffer_size": 27944,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "for(int avgDx = -2; avgDx <= 2; ++avgDx) {\n\t\t\t\t\tfor(int avgDz = -2; avgDz <= 2; ++avgDz) {\n\t\t\t\t\t\t//BiomeGenBase otherBiome = this.biomesForGeneration[dx + avgDx + 2 + (dz + avgDz + 2) * (xSize + 5)];\n\t\t\t\t\t\t\n\t\t\t\t\t\tint bx = (chunkX << 4) + (dx << 2) + 2 + avgDx;\n\t\t\t\t\t\tint bz = (chunkZ << 4) + (dz << 2) + 2 + avgDz;\n\t\t\t\t\t\t\n\t\t\t\t\t\tBiomeGenBase otherBiome = this.worldObj.getWorldChunkManager().getBiomeGenAt(bx, bz);\n\t\t\t\t\t\tboolean isOtherUrban = this.worldObj.getWorldChunkManager().isUrbanChunk(bx >> 4, bz >> 4);\n\t\t\t\t\t\t\n\t\t\t\t\t\tfloat distance = this.distanceArray[avgDx + 2 + (avgDz + 2) * 5] / (otherBiome.minHeight + 2.0F);\n\t\t\t\t\t\tif(otherBiome.minHeight > biomeGenBase20.minHeight) {\n\t\t\t\t\t\t\tdistance /= 2.0F;\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tdouble otherMaxHeight = isOtherUrban && otherBiome.maxHeight > 0.4 ? 0.4 : otherBiome.maxHeight;\n\n\t\t\t\t\t\tmaxHeightScaled += otherMaxHeight * distance;\n\t\t\t\t\t\tminHeightScaled += otherBiome.minHeight * distance;\n\t\t\t\t\t\ttotalDistance += distance;\n\t\t\t\t\t}\n\t\t\t\t}",
+			"settings":
+			{
+				"buffer_size": 982,
+				"line_ending": "Windows",
+				"name": "for(int avgDx = -2; avgDx <= 2; ++avgDx) {"
+			}
+		},
+		{
+			"file": "/D/Games/Sombilers/Server/server.properties",
+			"settings":
+			{
+				"buffer_size": 699,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/Games/Sombilers/Data/.minecraft/crash-reports/crash-2024-08-18_16.59.44-client.txt",
+			"settings":
+			{
+				"buffer_size": 21539,
+				"encoding": "Western (Windows 1252)",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "\tprivate static final byte streetBlockBitmap[][][] = new byte[][][] {\n\t\t{\n\t\t\t{\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1,\n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2,\n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2,\n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2,\n\t\t\t\t3, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 2,\n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2,\n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2,\n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2,\n\t\t\t\t1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 2, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t}, \n\t\t\t{\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t15,15,15,15,-1,-1,-1,-1,-1,-1,-1,15,15,15,15,15,\n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,\n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,\n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,\n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,\n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,\n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,\n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,\n\t\t\t\t15,15,15,15,-1,-1,-1,-1,-1,-1,-1,15,15,15,15,15,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t}\n\t\t}, {\n\t\t\t{\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 1, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 1, 4, 4,\n\t\t\t\t1, 6, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 6, 1, 4,\n\t\t\t\t4, 1, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 1, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 2, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 1, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 1, 4, 4,\n\t\t\t\t1, 6, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 6, 1, 4,\n\t\t\t\t4, 1, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 1, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 2, 2, 2, 2, 1, 4, 4, 4, 4\n\t\t\t},\n\t\t\t{\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18, 1,18,15,-1,-1,-1,-1,-1,-1,-1,15,18, 5,18,18,\n\t\t\t\t 1, 6, 1,15,-1,-1,-1,-1,-1,-1,-1,15, 5, 6, 5,18,\n\t\t\t\t18, 1,18,15,-1,-1,-1,-1,-1,-1,-1,15,18, 5,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18, 1,18,15,-1,-1,-1,-1,-1,-1,-1,15,18, 1,18,18,\n\t\t\t\t 1, 6, 1,15,-1,-1,-1,-1,-1,-1,-1,15, 5, 6, 1,18,\n\t\t\t\t18, 1,18,15,-1,-1,-1,-1,-1,-1,-1,15,18, 1,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18\n\t\t\t}\n\t\t}, \n\t\t{\n\t\t\t{\n\t\t\t\t4, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 1, 6, 1, 4, 4, 4, 4, 4, 1, 6, 1, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4, 1, 4, 4, 4, 4,\n\t\t\t\t1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, \n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, \n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, \n\t\t\t\t3, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 2,\n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, \n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, \n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, \n\t\t\t\t1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\n\t\t\t\t4, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 1, 6, 1, 4, 4, 4, 4, 4, 1, 6, 1, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, \n\t\t\t},\n\t\t\t{\n\t\t\t\t18,18,18, 1,18,18,18,18,18,18,18, 1,18,18,18,18,\n\t\t\t\t18,18, 1, 6, 1,18,18,18,18,18, 1, 6, 1,18,18,18,\n\t\t\t\t18,18,18, 1,18,18,18,18,18,18,18, 1,18,18,18,18,\n\t\t\t\t15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,\n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, \n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, \n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, \n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,\n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, \n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, \n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, \n\t\t\t\t15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,\n\t\t\t\t18,18,18, 1,18,18,18,18,18,18,18, 1,18,18,18,18,\n\t\t\t\t18,18, 1, 6, 1,18,18,18,18,18, 1, 6, 1,18,18,18,\n\t\t\t\t18,18,18, 1,18,18,18,18,18,18,18, 1,18,18,18,18,\n\t\t\t\t18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18, ",
+			"settings":
+			{
+				"buffer_size": 5201,
+				"line_ending": "Windows",
+				"name": "private static final byte streetBlockBitmap[][][]"
 			}
 		},
 		{
@@ -565,35 +616,20 @@
 			}
 		},
 		{
-			"file": "/C/Users/na_th/AppData/Local/Temp/7zO4573875E/BiomeMap.java",
-			"settings":
-			{
-				"buffer_size": 806,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/C/Users/na_th/AppData/Local/Temp/7zO457B43EF/SimplexNoise.java",
-			"settings":
-			{
-				"buffer_size": 16452,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/C/Users/na_th/AppData/Local/Temp/7zO4573CE0F/BiomeSource.java",
-			"settings":
-			{
-				"buffer_size": 4708,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "README.md",
 			"settings":
 			{
 				"buffer_size": 11323,
 				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Main/src/minecraft/com/mojontwins/minecraft/worldedit/WorldEdit.java",
+			"settings":
+			{
+				"buffer_size": 12572,
+				"encoding": "Western (Windows 1252)",
 				"line_ending": "Windows"
 			}
 		}
@@ -684,16 +720,23 @@
 	[
 		"/D/Cosas/Inslands",
 		"/D/Cosas/Inslands/Main",
-		"/D/Cosas/Inslands/Main/src-b1.7.3_vanilla",
-		"/D/Cosas/Inslands/Main/src-b1.7.3_vanilla/minecraft",
-		"/D/Cosas/Inslands/Main/src-b1.7.3_vanilla/minecraft/net",
-		"/D/Cosas/Inslands/Main/src-b1.7.3_vanilla/minecraft/net/minecraft",
-		"/D/Cosas/Inslands/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src",
+		"/D/Cosas/Inslands/Main/src",
+		"/D/Cosas/Inslands/Main/src/minecraft",
+		"/D/Cosas/Inslands/Main/src/minecraft/com",
+		"/D/Cosas/Inslands/Main/src/minecraft/com/mojontwins",
+		"/D/Cosas/Inslands/Main/src/minecraft/com/mojontwins/minecraft",
+		"/D/Cosas/Inslands/Main/src/minecraft/com/mojontwins/minecraft/worldedit",
+		"/D/Cosas/Inslands/Main/src/minecraft/net",
+		"/D/Cosas/Inslands/Main/src/minecraft/net/minecraft",
+		"/D/Cosas/Inslands/Main/src/minecraft/net/minecraft/src",
 		"/D/Cosas/Inslands/web",
 		"/D/Cosas/Inslands/web/img"
 	],
 	"file_history":
 	[
+		"/C/Users/na_th/AppData/Local/Temp/7zO457B43EF/SimplexNoise.java",
+		"/C/Users/na_th/AppData/Local/Temp/7zO4573875E/BiomeMap.java",
+		"/C/Users/na_th/AppData/Local/Temp/7zO4573CE0F/BiomeSource.java",
 		"/D/Cosas/InfHell/infhell2/jars/server.properties",
 		"/C/Users/na_th/AppData/Local/Temp/7zO457F041E/LargeFeature.java",
 		"/C/Users/na_th/AppData/Local/Temp/7zO457FBEDE/SimplexNoise.java",
@@ -818,20 +861,18 @@
 		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/BlockBed.java",
 		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/BlockBreakable.java",
 		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/BlockDispenser.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/BlockFlowing.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/BlockFurnace.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/BlockJukeBox.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/BlockLeaves.java"
+		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/BlockFlowing.java"
 	],
 	"find":
 	{
-		"height": 24.0
+		"height": 54.0
 	},
 	"find_in_files":
 	{
 		"height": 134.0,
 		"where_history":
 		[
+			"D:\\Cosas\\Inslands\\Main\\src\\minecraft\\net",
 			"D:\\Cosas\\Inslands\\Main\\src\\minecraft",
 			"D:\\Cosas\\Inslands\\Main\\src-aether",
 			"D:\\Cosas\\Inslands\\Main\\src-aether\\minecraft\\net\\minecraft\\src",
@@ -845,6 +886,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			" 0",
+			"-1 ",
+			" -1",
+			"0",
+			"biomeGenBase23",
+			"wand",
+			"worldeidt",
+			"WorldEdit",
 			"implements IMob",
 			"IWaterMob",
 			"x0",
@@ -964,8 +1013,7 @@
 			"i2",
 			"i1",
 			"b2",
-			"i3",
-			"i1"
+			"i3"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -973,6 +1021,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"-1",
+			"otherBiome",
 			"absZ",
 			"absX",
 			"existingID",
@@ -1086,7 +1136,7 @@
 	"groups":
 	[
 		{
-			"selected": 7,
+			"selected": 9,
 			"sheets":
 			[
 				{
@@ -1115,7 +1165,7 @@
 						"translation.y": 2067.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
@@ -1143,7 +1193,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
@@ -1172,7 +1222,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
@@ -1180,7 +1230,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9544,
+						"buffer_size": 10849,
 						"regions":
 						{
 							"match":
@@ -1323,6 +1373,46 @@
 									[
 										9442,
 										9457
+									],
+									[
+										9807,
+										9816
+									],
+									[
+										10047,
+										10056
+									],
+									[
+										10057,
+										10066
+									],
+									[
+										10164,
+										10173
+									],
+									[
+										10211,
+										10220
+									],
+									[
+										10431,
+										10440
+									],
+									[
+										10441,
+										10450
+									],
+									[
+										10582,
+										10591
+									],
+									[
+										10684,
+										10693
+									],
+									[
+										10786,
+										10795
 									]
 								],
 								"scope": ""
@@ -1331,15 +1421,15 @@
 						"selection":
 						[
 							[
-								5574,
-								5574
+								10445,
+								10445
 							]
 						],
 						"settings":
 						{
 							"detect_indentation": false,
 							"line_numbers": false,
-							"output_tag": 2,
+							"output_tag": 3,
 							"result_base_dir": "",
 							"result_file_regex": "^([^ \t].*):$",
 							"result_line_regex": "^ +([0-9]+):",
@@ -1347,14 +1437,188 @@
 							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1352.0,
+						"translation.y": 3148.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "Main/src/minecraft/net/minecraft/src/World.java",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 104136,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4404,
+								4421
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1281.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "Main/src/minecraft/net/minecraft/src/Item.java",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 27944,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								21639,
+								21639
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 24.0,
+						"translation.y": 2204.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 6,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 982,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								982
+							]
+						],
+						"settings":
+						{
+							"auto_name": "for(int avgDx = -2; avgDx <= 2; ++avgDx) {",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/D/Games/Sombilers/Server/server.properties",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 699,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								141,
+								141
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/JavaProperties.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "/D/Games/Sombilers/Data/.minecraft/crash-reports/crash-2024-08-18_16.59.44-client.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 21539,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2821.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5201,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								5201
+							]
+						],
+						"settings":
+						{
+							"auto_name": "private static final byte streetBlockBitmap[][][]",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
 					"file": "Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/WorldChunkManager.java",
 					"semi_transient": false,
 					"settings":
@@ -1376,110 +1640,20 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 702.0,
+						"translation.y": 664.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/C/Users/na_th/AppData/Local/Temp/7zO4573875E/BiomeMap.java",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 806,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Java/Java.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "/C/Users/na_th/AppData/Local/Temp/7zO457B43EF/SimplexNoise.java",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 16452,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Java/Java.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 5382.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "/C/Users/na_th/AppData/Local/Temp/7zO4573CE0F/BiomeSource.java",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4708,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4064,
-								4064
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Java/Java.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 897.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
+					"stack_index": 8,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
-					"buffer": 8,
+					"buffer": 11,
 					"file": "README.md",
 					"semi_transient": false,
 					"settings":
@@ -1491,8 +1665,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								3177,
+								3177
 							]
 						],
 						"settings":
@@ -1501,10 +1675,39 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1462.0,
+						"translation.y": 1007.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "Main/src/minecraft/com/mojontwins/minecraft/worldedit/WorldEdit.java",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 12572,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								11620,
+								10242
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 25.0,
+						"translation.y": 4341.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
 					"type": "text"
 				}
 			]

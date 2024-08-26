@@ -6,8 +6,12 @@ import java.util.Random;
 import com.mojang.minecraft.creative.CreativeTabs;
 
 public class BlockLeaves extends BlockLeavesBase {
+	// Alpha version
 	private int leafTexIndex;
-	private int decayCounter = 0;
+	public static byte canopyDiameter = 32;
+	public static int canopyRadius = canopyDiameter / 2;
+
+	int[] surroundings;
 
 	// Change to fancy colors for fancy trees and use metadata 1..7 (0 means "biome
 	// controlled")
@@ -26,10 +30,12 @@ public class BlockLeaves extends BlockLeavesBase {
 	}
 
 	public void onNeighborBlockChange(World world, int x, int y, int z, int blockID) {
-		this.decayCounter = 0;
-		this.updateCurrentLeaves(world, x, y, z);
-		super.onNeighborBlockChange(world, x, y, z, blockID);
-
+		// Small optimization: When replaced with leaves or wood, surrounding leaves are
+		// NOT affected
+		if (blockID == Block.wood.blockID || blockID == Block.leaves.blockID)
+			return;
+		
+		this.onBlockRemovalDo(world, x, y, z);
 	}
 
 	public int quantityDropped(Random Random) {

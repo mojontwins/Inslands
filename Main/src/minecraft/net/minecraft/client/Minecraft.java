@@ -1287,6 +1287,8 @@ public abstract class Minecraft implements Runnable {
 			
 			boolean valid = true;
 			do {
+				System.gc();
+				
 				GlobalVars.initializeGameFlags();
 				
 				world = new World(saveHandler, worldName, worldSettings);
@@ -1300,6 +1302,7 @@ public abstract class Minecraft implements Runnable {
 								", Valid upon theme? " + valid + 
 								" ] - trying again!");
 						Random rand = new Random(worldSettings.getSeed());
+						
 						worldSettings = new WorldSettings(
 							rand.nextLong(), 
 							worldSettings.getGameType(),
@@ -1307,6 +1310,7 @@ public abstract class Minecraft implements Runnable {
 							worldSettings.getHardcoreEnabled(), 
 							worldSettings.isGenerateCities(),
 							worldSettings.getTerrainType());
+						
 					}
 				}
 			} while(world.findingSpawnPoint || !valid);
