@@ -52,7 +52,7 @@ public class LevelThemeGlobalSettings {
 		loadThemeById(0);
 	}
 
-	public static Object getTheme() {
+	public static LevelThemeSettings getTheme() {
 		return theme;
 	}
 }

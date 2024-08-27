@@ -3,7 +3,6 @@ package com.mojang.minecraft.indev;
 import net.minecraft.src.Block;
 import net.minecraft.src.ChunkProviderGenerate;
 import net.minecraft.src.LevelThemeGlobalSettings;
-import net.minecraft.src.LevelThemeSettings;
 import net.minecraft.src.World;
 
 public class ChunkProviderIndev extends ChunkProviderGenerate {

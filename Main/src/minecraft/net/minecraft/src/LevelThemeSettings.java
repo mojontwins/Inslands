@@ -197,7 +197,7 @@ public class LevelThemeSettings {
 		return this;
 	}
 	
-	int adjustPerlinHeight(int height) {
+	public int adjustPerlinHeight(int height) {
 		return height;
 	}
 }
