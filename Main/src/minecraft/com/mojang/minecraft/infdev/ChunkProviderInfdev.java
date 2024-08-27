@@ -1,16 +1,21 @@
-package net.minecraft.src;
+package com.mojang.minecraft.infdev;
 
-public class ChunklProviderInfdev extends ChunkProviderGenerate {
+import net.minecraft.src.BiomeGenBase;
+import net.minecraft.src.Block;
+import net.minecraft.src.ChunkProviderGenerate;
+import net.minecraft.src.World;
+
+public class ChunkProviderInfdev extends ChunkProviderGenerate {
 	private NoiseGeneratorOctavesInfdev infNoise1;
 	private NoiseGeneratorOctavesInfdev infNoise2;
 	private NoiseGeneratorOctavesInfdev infNoise3;
 	
-	public ChunklProviderInfdev(World world1, long j2) {
-		this(world1, j2, true);
+	public ChunkProviderInfdev(World world, long seed) {
+		this(world, seed, true);
 	}
 	
-	public ChunklProviderInfdev(World world1, long j2, boolean b) {
-		super(world1, j2, b);
+	public ChunkProviderInfdev(World world, long seed, boolean b) {
+		super(world, seed, b);
 		this.infNoise1 = new NoiseGeneratorOctavesInfdev(this.rand, 16);
 		this.infNoise2 = new NoiseGeneratorOctavesInfdev(this.rand, 16);
 		this.infNoise3 = new NoiseGeneratorOctavesInfdev(this.rand, 8);

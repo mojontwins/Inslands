@@ -196,4 +196,8 @@ public class LevelThemeSettings {
 		this.sunriseSunsetColors = sunriseSunsetColors;
 		return this;
 	}
+	
+	int adjustPerlinHeight(int height) {
+		return height;
+	}
 }

@@ -1,6 +1,9 @@
-package net.minecraft.src;
+package com.mojang.minecraft.infdev;
 
 import java.util.Random;
+
+import net.minecraft.src.MathHelper;
+import net.minecraft.src.NoiseGenerator;
 
 public class NoiseGeneratorPerlinInfdev extends NoiseGenerator {
 	private int[] permutations;
@@ -32,7 +35,7 @@ public class NoiseGeneratorPerlinInfdev extends NoiseGenerator {
 
 	}
 
-	private double generateNoise(double d1, double d3, double d5) {
+	public double generateNoise(double d1, double d3, double d5) {
 		double d7 = d1 + this.xCoord;
 		double d9 = d3 + this.yCoord;
 		double d11 = d5 + this.zCoord;
@@ -72,7 +75,4 @@ public class NoiseGeneratorPerlinInfdev extends NoiseGenerator {
 		return this.generateNoise(d1, d3, 0.0D);
 	}
 
-	public final double generateNoiseD(double d1, double d3, double d5) {
-		return this.generateNoise(d1, d3, d5);
-	}
 }

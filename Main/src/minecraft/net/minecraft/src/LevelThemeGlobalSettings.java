@@ -21,6 +21,8 @@ public class LevelThemeGlobalSettings {
 	public static boolean levelChecks = true;
 	public static boolean dynamicSnow = false;
 	
+	public static LevelThemeSettings theme = null;
+	
 	public static void loadThemeById(int id) {
 		LevelThemeSettings settings = LevelThemeSettings.findThemeById(id);
 		if(settings != null) {
@@ -41,10 +43,16 @@ public class LevelThemeGlobalSettings {
 			colourfulFlock = settings.colourfulFlock;
 			colorizedPlants = settings.colorizedPlants;
 			dynamicSnow = settings.dynamicSnow;
+			
+			theme = settings;
 		}
 	}
 
 	static {
 		loadThemeById(0);
+	}
+
+	public static Object getTheme() {
+		return theme;
 	}
 }

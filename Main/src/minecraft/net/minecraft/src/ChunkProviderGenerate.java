@@ -3,6 +3,7 @@ package net.minecraft.src;
 import java.util.Random;
 
 import com.benimatic.twilightforest.MapGenTFMinotaurMaze;
+import com.mojang.minecraft.indev.NoiseGeneratorOctavesIndev;
 import com.mojang.minecraft.structure.mineshaft.MapGenMineshaft;
 import com.mojang.minecraft.structure.stronghold.MapGenStronghold;
 import com.mojontwins.minecraft.feature.FeatureProvider;

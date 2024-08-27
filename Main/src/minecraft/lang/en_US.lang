@@ -66,6 +66,7 @@ selectWorld.mapFeatures.info=Villages, dungeons etc
 generator.default=Alpha Island
 generator.sky=Floating Island
 generator.infdev=Infdev Island
+generator.indev=2D Perlin Island
 
 multiplayer.title=Play Multiplayer
 multiplayer.connect=Connect
