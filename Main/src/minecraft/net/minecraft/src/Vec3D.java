@@ -31,7 +31,7 @@ public class Vec3D {
 		return ((Vec3D)vectorList.get(nextVector++)).setComponents(d0, d2, d4);
 	}
 
-	private Vec3D(double d1, double d3, double d5) {
+	public Vec3D(double d1, double d3, double d5) {
 		if(d1 == -0.0D) {
 			d1 = 0.0D;
 		}

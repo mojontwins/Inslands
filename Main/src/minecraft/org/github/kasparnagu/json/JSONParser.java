@@ -1,0 +1,108 @@
+package org.github.kasparnagu.json;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class JSONParser {
+	public static class JSONParseException extends Exception {
+		private static final long serialVersionUID = 7078320816065460L;
+
+		public JSONParseException(String cause) {
+			super(cause);
+		}
+	}
+	
+	public static Object parseJSONFile(String file) throws JSONParseException, IOException{
+		Class<?> classLoader = JSONParser.class;
+		java.net.URL resource = classLoader.getResource(file);
+		
+		return parseJSON(new Scanner(resource.openStream()));
+	}
+	
+	public static Object parseJSON(String text) throws JSONParseException{
+		return parseJSON(new Scanner(text));
+	}
+	
+	public static Object parseJSON(Scanner s) throws JSONParseException{
+		Object ret = null;
+		skipWhitespace(s);
+		if(s.findWithinHorizon("\\{", 1) != null){
+			HashMap<Object, Object> retMap = new HashMap<Object, Object>();
+			ret = retMap;
+			skipWhitespace(s);
+			if(s.findWithinHorizon("\\}", 1) == null){
+				while(s.hasNext()){
+					Object key = parseJSON(s);
+					skipWhitespace(s);
+					if(s.findWithinHorizon(":", 1) == null){
+						fail(s,":");
+					}
+					Object value = parseJSON(s);
+					retMap.put(key, value);
+					skipWhitespace(s);
+					if(s.findWithinHorizon(",", 1)== null){
+						break;
+					}
+				}			
+				if(s.findWithinHorizon("\\}", 1) == null){
+					fail(s,"}");
+				}
+			}
+		}else if(s.findWithinHorizon("\"", 1) != null){
+			ret = s.findWithinHorizon("(\\\\\\\\|\\\\\"|[^\"])*",0)
+					.replace("\\\\", "\\")
+					.replace("\\\"","\"");
+			if(s.findWithinHorizon("\"", 1) == null){
+				fail(s,"quote");
+			}
+		}else if(s.findWithinHorizon("'", 1) != null){
+			ret = s.findWithinHorizon("(\\\\\\\\|\\\\'|[^'])*",0);
+			if(s.findWithinHorizon("'", 1) == null){
+				fail(s,"quote");
+			}		
+		}else if(s.findWithinHorizon("\\[", 1) != null){
+			ArrayList<Object> retList = new ArrayList<Object>();
+			ret = retList;
+			skipWhitespace(s);
+			if(s.findWithinHorizon("\\]", 1) == null){
+				while(s.hasNext()){
+					retList.add(parseJSON(s));
+					skipWhitespace(s);
+					if(s.findWithinHorizon(",", 1)== null){
+						break;
+					}
+				}
+				if(s.findWithinHorizon("\\]", 1) == null){
+					fail(s,", or ]");
+				}
+			}
+		}else if(s.findWithinHorizon("true",4) != null){
+			ret = true;
+		}else if(s.findWithinHorizon("false",5) != null){
+			ret = false;
+		}else if(s.findWithinHorizon("null",4) != null){
+			ret = null;
+		}else{
+			String numberStart = s.findWithinHorizon("[-0-9+eE]", 1);
+			if(numberStart != null){
+				String numStr = numberStart + s.findWithinHorizon("[-0-9+eE.]*", 0);
+				if(numStr.contains(".") | numStr.contains("e")){
+					ret = Double.valueOf(numStr);
+				}else{
+					ret = Long.valueOf(numStr);
+				}
+			}else{
+				throw new JSONParseException("No JSON value found. Found: " + s.findWithinHorizon(".{0,5}", 5));
+			}
+		}
+		return ret;
+	}
+	private static void fail(Scanner scanner, String expected) throws JSONParseException {
+		throw new JSONParseException("Expected " + expected +  " but found:" + scanner.findWithinHorizon(".{0,5}", 5));
+	}
+	private static void skipWhitespace(Scanner s) {
+		s.findWithinHorizon("\\s*", 0);
+	}
+}

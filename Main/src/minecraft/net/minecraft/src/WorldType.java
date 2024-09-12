@@ -74,20 +74,10 @@ public class WorldType {
 	}
 
 	public IChunkProvider getChunkGenerator(World world) {
-		return (IChunkProvider)(
-				this == SKY ? 
-						new ChunkProviderSky(world, world.getRandomSeed(), world.getWorldInfo().isMapFeaturesEnabled()) 
-					: 
-						(this == INFDEV ?
-								new ChunkProviderInfdev(world, world.getRandomSeed(), world.getWorldInfo().isMapFeaturesEnabled())
-							:
-								(this == INDEV ?
-										new ChunkProviderIndev(world, world.getRandomSeed(), world.getWorldInfo().isMapFeaturesEnabled())
-								:
-										new ChunkProviderGenerate(world, world.getRandomSeed(), world.getWorldInfo().isMapFeaturesEnabled())
-								)
-						)
-				);
+		if(this == SKY) return 	new ChunkProviderSky(world, world.getRandomSeed(), world.getWorldInfo().isMapFeaturesEnabled());
+		if(this == INFDEV) return new ChunkProviderInfdev(world, world.getRandomSeed(), world.getWorldInfo().isMapFeaturesEnabled());
+		if(this == INDEV) return new ChunkProviderIndev(world, world.getRandomSeed(), world.getWorldInfo().isMapFeaturesEnabled());
+		return new ChunkProviderGenerate(world, world.getRandomSeed(), world.getWorldInfo().isMapFeaturesEnabled());
 	}
 
 	public int getSeaLevel(World world) {

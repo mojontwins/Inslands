@@ -14,14 +14,15 @@ import com.misc.aether.BlockChestMimic;
 import com.misc.aether.BlockDungeon;
 import com.misc.aether.BlockTrap;
 import com.mojang.minecraft.creative.CreativeTabs;
+import com.mojontwins.minecraft.blockmodels.BlockModel;
 import com.mojontwins.minecraft.nether.BlockLeaves2;
 import com.mojontwins.minecraft.nether.BlockLog2;
 import com.mojontwins.minecraft.nether.BlockSapling2;
 import com.mojontwins.minecraft.nether.ItemLeaves2;
 import com.mojontwins.minecraft.nether.ItemLog2;
 import com.mojontwins.minecraft.nether.ItemSapling2;
-
-
+import com.mojontwins.minecraft.poisonisland.BlockCauldron;
+import com.mojontwins.minecraft.poisonisland.BlockSmallHead;
 
 public class Block {
 	
@@ -241,6 +242,10 @@ public class Block {
 	public static final Block sapling2 = (new BlockSapling2(217)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("sapling").setRequiresSelfNotify().setCreativeTab(CreativeTabs.tabDeco);
 	public static final Block planks2 = (new Block(218, 167, Material.wood)).setHardness(2.0F).setResistance(10.0F).setStepSound(soundWoodFootstep).setBlockName("wood").setRequiresSelfNotify().setIsUrban(true).setCreativeTab(CreativeTabs.tabBlock);
 	public static final Block pop = (new BlockTranslucent(219, 12*16+4, Material.glass)).setHardness(0.3F).setResistance(15.0F).setStepSound(soundGlassFootstep).setBlockName("pop").setLightValue(0.875F).setLightOpacity(3).setCreativeTab(CreativeTabs.tabBlock);
+	
+	// Poison island
+	public static final Block skeletonHead = (new BlockSmallHead(220, 162)).setHardness(1.0F).setResistance(5.0F).setStepSound(soundSlimeFootstep).setBlockName("skeletonHead").setCreativeTab(CreativeTabs.tabDeco);
+	public static final Block cauldron = (new BlockCauldron(221,0)).setBlockUnbreakable().setResistance(600000).setStepSound(soundMetalFootstep).setBlockName("cauldron").setCreativeTab(CreativeTabs.tabDeco);
 	
 	// Pistons - sorry, different IDs
 	public static final Block classicPistonBase = (new PistonBase(252, 22, false)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("piston");
@@ -767,6 +772,18 @@ public class Block {
 	@Override
 	public String toString() {
 		return this.blockName;
+	}
+	
+	public BlockModel getBlockModel() {
+		return null;
+	}
+	
+	public int overrideTextureIndex() {
+		return -1;
+	}
+	
+	public int overrideTextureWith() {
+		return -1;
 	}
 	
 	// 

@@ -1,8 +1,10 @@
 package net.minecraft.src;
 
-import net.minecraft.client.Minecraft;
-
 import org.lwjgl.opengl.GL11;
+
+import com.mojontwins.minecraft.blockmodels.RenderBlockModel;
+
+import net.minecraft.client.Minecraft;
 
 public class RenderBlocks {
 	private IBlockAccess blockAccess;
@@ -163,6 +165,7 @@ public class RenderBlocks {
 			case 110: return this.renderBlockChain(block, x, y, z);
 			case 111: return this.renderBlockSnowloggedPlant(block, x, y, z);
 			case 112: return this.renderBlockThinFeature(block, x, y, z);
+			case 250: return this.renderBlockModel(block, x, y, z);
 			default: return false;
 		}
 	}
@@ -4616,6 +4619,11 @@ public class RenderBlocks {
 		return RenderBlockClassicPiston.RenderWorldBlock(this, this.blockAccess, x, y, z, block, 0);
 	}
 	
+	public boolean renderBlockModel(Block block, int x, int y, int z) {
+		int facing = this.blockAccess.getBlockMetadata(x, y, z);
+		return RenderBlockModel.renderBlock(this.blockAccess, block, x, y, z, facing);
+	}
+	
 	// End
 	
 	public void renderBlockAsItem(Block block1, float f2) {
@@ -4672,7 +4680,9 @@ public class RenderBlocks {
 		if(i5 >= 103 && i5 <= 108 && i5 != 104) i5 = 0;
 		if(i5 == 255) i5 = 0;
 		
-		if(i5 != 0 && i5 != 16) {
+		if(i5 == 250) {
+			RenderBlockModel.renderBlockAsItem(tessellator4, block1);
+		} else if(i5 != 0 && i5 != 16) {
 			if(i5 == 1 || i5 == 111) {
 				//System.out.println ("HI!");
 				tessellator4.startDrawingQuads();
@@ -4863,7 +4873,7 @@ public class RenderBlocks {
 
 	public static boolean renderItemIn3d(int i0) {
 		//return i0 == 0 ? true : (i0 == 13 ? true : (i0 == 10 ? true : (i0 == 11 ? true : i0 == 16)));
-		return (i0 == 0 || i0 == 13 || i0 == 10 || i0 == 11 || i0 == 16 || (i0 >= 102 && i0 <= 109) || i0 == 112 || i0 == 255);
+		return (i0 == 0 || i0 == 13 || i0 == 10 || i0 == 11 || i0 == 16 || (i0 >= 102 && i0 <= 109) || i0 == 112 || i0 == 255 || i0 == 250);
 	}
 	
 

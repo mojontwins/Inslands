@@ -14,7 +14,7 @@ theme.Paradise=Paradise
 theme.Poison=Poison Island
 theme.Biomes=Biomes
 
-size.small=Small
+size.small=Smallk
 size.normal=Normal
 size.big=Big
 size.huge=Huge
@@ -478,9 +478,9 @@ tile.LockedDungeonStone.name=Dungeon Stone
 tile.LightLockedDungeonStone.name=Dungeon Stone
 tile.oreQuartz.name=Quartz Ore
 tile.blockQuartz.name=Block of quartz
-
-item.shovelIron.name=Iron Shovel
-item.shovelIron.desc=
+tile.skeletonHead.name=Skeleton Head
+tile.cauldron.name=Cauldron
+te
 item.pickaxeIron.name=Iron Pickaxe
 item.pickaxeIron.desc=
 item.hatchetIron.name=Iron Axe

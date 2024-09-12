@@ -14,7 +14,7 @@ import com.mojontwins.minecraft.worldedit.WorldEdit;
 import ca.spottedleaf.starlight.StarlightEngine;
 
 public class World implements IBlockAccess {
-	private static final int blocksToTickPerFrame = 40;
+	private static final int blocksToTickPerFrame = 80;
 	private static final int AUTOSAVE_PERIOD = 20 * 300;
 		
 	public boolean scheduledUpdatesAreImmediate;

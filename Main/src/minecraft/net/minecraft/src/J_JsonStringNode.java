@@ -6,7 +6,7 @@ import java.util.Map;
 public final class J_JsonStringNode extends J_JsonNode implements Comparable<Object> {
 	private final String field_27224_a;
 
-	J_JsonStringNode(String string1) {
+	public J_JsonStringNode(String string1) {
 		if(string1 == null) {
 			throw new NullPointerException("Attempt to construct a JsonString with a null value.");
 		} else {
