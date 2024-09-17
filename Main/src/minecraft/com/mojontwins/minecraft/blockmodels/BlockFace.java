@@ -51,8 +51,6 @@ public class BlockFace {
 	}
 
 	public void overrideTexture(int textureIndex) {
-		this.textureIndex = textureIndex;
-		
 		// Precalc this 
 		this.u0 = (textureIndex & 15) << 4;
 		this.v0 = textureIndex & 0xf0;
@@ -75,5 +73,17 @@ public class BlockFace {
 	
 	public double getRotatedV(int index) {
 		return (this.v0 + this.uvs.getRotatedV(index)) / 256.0D;
+	}
+
+	public static int vanillaFace(int faceIdx) {
+		switch(faceIdx) {
+		case DOWN: return 0;
+		case UP: return 1;
+		default:
+		case EAST: return 2;
+		case WEST: return 3;
+		case NORTH: return 4;
+		case SOUTH: return 5;
+		}
 	}
 }

@@ -23,7 +23,11 @@ public class EntitySkeleton extends EntityArmoredMob implements IMob {
 	public void onLivingUpdate() {
 		if(this.worldObj.isDaytime()) {
 			float f1 = this.getEntityBrightness(1.0F);
-			if(f1 > 0.5F && this.worldObj.canBlockSeeTheSky(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)) && this.rand.nextFloat() * 30.0F < (f1 - 0.4F) * 2.0F) {
+			if(
+					f1 > 0.5F && 
+					this.worldObj.canBlockSeeTheSky(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)) && 
+					this.rand.nextFloat() * 30.0F < (f1 - 0.4F) * 2.0F
+			) {
 				if(this.burnsInWinter() || Seasons.currentSeason == Seasons.SUMMER || Seasons.currentSeason == Seasons.SPRING) this.fire = 300;
 			}
 		}

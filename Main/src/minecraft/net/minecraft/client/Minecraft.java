@@ -313,7 +313,8 @@ public abstract class Minecraft implements Runnable {
 		this.renderEngine.registerTextureFX(new TextureFlamesFX(1));
 		
 		// Custom texture atlas based animated textures
-		this.renderEngine.registerTextureFX(new TextureAnimatedFX(15*16+12, 0, "/animated/block_seaweed.png", 1));
+		this.renderEngine.registerTextureFX(new TextureAnimatedFX(15 * 16 + 12, 0, "/animated/block_seaweed.png", 1));
+		this.renderEngine.registerTextureFX(new TextureAnimatedFX(9 * 16 + 6, 0, "/animated/block_acidwater.png", 1));
 		
 		this.renderGlobal = new RenderGlobal(this, this.renderEngine);
 		GL11.glViewport(0, 0, this.displayWidth, this.displayHeight);

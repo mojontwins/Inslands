@@ -234,7 +234,7 @@ public class BlockModel {
 	
 	public void getCollidingBoundingBoxes(World world, int x, int y, int z, AxisAlignedBB aabb, ArrayList<AxisAlignedBB> collidingBoundingBoxes) {
 		Iterator<BlockElement> iterator = this.blockElements.iterator();
-		int facing = world.getBlockMetadata(x, y, z);
+		int facing = world.getBlockMetadata(x, y, z) & 3;
 		
 		while(iterator.hasNext()) {
 			BlockElement blockElement = iterator.next();
@@ -250,11 +250,21 @@ public class BlockModel {
 	}
 	
 	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) { 
-		int facing = world.getBlockMetadata(x, y, z);
+		int facing = world.getBlockMetadata(x, y, z) & 3;
 		
 		return AxisAlignedBB.getBoundingBoxFromPool(
 				(double)x + this.minX[facing], (double)y + this.minY, (double)z + this.minZ[facing], 
 				(double)x + this.maxX[facing], (double)y + this.maxY, (double)z + this.maxZ[facing]
 		);
+	}
+	
+	public static int angleToMeta(int angle) {
+		switch(angle) {
+		case 0:
+		case 2:
+			return 2 - angle;
+		default:
+			return angle;
+		}
 	}
 }

@@ -4620,8 +4620,8 @@ public class RenderBlocks {
 	}
 	
 	public boolean renderBlockModel(Block block, int x, int y, int z) {
-		int facing = this.blockAccess.getBlockMetadata(x, y, z);
-		return RenderBlockModel.renderBlock(this.blockAccess, block, x, y, z, facing);
+		int meta = this.blockAccess.getBlockMetadata(x, y, z);
+		return RenderBlockModel.renderBlock(this.blockAccess, block, x, y, z, meta);
 	}
 	
 	// End
@@ -4681,10 +4681,9 @@ public class RenderBlocks {
 		if(i5 == 255) i5 = 0;
 		
 		if(i5 == 250) {
-			RenderBlockModel.renderBlockAsItem(tessellator4, block1);
+			RenderBlockModel.renderBlockAsItem(tessellator4, block1, i2);
 		} else if(i5 != 0 && i5 != 16) {
 			if(i5 == 1 || i5 == 111) {
-				//System.out.println ("HI!");
 				tessellator4.startDrawingQuads();
 				tessellator4.setNormal(0.0F, -1.0F, 0.0F);
 				this.renderCrossedSquares(block1, i2, -0.5D, -0.5D, -0.5D);

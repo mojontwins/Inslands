@@ -7,14 +7,17 @@ public class ItemCloth extends ItemBlock {
 		this.setHasSubtypes(true);
 	}
 
+	@Override
 	public int getIconFromDamage(int i1) {
 		return Block.cloth.blockIndexInTexture;
 	}
 
+	@Override
 	public int getPlacedBlockMetadata(int i1) {
 		return i1;
 	}
 
+	@Override
 	public String getItemNameIS(ItemStack itemStack1) {
 		return super.getItemName() + "." + ItemDye.dyeColorNames[BlockCloth.getBlockFromDye(itemStack1.getItemDamage())];
 	}

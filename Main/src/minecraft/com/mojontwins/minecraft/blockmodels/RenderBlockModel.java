@@ -8,20 +8,21 @@ import net.minecraft.src.Tessellator;
 
 public class RenderBlockModel {
 
-	public static boolean renderBlock(IBlockAccess blockAccess, Block block, int x, int y, int z, int angle) {
+	public static boolean renderBlock(IBlockAccess blockAccess, Block block, int x, int y, int z, int meta) {
+		int angle = meta & 3;
 		
 		BlockModel model = block.getBlockModel();
 		if(model == null) return false;
 		
 		// Draw all elements in block model
 		for(BlockElement element : model.getBlockElements()) {
-			drawElement(blockAccess, block, x, y, z, element, angle);
+			drawElement(blockAccess, block, x, y, z, element, angle, meta);
 		}
 		
 		return true;
 	}
 
-	private static void drawElement(IBlockAccess blockAccess, Block block, int x, int y, int z, BlockElement element, int angle) {
+	private static void drawElement(IBlockAccess blockAccess, Block block, int x, int y, int z, BlockElement element, int angle, int meta) {
 		Tessellator tessellator = Tessellator.instance;
 		
 		// Set brightness
@@ -32,88 +33,90 @@ public class RenderBlockModel {
 		
 		// down
 		tessellator.setColorOpaque_F(0.5F, 0.5F, 0.5F);
-		RenderBlockModel.renderBottomFace(block, (double)x, (double)y, (double)z, element, angle);
+		RenderBlockModel.renderBottomFace(block, (double)x, (double)y, (double)z, element, angle, meta);
 		
 		// up
 		tessellator.setColorOpaque_F(1.0F, 1.0F, 1.0F);
-		RenderBlockModel.renderTopFace(block, (double)x, (double)y, (double)z, element, angle);
+		RenderBlockModel.renderTopFace(block, (double)x, (double)y, (double)z, element, angle, meta);
 		
 		// east
 		tessellator.setColorOpaque_F(0.8F, 0.8F, 0.8F);
-		RenderBlockModel.renderEastFace(block, (double)x, (double)y, (double)z, element, angle);
+		RenderBlockModel.renderEastFace(block, (double)x, (double)y, (double)z, element, angle, meta);
 		
 		// west
 		tessellator.setColorOpaque_F(0.8F, 0.8F, 0.8F);
-		RenderBlockModel.renderWestFace(block, (double)x, (double)y, (double)z, element, angle);
+		RenderBlockModel.renderWestFace(block, (double)x, (double)y, (double)z, element, angle, meta);
 		
 		// north
 		tessellator.setColorOpaque_F(0.6F, 0.6F, 0.6F);
-		RenderBlockModel.renderNorthFace(block, (double)x, (double)y, (double)z, element, angle);
+		RenderBlockModel.renderNorthFace(block, (double)x, (double)y, (double)z, element, angle, meta);
 		
 		// south
 		tessellator.setColorOpaque_F(0.6F, 0.6F, 0.6F);
-		RenderBlockModel.renderSouthFace(block, (double)x, (double)y, (double)z, element, angle);
+		RenderBlockModel.renderSouthFace(block, (double)x, (double)y, (double)z, element, angle, meta);
 	}
 	
-	public static void renderBlockAsItem(Tessellator tessellator, Block block) {
+	public static void renderBlockAsItem(Tessellator tessellator, Block block, int meta) {
 		BlockModel model = block.getBlockModel();
 		if(model != null) {
 			// Draw all elements in block model
 			
 			for(BlockElement element : model.getBlockElements()) {
-				drawElementAsItem(tessellator, block, element);
+				drawElementAsItem(tessellator, block, element, meta);
 			}
 		}
 	}
 	
-	public static void drawElementAsItem(Tessellator tessellator, Block block, BlockElement element) {
+	public static void drawElementAsItem(Tessellator tessellator, Block block, BlockElement element, int meta) {
 		block.setBlockBoundsForItemRender();
 		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
 		
 		if(element.faces[BlockFace.DOWN] != null) {
 			tessellator.startDrawingQuads();
 			tessellator.setNormal(0.0F, -1.0F, 0.0F);
-			RenderBlockModel.renderBottomFace(block, 0, 0, 0, element, 0);
+			RenderBlockModel.renderBottomFace(block, 0, 0, 0, element, 0, meta);
 			tessellator.draw();
 		}
 		
 		if(element.faces[BlockFace.UP] != null) {
 			tessellator.startDrawingQuads();
 			tessellator.setNormal(0.0F, 1.0F, 0.0F);
-			RenderBlockModel.renderTopFace(block, 0, 0, 0, element, 0);
+			RenderBlockModel.renderTopFace(block, 0, 0, 0, element, 0, meta);
 			tessellator.draw();
 		}
 		
 		if(element.faces[BlockFace.EAST] != null) {
 			tessellator.startDrawingQuads();
 			tessellator.setNormal(-1.0F, 0.0F, 0.0F);
-			RenderBlockModel.renderEastFace(block, 0, 0, 0, element, 0);
+			RenderBlockModel.renderEastFace(block, 0, 0, 0, element, 0, meta);
 			tessellator.draw();
 		}
 		
 		if(element.faces[BlockFace.WEST] != null) {
 			tessellator.startDrawingQuads();
 			tessellator.setNormal(1.0F, 0.0F, 0.0F);
-			RenderBlockModel.renderWestFace(block, 0, 0, 0, element, 0);
+			RenderBlockModel.renderWestFace(block, 0, 0, 0, element, 0, meta);
 			tessellator.draw();
 		}
 
 		if(element.faces[BlockFace.NORTH] != null) {
 			tessellator.startDrawingQuads();
 			tessellator.setNormal(0.0F, 0.0F, 1.0F);
-			RenderBlockModel.renderNorthFace(block, 0, 0, 0, element, 0);
+			RenderBlockModel.renderNorthFace(block, 0, 0, 0, element, 0, meta);
 			tessellator.draw();
 		}
 		
 		if(element.faces[BlockFace.SOUTH] != null) {
 			tessellator.startDrawingQuads();
 			tessellator.setNormal(0.0F, 0.0F, -1.0F);
-			RenderBlockModel.renderSouthFace(block, 0, 0, 0, element, 0);
+			RenderBlockModel.renderSouthFace(block, 0, 0, 0, element, 0, meta);
 			tessellator.draw();
 		}
+		
+		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 	}
 	
-	private static void renderSouthFace(Block block, double x, double y, double z, BlockElement blockElement, int angle) {
+	private static void renderSouthFace(Block block, double x, double y, double z, BlockElement blockElement, int angle, int meta) {
 		int faceIdx = BlockFace.rotatedFace(angle, BlockFace.SOUTH);
 		
 		Tessellator tessellator = Tessellator.instance;
@@ -122,7 +125,12 @@ public class RenderBlockModel {
 		if(blockFace == null) return;
 		
 		if(blockFace.textureIndex == -1) {
-			blockFace.overrideTexture(block.getBlockTextureFromSide(faceIdx));
+			int override = block.getBlockTextureFromSideAndMetadata(BlockFace.vanillaFace(faceIdx), meta);
+			
+			// Abort face if no texture!
+			if(override == -1) return;
+			
+			blockFace.overrideTexture(override);
 		}
 		
 		/* u1 v2, u2 v2, u2 v1, u1 v1
@@ -146,7 +154,7 @@ public class RenderBlockModel {
 		
 	}
 
-	private static void renderNorthFace(Block block, double x, double y, double z, BlockElement blockElement, int angle) {
+	private static void renderNorthFace(Block block, double x, double y, double z, BlockElement blockElement, int angle, int meta) {
 		int faceIdx = BlockFace.rotatedFace(angle, BlockFace.NORTH);
 		
 		Tessellator tessellator = Tessellator.instance;
@@ -155,7 +163,12 @@ public class RenderBlockModel {
 		if(blockFace == null) return;
 		
 		if(blockFace.textureIndex == -1) {
-			blockFace.overrideTexture(block.getBlockTextureFromSide(faceIdx));
+			int override = block.getBlockTextureFromSideAndMetadata(BlockFace.vanillaFace(faceIdx), meta);
+			
+			// Abort face if no texture!
+			if(override == -1) return;
+			
+			blockFace.overrideTexture(override);
 		}
 		
 		/* u2 v1, u1 v1, u1 v2, u2 v2
@@ -179,7 +192,7 @@ public class RenderBlockModel {
 		
 	}
 
-	private static void renderWestFace(Block block, double x, double y, double z, BlockElement blockElement, int angle) {
+	private static void renderWestFace(Block block, double x, double y, double z, BlockElement blockElement, int angle, int meta) {
 		int faceIdx = BlockFace.rotatedFace(angle, BlockFace.WEST);
 		
 		Tessellator tessellator = Tessellator.instance;
@@ -188,7 +201,12 @@ public class RenderBlockModel {
 		if(blockFace == null) return;
 		
 		if(blockFace.textureIndex == -1) {
-			blockFace.overrideTexture(block.getBlockTextureFromSide(faceIdx));
+			int override = block.getBlockTextureFromSideAndMetadata(BlockFace.vanillaFace(faceIdx), meta);
+			
+			// Abort face if no texture!
+			if(override == -1) return;
+			
+			blockFace.overrideTexture(override);
 		}
 		
 		/* u1 v1, u1 v2, u2 v2, u2 v1
@@ -212,7 +230,7 @@ public class RenderBlockModel {
 		
 	}
 
-	private static void renderEastFace(Block block, double x, double y, double z, BlockElement blockElement, int angle) {
+	private static void renderEastFace(Block block, double x, double y, double z, BlockElement blockElement, int angle, int meta) {
 		int faceIdx = BlockFace.rotatedFace(angle, BlockFace.EAST);
 		
 		Tessellator tessellator = Tessellator.instance;
@@ -221,7 +239,12 @@ public class RenderBlockModel {
 		if(blockFace == null) return;
 		
 		if(blockFace.textureIndex == -1) {
-			blockFace.overrideTexture(block.getBlockTextureFromSide(faceIdx));
+			int override = block.getBlockTextureFromSideAndMetadata(BlockFace.vanillaFace(faceIdx), meta);
+			
+			// Abort face if no texture!
+			if(override == -1) return;
+			
+			blockFace.overrideTexture(override);
 		}
 		
 		/* u2 v1, u1 v1, u1 v2, u2 v2
@@ -245,14 +268,19 @@ public class RenderBlockModel {
 		
 	}
 
-	private static void renderTopFace(Block block, double x, double y, double z, BlockElement blockElement, int angle) {
+	private static void renderTopFace(Block block, double x, double y, double z, BlockElement blockElement, int angle, int meta) {
 		Tessellator tessellator = Tessellator.instance;
 		BlockFace blockFace = blockElement.faces[BlockFace.UP];
 		
 		if(blockFace == null) return;
 		
 		if(blockFace.textureIndex == -1) {
-			blockFace.overrideTexture(block.getBlockTextureFromSide(BlockFace.UP));
+			int override = block.getBlockTextureFromSideAndMetadata(BlockFace.vanillaFace(BlockFace.UP), meta);
+			
+			// Abort face if no texture!
+			if(override == -1) return;
+			
+			blockFace.overrideTexture(override);
 		}
 		
 		/* u2 v2, u2 v1, u1 v1, u1 v2
@@ -275,14 +303,19 @@ public class RenderBlockModel {
 		tessellator.addVertexWithUV(x2, y2, z2, blockFace.getRotatedU(3), blockFace.getRotatedV(3));
 	}
 
-	private static void renderBottomFace(Block block, double x, double y, double z, BlockElement blockElement, int angle) {
+	private static void renderBottomFace(Block block, double x, double y, double z, BlockElement blockElement, int angle, int meta) {
 		Tessellator tessellator = Tessellator.instance;
 		BlockFace blockFace = blockElement.faces[BlockFace.DOWN];
 		
 		if(blockFace == null) return;
 		
 		if(blockFace.textureIndex == -1) {
-			blockFace.overrideTexture(block.getBlockTextureFromSide(BlockFace.DOWN));
+			int override = block.getBlockTextureFromSideAndMetadata(BlockFace.vanillaFace(BlockFace.DOWN), meta);
+			
+			// Abort face if no texture!
+			if(override == -1) return;
+			
+			blockFace.overrideTexture(override);
 		}
 		
 		/* u1 v2, u1 v1, u2 v1, u2 v2

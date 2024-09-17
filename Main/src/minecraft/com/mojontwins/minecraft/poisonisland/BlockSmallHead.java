@@ -23,8 +23,7 @@ public class BlockSmallHead extends Block {
 
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entityLiving) {
-        int facing = (MathHelper.floor_double((double)((entityLiving.rotationYaw * 4F) / 360F) + .5D) + 2) & 3;
-        world.setBlockMetadata(x, y, z, facing);
+        world.setBlockMetadata(x, y, z, BlockModel.angleToMeta((MathHelper.floor_double((double)((entityLiving.rotationYaw * 4F) / 360F) + .5D) + 2) & 3));
 
 	}
 	
