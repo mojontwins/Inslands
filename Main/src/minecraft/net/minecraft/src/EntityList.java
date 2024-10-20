@@ -38,6 +38,9 @@ import com.mojontwins.minecraft.icepalace.EntityIceBoss;
 import com.mojontwins.minecraft.icepalace.EntityIceWarrior;
 import com.mojontwins.minecraft.monsters.EntityFungalCalamity;
 import com.mojontwins.minecraft.oceanruins.EntityTriton;
+import com.mojontwins.minecraft.poisonisland.EntityDiamondSkeleton;
+import com.mojontwins.minecraft.poisonisland.EntityPoisonSkeleton;
+import com.mojontwins.minecraft.poisonisland.EntityPoisonWitch;
 
 public class EntityList {
 	private static Map<String,Class<?>> stringToClassMapping = new HashMap<String,Class<?>>();
@@ -209,6 +212,11 @@ public class EntityList {
 		addMapping(EntityPhyg.class, "Phyg", 62);
 		addMapping(EntityFlyingCow.class, "FlyingCow", 63);
 		addMapping(EntitySheepuff.class, "Sheepuff", 64);
+		
+		// Poison island
+		addMapping(EntityPoisonSkeleton.class, "PoisonSkeleton", 80);
+		addMapping(EntityDiamondSkeleton.class, "DiamondSkeleton", 81);
+		addMapping(EntityPoisonWitch.class, "PoisonWitch", 82);
 		
 		// Trading
 		/*

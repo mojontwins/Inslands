@@ -80,7 +80,7 @@ public class ChunkProviderGenerate implements IChunkProvider {
 	}
 
 	protected MapGenBase getCaveGenerator() {
-		return new MapGenCaves();
+		return LevelThemeGlobalSettings.getTheme().overrideCaveGenerator();
 	}
 
 	public void generateTerrain(int chunkX, int chunkZ, byte[] blocks) {

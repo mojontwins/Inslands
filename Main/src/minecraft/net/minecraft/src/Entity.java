@@ -168,7 +168,9 @@ public abstract class Entity {
 		this.prevRotationPitch = this.rotationPitch;
 		this.prevRotationYaw = this.rotationYaw;
 
-		if(this.handleWaterMovement()) {
+		boolean acidMovement = this.handleAcidMovement();
+		
+		if(this.handleWaterMovement() || acidMovement) {
 			if(!this.inWater && !this.isFirstUpdate) {
 				float f1 = MathHelper.sqrt_double(this.motionX * this.motionX * (double)0.2F + this.motionY * this.motionY + this.motionZ * this.motionZ * (double)0.2F) * 0.2F;
 				if(f1 > 1.0F) {
@@ -233,6 +235,10 @@ public abstract class Entity {
 				}
 			}
 			if(setOnFire) this.setOnFireFromLava();
+		}
+		
+		if(acidMovement) {
+			
 		}
 
 		if(this.posY < -64.0D) {
@@ -606,9 +612,15 @@ public abstract class Entity {
 	}
 
 	public boolean handleWaterMovement() {
-		return this.worldObj.handleMaterialAcceleration(this.boundingBox.expand(0.0D, -0.4000000059604645D, 0.0D).getInsetBoundingBox(0.001D, 0.001D, 0.001D), Material.water, this);
+		return 
+			this.worldObj.handleMaterialAcceleration(this.boundingBox.expand(0.0D, -0.4000000059604645D, 0.0D).getInsetBoundingBox(0.001D, 0.001D, 0.001D), Material.water, this);
 	}
 
+	public boolean handleAcidMovement() {
+		 return
+			this.worldObj.handleMaterialAcceleration(this.boundingBox.expand(0.0D, -0.4000000059604645D, 0.0D).getInsetBoundingBox(0.001D, 0.001D, 0.001D), Material.acid, this);
+	}
+	
 	public boolean isInsideOfMaterial(Material material1) {
 		double d2 = this.posY + (double)this.getEyeHeight();
 		int i4 = MathHelper.floor_double(this.posX);
@@ -632,7 +644,7 @@ public abstract class Entity {
 	public boolean handleLavaMovement() {
 		return this.worldObj.isMaterialInBB(this.boundingBox.expand(-0.10000000149011612D, -0.4000000059604645D, -0.10000000149011612D), Material.lava);
 	}
-
+	
 	public void moveFlying(float f1, float f2, float f3) {
 		float f4 = MathHelper.sqrt_float(f1 * f1 + f2 * f2);
 		if(f4 >= 0.01F) {

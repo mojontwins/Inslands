@@ -6,7 +6,7 @@ import net.minecraft.src.Material;
 public class BlockStationaryAcid extends BlockStationary {
 
 	public BlockStationaryAcid(int id, int blockIndexInTexture) {
-		super(id, Material.water);
+		super(id, Material.acid);
 		this.blockIndexInTexture = blockIndexInTexture;
 		this.setTickOnLoad(true);
 	}

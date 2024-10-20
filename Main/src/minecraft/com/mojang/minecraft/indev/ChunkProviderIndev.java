@@ -1,9 +1,12 @@
 package com.mojang.minecraft.indev;
 
+import net.minecraft.src.BiomeGenBase;
 import net.minecraft.src.Block;
+import net.minecraft.src.Chunk;
 import net.minecraft.src.ChunkProviderGenerate;
 import net.minecraft.src.LevelThemeGlobalSettings;
 import net.minecraft.src.World;
+import net.minecraft.src.WorldSize;
 
 public class ChunkProviderIndev extends ChunkProviderGenerate {
 	private NoiseGeneratorOctavesIndev noise1;
@@ -42,7 +45,11 @@ public class ChunkProviderIndev extends ChunkProviderGenerate {
 		int idx = 0;
 		
 		for(int x = x0; x < x0 + 16; x ++) {
+			double dx = Math.abs(((double)x / (double)(WorldSize.width - 1) - 0.5D) * 2.0D);
 			for(int z = z0; z < z0 + 16; z ++) {
+				double dz = Math.abs(((double)z / (double)(WorldSize.length - 1) - 0.5D) * 2.0D);
+				
+				BiomeGenBase biome = this.biomesForGeneration[(x & 0xf0) | (z & 0xf)];
 				
 				float baseHeight = (float)(
 						this.noise1.generateNoiseOctaves(x / 0.03125F, 0, z / 0.03125F) -
@@ -58,6 +65,33 @@ public class ChunkProviderIndev extends ChunkProviderGenerate {
 						(float) this.noise3.generateNoise(x * 0.2571428F * 2, z * 0.2571428F * 2) * jitter / 4F;
 				
 				int height = (int) (baseHeight + 64 + rise);
+				
+				// Get a weighted 2D distance to the center of sorts. This is a cone centered on the whole map area
+				double d = Math.sqrt(dx * dx + dz * dz) * 1.2D;
+				
+				// Get noise
+				double noise = this.noiseIslandGen.generateNoise(x * 0.05D, z * 0.05D) / 4.0D + 1.0D;
+				
+				// Weird a bit with those values (noise and d) to get a nice fried agg shape
+				double factor = Math.max(Math.min(d, noise), Math.min(dx, dz));
+				
+				if(factor > 1.0D) factor = 1.0D;
+				if(factor < 0.0D) factor = 0.0D;
+				
+				// Curve a bit
+				factor *= factor;
+				
+				// Modify by cone
+				// Adjust by factor, centered at 64
+				double normalizedHeight = (double)height - 64.0D;
+				normalizedHeight = normalizedHeight * (1.0D - factor) - factor * 10.0D + 5.0D;
+				
+				// Deepen oceans
+				if(normalizedHeight < 0.0D) {
+					normalizedHeight -= normalizedHeight * normalizedHeight * 0.2D;
+				}
+				
+				height = 64 + (int)normalizedHeight;
 				
 				// Modify per level theme
 				
@@ -78,7 +112,7 @@ public class ChunkProviderIndev extends ChunkProviderGenerate {
 					if(y < height) {
 						blockID = Block.stone.blockID;
 					} else if(y < 64) {
-						blockID = Block.waterStill.blockID;
+						blockID = biome.mainLiquid;
 					} else {
 						blockID = 0;
 					}
@@ -90,4 +124,10 @@ public class ChunkProviderIndev extends ChunkProviderGenerate {
 			}
 		}
 	}
+	
+	@Override
+	public void terraform(int chunkX, int chunkZ, Chunk chunk, BiomeGenBase[] biomes) {
+		// Already done while world gen
+	}
+	
 }

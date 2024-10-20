@@ -51,6 +51,11 @@ public class ItemBucket extends Item {
 						world2.setBlockWithNotify(i25, i26, i27, 0);
 						return new ItemStack(Item.bucketLava);
 					}
+					
+					if(world2.getBlockMaterial(i25, i26, i27) == Material.acid) {
+						world2.playSoundAtEntity(entityPlayer3, "random.fizz", 0.4F, 2.0F + world2.rand.nextFloat() * 0.4F);
+						
+					}
 				} else {
 					if(this.isFull < 0) {
 						return new ItemStack(Item.bucketEmpty);

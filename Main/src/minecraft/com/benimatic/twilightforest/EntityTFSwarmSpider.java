@@ -65,6 +65,7 @@ public class EntityTFSwarmSpider extends EntitySpider {
 	}
 
 	protected boolean spawnAnother() {
+		/// TODO : THIS IS PROBEMATIC !!! FIX
 		EntityTFSwarmSpider another = new EntityTFSwarmSpider(this.worldObj, false);
 		double sx = this.posX + (this.rand.nextDouble() - this.rand.nextDouble()) * 4.0D;
 		double sy = this.posY + (double)this.rand.nextInt(3) - 1.0D;

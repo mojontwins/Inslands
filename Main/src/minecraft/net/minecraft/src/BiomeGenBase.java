@@ -7,6 +7,7 @@ import java.util.Random;
 
 import com.misc.bo3import.WorldGenBo3Tree;
 import com.mojang.minecraft.betabiomes.BiomeGenBeta;
+import com.mojontwins.minecraft.poisonisland.BiomeGenThemePoisonIsland;
 
 public class BiomeGenBase {
 	public static final BiomeGenBase biomeDefault = new BiomeGenBase().setBiomeName("Default Alpha");
@@ -16,6 +17,7 @@ public class BiomeGenBase {
 	public static final BiomeGenBase themeForest = new BiomeGenThemeForest().setBiomeName("Forest");
 	public static final BiomeGenBase themeParadise = new BiomeGenThemeParadise().setBiomeName("Paradise");
 	public static final BiomeGenBase themeForestHell = new BiomeGenThemeForestHell().setBiomeName("Forest Hell").setDisableRain();
+	public static final BiomeGenBase themePoison = new BiomeGenThemePoisonIsland().setBiomeName("Poison Island");
 	
 	// Leave these for compatibility
 	public static final BiomeGenBase hell = (new BiomeGenHell()).setColor(16711680).setBiomeName("Hell").setDisableRain();

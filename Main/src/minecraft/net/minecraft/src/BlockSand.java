@@ -75,7 +75,7 @@ public class BlockSand extends Block {
 		} else {
 			Block block = Block.blocksList[i4];
 			Material material5 = block == null ? Material.air : block.blockMaterial;
-			return material5 == Material.water ? true : material5 == Material.lava;
+			return Material.woa(material5) ? true : material5 == Material.lava;
 		}
 	}
 }

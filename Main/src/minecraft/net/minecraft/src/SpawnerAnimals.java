@@ -90,7 +90,7 @@ public final class SpawnerAnimals {
 					else if(Seasons.currentSeason == 0) maxEntitiesOfThisType = (maxEntitiesOfThisType >> 2) + (maxEntitiesOfThisType >> 1); 	// 3/4
 				}
 
-				//System.out.println ("Chunks: " + eligibleChunksForSpawning.size() + ", TYPE: " + creatureType + " #" + activeEntitiesOfThisType + " of " + maxEntitiesOfThisType);
+				// System.out.println ("Chunks: " + eligibleChunksForSpawning.size() + ", TYPE: " + creatureType + " #" + activeEntitiesOfThisType + " of " + maxEntitiesOfThisType);
 								
 				if(
 					(!creatureType.getPeacefulCreature() || flag2) && 
@@ -225,6 +225,8 @@ public final class SpawnerAnimals {
 							}
 						}
 					}
+				} else {
+					//System.out.println ("Too many of " + creatureType + "!");
 				}
 			}
 

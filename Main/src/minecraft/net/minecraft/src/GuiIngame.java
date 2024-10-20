@@ -195,6 +195,8 @@ public class GuiIngame extends Gui {
 			fontRenderer8.drawStringWithShadow(this.mc.getEntityDebug(), 2, 22, 0xFFFFFF);
 			fontRenderer8.drawStringWithShadow(this.mc.debugInfoEntities(), 2, 32, 0xFFFFFF);
 
+			this.mc.theWorld.printEntitiesStats();
+			
 			long j24 = Runtime.getRuntime().maxMemory();
 			long j29 = Runtime.getRuntime().totalMemory();
 			long j30 = Runtime.getRuntime().freeMemory();
@@ -234,6 +236,7 @@ public class GuiIngame extends Gui {
 			GL11.glPopMatrix();
 		} else {
 			fontRenderer8.drawStringWithShadow("Minecraft " + Version.getVersion(), 2, 2, 0xFFFFFF);
+			this.mc.theWorld.printedEntityStats = false;
 		}
 
 		if(this.onScreenMessageTimeout > 0) {

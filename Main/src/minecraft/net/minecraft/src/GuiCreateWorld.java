@@ -213,19 +213,23 @@ public class GuiCreateWorld extends GuiScreen {
 				this.generateStructures = !this.generateStructures;
 				this.updateCaptions();
 			} else if(par1GuiButton.id == 5) {
-				++this.worldType;
-				if(this.worldType >= WorldType.worldTypes.length) {
-					this.worldType = 0;
-				}
-
-				while(WorldType.worldTypes[this.worldType] == null || !WorldType.worldTypes[this.worldType].getCanBeCreated()) {
+				
+				if(!LevelThemeSettings.findThemeById(this.themeId).forcedWorldType) {
+					
 					++this.worldType;
 					if(this.worldType >= WorldType.worldTypes.length) {
 						this.worldType = 0;
 					}
+	
+					while(WorldType.worldTypes[this.worldType] == null || !WorldType.worldTypes[this.worldType].getCanBeCreated()) {
+						++this.worldType;
+						if(this.worldType >= WorldType.worldTypes.length) {
+							this.worldType = 0;
+						}
+					}
+	 
+					this.updateCaptions();
 				}
- 
-				this.updateCaptions();
 			} else if(par1GuiButton.id == 6) {
 				this.enableCheats = !this.enableCheats;
 				this.updateCaptions(); 

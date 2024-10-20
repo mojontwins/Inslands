@@ -17,7 +17,7 @@ public class WorldGenBog1 extends WorldGenerator {
 
 		for (
 				height = rand.nextInt(5) + 7; 
-				world.getBlockMaterial(x, y - 1,z) == Material.water; 
+				Material.woa(world.getBlockMaterial(x, y - 1,z));
 				--y
 		) {
 			;

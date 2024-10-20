@@ -962,6 +962,10 @@ public class EntityRenderer {
 			this.fogColorRed = 0.02F;
 			this.fogColorGreen = 0.02F;
 			this.fogColorBlue = 0.2F;
+		} else if(entityLiving3.isInsideOfMaterial(Material.acid)) {
+			this.fogColorRed = 0.02F;
+			this.fogColorGreen = 0.2F;
+			this.fogColorBlue = 0.02F;
 		} else if(entityLiving3.isInsideOfMaterial(Material.lava)) {
 			this.fogColorRed = 0.6F;
 			this.fogColorGreen = 0.1F;
@@ -1055,6 +1059,11 @@ public class EntityRenderer {
 				if(this.mc.gameSettings.anaglyph) {
 				}
 			} else if(entityLiving3.isInsideOfMaterial(Material.water) && !((EntityPlayer)entityLiving3).divingHelmetOn()) {
+				GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
+				GL11.glFogf(GL11.GL_FOG_DENSITY, 0.1F);
+				if(this.mc.gameSettings.anaglyph) {
+				}
+			} else if(entityLiving3.isInsideOfMaterial(Material.acid)) {
 				GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
 				GL11.glFogf(GL11.GL_FOG_DENSITY, 0.1F);
 				if(this.mc.gameSettings.anaglyph) {

@@ -311,6 +311,10 @@ public class PathNavigate {
 						if(material21 == Material.lava) {
 							return false;
 						}
+						
+						if(material21 == Material.acid) {
+							return false;
+						}
 					}
 				}
 			}

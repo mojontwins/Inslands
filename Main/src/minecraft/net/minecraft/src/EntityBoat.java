@@ -146,7 +146,10 @@ public class EntityBoat extends Entity {
 			double d5 = this.boundingBox.minY + (this.boundingBox.maxY - this.boundingBox.minY) * (double)(i4 + 0) / (double)b1 - 0.125D;
 			double d7 = this.boundingBox.minY + (this.boundingBox.maxY - this.boundingBox.minY) * (double)(i4 + 1) / (double)b1 - 0.125D;
 			AxisAlignedBB axisAlignedBB9 = AxisAlignedBB.getBoundingBoxFromPool(this.boundingBox.minX, d5, this.boundingBox.minZ, this.boundingBox.maxX, d7, this.boundingBox.maxZ);
-			if(this.worldObj.isAABBInMaterial(axisAlignedBB9, Material.water) || (this.fireResistant && this.worldObj.isAABBInMaterial(axisAlignedBB9, Material.lava))) {
+			if(
+					this.worldObj.isAABBInMaterial(axisAlignedBB9, Material.water) || 
+					(this.fireResistant && (this.worldObj.isAABBInMaterial(axisAlignedBB9, Material.lava) || 
+					this.worldObj.isAABBInMaterial(axisAlignedBB9, Material.acid)))) {
 				d2 += 1.0D / (double)b1;
 			}
 		}

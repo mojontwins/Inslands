@@ -9,6 +9,8 @@ import com.mojontwins.minecraft.blockmodels.BlockModel;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.EntityLiving;
+import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
@@ -37,6 +39,59 @@ public class BlockCauldron extends Block {
 		int meta = world.getBlockMetadata(x, y, z);
         world.setBlockMetadata(x, y, z, (meta & 0xFC) | BlockModel.angleToMeta((MathHelper.floor_double((double)((entityLiving.rotationYaw * 4F) / 360F) + .5D) + 2) & 3));
 
+	}
+
+	@Override
+	public boolean blockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, ItemStack itemStack) {
+		// Doing this here so I don't have to modify vanilla classes
+		if(itemStack == null) return false;
+		
+		int meta = world.getBlockMetadata(x, y, z);
+		int contents = meta >> 2;
+		int newContents = contents;
+System.out.println ("Stack = " + itemStack.getItem() + " meta = " + meta + " contents = " + contents);		
+		switch(contents) {
+		case 1:		
+			// Water
+			if(itemStack.itemID == Block.mushroomCapBrown.blockID ||
+			itemStack.itemID == Item.chickenRaw.shiftedIndex) {
+				// + capBrown = soup;
+				// + chicken = soup;
+
+				newContents = 3;
+			}
+			break;
+			
+		case 2:
+			// Acid
+			if(itemStack.itemID == Block.mushroomCapBrown.blockID) {
+				// + capBrown = water;
+				
+				newContents = 1; 
+			} else if(itemStack.itemID == Block.mushroomCapGreen.blockID) {
+				// + capGreen = 50% chance poison / goo
+				
+				newContents = world.rand.nextInt(4) == 0 ? 4 : 5;
+			} else {
+				// + anything else: goo
+				
+				newContents = 4;
+			}
+			break;
+			
+		}
+		
+		if(newContents != contents) {
+			meta = (meta & 3) | (newContents << 2);
+			
+			world.setBlockAndMetadataWithNotify(x, y, z, this.blockID, meta);
+			if(!entityPlayer.isCreative ) entityPlayer.getHeldItem().stackSize --;
+			world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, "random.splash", world.rand.nextFloat() * 0.25F + 0.75F,  world.rand.nextFloat() + 0.5F);
+			
+			return true;
+		}
+		
+		return false;
 	}
 	
 	@Override

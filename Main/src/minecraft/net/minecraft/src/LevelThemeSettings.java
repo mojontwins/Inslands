@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.mojontwins.minecraft.poisonisland.LevelThemePoisonIsland;
+
 public class LevelThemeSettings {
 	public int id;
 	public String name;
@@ -24,6 +26,7 @@ public class LevelThemeSettings {
 	public int preferredWorldType = -1;
 	public boolean colorizedPlants = false;
 	public boolean dynamicSnow = false;
+	public boolean forcedWorldType = false;
 
 	public static List<LevelThemeSettings> allThemeSettings = new ArrayList<LevelThemeSettings> ();
 
@@ -85,6 +88,8 @@ public class LevelThemeSettings {
 			.withPreferredWorldType(WorldType.DEFAULT.id)
 			.withColorizedPlants(true)
 			.withDynamicSnow(true);
+	
+	public static LevelThemeSettings poison = new LevelThemePoisonIsland(5).setOverlay(-1);
 
 	public LevelThemeSettings(int id) {
 		this.id = id;
@@ -197,7 +202,24 @@ public class LevelThemeSettings {
 		return this;
 	}
 	
+	public LevelThemeSettings setForcedWorldType(boolean forcedWorldType) {
+		this.forcedWorldType = forcedWorldType;
+		return this;
+	}
+	
 	public int adjustPerlinHeight(int height) {
 		return height;
+	}
+
+	// Return true to use the default method in World
+	public boolean getInitialSpawnLocation(World world) {
+		return true;
+	}
+	
+	public MapGenBase overrideCaveGenerator() {
+		return new MapGenCaves();
+	}
+
+	public void levelThemeSpecificInits(World world) {
 	}
 }

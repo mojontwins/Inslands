@@ -19,6 +19,7 @@ public class ItemFood extends Item {
 		this.displayOnCreativeTab = CreativeTabs.tabFood;
 	}
 
+	@Override
 	public ItemStack onFoodEaten(ItemStack itemStack, World world, EntityPlayer entityPlayer) {
 		if(!entityPlayer.isCreative) --itemStack.stackSize;
 		
@@ -33,14 +34,17 @@ public class ItemFood extends Item {
 		return itemStack;
 	}
 
+	@Override
 	public int getMaxItemUseDuration(ItemStack itemStack1) {
 		return 32;
 	}
 
+	@Override
 	public EnumAction getItemUseAction(ItemStack itemStack1) {
 		return EnumAction.eat;
 	}
 	
+	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer) {
 		/*
 		if(!entityPlayer.isCreative) --itemStack.stackSize;
@@ -50,7 +54,7 @@ public class ItemFood extends Item {
 				
 		if(this.status != null) entityPlayer.addStatusEffect(new StatusEffect(this.status.id, this.statusTime, this.statusAmplifier));
 		*/
-		
+
 		if(entityPlayer.canEat(this.alwaysEdible)) {
 			entityPlayer.setItemInUse(itemStack, this.getMaxItemUseDuration(itemStack));
 		}

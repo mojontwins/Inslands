@@ -2,9 +2,11 @@ package net.minecraft.src;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
@@ -85,6 +87,7 @@ public class World implements IBlockAccess {
 	public final StarlightEngine skyLight = new StarlightEngine(true, this);
 
 	private int updatedEntities;
+	public boolean printedEntityStats;
 	
 	public WorldChunkManager getWorldChunkManager() {
 		return this.worldProvider.worldChunkMgr;
@@ -271,29 +274,37 @@ public class World implements IBlockAccess {
 	}
 
 	protected void getInitialSpawnLocation() {
-		this.findingSpawnPoint = true;
-
-		// Start @ the center of the map
-		int x = WorldSize.width / 2;
-		int z = WorldSize.length / 2;
-		int y = this.getHeightValue(x, z) + 1;
-
-		// Try really hard
-		int attemptsLeft = 512;
-
-		while (attemptsLeft -- > 0 && (!this.worldProvider.canCoordinateBeSpawn(x, y, z) || y > 120)) {
-			x += this.rand.nextInt(64) - this.rand.nextInt(64);
-			z += this.rand.nextInt(64) - this.rand.nextInt(64);
+		this.findingSpawnPoint = LevelThemeGlobalSettings.getTheme().getInitialSpawnLocation(this);
+		
+		int x = 0, y = 0, z = 0;
+		
+		if (this.findingSpawnPoint) {
+	
+			// Start @ the center of the map
+			x = WorldSize.width / 2;
+			z = WorldSize.length / 2;
 			y = this.getHeightValue(x, z) + 1;
-			x = x % WorldSize.width;
-			z = z % WorldSize.length;
+	
+			// Try really hard
+			int attemptsLeft = 512;
+	
+			while (attemptsLeft -- > 0 && (!this.worldProvider.canCoordinateBeSpawn(x, y, z) || y > 120)) {
+				x += this.rand.nextInt(64) - this.rand.nextInt(64);
+				z += this.rand.nextInt(64) - this.rand.nextInt(64);
+				x = x % WorldSize.width;
+				z = z % WorldSize.length;
+				y = this.getHeightValue(x, z) + 1;
+				
+			}
+	
+			this.worldInfo.setSpawn(x, y, z);
+			
+			if(attemptsLeft > 0) this.findingSpawnPoint = false;
 		}
-
-		this.worldInfo.setSpawn(x, y, z);
 		
-		if(attemptsLeft > 0) this.findingSpawnPoint = false;
-		
-		(new WorldGenIndevHouse(this.getBiomeGenAt(x, z).indevHouseWalls)).generate(this, this.rand, x, y + 1, z);
+		if(!this.findingSpawnPoint) {
+			(new WorldGenIndevHouse(this.getBiomeGenAt(x, z).indevHouseWalls)).generate(this, this.rand, x, y + 1, z);
+		}
 	}
 
 	public void setSpawnLocation() {
@@ -1112,6 +1123,12 @@ public class World implements IBlockAccess {
 	}
 
 	public boolean spawnEntityInWorld(Entity entity1) {
+		
+		if(entity1.posX < 0) entity1.posX = 0;
+		if(entity1.posZ < 0) entity1.posZ = 0;
+		if(entity1.posX >= WorldSize.width) entity1.posX = WorldSize.width - 1;
+		if(entity1.posZ >= WorldSize.length) entity1.posZ = WorldSize.length - 1;
+		
 		int i2 = MathHelper.floor_double(entity1.posX / 16.0D);
 		int i3 = MathHelper.floor_double(entity1.posZ / 16.0D);
 		boolean z4 = false;
@@ -3366,6 +3383,9 @@ public class World implements IBlockAccess {
 	}
 
 	public boolean levelIsValidUponWorldTheme() {
+		System.out.println ("Running level theme specific inits");
+		LevelThemeGlobalSettings.getTheme().levelThemeSpecificInits(this);
+		
 		System.out.println ("levelIsValidUponWorldTheme, isNewWorld?" + this.isNewWorld + ", do checks?" + LevelThemeGlobalSettings.levelChecks);
 		if(this.isNewWorld && LevelThemeGlobalSettings.levelChecks) {	
 			// World theme based invalidations ahead!
@@ -3410,8 +3430,30 @@ public class World implements IBlockAccess {
 		
 		return y;
 	}
-	
+
 	public boolean amITheServer() {
 		return false;
+	}
+
+	public void printEntitiesStats() {
+		if(this.printedEntityStats) return;
+		this.printedEntityStats = true;
+		
+		Map<String,Integer> stats = new HashMap<String,Integer> ();
+		for(Entity e : this.loadedEntityList) {
+			String classString = e.getClass().toString();
+			Integer c = stats.get(classString);
+			if(c == null) {
+				stats.put(classString, Integer.valueOf(1));
+			} else {
+				stats.put(classString, Integer.valueOf(c.intValue() + 1));
+			}
+		}
+		
+		Iterator<String> it = stats.keySet().iterator();
+		while(it.hasNext()) {
+			String classString = it.next();
+			System.out.println(classString + ": " + stats.get(classString));
+		}
 	}
 }

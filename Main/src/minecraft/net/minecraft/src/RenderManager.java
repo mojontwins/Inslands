@@ -82,6 +82,9 @@ import com.mojontwins.minecraft.monsters.EntityFungalCalamity;
 import com.mojontwins.minecraft.monsters.EntityThrowableToxicFungus;
 import com.mojontwins.minecraft.oceanruins.EntityTriton;
 import com.mojontwins.minecraft.oceanruins.RenderTriton;
+import com.mojontwins.minecraft.poisonisland.EntityPoisonWitch;
+import com.mojontwins.minecraft.poisonisland.EntityThrowableBottle;
+import com.mojontwins.minecraft.poisonisland.RenderThrowableBottle;
 
 public class RenderManager {
 	private Map<Class<?>, Render> entityRenderMap = new HashMap<Class<?>, Render>();
@@ -197,11 +200,15 @@ public class RenderManager {
 		// Hell
 		this.entityRenderMap.put(EntityGhoul.class, new RenderGhoul(new ModelGhoul(), 0.5F));
 		
-		// Traders
+		// Traders 
 		/*
 		this.entityRenderMap.put(EntityPigman.class, new RenderBiped(new ModelBiped(), 0.5F));
 		this.entityRenderMap.put(EntityCowman.class, new RenderBiped(new ModelBiped(), 0.5F));
 		*/
+		
+		// Poison
+		this.entityRenderMap.put(EntityThrowableBottle.class, new RenderThrowableBottle());
+		this.entityRenderMap.put(EntityPoisonWitch.class, new RenderTwoLayeredBiped());
 		
 		Iterator<Render> iterator1 = this.entityRenderMap.values().iterator();
 

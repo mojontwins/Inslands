@@ -237,3 +237,31 @@ Yay! fps boosted on shitty systems!
 * [ ] {SMP} Client is no aware of effects from the Server.
 * [X] {SMP} Packet52 stuff (multiblock change) not 8bit metadata aware!
 
+# Poison Island
+
+Port/adapt from the Indev Modloader example. 
+
+## Achievements
+
+* "Welcome to the Poison Island" - create a world.
+* "A trusty container" - "Craft a bottle using glass panes"
+* "Somewhere to cook!" - "Toss diamonds to the old man and obtain a cauldron!"
+* "A good start" - "Add water to a cauldron"
+* "A source of food" - "Experiment with mushrooms to make soup"
+* "Don't let it spill!" - "Obtain acid"
+* "A powerful weapon" - "A strong disolvent in the cauldron with the right mushrooms..."
+* "Poison!" - "Obtain poison!"
+
+## DO / FIX
+
+* [X] Biome causes lots of lag over time for some reason. Find what it is . I was adding mobs as animals
+* [X] Find the way to make the theme be able to fire a secondary cave carver above the sea level.
+* [ ] Make it darker.
+* [X] run the terraformer directy over the heightmap rather than carving the world after it's terrain generated!! And apply the modifier afterwards.
+
+* [ ] Cave vines
+* [ ] Adapt lake gens to work on podzol.
+* [ ] EntityItem spawns smoke in acid
+* [ ] Acid hurts
+* [ ] Render green fog under acid
+* [ ] Material.acid = Material.water
