@@ -5,11 +5,11 @@ import com.mojontwins.minecraft.entity.status.StatusEffect;
 
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntitySpider;
+import net.minecraft.src.EntitySpiderBase;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
 
-public class EntityTFSwarmSpider extends EntitySpider {
+public class EntityTFSwarmSpider extends EntitySpiderBase {
 	public EntityTFSwarmSpider(World world) {
 		this(world, true);
 	}

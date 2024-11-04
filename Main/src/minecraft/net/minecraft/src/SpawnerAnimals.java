@@ -190,6 +190,7 @@ public final class SpawnerAnimals {
 										float yF1 = yF - (float)spawnPoint.posY;
 										float zF1 = zF - (float)spawnPoint.posZ;
 										float distanceSq = xF1 * xF1 + yF1 * yF1 + zF1 * zF1;
+										
 										if(distanceSq >= 576.0F) {
 											EntityLiving entityLiving;
 											try {

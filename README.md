@@ -259,9 +259,10 @@ Port/adapt from the Indev Modloader example.
 * [ ] Make it darker.
 * [X] run the terraformer directy over the heightmap rather than carving the world after it's terrain generated!! And apply the modifier afterwards.
 
-* [ ] Cave vines
-* [ ] Adapt lake gens to work on podzol.
-* [ ] EntityItem spawns smoke in acid
-* [ ] Acid hurts
-* [ ] Render green fog under acid
-* [ ] Material.acid = Material.water
+* [X] Cave vines
+* [X] Adapt lake gens to work on podzol.
+* [X] EntityItem spawns smoke in acid
+* [X] Acid hurts
+* [X] Render green fog under acid
+* [X] Material.acid = Material.water
+* [ ] Add ballon to witch "I want ..." so you know what to give her.

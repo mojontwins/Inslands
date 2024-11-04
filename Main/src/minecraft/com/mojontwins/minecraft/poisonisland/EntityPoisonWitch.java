@@ -9,6 +9,7 @@ import com.mojontwins.minecraft.entity.status.Status;
 import net.minecraft.src.AttackableTargetSorter;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
+import net.minecraft.src.EntityCreature;
 import net.minecraft.src.EntityItem;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntityMob;
@@ -25,12 +26,15 @@ public class EntityPoisonWitch extends EntityMob implements IMob {
 	
 	private int spawnObjectCounter;
 	private boolean preparingToDrop = false;
+
+	private ItemStack speakItemStack;
 	
 	public EntityPoisonWitch(World world1) {
 		super(world1);
 		this.texture = "/mob/poison_witch.png";
 		this.moveSpeed = 1.1F;
 		this.health = this.getFullHealth();
+		this.speakItemStack = new ItemStack(Item.diamond);
 	}
 	
 	@Override
@@ -222,5 +226,15 @@ public class EntityPoisonWitch extends EntityMob implements IMob {
 	@Override
 	public boolean getCanSpawnHere() {
 		return true;
+	}
+	
+	@Override
+	public boolean isSpeaking() {
+		return this.attackTarget == null || !(this.attackTarget instanceof EntityCreature);
+	}
+	
+	@Override
+	public ItemStack getSpeech() {
+		return this.speakItemStack;
 	}
 }

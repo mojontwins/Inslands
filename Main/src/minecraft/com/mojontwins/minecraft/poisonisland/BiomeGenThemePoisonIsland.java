@@ -2,7 +2,7 @@ package com.mojontwins.minecraft.poisonisland;
 
 import java.util.Random;
 
-import com.benimatic.twilightforest.EntityTFSwarmSpider;
+import com.benimatic.twilightforest.EntityTFSwarmSpiderCaves;
 import com.gw.dm.EntityGhoul;
 
 import net.minecraft.src.BiomeGenBase;
@@ -49,7 +49,7 @@ public class BiomeGenThemePoisonIsland extends BiomeGenBase {
 		this.spawnableMonsterList.add(new SpawnListEntry(EntitySpider.class, 10));
 		
 		this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityGhoul.class, 10));
-		this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityTFSwarmSpider.class, 5));
+		this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityTFSwarmSpiderCaves.class, 5));
 	
 	}
 	

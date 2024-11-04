@@ -8,11 +8,11 @@ public class RenderSpider extends RenderLiving {
 		this.setRenderPassModel(new ModelSpider());
 	}
 
-	protected float setSpiderDeathMaxRotation(EntitySpider entitySpider1) {
+	protected float setSpiderDeathMaxRotation(EntitySpiderBase entitySpider1) {
 		return 180.0F;
 	}
 
-	protected boolean setSpiderEyeBrightness(EntitySpider entitySpider1, int i2, float f3) {
+	protected boolean setSpiderEyeBrightness(EntitySpiderBase entitySpider1, int i2, float f3) {
 		if(i2 != 0) {
 			return false;
 		} else {
@@ -30,20 +30,20 @@ public class RenderSpider extends RenderLiving {
 		}
 	}
 
-	protected void scaleSpider(EntitySpider entitySpider1, float f2) {
+	protected void scaleSpider(EntitySpiderBase entitySpider1, float f2) {
 		float f3 = entitySpider1.spiderScaleAmount();
 		GL11.glScalef(f3, f3, f3);
 	}
 	
 	protected void preRenderCallback(EntityLiving entityLiving1, float f2) {
-		this.scaleSpider((EntitySpider)entityLiving1, f2);
+		this.scaleSpider((EntitySpiderBase)entityLiving1, f2);
 	}
 	
 	protected float getDeathMaxRotation(EntityLiving entityLiving1) {
-		return this.setSpiderDeathMaxRotation((EntitySpider)entityLiving1);
+		return this.setSpiderDeathMaxRotation((EntitySpiderBase)entityLiving1);
 	}
 
 	protected boolean shouldRenderPass(EntityLiving entityLiving1, int i2, float f3) {
-		return this.setSpiderEyeBrightness((EntitySpider)entityLiving1, i2, f3);
+		return this.setSpiderEyeBrightness((EntitySpiderBase)entityLiving1, i2, f3);
 	}
 }

@@ -1281,5 +1281,13 @@ public abstract class EntityLiving extends Entity {
 
 	}
 	
+	public boolean isSpeaking() {
+		return false;
+	}
+
+	public ItemStack getSpeech() {
+		return null;
+	}
+	
 	
 }

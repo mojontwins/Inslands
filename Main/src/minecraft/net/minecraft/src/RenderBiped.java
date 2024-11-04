@@ -96,4 +96,5 @@ public class RenderBiped extends RenderLiving {
 		
 		return false;
 	}
+
 }

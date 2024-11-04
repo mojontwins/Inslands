@@ -73,6 +73,9 @@ public class RenderLiving extends Render {
 			}
 
 			this.renderEquippedItems(entityLiving1, f9);
+			
+			if(entityLiving1.isSpeaking()) this.renderSpeech(entityLiving1);
+			
 			float f25 = entityLiving1.getEntityBrightness(f9);
 			int i18 = this.getColorMultiplier(entityLiving1, f25, f9);
 			
@@ -231,6 +234,19 @@ public class RenderLiving extends Render {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			GL11.glPopMatrix();
 		}
+	}
+	
+	
+	public void renderSpeech(EntityLiving entityLiving) {
+        GL11.glPushMatrix();
+        GL11.glTranslatef((float)0.0f, -(float)(0.7f), (float)0.0f);
+        GL11.glRotatef((float)(90.0f - this.renderManager.playerViewY), (float)0.0f, (float)1.0f, (float)0.0f);
+        GL11.glRotatef((float)(180.0f - this.renderManager.playerViewX), (float)1.0f, (float)0.0f, (float)0.0f);
+        GL11.glScalef(.5F, .5F, .5F);
+        
+        this.renderManager.itemRenderer.renderItem(entityLiving, entityLiving.getSpeech());
+        
+        GL11.glPopMatrix();
 	}
 
 	public void doRender(Entity entity1, double d2, double d4, double d6, float f8, float f9) {

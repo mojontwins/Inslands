@@ -481,5 +481,9 @@ public class ItemRenderer {
 	public void resetEquippedProgress() {
 		this.equippedProgress = 0.0F;
 	}
+	
+	public RenderEngine getRenderEngine() {
+		return this.mc.renderEngine;
+	}
 
 }
