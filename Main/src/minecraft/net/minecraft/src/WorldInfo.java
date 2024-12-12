@@ -81,7 +81,7 @@ public class WorldInfo {
 		LevelThemeGlobalSettings.loadThemeById(this.themeId);
 		LevelThemeGlobalSettings.worldTypeID = WorldType.getIdByName(generatorName);
 	
-		System.out.println ("Generator name = " + generatorName + ", worldTypeID = " + LevelThemeGlobalSettings.worldTypeID);
+		//System.out.println ("Generator name = " + generatorName + ", worldTypeID = " + LevelThemeGlobalSettings.worldTypeID);
 		
 		int xChunks = nBTTagCompound1.getInteger("WidthInChunks");
 		int zChunks = nBTTagCompound1.getInteger("LengthInChunks");

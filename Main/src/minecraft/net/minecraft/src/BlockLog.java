@@ -29,10 +29,6 @@ public class BlockLog extends Block {
 		return 1;
 	}
 
-	public int idDropped(int i1, Random random2) {
-		return Block.wood.blockID;
-	}
-
 	public void harvestBlock(World world1, EntityPlayer entityPlayer2, int i3, int i4, int i5, int i6) {
 		super.harvestBlock(world1, entityPlayer2, i3, i4, i5, i6);
 	}

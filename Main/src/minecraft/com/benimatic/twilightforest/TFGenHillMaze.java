@@ -22,6 +22,7 @@ public class TFGenHillMaze extends TFGenerator {
 	}
 
 	public boolean generate(World world, Random rand, int x, int y, int z) {
+		System.out.println ("Attempting hill maze @ " + x + " " + y + " " + z);
 		
 		this.worldObj = world;
 		this.rand = rand;
@@ -36,6 +37,7 @@ public class TFGenHillMaze extends TFGenerator {
 
 		if (this.checkSolid) {
 			if (!this.checkMostlySolid(sx, y - 1, sz, msize * 4, 5, msize * 4, this.solidPercent)) {
+				System.out.println ("Hill maze failed, not " + this.solidPercent + " solid.");
 				return false;
 			}
 		}

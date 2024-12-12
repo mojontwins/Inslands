@@ -3400,12 +3400,10 @@ public class World implements IBlockAccess {
 				if(this.worldInfo.getTerrainType() != WorldType.SKY) {
 					// a) A minotaur maze which main body is under y = 64, for island terrain.
 					if(!GlobalVars.hasCorrectMinoshroomMaze) return false;
-					// b) 1 hedge maze 
-					if(GlobalVars.numHedgeMazes == 0) return false;
-				} else {
-					// b) At least one maze, for floating islands
-					if(GlobalVars.numUnderHillMazes == 0) return false;
-				}
+				} 
+				
+				// b) At least one maze
+				if(GlobalVars.numUnderHillMazes + GlobalVars.numHedgeMazes == 0) return false;
 			}
 		}
 		

@@ -119,7 +119,7 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 		
 		// Attempt a hedge maze
 		byte border = 6;
-		if(cx >= border && cz >= border && cx < WorldSize.xChunks - border && cz < WorldSize.zChunks - border && rand.nextInt(WorldSize.xChunks * WorldSize.zChunks / 256) == 0) {
+		if(cx >= border && cz >= border && cx < WorldSize.xChunks && cz < WorldSize.zChunks && rand.nextInt(WorldSize.xChunks * WorldSize.zChunks / 32) == 0) {
 			x = x0 + 8;
 			z = z0 + 8;
 			
@@ -208,9 +208,9 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 		// Maze
 		int cx = chunkX >> 4; 
 		int cz = chunkZ >> 4;
-		if(cx > 3 && cz > 3 && cz < WorldSize.xChunks - 3 && cz < WorldSize.zChunks - 3) {
+		if(cx > 3 && cz > 3 && cx < WorldSize.xChunks - 3 && cz < WorldSize.zChunks - 3) {
 			if(world.worldProvider instanceof WorldProviderSky) {
-				if(rand.nextInt(WorldSize.xChunks * WorldSize.zChunks / 2) == 0) {
+				if(rand.nextInt(WorldSize.xChunks * WorldSize.zChunks / 16) == 0) {
 					x = chunkX + 7;
 					y = rand.nextInt(64) + 32;
 					z = chunkZ + 7;
@@ -219,8 +219,8 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 						GlobalVars.numUnderHillMazes ++;
 					};
 				}
-			} else if(WorldSize.xChunks > 16) {
-				if(rand.nextInt(WorldSize.xChunks * WorldSize.zChunks / 4) == 0) {
+			} else {
+				if(rand.nextInt(WorldSize.xChunks * WorldSize.zChunks / 32) == 0) {
 					x = chunkX + rand.nextInt(16) + 8;
 					y = rand.nextInt(32) + 16;
 					z = chunkZ + rand.nextInt(16) + 8;

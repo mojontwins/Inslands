@@ -16,7 +16,7 @@ public class RenderSpider extends RenderLiving {
 		if(i2 != 0) {
 			return false;
 		} else {
-			this.loadTexture("/mob/spider_eyes.png");
+			this.loadTexture("/mob/spider_eyes.png"); 
 			float f4 = 1.0F;
 			GL11.glEnable(GL11.GL_BLEND);
 			//GL11.glDisable(GL11.GL_ALPHA_TEST);

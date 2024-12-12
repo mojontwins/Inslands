@@ -21,7 +21,7 @@ public class WorldSize {
 		
 		WorldSize.chunkUpdateRadius = (byte) (xChunks >= 16 ? 7 : xChunks / 2 + 1);
 		
-		System.out.println ("Size set: " + xChunks + " x " + zChunks);
+		// System.out.println ("Size set: " + xChunks + " x " + zChunks);
 	}
 	
 	public static int getXChunks(IChunkProvider chunkProvider) {

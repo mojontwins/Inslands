@@ -1293,15 +1293,17 @@ public abstract class Minecraft implements Runnable {
 				GlobalVars.initializeGameFlags();
 				
 				world = new World(saveHandler, worldName, worldSettings);
-				boolean isNew = world.isNewWorld; System.out.println ("New World? " + isNew);
+				boolean isNew = world.isNewWorld; // System.out.println ("New World? " + isNew);
 				this.preloadWorld(world, "Generating Level", isNew);
 				
 				if(isNew) {
 					valid = world.levelIsValidUponWorldTheme();
 					if(world.findingSpawnPoint || !valid) {
+						/*
 						System.out.println("World not valid [ Found spawn point? " + !world.findingSpawnPoint + 
 								", Valid upon theme? " + valid + 
 								" ] - trying again!");
+						*/
 						Random rand = new Random(worldSettings.getSeed());
 						
 						worldSettings = new WorldSettings(

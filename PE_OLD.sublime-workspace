@@ -560,7 +560,7 @@
 			"file": "Main/src/minecraft/net/minecraft/src/World.java",
 			"settings":
 			{
-				"buffer_size": 104374,
+				"buffer_size": 105413,
 				"line_ending": "Windows"
 			}
 		},
@@ -615,11 +615,21 @@
 			}
 		},
 		{
+			"contents": "# PE_OLD\n\n(Temporarily while I can think of a better name).\n\nIdeas:\n\n- Worlds are limited to the circular buffer, which will be made fixed.\n- All the world is calculated on world creatinon, that 32x32 chunks area, somehow.\n\nSo:\n\n1.- Make it so the buffer is not circular and no chunks x, z < 0 or x, z > 31 are generated.\n2.- Make it so you can't exit the world from the side.\n\nThen:\n\nExpand!\n\n1.- The nether should have nether walls and be 256x256\n2.- Position in the nether is overworld x 2\n\nThan:\n\nGo crazy!\n\n1.- Make chunks in the overworld 256 blocks tall. Generate the sky dimension on top of the normal dimension.\n2.- Indev level themes.\n3.- Profit!\n\n## Meh\n\nI did a very nice vanilla Indev in beta, it's so nice but:\n\n1.- Add passing of days to get seasons working.\n2.- SMP of course\n\n# 2nd iteration\n\nMost of the stuff never got done, but I have limited worlds with Indev themes. Now I want to take every theme and make a slightly different experience. The 1st I'm visiting is the Hell theme which would need a ways to make trees renewable. Remember that trees spawn without canopy.\n\nTHe way is using acorn seeds, which you can plan in the groudn to get oak saplings. Acorn seeds are sometimes dropped by skeletons.  \n\n# Wha\n\nAdded 0 notes during months. It's quite evolved and works great. Uses lightmaps and starlight and actually runs at a very good frame rate on very old or very limited hardware, which was the goal.\n\nNow spice it up a bit:\n\n* Define a proper gameplay for each level theme.\n* Add the poison island level theme.\n\n# Different gameplays for different level themes\n\n* [X] Rename world generators to \"Infdev Island\", \"Alpha Island\" and \"Floating Island\".\n* [X] Base achievements for hell, forest & paradise\n* [X] Eat animation from infhell\n* [X] Open creative inventory directly fix like infhell\n\n## Hell\n\n* [X] Very tough survival, also wood is a very valuable resource as most trees come up without canopy so you can't get saplings that way. Skeletons drop acorns which you should plant in tilled land to grow saplings. --> \n\t* [X] Needs testing - in hell it needs to be fertilized with bonemeal otherwise tilled land will decay and acorn will drop, which is nice.\n\n* [X] Thing something that has to do with fossils! Well, they are a huge source of bone meal, there should be a way to produce GRASS using them (A very small chance?) \n\t* [?] Fine tune... Why shrooms pop out as drops sometimes?\n\n* [X] Big mushrooms should have a purpose. ¿Smelt into coal? Maybe a smaller coal item that produces just 2 torches and burns for 1/2 the time.\n\t* [X] Item charcoal\n\t* [X] Smelting recipes (to obtain, as fuel)\n\t* [X] Crafting recipes: combine with stick for 2 torches\n\n* [ ] Iron boat. What happens if you put a wooden boat in the lava?\n\n* Achievements\n\t* [X] Grass from dirt - Fertilize dead soil and bring it back to life\n\t* [X] Plant an acorn - Plant an acorn on tilled field\n\t* [X] Fertililze an accorn\n\t* [X] Cook big shrooms - To get some cheap charcoal\n\n## Forest\n\n* Asegurarse de generar un laberinto.\n\n* Idear una progresión tipo twilight, con cosas que hacer para hacer otras cosas.\n\n## Paradise\n\n* Paradise level should trigger \"sky\" generator by default (you can change it ofc)\n\n* This was supposed the \"peaceful\" or \"easy\" variant, but I think something should be done to this. I know (or I believe) he original Aether was somewhat inspired in this. It would be nice to do some research and know where the aether came from and what were the initial builds and what kind of stuff they had and do something similar.\n\n* Add big flowers and some Aether stuff: bronze dungeons and some mobs would be a nice start.\n\n* [X] The sky generator generated a FLOOR??? at y = 0\n* [X] Ported Aether stuff\n* [X] Ultra bothered by the fact that apparently a bunch of mobs are being spawned in the sun light?!!?\n\n## Forest\n\n* [X] I've added good ol' mazes but I'm adding the \"good\" maze for non sky forests. The minotaur maze.\n* [X] Everything (maze) is ported - have to sort out the blocks used. \n* [X] Backport minotaurs and minoshrooms. They use new AI... 1. Try them as is as most of the new AI foundation is there - and 2. If taht fails, it should be easy to back port them to the old system.\n\n--\n\n* [X] Port kobolds and/or redcaps. Think on where/purpose. Both could be natural spawns if !blockcanseethesky stuff. Or whatever. Dunno if there's backend for cave monsters ?\n* [ ] Add more spawners to mazes?\n* [ ] Achievement\n\t[ ] Hunt Minotaur\n\t[X] Hunt Minoshroom.\n\t[X] Whatever with kobolds/redcaps.\n* [X] Add special axe that axes a lot, which is what the minoshroom drops.\n\n--\n\n* [X] Added a means to re-generate the world if conditions are not met.\n\t* [X] Forest maze conditions:\n\t\t* [X] Small sized or floating island based: at least 1 random hill maze\n\t\t+ [X] Normal sized: 1 minotaur maze spawning in the central chunk. \n\t\t* [X] Big/Huge sized: 1 minutaur maze per 16x16 chunk subregion.\n\n\t\t* Minotaur mazes have a 14 block high entrance. Condition is that they must generate at 64+14 = 78 or below, in the open.\n\t\t\n* [ ] Message \"retrying world generation\".\n* [X] Modify feature provider so it doesn't try outside of the map!\n* [X] Very important modification! upon processing the entity list, only update those within a square radius of 8 chunks in every direction, which saves TONS of time in BIG and HUGE levels! \n\n* [ ] Themed dungeons ? was that a thing? (i.e. select spawner characteristics)\n\n## Added optifine\n\nYay! fps boosted on shitty systems!\n\n## New stuff\n\n* [X] Use b173 Twilight Forest entities for animales in the forest theme.\n* [X] Undo (if done) the level theme based temperature/humidity and extract it from the biome.\n* [X] Make it so if the level theme based fixed biome is null, it uses the normal ramp for a new theme \"biomes\".\n* [X] Attempt to make a more flexible day cycle management (i.e. fixed celestial angle based upon level theme, not world provider) \n\t(RN how does it do the fixed hour in paradise / hell? Can't understand HOW!!) \n\n\tIn hell you can get night, not in paradise. The only difference is on level theme settings: dayCycle = false. But that flag only seems to be used to run the bad moon logic or not.\n\n\tOH. It seems to be tied to the world provider. FUCK. It is fixed to 0 for the world provider sky. I would get day cycle in another world provider for paradise. Time to make properl logic for this.\n\n\t`fixedCelestialAngle`.\n\n\t* For hell: Day cycle.\n\t* For forest: Check vanilla twilite\n\t* For paradise: `1.0F` (still doesn't seem to affect????  HOW TF DO I DO THIS LOL)\n\n\tCelestial angle is advancing normally, or so it seems. So it has to be lightmap related? Nah I was being stupid. Paradise is summer so time set night which sets 13000 still gets daylight.\n\n\tOK\n\n\tForget the ton of paragraphs. Implemeting this rn.\n\n\n\n* [X] Add \"Override level test\" to level creation extra options to override \"level is valid\" check\n* [X] Add a biome map. Simple, don't over do it. Use PostAlpha's. Which is almost vanilla's. Recreate new biomegen classes. BiomeGenBetaForest... etc\n* [X] Remove optifog log and other stupid shit.\n* [X] Add \"preferredWorldgen\" to levelthemes and de-hardcode it\n* [X] Add torches to some trees, somehow\n* [X] Biomes level theme uses PostAlpha ramps;\n* [ ] optional fancy grass?\n* [X] Make sure the needed initialization is due so multibiomes work in SMP\n* [X] Renderpass for shiny eyes is broken and entities show white.\n\n* [x] Special renderbiped for 2 layer-skin bipeds. Need to research how renderpass armor is made \"bigger\" than the main body.\n\n\t* RenderPlayer has 3 models: `modelBipedMain`, `modelArmorChestPlate` and `modelArmor`.\n\t* On object instantiation, `modelBipedMain` is assigned a \"new ModelBiped(0.0F)\".\n\t* `modelArmorChestPlate` is a `ModelBiped(1.0F);`\n\t* `modelArmor` is a `ModelBiped(0.5F);`\n\t* Constructor `ModelBiped(f1)` calls `ModelBiped(f1, 0)`. \n\t* Constructor `ModelBiped(f1, f2)` uses f2 as an angle for the (unused?) headwear box, and f1 for each `addBox` method call.\n\t* **That value is used to be subtracted/added to vertex coordinates, effectively making every box bigger (or smaller)**\n\t* So that's what I need: an extra `ModelBiped(0.5F)` mapped to the extra texture?\n\n\tI need to add an offset to `modelBiped` so it can pick up the lower half of the texture by default for the 2nd layer.\n\t\n* [X] Port eat animation from Infhell\n* [ ] Make corridors in hedge mazes hollow if they overwrite terrain!\n\n# More\n\n* [ ] Nether!\n\t* [/] Nether should be 1/2 the size of the overworld in sizes >= normal or 1/1 in size small. The chunk provider should take this in account automaticly. The teleporter should also convert coordinates accordingly.\n\t* [/] Nether should have cool all-bedrock (with holes) walls. Think on a nice algorithm to make irregular surfaces in all 4 lateral sides.\n\n\tIn my first attempt, I made it so the nether is actually half the size, and the Provider adjusts and returns the fake chunk for x/z = half, but this is not satisfactory as the bedrock in these chunks can't be lit.\n\n\tSo maybe the thing would be having the provider generate the full world size but only having a 1/2 sized portion in the center, generating REAL chunks of bedrock surrounding it, via the WorldProviderHell.\n\n\tSo when travelling to the nether, `X = SizeX/4 + X/2`. When going back, `X = (X - SizeX/4) * 2`.\n\n\tAlso Starlight is NOT running when creating the nether, but it does when reloading the world.\n\t\n\tSo new approach: \n\n\t* [X] add `getMinXChunk/getMaxXChunk` methods and apply where necessary - i.e. when spawning animals.\n\t* [X] Change the nether chunk provider generate to generate actual bedrock filled chunks for `X < SizeX/4` and `X >= 3*SizeX/4`. (for the small size, just generate 1 chunk wide border)\t  \n\n\tCOOL. Now the nether spawns correctly but there's no lights still. Need to check why is this.\n\n\t* [ ] Nether should be somewhat themed. Good look on thinking on \"paradise nether\" features :-D \n\n\tSo level Themes should store separate (fixed or multi) biome info for both dimensions.\n\n\t* [X] Nether lighting works. It was a very, very stupid bug integrating starlight (it was in Chunk.setBlockIdAndMetadata)\n\n\t* [ ] Nether biomes / content todo:\n\t\t* [ ] Attempt to do this with the least amount possible of new blocks and textures!\n\n\t\t* [ ] Create new fire proof, colorisable leaf block.\n\t\t* [ ] Create new fire proof, colorisable log block.\n\t\t* [ ] Use them for custom trees.\n\n\t\tBloodbark was gross but great for hell.\n\n\t\t* [ ] Paradise theme nether should be bluish with blue lit stuff like transparents mushrooms and crystals. \n\t\t* [ ] Hell's nether is fleshy. I need vine-like hanging guts, a meta block, eyes and shit. Look for eye-themed mobs in old mods.\n\t\t* [ ] Forest's nether should be full of trees, mushrooms and vines.\n\n* [ ] Think about gameplay items for a desert and a glacier based theme (for the future).\n\t* [ ] both lack trees, dirt and saplings must be obtained. Make sure skeletons still drop acorns.\n\t* [ ] cold mechanics. Need to reactivate code for freeze\n\n\n# Server\n\n* [ ] {SMP} Add TP to SMP\n* [ ] {SMP} Still no border chunks.\n* [X] {SMP} TileEntityMobSpawnerOneShot not working.\n* [ ] {SMP} Calculate spawn point properly.\n* [ ] {SMP} Client is no aware of effects from the Server.\n* [X] {SMP} Packet52 stuff (multiblock change) not 8bit metadata aware!\n\n# Poison Island\n\nPort/adapt from the Indev Modloader example. \n\n## Achievements\n\n* \"Welcome to the Poison Island\" - create a world.\n* \"A trusty container\" - \"Craft a bottle using glass panes\"\n* \"Somewhere to cook!\" - \"Toss diamonds to the old man and obtain a cauldron!\"\n* \"A good start\" - \"Add water to a cauldron\"\n* \"A source of food\" - \"Experiment with mushrooms to make soup\"\n* \"Don't let it spill!\" - \"Obtain acid\"\n* \"A powerful weapon\" - \"A strong disolvent in the cauldron with the right mushrooms...\"\n* \"Poison!\" - \"Obtain poison!\"\n\n## DO / FIX\n\n* [X] Biome causes lots of lag over time for some reason. Find what it is . I was adding mobs as animals\n* [X] Find the way to make the theme be able to fire a secondary cave carver above the sea level.\n* [ ] Make it darker.\n* [X] run the terraformer directy over the heightmap rather than carving the world after it's terrain generated!! And apply the modifier afterwards.\n\n* [X] Cave vines\n* [X] Adapt lake gens to work on podzol.\n* [X] EntityItem spawns smoke in acid\n* [X] Acid hurts\n* [X] Render green fog under acid\n* [X] Material.acid = Material.water\n* [ ] Add ballon to witch \"I want ...\" so you know what to give her.\n\n## Spawner (again)\n\n* The spawner will count existing creatures of current type if the creature class extends or implements IMob, EntityAnimal, IWaterMob or ICaveMob.\n\n* That means that if the wrong creature class is added to the wrong list, count will fail and such creature will spawn endlessly.\n\n* EntityGhoul implements ICaveMob so adding it to `spawnableCaveCreatureList` will work.\n\n* EntityTFSwarmSpider extends EntitySpider which implements IMob, so adding it to `spawnableCaveCreatureList` will not work.\n\nI need a way to have actual cave spiders, so I have to change the hierarchy:\n\n* EntitySpiderBase - will contain vanilla EntitySpider, but it won't implement either interface.\n\n* EntitySpider extends EntitySpiderBase implement IMob.\n\n* EntitySwarmSpider extends EntitySpiderBase.\n\n* EntitySwarmSpiderSurface extends EntitySwarmSpider implements IMob.\n\n* EntitySwarmSpiderCaves extends EntitySwarmSpider implements ICaveMob.",
 			"file": "README.md",
+			"file_size": 12773,
+			"file_write_time": 133738987026620070,
 			"settings":
 			{
-				"buffer_size": 12220,
-				"encoding": "UTF-8",
+				"buffer_size": 13443,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/Cosas/MP125-src/minecraft/com/mojontwins/desertdimension/MapGenDesertCaves.java",
+			"settings":
+			{
+				"buffer_size": 6157,
 				"line_ending": "Windows"
 			}
 		},
@@ -1157,7 +1167,7 @@
 						"translation.y": 2067.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 13,
 					"type": "text"
 				},
 				{
@@ -1185,7 +1195,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 12,
 					"type": "text"
 				},
 				{
@@ -1214,7 +1224,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
@@ -1432,7 +1442,7 @@
 						"translation.y": 3148.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
@@ -1441,7 +1451,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 104374,
+						"buffer_size": 105413,
 						"regions":
 						{
 						},
@@ -1461,7 +1471,7 @@
 						"translation.y": 1281.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
@@ -1490,7 +1500,7 @@
 						"translation.y": 2204.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
@@ -1519,7 +1529,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -1548,7 +1558,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -1576,7 +1586,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -1591,8 +1601,8 @@
 						"selection":
 						[
 							[
-								2305,
-								4966
+								4245,
+								4245
 							]
 						],
 						"settings":
@@ -1634,7 +1644,7 @@
 						"translation.y": 664.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 10,
 					"type": "text"
 				}
 			]
@@ -1649,15 +1659,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 12220,
+						"buffer_size": 13443,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								12220,
-								12220
+								13443,
+								13443
 							]
 						],
 						"settings":
@@ -1666,7 +1676,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2865.0,
+						"translation.y": 3180.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -1674,6 +1684,35 @@
 				},
 				{
 					"buffer": 12,
+					"file": "/D/Cosas/MP125-src/minecraft/com/mojontwins/desertdimension/MapGenDesertCaves.java",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6157,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4046,
+								4046
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 862.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 13,
 					"file": "Main/src/minecraft/com/mojontwins/minecraft/worldedit/WorldEdit.java",
 					"semi_transient": false,
 					"settings":
@@ -1698,7 +1737,7 @@
 						"translation.y": 3709.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 9,
 					"type": "text"
 				}
 			]
