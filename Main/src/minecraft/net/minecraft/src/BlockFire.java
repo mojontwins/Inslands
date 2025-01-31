@@ -87,21 +87,26 @@ public class BlockFire extends Block {
 					this.tryToCatchBlockOnFire(world, x, y, z - 1, 300, rand, i6);
 					this.tryToCatchBlockOnFire(world, x, y, z + 1, 300, rand, i6);
 	
-					for(int i8 = x - 1; i8 <= x + 1; ++i8) {
-						for(int i9 = z - 1; i9 <= z + 1; ++i9) {
-							for(int i10 = y - 1; i10 <= y + 4; ++i10) {
-								if(i8 != x || i10 != y || i9 != z) {
-									int i11 = 100;
-									if(i10 > y + 1) {
-										i11 += (i10 - (y + 1)) * 100;
+					for(int xx = x - 1; xx <= x + 1; ++xx) {
+						for(int zz = z - 1; zz <= z + 1; ++zz) {
+							for(int yy = y - 1; yy <= y + 4; ++yy) {
+								if(xx != x || yy != y || zz != z) {
+									BiomeGenBase biome = world.getBiomeGenAt(xx, zz);
+									
+									// Decrease chance (increasing sample) with distance
+									int randSize = 100;
+									if(yy > y + 1) {
+										randSize += (yy - (y + 1)) * 100;
 									}
 	
-									int i12 = this.getChanceOfNeighborsEncouragingFire(world, i8, i10, i9);
-									if(world.raining() || world.snowing()) i12 >>= 1;
-									if(world.getBiomeGenAt(i8, i9).isHumid()) i12 >>= 1;
-									if(i12 > 0 && rand.nextInt(i11) <= i12) {
-										if(!(world.raining() || world.snowing()) || !world.canBlockBeRainedOn(i8, i10, i9)) {
-											world.setBlockWithNotify(i8, i10, i9, this.blockID); 
+									int chance = this.getChanceOfNeighborsEncouragingFire(world, xx, yy, zz);
+									if(world.raining() || world.snowing()) chance >>= 2;
+									if(biome.isHumid()) chance >>= 2;
+									if(biome instanceof BiomeGenThemeForest) chance >>= 4;
+									
+									if(chance > 0 && rand.nextInt(randSize) <= chance) {
+										if(!(world.raining() || world.snowing()) || !world.canBlockBeRainedOn(xx, yy, zz)) {
+											world.setBlockWithNotify(xx, yy, zz, this.blockID); 
 										}
 									}
 								}
@@ -115,6 +120,8 @@ public class BlockFire extends Block {
 
 	private void tryToCatchBlockOnFire(World world, int x, int y, int z, int chance, Random rand, int dist) {
 		int i7 = this.abilityToCatchFire[world.getBlockId(x, y, z)];
+		if(world.raining() || world.snowing()) i7 >>= 2;
+		if(world.getBiomeGenAt(x, z).isHumid()) i7 >>= 1;
 		if(rand.nextInt(chance) < i7) {
 			boolean z8 = world.getBlockId(x, y, z) == Block.tnt.blockID;
 			if(rand.nextInt(2) == 0) {
