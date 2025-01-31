@@ -266,3 +266,10 @@ Port/adapt from the Indev Modloader example.
 * [X] Render green fog under acid
 * [X] Material.acid = Material.water
 * [ ] Add ballon to witch "I want ..." so you know what to give her.
+
+## More
+
+Make floating forests work. 
+
+* [ ] Fix maze checks
+* [ ] Make them work XD
