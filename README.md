@@ -265,6 +265,7 @@ Port/adapt from the Indev Modloader example.
 * [X] Acid hurts
 * [X] Render green fog under acid
 * [X] Material.acid = Material.water
+<<<<<<< HEAD
 * [/] Add ballon to witch "I want ..." so you know what to give her.
 
 ## TF Mazes
@@ -281,3 +282,13 @@ After 8 months... I'd refactor and reorganize everything in packages like my oth
 - Use bonemeal on dirt to get a chance to get grass.
 - Animals only spawn in well lit grass!
 - 
+=======
+* [ ] Add ballon to witch "I want ..." so you know what to give her.
+
+## More
+
+Make floating forests work. 
+
+* [ ] Fix maze checks
+* [ ] Make them work XD
+>>>>>>> 86d483bb93c40e31c7262bc56cf08fdb79cb2ed1
