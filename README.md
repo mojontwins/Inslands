@@ -265,4 +265,19 @@ Port/adapt from the Indev Modloader example.
 * [X] Acid hurts
 * [X] Render green fog under acid
 * [X] Material.acid = Material.water
-* [ ] Add ballon to witch "I want ..." so you know what to give her.
+* [/] Add ballon to witch "I want ..." so you know what to give her.
+
+## TF Mazes
+
+Given W, H, mazes are `W*4 x H*4` blocks in size. Almosth therere. Problems:
+
+- 100% empty cells not carving.
+- Floating islands maze blocks should only substitute dirt, stone, gravel, grass, ores.
+
+# Relive the project
+
+After 8 months... I'd refactor and reorganize everything in packages like my other projects. Then I need to add game hints that describe stuff you can do:
+
+- Use bonemeal on dirt to get a chance to get grass.
+- Animals only spawn in well lit grass!
+- 

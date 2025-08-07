@@ -214,7 +214,7 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 					x = chunkX + 7;
 					y = rand.nextInt(64) + 32;
 					z = chunkZ + 7;
-					if ((new TFGenHillMaze(2, true, 80)).generate(world, rand, x, y, z)) {
+					if ((new TFGenHillMaze(2, true, 30)).generate(world, rand, x, y, z)) {
 						(new WorldGenMazeMarker(true)).generate(world, rand, x, y + 4, z);
 						GlobalVars.numUnderHillMazes ++;
 					};
@@ -229,7 +229,6 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 						GlobalVars.numUnderHillMazes ++;
 					}
 				}
-				
 			}
 		}
 	}

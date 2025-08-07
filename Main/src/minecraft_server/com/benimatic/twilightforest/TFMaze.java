@@ -107,10 +107,11 @@ public class TFMaze {
 
 		for(int x = 0; x < this.rawWidth; ++x) {
 			for(int z = 0; z < this.rawDepth; ++z) {
-				if(this.getRaw(x, z) == 0) {
-					int mdx = dx + x / 2 * (this.evenBias + this.oddBias);
-					int mdz = dz + z / 2 * (this.evenBias + this.oddBias);
-					int i;
+				int mdx = dx + x / 2 * (this.evenBias + this.oddBias);
+				int mdz = dz + z / 2 * (this.evenBias + this.oddBias);
+				int i, y;
+				
+				if(this.getRaw(x, z) == 0) {						
 					if(this.isEven(x) && this.isEven(z)) {
 						
 						if(this.type == 4 && this.shouldTree(x, z)) {
@@ -125,29 +126,52 @@ public class TFMaze {
 								this.putRootBlock(world, mdx, dy - i, mdz);
 							}
 						}
-					}
-
-					int y;
-					if(this.isEven(x) && !this.isEven(z)) {
-						for(i = 1; i <= this.oddBias; ++i) {
-							for(y = 0; y < this.tall; ++y) {
+					} else if(this.isEven(x) && !this.isEven(z)) {
+						for(i = 0; i <= this.oddBias; ++i) {
+							if(i > 0) for(y = 0; y < this.tall; ++y) {
 								this.putWallBlock(world, mdx, dy + y, mdz + i);
 							}
+							
+							for(int j = 1; j <= this.oddBias; j ++) {
+								for(y = 0; y < this.tall; ++y) {
+									world.setBlockWithNotify(mdx + j, dy + y, mdz + i, 0);
+								}
+							}
 
-							for(y = 1; y <= this.roots; ++y) {
+							if(i > 0) for(y = 1; y <= this.roots; ++y) {
 								this.putRootBlock(world, mdx, dy - y, mdz + i);
 							}
 						}
-					}
-
-					if(!this.isEven(x) && this.isEven(z)) {
-						for(i = 1; i <= this.oddBias; ++i) {
-							for(y = 0; y < this.tall; ++y) {
+					} else if(!this.isEven(x) && this.isEven(z)) {
+						for(i = 0; i <= this.oddBias; ++i) {
+							if(i > 0) for(y = 0; y < this.tall; ++y) {
 								this.putWallBlock(world, mdx + i, dy + y, mdz);
 							}
+							
+							for(int j = 1; j <= this.oddBias; j ++) {
+								for(y = 0; y < this.tall; ++y) {
+									world.setBlockWithNotify(mdx + i, dy + y, mdz + j, 0);
+								}
+							}
 
-							for(y = 1; y <= this.roots; ++y) {
+							if(i > 0) for(y = 1; y <= this.roots; ++y) {
 								this.putRootBlock(world, mdx + i, dy - y, mdz);
+							}
+						}
+					} else {
+						for(i = 0; i <= this.oddBias; ++i) {
+							for(int j = 0; j <= this.oddBias; j ++) {
+								for(y = 0; y < this.tall; ++y) {
+									world.setBlockWithNotify(mdx + i, dy + y, mdz + j, 0);
+								}
+							}
+						}
+					}
+				} else {
+					for(i = 0; i < this.oddBias; ++i) {
+						for(int j = 0; j < this.oddBias; j ++) {
+							for(y = 0; y < this.tall; ++y) {
+								world.setBlockWithNotify(mdx + i, dy + y, mdz + j, 0);
 							}
 						}
 					}
@@ -205,7 +229,8 @@ public class TFMaze {
 	}
 
 	protected void putWallBlock(World world, int x, int y, int z) {
-		world.setBlockAndMetadataWithNotify(x, y, z, this.wallBlockID, this.wallBlockMeta);
+		if(this.type == 4 || world.getBlockId(x, y, z) != 0)
+			world.setBlockAndMetadataWithNotify(x, y, z, this.wallBlockID, this.wallBlockMeta);
 	}
 
 	protected void carveBlock(World world, int x, int y, int z) {
@@ -213,7 +238,8 @@ public class TFMaze {
 	}
 
 	protected void putRootBlock(World world, int x, int y, int z) {
-		world.setBlockAndMetadataWithNotify(x, y, z, this.rootBlockID, this.rootBlockMeta);
+		if(this.type == 4 || world.getBlockId(x, y, z) != 0)
+			world.setBlockAndMetadataWithNotify(x, y, z, this.rootBlockID, this.rootBlockMeta);
 	}
 
 	public boolean isEven(int n) {

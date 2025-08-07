@@ -24,7 +24,7 @@ public class Packet1Login extends Packet {
 		this.mapSeed = j3;
 		this.dimension = b5;
 	}
-	
+
 	public void readPacketData(DataInputStream dataInputStream1) throws IOException {
 		this.protocolVersion = dataInputStream1.readInt();
 		this.username = readString(dataInputStream1, 16);

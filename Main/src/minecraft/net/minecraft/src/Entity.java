@@ -94,22 +94,6 @@ public abstract class Entity {
 		return this.entityId;
 	}
 
-	protected void preparePlayerToSpawn() {
-		if(this.worldObj != null) {
-			while(this.posY > 0.0D) {
-				this.setPosition(this.posX, this.posY, this.posZ);
-				if(this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).size() == 0) {
-					break;
-				}
-
-				++this.posY;
-			}
-
-			this.motionX = this.motionY = this.motionZ = 0.0D;
-			this.rotationPitch = 0.0F;
-		}
-	}
-
 	public void setEntityDead() {
 		this.isDead = true;
 	}

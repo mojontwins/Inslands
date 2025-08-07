@@ -325,7 +325,7 @@ public class NetClientHandler extends NetHandler {
 		int x0 = packet52MultiBlockChange.xPosition * 16;
 		int z0 = packet52MultiBlockChange.zPosition * 16;
 
-		System.out.println ("Getting multiblock change for chunk " + packet52MultiBlockChange.xPosition + " " + packet52MultiBlockChange.zPosition + " with " + packet52MultiBlockChange.size + " blocks" );
+		//System.out.println ("Getting multiblock change for chunk " + packet52MultiBlockChange.xPosition + " " + packet52MultiBlockChange.zPosition + " with " + packet52MultiBlockChange.size + " blocks" );
 		
 		if(packet52MultiBlockChange.encodedBlocks != null) {
 			DataInputStream dataInputStream4 = new DataInputStream(new ByteArrayInputStream(packet52MultiBlockChange.encodedBlocks));

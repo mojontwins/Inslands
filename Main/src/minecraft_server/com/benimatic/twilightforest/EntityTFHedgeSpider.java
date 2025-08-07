@@ -1,9 +1,10 @@
 package com.benimatic.twilightforest;
 
 import net.minecraft.src.EntitySpider;
+import net.minecraft.src.IMob;
 import net.minecraft.src.World;
 
-public class EntityTFHedgeSpider extends EntitySpider {
+public class EntityTFHedgeSpider extends EntitySpider implements IMob {
 	public EntityTFHedgeSpider(World world) {
 		super(world);
 		this.texture = "/mob/hedgespider.png";

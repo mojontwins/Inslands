@@ -46,7 +46,7 @@ public class WorldGenLiquids extends WorldGenerator {
 			if(world.isAirBlock(x, y, z - 1)) {
 				++i7;
 			}
-
+			
 			if(world.isAirBlock(x, y, z + 1)) {
 				++i7;
 			}

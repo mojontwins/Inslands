@@ -14,14 +14,19 @@ import com.misc.aether.BlockChestMimic;
 import com.misc.aether.BlockDungeon;
 import com.misc.aether.BlockTrap;
 import com.mojang.minecraft.creative.CreativeTabs;
+import com.mojontwins.minecraft.blockmodels.BlockModel;
 import com.mojontwins.minecraft.nether.BlockLeaves2;
 import com.mojontwins.minecraft.nether.BlockLog2;
 import com.mojontwins.minecraft.nether.BlockSapling2;
 import com.mojontwins.minecraft.nether.ItemLeaves2;
 import com.mojontwins.minecraft.nether.ItemLog2;
 import com.mojontwins.minecraft.nether.ItemSapling2;
-
-
+import com.mojontwins.minecraft.poisonisland.BlockCauldron;
+import com.mojontwins.minecraft.poisonisland.BlockFluidAcid;
+import com.mojontwins.minecraft.poisonisland.BlockPodzol;
+import com.mojontwins.minecraft.poisonisland.BlockSmallHead;
+import com.mojontwins.minecraft.poisonisland.BlockStationaryAcid;
+import com.mojontwins.minecraft.poisonisland.ItemCauldron;
 
 public class Block {
 	
@@ -241,6 +246,14 @@ public class Block {
 	public static final Block sapling2 = (new BlockSapling2(217)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("sapling").setRequiresSelfNotify().setCreativeTab(CreativeTabs.tabDeco);
 	public static final Block planks2 = (new Block(218, 167, Material.wood)).setHardness(2.0F).setResistance(10.0F).setStepSound(soundWoodFootstep).setBlockName("wood").setRequiresSelfNotify().setIsUrban(true).setCreativeTab(CreativeTabs.tabBlock);
 	public static final Block pop = (new BlockTranslucent(219, 12*16+4, Material.glass)).setHardness(0.3F).setResistance(15.0F).setStepSound(soundGlassFootstep).setBlockName("pop").setLightValue(0.875F).setLightOpacity(3).setCreativeTab(CreativeTabs.tabBlock);
+	
+	// Poison island
+	public static final Block skeletonHead = (new BlockSmallHead(220, 162)).setHardness(1.0F).setResistance(5.0F).setStepSound(soundSlimeFootstep).setBlockName("skeletonHead").setCreativeTab(CreativeTabs.tabDeco);
+	public static final Block cauldron = (new BlockCauldron(221,0)).setBlockUnbreakable().setResistance(600000).setStepSound(soundMetalFootstep).setBlockName("cauldron").setCreativeTab(CreativeTabs.tabDeco);
+	public static final Block acidMoving = (new BlockFluidAcid(222, 9*16+6)).setHardness(100.0F).setLightOpacity(3).setBlockName("acid").disableStats().setRequiresSelfNotify();
+	public static final Block acidStill = (new BlockStationaryAcid(223, 9*16+6)).setHardness(100.0F).setLightOpacity(3).setBlockName("acid").disableStats().setRequiresSelfNotify();
+	public static final Block podzol = (new BlockPodzol(224)).setHardness(0.6F).setStepSound(soundGrassFootstep).setBlockName("podzol");
+	
 	
 	// Pistons - sorry, different IDs
 	public static final Block classicPistonBase = (new PistonBase(252, 22, false)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("piston");
@@ -616,6 +629,10 @@ public class Block {
 		return i5 == 0 || blocksList[i5].blockMaterial.getIsGroundCover() || (blocksList[i5] instanceof BlockFlower);
 	}
 
+	public boolean blockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, ItemStack itemStack) {
+		return this.blockActivated(world, x, y, z, entityPlayer);
+	}
+	
 	public boolean blockActivated(World world1, int i2, int i3, int i4, EntityPlayer entityPlayer5) {
 		return false;
 	}
@@ -769,6 +786,18 @@ public class Block {
 		return this.blockName;
 	}
 	
+	public BlockModel getBlockModel() {
+		return null;
+	}
+	
+	public int overrideTextureIndex() {
+		return -1;
+	}
+	
+	public int overrideTextureWith() {
+		return -1;
+	}
+	
 	// 
 	
 	static {
@@ -792,7 +821,8 @@ public class Block {
 		Item.itemsList[sapling2.blockID] = (new ItemSapling2(sapling2.blockID - 256)).setItemName("sapling");
 		Item.itemsList[leaves2.blockID] = (new ItemLeaves2(leaves2.blockID - 256)).setItemName("leaves");
 		Item.itemsList[wood2.blockID] = (new ItemLog2(wood2.blockID - 256)).setItemName("log");
-		
+	
+		Item.itemsList[cauldron.blockID] = (new ItemCauldron(cauldron.blockID - 256)).setItemName("cauldron");		
 		
 		for(int i0 = 0; i0 < 256; ++i0) {
 			if(blocksList[i0] != null) {

@@ -189,11 +189,11 @@ public abstract class BlockFluid extends Block {
 	}
 
 	public int getRenderBlockPass() {
-		return this.blockMaterial == Material.water ? 1 : 0;
+		return Material.woa(this.blockMaterial) ? 1 : 0;
 	}
 
 	public void randomDisplayTick(World world1, int i2, int i3, int i4, Random random5) {
-		if(this.blockMaterial == Material.water && random5.nextInt(64) == 0) {
+		if(Material.woa(this.blockMaterial) && random5.nextInt(64) == 0) {
 			int i6 = world1.getBlockMetadata(i2, i3, i4);
 			if(i6 > 0 && i6 < 8) {
 				world1.playSoundEffect((double)((float)i2 + 0.5F), (double)((float)i3 + 0.5F), (double)((float)i4 + 0.5F), "liquid.water", random5.nextFloat() * 0.25F + 0.75F, random5.nextFloat() * 1.0F + 0.5F);
@@ -211,12 +211,16 @@ public abstract class BlockFluid extends Block {
 
 	public static double func_293_a(IBlockAccess iBlockAccess0, int i1, int i2, int i3, Material material4) {
 		Vec3D vec3D5 = null;
-		if(material4 == Material.water) {
+		if(Material.woa(material4)) {
 			vec3D5 = ((BlockFluid)Block.waterMoving).getFlowVector(iBlockAccess0, i1, i2, i3);
 		}
 
 		if(material4 == Material.lava) {
 			vec3D5 = ((BlockFluid)Block.lavaMoving).getFlowVector(iBlockAccess0, i1, i2, i3);
+		}
+		
+		if(material4 == Material.acid) {
+			vec3D5 = ((BlockFluid)Block.acidMoving).getFlowVector(iBlockAccess0, i1, i2, i3);
 		}
 
 		return vec3D5.xCoord == 0.0D && vec3D5.zCoord == 0.0D ? -1000.0D : Math.atan2(vec3D5.zCoord, vec3D5.xCoord) - Math.PI / 2D;
@@ -229,28 +233,28 @@ public abstract class BlockFluid extends Block {
 	public void onNeighborBlockChange(World world1, int i2, int i3, int i4, int i5) {
 		this.checkForHarden(world1, i2, i3, i4);
 	}
-
+	
 	private void checkForHarden(World world, int x, int y, int z) {
 		if(world.getBlockId(x, y, z) == this.blockID) {
 			if(this.blockMaterial == Material.lava) {
 				boolean doHarden = false;
-				if(doHarden || world.getBlockMaterial(x, y, z - 1) == Material.water) {
+				if(doHarden || Material.woa(world.getBlockMaterial(x, y, z - 1))) {
 					doHarden = true;
 				}
 
-				if(doHarden || world.getBlockMaterial(x, y, z + 1) == Material.water) {
+				if(doHarden || Material.woa(world.getBlockMaterial(x, y, z + 1))) {
 					doHarden = true;
 				}
 
-				if(doHarden || world.getBlockMaterial(x - 1, y, z) == Material.water) {
+				if(doHarden || Material.woa(world.getBlockMaterial(x - 1, y, z))) {
 					doHarden = true;
 				}
 
-				if(doHarden || world.getBlockMaterial(x + 1, y, z) == Material.water) {
+				if(doHarden || Material.woa(world.getBlockMaterial(x + 1, y, z))) {
 					doHarden = true;
 				}
 
-				if(doHarden || world.getBlockMaterial(x, y + 1, z) == Material.water) {
+				if(doHarden || Material.woa(world.getBlockMaterial(x, y + 1, z))) {
 					doHarden = true;
 				}
 

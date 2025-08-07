@@ -45,7 +45,7 @@ public class FeatureProvider {
 	public static void registerFeature(Class<?> featureClass) {
 		registeredFeatures.add(featureClass);
 	}
-
+	
 	/*
 	 * Selects a feature at random for chunkX, chunkZ. If succeeded, feature is initialized and returned.
 	 */
@@ -178,7 +178,7 @@ public class FeatureProvider {
 			for(int x = chunkX - i; x <= chunkX + i; x ++) {
 				for(int z = chunkZ - i; z <= chunkZ + i; z ++) {
 					if(!WorldSize.inRange(this.chunkProvider, x, z)) continue;			
-										
+					
 					long chunkHash = ChunkCoordIntPair.chunkXZ2Long(x, z);
 					
 					Feature feature = this.featureList.get(chunkHash);

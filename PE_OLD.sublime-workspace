@@ -520,125 +520,37 @@
 	"buffers":
 	[
 		{
-			"contents": "package net.minecraft.src;\n\nimport java.util.ArrayList;\nimport java.util.HashMap;\nimport java.util.Iterator;\nimport java.util.List;\nimport java.util.Map;\nimport java.util.Random;\n\npublic class Chunk {\n\tpublic static boolean isLit;\n\tpublic byte[] blocks;\n\tpublic boolean isChunkLoaded;\n\tpublic World worldObj;\n\tpublic NibbleArray data;\n\tpublic NibbleArray skylightMap;\n\tpublic NibbleArray blocklightMap;\n\tpublic byte[] heightMap;\n\tpublic int lowestBlockHeight;\n\tpublic final int xPosition;\n\tpublic final int zPosition;\n\tpublic Map chunkTileEntityMap;\n\tpublic List[] entities;\n\tpublic boolean isTerrainPopulated;\n\tpublic boolean isModified;\n\tpublic boolean neverSave;\n\tpublic boolean hasEntities;\n\tpublic long lastSaveTime;\n\n\tpublic Chunk(World world1, int i2, int i3) {\n\t\tthis.chunkTileEntityMap = new HashMap();\n\t\tthis.entities = new List[8];\n\t\tthis.isTerrainPopulated = false;\n\t\tthis.isModified = false;\n\t\tthis.hasEntities = false;\n\t\tthis.lastSaveTime = 0L;\n\t\tthis.worldObj = world1;\n\t\tthis.xPosition = i2;\n\t\tthis.zPosition = i3;\n\t\tthis.heightMap = new byte[256];\n\n\t\tfor(int i4 = 0; i4 < this.entities.length; ++i4) {\n\t\t\tthis.entities[i4] = new ArrayList();\n\t\t}\n\n\t}\n\n\tpublic Chunk(World world1, byte[] b2, int i3, int i4) {\n\t\tthis(world1, i3, i4);\n\t\tthis.blocks = b2;\n\t\tthis.data = new NibbleArray(b2.length);\n\t\tthis.skylightMap = new NibbleArray(b2.length);\n\t\tthis.blocklightMap = new NibbleArray(b2.length);\n\t}\n\n\tpublic boolean isAtLocation(int i1, int i2) {\n\t\treturn i1 == this.xPosition && i2 == this.zPosition;\n\t}\n\n\tpublic int getHeightValue(int i1, int i2) {\n\t\treturn this.heightMap[i2 << 4 | i1] & 255;\n\t}\n\n\tpublic void func_1014_a() {\n\t}\n\n\tpublic void generateHeightMap() {\n\t\tint i1 = 127;\n\n\t\tfor(int i2 = 0; i2 < 16; ++i2) {\n\t\t\tfor(int i3 = 0; i3 < 16; ++i3) {\n\t\t\t\tint i4 = 127;\n\n\t\t\t\tfor(int i5 = i2 << 11 | i3 << 7; i4 > 0 && Block.lightOpacity[this.blocks[i5 + i4 - 1] & 255] == 0; --i4) {\n\t\t\t\t}\n\n\t\t\t\tthis.heightMap[i3 << 4 | i2] = (byte)i4;\n\t\t\t\tif(i4 < i1) {\n\t\t\t\t\ti1 = i4;\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n\t\tthis.lowestBlockHeight = i1;\n\t\tthis.isModified = true;\n\t}\n\n\tpublic void func_1024_c() {\n\t\tint i1 = 127;\n\n\t\tint i2;\n\t\tint i3;\n\t\tfor(i2 = 0; i2 < 16; ++i2) {\n\t\t\tfor(i3 = 0; i3 < 16; ++i3) {\n\t\t\t\tint i4 = 127;\n\n\t\t\t\tint i5;\n\t\t\t\tfor(i5 = i2 << 11 | i3 << 7; i4 > 0 && Block.lightOpacity[this.blocks[i5 + i4 - 1] & 255] == 0; --i4) {\n\t\t\t\t}\n\n\t\t\t\tthis.heightMap[i3 << 4 | i2] = (byte)i4;\n\t\t\t\tif(i4 < i1) {\n\t\t\t\t\ti1 = i4;\n\t\t\t\t}\n\n\t\t\t\tif(!this.worldObj.worldProvider.hasNoSky) {\n\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n\n\t\tthis.isModified = true;\n\t}\n\n\tpublic void func_4143_d() {\n\t}\n\n\tprivate void func_1003_g(int i1, int i2, int i3) {\n\t\tint i4 = this.heightMap[i3 << 4 | i1] & 255;\n\t\tint i5 = i4;\n\t\tif(i2 > i4) {\n\t\t\ti5 = i2;\n\t\t}\n\n\t\tfor(int i6 = i1 << 11 | i3 << 7; i5 > 0 && Block.lightOpacity[this.blocks[i6 + i5 - 1] & 255] == 0; --i5) {\n\t\t}\n\n\t\tif(i5 != i4) {\n\t\t\tthis.worldObj.markBlocksDirtyVertical(i1, i3, i5, i4);\n\t\t\tthis.heightMap[i3 << 4 | i1] = (byte)i5;\n\t\t\tint i7;\n\t\t\tint i8;\n\t\t\tint i9;\n\t\t\tif(i5 < this.lowestBlockHeight) {\n\t\t\t\tthis.lowestBlockHeight = i5;\n\t\t\t} else {\n\t\t\t\ti7 = 127;\n\n\t\t\t\tfor(i8 = 0; i8 < 16; ++i8) {\n\t\t\t\t\tfor(i9 = 0; i9 < 16; ++i9) {\n\t\t\t\t\t\tif((this.heightMap[i9 << 4 | i8] & 255) < i7) {\n\t\t\t\t\t\t\ti7 = this.heightMap[i9 << 4 | i8] & 255;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tthis.lowestBlockHeight = i7;\n\t\t\t}\n\n\t\t\t\n\t\t\tthis.isModified = true;\n\t\t}\n\t}\n\n\tpublic int getBlockID(int i1, int i2, int i3) {\n\t\treturn this.blocks[i1 << 11 | i3 << 7 | i2] & 255;\n\t}\n\n\tpublic boolean setBlockIDWithMetadata(int i1, int i2, int i3, int i4, int i5) {\n\t\tbyte b6 = (byte)i4;\n\t\t\n\t\tint i7 = this.heightMap[i3 << 4 | i1] & 255;\n\t\tint i8 = this.blocks[i1 << 11 | i3 << 7 | i2] & 255;\n\t\tif(i8 == i4 && this.data.getNibble(i1, i2, i3) == i5) {\n\t\t\treturn false;\n\t\t} else {\n\t\t\tint i9 = this.xPosition * 16 + i1;\n\t\t\tint i10 = this.zPosition * 16 + i3;\n\t\t\tthis.blocks[i1 << 11 | i3 << 7 | i2] = (byte)(b6 & 255);\n\t\t\tif(i8 != 0 && !this.worldObj.multiplayerWorld) {\n\t\t\t\tBlock.blocksList[i8].onBlockRemoval(this.worldObj, i9, i2, i10);\n\t\t\t}\n\n\t\t\tthis.data.setNibble(i1, i2, i3, i5);\n\t\t\tif(!this.worldObj.worldProvider.hasNoSky) {\n\t\t\t\tif(Block.lightOpacity[b6 & 255] != 0) {\n\t\t\t\t\tif(i2 >= i7) {\n\t\t\t\t\t\tthis.func_1003_g(i1, i2 + 1, i3);\n\t\t\t\t\t}\n\t\t\t\t} else if(i2 == i7 - 1) {\n\t\t\t\t\tthis.func_1003_g(i1, i2, i3);\n\t\t\t\t}\n\n\t\t\t\t//this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, i9, i2, i10, i9, i2, i10);\n\t\t\t}\n\n\t\t\t//this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Block, i9, i2, i10, i9, i2, i10);\n\t\t\t//this.func_996_c(i1, i3);\n\t\t\tthis.updateLight(i1, i2, i3); // Canyon - starlight\n\t\t\t\n\t\t\tthis.data.setNibble(i1, i2, i3, i5);\n\t\t\tif(i4 != 0) {\n\t\t\t\tBlock.blocksList[i4].onBlockAdded(this.worldObj, i9, i2, i10);\n\t\t\t}\n\n\t\t\tthis.isModified = true;\n\t\t\treturn true;\n\t\t}\n\t}\n\n\tpublic boolean setBlockID(int i1, int i2, int i3, int i4) {\n\t\tbyte b5 = (byte)i4;\n\t\tint i6 = this.heightMap[i3 << 4 | i1] & 255;\n\t\tint i7 = this.blocks[i1 << 11 | i3 << 7 | i2] & 255;\n\t\tif(i7 == i4) {\n\t\t\treturn false;\n\t\t} else {\n\t\t\tint i8 = this.xPosition * 16 + i1;\n\t\t\tint i9 = this.zPosition * 16 + i3;\n\t\t\tthis.blocks[i1 << 11 | i3 << 7 | i2] = (byte)(b5 & 255);\n\t\t\tif(i7 != 0) {\n\t\t\t\tBlock.blocksList[i7].onBlockRemoval(this.worldObj, i8, i2, i9);\n\t\t\t}\n\n\t\t\tthis.data.setNibble(i1, i2, i3, 0);\n\t\t\tif(Block.lightOpacity[b5 & 255] != 0) {\n\t\t\t\tif(i2 >= i6) {\n\t\t\t\t\tthis.func_1003_g(i1, i2 + 1, i3);\n\t\t\t\t}\n\t\t\t} else if(i2 == i6 - 1) {\n\t\t\t\tthis.func_1003_g(i1, i2, i3);\n\t\t\t}\n\n\t\t\t//this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, i8, i2, i9, i8, i2, i9);\n\t\t\t//this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Block, i8, i2, i9, i8, i2, i9);\n\t\t\t//this.func_996_c(i1, i3);\n\t\t\tthis.updateLight(i1,  i2,  i3);\n\t\t\tif(i4 != 0 && !this.worldObj.multiplayerWorld) {\n\t\t\t\tBlock.blocksList[i4].onBlockAdded(this.worldObj, i8, i2, i9);\n\t\t\t}\n\n\t\t\tthis.isModified = true;\n\t\t\treturn true;\n\t\t}\n\t}\n\n\tpublic int getBlockMetadata(int i1, int i2, int i3) {\n\t\treturn this.data.getNibble(i1, i2, i3);\n\t}\n\n\tpublic void setBlockMetadata(int i1, int i2, int i3, int i4) {\n\t\tthis.isModified = true;\n\t\tthis.data.setNibble(i1, i2, i3, i4);\n\t}\n\n\tpublic int getSavedLightValue(EnumSkyBlock enumSkyBlock1, int i2, int i3, int i4) {\n\t\treturn enumSkyBlock1 == EnumSkyBlock.Sky ? this.skylightMap.getNibble(i2, i3, i4) : (enumSkyBlock1 == EnumSkyBlock.Block ? this.blocklightMap.getNibble(i2, i3, i4) : 0);\n\t}\n\n\tpublic void setLightValue(EnumSkyBlock enumSkyBlock1, int i2, int i3, int i4, int i5) {\n\t\tthis.isModified = true;\n\t\tif(enumSkyBlock1 == EnumSkyBlock.Sky) {\n\t\t\tthis.skylightMap.setNibble(i2, i3, i4, i5);\n\t\t} else {\n\t\t\tif(enumSkyBlock1 != EnumSkyBlock.Block) {\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tthis.blocklightMap.setNibble(i2, i3, i4, i5);\n\t\t}\n\n\t}\n\n\tpublic int getBlockLightValue(int i1, int i2, int i3, int i4) {\n\t\tint i5 = this.skylightMap.getNibble(i1, i2, i3);\n\t\tif(i5 > 0) {\n\t\t\tisLit = true;\n\t\t}\n\n\t\ti5 -= i4;\n\t\tint i6 = this.blocklightMap.getNibble(i1, i2, i3);\n\t\tif(i6 > i5) {\n\t\t\ti5 = i6;\n\t\t}\n\n\t\treturn i5;\n\t}\n\n\tpublic void addEntity(Entity entity1) {\n\t\tthis.hasEntities = true;\n\t\tint i2 = MathHelper.floor_double(entity1.posX / 16.0D);\n\t\tint i3 = MathHelper.floor_double(entity1.posZ / 16.0D);\n\t\tif(i2 != this.xPosition || i3 != this.zPosition) {\n\t\t\tSystem.out.println(\"Wrong location! \" + entity1);\n\t\t\tThread.dumpStack();\n\t\t}\n\n\t\tint i4 = MathHelper.floor_double(entity1.posY / 16.0D);\n\t\tif(i4 < 0) {\n\t\t\ti4 = 0;\n\t\t}\n\n\t\tif(i4 >= this.entities.length) {\n\t\t\ti4 = this.entities.length - 1;\n\t\t}\n\n\t\tentity1.addedToChunk = true;\n\t\tentity1.chunkCoordX = this.xPosition;\n\t\tentity1.chunkCoordY = i4;\n\t\tentity1.chunkCoordZ = this.zPosition;\n\t\tthis.entities[i4].add(entity1);\n\t}\n\n\tpublic void removeEntity(Entity entity1) {\n\t\tthis.removeEntityAtIndex(entity1, entity1.chunkCoordY);\n\t}\n\n\tpublic void removeEntityAtIndex(Entity entity1, int i2) {\n\t\tif(i2 < 0) {\n\t\t\ti2 = 0;\n\t\t}\n\n\t\tif(i2 >= this.entities.length) {\n\t\t\ti2 = this.entities.length - 1;\n\t\t}\n\n\t\tthis.entities[i2].remove(entity1);\n\t}\n\n\tpublic boolean canBlockSeeTheSky(int i1, int i2, int i3) {\n\t\treturn i2 >= (this.heightMap[i3 << 4 | i1] & 255);\n\t}\n\n\tpublic TileEntity getChunkBlockTileEntity(int i1, int i2, int i3) {\n\t\tChunkPosition chunkPosition4 = new ChunkPosition(i1, i2, i3);\n\t\tTileEntity tileEntity5 = (TileEntity)this.chunkTileEntityMap.get(chunkPosition4);\n\t\tif(tileEntity5 == null) {\n\t\t\tint i6 = this.getBlockID(i1, i2, i3);\n\t\t\tif(!Block.isBlockContainer[i6]) {\n\t\t\t\treturn null;\n\t\t\t}\n\n\t\t\tBlockContainer blockContainer7 = (BlockContainer)Block.blocksList[i6];\n\t\t\tblockContainer7.onBlockAdded(this.worldObj, this.xPosition * 16 + i1, i2, this.zPosition * 16 + i3);\n\t\t\ttileEntity5 = (TileEntity)this.chunkTileEntityMap.get(chunkPosition4);\n\t\t}\n\n\t\tif(tileEntity5 != null && tileEntity5.func_31006_g()) {\n\t\t\tthis.chunkTileEntityMap.remove(chunkPosition4);\n\t\t\treturn null;\n\t\t} else {\n\t\t\treturn tileEntity5;\n\t\t}\n\t}\n\n\tpublic void addTileEntity(TileEntity tileEntity1) {\n\t\tint i2 = tileEntity1.xCoord - this.xPosition * 16;\n\t\tint i3 = tileEntity1.yCoord;\n\t\tint i4 = tileEntity1.zCoord - this.zPosition * 16;\n\t\tthis.setChunkBlockTileEntity(i2, i3, i4, tileEntity1);\n\t\tif(this.isChunkLoaded) {\n\t\t\tthis.worldObj.loadedTileEntityList.add(tileEntity1);\n\t\t}\n\n\t}\n\n\tpublic void setChunkBlockTileEntity(int i1, int i2, int i3, TileEntity tileEntity4) {\n\t\tChunkPosition chunkPosition5 = new ChunkPosition(i1, i2, i3);\n\t\ttileEntity4.worldObj = this.worldObj;\n\t\ttileEntity4.xCoord = this.xPosition * 16 + i1;\n\t\ttileEntity4.yCoord = i2;\n\t\ttileEntity4.zCoord = this.zPosition * 16 + i3;\n\t\tif(this.getBlockID(i1, i2, i3) != 0 && Block.blocksList[this.getBlockID(i1, i2, i3)] instanceof BlockContainer) {\n\t\t\ttileEntity4.func_31004_j();\n\t\t\tthis.chunkTileEntityMap.put(chunkPosition5, tileEntity4);\n\t\t} else {\n\t\t\tSystem.out.println(\"Attempted to place a tile entity where there was no entity tile!\");\n\t\t}\n\t}\n\n\tpublic void removeChunkBlockTileEntity(int i1, int i2, int i3) {\n\t\tChunkPosition chunkPosition4 = new ChunkPosition(i1, i2, i3);\n\t\tif(this.isChunkLoaded) {\n\t\t\tTileEntity tileEntity5 = (TileEntity)this.chunkTileEntityMap.remove(chunkPosition4);\n\t\t\tif(tileEntity5 != null) {\n\t\t\t\ttileEntity5.func_31005_i();\n\t\t\t}\n\t\t}\n\n\t}\n\n\tpublic void onChunkLoad() {\n\t\tthis.isChunkLoaded = true;\n\t\tthis.worldObj.func_31054_a(this.chunkTileEntityMap.values());\n\n\t\tfor(int i1 = 0; i1 < this.entities.length; ++i1) {\n\t\t\tthis.worldObj.func_636_a(this.entities[i1]);\n\t\t}\n\n\t}\n\n\tpublic void onChunkUnload() {\n\t\tthis.isChunkLoaded = false;\n\t\tIterator iterator1 = this.chunkTileEntityMap.values().iterator();\n\n\t\twhile(iterator1.hasNext()) {\n\t\t\tTileEntity tileEntity2 = (TileEntity)iterator1.next();\n\t\t\ttileEntity2.func_31005_i();\n\t\t}\n\n\t\tfor(int i3 = 0; i3 < this.entities.length; ++i3) {\n\t\t\tthis.worldObj.func_632_b(this.entities[i3]);\n\t\t}\n\n\t}\n\n\tpublic void setChunkModified() {\n\t\tthis.isModified = true;\n\t}\n\n\tpublic void getEntitiesWithinAABBForEntity(Entity entity1, AxisAlignedBB axisAlignedBB2, List list3) {\n\t\tint i4 = MathHelper.floor_double((axisAlignedBB2.minY - 2.0D) / 16.0D);\n\t\tint i5 = MathHelper.floor_double((axisAlignedBB2.maxY + 2.0D) / 16.0D);\n\t\tif(i4 < 0) {\n\t\t\ti4 = 0;\n\t\t}\n\n\t\tif(i5 >= this.entities.length) {\n\t\t\ti5 = this.entities.length - 1;\n\t\t}\n\n\t\tfor(int i6 = i4; i6 <= i5; ++i6) {\n\t\t\tList list7 = this.entities[i6];\n\n\t\t\tfor(int i8 = 0; i8 < list7.size(); ++i8) {\n\t\t\t\tEntity entity9 = (Entity)list7.get(i8);\n\t\t\t\tif(entity9 != entity1 && entity9.boundingBox.intersectsWith(axisAlignedBB2)) {\n\t\t\t\t\tlist3.add(entity9);\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n\t}\n\n\tpublic void getEntitiesOfTypeWithinAAAB(Class class1, AxisAlignedBB axisAlignedBB2, List list3) {\n\t\tint i4 = MathHelper.floor_double((axisAlignedBB2.minY - 2.0D) / 16.0D);\n\t\tint i5 = MathHelper.floor_double((axisAlignedBB2.maxY + 2.0D) / 16.0D);\n\t\tif(i4 < 0) {\n\t\t\ti4 = 0;\n\t\t}\n\n\t\tif(i5 >= this.entities.length) {\n\t\t\ti5 = this.entities.length - 1;\n\t\t}\n\n\t\tfor(int i6 = i4; i6 <= i5; ++i6) {\n\t\t\tList list7 = this.entities[i6];\n\n\t\t\tfor(int i8 = 0; i8 < list7.size(); ++i8) {\n\t\t\t\tEntity entity9 = (Entity)list7.get(i8);\n\t\t\t\tif(class1.isAssignableFrom(entity9.getClass()) && entity9.boundingBox.intersectsWith(axisAlignedBB2)) {\n\t\t\t\t\tlist3.add(entity9);\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n\t}\n\n\tpublic boolean needsSaving(boolean z1) {\n\t\tif(this.neverSave) {\n\t\t\treturn false;\n\t\t} else {\n\t\t\tif(z1) {\n\t\t\t\tif(this.hasEntities && this.worldObj.getWorldTime() != this.lastSaveTime) {\n\t\t\t\t\treturn true;\n\t\t\t\t}\n\t\t\t} else if(this.hasEntities && this.worldObj.getWorldTime() >= this.lastSaveTime + 600L) {\n\t\t\t\treturn true;\n\t\t\t}\n\n\t\t\treturn this.isModified;\n\t\t}\n\t}\n\n\tpublic int setChunkData(byte[] b1, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {\n\t\tint i9;\n\t\tint i10;\n\t\tint i11;\n\t\tint i12;\n\t\tfor(i9 = i2; i9 < i5; ++i9) {\n\t\t\tfor(i10 = i4; i10 < i7; ++i10) {\n\t\t\t\ti11 = i9 << 11 | i10 << 7 | i3;\n\t\t\t\ti12 = i6 - i3;\n\t\t\t\tSystem.arraycopy(b1, i8, this.blocks, i11, i12);\n\t\t\t\ti8 += i12;\n\t\t\t}\n\t\t}\n\n\t\tthis.generateHeightMap();\n\n\t\tfor(i9 = i2; i9 < i5; ++i9) {\n\t\t\tfor(i10 = i4; i10 < i7; ++i10) {\n\t\t\t\ti11 = (i9 << 11 | i10 << 7 | i3) >> 1;\n\t\t\t\ti12 = (i6 - i3) / 2;\n\t\t\t\tSystem.arraycopy(b1, i8, this.data.data, i11, i12);\n\t\t\t\ti8 += i12;\n\t\t\t}\n\t\t}\n\n\t\tfor(i9 = i2; i9 < i5; ++i9) {\n\t\t\tfor(i10 = i4; i10 < i7; ++i10) {\n\t\t\t\ti11 = (i9 << 11 | i10 << 7 | i3) >> 1;\n\t\t\t\ti12 = (i6 - i3) / 2;\n\t\t\t\tSystem.arraycopy(b1, i8, this.blocklightMap.data, i11, i12);\n\t\t\t\ti8 += i12;\n\t\t\t}\n\t\t}\n\n\t\tfor(i9 = i2; i9 < i5; ++i9) {\n\t\t\tfor(i10 = i4; i10 < i7; ++i10) {\n\t\t\t\ti11 = (i9 << 11 | i10 << 7 | i3) >> 1;\n\t\t\t\ti12 = (i6 - i3) / 2;\n\t\t\t\tSystem.arraycopy(b1, i8, this.skylightMap.data, i11, i12);\n\t\t\t\ti8 += i12;\n\t\t\t}\n\t\t}\n\n\t\treturn i8;\n\t}\n\n\tpublic Random func_997_a(long j1) {\n\t\treturn new Random(this.worldObj.getRandomSeed() + (long)(this.xPosition * this.xPosition * 4987142) + (long)(this.xPosition * 5947611) + (long)(this.zPosition * this.zPosition) * 4392871L + (long)(this.zPosition * 389711) ^ j1);\n\t}\n\n\tpublic boolean func_21167_h() {\n\t\treturn false;\n\t}\n\n\tpublic void func_25124_i() {\n\t\tChunkBlockMap.func_26002_a(this.blocks);\n\t}\n\t\n    // Canyon start - starlight\n    public void initLightingForRealNotJustHeightmap() {\n        this.worldObj.blockLight.initBlockLight(this.xPosition, this.zPosition, false);\n\n        if (!this.worldObj.worldProvider.isNether) { // isHell\n            this.worldObj.skyLight.initSkylight(this.xPosition, this.zPosition);\n        }\n    }\n\n    public void updateLight(int localX, int worldY, int localZ) {\n        int worldX = localX | (this.xPosition << 4);\n        int worldZ = localZ | (this.zPosition << 4);\n\n        this.worldObj.blockLight.checkBlockEmittance(worldX, worldY, worldZ);\n        if (!this.worldObj.worldProvider.isNether) {\n            this.worldObj.skyLight.checkSkyEmittance(worldX, worldY, worldZ);\n        }\n    }\n    // Canyon end - starlight\n\n}\n",
-			"file": "Test-deleteme/src/minecraft/net/minecraft/src/Chunk.java",
-			"file_size": 15161,
-			"file_write_time": 133652457115716764,
+			"file": "/E/apunters.md",
 			"settings":
 			{
-				"buffer_size": 14611,
+				"buffer_size": 2733,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "\tpublic boolean setBlockIDWithMetadata(int x, int y, int z, int blockID, int metadata) {\n\t\tbyte b6 = (byte)blockID;\n\t\t\n\t\tint height = this.heightMap[z << 4 | x] & 255;\n\t\tint existingID = this.blocks[x << 11 | z << 7 | y] & 255;\n\t\tif(existingID == blockID && this.data.getNibble(x, y, z) == metadata) {\n\t\t\treturn false;\n\t\t} else {\n\t\t\tint absX = this.xPosition * 16 + x;\n\t\t\tint absZ = this.zPosition * 16 + z;\n\n\t\t\tthis.blocks[x << 11 | z << 7 | y] = (byte)(b6 & 255);\n\n\t\t\tif(existingID != 0 && !this.worldObj.multiplayerWorld) {\n\t\t\t\tBlock.blocksList[existingID].onBlockRemoval(this.worldObj, absX, y, absZ);\n\t\t\t}\n\n\t\t\tthis.data.setNibble(x, y, z, metadata);\n\t\t\t\n\t\t\tif(!this.worldObj.worldProvider.hasNoSky) {\n\t\t\t\tif(Block.lightOpacity[b6 & 255] != 0) {\n\t\t\t\t\tif(y >= height) {\n\t\t\t\t\t\tthis.func_1003_g(x, y + 1, z);\n\t\t\t\t\t}\n\t\t\t\t} else if(y == height - 1) {\n\t\t\t\t\tthis.func_1003_g(x, y, z);\n\t\t\t\t}\n\n\t\t\t\t//this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Sky, absX, y, absZ, absX, y, absZ);\n\t\t\t}\n\n\t\t\t//this.worldObj.scheduleLightingUpdate(EnumSkyBlock.Block, absX, y, absZ, absX, y, absZ);\n\t\t\t//this.func_996_c(x, z);\n\t\t\tthis.updateLight(x, y, z); // Canyon - starlight\n\t\t\t\n\t\t\tthis.data.setNibble(x, y, z, metadata);\n\t\t\tif(blockID != 0) {\n\t\t\t\tBlock.blocksList[blockID].onBlockAdded(this.worldObj, absX, y, absZ);\n\t\t\t}\n\n\t\t\tthis.isModified = true;\n\t\t\treturn true;\n\t\t}\n\t}",
+			"file": "Main/src/minecraft/net/minecraft/src/Block.java",
 			"settings":
 			{
-				"buffer_size": 1358,
+				"buffer_size": 52370,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "Main/src/minecraft/net/minecraft/src/EnumCreatureType.java",
+			"contents": "Searching 891 files for \"piston\" (regex)\n\nE:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\Block.java:\n    8  import com.benimatic.twilightforest.BlockTFMazestone;\n    9  import com.benimatic.twilightforest.BlockTFMazestone2;\n   10: import com.hippoplatimus.pistons.Piston;\n   11: import com.hippoplatimus.pistons.PistonBase;\n   12  import com.misc.aether.BlockAercloud;\n   13  import com.misc.aether.BlockChestMimic;\n   ..\n   86  \tpublic static final Block railPowered = (new BlockRail(27, 179, true)).setHardness(0.7F).setStepSound(soundMetalFootstep).setBlockName(\"goldenRail\").setRequiresSelfNotify();\n   87  \tpublic static final Block railDetector = (new BlockDetectorRail(28, 195)).setHardness(0.7F).setStepSound(soundMetalFootstep).setBlockName(\"detectorRail\").setRequiresSelfNotify();\n   88: \tpublic static final Block pistonStickyBase = (new BlockPistonBase(29, 106, true)).setBlockName(\"pistonStickyBase\").setRequiresSelfNotify();\n   89  \tpublic static final Block web = (new BlockWeb(30, 11)).setLightOpacity(1).setHardness(4.0F).setBlockName(\"web\");\n   90  \tpublic static final BlockTallGrass tallGrass = (BlockTallGrass)(new BlockTallGrass(31, 16*13+13)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName(\"tallgrass\");\n   91  \tpublic static final BlockDeadBush deadBush = (BlockDeadBush)(new BlockDeadBush(32, 16*13+10)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName(\"deadbush\");\n   92: \tpublic static final Block pistonBase = (new BlockPistonBase(33, 107, false)).setBlockName(\"pistonBase\").setRequiresSelfNotify();\n   93: \tpublic static final BlockPistonExtension pistonExtension = (BlockPistonExtension)(new BlockPistonExtension(34, 107)).setRequiresSelfNotify();\n   94  \tpublic static final Block cloth = (new BlockCloth()).setHardness(0.8F).setStepSound(soundClothFootstep).setBlockName(\"cloth\").setRequiresSelfNotify();\n   95: \tpublic static final BlockPistonMoving pistonMoving = new BlockPistonMoving(36);\n   96  \tpublic static final BlockFlower plantYellow = (BlockFlower)(new BlockFlower(37, 13)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName(\"flower\");\n   97  \tpublic static final BlockFlower plantRed = (BlockFlower)(new BlockFlower(38, 12)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName(\"rose\");\n   ..\n  256  \t\n  257  \t\n  258: \t// Pistons - sorry, different IDs\n  259: \tpublic static final Block classicPistonBase = (new PistonBase(252, 22, false)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName(\"piston\");\n  260: \tpublic static final Block classicPiston = (new Piston(253, 22, false)).setHardness(1.5F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName(\"piston\");\n  261: \tpublic static final Block classicStickyPistonBase = (new PistonBase(254, 23, true)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName(\"pistonSticky\");\n  262: \tpublic static final Block classicStickyPiston = (new Piston(255, 23, true)).setLightOpacity(0).setHardness(1.5F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName(\"pistonSticky\");\n  263  \t\n  264  \t\n  ...\n  807  \t\tItem.itemsList[sapling.blockID] = (new ItemSapling(sapling.blockID - 256)).setItemName(\"sapling\");\n  808  \t\tItem.itemsList[leaves.blockID] = (new ItemLeaves(leaves.blockID - 256)).setItemName(\"leaves\");\n  809: \t\tItem.itemsList[pistonBase.blockID] = new ItemPiston(pistonBase.blockID - 256);\n  810: \t\tItem.itemsList[pistonStickyBase.blockID] = new ItemPiston(pistonStickyBase.blockID - 256);\n  811  \t\tItem.itemsList[lilyPad.blockID] = new ItemLilypad(lilyPad.blockID - 256);\n  812  \t\tItem.itemsList[coral.blockID] = new ItemCoral(coral.blockID - 256);\n\nE:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\BlockPistonBase.java:\n    3  import java.util.ArrayList;\n    4  \n    5: public class BlockPistonBase extends Block {\n    6  \tprivate boolean isSticky;\n    7  \tprivate boolean ignoreUpdates;\n    8  \n    9: \tpublic BlockPistonBase(int i1, int i2, boolean z3) {\n   10: \t\tsuper(i1, i2, Material.piston);\n   11  \t\tthis.isSticky = z3;\n   12  \t\tthis.setStepSound(soundStoneFootstep);\n   ..\n   14  \t}\n   15  \n   16: \tpublic int getPistonExtensionTexture() {\n   17  \t\treturn this.isSticky ? 106 : 107;\n   18  \t}\n   ..\n   20  \tpublic int getBlockTextureFromSideAndMetadata(int i1, int i2) {\n   21  \t\tint i3 = getOrientation(i2);\n   22: \t\treturn i3 > 5 ? this.blockIndexInTexture : (i1 == i3 ? (!isPowered(i2) && this.minX <= 0.0D && this.minY <= 0.0D && this.minZ <= 0.0D && this.maxX >= 1.0D && this.maxY >= 1.0D && this.maxZ >= 1.0D ? this.blockIndexInTexture : 110) : (i1 == PistonBlockTextures.faceToSide[i3] ? 109 : 108));\n   23  \t}\n   24  \n   ..\n   39  \t\tworld1.setBlockMetadataWithNotify(i2, i3, i4, i6);\n   40  \t\tif(!world1.isRemote) {\n   41: \t\t\tthis.updatePistonState(world1, i2, i3, i4);\n   42  \t\t}\n   43  \n   ..\n   46  \tpublic void onNeighborBlockChange(World world1, int i2, int i3, int i4, int i5) {\n   47  \t\tif(!world1.isRemote && !this.ignoreUpdates) {\n   48: \t\t\tthis.updatePistonState(world1, i2, i3, i4);\n   49  \t\t}\n   50  \n   ..\n   53  \tpublic void onBlockAdded(World world1, int i2, int i3, int i4) {\n   54  \t\tif(!world1.isRemote && world1.getBlockTileEntity(i2, i3, i4) == null) {\n   55: \t\t\tthis.updatePistonState(world1, i2, i3, i4);\n   56  \t\t}\n   57  \n   58  \t}\n   59  \n   60: \tprivate void updatePistonState(World world1, int i2, int i3, int i4) {\n   61  \t\tint i5 = world1.getBlockMetadata(i2, i3, i4);\n   62  \t\tint i6 = getOrientation(i5);\n   ..\n   85  \t\t\tif(this.tryExtend(world1, i2, i3, i4, i6)) {\n   86  \t\t\t\tworld1.setBlockMetadataWithNotify(i2, i3, i4, i6 | 8);\n   87: \t\t\t\tworld1.playSoundEffect((double)i2 + 0.5D, (double)i3 + 0.5D, (double)i4 + 0.5D, \"tile.piston.out\", 0.5F, world1.rand.nextFloat() * 0.25F + 0.6F);\n   88  \t\t\t}\n   89  \t\t} else if(i5 == 1) {\n   90: \t\t\tTileEntity tileEntity8 = world1.getBlockTileEntity(i2 + PistonBlockTextures.offsetsXForSide[i6], i3 + PistonBlockTextures.offsetsYForSide[i6], i4 + PistonBlockTextures.offsetsZForSide[i6]);\n   91: \t\t\tif(tileEntity8 != null && tileEntity8 instanceof TileEntityPiston) {\n   92: \t\t\t\t((TileEntityPiston)tileEntity8).clearPistonTileEntity();\n   93  \t\t\t}\n   94  \n   95: \t\t\tworld1.setBlockAndMetadata(i2, i3, i4, Block.pistonMoving.blockID, i6);\n   96: \t\t\tworld1.setBlockTileEntity(i2, i3, i4, BlockPistonMoving.getTileEntity(this.blockID, i6, i6, false, true));\n   97  \t\t\tif(this.isSticky) {\n   98: \t\t\t\tint i9 = i2 + PistonBlockTextures.offsetsXForSide[i6] * 2;\n   99: \t\t\t\tint i10 = i3 + PistonBlockTextures.offsetsYForSide[i6] * 2;\n  100: \t\t\t\tint i11 = i4 + PistonBlockTextures.offsetsZForSide[i6] * 2;\n  101  \t\t\t\tint i12 = world1.getBlockId(i9, i10, i11);\n  102  \t\t\t\tint i13 = world1.getBlockMetadata(i9, i10, i11);\n  103  \t\t\t\tboolean z14 = false;\n  104: \t\t\t\tif(i12 == Block.pistonMoving.blockID) {\n  105  \t\t\t\t\tTileEntity tileEntity15 = world1.getBlockTileEntity(i9, i10, i11);\n  106: \t\t\t\t\tif(tileEntity15 != null && tileEntity15 instanceof TileEntityPiston) {\n  107: \t\t\t\t\t\tTileEntityPiston tileEntityPiston16 = (TileEntityPiston)tileEntity15;\n  108: \t\t\t\t\t\tif(tileEntityPiston16.getOrientation() == i6 && tileEntityPiston16.getExtending()) {\n  109: \t\t\t\t\t\t\ttileEntityPiston16.clearPistonTileEntity();\n  110: \t\t\t\t\t\t\ti12 = tileEntityPiston16.getStoredBlockID();\n  111: \t\t\t\t\t\t\ti13 = tileEntityPiston16.getBlockMetadata();\n  112  \t\t\t\t\t\t\tz14 = true;\n  113  \t\t\t\t\t\t}\n  ...\n  115  \t\t\t\t}\n  116  \n  117: \t\t\t\tif(z14 || i12 <= 0 || !canPushBlock(i12, world1, i9, i10, i11, false) || Block.blocksList[i12].getMobilityFlag() != 0 && i12 != Block.pistonBase.blockID && i12 != Block.pistonStickyBase.blockID) {\n  118  \t\t\t\t\tif(!z14) {\n  119  \t\t\t\t\t\tthis.ignoreUpdates = false;\n  120: \t\t\t\t\t\tworld1.setBlockWithNotify(i2 + PistonBlockTextures.offsetsXForSide[i6], i3 + PistonBlockTextures.offsetsYForSide[i6], i4 + PistonBlockTextures.offsetsZForSide[i6], 0);\n  121  \t\t\t\t\t\tthis.ignoreUpdates = true;\n  122  \t\t\t\t\t}\n  ...\n  125  \t\t\t\t\tworld1.setBlockWithNotify(i9, i10, i11, 0);\n  126  \t\t\t\t\tthis.ignoreUpdates = true;\n  127: \t\t\t\t\ti2 += PistonBlockTextures.offsetsXForSide[i6];\n  128: \t\t\t\t\ti3 += PistonBlockTextures.offsetsYForSide[i6];\n  129: \t\t\t\t\ti4 += PistonBlockTextures.offsetsZForSide[i6];\n  130: \t\t\t\t\tworld1.setBlockAndMetadata(i2, i3, i4, Block.pistonMoving.blockID, i13);\n  131: \t\t\t\t\tworld1.setBlockTileEntity(i2, i3, i4, BlockPistonMoving.getTileEntity(i12, i13, i6, false, false));\n  132  \t\t\t\t}\n  133  \t\t\t} else {\n  134  \t\t\t\tthis.ignoreUpdates = false;\n  135: \t\t\t\tworld1.setBlockWithNotify(i2 + PistonBlockTextures.offsetsXForSide[i6], i3 + PistonBlockTextures.offsetsYForSide[i6], i4 + PistonBlockTextures.offsetsZForSide[i6], 0);\n  136  \t\t\t\tthis.ignoreUpdates = true;\n  137  \t\t\t}\n  138  \n  139: \t\t\tworld1.playSoundEffect((double)i2 + 0.5D, (double)i3 + 0.5D, (double)i4 + 0.5D, \"tile.piston.in\", 0.5F, world1.rand.nextFloat() * 0.15F + 0.6F);\n  140  \t\t}\n  141  \n  ...\n  212  \t\t\treturn false;\n  213  \t\t} else {\n  214: \t\t\tif(i0 != Block.pistonBase.blockID && i0 != Block.pistonStickyBase.blockID) {\n  215  \t\t\t\tif(Block.blocksList[i0].getHardness() == -1.0F) {\n  216  \t\t\t\t\treturn false;\n  ...\n  234  \n  235  \tprivate static boolean canExtend(World world0, int i1, int i2, int i3, int i4) {\n  236: \t\tint i5 = i1 + PistonBlockTextures.offsetsXForSide[i4];\n  237: \t\tint i6 = i2 + PistonBlockTextures.offsetsYForSide[i4];\n  238: \t\tint i7 = i3 + PistonBlockTextures.offsetsZForSide[i4];\n  239  \t\tint i8 = 0;\n  240  \n  ...\n  256  \t\t\t\t\t\t}\n  257  \n  258: \t\t\t\t\t\ti5 += PistonBlockTextures.offsetsXForSide[i4];\n  259: \t\t\t\t\t\ti6 += PistonBlockTextures.offsetsYForSide[i4];\n  260: \t\t\t\t\t\ti7 += PistonBlockTextures.offsetsZForSide[i4];\n  261  \t\t\t\t\t\t++i8;\n  262  \t\t\t\t\t\tcontinue;\n  ...\n  270  \n  271  \tprivate boolean tryExtend(World world1, int i2, int i3, int i4, int i5) {\n  272: \t\tint i6 = i2 + PistonBlockTextures.offsetsXForSide[i5];\n  273: \t\tint i7 = i3 + PistonBlockTextures.offsetsYForSide[i5];\n  274: \t\tint i8 = i4 + PistonBlockTextures.offsetsZForSide[i5];\n  275  \t\tint i9 = 0;\n  276  \n  ...\n  289  \t\t\t\t\t\t}\n  290  \n  291: \t\t\t\t\t\ti6 += PistonBlockTextures.offsetsXForSide[i5];\n  292: \t\t\t\t\t\ti7 += PistonBlockTextures.offsetsYForSide[i5];\n  293: \t\t\t\t\t\ti8 += PistonBlockTextures.offsetsZForSide[i5];\n  294  \t\t\t\t\t\t++i9;\n  295  \t\t\t\t\t\tcontinue;\n  ...\n  306  \n  307  \t\twhile(i6 != i2 || i7 != i3 || i8 != i4) {\n  308: \t\t\ti9 = i6 - PistonBlockTextures.offsetsXForSide[i5];\n  309: \t\t\ti10 = i7 - PistonBlockTextures.offsetsYForSide[i5];\n  310: \t\t\tint i11 = i8 - PistonBlockTextures.offsetsZForSide[i5];\n  311  \t\t\tint i12 = world1.getBlockId(i9, i10, i11);\n  312  \t\t\tint i13 = world1.getBlockMetadata(i9, i10, i11);\n  313  \t\t\tif(i12 == this.blockID && i9 == i2 && i10 == i3 && i11 == i4) {\n  314: \t\t\t\tworld1.setBlockAndMetadata(i6, i7, i8, Block.pistonMoving.blockID, i5 | (this.isSticky ? 8 : 0));\n  315: \t\t\t\tworld1.setBlockTileEntity(i6, i7, i8, BlockPistonMoving.getTileEntity(Block.pistonExtension.blockID, i5 | (this.isSticky ? 8 : 0), i5, true, false));\n  316  \t\t\t} else {\n  317: \t\t\t\tworld1.setBlockAndMetadata(i6, i7, i8, Block.pistonMoving.blockID, i13);\n  318: \t\t\t\tworld1.setBlockTileEntity(i6, i7, i8, BlockPistonMoving.getTileEntity(i12, i13, i5, true, false));\n  319  \t\t\t}\n  320  \n\nE:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\BlockPistonExtension.java:\n    4  import java.util.Random;\n    5  \n    6: public class BlockPistonExtension extends Block {\n    7  \tprivate int headTexture = -1;\n    8  \n    9: \tpublic BlockPistonExtension(int i1, int i2) {\n   10: \t\tsuper(i1, i2, Material.piston);\n   11  \t\tthis.setStepSound(soundStoneFootstep);\n   12  \t\tthis.setHardness(0.5F);\n   ..\n   24  \t\tsuper.onBlockRemoval(world1, i2, i3, i4);\n   25  \t\tint i5 = world1.getBlockMetadata(i2, i3, i4);\n   26: \t\tint i6 = PistonBlockTextures.faceToSide[getDirectionMeta(i5)];\n   27: \t\ti2 += PistonBlockTextures.offsetsXForSide[i6];\n   28: \t\ti3 += PistonBlockTextures.offsetsYForSide[i6];\n   29: \t\ti4 += PistonBlockTextures.offsetsZForSide[i6];\n   30  \t\tint i7 = world1.getBlockId(i2, i3, i4);\n   31: \t\tif(i7 == Block.pistonBase.blockID || i7 == Block.pistonStickyBase.blockID) {\n   32  \t\t\ti5 = world1.getBlockMetadata(i2, i3, i4);\n   33: \t\t\tif(BlockPistonBase.isPowered(i5)) {\n   34  \t\t\t\tBlock.blocksList[i7].dropBlockAsItem(world1, i2, i3, i4, i5);\n   35  \t\t\t\tworld1.setBlockWithNotify(i2, i3, i4, 0);\n   ..\n   41  \tpublic int getBlockTextureFromSideAndMetadata(int i1, int i2) {\n   42  \t\tint i3 = getDirectionMeta(i2);\n   43: \t\treturn i1 == i3 ? (this.headTexture >= 0 ? this.headTexture : ((i2 & 8) != 0 ? this.blockIndexInTexture - 1 : this.blockIndexInTexture)) : (i1 == PistonBlockTextures.faceToSide[i3] ? 107 : 108);\n   44  \t}\n   45  \n   ..\n  137  \tpublic void onNeighborBlockChange(World world1, int i2, int i3, int i4, int i5) {\n  138  \t\tint i6 = getDirectionMeta(world1.getBlockMetadata(i2, i3, i4));\n  139: \t\tint i7 = world1.getBlockId(i2 - PistonBlockTextures.offsetsXForSide[i6], i3 - PistonBlockTextures.offsetsYForSide[i6], i4 - PistonBlockTextures.offsetsZForSide[i6]);\n  140: \t\tif(i7 != Block.pistonBase.blockID && i7 != Block.pistonStickyBase.blockID) {\n  141  \t\t\tworld1.setBlockWithNotify(i2, i3, i4, 0);\n  142  \t\t} else {\n  143: \t\t\tBlock.blocksList[i7].onNeighborBlockChange(world1, i2 - PistonBlockTextures.offsetsXForSide[i6], i3 - PistonBlockTextures.offsetsYForSide[i6], i4 - PistonBlockTextures.offsetsZForSide[i6], i5);\n  144  \t\t}\n  145  \n\nE:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\BlockPistonMoving.java:\n    3  import java.util.Random;\n    4  \n    5: public class BlockPistonMoving extends BlockContainer {\n    6: \tpublic BlockPistonMoving(int i1) {\n    7: \t\tsuper(i1, Material.piston);\n    8  \t\tthis.setHardness(-1.0F);\n    9  \t}\n   ..\n   18  \tpublic void onBlockRemoval(World world1, int i2, int i3, int i4) {\n   19  \t\tTileEntity tileEntity5 = world1.getBlockTileEntity(i2, i3, i4);\n   20: \t\tif(tileEntity5 != null && tileEntity5 instanceof TileEntityPiston) {\n   21: \t\t\t((TileEntityPiston)tileEntity5).clearPistonTileEntity();\n   22  \t\t} else {\n   23  \t\t\tsuper.onBlockRemoval(world1, i2, i3, i4);\n   ..\n   61  \tpublic void dropBlockAsItemWithChance(World world1, int i2, int i3, int i4, int i5, float f6) {\n   62  \t\tif(!world1.isRemote) {\n   63: \t\t\tTileEntityPiston tileEntityPiston7 = this.getTileEntityAtLocation(world1, i2, i3, i4);\n   64: \t\t\tif(tileEntityPiston7 != null) {\n   65: \t\t\t\tBlock.blocksList[tileEntityPiston7.getStoredBlockID()].dropBlockAsItem(world1, i2, i3, i4, tileEntityPiston7.getBlockMetadata());\n   66  \t\t\t}\n   67  \t\t}\n   ..\n   76  \n   77  \tpublic static TileEntity getTileEntity(int i0, int i1, int i2, boolean z3, boolean z4) {\n   78: \t\treturn new TileEntityPiston(i0, i1, i2, z3, z4);\n   79  \t}\n   80  \n   81  \tpublic AxisAlignedBB getCollisionBoundingBoxFromPool(World world1, int i2, int i3, int i4) {\n   82: \t\tTileEntityPiston tileEntityPiston5 = this.getTileEntityAtLocation(world1, i2, i3, i4);\n   83: \t\tif(tileEntityPiston5 == null) {\n   84  \t\t\treturn null;\n   85  \t\t} else {\n   86: \t\t\tfloat f6 = tileEntityPiston5.getProgress(0.0F);\n   87: \t\t\tif(tileEntityPiston5.getExtending()) {\n   88  \t\t\t\tf6 = 1.0F - f6;\n   89  \t\t\t}\n   90  \n   91: \t\t\treturn this.getCollision(world1, i2, i3, i4, tileEntityPiston5.getStoredBlockID(), f6, tileEntityPiston5.getOrientation());\n   92  \t\t}\n   93  \t}\n   94  \n   95  \tpublic void setBlockBoundsBasedOnState(IBlockAccess iBlockAccess1, int i2, int i3, int i4) {\n   96: \t\tTileEntityPiston tileEntityPiston5 = this.getTileEntityAtLocation(iBlockAccess1, i2, i3, i4);\n   97: \t\tif(tileEntityPiston5 != null) {\n   98: \t\t\tBlock block6 = Block.blocksList[tileEntityPiston5.getStoredBlockID()];\n   99  \t\t\tif(block6 == null || block6 == this) {\n  100  \t\t\t\treturn;\n  ...\n  102  \n  103  \t\t\tblock6.setBlockBoundsBasedOnState(iBlockAccess1, i2, i3, i4);\n  104: \t\t\tfloat f7 = tileEntityPiston5.getProgress(0.0F);\n  105: \t\t\tif(tileEntityPiston5.getExtending()) {\n  106  \t\t\t\tf7 = 1.0F - f7;\n  107  \t\t\t}\n  108  \n  109: \t\t\tint i8 = tileEntityPiston5.getOrientation();\n  110: \t\t\tthis.minX = block6.minX - (double)((float)PistonBlockTextures.offsetsXForSide[i8] * f7);\n  111: \t\t\tthis.minY = block6.minY - (double)((float)PistonBlockTextures.offsetsYForSide[i8] * f7);\n  112: \t\t\tthis.minZ = block6.minZ - (double)((float)PistonBlockTextures.offsetsZForSide[i8] * f7);\n  113: \t\t\tthis.maxX = block6.maxX - (double)((float)PistonBlockTextures.offsetsXForSide[i8] * f7);\n  114: \t\t\tthis.maxY = block6.maxY - (double)((float)PistonBlockTextures.offsetsYForSide[i8] * f7);\n  115: \t\t\tthis.maxZ = block6.maxZ - (double)((float)PistonBlockTextures.offsetsZForSide[i8] * f7);\n  116  \t\t}\n  117  \n  ...\n  124  \t\t\t\treturn null;\n  125  \t\t\t} else {\n  126: \t\t\t\taxisAlignedBB8.minX -= (double)((float)PistonBlockTextures.offsetsXForSide[i7] * f6);\n  127: \t\t\t\taxisAlignedBB8.maxX -= (double)((float)PistonBlockTextures.offsetsXForSide[i7] * f6);\n  128: \t\t\t\taxisAlignedBB8.minY -= (double)((float)PistonBlockTextures.offsetsYForSide[i7] * f6);\n  129: \t\t\t\taxisAlignedBB8.maxY -= (double)((float)PistonBlockTextures.offsetsYForSide[i7] * f6);\n  130: \t\t\t\taxisAlignedBB8.minZ -= (double)((float)PistonBlockTextures.offsetsZForSide[i7] * f6);\n  131: \t\t\t\taxisAlignedBB8.maxZ -= (double)((float)PistonBlockTextures.offsetsZForSide[i7] * f6);\n  132  \t\t\t\treturn axisAlignedBB8;\n  133  \t\t\t}\n  ...\n  137  \t}\n  138  \n  139: \tprivate TileEntityPiston getTileEntityAtLocation(IBlockAccess iBlockAccess1, int i2, int i3, int i4) {\n  140  \t\tTileEntity tileEntity5 = iBlockAccess1.getBlockTileEntity(i2, i3, i4);\n  141: \t\treturn tileEntity5 != null && tileEntity5 instanceof TileEntityPiston ? (TileEntityPiston)tileEntity5 : null;\n  142  \t}\n  143  \t\n\nE:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\CraftingManager.java:\n   90  \t\t// Softlocked for b1.6.6\n   91  \t\t/*\n   92: \t\tthis.addRecipe(new ItemStack(Block.pistonBase, 1), new Object[]{\"TTT\", \"#X#\", \"#R#\", '#', Block.cobblestone, 'X', Item.ingotIron, 'R', Item.redstone, 'T', Block.planks});\n   93: \t\tthis.addRecipe(new ItemStack(Block.pistonStickyBase, 1), new Object[]{\"S\", \"P\", 'S', Item.slimeBall, 'P', Block.pistonBase});\n   94  \t\t*/\n   95  \t\t\n\nE:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityList.java:\n   22  import com.chocolatin.betterdungeons.EntitySecretBoss;\n   23  import com.gw.dm.EntityGhoul;\n   24: import com.hippoplatimus.pistons.EntityMovingPiston;\n   25  import com.misc.aether.EntityFlyingCow;\n   26  import com.misc.aether.EntityMimic;\n   ..\n  190  \t\taddMapping(EntitySecretBoss.class, \"SlimeBoss\", 73);\n  191  \t\t\n  192: \t\t// Classic pistons\n  193: \t\taddMapping(EntityMovingPiston.class, \"MovingPiston\", 119);\n  194  \t\t\n  195  \t\t// More stuff\n\nE:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\GuiCreativeInventory.java:\n   61  \t\t\t\tif(block == Block.portal) continue;\n   62  \t\t\t\tif(block instanceof BlockSign) continue;\n   63: \t\t\t\tif(block == Block.classicPiston || block == Block.classicStickyPiston) continue;\n   64  \t\t\t\t\n   65  \t\t\t\tif(block == Block.cloth || block == Block.stainedTerracotta) {\n\nE:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\GuiCredits.java:\n   48  \t\tthis.drawString(this.fontRenderer, \"Awesome textures with an Alpha feel\", this.width/2 - w, 90, 0xFFFFFF);\n   49  \t\tthis.drawString(this.fontRenderer, \"NSSS was the main inspiration\", this.width/2 - w, 100, 0xFFFFFF);\n   50: \t\tthis.drawString(this.fontRenderer, \"Classic, original, real, cool pistons!\", this.width/2 - w, 110, 0xFFFFFF);\n   51  \t\tthis.drawString(this.fontRenderer, \"Endless source of wisdom, support & ideas\", this.width/2 - w, 120, 0xFFFFFF);\n   52  \t\t\n\nE:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\ItemPiston.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class ItemPiston extends ItemBlock {\n    4: \tpublic ItemPiston(int i1) {\n    5  \t\tsuper(i1);\n    6  \t}\n\nE:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\Material.java:\n   29  \tpublic static final Material cakeMaterial = (new Material(MapColor.airColor)).setNoPushMobility().setName(\"cakeMaterial\");\n   30  \tpublic static final Material web = (new MaterialWeb(MapColor.clothColor)).setNoHarvest().setNoPushMobility().setName(\"web\");\n   31: \tpublic static final Material piston = (new Material(MapColor.stoneColor)).setImmovableMobility().setName(\"piston\");\n   32  \tpublic static final Material slime = (new Material(MapColor.foliageColor)).setIsTranslucent().setName(\"slime\");\n   33  \tpublic static final Material flesh = (new Material(MapColor.tntColor)).setNoPushMobility().setName(\"flesh\");\n\nE:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\PistonBlockTextures.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class PistonBlockTextures {\n    4  \tpublic static final int[] faceToSide = new int[]{1, 0, 3, 2, 5, 4};\n    5  \tpublic static final int[] offsetsXForSide = new int[]{0, 0, 0, 0, -1, 1};\n\nE:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\RecipesMine.java:\n   32  \t\tcraftingManager.addShapelessRecipe(new ItemStack(Block.planks,1), new Object[] {new ItemStack(Block.hollowLog, 1, -1)});\n   33  \t\t\n   34: \t\tcraftingManager.addRecipe(new ItemStack(Block.classicPistonBase, 1), new Object[]{\" X \", \"X#X\", \"XXX\", 'X', Item.ingotIron, '#', Item.redstone});\n   35: \t\tcraftingManager.addRecipe(new ItemStack(Block.classicStickyPistonBase, 1), new Object[]{\" X \", \"X#X\", \"XXX\", 'X', Item.ingotGold, '#', Item.redstone});\n   36  \t\t\n   37  \t\tcraftingManager.addRecipe(new ItemStack(Block.divingHelmet), new Object[] {\"CRC\", \"C C\", \"cGc\", 'C', Block.blockCopper, 'c', Item.ingotCopper, 'R', Item.redstone, 'G', Block.glass});\n\nE:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\RenderBlockClassicPiston.java:\n    3  import org.lwjgl.opengl.GL11;\n    4  \n    5: public class RenderBlockClassicPiston {\n    6  \tpublic static boolean RenderWorldBlock(RenderBlocks renderBlocks1, IBlockAccess iBlockAccess2, int i3, int i4, int i5, Block block6, int i7) {\n    7  \t\tint i8;\n    8: \t\tif(block6 != Block.classicPistonBase && block6 != Block.classicStickyPistonBase) {\n    9  \t\t\ti8 = iBlockAccess2.getBlockMetadata(i3, i4, i5);\n   10  \t\t\tswitch(i8) {\n\nE:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\RenderBlocks.java:\n  162  \t\t\tcase 107: return this.renderBlockAxisOriented(block, x, y, z);\n  163  \t\t\tcase 108: return this.renderBlockWoodOriented(block, x, y, z);\n  164: \t\t\tcase 109: return this.renderBlockClassicPiston(block, x, y, z);\n  165  \t\t\tcase 110: return this.renderBlockChain(block, x, y, z);\n  166  \t\t\tcase 111: return this.renderBlockSnowloggedPlant(block, x, y, z);\n  ...\n  500  \t}\n  501  \n  502: \tpublic void renderPistonBaseAllFaces(Block block1, int i2, int i3, int i4) {\n  503  \t\tthis.renderAllFaces = true;\n  504: \t\tthis.renderPistonBase(block1, i2, i3, i4, true);\n  505  \t\tthis.renderAllFaces = false;\n  506  \t}\n  507  \n  508: \tprivate boolean renderPistonBase(Block block1, int i2, int i3, int i4, boolean z5) {\n  509  \t\tint i6 = this.blockAccess.getBlockMetadata(i2, i3, i4);\n  510  \t\tboolean z7 = z5 || (i6 & 8) != 0;\n  511: \t\tint i8 = BlockPistonBase.getOrientation(i6);\n  512  \t\tif(z7) {\n  513  \t\t\tswitch(i8) {\n  ...\n  602  \t}\n  603  \n  604: \tprivate void renderPistonRodUD(double d1, double d3, double d5, double d7, double d9, double d11, float f13, double d14) {\n  605  \t\tint i16 = 108;\n  606  \t\tif(this.overrideBlockTexture >= 0) {\n  ...\n  622  \t}\n  623  \n  624: \tprivate void renderPistonRodSN(double d1, double d3, double d5, double d7, double d9, double d11, float f13, double d14) {\n  625  \t\tint i16 = 108;\n  626  \t\tif(this.overrideBlockTexture >= 0) {\n  ...\n  642  \t}\n  643  \n  644: \tprivate void renderPistonRodEW(double d1, double d3, double d5, double d7, double d9, double d11, float f13, double d14) {\n  645  \t\tint i16 = 108;\n  646  \t\tif(this.overrideBlockTexture >= 0) {\n  ...\n  662  \t}\n  663  \n  664: \tpublic void renderPistonExtensionAllFaces(Block block1, int i2, int i3, int i4, boolean z5) {\n  665  \t\tthis.renderAllFaces = true;\n  666: \t\tthis.renderPistonExtension(block1, i2, i3, i4, z5);\n  667  \t\tthis.renderAllFaces = false;\n  668  \t}\n  669  \n  670: \tprivate boolean renderPistonExtension(Block block1, int i2, int i3, int i4, boolean z5) {\n  671  \t\tint i6 = this.blockAccess.getBlockMetadata(i2, i3, i4);\n  672: \t\tint i7 = BlockPistonExtension.getDirectionMeta(i6);\n  673  \t\tfloat f11 = block1.getBlockBrightness(this.blockAccess, i2, i3, i4);\n  674  \t\tfloat f12 = z5 ? 1.0F : 0.5F;\n  ...\n  682  \t\t\tblock1.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.25F, 1.0F);\n  683  \t\t\tthis.renderStandardBlock(block1, i2, i3, i4);\n  684: \t\t\tthis.renderPistonRodUD((double)((float)i2 + 0.375F), (double)((float)i2 + 0.625F), (double)((float)i3 + 0.25F), (double)((float)i3 + 0.25F + f12), (double)((float)i4 + 0.625F), (double)((float)i4 + 0.625F), f11 * 0.8F, d13);\n  685: \t\t\tthis.renderPistonRodUD((double)((float)i2 + 0.625F), (double)((float)i2 + 0.375F), (double)((float)i3 + 0.25F), (double)((float)i3 + 0.25F + f12), (double)((float)i4 + 0.375F), (double)((float)i4 + 0.375F), f11 * 0.8F, d13);\n  686: \t\t\tthis.renderPistonRodUD((double)((float)i2 + 0.375F), (double)((float)i2 + 0.375F), (double)((float)i3 + 0.25F), (double)((float)i3 + 0.25F + f12), (double)((float)i4 + 0.375F), (double)((float)i4 + 0.625F), f11 * 0.6F, d13);\n  687: \t\t\tthis.renderPistonRodUD((double)((float)i2 + 0.625F), (double)((float)i2 + 0.625F), (double)((float)i3 + 0.25F), (double)((float)i3 + 0.25F + f12), (double)((float)i4 + 0.625F), (double)((float)i4 + 0.375F), f11 * 0.6F, d13);\n  688  \t\t\tbreak;\n  689  \t\tcase 1:\n  690  \t\t\tblock1.setBlockBounds(0.0F, 0.75F, 0.0F, 1.0F, 1.0F, 1.0F);\n  691  \t\t\tthis.renderStandardBlock(block1, i2, i3, i4);\n  692: \t\t\tthis.renderPistonRodUD((double)((float)i2 + 0.375F), (double)((float)i2 + 0.625F), (double)((float)i3 - 0.25F + 1.0F - f12), (double)((float)i3 - 0.25F + 1.0F), (double)((float)i4 + 0.625F), (double)((float)i4 + 0.625F), f11 * 0.8F, d13);\n  693: \t\t\tthis.renderPistonRodUD((double)((float)i2 + 0.625F), (double)((float)i2 + 0.375F), (double)((float)i3 - 0.25F + 1.0F - f12), (double)((float)i3 - 0.25F + 1.0F), (double)((float)i4 + 0.375F), (double)((float)i4 + 0.375F), f11 * 0.8F, d13);\n  694: \t\t\tthis.renderPistonRodUD((double)((float)i2 + 0.375F), (double)((float)i2 + 0.375F), (double)((float)i3 - 0.25F + 1.0F - f12), (double)((float)i3 - 0.25F + 1.0F), (double)((float)i4 + 0.375F), (double)((float)i4 + 0.625F), f11 * 0.6F, d13);\n  695: \t\t\tthis.renderPistonRodUD((double)((float)i2 + 0.625F), (double)((float)i2 + 0.625F), (double)((float)i3 - 0.25F + 1.0F - f12), (double)((float)i3 - 0.25F + 1.0F), (double)((float)i4 + 0.625F), (double)((float)i4 + 0.375F), f11 * 0.6F, d13);\n  696  \t\t\tbreak;\n  697  \t\tcase 2:\n  ...\n  700  \t\t\tblock1.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.25F);\n  701  \t\t\tthis.renderStandardBlock(block1, i2, i3, i4);\n  702: \t\t\tthis.renderPistonRodSN((double)((float)i2 + 0.375F), (double)((float)i2 + 0.375F), (double)((float)i3 + 0.625F), (double)((float)i3 + 0.375F), (double)((float)i4 + 0.25F), (double)((float)i4 + 0.25F + f12), f11 * 0.6F, d13);\n  703: \t\t\tthis.renderPistonRodSN((double)((float)i2 + 0.625F), (double)((float)i2 + 0.625F), (double)((float)i3 + 0.375F), (double)((float)i3 + 0.625F), (double)((float)i4 + 0.25F), (double)((float)i4 + 0.25F + f12), f11 * 0.6F, d13);\n  704: \t\t\tthis.renderPistonRodSN((double)((float)i2 + 0.375F), (double)((float)i2 + 0.625F), (double)((float)i3 + 0.375F), (double)((float)i3 + 0.375F), (double)((float)i4 + 0.25F), (double)((float)i4 + 0.25F + f12), f11 * 0.5F, d13);\n  705: \t\t\tthis.renderPistonRodSN((double)((float)i2 + 0.625F), (double)((float)i2 + 0.375F), (double)((float)i3 + 0.625F), (double)((float)i3 + 0.625F), (double)((float)i4 + 0.25F), (double)((float)i4 + 0.25F + f12), f11, d13);\n  706  \t\t\tbreak;\n  707  \t\tcase 3:\n  ...\n  712  \t\t\tblock1.setBlockBounds(0.0F, 0.0F, 0.75F, 1.0F, 1.0F, 1.0F);\n  713  \t\t\tthis.renderStandardBlock(block1, i2, i3, i4);\n  714: \t\t\tthis.renderPistonRodSN((double)((float)i2 + 0.375F), (double)((float)i2 + 0.375F), (double)((float)i3 + 0.625F), (double)((float)i3 + 0.375F), (double)((float)i4 - 0.25F + 1.0F - f12), (double)((float)i4 - 0.25F + 1.0F), f11 * 0.6F, d13);\n  715: \t\t\tthis.renderPistonRodSN((double)((float)i2 + 0.625F), (double)((float)i2 + 0.625F), (double)((float)i3 + 0.375F), (double)((float)i3 + 0.625F), (double)((float)i4 - 0.25F + 1.0F - f12), (double)((float)i4 - 0.25F + 1.0F), f11 * 0.6F, d13);\n  716: \t\t\tthis.renderPistonRodSN((double)((float)i2 + 0.375F), (double)((float)i2 + 0.625F), (double)((float)i3 + 0.375F), (double)((float)i3 + 0.375F), (double)((float)i4 - 0.25F + 1.0F - f12), (double)((float)i4 - 0.25F + 1.0F), f11 * 0.5F, d13);\n  717: \t\t\tthis.renderPistonRodSN((double)((float)i2 + 0.625F), (double)((float)i2 + 0.375F), (double)((float)i3 + 0.625F), (double)((float)i3 + 0.625F), (double)((float)i4 - 0.25F + 1.0F - f12), (double)((float)i4 - 0.25F + 1.0F), f11, d13);\n  718  \t\t\tbreak;\n  719  \t\tcase 4:\n  ...\n  724  \t\t\tblock1.setBlockBounds(0.0F, 0.0F, 0.0F, 0.25F, 1.0F, 1.0F);\n  725  \t\t\tthis.renderStandardBlock(block1, i2, i3, i4);\n  726: \t\t\tthis.renderPistonRodEW((double)((float)i2 + 0.25F), (double)((float)i2 + 0.25F + f12), (double)((float)i3 + 0.375F), (double)((float)i3 + 0.375F), (double)((float)i4 + 0.625F), (double)((float)i4 + 0.375F), f11 * 0.5F, d13);\n  727: \t\t\tthis.renderPistonRodEW((double)((float)i2 + 0.25F), (double)((float)i2 + 0.25F + f12), (double)((float)i3 + 0.625F), (double)((float)i3 + 0.625F), (double)((float)i4 + 0.375F), (double)((float)i4 + 0.625F), f11, d13);\n  728: \t\t\tthis.renderPistonRodEW((double)((float)i2 + 0.25F), (double)((float)i2 + 0.25F + f12), (double)((float)i3 + 0.375F), (double)((float)i3 + 0.625F), (double)((float)i4 + 0.375F), (double)((float)i4 + 0.375F), f11 * 0.6F, d13);\n  729: \t\t\tthis.renderPistonRodEW((double)((float)i2 + 0.25F), (double)((float)i2 + 0.25F + f12), (double)((float)i3 + 0.625F), (double)((float)i3 + 0.375F), (double)((float)i4 + 0.625F), (double)((float)i4 + 0.625F), f11 * 0.6F, d13);\n  730  \t\t\tbreak;\n  731  \t\tcase 5:\n  ...\n  736  \t\t\tblock1.setBlockBounds(0.75F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);\n  737  \t\t\tthis.renderStandardBlock(block1, i2, i3, i4);\n  738: \t\t\tthis.renderPistonRodEW((double)((float)i2 - 0.25F + 1.0F - f12), (double)((float)i2 - 0.25F + 1.0F), (double)((float)i3 + 0.375F), (double)((float)i3 + 0.375F), (double)((float)i4 + 0.625F), (double)((float)i4 + 0.375F), f11 * 0.5F, d13);\n  739: \t\t\tthis.renderPistonRodEW((double)((float)i2 - 0.25F + 1.0F - f12), (double)((float)i2 - 0.25F + 1.0F), (double)((float)i3 + 0.625F), (double)((float)i3 + 0.625F), (double)((float)i4 + 0.375F), (double)((float)i4 + 0.625F), f11, d13);\n  740: \t\t\tthis.renderPistonRodEW((double)((float)i2 - 0.25F + 1.0F - f12), (double)((float)i2 - 0.25F + 1.0F), (double)((float)i3 + 0.375F), (double)((float)i3 + 0.625F), (double)((float)i4 + 0.375F), (double)((float)i4 + 0.375F), f11 * 0.6F, d13);\n  741: \t\t\tthis.renderPistonRodEW((double)((float)i2 - 0.25F + 1.0F - f12), (double)((float)i2 - 0.25F + 1.0F), (double)((float)i3 + 0.625F), (double)((float)i3 + 0.375F), (double)((float)i4 + 0.625F), (double)((float)i4 + 0.625F), f11 * 0.6F, d13);\n  742  \t\t}\n  743  \n  ...\n 4616  \t*/\n 4617  \t\n 4618: \tpublic boolean renderBlockClassicPiston(Block block, int x, int y, int z) {\n 4619: \t\treturn RenderBlockClassicPiston.RenderWorldBlock(this, this.blockAccess, x, y, z, block, 0);\n 4620  \t}\n 4621  \t\n ....\n 4744  \t\t\t\tGL11.glTranslatef(0.5F, 0.5F, 0.5F);\n 4745  \t\t\t} else if(i5 == 109) {\n 4746: \t\t\t\tRenderBlockClassicPiston.RenderInvBlock(this, block1, 0, 0);\n 4747  \t\t\t} else {\n 4748  \t\t\t\tint i9;\n\nE:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\RenderManager.java:\n   42  import com.gw.dm.ModelGhoul;\n   43  import com.gw.dm.RenderGhoul;\n   44: import com.hippoplatimus.pistons.EntityMovingPiston;\n   45: import com.hippoplatimus.pistons.MovingPistonRenderer;\n   46  import com.misc.aether.EntityFlyingCow;\n   47  import com.misc.aether.EntityMimic;\n   ..\n  176  \t\tthis.entityRenderMap.put(EntityPirateBoss.class, new RenderBiped(new ModelArcher(), 0.5F));\n  177  \t\t\n  178: \t\t// Classic pistons\n  179: \t\tthis.entityRenderMap.put(EntityMovingPiston.class, new MovingPistonRenderer());\n  180  \t\t\n  181  \t\t// More stuff\n\nE:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\TileEntity.java:\n  122  \t\taddMapping(TileEntityMobSpawner.class, \"MobSpawner\");\n  123  \t\taddMapping(TileEntityNote.class, \"Music\");\n  124: \t\taddMapping(TileEntityPiston.class, \"Piston\");\n  125  \t\taddMapping(TileEntityMobSpawnerOneshot.class, \"MobSpawnerOneshot\");\n  126  \t}\n\nE:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\TileEntityPiston.java:\n    5  import java.util.List;\n    6  \n    7: public class TileEntityPiston extends TileEntity {\n    8  \tprivate int storedBlockID;\n    9  \tprivate int storedMetadata;\n   ..\n   15  \tprivate static List<Entity> pushedObjects = new ArrayList<Entity>();\n   16  \n   17: \tpublic TileEntityPiston() {\n   18  \t}\n   19  \n   20: \tpublic TileEntityPiston(int i1, int i2, int i3, boolean z4, boolean z5) {\n   21  \t\tthis.storedBlockID = i1;\n   22  \t\tthis.storedMetadata = i2;\n   ..\n   55  \n   56  \tpublic float func_31017_b(float f1) {\n   57: \t\treturn this.extending ? (this.getProgress(f1) - 1.0F) * (float)PistonBlockTextures.offsetsXForSide[this.storedOrientation] : (1.0F - this.getProgress(f1)) * (float)PistonBlockTextures.offsetsXForSide[this.storedOrientation];\n   58  \t}\n   59  \n   60  \tpublic float func_31014_c(float f1) {\n   61: \t\treturn this.extending ? (this.getProgress(f1) - 1.0F) * (float)PistonBlockTextures.offsetsYForSide[this.storedOrientation] : (1.0F - this.getProgress(f1)) * (float)PistonBlockTextures.offsetsYForSide[this.storedOrientation];\n   62  \t}\n   63  \n   64  \tpublic float func_31013_d(float f1) {\n   65: \t\treturn this.extending ? (this.getProgress(f1) - 1.0F) * (float)PistonBlockTextures.offsetsZForSide[this.storedOrientation] : (1.0F - this.getProgress(f1)) * (float)PistonBlockTextures.offsetsZForSide[this.storedOrientation];\n   66  \t}\n   67  \n   ..\n   73  \t\t}\n   74  \n   75: \t\tAxisAlignedBB axisAlignedBB3 = Block.pistonMoving.getCollision(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.storedBlockID, f1, this.storedOrientation);\n   76  \t\tif(axisAlignedBB3 != null) {\n   77  \t\t\tList<Entity> list4 = this.worldObj.getEntitiesWithinAABBExcludingEntity((Entity)null, axisAlignedBB3);\n   ..\n   82  \t\t\t\twhile(iterator5.hasNext()) {\n   83  \t\t\t\t\tEntity entity6 = (Entity)iterator5.next();\n   84: \t\t\t\t\tentity6.moveEntity((double)(f2 * (float)PistonBlockTextures.offsetsXForSide[this.storedOrientation]), (double)(f2 * (float)PistonBlockTextures.offsetsYForSide[this.storedOrientation]), (double)(f2 * (float)PistonBlockTextures.offsetsZForSide[this.storedOrientation]));\n   85  \t\t\t\t}\n   86  \n   ..\n   91  \t}\n   92  \n   93: \tpublic void clearPistonTileEntity() {\n   94  \t\tif(this.lastProgress < 1.0F) {\n   95  \t\t\tthis.lastProgress = this.progress = 1.0F;\n   96  \t\t\tthis.worldObj.removeBlockTileEntity(this.xCoord, this.yCoord, this.zCoord);\n   97  \t\t\tthis.invalidate();\n   98: \t\t\tif(this.worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord) == Block.pistonMoving.blockID) {\n   99  \t\t\t\tthis.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, this.storedBlockID, this.storedMetadata);\n  100  \t\t\t}\n  ...\n  109  \t\t\tthis.worldObj.removeBlockTileEntity(this.xCoord, this.yCoord, this.zCoord);\n  110  \t\t\tthis.invalidate();\n  111: \t\t\tif(this.worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord) == Block.pistonMoving.blockID) {\n  112  \t\t\t\tthis.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, this.storedBlockID, this.storedMetadata);\n  113  \t\t\t}\n\nE:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\TileEntityRenderer.java:\n   27  \t\tthis.specialRendererMap.put(TileEntityMobSpawner.class, new TileEntityMobSpawnerRenderer());\n   28  \t\tthis.specialRendererMap.put(TileEntityMobSpawnerOneshot.class, new TileEntityMobSpawnerOneshotRenderer());\n   29: \t\tthis.specialRendererMap.put(TileEntityPiston.class, new TileEntityRendererPiston());\n   30  \t\tIterator<TileEntitySpecialRenderer> iterator1 = this.specialRendererMap.values().iterator();\n   31  \n\nE:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\TileEntityRendererPiston.java:\n    5  import org.lwjgl.opengl.GL11;\n    6  \n    7: public class TileEntityRendererPiston extends TileEntitySpecialRenderer {\n    8  \tprivate RenderBlocks field_31071_b;\n    9  \n   10: \tpublic void func_31070_a(TileEntityPiston tileEntityPiston1, double d2, double d4, double d6, float f8) {\n   11: \t\tBlock block9 = Block.blocksList[tileEntityPiston1.getStoredBlockID()];\n   12: \t\tif(block9 != null && tileEntityPiston1.getProgress(f8) < 1.0F) {\n   13  \t\t\tTessellator tessellator10 = Tessellator.instance;\n   14  \t\t\tthis.bindTextureByName(\"/terrain.png\");\n   ..\n   24  \n   25  \t\t\ttessellator10.startDrawingQuads();\n   26: \t\t\ttessellator10.setTranslation((double)((float)d2 - (float)tileEntityPiston1.xCoord + tileEntityPiston1.func_31017_b(f8)), (double)((float)d4 - (float)tileEntityPiston1.yCoord + tileEntityPiston1.func_31014_c(f8)), (double)((float)d6 - (float)tileEntityPiston1.zCoord + tileEntityPiston1.func_31013_d(f8)));\n   27  \t\t\ttessellator10.setColorOpaque(1, 1, 1);\n   28: \t\t\tif(block9 == Block.pistonExtension && tileEntityPiston1.getProgress(f8) < 0.5F) {\n   29: \t\t\t\tthis.field_31071_b.renderPistonExtensionAllFaces(block9, tileEntityPiston1.xCoord, tileEntityPiston1.yCoord, tileEntityPiston1.zCoord, false);\n   30: \t\t\t} else if(tileEntityPiston1.func_31012_k() && !tileEntityPiston1.getExtending()) {\n   31: \t\t\t\tBlock.pistonExtension.setHeadTexture(((BlockPistonBase)block9).getPistonExtensionTexture());\n   32: \t\t\t\tthis.field_31071_b.renderPistonExtensionAllFaces(Block.pistonExtension, tileEntityPiston1.xCoord, tileEntityPiston1.yCoord, tileEntityPiston1.zCoord, tileEntityPiston1.getProgress(f8) < 0.5F);\n   33: \t\t\t\tBlock.pistonExtension.clearHeadTexture();\n   34: \t\t\t\ttessellator10.setTranslation((double)((float)d2 - (float)tileEntityPiston1.xCoord), (double)((float)d4 - (float)tileEntityPiston1.yCoord), (double)((float)d6 - (float)tileEntityPiston1.zCoord));\n   35: \t\t\t\tthis.field_31071_b.renderPistonBaseAllFaces(block9, tileEntityPiston1.xCoord, tileEntityPiston1.yCoord, tileEntityPiston1.zCoord);\n   36  \t\t\t} else {\n   37: \t\t\t\tthis.field_31071_b.func_31075_a(block9, tileEntityPiston1.xCoord, tileEntityPiston1.yCoord, tileEntityPiston1.zCoord);\n   38  \t\t\t}\n   39  \n   ..\n   50  \n   51  \tpublic void renderTileEntityAt(TileEntity tileEntity1, double d2, double d4, double d6, float f8) {\n   52: \t\tthis.func_31070_a((TileEntityPiston)tileEntity1, d2, d4, d6, f8);\n   53  \t}\n   54  }\n\n291 matches across 19 files\n",
 			"settings":
 			{
-				"buffer_size": 1139,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "Searching 1452 files for \"IWaterMob\"\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\mojontwins\\minecraft\\oceanruins\\EntityTriton.java:\n    4  import net.minecraft.src.Entity;\n    5  import net.minecraft.src.EntityArmoredMob;\n    6: import net.minecraft.src.IWaterMob;\n    7  import net.minecraft.src.Item;\n    8  import net.minecraft.src.ItemStack;\n    .\n   11  import net.minecraft.src.World;\n   12  \n   13: public class EntityTriton extends EntityArmoredMob implements IWaterMob {\n   14  \tpublic boolean isSwinging = false;\n   15  \tpublic int swingProgressInt = 0;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\BlockFluid.java:\n  171  \t\tVec3D vec3D7 = this.getFlowVector(world1, i2, i3, i4);\n  172  \t\tvec3D6.xCoord += vec3D7.xCoord;\n  173: \t\tif(!(entity5 instanceof IWaterMob)) vec3D6.yCoord += vec3D7.yCoord;\n  174  \t\tvec3D6.zCoord += vec3D7.zCoord;\n  175  \t}\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityDrowned.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityDrowned extends EntityZombie implements IWaterMob {\n    4  \tpublic EntityDrowned(World world) {\n    5  \t\tsuper(world);\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityWaterMob.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityWaterMob extends EntityCreature implements IAnimals, IWaterMob {\n    4  \tpublic EntityWaterMob(World world1) {\n    5  \t\tsuper(world1);\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EnumCreatureType.java:\n    4  \tmonster(IMob.class, 70, Material.air, false, \"Monster\"),\n    5  \tcreature(EntityAnimal.class, 15, Material.air, true, \"Animal\"),\n    6: \twaterCreature(IWaterMob.class, 5, Material.water, true, \"Water Creature\"),\n    7  \tcaveCreature(ICaveMob.class, 50, Material.air, false, \"Cave Creature\");\n    8  \n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\IWaterMob.java:\n    1  package net.minecraft.src;\n    2  \n    3: public interface IWaterMob extends IAnimals {\n    4  }\n    5  \n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\Pathfinder.java:\n  163  \t\t\t\t\t\t\t}\n  164  \n  165: \t\t\t\t\t\t\tif(material11 == Material.water && !(entity1 instanceof IWaterMob)) {\n  166  \t\t\t\t\t\t\t\treturn -1;\n  167  \t\t\t\t\t\t\t}\n\n8 matches across 7 files\n\n\nSearching 1452 files for \"implements IMob\"\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\benimatic\\twilightforest\\EntityTFMinotaur.java:\n   17  import net.minecraft.src.World;\n   18  \n   19: public class EntityTFMinotaur extends EntityMob implements IMob {\n   20  \tprivate static final ItemStack defaultHeldItem = new ItemStack(Item.axeSteel, 1);\n   21  \n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\benimatic\\twilightforest\\EntityTFSkeletonDruid.java:\n   20  import net.minecraft.src.World;\n   21  \n   22: public class EntityTFSkeletonDruid extends EntityMob implements IMob {\n   23  \tprivate static final ItemStack defaultHeldItem = new ItemStack(Item.hoeGold, 1);\n   24  \n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\chocolatin\\betterdungeons\\EntityHumanBase.java:\n    9  import net.minecraft.src.World;\n   10  \n   11: public class EntityHumanBase extends EntityMobWithLevel implements IMob, IMobWithLevel {\n   12  \tprotected int armor = 4;\n   13  \tprotected int armorIndex = 1;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\chocolatin\\betterdungeons\\EntityPirate.java:\n   15  import net.minecraft.src.World;\n   16  \n   17: public class EntityPirate extends EntityHumanBase implements IMobWithLevel, ISentient {\n   18  \tprotected boolean angryAtPlayer = false;\n   19  \t\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\chocolatin\\betterdungeons\\EntityPirateArcher.java:\n   18  import net.minecraft.src.World;\n   19  \n   20: public class EntityPirateArcher extends EntityMob implements IMob, ISentient {\n   21  \tprivate static final ItemStack defaultHeldItem = new ItemStack(Item.bow, 1);\n   22  \tprotected boolean angryAtPlayer = false;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\chocolatin\\betterdungeons\\EntityPirateBoss.java:\n   13  import net.minecraft.src.World;\n   14  \n   15: public class EntityPirateBoss extends EntityMob implements IMob {\n   16  \tint invisibleCD = 10;\n   17  \tprotected boolean angryAtPlayer = false;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\misc\\aether\\EntityDungeonMob.java:\n   10  import net.minecraft.src.World;\n   11  \n   12: public class EntityDungeonMob extends EntityCreature implements IMob {\n   13  \tprotected int attackStrength = 2;\n   14  \n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\mojontwins\\minecraft\\icepalace\\EntityIceWarrior.java:\n   16  import net.minecraft.src.World;\n   17  \n   18: public class EntityIceWarrior extends EntityHumanBase implements IMobWithLevel, ISentient {\n   19  \n   20  \tpublic EntityIceWarrior(World world) {\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\com\\mojontwins\\minecraft\\monsters\\EntityFungalCalamity.java:\n   19  import net.minecraft.src.World;\n   20  \n   21: public class EntityFungalCalamity extends EntityMob implements IMob {\n   22  \n   23  \tpublic EntityFungalCalamity(World world1) {\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityBuilderZombie.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityBuilderZombie extends EntityMob implements IMob {\n    4  \tprivate int collidingTicks;\n    5  \tpublic int ticksToBuild = 10;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityCityHusk.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityCityHusk extends EntityHusk implements IMob {\n    4  \tpublic int minArmorTier = 0;\n    5  \tpublic int maxArmorTier = 2;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityCreeper.java:\n    5  import com.mojang.minecraft.ocelot.EntityBetaOcelot;\n    6  \n    7: public class EntityCreeper extends EntityMob implements IMob {\n    8  \tint timeSinceIgnited;\n    9  \tint lastActiveTime;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityElementalCreeper.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityElementalCreeper extends EntityCreeper implements IMob {\n    4  \tpublic static final int ELEMENT_DIRT = 0;\n    5  \tpublic static final int ELEMENT_FIRE = 1;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityExplodingZombie.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityExplodingZombie extends EntityMob implements IMob {\n    4  \tpublic int collidingTicks = 0;\n    5  \tpublic int ticksToExplode = 20;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityGhast.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityGhast extends EntityFlying implements IMob {\n    4  \tpublic int courseChangeCooldown = 0;\n    5  \tpublic double waypointX;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityGiantZombie.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityGiantZombie extends EntityMob implements IMob {\n    4  \tpublic EntityGiantZombie(World world1) {\n    5  \t\tsuper(world1);\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityHusk.java:\n    5  import java.util.List;\n    6  \n    7: public class EntityHusk extends EntityZombie implements IMob {\n    8  \t\n    9  \tpublic EntityHusk(World world) {\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityIceSkeleton.java:\n    4  import java.util.List;\n    5  \n    6: public class EntityIceSkeleton extends EntitySkeleton implements IMob {\n    7  \tpublic EntityIceSkeleton(World world1) {\n    8  \t\tsuper(world1);\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityMobWithLevel.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityMobWithLevel extends EntityMob implements IMobWithLevel {\n    4  \tpublic EntityMobWithLevel(World world) {\n    5  \t\tsuper(world);\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityPigZombie.java:\n    4  import java.util.List;\n    5  \n    6: public class EntityPigZombie extends EntityZombie implements IMob {\n    7  \tprivate int angerLevel = 0;\n    8  \tprivate int randomSoundDelay = 0;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntitySkeleton.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntitySkeleton extends EntityArmoredMob implements IMob {\n    4  \tpublic EntitySkeleton(World world1) {\n    5  \t\tsuper(world1);\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntitySlime.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntitySlime extends EntityLiving implements IMob {\n    4  \tpublic float squishFactor;\n    5  \tpublic float prevSquishFactor;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntitySpider.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntitySpider extends EntityMob implements IMob {\n    4  \tpublic EntitySpider(World world1) {\n    5  \t\tsuper(world1);\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityToxicZombie.java:\n    4  import com.mojontwins.minecraft.entity.status.StatusEffect;\n    5  \n    6: public class EntityToxicZombie extends EntityCityHusk implements IMob {\n    7  \n    8  \tpublic EntityToxicZombie(World world) {\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityZombie.java:\n    5  import java.util.List;\n    6  \n    7: public class EntityZombie extends EntityArmoredMob implements IMob {\n    8  \t\n    9  \tprotected int doorPosX;\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\EntityZombieAlex.java:\n    1  package net.minecraft.src;\n    2  \n    3: public class EntityZombieAlex extends EntityZombie implements IMob {\n    4  \t\n    5  \tpublic EntityZombieAlex(World world) {\n\n26 matches across 26 files\n\n\nSearching 892 files for \"WorldEdit\"\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\Item.java:\n    7  import com.mojang.minecraft.creative.CreativeTabs;\n    8  import com.mojontwins.minecraft.entity.status.Status;\n    9: import com.mojontwins.minecraft.worldedit.ItemMagicWand;\n   10  \n   11  public class Item {\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\SinglePlayerCommands.java:\n    4  \n    5  import com.misc.bo3import.WorldGenBo3Tree;\n    6: import com.mojontwins.minecraft.worldedit.WorldEdit;\n    7  \n    8  import net.minecraft.client.Minecraft;\n    .\n  253  \t\t\t}\n  254  \t\t\t\n  255: \t\t\t// WorldEdit commands\n  256  \t\t\telse {\n  257: \t\t\t\tWorldEdit.processCommands(this.mc, cmd, tokens);\n  258  \t\t\t}\n  259  \t\t\t\n\nD:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src\\World.java:\n   10  import java.util.TreeSet;\n   11  \n   12: import com.mojontwins.minecraft.worldedit.WorldEdit;\n   13  \n   14  import ca.spottedleaf.starlight.StarlightEngine;\n   ..\n  130  \t\tthis.calculateInitialWeather();\n  131  \t\t\n  132: \t\tWorldEdit.init();\n  133  \t}\n  134  \n  ...\n  180  \t\tthis.calculateInitialWeather();\n  181  \t\t\n  182: \t\tWorldEdit.init();\n  183  \t}\n  184  \n  ...\n  263  \t\tthis.calculateInitialWeather();\n  264  \t\t\n  265: \t\tWorldEdit.init();\n  266  \t}\n  267  \n\n10 matches across 3 files\n",
-			"settings":
-			{
-				"buffer_size": 10849,
+				"buffer_size": 38627,
 				"line_ending": "Windows",
 				"name": "Find Results",
 				"scratch": true
 			}
 		},
 		{
-			"file": "Main/src/minecraft/net/minecraft/src/World.java",
+			"file": "Main/src/minecraft/net/minecraft/src/ItemPiston.java",
 			"settings":
 			{
-				"buffer_size": 105413,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Main/src/minecraft/net/minecraft/src/Item.java",
-			"settings":
-			{
-				"buffer_size": 29079,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "for(int avgDx = -2; avgDx <= 2; ++avgDx) {\n\t\t\t\t\tfor(int avgDz = -2; avgDz <= 2; ++avgDz) {\n\t\t\t\t\t\t//BiomeGenBase otherBiome = this.biomesForGeneration[dx + avgDx + 2 + (dz + avgDz + 2) * (xSize + 5)];\n\t\t\t\t\t\t\n\t\t\t\t\t\tint bx = (chunkX << 4) + (dx << 2) + 2 + avgDx;\n\t\t\t\t\t\tint bz = (chunkZ << 4) + (dz << 2) + 2 + avgDz;\n\t\t\t\t\t\t\n\t\t\t\t\t\tBiomeGenBase otherBiome = this.worldObj.getWorldChunkManager().getBiomeGenAt(bx, bz);\n\t\t\t\t\t\tboolean isOtherUrban = this.worldObj.getWorldChunkManager().isUrbanChunk(bx >> 4, bz >> 4);\n\t\t\t\t\t\t\n\t\t\t\t\t\tfloat distance = this.distanceArray[avgDx + 2 + (avgDz + 2) * 5] / (otherBiome.minHeight + 2.0F);\n\t\t\t\t\t\tif(otherBiome.minHeight > biomeGenBase20.minHeight) {\n\t\t\t\t\t\t\tdistance /= 2.0F;\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tdouble otherMaxHeight = isOtherUrban && otherBiome.maxHeight > 0.4 ? 0.4 : otherBiome.maxHeight;\n\n\t\t\t\t\t\tmaxHeightScaled += otherMaxHeight * distance;\n\t\t\t\t\t\tminHeightScaled += otherBiome.minHeight * distance;\n\t\t\t\t\t\ttotalDistance += distance;\n\t\t\t\t\t}\n\t\t\t\t}",
-			"settings":
-			{
-				"buffer_size": 982,
-				"line_ending": "Windows",
-				"name": "for(int avgDx = -2; avgDx <= 2; ++avgDx) {"
-			}
-		},
-		{
-			"contents": "\tprivate static final byte streetBlockBitmap[][][] = new byte[][][] {\n\t\t{\n\t\t\t{\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1,\n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2,\n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2,\n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2,\n\t\t\t\t3, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 2,\n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2,\n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2,\n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2,\n\t\t\t\t1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 2, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t}, \n\t\t\t{\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t15,15,15,15,-1,-1,-1,-1,-1,-1,-1,15,15,15,15,15,\n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,\n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,\n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,\n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,\n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,\n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,\n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,\n\t\t\t\t15,15,15,15,-1,-1,-1,-1,-1,-1,-1,15,15,15,15,15,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t}\n\t\t}, {\n\t\t\t{\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 1, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 1, 4, 4,\n\t\t\t\t1, 6, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 6, 1, 4,\n\t\t\t\t4, 1, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 1, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 2, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 1, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 1, 4, 4,\n\t\t\t\t1, 6, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 6, 1, 4,\n\t\t\t\t4, 1, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 1, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 3, 2, 2, 2, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 2, 2, 2, 2, 2, 2, 2, 1, 4, 4, 4, 4\n\t\t\t},\n\t\t\t{\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18, 1,18,15,-1,-1,-1,-1,-1,-1,-1,15,18, 5,18,18,\n\t\t\t\t 1, 6, 1,15,-1,-1,-1,-1,-1,-1,-1,15, 5, 6, 5,18,\n\t\t\t\t18, 1,18,15,-1,-1,-1,-1,-1,-1,-1,15,18, 5,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18, 1,18,15,-1,-1,-1,-1,-1,-1,-1,15,18, 1,18,18,\n\t\t\t\t 1, 6, 1,15,-1,-1,-1,-1,-1,-1,-1,15, 5, 6, 1,18,\n\t\t\t\t18, 1,18,15,-1,-1,-1,-1,-1,-1,-1,15,18, 1,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18,\n\t\t\t\t18,18,18,15,-1,-1,-1,-1,-1,-1,-1,15,18,18,18,18\n\t\t\t}\n\t\t}, \n\t\t{\n\t\t\t{\n\t\t\t\t4, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 1, 6, 1, 4, 4, 4, 4, 4, 1, 6, 1, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4, 1, 4, 4, 4, 4,\n\t\t\t\t1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, \n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, \n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, \n\t\t\t\t3, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 2,\n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, \n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, \n\t\t\t\t2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, \n\t\t\t\t1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\n\t\t\t\t4, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 1, 6, 1, 4, 4, 4, 4, 4, 1, 6, 1, 4, 4, 4,\n\t\t\t\t4, 4, 4, 1, 4, 4, 4, 4, 4, 4, 4, 1, 4, 4, 4, 4,\n\t\t\t\t4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, \n\t\t\t},\n\t\t\t{\n\t\t\t\t18,18,18, 1,18,18,18,18,18,18,18, 1,18,18,18,18,\n\t\t\t\t18,18, 1, 6, 1,18,18,18,18,18, 1, 6, 1,18,18,18,\n\t\t\t\t18,18,18, 1,18,18,18,18,18,18,18, 1,18,18,18,18,\n\t\t\t\t15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,\n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, \n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, \n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, \n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,\n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, \n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, \n\t\t\t\t-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, \n\t\t\t\t15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,\n\t\t\t\t18,18,18, 1,18,18,18,18,18,18,18, 1,18,18,18,18,\n\t\t\t\t18,18, 1, 6, 1,18,18,18,18,18, 1, 6, 1,18,18,18,\n\t\t\t\t18,18,18, 1,18,18,18,18,18,18,18, 1,18,18,18,18,\n\t\t\t\t18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18, ",
-			"settings":
-			{
-				"buffer_size": 5201,
-				"line_ending": "Windows",
-				"name": "private static final byte streetBlockBitmap[][][]"
-			}
-		},
-		{
-			"file": "Main/retroMCP.bat",
-			"settings":
-			{
-				"buffer_size": 87,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "\t\n\t@Override\n\tpublic void onLivingUpdate() {\n\t\tsuper.onLivingUpdate();\n\t\t\n\t\t// Pick up diamonds and maybe drop cauldron\n\t\tif(!this.worldObj.isRemote) {\n\t\t\tif(!this.preparingToDrop && this.rand.nextInt(16) == 0) {\n\t\t\t\tSystem.out.println(\"Seek!\");\n\t\t\t\tList<Entity> list = this.worldObj.getEntitiesWithinAABB(EntityItem.class, this.boundingBox);\n\t\t\t\t\n\t\t\t\tIterator<Entity> iterator = list.iterator();\n\t\t\t\twhile(iterator.hasNext()) {\n\t\t\t\t\tEntityItem entityItem = (EntityItem)iterator.next();\n\t\t\t\t\tSystem.out.println (\"Item \" + entityItem.item);\n\t\t\t\t\tif(entityItem != null && entityItem.item != null && entityItem.item.getItem().shiftedIndex == Item.diamond.shiftedIndex) {\n\t\t\t\t\t\tentityItem.setEntityDead();\n\t\t\t\t\t\tif(rand.nextInt(spawnCauldronChance) == 0) {\n\t\t\t\t\t\t\tthis.spawnObjectCounter = 20;\n\t\t\t\t\t\t\tthis.preparingToDrop = true;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t} \n\t\t\t\n\t\t\tif(this.preparingToDrop) {\n\t\t\t\t\n\t\t\t\tthis.spawnObjectCounter --; if (this.spawnObjectCounter <= 0) {\n\t\t\t\t\tthis.preparingToDrop = false;\n\t\t\t\t\t\n\t\t\t\t\t// drop object\n\t\t\t\t\tthis.dropItem(Block.cauldron.blockID, 1);\n\t\t\t\t}\n\t\t\t}\n\t\t}\t\t\n\t}\n\t\n\t@Override\n\tpublic void onDeath(Entity entity) {\n\t\t// HA HA\n\t}\n\n\t@Override\n\tprotected boolean canDespawn() {\n\t\treturn true;\n\t}\n\n\t\n\t@Override\n\tprotected void despawnEntity() {\n\t\t\n\t}\n\t\n\t@Override\n\tpublic boolean attackEntityFrom(Entity entity, int damage) {\n\t\tthis.entityToAttack = entity;\n\t\treturn super.attackEntityFrom(entity, damage != 0 ? 1 : 0);\n\t}\n\t\n\t@Override\n\tpublic ItemStack getHeldItem() {\n\t\treturn new ItemStack(Block.cauldron);\n\t}\n\n\n\t@Override\n\tprotected String getLivingSound() {\n\t\treturn \"\";\n\t}\n\n\t@Override\n\tprotected String getHurtSound() {\n\t\treturn \"mob.amazon.hit\";\n\t}\n\n\t@Override\n\tprotected String getDeathSound() {\n\t\treturn \"mob.zombiedeath\";\n\t}\n\t\n\n\t@Override\n\tprotected int getDropItemId() {\n\t\treturn Item.bowlSoup.shiftedIndex;\n\t}\n\t\n\t@Override\n\tpublic int getFullHealth() {\n\t\treturn 999999999;\n\t}\n\t\n\t@Override\n\tprotected void updateEntityActionState() {\n\t\tsuper.updateEntityActionState();\n\t\t\n\t\tif(this.entityToAttack instanceof EntityLiving) {\n\t\t\tEntityLiving living = (EntityLiving)this.entityToAttack;\n\t\t\tif(\n\t\t\t\t\tliving != null && \n\t\t\t\t\tliving.getDistanceSqToEntity(this) < 36.0D &&\n\t\t\t\t\t!living.isStatusActive(Status.statusSlowness)) {\n\t\t\t\tthis.moveForward = -this.moveSpeed;\n\t\t\t}\n\t\t}\n\t}\n\t\n\t@Override\n\tprotected void attackEntity(Entity victim, float distance) {\n\t\tif(victim instanceof EntityItem) {\n\t\t} else if(victim instanceof EntityLiving) {\n\t\t\tEntityLiving living = (EntityLiving)victim;\n\t\t\t\n\t\t\tif(distance < 12.0F && distance > 4.0F\n\t\t\t\t\t&& !living.isStatusActive(Status.statusSlowness)) {\n\t\t\t\tdouble dX = living.posX - this.posX;\n\t\t\t\tdouble dZ = living.posZ - this.posZ;\n\t\t\t\t\n\t\t\t\tif(this.attackTime == 0) {\n\t\t\t\t\tEntityThrowableBottle bottle = new EntityThrowableBottle(this.worldObj, this, (ItemBottle)Item.bottleAcid);\n\t\t\t\t\t++bottle.posY;\n\t\t\t\t\t\n\t\t\t\t\tdouble dy = living.posY + (double)living.getEyeHeight() - (double)0.2F - bottle.posY;\n\t\t\t\t\tfloat f10 = MathHelper.sqrt_double(dX * dX + dZ * dZ) * 0.2F;\n\t\t\t\t\tthis.worldObj.playSoundAtEntity(this, \"\\\"mob.witch.throw\", 1.0F, 1.0F / (this.rand.nextFloat() * 0.4F + 0.8F));\n\t\t\t\t\tthis.worldObj.spawnEntityInWorld(bottle);\n\t\t\t\t\tbottle.setThrowableHeading(dX, dy + (double)f10, dZ, 0.6F, 12.0F);\n\t\t\t\t\tthis.attackTime = 30;\n\t\t\t\t}\n\n\t\t\t\tthis.rotationYaw = (float)(Math.atan2(dZ, dX) * 180.0D / (double)(float)Math.PI) - 90.0F;\n\t\t\t\tthis.hasAttacked = true;\n\t\t\t} else super.attackEntity(victim, distance);\n\t\t} else super.attackEntity(victim, distance);\n\t}\n\t\n\t@Override\n\tprotected Entity findPlayerToAttack() {\n\t\t\n\t\t// First look for diamonds around\n\t\tList<Entity> list = this.worldObj.getEntitiesWithinAABB(EntityItem.class, this.boundingBox.expand(16.0D, 4.0D, 16.0D));\n\t\tIterator<Entity> iterator = list.iterator();\n\t\twhile(iterator.hasNext()) {\n\t\t\tEntityItem entityItem = (EntityItem)iterator.next();\n\t\t\tif(entityItem != null && entityItem.item != null && entityItem.item.getItem().shiftedIndex == Item.diamond.shiftedIndex) {\n\t\t\t\treturn entityItem;\n\t\t\t}\n\t\t}\n\t\t\n\t\t// Find close entities of type EntityZombie\n\t\tlist = this.worldObj.getEntitiesWithinAABB(EntityZombie.class, this.boundingBox.expand(16.0D, 4.0D, 16.0D));\n\t\tCollections.sort(list, new AttackableTargetSorter(this));\n\t\t\n\t\t// Return closest\n\t\titerator = list.iterator();\t\t\n\t\twhile(iterator.hasNext()) {\n\t\t\tEntityLiving entityLiving = (EntityLiving)iterator.next();\n\t\t\tif(this.isValidTarget(entityLiving)) return entityLiving;\n\t\t}\n\t\t\n\t\treturn null;\n\t}\n\t\n\tpublic boolean isValidTarget(EntityLiving entityLiving) {\n\t\tif(entityLiving == null) return false;\n\t\t\n\t\tif(entityLiving == this) return false;\n\t\t\n\t\tif(!entityLiving.isEntityAlive()) return false;\n\t\t\n\t\tif(entityLiving.boundingBox.minY >= this.boundingBox.maxY || entityLiving.boundingBox.maxY <= this.boundingBox.minY) return false;\n\t\t\n\t\treturn true;\n\t}\n\t\n\t@Override\n\tpublic boolean needsLightCheck() {\n\t\treturn false;\n\t}\n\t\n\t@Override\n\tpublic boolean getCanSpawnHere() {\n\t\treturn true;\n\t}\n",
-			"settings":
-			{
-				"buffer_size": 4967,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/WorldChunkManager.java",
-			"settings":
-			{
-				"buffer_size": 3732,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "# PE_OLD\n\n(Temporarily while I can think of a better name).\n\nIdeas:\n\n- Worlds are limited to the circular buffer, which will be made fixed.\n- All the world is calculated on world creatinon, that 32x32 chunks area, somehow.\n\nSo:\n\n1.- Make it so the buffer is not circular and no chunks x, z < 0 or x, z > 31 are generated.\n2.- Make it so you can't exit the world from the side.\n\nThen:\n\nExpand!\n\n1.- The nether should have nether walls and be 256x256\n2.- Position in the nether is overworld x 2\n\nThan:\n\nGo crazy!\n\n1.- Make chunks in the overworld 256 blocks tall. Generate the sky dimension on top of the normal dimension.\n2.- Indev level themes.\n3.- Profit!\n\n## Meh\n\nI did a very nice vanilla Indev in beta, it's so nice but:\n\n1.- Add passing of days to get seasons working.\n2.- SMP of course\n\n# 2nd iteration\n\nMost of the stuff never got done, but I have limited worlds with Indev themes. Now I want to take every theme and make a slightly different experience. The 1st I'm visiting is the Hell theme which would need a ways to make trees renewable. Remember that trees spawn without canopy.\n\nTHe way is using acorn seeds, which you can plan in the groudn to get oak saplings. Acorn seeds are sometimes dropped by skeletons.  \n\n# Wha\n\nAdded 0 notes during months. It's quite evolved and works great. Uses lightmaps and starlight and actually runs at a very good frame rate on very old or very limited hardware, which was the goal.\n\nNow spice it up a bit:\n\n* Define a proper gameplay for each level theme.\n* Add the poison island level theme.\n\n# Different gameplays for different level themes\n\n* [X] Rename world generators to \"Infdev Island\", \"Alpha Island\" and \"Floating Island\".\n* [X] Base achievements for hell, forest & paradise\n* [X] Eat animation from infhell\n* [X] Open creative inventory directly fix like infhell\n\n## Hell\n\n* [X] Very tough survival, also wood is a very valuable resource as most trees come up without canopy so you can't get saplings that way. Skeletons drop acorns which you should plant in tilled land to grow saplings. --> \n\t* [X] Needs testing - in hell it needs to be fertilized with bonemeal otherwise tilled land will decay and acorn will drop, which is nice.\n\n* [X] Thing something that has to do with fossils! Well, they are a huge source of bone meal, there should be a way to produce GRASS using them (A very small chance?) \n\t* [?] Fine tune... Why shrooms pop out as drops sometimes?\n\n* [X] Big mushrooms should have a purpose. ¿Smelt into coal? Maybe a smaller coal item that produces just 2 torches and burns for 1/2 the time.\n\t* [X] Item charcoal\n\t* [X] Smelting recipes (to obtain, as fuel)\n\t* [X] Crafting recipes: combine with stick for 2 torches\n\n* [ ] Iron boat. What happens if you put a wooden boat in the lava?\n\n* Achievements\n\t* [X] Grass from dirt - Fertilize dead soil and bring it back to life\n\t* [X] Plant an acorn - Plant an acorn on tilled field\n\t* [X] Fertililze an accorn\n\t* [X] Cook big shrooms - To get some cheap charcoal\n\n## Forest\n\n* Asegurarse de generar un laberinto.\n\n* Idear una progresión tipo twilight, con cosas que hacer para hacer otras cosas.\n\n## Paradise\n\n* Paradise level should trigger \"sky\" generator by default (you can change it ofc)\n\n* This was supposed the \"peaceful\" or \"easy\" variant, but I think something should be done to this. I know (or I believe) he original Aether was somewhat inspired in this. It would be nice to do some research and know where the aether came from and what were the initial builds and what kind of stuff they had and do something similar.\n\n* Add big flowers and some Aether stuff: bronze dungeons and some mobs would be a nice start.\n\n* [X] The sky generator generated a FLOOR??? at y = 0\n* [X] Ported Aether stuff\n* [X] Ultra bothered by the fact that apparently a bunch of mobs are being spawned in the sun light?!!?\n\n## Forest\n\n* [X] I've added good ol' mazes but I'm adding the \"good\" maze for non sky forests. The minotaur maze.\n* [X] Everything (maze) is ported - have to sort out the blocks used. \n* [X] Backport minotaurs and minoshrooms. They use new AI... 1. Try them as is as most of the new AI foundation is there - and 2. If taht fails, it should be easy to back port them to the old system.\n\n--\n\n* [X] Port kobolds and/or redcaps. Think on where/purpose. Both could be natural spawns if !blockcanseethesky stuff. Or whatever. Dunno if there's backend for cave monsters ?\n* [ ] Add more spawners to mazes?\n* [ ] Achievement\n\t[ ] Hunt Minotaur\n\t[X] Hunt Minoshroom.\n\t[X] Whatever with kobolds/redcaps.\n* [X] Add special axe that axes a lot, which is what the minoshroom drops.\n\n--\n\n* [X] Added a means to re-generate the world if conditions are not met.\n\t* [X] Forest maze conditions:\n\t\t* [X] Small sized or floating island based: at least 1 random hill maze\n\t\t+ [X] Normal sized: 1 minotaur maze spawning in the central chunk. \n\t\t* [X] Big/Huge sized: 1 minutaur maze per 16x16 chunk subregion.\n\n\t\t* Minotaur mazes have a 14 block high entrance. Condition is that they must generate at 64+14 = 78 or below, in the open.\n\t\t\n* [ ] Message \"retrying world generation\".\n* [X] Modify feature provider so it doesn't try outside of the map!\n* [X] Very important modification! upon processing the entity list, only update those within a square radius of 8 chunks in every direction, which saves TONS of time in BIG and HUGE levels! \n\n* [ ] Themed dungeons ? was that a thing? (i.e. select spawner characteristics)\n\n## Added optifine\n\nYay! fps boosted on shitty systems!\n\n## New stuff\n\n* [X] Use b173 Twilight Forest entities for animales in the forest theme.\n* [X] Undo (if done) the level theme based temperature/humidity and extract it from the biome.\n* [X] Make it so if the level theme based fixed biome is null, it uses the normal ramp for a new theme \"biomes\".\n* [X] Attempt to make a more flexible day cycle management (i.e. fixed celestial angle based upon level theme, not world provider) \n\t(RN how does it do the fixed hour in paradise / hell? Can't understand HOW!!) \n\n\tIn hell you can get night, not in paradise. The only difference is on level theme settings: dayCycle = false. But that flag only seems to be used to run the bad moon logic or not.\n\n\tOH. It seems to be tied to the world provider. FUCK. It is fixed to 0 for the world provider sky. I would get day cycle in another world provider for paradise. Time to make properl logic for this.\n\n\t`fixedCelestialAngle`.\n\n\t* For hell: Day cycle.\n\t* For forest: Check vanilla twilite\n\t* For paradise: `1.0F` (still doesn't seem to affect????  HOW TF DO I DO THIS LOL)\n\n\tCelestial angle is advancing normally, or so it seems. So it has to be lightmap related? Nah I was being stupid. Paradise is summer so time set night which sets 13000 still gets daylight.\n\n\tOK\n\n\tForget the ton of paragraphs. Implemeting this rn.\n\n\n\n* [X] Add \"Override level test\" to level creation extra options to override \"level is valid\" check\n* [X] Add a biome map. Simple, don't over do it. Use PostAlpha's. Which is almost vanilla's. Recreate new biomegen classes. BiomeGenBetaForest... etc\n* [X] Remove optifog log and other stupid shit.\n* [X] Add \"preferredWorldgen\" to levelthemes and de-hardcode it\n* [X] Add torches to some trees, somehow\n* [X] Biomes level theme uses PostAlpha ramps;\n* [ ] optional fancy grass?\n* [X] Make sure the needed initialization is due so multibiomes work in SMP\n* [X] Renderpass for shiny eyes is broken and entities show white.\n\n* [x] Special renderbiped for 2 layer-skin bipeds. Need to research how renderpass armor is made \"bigger\" than the main body.\n\n\t* RenderPlayer has 3 models: `modelBipedMain`, `modelArmorChestPlate` and `modelArmor`.\n\t* On object instantiation, `modelBipedMain` is assigned a \"new ModelBiped(0.0F)\".\n\t* `modelArmorChestPlate` is a `ModelBiped(1.0F);`\n\t* `modelArmor` is a `ModelBiped(0.5F);`\n\t* Constructor `ModelBiped(f1)` calls `ModelBiped(f1, 0)`. \n\t* Constructor `ModelBiped(f1, f2)` uses f2 as an angle for the (unused?) headwear box, and f1 for each `addBox` method call.\n\t* **That value is used to be subtracted/added to vertex coordinates, effectively making every box bigger (or smaller)**\n\t* So that's what I need: an extra `ModelBiped(0.5F)` mapped to the extra texture?\n\n\tI need to add an offset to `modelBiped` so it can pick up the lower half of the texture by default for the 2nd layer.\n\t\n* [X] Port eat animation from Infhell\n* [ ] Make corridors in hedge mazes hollow if they overwrite terrain!\n\n# More\n\n* [ ] Nether!\n\t* [/] Nether should be 1/2 the size of the overworld in sizes >= normal or 1/1 in size small. The chunk provider should take this in account automaticly. The teleporter should also convert coordinates accordingly.\n\t* [/] Nether should have cool all-bedrock (with holes) walls. Think on a nice algorithm to make irregular surfaces in all 4 lateral sides.\n\n\tIn my first attempt, I made it so the nether is actually half the size, and the Provider adjusts and returns the fake chunk for x/z = half, but this is not satisfactory as the bedrock in these chunks can't be lit.\n\n\tSo maybe the thing would be having the provider generate the full world size but only having a 1/2 sized portion in the center, generating REAL chunks of bedrock surrounding it, via the WorldProviderHell.\n\n\tSo when travelling to the nether, `X = SizeX/4 + X/2`. When going back, `X = (X - SizeX/4) * 2`.\n\n\tAlso Starlight is NOT running when creating the nether, but it does when reloading the world.\n\t\n\tSo new approach: \n\n\t* [X] add `getMinXChunk/getMaxXChunk` methods and apply where necessary - i.e. when spawning animals.\n\t* [X] Change the nether chunk provider generate to generate actual bedrock filled chunks for `X < SizeX/4` and `X >= 3*SizeX/4`. (for the small size, just generate 1 chunk wide border)\t  \n\n\tCOOL. Now the nether spawns correctly but there's no lights still. Need to check why is this.\n\n\t* [ ] Nether should be somewhat themed. Good look on thinking on \"paradise nether\" features :-D \n\n\tSo level Themes should store separate (fixed or multi) biome info for both dimensions.\n\n\t* [X] Nether lighting works. It was a very, very stupid bug integrating starlight (it was in Chunk.setBlockIdAndMetadata)\n\n\t* [ ] Nether biomes / content todo:\n\t\t* [ ] Attempt to do this with the least amount possible of new blocks and textures!\n\n\t\t* [ ] Create new fire proof, colorisable leaf block.\n\t\t* [ ] Create new fire proof, colorisable log block.\n\t\t* [ ] Use them for custom trees.\n\n\t\tBloodbark was gross but great for hell.\n\n\t\t* [ ] Paradise theme nether should be bluish with blue lit stuff like transparents mushrooms and crystals. \n\t\t* [ ] Hell's nether is fleshy. I need vine-like hanging guts, a meta block, eyes and shit. Look for eye-themed mobs in old mods.\n\t\t* [ ] Forest's nether should be full of trees, mushrooms and vines.\n\n* [ ] Think about gameplay items for a desert and a glacier based theme (for the future).\n\t* [ ] both lack trees, dirt and saplings must be obtained. Make sure skeletons still drop acorns.\n\t* [ ] cold mechanics. Need to reactivate code for freeze\n\n\n# Server\n\n* [ ] {SMP} Add TP to SMP\n* [ ] {SMP} Still no border chunks.\n* [X] {SMP} TileEntityMobSpawnerOneShot not working.\n* [ ] {SMP} Calculate spawn point properly.\n* [ ] {SMP} Client is no aware of effects from the Server.\n* [X] {SMP} Packet52 stuff (multiblock change) not 8bit metadata aware!\n\n# Poison Island\n\nPort/adapt from the Indev Modloader example. \n\n## Achievements\n\n* \"Welcome to the Poison Island\" - create a world.\n* \"A trusty container\" - \"Craft a bottle using glass panes\"\n* \"Somewhere to cook!\" - \"Toss diamonds to the old man and obtain a cauldron!\"\n* \"A good start\" - \"Add water to a cauldron\"\n* \"A source of food\" - \"Experiment with mushrooms to make soup\"\n* \"Don't let it spill!\" - \"Obtain acid\"\n* \"A powerful weapon\" - \"A strong disolvent in the cauldron with the right mushrooms...\"\n* \"Poison!\" - \"Obtain poison!\"\n\n## DO / FIX\n\n* [X] Biome causes lots of lag over time for some reason. Find what it is . I was adding mobs as animals\n* [X] Find the way to make the theme be able to fire a secondary cave carver above the sea level.\n* [ ] Make it darker.\n* [X] run the terraformer directy over the heightmap rather than carving the world after it's terrain generated!! And apply the modifier afterwards.\n\n* [X] Cave vines\n* [X] Adapt lake gens to work on podzol.\n* [X] EntityItem spawns smoke in acid\n* [X] Acid hurts\n* [X] Render green fog under acid\n* [X] Material.acid = Material.water\n* [ ] Add ballon to witch \"I want ...\" so you know what to give her.\n\n## Spawner (again)\n\n* The spawner will count existing creatures of current type if the creature class extends or implements IMob, EntityAnimal, IWaterMob or ICaveMob.\n\n* That means that if the wrong creature class is added to the wrong list, count will fail and such creature will spawn endlessly.\n\n* EntityGhoul implements ICaveMob so adding it to `spawnableCaveCreatureList` will work.\n\n* EntityTFSwarmSpider extends EntitySpider which implements IMob, so adding it to `spawnableCaveCreatureList` will not work.\n\nI need a way to have actual cave spiders, so I have to change the hierarchy:\n\n* EntitySpiderBase - will contain vanilla EntitySpider, but it won't implement either interface.\n\n* EntitySpider extends EntitySpiderBase implement IMob.\n\n* EntitySwarmSpider extends EntitySpiderBase.\n\n* EntitySwarmSpiderSurface extends EntitySwarmSpider implements IMob.\n\n* EntitySwarmSpiderCaves extends EntitySwarmSpider implements ICaveMob.",
-			"file": "README.md",
-			"file_size": 12773,
-			"file_write_time": 133738987026620070,
-			"settings":
-			{
-				"buffer_size": 13443,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/Cosas/MP125-src/minecraft/com/mojontwins/desertdimension/MapGenDesertCaves.java",
-			"settings":
-			{
-				"buffer_size": 6157,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Main/src/minecraft/com/mojontwins/minecraft/worldedit/WorldEdit.java",
-			"settings":
-			{
-				"buffer_size": 12572,
-				"encoding": "Western (Windows 1252)",
+				"buffer_size": 180,
 				"line_ending": "Windows"
 			}
 		}
@@ -727,13 +639,25 @@
 	},
 	"expanded_folders":
 	[
-		"/D/Cosas/Inslands",
-		"/D/Cosas/Inslands/Main",
-		"/D/Cosas/Inslands/web",
-		"/D/Cosas/Inslands/web/img"
+		"/E/Cosas/Inslands",
+		"/E/Cosas/Inslands/Main",
+		"/E/Cosas/Inslands/Main/src",
+		"/E/Cosas/Inslands/Main/src/minecraft",
+		"/E/Cosas/Inslands/Main/src/minecraft/net",
+		"/E/Cosas/Inslands/Main/src/minecraft/net/minecraft",
+		"/E/Cosas/Inslands/Main/src/minecraft/net/minecraft/src"
 	],
 	"file_history":
 	[
+		"/E/git/LBasic/wip.md",
+		"/E/Cosas/Inslands/README.md",
+		"/D/Cosas/MP125-src/minecraft/com/mojontwins/desertdimension/MapGenDesertCaves.java",
+		"/E/Cosas/Inslands/Main/src/minecraft/com/mojontwins/minecraft/worldedit/WorldEdit.java",
+		"/E/Cosas/Inslands/Test-deleteme/src/minecraft/net/minecraft/src/Chunk.java",
+		"/E/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/EnumCreatureType.java",
+		"/E/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/World.java",
+		"/E/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/Item.java",
+		"/E/Cosas/Inslands/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/WorldChunkManager.java",
 		"/D/Games/Sombilers/Data/.minecraft/crash-reports/crash-2024-08-18_16.59.44-client.txt",
 		"/D/Games/Sombilers/Server/server.properties",
 		"/C/Users/na_th/AppData/Local/Temp/7zO457B43EF/SimplexNoise.java",
@@ -852,26 +776,18 @@
 		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/GuiIngame.java",
 		"/D/Cosas/InfHell/infhell2/jars/ops.txt",
 		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/client/Minecraft.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/Packet51MapChunk.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/GuiChat.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/EntitySheep.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/server/MinecraftServer.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/Achievement.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/AchievementList.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/AchievementMap.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/BiomeGenBase.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/BlockBed.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft_server/net/minecraft/src/BlockBreakable.java"
+		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/Packet51MapChunk.java"
 	],
 	"find":
 	{
-		"height": 22.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
 		"height": 134.0,
 		"where_history":
 		[
+			"E:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src",
 			"D:\\Cosas\\Inslands\\Main\\src\\minecraft\\net",
 			"D:\\Cosas\\Inslands\\Main\\src\\minecraft",
 			"D:\\Cosas\\Inslands\\Main\\src-aether",
@@ -886,6 +802,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"itempiston",
+			"piston",
+			"hill maze @",
 			"!!",
 			"__mojon-twins--",
 			"(.+)",
@@ -1010,10 +929,7 @@
 			"i2",
 			"i1",
 			"chunk4",
-			"i3",
-			"i2",
-			"i1",
-			"i2"
+			"i3"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1138,52 +1054,58 @@
 	"groups":
 	[
 		{
-			"selected": 9,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "Test-deleteme/src/minecraft/net/minecraft/src/Chunk.java",
+					"file": "/E/apunters.md",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 14611,
+						"buffer_size": 2733,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4716,
-								3437
+								2620,
+								2620
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Java/Java.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 2067.0,
+						"translation.y": 280.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
+					"file": "Main/src/minecraft/terrain.png",
+					"semi_transient": false,
+					"stack_index": 3,
+					"type": "image"
+				},
+				{
 					"buffer": 1,
+					"file": "Main/src/minecraft/net/minecraft/src/Block.java",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1358,
+						"buffer_size": 52370,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								658,
-								658
+								50311,
+								50321
 							]
 						],
 						"settings":
@@ -1192,47 +1114,18 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 11013.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "Main/src/minecraft/net/minecraft/src/EnumCreatureType.java",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1139,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								197,
-								206
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Java/Java.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 10849,
+						"buffer_size": 38627,
 						"regions":
 						{
 							"match":
@@ -1241,180 +1134,1168 @@
 								"regions":
 								[
 									[
-										252,
-										261
+										264,
+										270
 									],
 									[
-										466,
-										475
+										272,
+										278
 									],
 									[
-										773,
-										782
+										312,
+										318
 									],
 									[
-										1052,
-										1061
+										320,
+										326
 									],
 									[
-										1329,
-										1338
+										833,
+										839
 									],
 									[
-										1649,
-										1658
+										862,
+										868
 									],
 									[
-										1936,
-										1945
+										903,
+										909
 									],
 									[
-										2149,
-										2158
+										1465,
+										1471
 									],
 									[
-										2468,
-										2483
+										1488,
+										1494
 									],
 									[
-										2786,
-										2801
+										1530,
+										1536
 									],
 									[
-										3101,
-										3116
+										1601,
+										1607
 									],
 									[
-										3396,
-										3411
+										1617,
+										1623
 									],
 									[
-										3689,
-										3704
+										1641,
+										1647
 									],
 									[
-										4045,
-										4060
+										1667,
+										1673
 									],
 									[
-										4326,
-										4341
+										1910,
+										1916
 									],
 									[
-										4598,
-										4613
+										1923,
+										1929
 									],
 									[
-										4896,
-										4911
+										1947,
+										1953
 									],
 									[
-										5156,
-										5171
+										2331,
+										2337
 									],
 									[
-										5421,
-										5436
+										2403,
+										2409
 									],
 									[
-										5709,
-										5724
+										2421,
+										2427
 									],
 									[
-										5977,
-										5992
+										2541,
+										2547
 									],
 									[
-										6281,
-										6296
+										2592,
+										2598
 									],
 									[
-										6547,
-										6562
+										2606,
+										2612
 									],
 									[
-										6821,
-										6836
+										2722,
+										2728
 									],
 									[
-										7075,
-										7090
+										2779,
+										2785
 									],
 									[
-										7322,
-										7337
+										2797,
+										2803
 									],
 									[
-										7593,
-										7608
+										2916,
+										2922
 									],
 									[
-										7865,
-										7880
+										2979,
+										2985
+									],
+									[
+										2993,
+										2999
+									],
+									[
+										3127,
+										3133
+									],
+									[
+										3403,
+										3409
+									],
+									[
+										3433,
+										3439
+									],
+									[
+										3440,
+										3446
+									],
+									[
+										3491,
+										3497
+									],
+									[
+										3527,
+										3533
+									],
+									[
+										3534,
+										3540
+									],
+									[
+										3873,
+										3879
+									],
+									[
+										4001,
+										4007
+									],
+									[
+										4074,
+										4080
+									],
+									[
+										4206,
+										4212
+									],
+									[
+										4651,
+										4657
+									],
+									[
+										4838,
+										4844
+									],
+									[
+										5062,
+										5068
+									],
+									[
+										5295,
+										5301
+									],
+									[
+										5392,
+										5398
+									],
+									[
+										5761,
+										5767
+									],
+									[
+										5929,
+										5935
+									],
+									[
+										5975,
+										5981
+									],
+									[
+										6021,
+										6027
+									],
+									[
+										6132,
+										6138
+									],
+									[
+										6165,
+										6171
+									],
+									[
+										6190,
+										6196
+									],
+									[
+										6285,
+										6291
+									],
+									[
+										6365,
+										6371
+									],
+									[
+										6484,
+										6490
+									],
+									[
+										6555,
+										6561
+									],
+									[
+										6626,
+										6632
+									],
+									[
+										6844,
+										6850
+									],
+									[
+										7020,
+										7026
+									],
+									[
+										7053,
+										7059
+									],
+									[
+										7070,
+										7076
+									],
+									[
+										7092,
+										7098
+									],
+									[
+										7139,
+										7145
+									],
+									[
+										7184,
+										7190
+									],
+									[
+										7235,
+										7241
+									],
+									[
+										7249,
+										7255
+									],
+									[
+										7299,
+										7305
+									],
+									[
+										7358,
+										7364
+									],
+									[
+										7600,
+										7606
+									],
+									[
+										7635,
+										7641
+									],
+									[
+										7771,
+										7777
+									],
+									[
+										7817,
+										7823
+									],
+									[
+										7863,
+										7869
+									],
+									[
+										8081,
+										8087
 									],
 									[
 										8140,
-										8155
+										8146
 									],
 									[
-										8397,
-										8412
+										8199,
+										8205
 									],
 									[
-										8657,
-										8672
+										8297,
+										8303
 									],
 									[
-										8959,
-										8974
+										8380,
+										8386
 									],
 									[
-										9204,
-										9219
+										8550,
+										8556
 									],
 									[
-										9442,
-										9457
+										8596,
+										8602
 									],
 									[
-										9807,
-										9816
+										8642,
+										8648
 									],
 									[
-										10047,
-										10056
+										8841,
+										8847
 									],
 									[
-										10057,
-										10066
+										8992,
+										8998
 									],
 									[
-										10164,
-										10173
+										9026,
+										9032
 									],
 									[
-										10211,
-										10220
+										9267,
+										9273
+									],
+									[
+										9331,
+										9337
+									],
+									[
+										9395,
+										9401
+									],
+									[
+										9513,
+										9519
+									],
+									[
+										9573,
+										9579
+									],
+									[
+										9633,
+										9639
+									],
+									[
+										9835,
+										9841
+									],
+									[
+										9899,
+										9905
+									],
+									[
+										9963,
+										9969
+									],
+									[
+										10081,
+										10087
+									],
+									[
+										10141,
+										10147
+									],
+									[
+										10201,
+										10207
+									],
+									[
+										10369,
+										10375
 									],
 									[
 										10431,
-										10440
+										10437
 									],
 									[
-										10441,
-										10450
+										10497,
+										10503
 									],
 									[
-										10582,
-										10591
+										10780,
+										10786
 									],
 									[
-										10684,
-										10693
+										10887,
+										10893
 									],
 									[
-										10786,
-										10795
+										10920,
+										10926
+									],
+									[
+										11069,
+										11075
+									],
+									[
+										11151,
+										11157
+									],
+									[
+										11375,
+										11381
+									],
+									[
+										11473,
+										11479
+									],
+									[
+										11539,
+										11545
+									],
+									[
+										11759,
+										11765
+									],
+									[
+										11828,
+										11834
+									],
+									[
+										11884,
+										11890
+									],
+									[
+										11940,
+										11946
+									],
+									[
+										12054,
+										12060
+									],
+									[
+										12088,
+										12094
+									],
+									[
+										12186,
+										12192
+									],
+									[
+										12613,
+										12619
+									],
+									[
+										12890,
+										12896
+									],
+									[
+										12936,
+										12942
+									],
+									[
+										12982,
+										12988
+									],
+									[
+										13048,
+										13054
+									],
+									[
+										13082,
+										13088
+									],
+									[
+										13246,
+										13252
+									],
+									[
+										13292,
+										13298
+									],
+									[
+										13338,
+										13344
+									],
+									[
+										13548,
+										13554
+									],
+									[
+										13606,
+										13612
+									],
+									[
+										13657,
+										13663
+									],
+									[
+										13932,
+										13938
+									],
+									[
+										13964,
+										13970
+									],
+									[
+										13989,
+										13995
+									],
+									[
+										14241,
+										14247
+									],
+									[
+										14258,
+										14264
+									],
+									[
+										14341,
+										14347
+									],
+									[
+										14398,
+										14404
+									],
+									[
+										14472,
+										14478
+									],
+									[
+										14665,
+										14671
+									],
+									[
+										14831,
+										14837
+									],
+									[
+										14848,
+										14854
+									],
+									[
+										14930,
+										14936
+									],
+									[
+										15021,
+										15027
+									],
+									[
+										15071,
+										15077
+									],
+									[
+										15209,
+										15215
+									],
+									[
+										15251,
+										15257
+									],
+									[
+										15427,
+										15433
+									],
+									[
+										15444,
+										15450
+									],
+									[
+										15533,
+										15539
+									],
+									[
+										15604,
+										15610
+									],
+									[
+										15818,
+										15824
+									],
+									[
+										15868,
+										15874
+									],
+									[
+										15970,
+										15976
+									],
+									[
+										16048,
+										16054
+									],
+									[
+										16147,
+										16153
+									],
+									[
+										16246,
+										16252
+									],
+									[
+										16345,
+										16351
+									],
+									[
+										16444,
+										16450
+									],
+									[
+										16543,
+										16549
+									],
+									[
+										16708,
+										16714
+									],
+									[
+										16805,
+										16811
+									],
+									[
+										16902,
+										16908
+									],
+									[
+										16999,
+										17005
+									],
+									[
+										17096,
+										17102
+									],
+									[
+										17193,
+										17199
+									],
+									[
+										17336,
+										17342
+									],
+									[
+										17573,
+										17579
+									],
+									[
+										17593,
+										17599
+									],
+									[
+										17807,
+										17813
+									],
+									[
+										17987,
+										17993
+									],
+									[
+										18064,
+										18070
+									],
+									[
+										18304,
+										18310
+									],
+									[
+										18324,
+										18330
+									],
+									[
+										18520,
+										18526
+									],
+									[
+										18560,
+										18566
+									],
+									[
+										18581,
+										18587
+									],
+									[
+										18847,
+										18853
+									],
+									[
+										18885,
+										18891
+									],
+									[
+										19364,
+										19370
+									],
+									[
+										19681,
+										19687
+									],
+									[
+										19727,
+										19733
+									],
+									[
+										20146,
+										20152
+									],
+									[
+										20223,
+										20229
+									],
+									[
+										20614,
+										20620
+									],
+									[
+										21070,
+										21076
+									],
+									[
+										21231,
+										21237
+									],
+									[
+										21696,
+										21702
+									],
+									[
+										21908,
+										21914
+									],
+									[
+										21951,
+										21957
+									],
+									[
+										22318,
+										22324
+									],
+									[
+										22534,
+										22540
+									],
+									[
+										22650,
+										22656
+									],
+									[
+										22774,
+										22780
+									],
+									[
+										22968,
+										22974
+									],
+									[
+										23091,
+										23097
+									],
+									[
+										23316,
+										23322
+									],
+									[
+										23541,
+										23547
+									],
+									[
+										23765,
+										23771
+									],
+									[
+										23898,
+										23904
+									],
+									[
+										24025,
+										24031
+									],
+									[
+										24181,
+										24187
+									],
+									[
+										24489,
+										24495
+									],
+									[
+										24724,
+										24730
+									],
+									[
+										24959,
+										24965
+									],
+									[
+										25194,
+										25200
+									],
+									[
+										25589,
+										25595
+									],
+									[
+										25838,
+										25844
+									],
+									[
+										26087,
+										26093
+									],
+									[
+										26336,
+										26342
+									],
+									[
+										26751,
+										26757
+									],
+									[
+										26986,
+										26992
+									],
+									[
+										27221,
+										27227
+									],
+									[
+										27456,
+										27462
+									],
+									[
+										27850,
+										27856
+									],
+									[
+										28099,
+										28105
+									],
+									[
+										28348,
+										28354
+									],
+									[
+										28597,
+										28603
+									],
+									[
+										29005,
+										29011
+									],
+									[
+										29240,
+										29246
+									],
+									[
+										29468,
+										29474
+									],
+									[
+										29703,
+										29709
+									],
+									[
+										30104,
+										30110
+									],
+									[
+										30353,
+										30359
+									],
+									[
+										30595,
+										30601
+									],
+									[
+										30844,
+										30850
+									],
+									[
+										31158,
+										31164
+									],
+									[
+										31235,
+										31241
+									],
+									[
+										31438,
+										31444
+									],
+									[
+										31700,
+										31706
+									],
+									[
+										31720,
+										31726
+									],
+									[
+										31760,
+										31766
+									],
+									[
+										31774,
+										31780
+									],
+									[
+										32017,
+										32023
+									],
+									[
+										32071,
+										32077
+									],
+									[
+										32095,
+										32101
+									],
+									[
+										32365,
+										32371
+									],
+									[
+										32380,
+										32386
+									],
+									[
+										32624,
+										32630
+									],
+									[
+										32839,
+										32845
+									],
+									[
+										32893,
+										32899
+									],
+									[
+										33151,
+										33157
+									],
+									[
+										33252,
+										33258
+									],
+									[
+										33449,
+										33455
+									],
+									[
+										33550,
+										33556
+									],
+									[
+										33747,
+										33753
+									],
+									[
+										33848,
+										33854
+									],
+									[
+										33998,
+										34004
+									],
+									[
+										34431,
+										34437
+									],
+									[
+										34514,
+										34520
+									],
+									[
+										34597,
+										34603
+									],
+									[
+										34730,
+										34736
+									],
+									[
+										35044,
+										35050
+									],
+									[
+										35423,
+										35429
+									],
+									[
+										35941,
+										35947
+									],
+									[
+										35977,
+										35983
+									],
+									[
+										36268,
+										36274
+									],
+									[
+										36406,
+										36412
+									],
+									[
+										36423,
+										36429
+									],
+									[
+										36528,
+										36534
+									],
+									[
+										36597,
+										36603
+									],
+									[
+										36877,
+										36883
+									],
+									[
+										36904,
+										36910
+									],
+									[
+										36969,
+										36975
+									],
+									[
+										36996,
+										37002
+									],
+									[
+										37061,
+										37067
+									],
+									[
+										37088,
+										37094
+									],
+									[
+										37194,
+										37200
+									],
+									[
+										37223,
+										37229
+									],
+									[
+										37293,
+										37299
+									],
+									[
+										37335,
+										37341
+									],
+									[
+										37361,
+										37367
+									],
+									[
+										37387,
+										37393
+									],
+									[
+										37441,
+										37447
+									],
+									[
+										37478,
+										37484
+									],
+									[
+										37521,
+										37527
+									],
+									[
+										37559,
+										37565
+									],
+									[
+										37581,
+										37587
+									],
+									[
+										37644,
+										37650
+									],
+									[
+										37674,
+										37680
+									],
+									[
+										37701,
+										37707
+									],
+									[
+										37727,
+										37733
+									],
+									[
+										37753,
+										37759
+									],
+									[
+										37779,
+										37785
+									],
+									[
+										37829,
+										37835
+									],
+									[
+										37943,
+										37949
+									],
+									[
+										37998,
+										38004
+									],
+									[
+										38053,
+										38059
+									],
+									[
+										38107,
+										38113
+									],
+									[
+										38144,
+										38150
+									],
+									[
+										38170,
+										38176
+									],
+									[
+										38196,
+										38202
+									],
+									[
+										38293,
+										38299
+									],
+									[
+										38319,
+										38325
+									],
+									[
+										38345,
+										38351
+									],
+									[
+										38542,
+										38548
 									]
 								],
 								"scope": ""
@@ -1423,15 +2304,19 @@
 						"selection":
 						[
 							[
-								10445,
-								10445
+								19684,
+								19684
+							],
+							[
+								20952,
+								20952
 							]
 						],
 						"settings":
 						{
 							"detect_indentation": false,
 							"line_numbers": false,
-							"output_tag": 3,
+							"output_tag": 1,
 							"result_base_dir": "",
 							"result_file_regex": "^([^ \t].*):$",
 							"result_line_regex": "^ +([0-9]+):",
@@ -1439,313 +2324,51 @@
 							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 3148.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "Main/src/minecraft/net/minecraft/src/World.java",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 105413,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Java/Java.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1281.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "Main/src/minecraft/net/minecraft/src/Item.java",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 29079,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Java/Java.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 24.0,
-						"translation.y": 2204.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 982,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								982
-							]
-						],
-						"settings":
-						{
-							"auto_name": "for(int avgDx = -2; avgDx <= 2; ++avgDx) {",
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5201,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								5201
-							]
-						],
-						"settings":
-						{
-							"auto_name": "private static final byte streetBlockBitmap[][][]",
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "Main/retroMCP.bat",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 87,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Batch File/Batch File.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4967,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4245,
-								4245
-							]
-						],
-						"settings":
-						{
-							"auto_name": "",
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1389.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/WorldChunkManager.java",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3732,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2830,
-								2842
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Java/Java.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 664.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 11,
-					"file": "README.md",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 13443,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								13443,
-								13443
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 3180.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 12,
-					"file": "/D/Cosas/MP125-src/minecraft/com/mojontwins/desertdimension/MapGenDesertCaves.java",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6157,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4046,
-								4046
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Java/Java.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 862.0,
+						"translation.y": 6143.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 13,
-					"file": "Main/src/minecraft/com/mojontwins/minecraft/worldedit/WorldEdit.java",
+					"buffer": 3,
+					"file": "Main/src/minecraft/net/minecraft/src/ItemPiston.java",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 12572,
+						"buffer_size": 180,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								11620,
-								10242
+								28,
+								28
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Java/Java.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Java/Java.sublime-syntax"
 						},
-						"translation.x": 25.0,
-						"translation.y": 3709.0,
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 1,
 					"type": "text"
 				}
+			]
+		},
+		{
+			"sheets":
+			[
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 20.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -1789,7 +2412,7 @@
 	"project": "PE_OLD.sublime-project",
 	"replace":
 	{
-		"height": 40.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1823,7 +2446,7 @@
 		],
 		"width": 510.0
 	},
-	"selected_group": 1,
+	"selected_group": 0,
 	"settings":
 	{
 	},
@@ -1831,7 +2454,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 277.0,
+	"side_bar_width": 183.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

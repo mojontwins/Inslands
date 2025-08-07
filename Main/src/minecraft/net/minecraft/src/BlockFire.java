@@ -58,19 +58,34 @@ public class BlockFire extends Block {
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		int blockIDBeneath = world.getBlockId(x, y - 1, z);
 		boolean superFuelBeneath = blockIDBeneath == Block.bloodStone.blockID || blockIDBeneath == Block.blockCoal.blockID;
+		
 		if(!this.canPlaceBlockAt(world, x, y, z)) {
 			world.setBlockWithNotify(x, y, z, 0);
+			return;
 		}
-
-		if(!superFuelBeneath && (world.raining() || world.snowing()) && (world.canBlockBeRainedOn(x, y, z) || world.canBlockBeRainedOn(x - 1, y, z) || world.canBlockBeRainedOn(x + 1, y, z) || world.canBlockBeRainedOn(x, y, z - 1) || world.canBlockBeRainedOn(x, y, z + 1))) {
+		
+		if(
+			!superFuelBeneath && 
+			(world.raining() || world.snowing()) && 
+			(
+				world.canBlockBeRainedOn(x, y, z) || 
+				world.canBlockBeRainedOn(x - 1, y, z) || 
+				world.canBlockBeRainedOn(x + 1, y, z) || 
+				world.canBlockBeRainedOn(x, y, z - 1) || 
+				world.canBlockBeRainedOn(x, y, z + 1)
+			)
+		) {
 			world.setBlockWithNotify(x, y, z, 0);
+		
 		} else {
 			int i6 = world.getBlockMetadata(x, y, z);
+			
 			if(i6 < 15) {
 				world.setBlockMetadata(x, y, z, i6 + rand.nextInt(3) / 2);
 			}
 
 			world.scheduleBlockUpdate(x, y, z, this.blockID, this.tickRate());
+			
 			if(!superFuelBeneath && !this.canNeighborBurn(world, x, y, z)) {
 				if(!world.isBlockNormalCube(x, y - 1, z) || i6 > 3) {
 					world.setBlockWithNotify(x, y, z, 0);
@@ -78,6 +93,7 @@ public class BlockFire extends Block {
 
 			} else if(!superFuelBeneath && !this.canBlockCatchFire(world, x, y - 1, z) && i6 == 15 && rand.nextInt(4) == 0) {
 				world.setBlockWithNotify(x, y, z, 0);
+				
 			} else {
 				if(i6 % 2 == 0 && i6 > 2) {
 					this.tryToCatchBlockOnFire(world, x + 1, y, z, 300, rand, i6);

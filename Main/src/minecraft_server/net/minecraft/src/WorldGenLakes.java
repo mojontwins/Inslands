@@ -20,10 +20,10 @@ public class WorldGenLakes extends WorldGenerator {
 
 		// Descends 4 blocks into ground.
 		y0 -= 4;
-
+		
 		// This array represents a slice of this chunk 8 blocks tall (16x8x16).
 		boolean[] liquid = new boolean[2048];
-
+		
 		int masses = rand.nextInt(4) + 4;
 
 		for(int i = 0; i < masses; ++i) {

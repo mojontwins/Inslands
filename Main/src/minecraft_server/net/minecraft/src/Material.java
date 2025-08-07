@@ -33,6 +33,7 @@ public class Material {
 	public static final Material flesh = (new Material(MapColor.tntColor)).setNoPushMobility().setName("flesh");
 	public static final Material vine = new Material(MapColor.grassColor).setName("vine");
 	public static final Material bone = (new Material(MapColor.iceColor)).setName("bone");
+	public static final Material acid = (new MaterialLiquid(MapColor.waterColor)).setNoPushMobility().setName("acid");
 	private boolean canBurn;
 	private boolean groundCover;
 	private boolean isOpaque;
@@ -122,5 +123,9 @@ public class Material {
 	
 	public String toString() {
 		return this.materialName;
+	}
+
+	public static boolean woa(Material m) {
+		return m == Material.water || m == Material.acid;
 	}
 }

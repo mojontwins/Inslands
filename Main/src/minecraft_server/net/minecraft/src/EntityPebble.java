@@ -12,7 +12,7 @@ public class EntityPebble extends EntitySnowball {
 		super(world1);
 		this.thrower = entityLiving2;
 		this.setSize(0.25F, 0.25F);
-		this.setLocationAndAngles(entityLiving2.posX, entityLiving2.posY + (double)entityLiving2.getEyeHeight(), entityLiving2.posZ, entityLiving2.rotationYaw, entityLiving2.rotationPitch);	
+		this.setLocationAndAngles(entityLiving2.posX, entityLiving2.posY + (double)entityLiving2.getEyeHeight(), entityLiving2.posZ, entityLiving2.rotationYaw, entityLiving2.rotationPitch);
 		this.posY -= (double)0.1F;
 		this.posZ -= (double)(MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F);
 		this.setPosition(this.posX, this.posY, this.posZ);

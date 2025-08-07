@@ -220,7 +220,7 @@ public class PathfinderRelease {
 							}
 
 							Material material12 = block11.blockMaterial;
-							if(material12 != Material.lava) {
+							if(material12 != Material.lava && material12 != Material.acid) {
 								return 0;
 							}
 

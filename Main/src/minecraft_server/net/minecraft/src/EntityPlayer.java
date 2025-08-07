@@ -268,10 +268,25 @@ public abstract class EntityPlayer extends EntityLiving {
 		this.addMountedMovementStat(this.posX - d1, this.posY - d3, this.posZ - d5);
 	}
 
+	
 	public void preparePlayerToSpawn() {
 		this.yOffset = 1.62F;
 		this.setSize(0.6F, 1.8F);
-		super.preparePlayerToSpawn();
+
+		if(this.worldObj != null) {
+			/*while(this.posY > 0.0D) {
+				this.setPosition(this.posX, this.posY, this.posZ);
+				if(this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).size() == 0) {
+					break;
+				}
+
+				++this.posY;
+			}*/
+
+			this.motionX = this.motionY = this.motionZ = 0.0D;
+			this.rotationPitch = 0.0F;
+		}
+		
 		this.health = 20;
 		this.deathTime = 0;
 	}

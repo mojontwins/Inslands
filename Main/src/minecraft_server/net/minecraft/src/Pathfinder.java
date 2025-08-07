@@ -166,7 +166,7 @@ public class Pathfinder {
 								return -1;
 							}
 
-							if(material11 == Material.lava) {
+							if(material11 == Material.lava || material11 == Material.acid) {
 								return -2;
 							}
 						} else {

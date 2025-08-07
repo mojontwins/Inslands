@@ -28,7 +28,7 @@ public class Packet52MultiBlockChange extends Packet {
 		Chunk chunk = world.getChunkFromChunkCoords(xPos, zPos);
 
 		try {
-			if(numBlocksToUpdate >= 64) {
+			if(numBlocksToUpdate > 64) {
 				// As it is, this should not happen
 				System.out.println("Something wrong - ChunkTilesUpdatePacket compress " + numBlocksToUpdate);
 			} else {

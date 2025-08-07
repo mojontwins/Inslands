@@ -42,7 +42,26 @@ public class EntityItem extends Entity {
 		this.prevPosY = this.posY;
 		this.prevPosZ = this.posZ;
 		this.motionY -= (double)0.04F;
-		if(this.worldObj.getBlockMaterial(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)) == Material.lava) {
+		
+		Material material = this.worldObj.getBlockMaterial(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
+		
+		if(
+				material == Material.acid
+		) {
+			this.worldObj.playSoundAtEntity(this, "random.fizz", 0.4F, 2.0F + this.rand.nextFloat() * 0.4F);
+			for(int i = 0; i < 7; ++i) {
+				this.worldObj.spawnParticle("largesmoke", 
+					this.posX + this.rand.nextDouble (), 
+					this.posY + this.rand.nextDouble (),
+					this.posZ + this.rand.nextDouble (),
+					0.0, 0.0, 0.0);
+			}
+			this.setEntityDead();
+		}
+		
+		if(
+				material == Material.lava
+			) {
 			this.motionY = (double)0.2F;
 			this.motionX = (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
 			this.motionZ = (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
@@ -76,7 +95,8 @@ public class EntityItem extends Entity {
 	}
 
 	public boolean handleWaterMovement() {
-		return this.worldObj.handleMaterialAcceleration(this.boundingBox, Material.water, this);
+		return this.worldObj.handleMaterialAcceleration(this.boundingBox, Material.water, this) ||
+				this.worldObj.handleMaterialAcceleration(this.boundingBox, Material.acid, this);
 	}
 
 	protected void dealFireDamage(int i1) {

@@ -34,6 +34,8 @@ public class TFTreasure {
 	}
 
 	public boolean generate(World world, Random rand, int cx, int cy, int cz) {
+		if(!world.isBlockOpaqueCube(cx, cy - 1, cz)) return false;
+		
 		boolean flag = true;
 		world.setBlockWithNotify(cx, cy, cz, Block.chest.blockID);
 

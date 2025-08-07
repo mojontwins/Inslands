@@ -38,12 +38,19 @@ public class BlockLeaves extends BlockLeavesBase {
 		this.onBlockRemovalDo(world, x, y, z);
 	}
 
-	public int quantityDropped(Random Random) {
-		return Random.nextInt(20) != 0 ? 0 : 1;
+	public int quantityDropped(Random rand) {
+		return rand.nextInt(20) != 0 ? 0 : 1;
 	}
 
-	public int idDropped(int i, Random Random) {
-		return Random.nextInt(50) == 0 ? Item.appleRed.shiftedIndex : Block.sapling.blockID;
+	public int idDropped(int i, Random rand) {
+		switch(rand.nextInt(50)) {
+		case 0:
+			return Item.appleRed.shiftedIndex;
+		case 1:
+			return Item.acornSeed.shiftedIndex;
+		default:
+			return Block.sapling.blockID;
+		}
 	}
 
 	protected int damageDropped(int meta) {

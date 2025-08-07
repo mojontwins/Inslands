@@ -48,7 +48,7 @@ public class BlockFlowing extends BlockFluid {
 				}
 			}
 
-			if(this.numAdjacentSources >= 2 && this.blockMaterial == Material.water) {
+			if(this.numAdjacentSources >= 2 && Material.woa(this.blockMaterial)) {
 				if(world1.getBlockMaterial(i2, i3 - 1, i4).isSolid()) {
 					i10 = 0;
 				} else if(world1.getBlockMaterial(i2, i3 - 1, i4) == this.blockMaterial && world1.getBlockMetadata(i2, i3, i4) == 0) {
@@ -117,7 +117,7 @@ public class BlockFlowing extends BlockFluid {
 		if(this.liquidCanDisplaceBlock(world1, i2, i3, i4)) {
 			Block block = Block.blocksList[world1.getBlockId(i2, i3, i4)];
 			if(block != null) {
-				if(this.blockMaterial == Material.lava) {
+				if(this.blockMaterial == Material.lava || this.blockMaterial == Material.acid) {
 					this.triggerLavaMixEffects(world1, i2, i3, i4);
 				} else {
 					block.dropBlockAsItem(world1, i2, i3, i4, world1.getBlockMetadata(i2, i3, i4));

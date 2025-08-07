@@ -1586,7 +1586,10 @@ public abstract class Minecraft implements Runnable {
 			z5 = false;
 		}
 
-		this.theWorld.setSpawnLocation();
+		if(chunkCoordinates4 == null) {
+			this.theWorld.setSpawnLocation();
+		}
+		
 		this.theWorld.updateEntityList();
 		int i8 = 0;
 		if(this.thePlayer != null) {

@@ -279,12 +279,12 @@ public class FeatureFossil extends FeatureDynamicSchematic {
 						}
 					} else {
 						int z = skullZ - skull.length / 2 - 1;
-						for (int i = 0; i < tailLength; i++) {
+							for (int i = 0; i < tailLength; i++) {
 								skullY = this.surfaceHeight(skullX, z);
 								if(sky && skullY == 0) break;
 								
 								body.draw(this.schematic, skullX, skullY, z, direction);
-							z -= 2;
+								z -= 2;
 							}
 						}
 					}

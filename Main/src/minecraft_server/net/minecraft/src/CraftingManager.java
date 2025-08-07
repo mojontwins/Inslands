@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.mojontwins.minecraft.nether.RecipesNether;
+import com.mojontwins.minecraft.poisonisland.PoisonIsland;
 
 public class CraftingManager {
 	private static final CraftingManager instance = new CraftingManager();
@@ -98,6 +99,7 @@ public class CraftingManager {
 		// Custom
 		(new RecipesMine()).addRecipes(this);
 		(new RecipesNether()).addRecipes(this);
+		PoisonIsland.addRecipes(this);
 		
 		Collections.sort(this.recipes, new RecipeSorter(this));
 		System.out.println(this.recipes.size() + " recipes");

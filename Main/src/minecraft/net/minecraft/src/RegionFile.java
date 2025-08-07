@@ -20,7 +20,7 @@ public class RegionFile {
 	private ArrayList<Boolean> sectorFree;
 	private int sizeDelta;
 	private long lastModified = 0L;
-	
+
 	public RegionFile(File file1) {
 		this.fileName = file1;
 		this.debugln("REGION LOAD " + this.fileName);

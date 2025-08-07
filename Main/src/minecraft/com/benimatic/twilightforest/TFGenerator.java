@@ -31,6 +31,24 @@ public abstract class TFGenerator extends WorldGenerator {
 		return true;
 	}
 
+	protected void putBlockAndMetadataIfSolid(int dx, int dy, int dz, int blockValue, int metaValue) {
+		Block block = Block.blocksList[this.worldObj.getBlockId(dx, dy, dz)];
+		
+		if(block != null && block.isOpaqueCube()) {
+			this.worldObj.setBlockAndMetadataWithNotify(dx, dy, dz, blockValue, metaValue);
+		}
+		
+	}
+
+	protected void putBlockIfSolid(int dx, int dy, int dz, int blockValue) {
+		Block block = Block.blocksList[this.worldObj.getBlockId(dx, dy, dz)];
+		
+		if(block != null && block.isOpaqueCube()) {
+			this.worldObj.setBlockWithNotify(dx, dy, dz, blockValue);
+		}
+		
+	}
+	
 	protected void putBlockAndMetadata(int[] pixel, int blockValue, int metaValue, boolean priority) {
 		this.putBlockAndMetadata(pixel[0], pixel[1], pixel[2], blockValue, metaValue, priority);
 	}
@@ -224,6 +242,18 @@ public abstract class TFGenerator extends WorldGenerator {
 		for(int cx = 0; cx < width; ++cx) {
 			for(int cy = 0; cy < height; ++cy) {
 				for(int cz = 0; cz < depth; ++cz) {
+					this.worldObj.setBlockAndMetadata(dx + cx, dy + cy, dz + cz, blockID, meta);
+				}
+			}
+		}
+
+	}
+	
+	protected void fillIfSolid(int dx, int dy, int dz, int width, int height, int depth, int blockID, int meta) {
+		for(int cx = 0; cx < width; ++cx) {
+			for(int cy = 0; cy < height; ++cy) {
+				for(int cz = 0; cz < depth; ++cz) {
+					if(this.worldObj.getBlockId(dx + cx, dy + cy, dz + cz) != 0)
 					this.worldObj.setBlockAndMetadata(dx + cx, dy + cy, dz + cz, blockID, meta);
 				}
 			}

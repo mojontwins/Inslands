@@ -4079,3 +4079,137 @@ net.minecraft.src.MinecraftException: Failed to check session lock, aborting
 2024-07-05 19:30:55 [INFO] Stopping server
 2024-07-05 19:30:55 [INFO] Saving chunks
 2024-07-05 19:30:59 [INFO] Saving chunks
+2025-06-19 08:42:42 [INFO] Starting minecraft server InSlands v241212
+2025-06-19 08:42:42 [INFO] Loading properties
+2025-06-19 08:42:43 [INFO] Starting Minecraft server on *:25565
+2025-06-19 08:42:44 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2025-06-19 08:42:44 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2025-06-19 08:42:44 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2025-06-19 08:42:44 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2025-06-19 08:42:44 [INFO] Preparing level "world"
+2025-06-19 08:42:44 [INFO] ** DIM 0
+2025-06-19 08:42:47 [INFO] Generating new world
+2025-06-19 08:42:48 [INFO] Preparing spawn area: 1%
+2025-06-19 08:42:49 [INFO] Preparing spawn area: 4%
+2025-06-19 08:42:50 [INFO] Preparing spawn area: 5%
+2025-06-19 08:42:52 [INFO] Preparing spawn area: 8%
+2025-06-19 08:42:53 [INFO] Preparing spawn area: 11%
+2025-06-19 08:42:54 [INFO] Preparing spawn area: 13%
+2025-06-19 08:42:55 [INFO] Preparing spawn area: 16%
+2025-06-19 08:42:56 [INFO] Preparing spawn area: 18%
+2025-06-19 08:42:57 [INFO] Preparing spawn area: 22%
+2025-06-19 08:42:58 [INFO] Preparing spawn area: 27%
+2025-06-19 08:42:59 [INFO] Preparing spawn area: 31%
+2025-06-19 08:43:00 [INFO] Preparing spawn area: 36%
+2025-06-19 08:43:01 [INFO] Preparing spawn area: 39%
+2025-06-19 08:43:02 [INFO] Preparing spawn area: 42%
+2025-06-19 08:43:03 [INFO] Preparing spawn area: 46%
+2025-06-19 08:43:04 [INFO] Preparing spawn area: 48%
+2025-06-19 08:43:06 [INFO] Preparing spawn area: 51%
+2025-06-19 08:43:07 [INFO] Preparing spawn area: 53%
+2025-06-19 08:43:08 [INFO] Preparing spawn area: 57%
+2025-06-19 08:43:09 [INFO] Preparing spawn area: 63%
+2025-06-19 08:43:10 [INFO] Preparing spawn area: 68%
+2025-06-19 08:43:11 [INFO] Preparing spawn area: 71%
+2025-06-19 08:43:12 [INFO] Preparing spawn area: 78%
+2025-06-19 08:43:13 [INFO] Preparing spawn area: 84%
+2025-06-19 08:43:14 [INFO] Preparing spawn area: 91%
+2025-06-19 08:43:15 [INFO] Preparing spawn area: 97%
+2025-06-19 08:43:16 [INFO] ** DIM -1
+2025-06-19 08:43:17 [INFO] Generating new world
+2025-06-19 08:43:18 [INFO] Preparing spawn area: 36%
+2025-06-19 08:43:19 [INFO] Preparing spawn area: 48%
+2025-06-19 08:43:20 [INFO] Preparing spawn area: 71%
+2025-06-19 08:43:21 [INFO] Done (37390162700ns)! For help, type "help" or "?"
+2025-06-19 08:43:21 [SEVERE] Unexpected exception
+java.lang.ArithmeticException: / by zero
+	at net.minecraft.src.World.updateBlocksAndPlayCaveSounds(World.java:2505)
+	at net.minecraft.src.World.tick(World.java:2225)
+	at net.minecraft.server.MinecraftServer.doTick(MinecraftServer.java:384)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:311)
+	at net.minecraft.src.ThreadServerApplication.run(ThreadServerApplication.java:14)
+2025-06-19 08:45:12 [INFO] Stopping server
+2025-06-19 08:45:12 [INFO] Saving chunks
+2025-06-19 08:45:15 [INFO] Saving chunks
+2025-06-19 08:45:26 [INFO] Starting minecraft server InSlands v241212
+2025-06-19 08:45:26 [INFO] Loading properties
+2025-06-19 08:45:27 [INFO] Starting Minecraft server on *:25565
+2025-06-19 08:45:27 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2025-06-19 08:45:27 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2025-06-19 08:45:27 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2025-06-19 08:45:27 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2025-06-19 08:45:27 [INFO] Preparing level "world"
+2025-06-19 08:45:27 [INFO] ** DIM 0
+2025-06-19 08:45:28 [INFO] Loading existing world
+2025-06-19 08:45:29 [INFO] Preparing spawn area: 94%
+2025-06-19 08:45:29 [INFO] ** DIM -1
+2025-06-19 08:45:29 [INFO] Loading existing world
+2025-06-19 08:45:30 [INFO] Done (2737286900ns)! For help, type "help" or "?"
+2025-06-19 08:45:30 [SEVERE] Unexpected exception
+java.lang.ArithmeticException: / by zero
+	at net.minecraft.src.World.updateBlocksAndPlayCaveSounds(World.java:2506)
+	at net.minecraft.src.World.tick(World.java:2225)
+	at net.minecraft.server.MinecraftServer.doTick(MinecraftServer.java:384)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:311)
+	at net.minecraft.src.ThreadServerApplication.run(ThreadServerApplication.java:14)
+2025-06-19 08:47:14 [INFO] Stopping server
+2025-06-19 08:47:14 [INFO] Saving chunks
+2025-06-19 08:47:14 [INFO] Saving chunks
+2025-06-19 08:47:26 [INFO] Starting minecraft server InSlands v241212
+2025-06-19 08:47:26 [INFO] Loading properties
+2025-06-19 08:47:26 [INFO] Starting Minecraft server on *:25565
+2025-06-19 08:47:27 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2025-06-19 08:47:27 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2025-06-19 08:47:27 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2025-06-19 08:47:27 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2025-06-19 08:47:27 [INFO] Preparing level "world"
+2025-06-19 08:47:27 [INFO] ** DIM 0
+2025-06-19 08:47:28 [INFO] Loading existing world
+2025-06-19 08:47:29 [INFO] ** DIM -1
+2025-06-19 08:47:29 [INFO] Loading existing world
+2025-06-19 08:47:29 [INFO] Done (2600590700ns)! For help, type "help" or "?"
+2025-06-19 08:48:47 [WARNING] Failed to load player data for Popoch
+2025-06-19 08:48:47 [INFO] Popoch [/127.0.0.1:51980] logged in with entity id 2 at (105.5, 72.62000000476837, 52.5)
+2025-06-19 08:48:57 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-06-19 08:49:16 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-06-19 08:49:24 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-06-19 08:49:29 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-06-19 08:49:35 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-06-19 08:49:37 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-06-19 08:50:18 [INFO] Popoch lost connection: disconnect.quitting
+2025-06-19 08:50:18 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-06-19 08:50:30 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-06-19 08:50:34 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-06-19 09:02:37 [INFO] CONSOLE: Stopping the server..
+2025-06-19 09:02:37 [INFO] Stopping server
+2025-06-19 09:02:37 [INFO] Saving chunks
+2025-06-19 09:02:38 [INFO] Saving chunks
+2025-06-19 09:02:49 [INFO] Starting minecraft server InSlands v241212
+2025-06-19 09:02:49 [INFO] Loading properties
+2025-06-19 09:02:51 [INFO] Starting Minecraft server on *:25565
+2025-06-19 09:02:51 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2025-06-19 09:02:51 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2025-06-19 09:02:51 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2025-06-19 09:02:51 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2025-06-19 09:02:51 [INFO] Preparing level "world"
+2025-06-19 09:02:51 [INFO] ** DIM 0
+2025-06-19 09:02:52 [INFO] Loading existing world
+2025-06-19 09:02:53 [INFO] Preparing spawn area: 53%
+2025-06-19 09:02:53 [INFO] ** DIM -1
+2025-06-19 09:02:53 [INFO] Loading existing world
+2025-06-19 09:02:54 [INFO] Preparing spawn area: 12%
+2025-06-19 09:02:55 [INFO] Preparing spawn area: 83%
+2025-06-19 09:02:56 [INFO] Done (4910779201ns)! For help, type "help" or "?"
+2025-06-19 09:03:03 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-06-19 09:03:05 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-06-19 09:03:08 [INFO] Popoch [/127.0.0.1:51997] logged in with entity id 105 at (120.53125, 66.0, 73.9375)
+2025-06-19 09:03:18 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-06-19 09:03:29 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-06-19 09:03:34 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-06-19 09:03:38 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-06-19 09:03:52 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-06-19 09:05:15 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-06-19 09:05:46 [INFO] Popoch lost connection: disconnect.quitting
+2025-06-19 09:06:20 [INFO] Stopping server
+2025-06-19 09:06:20 [INFO] Saving chunks
+2025-06-19 09:06:22 [INFO] Saving chunks

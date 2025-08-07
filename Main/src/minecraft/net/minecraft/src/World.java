@@ -2502,8 +2502,13 @@ public class World implements IBlockAccess {
 		Iterator<ChunkCoordIntPair> chunkIterator = this.positionsToUpdate.iterator();
 	
 		this.snowTicker--;
-		int blocksToTick = World.blocksToTickPerFrame * 196 / positionsToUpdate.size();
-		int nextSnowTicker = 8 * 196 / positionsToUpdate.size();
+		int blocksToTick = 0; 
+		int nextSnowTicker = 0;
+		
+		if(positionsToUpdate.size() > 0) {
+			blocksToTick = World.blocksToTickPerFrame * 196 / positionsToUpdate.size();
+			nextSnowTicker = 8 * 196 / positionsToUpdate.size();
+		}
 		
 		while (chunkIterator.hasNext()) {
 			ChunkCoordIntPair chunkCoordIntPair = (ChunkCoordIntPair) chunkIterator.next();
@@ -3298,13 +3303,16 @@ public class World implements IBlockAccess {
 	public boolean canBlockBeRainedOn(int i1, int i2, int i3) {
 		if(!this.raining()) {
 			return false;
+			
 		} else if(!this.canBlockSeeTheSky(i1, i2, i3)) {
 			return false;
+			
 		} else if(this.findTopSolidBlockUsingBlockMaterial(i1, i3) > i2) {
 			return false;
+			
 		} else {
-			BiomeGenBase biomeGenBase4 = this.getWorldChunkManager().getBiomeGenAt(i1, i3);
-			return biomeGenBase4.getEnableSnow() ? false : biomeGenBase4.canSpawnLightningBolt();
+			return true;
+			
 		}
 	}
 
@@ -3387,6 +3395,7 @@ public class World implements IBlockAccess {
 		LevelThemeGlobalSettings.getTheme().levelThemeSpecificInits(this);
 		
 		System.out.println ("levelIsValidUponWorldTheme, isNewWorld?" + this.isNewWorld + ", do checks?" + LevelThemeGlobalSettings.levelChecks);
+		
 		if(this.isNewWorld && LevelThemeGlobalSettings.levelChecks) {	
 			// World theme based invalidations ahead!
 			

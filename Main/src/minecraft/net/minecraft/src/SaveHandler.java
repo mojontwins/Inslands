@@ -194,17 +194,17 @@ public class SaveHandler implements ISaveHandler {
 		try {
 			FileInputStream fileInputStream = null;
 			try {
-			File file2 = new File(this.saveHandler, string1 + ".dat");
+				File file2 = new File(this.saveHandler, string1 + ".dat");
 				fileInputStream = new FileInputStream(file2);
 	
-			if(file2.exists()) {
+				if(file2.exists()) {
 					return CompressedStreamTools.readCompressed(fileInputStream);
-			}
-		} catch (Exception exception3) {
-			logger.warning("Failed to load player data for " + string1);
+				}
+			} catch (Exception exception3) {
+				logger.warning("Failed to load player data for " + string1);
 			} finally {
 				if(fileInputStream != null) fileInputStream.close();
-		}
+			}
 		} catch (Exception e) {}
 
 		return null;
