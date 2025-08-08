@@ -9,8 +9,8 @@ import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
 
 public class EntityHumanBase extends EntityMobWithLevel implements IMob, IMobWithLevel {
-	protected int armor = 4;
-	protected int armorIndex = 1;
+	public int armor = 4;
+	public int armorIndex = 1;
 	public String armorTexture = "/armor/cloth_1.png";
 	public int origLvl = 0xff;
 	public boolean despawn = false;

@@ -4,7 +4,6 @@ import java.applet.Applet;
 import java.awt.BorderLayout;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.CanvasIsomPreview;
 
 public class IsomPreviewApplet extends Applet {
 	/**

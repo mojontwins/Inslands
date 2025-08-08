@@ -87,7 +87,7 @@ public class BlockBed extends Block {
 			return Block.planks.blockIndexInTexture;
 		} else {
 			int i3 = getDirectionFromMetadata(i2);
-			int i4 = ModelBed.bedDirection[i3][i1];
+			int i4 = Direction.bedDirection[i3][i1];
 			return isBlockFootOfBed(i2) ? (i4 == 2 ? this.blockIndexInTexture + 2 + 16 : (i4 != 5 && i4 != 4 ? this.blockIndexInTexture + 1 : this.blockIndexInTexture + 1 + 16)) : (i4 == 3 ? this.blockIndexInTexture - 1 + 16 : (i4 != 5 && i4 != 4 ? this.blockIndexInTexture : this.blockIndexInTexture + 16));
 		}
 	}

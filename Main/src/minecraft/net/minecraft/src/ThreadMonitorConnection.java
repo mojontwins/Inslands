@@ -1,9 +1,9 @@
 package net.minecraft.src;
 
-class ThreadMonitorConnection extends Thread {
+public class ThreadMonitorConnection extends Thread {
 	final NetworkManager netManager;
 
-	ThreadMonitorConnection(NetworkManager networkManager1) {
+	public ThreadMonitorConnection(NetworkManager networkManager1) {
 		this.netManager = networkManager1;
 	}
 

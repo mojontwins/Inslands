@@ -232,39 +232,39 @@ public class NetworkManager {
 		return this.chunkDataPackets.size();
 	}
 
-	static boolean isRunning(NetworkManager networkManager0) {
+	public static boolean isRunning(NetworkManager networkManager0) {
 		return networkManager0.isRunning;
 	}
 
-	static boolean isServerTerminating(NetworkManager networkManager0) {
+	public static boolean isServerTerminating(NetworkManager networkManager0) {
 		return networkManager0.isServerTerminating;
 	}
 
-	static boolean readNetworkPacket(NetworkManager networkManager0) {
+	public static boolean readNetworkPacket(NetworkManager networkManager0) {
 		return networkManager0.readPacket();
 	}
 
-	static boolean sendNetworkPacket(NetworkManager networkManager0) {
+	public static boolean sendNetworkPacket(NetworkManager networkManager0) {
 		return networkManager0.sendPacket();
 	}
 
-	static DataOutputStream getSocketOutputStream(NetworkManager networkManager0) {
+	public static DataOutputStream getSocketOutputStream(NetworkManager networkManager0) {
 		return networkManager0.socketOutputStream;
 	}
 
-	static boolean isTerminating(NetworkManager networkManager0) {
+	public static boolean isTerminating(NetworkManager networkManager0) {
 		return networkManager0.isTerminating;
 	}
 
-	static void onNetworkError(NetworkManager networkManager0, Exception exception1) {
+	public static void onNetworkError(NetworkManager networkManager0, Exception exception1) {
 		networkManager0.onNetworkError(exception1);
 	}
 
-	static Thread getReadThread(NetworkManager networkManager0) {
+	public static Thread getReadThread(NetworkManager networkManager0) {
 		return networkManager0.readThread;
 	}
 
-	static Thread getWriteThread(NetworkManager networkManager0) {
+	public static Thread getWriteThread(NetworkManager networkManager0) {
 		return networkManager0.writeThread;
 	}
 

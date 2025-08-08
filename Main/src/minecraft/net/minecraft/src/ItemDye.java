@@ -68,8 +68,8 @@ public class ItemDye extends Item {
 			}
 			
 			if(blockID == Block.dirt.blockID) {
-				if(!world.isRemote) { System.out.println ("pin");
-					if (rand.nextInt(16) == 0) { System.out.println ("pon");
+				if(!world.isRemote) {
+					if (rand.nextInt(16) == 0) {
 						// Produce grass!
 						for(int attempts = 0; attempts < 32; ++attempts) {
 							int xx = x;

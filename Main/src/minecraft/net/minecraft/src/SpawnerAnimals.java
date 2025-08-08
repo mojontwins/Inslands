@@ -269,7 +269,7 @@ public final class SpawnerAnimals {
 	}
 	*/
 
-	protected static void creatureSpecificInit(EntityLiving entityLiving, World world, float xF, float yF, float zF) {
+	public static void creatureSpecificInit(EntityLiving entityLiving, World world, float xF, float yF, float zF) {
 		//BiomeGenBase biome = world.getBiomeGenAt((int)xF, (int)zF);
 		
 		if(entityLiving instanceof EntityPig) {

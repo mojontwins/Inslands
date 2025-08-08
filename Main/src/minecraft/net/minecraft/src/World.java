@@ -41,7 +41,7 @@ public class World implements IBlockAccess {
 	public Random rand;
 	public boolean isNewWorld;
 	public final WorldProvider worldProvider;
-	protected List<IWorldAccess> worldAccesses;
+	public List<IWorldAccess> worldAccesses;
 	public IChunkProvider chunkProvider;
 	protected final ISaveHandler saveHandler;
 	public WorldInfo worldInfo;

@@ -9,7 +9,7 @@ public class EntitySnowball extends Entity {
 	protected int inTile = 0;
 	protected boolean inGround = false;
 	protected int shake = 0;
-	protected EntityLiving thrower;
+	public EntityLiving thrower;
 	protected int ticksInGround;
 	protected int ticksInAir = 0;
 
