@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 class ChunkFilePattern implements FilenameFilter {
 	public static final Pattern filenameRegexp = Pattern.compile("c\\.(-?[0-9a-z]+)\\.(-?[0-9a-z]+)\\.dat");
 
-	private ChunkFilePattern() {
+	public ChunkFilePattern() {
 	}
 
 	public boolean accept(File file1, String string2) {
@@ -16,7 +16,4 @@ class ChunkFilePattern implements FilenameFilter {
 		return matcher3.matches();
 	}
 
-	ChunkFilePattern(Empty2 empty21) {
-		this();
-	}
 }

@@ -1,5 +1,8 @@
 package net.minecraft.src;
 
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet130UpdateSign;
+
 public class TileEntitySign extends TileEntity {
 	public String[] signText = new String[]{"", "", "", ""};
 	public int lineBeingEdited = -1;

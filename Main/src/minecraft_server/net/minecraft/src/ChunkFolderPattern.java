@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 class ChunkFolderPattern implements FileFilter {
 	public static final Pattern folderRegexp = Pattern.compile("[0-9a-z]|([0-9a-z][0-9a-z])");
 
-	private ChunkFolderPattern() {
+	public ChunkFolderPattern() {
 	}
 
 	public boolean accept(File file1) {
@@ -20,7 +20,4 @@ class ChunkFolderPattern implements FileFilter {
 		}
 	}
 
-	ChunkFolderPattern(Empty2 empty21) {
-		this();
-	}
 }

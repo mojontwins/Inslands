@@ -1,9 +1,9 @@
 package net.minecraft.server;
 
+import net.minecraft.network.packet.Packet61DoorChange;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IWorldAccess;
-import net.minecraft.src.Packet61DoorChange;
 import net.minecraft.src.TileEntity;
 
 public class WorldManager implements IWorldAccess {

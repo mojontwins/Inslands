@@ -90,8 +90,8 @@ public class SaveConverterMcRegion extends SaveFormatOld {
 	}
 
 	private void func_22183_a(File file1, ArrayList<ChunkFile> arrayList2, ArrayList<File> arrayList3) {
-		ChunkFolderPattern chunkFolderPattern4 = new ChunkFolderPattern((Empty2)null);
-		ChunkFilePattern chunkFilePattern5 = new ChunkFilePattern((Empty2)null);
+		ChunkFolderPattern chunkFolderPattern4 = new ChunkFolderPattern();
+		ChunkFilePattern chunkFilePattern5 = new ChunkFilePattern();
 		File[] file6 = file1.listFiles(chunkFolderPattern4);
 		File[] file7 = file6;
 		int i8 = file6.length;

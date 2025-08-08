@@ -2,18 +2,18 @@ package net.minecraft.client.multiplayer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.PlayerController;
+import net.minecraft.network.packet.Packet102WindowClick;
+import net.minecraft.network.packet.Packet107CreativeSetSlot;
+import net.minecraft.network.packet.Packet14BlockDig;
+import net.minecraft.network.packet.Packet15Place;
+import net.minecraft.network.packet.Packet16BlockItemSwitch;
+import net.minecraft.network.packet.Packet7UseEntity;
+import net.minecraft.network.packet.Packet97SetInventorySlot;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.Packet102WindowClick;
-import net.minecraft.src.Packet107CreativeSetSlot;
-import net.minecraft.src.Packet14BlockDig;
-import net.minecraft.src.Packet15Place;
-import net.minecraft.src.Packet16BlockItemSwitch;
-import net.minecraft.src.Packet7UseEntity;
-import net.minecraft.src.Packet97SetInventorySlot;
 import net.minecraft.src.World;
 
 public class PlayerControllerMP extends PlayerController {

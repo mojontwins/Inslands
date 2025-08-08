@@ -6,9 +6,9 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.network.packet.Packet130UpdateSign;
 import net.minecraft.src.Block;
 import net.minecraft.src.ChatAllowedCharacters;
-import net.minecraft.src.Packet130UpdateSign;
 import net.minecraft.src.TileEntitySign;
 
 public class GuiEditSign extends GuiScreen {

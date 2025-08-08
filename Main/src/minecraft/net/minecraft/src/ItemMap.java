@@ -2,6 +2,9 @@ package net.minecraft.src;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet131MapData;
+
 public class ItemMap extends ItemMapBase {
 	protected ItemMap(int i1) {
 		super(i1);

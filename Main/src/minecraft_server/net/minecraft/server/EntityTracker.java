@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import net.minecraft.network.packet.Packet;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityArrow;
 import net.minecraft.src.EntityBoat;
@@ -21,7 +22,6 @@ import net.minecraft.src.EntityTNTPrimed;
 import net.minecraft.src.EntityThrowablePotion;
 import net.minecraft.src.IAnimals;
 import net.minecraft.src.MCHash;
-import net.minecraft.src.Packet;
 
 public class EntityTracker {
 	private Set<EntityTrackerEntry> trackedEntitySet = new HashSet<EntityTrackerEntry>();

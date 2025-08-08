@@ -1,6 +1,6 @@
 package net.minecraft.client.multiplayer;
 
-import net.minecraft.src.NetworkManager;
+import net.minecraft.network.NetworkManager;
 
 class ThreadCloseConnection extends Thread {
 	final NetworkManager field_28109_a;

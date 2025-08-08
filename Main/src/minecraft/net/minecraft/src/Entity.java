@@ -3,6 +3,8 @@ package net.minecraft.src;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.network.DataWatcher;
+
 public abstract class Entity {
 	private static int nextEntityID = 0;
 	public int entityId = nextEntityID++;

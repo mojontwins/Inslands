@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import net.minecraft.src.Packet1Login;
+import net.minecraft.network.packet.Packet1Login;
 
 class ThreadLoginVerifier extends Thread {
 	final Packet1Login loginPacket;

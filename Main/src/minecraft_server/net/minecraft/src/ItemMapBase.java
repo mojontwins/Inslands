@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.network.packet.Packet;
+
 public class ItemMapBase extends Item {
 	protected ItemMapBase(int i1) {
 		super(i1);

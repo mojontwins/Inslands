@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import javax.swing.JComponent;
 import javax.swing.Timer;
 
-import net.minecraft.src.NetworkManager;
+import net.minecraft.network.NetworkManager;
 
 public class GuiStatsComponent extends JComponent {
 	/**

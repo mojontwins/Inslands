@@ -12,14 +12,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet3Chat;
+import net.minecraft.network.packet.Packet4UpdateTime;
+import net.minecraft.network.packet.Packet70Bed;
+import net.minecraft.network.packet.Packet9Respawn;
 import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ISaveHandler;
-import net.minecraft.src.Packet;
-import net.minecraft.src.Packet3Chat;
-import net.minecraft.src.Packet4UpdateTime;
-import net.minecraft.src.Packet70Bed;
-import net.minecraft.src.Packet9Respawn;
 import net.minecraft.src.Teleporter;
 import net.minecraft.src.TileEntity;
 

@@ -4,13 +4,13 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import net.minecraft.network.packet.Packet3Chat;
+import net.minecraft.network.packet.Packet4UpdateTime;
 import net.minecraft.src.EntityList;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.IProgressUpdate;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.Packet3Chat;
-import net.minecraft.src.Packet4UpdateTime;
 
 public class ConsoleCommandHandler {
 	private static Logger minecraftLogger = Logger.getLogger("Minecraft");

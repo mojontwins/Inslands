@@ -6,12 +6,12 @@ import java.util.Set;
 
 import net.minecraft.client.SaveHandlerMP;
 import net.minecraft.client.gui.GameSettings;
+import net.minecraft.network.packet.Packet255KickDisconnect;
 import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.src.Entity;
 import net.minecraft.src.IChunkProvider;
 import net.minecraft.src.IWorldAccess;
 import net.minecraft.src.MCHash;
-import net.minecraft.src.Packet255KickDisconnect;
 import net.minecraft.src.Seasons;
 import net.minecraft.src.Weather;
 import net.minecraft.src.World;

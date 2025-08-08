@@ -3,13 +3,13 @@ package net.minecraft.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet50PreChunk;
+import net.minecraft.network.packet.Packet51MapChunk;
+import net.minecraft.network.packet.Packet52MultiBlockChange;
+import net.minecraft.network.packet.Packet53BlockChange;
 import net.minecraft.src.Block;
 import net.minecraft.src.ChunkCoordIntPair;
-import net.minecraft.src.Packet;
-import net.minecraft.src.Packet50PreChunk;
-import net.minecraft.src.Packet51MapChunk;
-import net.minecraft.src.Packet52MultiBlockChange;
-import net.minecraft.src.Packet53BlockChange;
 import net.minecraft.src.TileEntity;
 
 class PlayerInstance {
