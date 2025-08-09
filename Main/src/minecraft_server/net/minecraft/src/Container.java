@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public abstract class Container {
 	public List<ItemStack> inventoryItemStacks = new ArrayList<ItemStack>();
 	public List<Slot> inventorySlots = new ArrayList<Slot>();

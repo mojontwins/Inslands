@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class InventoryLargeChest implements IInventory {
 	private String name;
 	private IInventory upperChest;

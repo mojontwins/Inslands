@@ -1,7 +1,7 @@
 package com.benimatic.twilightforest;
 
-import net.minecraft.src.IMob;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.IMob;
 
 public class EntityTFSwarmSpiderSurface extends EntityTFSwarmSpider implements IMob {
 

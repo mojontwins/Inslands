@@ -2,6 +2,9 @@ package net.minecraft.src;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.entity.projectile.EntityArrow;
+
 public class ItemBow extends Item {
 	public ItemBow(int i1) {
 		super(i1);

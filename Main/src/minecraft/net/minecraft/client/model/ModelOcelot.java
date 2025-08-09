@@ -4,8 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.mojang.minecraft.ocelot.EntityBetaOcelot;
 
-import net.minecraft.src.EntityLiving;
 import net.minecraft.src.MathHelper;
+import net.minecraft.world.entity.EntityLiving;
 
 public class ModelOcelot extends ModelBase {
 	ModelRenderer ocelotLeg1;

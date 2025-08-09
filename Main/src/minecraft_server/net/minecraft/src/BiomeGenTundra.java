@@ -2,6 +2,11 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import net.minecraft.world.entity.animal.EntityColdCow;
+import net.minecraft.world.entity.monster.EntityCreeper;
+import net.minecraft.world.entity.monster.EntityIceSkeleton;
+import net.minecraft.world.entity.monster.EntitySlime;
+
 public class BiomeGenTundra extends BiomeGenPlains {
 	public BiomeGenTundra() {
 		super();

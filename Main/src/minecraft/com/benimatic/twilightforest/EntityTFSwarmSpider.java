@@ -3,11 +3,11 @@ package com.benimatic.twilightforest;
 import com.mojontwins.minecraft.entity.status.Status;
 import com.mojontwins.minecraft.entity.status.StatusEffect;
 
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntitySpiderBase;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.monster.EntitySpiderBase;
 
 public class EntityTFSwarmSpider extends EntitySpiderBase {
 	public EntityTFSwarmSpider(World world) {

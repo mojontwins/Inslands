@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import net.minecraft.world.entity.Entity;
+
 public class Teleporter {
 	private Random rand = new Random();
 

@@ -4,9 +4,9 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelCreeper;
-import net.minecraft.src.EntityCreeper;
-import net.minecraft.src.EntityLiving;
 import net.minecraft.src.MathHelper;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.monster.EntityCreeper;
 
 public class RenderCreeper extends RenderLiving {
 	private ModelBase field_27008_a = new ModelCreeper(2.0F);

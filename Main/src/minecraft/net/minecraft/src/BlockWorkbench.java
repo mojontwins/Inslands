@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class BlockWorkbench extends Block {
 	protected BlockWorkbench(int id) {
 		super(id, Material.wood);

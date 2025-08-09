@@ -4,10 +4,10 @@ import com.chocolatin.betterdungeons.EntityPirateArcher;
 import com.mojontwins.minecraft.entity.status.Status;
 import com.mojontwins.minecraft.entity.status.StatusEffect;
 
-import net.minecraft.src.EntityArrow;
-import net.minecraft.src.EntityArrowWithEffect;
-import net.minecraft.src.ISentient;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.ISentient;
+import net.minecraft.world.entity.projectile.EntityArrow;
+import net.minecraft.world.entity.projectile.EntityArrowWithEffect;
 
 public class EntityIceArcher extends EntityPirateArcher implements ISentient {
 

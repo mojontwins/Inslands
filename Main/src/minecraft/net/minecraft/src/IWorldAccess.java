@@ -1,5 +1,8 @@
 package net.minecraft.src;
 
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public interface IWorldAccess {
 	void markBlockNeedsUpdate(int i1, int i2, int i3);
 

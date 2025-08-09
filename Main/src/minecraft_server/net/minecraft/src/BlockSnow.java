@@ -4,6 +4,10 @@ import java.util.Random;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.EntityItem;
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class BlockSnow extends Block {
 	protected BlockSnow(int id, int blockIndex) {
 		super(id, blockIndex, Material.snow);

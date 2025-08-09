@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.List;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class InventoryBasic implements IInventory {
 	private String inventoryTitle;
 	private int slotsCount;

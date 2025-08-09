@@ -5,6 +5,8 @@ import java.util.Random;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class BlockIce extends BlockBreakable {
 	private int rainbowCounter = 0;
 	

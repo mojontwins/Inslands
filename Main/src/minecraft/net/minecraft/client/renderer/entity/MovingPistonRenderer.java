@@ -6,8 +6,8 @@ import com.hippoplatimus.pistons.EntityMovingPiston;
 
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.src.Block;
-import net.minecraft.src.Entity;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
 
 public class MovingPistonRenderer extends Render {
 	private RenderBlocks a = new RenderBlocks();

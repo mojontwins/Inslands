@@ -13,9 +13,9 @@ import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.Chunk;
 import net.minecraft.src.ChunkCache;
-import net.minecraft.src.Entity;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
 
 public class WorldRenderer {
 	

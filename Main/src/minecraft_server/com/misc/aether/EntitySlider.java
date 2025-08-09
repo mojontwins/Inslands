@@ -2,11 +2,6 @@ package com.misc.aether;
 
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.Block;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityCreature;
-import net.minecraft.src.EntityFlying;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.GlobalVars;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
@@ -14,6 +9,11 @@ import net.minecraft.src.ItemTool;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityCreature;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.monster.EntityFlying;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class EntitySlider extends EntityFlying implements IAetherBoss {
 	public int moveTimer;

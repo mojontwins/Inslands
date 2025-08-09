@@ -1,7 +1,7 @@
 package com.mojontwins.minecraft.entity.status;
 
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityLiving;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityLiving;
 
 public class StatusInstantDamage extends Status {
 

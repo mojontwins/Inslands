@@ -2,6 +2,9 @@ package net.minecraft.src;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.EntityPainting;
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class ItemPainting extends Item {
 	public ItemPainting(int i1) {
 		super(i1);

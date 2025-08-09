@@ -4,6 +4,9 @@ import java.util.Random;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class BlockRedstoneRepeater extends Block {
 	public static final double[] repeaterTorchOffset = new double[]{-0.0625D, 0.0625D, 0.1875D, 0.3125D};
 	private static final int[] repeaterState = new int[]{1, 2, 3, 4};

@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.entity.EntityLiving;
+
 public class BlockDivingHelmet extends Block {
 	public static int HELMET_TOP_BACK = 11*16+4;
 	public static int HELMET_BOTTOM = 11*16+5;

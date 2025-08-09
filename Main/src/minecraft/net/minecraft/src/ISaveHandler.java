@@ -3,6 +3,8 @@ package net.minecraft.src;
 import java.io.File;
 import java.util.List;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public interface ISaveHandler {
 	WorldInfo loadWorldInfo();
 

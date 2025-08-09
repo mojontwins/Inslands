@@ -1,9 +1,9 @@
 package com.mojontwins.minecraft.poisonisland;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.EntitySkeleton;
 import net.minecraft.src.Item;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.monster.EntitySkeleton;
 
 public class EntityPoisonSkeleton extends EntitySkeleton {
 

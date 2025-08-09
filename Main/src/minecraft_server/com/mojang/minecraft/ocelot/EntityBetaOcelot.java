@@ -4,20 +4,20 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityAnimal;
-import net.minecraft.src.EntityArrow;
-import net.minecraft.src.EntityChicken;
-import net.minecraft.src.EntityChickenBlack;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemFood;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.PathEntity;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.animal.EntityAnimal;
+import net.minecraft.world.entity.animal.EntityChicken;
+import net.minecraft.world.entity.animal.EntityChickenBlack;
+import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.entity.projectile.EntityArrow;
+import net.minecraft.world.level.pathfinder.PathEntity;
 
 public class EntityBetaOcelot extends EntityAnimal {
 	private boolean looksWithInterest = false;

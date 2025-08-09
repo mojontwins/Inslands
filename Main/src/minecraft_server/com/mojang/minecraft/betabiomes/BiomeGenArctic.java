@@ -5,18 +5,18 @@ import java.util.Random;
 import com.benimatic.twilightforest.EntityTwilightBoar;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.EntityChicken;
-import net.minecraft.src.EntityColdCow;
-import net.minecraft.src.EntityCreeper;
-import net.minecraft.src.EntityIceSkeleton;
-import net.minecraft.src.EntitySheep;
-import net.minecraft.src.EntitySlime;
-import net.minecraft.src.EntityZombie;
 import net.minecraft.src.SpawnListEntry;
 import net.minecraft.src.Weather;
 import net.minecraft.src.World;
 import net.minecraft.src.WorldGenLakes;
 import net.minecraft.src.WorldGenMinable;
+import net.minecraft.world.entity.animal.EntityChicken;
+import net.minecraft.world.entity.animal.EntityColdCow;
+import net.minecraft.world.entity.animal.EntitySheep;
+import net.minecraft.world.entity.monster.EntityCreeper;
+import net.minecraft.world.entity.monster.EntityIceSkeleton;
+import net.minecraft.world.entity.monster.EntitySlime;
+import net.minecraft.world.entity.monster.EntityZombie;
 
 public class BiomeGenArctic extends BiomeGenBeta {
 

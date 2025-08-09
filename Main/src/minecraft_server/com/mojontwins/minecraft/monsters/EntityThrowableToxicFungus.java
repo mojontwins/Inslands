@@ -5,12 +5,12 @@ import com.mojontwins.minecraft.entity.status.StatusEffect;
 
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.Block;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.EntitySnowball;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.monster.EntitySnowball;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class EntityThrowableToxicFungus extends EntitySnowball {
 

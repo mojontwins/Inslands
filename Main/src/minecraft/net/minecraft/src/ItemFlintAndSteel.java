@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class ItemFlintAndSteel extends Item {
 	public ItemFlintAndSteel(int i1) {
 		super(i1);

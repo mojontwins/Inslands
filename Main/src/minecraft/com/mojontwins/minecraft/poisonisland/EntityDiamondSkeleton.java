@@ -1,11 +1,11 @@
 package com.mojontwins.minecraft.poisonisland;
 
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityArrow;
-import net.minecraft.src.EntitySkeleton;
 import net.minecraft.src.Item;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.monster.EntitySkeleton;
+import net.minecraft.world.entity.projectile.EntityArrow;
 
 public class EntityDiamondSkeleton extends EntitySkeleton {
 

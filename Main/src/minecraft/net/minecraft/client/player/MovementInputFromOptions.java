@@ -1,7 +1,7 @@
 package net.minecraft.client.player;
 
 import net.minecraft.client.gui.GameSettings;
-import net.minecraft.src.EntityPlayer;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class MovementInputFromOptions extends MovementInput {
 	private boolean[] movementKeyStates = new boolean[10];

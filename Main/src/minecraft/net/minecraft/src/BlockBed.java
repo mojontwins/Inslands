@@ -3,6 +3,10 @@ package net.minecraft.src;
 import java.util.Iterator;
 import java.util.Random;
 
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.EnumStatus;
+
 public class BlockBed extends Block {
 	public static final int[][] headBlockToFootBlockMap = new int[][]{{0, 1}, {-1, 0}, {0, -1}, {1, 0}};
 

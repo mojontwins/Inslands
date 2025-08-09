@@ -21,7 +21,6 @@ import net.minecraft.client.renderer.FontRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.Container;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.InventoryBasic;
 import net.minecraft.src.InventoryPlayer;
 import net.minecraft.src.Item;
@@ -29,6 +28,7 @@ import net.minecraft.src.ItemArmor;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Slot;
 import net.minecraft.src.StringTranslate;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class GuiContainerCreative extends GuiInventoryEffectRenderer {
 	private static InventoryBasic inventory = new InventoryBasic("tmp", 45);

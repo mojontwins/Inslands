@@ -4,9 +4,9 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityFireball;
 import net.minecraft.src.Item;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.projectile.EntityFireball;
 
 public class RenderFireball extends Render {
 	public void doRenderFireball(EntityFireball entityFireball1, double d2, double d4, double d6, float f8, float f9) {

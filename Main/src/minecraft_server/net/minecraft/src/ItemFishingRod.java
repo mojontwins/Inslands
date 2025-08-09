@@ -2,6 +2,9 @@ package net.minecraft.src;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.entity.projectile.EntityFish;
+
 public class ItemFishingRod extends Item {
 	public ItemFishingRod(int i1) {
 		super(i1);

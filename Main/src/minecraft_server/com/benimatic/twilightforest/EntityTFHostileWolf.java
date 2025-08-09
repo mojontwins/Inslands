@@ -1,7 +1,7 @@
 package com.benimatic.twilightforest;
 
-import net.minecraft.src.EntityWolf;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.animal.EntityWolf;
 
 public class EntityTFHostileWolf extends EntityWolf {
 	public EntityTFHostileWolf(World world) {

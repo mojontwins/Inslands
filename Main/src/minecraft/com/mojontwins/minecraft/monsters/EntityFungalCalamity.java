@@ -6,17 +6,17 @@ import java.util.List;
 
 import com.mojontwins.minecraft.entity.status.Status;
 
-import net.minecraft.src.AttackableTargetSorter;
 import net.minecraft.src.Block;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityMob;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.IMob;
-import net.minecraft.src.ISentient;
 import net.minecraft.src.Item;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.IMob;
+import net.minecraft.world.entity.ISentient;
+import net.minecraft.world.entity.monster.AttackableTargetSorter;
+import net.minecraft.world.entity.monster.EntityMob;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class EntityFungalCalamity extends EntityMob implements IMob {
 

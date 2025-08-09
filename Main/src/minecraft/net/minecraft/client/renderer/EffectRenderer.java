@@ -9,9 +9,9 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.src.Block;
-import net.minecraft.src.Entity;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
 
 public class EffectRenderer {
 	protected World worldObj;

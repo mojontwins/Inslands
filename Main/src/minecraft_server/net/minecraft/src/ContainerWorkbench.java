@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class ContainerWorkbench extends Container {
 	public InventoryCrafting craftMatrix = new InventoryCrafting(this, 3, 3);
 	public IInventory craftResult = new InventoryCraftResult();

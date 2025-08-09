@@ -1,6 +1,6 @@
 package net.minecraft.client.player;
 
-import net.minecraft.src.EntityPlayer;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class MovementInput {
 	public float moveStrafe = 0.0F;

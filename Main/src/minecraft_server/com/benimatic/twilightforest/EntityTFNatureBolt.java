@@ -4,11 +4,11 @@ import com.mojontwins.minecraft.entity.status.Status;
 import com.mojontwins.minecraft.entity.status.StatusEffect;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntitySnowball;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.monster.EntitySnowball;
 
 public class EntityTFNatureBolt extends EntitySnowball {
 	public EntityTFNatureBolt(World par1World, double par2, double par4, double par6) {

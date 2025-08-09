@@ -6,11 +6,11 @@ import com.mojontwins.minecraft.blockmodels.BlockModel;
 
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityLiving;
 import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityLiving;
 
 public class BlockSmallHead extends Block {
 	BlockModel blockModel;

@@ -1,8 +1,8 @@
 package com.mojontwins.minecraft.entity.status;
 
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityZombie;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.monster.EntityZombie;
 
 public class StatusPoisoned extends Status {
 	public StatusPoisoned(int id, boolean isBadEffect) {

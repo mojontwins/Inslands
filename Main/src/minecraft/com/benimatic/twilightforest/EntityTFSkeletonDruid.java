@@ -1,23 +1,22 @@
 package com.benimatic.twilightforest;
 
-import com.mojang.minecraft.modernAI.EntityAIFleeSun;
-import com.mojang.minecraft.modernAI.EntityAIHurtByTarget;
-import com.mojang.minecraft.modernAI.EntityAILookIdle;
-import com.mojang.minecraft.modernAI.EntityAINearestAttackableTarget;
-import com.mojang.minecraft.modernAI.EntityAIRestrictSun;
-import com.mojang.minecraft.modernAI.EntityAISwimming;
-import com.mojang.minecraft.modernAI.EntityAIWander;
-import com.mojang.minecraft.modernAI.EntityAIWatchClosest;
-
 import net.minecraft.src.AchievementList;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityMob;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.IMob;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.IMob;
+import net.minecraft.world.entity.ai.EntityAIFleeSun;
+import net.minecraft.world.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.world.entity.ai.EntityAILookIdle;
+import net.minecraft.world.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.world.entity.ai.EntityAIRestrictSun;
+import net.minecraft.world.entity.ai.EntityAISwimming;
+import net.minecraft.world.entity.ai.EntityAIWander;
+import net.minecraft.world.entity.ai.EntityAIWatchClosest;
+import net.minecraft.world.entity.monster.EntityMob;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class EntityTFSkeletonDruid extends EntityMob implements IMob {
 	private static final ItemStack defaultHeldItem = new ItemStack(Item.hoeGold, 1);

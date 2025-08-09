@@ -1,5 +1,8 @@
 package net.minecraft.src;
 
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class InventoryMob implements IInventory {
 	private static final int sizeSecondaryInventory = 9;
 	private ItemStack[] mainInventory = new ItemStack[1];

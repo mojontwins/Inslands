@@ -1,12 +1,12 @@
 package com.misc.aether;
 
 import net.minecraft.src.AchievementList;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class EntityPhyg extends EntityAetherAnimal {
 	public boolean getSaddled = false;

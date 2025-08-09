@@ -3,11 +3,10 @@ package com.benimatic.twilightforest;
 import java.util.Iterator;
 import java.util.List;
 
-import com.mojang.minecraft.modernAI.EntityAIBase;
-
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityLiving;
 import net.minecraft.src.Vec3D;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.ai.EntityAIBase;
 
 public class EntityAITFFlockToSameKind extends EntityAIBase {
 	private static final double MAX_DIST = 256.0D;

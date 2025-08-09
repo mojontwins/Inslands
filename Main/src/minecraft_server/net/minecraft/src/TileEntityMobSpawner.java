@@ -3,6 +3,10 @@ package net.minecraft.src;
 import com.mojontwins.minecraft.icepalace.EntityIceArcher;
 import com.mojontwins.minecraft.icepalace.EntityIceWarrior;
 
+import net.minecraft.world.entity.EntityList;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.monster.EntityArmoredMob;
+
 public class TileEntityMobSpawner extends TileEntity {
 	public int delay = -1;
 	protected String mobID = "Pig";

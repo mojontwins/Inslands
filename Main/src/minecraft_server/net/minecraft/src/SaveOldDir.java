@@ -3,6 +3,8 @@ package net.minecraft.src;
 import java.io.File;
 import java.util.List;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class SaveOldDir extends SaveHandler {
 	public SaveOldDir(File file1, String string2, boolean z3) {
 		super(file1, string2, z3);

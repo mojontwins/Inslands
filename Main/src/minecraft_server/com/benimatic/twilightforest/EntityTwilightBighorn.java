@@ -2,8 +2,8 @@ package com.benimatic.twilightforest;
 
 import java.util.Random;
 
-import net.minecraft.src.EntitySheep;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.animal.EntitySheep;
 
 public class EntityTwilightBighorn extends EntitySheep {
 	public EntityTwilightBighorn(World world) {

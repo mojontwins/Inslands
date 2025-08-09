@@ -6,20 +6,20 @@ import java.util.List;
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityArmoredMob;
-import net.minecraft.src.EntityArrow;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.EntityZombie;
-import net.minecraft.src.ISentient;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemFood;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.PathEntity;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.ISentient;
+import net.minecraft.world.entity.monster.EntityArmoredMob;
+import net.minecraft.world.entity.monster.EntityZombie;
+import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.entity.projectile.EntityArrow;
+import net.minecraft.world.level.pathfinder.PathEntity;
 
 public class EntityAmazon extends EntityArmoredMob implements ISentient {
 	private boolean looksWithInterest = false;

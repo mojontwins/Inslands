@@ -3,6 +3,9 @@ package net.minecraft.src;
 import com.mojang.minecraft.creative.CreativeTabs;
 import com.mojontwins.minecraft.entity.status.StatusEffect;
 
+import net.minecraft.world.entity.EnumAction;
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class ItemFood extends Item {
 	private int healAmount;
 	private boolean isWolfsFavoriteMeat;

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.client.renderer.TextureOffset;
-import net.minecraft.src.EntityLiving;
+import net.minecraft.world.entity.EntityLiving;
 
 public abstract class ModelBase {
 	public float swingProgress;

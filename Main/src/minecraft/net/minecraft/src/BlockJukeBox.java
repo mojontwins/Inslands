@@ -2,6 +2,9 @@ package net.minecraft.src;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.item.EntityItem;
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class BlockJukeBox extends BlockContainer {
 	protected BlockJukeBox(int i1, int i2) {
 		super(i1, i2, Material.wood);

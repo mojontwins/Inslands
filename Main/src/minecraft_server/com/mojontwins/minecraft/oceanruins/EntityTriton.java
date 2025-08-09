@@ -1,14 +1,14 @@
 package com.mojontwins.minecraft.oceanruins;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityArmoredMob;
-import net.minecraft.src.IWaterMob;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.IWaterMob;
+import net.minecraft.world.entity.monster.EntityArmoredMob;
 
 public class EntityTriton extends EntityArmoredMob implements IWaterMob {
 	public boolean isSwinging = false;

@@ -1,9 +1,9 @@
 package com.mojontwins.minecraft.icepalace;
 
-import net.minecraft.src.EntityFireball;
-import net.minecraft.src.EntityLiving;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.projectile.EntityFireball;
 
 public class EntityIceBall extends EntityFireball {
 

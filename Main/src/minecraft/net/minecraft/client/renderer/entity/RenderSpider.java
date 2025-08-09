@@ -4,8 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.model.ModelSpider;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntitySpiderBase;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.monster.EntitySpiderBase;
 
 public class RenderSpider extends RenderLiving {
 	public RenderSpider() {

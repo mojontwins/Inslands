@@ -6,8 +6,8 @@ import com.chocolatin.betterdungeons.EntityHumanBase;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.src.EntityLiving;
 import net.minecraft.src.MathHelper;
+import net.minecraft.world.entity.EntityLiving;
 
 public class ModelHuman extends ModelBase {
 	public ModelRenderer bipedHead;

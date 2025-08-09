@@ -4,6 +4,8 @@ import com.mojang.minecraft.creative.CreativeTabs;
 
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet131MapData;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class ItemMap extends ItemMapBase {
 	protected ItemMap(int i1) {

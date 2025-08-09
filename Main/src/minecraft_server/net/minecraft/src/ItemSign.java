@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class ItemSign extends Item {
 	public ItemSign(int i1) {
 		super(i1);

@@ -86,8 +86,6 @@ import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.src.ColorizerFoliage;
 import net.minecraft.src.ColorizerGrass;
 import net.minecraft.src.ColorizerWater;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.GlobalVars;
 import net.minecraft.src.ISaveFormat;
@@ -106,6 +104,8 @@ import net.minecraft.src.WorldProvider;
 import net.minecraft.src.WorldSettings;
 import net.minecraft.src.WorldSize;
 import net.minecraft.src.WorldType;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public abstract class Minecraft implements Runnable {
 	public static byte[] reservedBytes = new byte[10485760];

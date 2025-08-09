@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class ContainerDispenser extends Container {
 	private TileEntityDispenser tileEntityDispenser;
 

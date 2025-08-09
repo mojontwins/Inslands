@@ -6,10 +6,10 @@ import java.util.Iterator;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.GameSettings;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.MapColor;
 import net.minecraft.src.MapCoord;
 import net.minecraft.src.MapData;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class MapItemRenderer {
 	private int[] intArray = new int[16384];

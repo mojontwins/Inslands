@@ -1,6 +1,6 @@
 package com.mojontwins.minecraft.entity.status;
 
-import net.minecraft.src.EntityLiving;
+import net.minecraft.world.entity.EntityLiving;
 
 public class Status {
 	public String name;

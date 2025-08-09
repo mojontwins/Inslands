@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.src.EntityLiving;
+import net.minecraft.world.entity.EntityLiving;
 
 public class RenderZombie extends RenderBiped {
 	private String renderPassTexture;

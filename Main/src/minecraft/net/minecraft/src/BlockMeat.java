@@ -4,6 +4,9 @@ import java.util.Random;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.block.EntityBlockEntity;
+import net.minecraft.world.entity.block.EntityMeatBlock;
+
 public class BlockMeat extends BlockEntity {
 
 	protected BlockMeat(int id, int blockIndexInTexture, Material material) {

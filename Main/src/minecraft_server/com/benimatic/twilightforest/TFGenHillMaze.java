@@ -3,10 +3,10 @@ package com.benimatic.twilightforest;
 import java.util.Random;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.EntityPainting;
-import net.minecraft.src.EnumArt;
 import net.minecraft.src.TileEntityMobSpawner;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.EntityPainting;
+import net.minecraft.world.entity.EnumArt;
 
 public class TFGenHillMaze extends TFGenerator {
 	int hsize;

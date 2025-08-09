@@ -5,14 +5,14 @@ import java.util.StringTokenizer;
 import com.misc.bo3import.WorldGenBo3Tree;
 import com.mojontwins.minecraft.worldedit.WorldEdit;
 
-import net.minecraft.src.EntityItem;
-import net.minecraft.src.EntityList;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.IMobWithLevel;
 import net.minecraft.src.IWorldAccess;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Seasons;
 import net.minecraft.src.SpawnerAnimals;
+import net.minecraft.world.entity.EntityList;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.IMobWithLevel;
+import net.minecraft.world.entity.item.EntityItem;
 
 public class SinglePlayerCommands {
 	

@@ -6,7 +6,7 @@ import com.misc.aether.EntityMimic;
 
 import net.minecraft.client.model.aether.ModelMimic;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.src.Entity;
+import net.minecraft.world.entity.Entity;
 
 public class RenderMimic extends Render {
 	private ModelMimic model = new ModelMimic();

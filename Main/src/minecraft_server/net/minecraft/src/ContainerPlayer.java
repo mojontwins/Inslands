@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class ContainerPlayer extends Container {
 	public InventoryCrafting craftMatrix;
 	public IInventory craftResult;

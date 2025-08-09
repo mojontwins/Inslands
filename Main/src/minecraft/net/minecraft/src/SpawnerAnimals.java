@@ -7,6 +7,22 @@ import java.util.Set;
 
 import com.mojang.minecraft.witch.EntityAlphaWitch;
 
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.EnumCreatureType;
+import net.minecraft.world.entity.IMobWithLevel;
+import net.minecraft.world.entity.animal.EntityCow;
+import net.minecraft.world.entity.animal.EntityPig;
+import net.minecraft.world.entity.animal.EntitySheep;
+import net.minecraft.world.entity.monster.EntityHusk;
+import net.minecraft.world.entity.monster.EntitySkeleton;
+import net.minecraft.world.entity.monster.EntitySpider;
+import net.minecraft.world.entity.monster.EntityZombie;
+import net.minecraft.world.entity.monster.EntityZombieAlex;
+import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.pathfinder.PathEntity;
+import net.minecraft.world.level.pathfinder.PathPoint;
+import net.minecraft.world.level.pathfinder.Pathfinder;
+
 public final class SpawnerAnimals {
 	private static Set<ChunkCoordIntPair> eligibleChunksForSpawning = new HashSet<ChunkCoordIntPair>();
 	protected static final Class<?>[] nightSpawnEntities = new Class[]{EntitySpider.class, EntityZombie.class, EntitySkeleton.class};

@@ -1,10 +1,10 @@
 package net.minecraft.client.particle;
 
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.src.Entity;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
 
 public class EntityFX extends Entity {
 	protected int particleTextureIndex;

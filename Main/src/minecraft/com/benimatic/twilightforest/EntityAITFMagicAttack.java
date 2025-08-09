@@ -1,10 +1,9 @@
 package com.benimatic.twilightforest;
 
-import com.mojang.minecraft.modernAI.EntityAIBase;
-
-import net.minecraft.src.EntityLiving;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.ai.EntityAIBase;
 
 public class EntityAITFMagicAttack extends EntityAIBase {
 	World worldObj;

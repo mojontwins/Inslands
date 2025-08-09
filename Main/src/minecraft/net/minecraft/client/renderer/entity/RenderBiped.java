@@ -5,12 +5,12 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.src.Block;
-import net.minecraft.src.EntityLiving;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.InventoryMob;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemArmor;
 import net.minecraft.src.ItemStack;
+import net.minecraft.world.entity.EntityLiving;
 
 public class RenderBiped extends RenderLiving {
 	protected ModelBiped modelBipedMain;

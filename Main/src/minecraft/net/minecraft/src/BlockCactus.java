@@ -4,6 +4,8 @@ import java.util.Random;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.Entity;
+
 public class BlockCactus extends Block {
 	protected BlockCactus(int i1, int i2) {
 		super(i1, i2, Material.cactus);

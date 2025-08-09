@@ -5,8 +5,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import net.minecraft.network.NetHandler;
-import net.minecraft.src.EntityPainting;
-import net.minecraft.src.EnumArt;
+import net.minecraft.world.entity.EntityPainting;
+import net.minecraft.world.entity.EnumArt;
 
 public class Packet25EntityPainting extends Packet {
 	public int entityId;

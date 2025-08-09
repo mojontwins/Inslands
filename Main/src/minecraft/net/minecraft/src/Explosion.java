@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import net.minecraft.world.entity.Entity;
+
 public class Explosion {
 	public boolean isFlaming = false;
 	private Random ExplosionRNG = new Random();

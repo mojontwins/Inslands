@@ -4,6 +4,15 @@ import java.util.Random;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.item.EntityItem;
+import net.minecraft.world.entity.monster.EntitySnowball;
+import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.entity.projectile.EntityArrow;
+import net.minecraft.world.entity.projectile.EntityEgg;
+import net.minecraft.world.entity.projectile.EntityPebble;
+import net.minecraft.world.entity.projectile.EntityThrowablePotion;
+
 public class BlockDispenser extends BlockContainer {
 	private Random random = new Random();
 

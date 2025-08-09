@@ -3,6 +3,11 @@ package net.minecraft.src;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.EnumAction;
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public final class ItemStack {
 	public int stackSize;
 	public int animationsToGo;

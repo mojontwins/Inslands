@@ -7,9 +7,6 @@ import com.gw.dm.EntityGhoul;
 
 import net.minecraft.src.BiomeGenBase;
 import net.minecraft.src.Block;
-import net.minecraft.src.EntityCreeper;
-import net.minecraft.src.EntitySpider;
-import net.minecraft.src.EntityZombie;
 import net.minecraft.src.SpawnListEntry;
 import net.minecraft.src.Weather;
 import net.minecraft.src.World;
@@ -19,6 +16,9 @@ import net.minecraft.src.WorldGenCaveVines;
 import net.minecraft.src.WorldGenSwamp;
 import net.minecraft.src.WorldGenTrees;
 import net.minecraft.src.WorldGenerator;
+import net.minecraft.world.entity.monster.EntityCreeper;
+import net.minecraft.world.entity.monster.EntitySpider;
+import net.minecraft.world.entity.monster.EntityZombie;
 
 public class BiomeGenThemePoisonIsland extends BiomeGenBase {
 

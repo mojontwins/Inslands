@@ -7,6 +7,15 @@ import java.util.Random;
 import com.mojang.minecraft.modernnoise.PerlinNoiseGenerator;
 import com.mojang.minecraft.modernnoise.SkippableRandom;
 
+import net.minecraft.world.entity.animal.EntityColdCow;
+import net.minecraft.world.entity.animal.EntitySheep;
+import net.minecraft.world.entity.monster.EntityCreeper;
+import net.minecraft.world.entity.monster.EntityIceSkeleton;
+import net.minecraft.world.entity.monster.EntitySlime;
+import net.minecraft.world.entity.monster.EntitySpider;
+import net.minecraft.world.entity.monster.EntityZombie;
+import net.minecraft.world.entity.monster.EntityZombieAlex;
+
 public class BiomeGenGlacier extends BiomeGenBase {
 	private static final byte PACKED_ICE = (byte)Block.packedIce.blockID;
 	private static final byte SNOW_BLOCK = (byte)Block.blockSnow.blockID;

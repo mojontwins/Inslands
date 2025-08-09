@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.entity.block.EntityBlockEntity;
+
 public abstract class BlockEntity extends Block {
 
 	protected BlockEntity(int id, int blockIndexInTexture, Material material) {

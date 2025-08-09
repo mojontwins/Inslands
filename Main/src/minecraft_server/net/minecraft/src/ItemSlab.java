@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class ItemSlab extends ItemBlock {
 	public ItemSlab(int i1) {
 		super(i1);

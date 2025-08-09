@@ -1,7 +1,7 @@
 package com.mojontwins.minecraft.entity.status;
 
-import net.minecraft.src.EntityLiving;
 import net.minecraft.src.NBTTagCompound;
+import net.minecraft.world.entity.EntityLiving;
 
 public class StatusEffect {
 	public int statusID; 	// Status ID of this effect.

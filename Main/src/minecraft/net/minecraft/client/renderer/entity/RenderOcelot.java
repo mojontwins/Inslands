@@ -1,8 +1,8 @@
 package net.minecraft.client.renderer.entity;
 
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityLiving;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityLiving;
 
 public class RenderOcelot extends RenderLiving {
 	public RenderOcelot(ModelBase modelBase1, float f2) {

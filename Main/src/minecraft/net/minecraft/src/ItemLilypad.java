@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class ItemLilypad extends ItemBlock {
 	public ItemLilypad(int par1) {
 		super(par1);

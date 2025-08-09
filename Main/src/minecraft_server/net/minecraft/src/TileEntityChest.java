@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class TileEntityChest extends TileEntity implements IInventory {
 	public ItemStack[] chestContents = new ItemStack[36];
 

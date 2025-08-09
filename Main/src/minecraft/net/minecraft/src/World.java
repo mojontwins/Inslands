@@ -14,6 +14,13 @@ import java.util.TreeSet;
 import com.mojontwins.minecraft.worldedit.WorldEdit;
 
 import ca.spottedleaf.starlight.StarlightEngine;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityLightningBolt;
+import net.minecraft.world.entity.block.EntityBlockEntity;
+import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.pathfinder.PathEntity;
+import net.minecraft.world.level.pathfinder.Pathfinder;
+import net.minecraft.world.level.pathfinder.PathfinderRelease;
 
 public class World implements IBlockAccess {
 	private static final int blocksToTickPerFrame = 80;

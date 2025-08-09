@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.src.AchievementList;
-import net.minecraft.src.EntityPlayer;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class GuiInventory extends GuiContainer {
 	private float xSize_lo;

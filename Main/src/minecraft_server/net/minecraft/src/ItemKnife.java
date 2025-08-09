@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.Entity;
+
 public class ItemKnife extends ItemSword {
 
 	public ItemKnife(int i1, EnumToolMaterial enumToolMaterial2, boolean silkTouch) {

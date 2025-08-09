@@ -1,10 +1,10 @@
 package com.misc.aether;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.EntityAnimal;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.animal.EntityAnimal;
 
 public abstract class EntityAetherAnimal extends EntityAnimal {
 	public EntityAetherAnimal(World world) {

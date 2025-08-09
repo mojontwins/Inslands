@@ -1,11 +1,11 @@
 package com.benimatic.twilightforest;
 
-import net.minecraft.src.EntityMob;
-import net.minecraft.src.ICaveMob;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.ICaveMob;
+import net.minecraft.world.entity.monster.EntityMob;
 
 public class EntityTFRedcap extends EntityMob implements ICaveMob {
 	private static final ItemStack defaultHeldItem = new ItemStack(Item.pickaxeSteel, 1);

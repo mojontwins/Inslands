@@ -8,9 +8,9 @@ import java.util.List;
 import net.minecraft.network.DataWatcher;
 import net.minecraft.network.NetHandler;
 import net.minecraft.network.WatchableObject;
-import net.minecraft.src.EntityList;
-import net.minecraft.src.EntityLiving;
 import net.minecraft.src.MathHelper;
+import net.minecraft.world.entity.EntityList;
+import net.minecraft.world.entity.EntityLiving;
 
 public class Packet24MobSpawn extends Packet {
 	public int entityId;

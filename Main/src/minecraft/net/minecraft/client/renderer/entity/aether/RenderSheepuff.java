@@ -6,8 +6,8 @@ import com.misc.aether.EntitySheepuff;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntitySheep;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.animal.EntitySheep;
 
 public class RenderSheepuff extends RenderLiving {
 	private ModelBase wool;

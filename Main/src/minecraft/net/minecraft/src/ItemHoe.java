@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class ItemHoe extends Item {
 	public ItemHoe(int i1, EnumToolMaterial enumToolMaterial2) {
 		super(i1);

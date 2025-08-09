@@ -2,6 +2,9 @@ package net.minecraft.src;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.item.EntityMinecart;
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class ItemMinecart extends Item {
 	public int minecartType;
 

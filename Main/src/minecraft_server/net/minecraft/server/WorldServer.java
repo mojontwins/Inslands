@@ -9,10 +9,6 @@ import net.minecraft.network.packet.Packet60Explosion;
 import net.minecraft.network.packet.Packet71Weather;
 import net.minecraft.network.packet.Packet96BadMoonDecide;
 import net.minecraft.network.packet.Packet98UpdateWeather;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityAnimal;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.EntityWaterMob;
 import net.minecraft.src.Explosion;
 import net.minecraft.src.IChunkLoader;
 import net.minecraft.src.IChunkProvider;
@@ -23,6 +19,10 @@ import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 import net.minecraft.src.WorldProvider;
 import net.minecraft.src.WorldSettings;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.animal.EntityAnimal;
+import net.minecraft.world.entity.animal.EntityWaterMob;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class WorldServer extends World {
 	public ChunkProviderServer chunkProviderServer;

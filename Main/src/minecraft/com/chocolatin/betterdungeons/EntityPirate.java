@@ -4,15 +4,15 @@ import java.util.List;
 
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.Block;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.IMobWithLevel;
-import net.minecraft.src.ISentient;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.IMobWithLevel;
+import net.minecraft.world.entity.ISentient;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class EntityPirate extends EntityHumanBase implements IMobWithLevel, ISentient {
 	protected boolean angryAtPlayer = false;

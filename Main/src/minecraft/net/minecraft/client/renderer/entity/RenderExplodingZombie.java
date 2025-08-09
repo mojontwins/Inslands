@@ -3,8 +3,8 @@ package net.minecraft.client.renderer.entity;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.src.EntityExplodingZombie;
-import net.minecraft.src.EntityLiving;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.monster.EntityExplodingZombie;
 
 public class RenderExplodingZombie extends RenderZombie {
 

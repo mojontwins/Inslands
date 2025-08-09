@@ -5,17 +5,17 @@ import java.util.Random;
 import net.minecraft.src.Block;
 import net.minecraft.src.BuildingTaigaHut;
 import net.minecraft.src.Chunk;
-import net.minecraft.src.EntityColdCow;
-import net.minecraft.src.EntityCreeper;
-import net.minecraft.src.EntityHusk;
-import net.minecraft.src.EntitySkeleton;
-import net.minecraft.src.EntitySlime;
-import net.minecraft.src.EntitySpider;
 import net.minecraft.src.SpawnListEntry;
 import net.minecraft.src.World;
 import net.minecraft.src.WorldGenIceSpike;
 import net.minecraft.src.WorldGenIgloos;
 import net.minecraft.src.WorldGenMinable;
+import net.minecraft.world.entity.animal.EntityColdCow;
+import net.minecraft.world.entity.monster.EntityCreeper;
+import net.minecraft.world.entity.monster.EntityHusk;
+import net.minecraft.world.entity.monster.EntitySkeleton;
+import net.minecraft.world.entity.monster.EntitySlime;
+import net.minecraft.world.entity.monster.EntitySpider;
 
 public class BiomeGenBetaTundra extends BiomeGenBeta {
 

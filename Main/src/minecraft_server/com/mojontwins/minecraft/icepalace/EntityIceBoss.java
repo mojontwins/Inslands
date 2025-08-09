@@ -3,11 +3,11 @@ package com.mojontwins.minecraft.icepalace;
 import com.chocolatin.betterdungeons.EntityHumanBase;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class EntityIceBoss extends EntityHumanBase {
 	ItemStack heldItem = new ItemStack(Block.ice);

@@ -2,6 +2,13 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import net.minecraft.world.entity.animal.EntityChickenBlack;
+import net.minecraft.world.entity.monster.EntityCreeper;
+import net.minecraft.world.entity.monster.EntityHusk;
+import net.minecraft.world.entity.monster.EntitySkeleton;
+import net.minecraft.world.entity.monster.EntitySlime;
+import net.minecraft.world.entity.monster.EntitySpider;
+
 public class BiomeGenDesert extends BiomeGenBase {
 	public BiomeGenDesert() {
 		super();

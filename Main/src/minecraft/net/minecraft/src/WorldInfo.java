@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.List;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class WorldInfo {
 	private long randomSeed;
 	private WorldType terrainType = WorldType.DEFAULT;

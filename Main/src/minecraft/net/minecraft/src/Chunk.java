@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EnumCreatureType;
+import net.minecraft.world.entity.block.EntityBlockEntity;
+
 public class Chunk {
 	public static boolean isLit;
 	

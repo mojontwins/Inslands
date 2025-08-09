@@ -9,11 +9,11 @@ import net.minecraft.client.model.ModelTriton;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.src.Block;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityLiving;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemArmor;
 import net.minecraft.src.ItemStack;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityLiving;
 
 public class RenderTriton extends RenderLiving {
 	private ModelTriton modelBipedMain = (ModelTriton)this.mainModel;

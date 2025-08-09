@@ -10,11 +10,11 @@ import net.minecraft.network.packet.Packet16BlockItemSwitch;
 import net.minecraft.network.packet.Packet7UseEntity;
 import net.minecraft.network.packet.Packet97SetInventorySlot;
 import net.minecraft.src.Block;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class PlayerControllerMP extends PlayerController {
 	private int currentBlockX = -1;

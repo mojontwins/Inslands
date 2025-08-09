@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import net.minecraft.world.entity.Entity;
+
 public class BlockPortal extends BlockBreakable {
 	public BlockPortal(int i1, int i2) {
 		super(i1, i2, Material.portal, false);

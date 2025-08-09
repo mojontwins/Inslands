@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.twilight.ModelTFWraith;
 import net.minecraft.client.renderer.entity.RenderBiped;
-import net.minecraft.src.EntityLiving;
+import net.minecraft.world.entity.EntityLiving;
 
 public class RenderTFWraith extends RenderBiped {
 	

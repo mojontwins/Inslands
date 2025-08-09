@@ -8,6 +8,13 @@ import com.misc.aether.EntityFlyingCow;
 import com.misc.aether.EntityPhyg;
 import com.misc.aether.EntitySheepuff;
 
+import net.minecraft.world.entity.animal.EntityChicken;
+import net.minecraft.world.entity.monster.EntityCreeper;
+import net.minecraft.world.entity.monster.EntitySkeleton;
+import net.minecraft.world.entity.monster.EntitySlime;
+import net.minecraft.world.entity.monster.EntitySpider;
+import net.minecraft.world.entity.monster.EntityZombie;
+
 public class BiomeGenThemeParadise extends BiomeGenBase {
 
 	public BiomeGenThemeParadise() {

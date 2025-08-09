@@ -1,6 +1,7 @@
 package net.minecraft.src;
 
 import net.minecraft.network.packet.Packet;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class ItemMapBase extends Item {
 	protected ItemMapBase(int i1) {

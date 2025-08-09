@@ -1,19 +1,18 @@
 package com.benimatic.twilightforest;
 
-import com.mojang.minecraft.modernAI.EntityAIAttackOnCollide;
-import com.mojang.minecraft.modernAI.EntityAIHurtByTarget;
-import com.mojang.minecraft.modernAI.EntityAILeapAtTarget;
-import com.mojang.minecraft.modernAI.EntityAILookIdle;
-import com.mojang.minecraft.modernAI.EntityAINearestAttackableTarget;
-import com.mojang.minecraft.modernAI.EntityAISwimming;
-import com.mojang.minecraft.modernAI.EntityAIWander;
-import com.mojang.minecraft.modernAI.EntityAIWatchClosest;
-
-import net.minecraft.src.EntityMob;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.ICaveMob;
 import net.minecraft.src.Item;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.ICaveMob;
+import net.minecraft.world.entity.ai.EntityAIAttackOnCollide;
+import net.minecraft.world.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.world.entity.ai.EntityAILeapAtTarget;
+import net.minecraft.world.entity.ai.EntityAILookIdle;
+import net.minecraft.world.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.world.entity.ai.EntityAISwimming;
+import net.minecraft.world.entity.ai.EntityAIWander;
+import net.minecraft.world.entity.ai.EntityAIWatchClosest;
+import net.minecraft.world.entity.monster.EntityMob;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class EntityTFKobold extends EntityMob implements ICaveMob {
 	private boolean shy;

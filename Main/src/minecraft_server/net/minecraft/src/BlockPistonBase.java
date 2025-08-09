@@ -2,6 +2,9 @@ package net.minecraft.src;
 
 import java.util.ArrayList;
 
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class BlockPistonBase extends Block {
 	private boolean isSticky;
 	private boolean ignoreUpdates;

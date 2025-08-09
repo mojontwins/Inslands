@@ -1,12 +1,12 @@
 package com.chocolatin.betterdungeons;
 
-import net.minecraft.src.EntityMobWithLevel;
-import net.minecraft.src.IMob;
-import net.minecraft.src.IMobWithLevel;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.IMob;
+import net.minecraft.world.entity.IMobWithLevel;
+import net.minecraft.world.entity.monster.EntityMobWithLevel;
 
 public class EntityHumanBase extends EntityMobWithLevel implements IMob, IMobWithLevel {
 	public int armor = 4;

@@ -4,6 +4,8 @@ import java.util.Random;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class BlockVine extends Block {
 	public BlockVine(int par1, int par2) {
         super(par1, par2, Material.vine);

@@ -2,6 +2,9 @@ package net.minecraft.src;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.entity.projectile.EntityEgg;
+
 public class ItemEgg extends Item {
 	public ItemEgg(int i1) {
 		super(i1);

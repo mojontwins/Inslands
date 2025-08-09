@@ -3,6 +3,9 @@ package net.minecraft.src;
 import com.mojang.minecraft.creative.CreativeTabs;
 import com.mojontwins.minecraft.entity.status.Status;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.entity.projectile.EntityThrowablePotion;
+
 public class ItemPotion extends Item {
 	private int potionColorMultiplier;
 	private int potionType;

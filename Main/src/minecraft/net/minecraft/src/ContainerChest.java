@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class ContainerChest extends Container {
 	private IInventory lowerChestInventory;
 	private int numRows;

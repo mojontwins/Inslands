@@ -1,8 +1,8 @@
 package com.benimatic.twilightforest;
 
-import net.minecraft.src.EntityCow;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.animal.EntityCow;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class EntityTwilightDeer extends EntityCow {
 	public EntityTwilightDeer(World world) {

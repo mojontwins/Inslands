@@ -4,6 +4,8 @@ import java.util.Random;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class BlockLog extends Block {
 	/*
 	 * Original beta logs use metadata 0, 1, 2 for wood type (oak, birch, spruce);

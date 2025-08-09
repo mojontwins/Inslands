@@ -6,22 +6,22 @@ import java.util.Iterator;
 import java.util.Set;
 
 import net.minecraft.network.packet.Packet;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityArrow;
-import net.minecraft.src.EntityBoat;
-import net.minecraft.src.EntityEgg;
-import net.minecraft.src.EntityFallingSand;
-import net.minecraft.src.EntityFireball;
-import net.minecraft.src.EntityFish;
-import net.minecraft.src.EntityItem;
-import net.minecraft.src.EntityMinecart;
-import net.minecraft.src.EntityPainting;
-import net.minecraft.src.EntitySnowball;
-import net.minecraft.src.EntitySquid;
-import net.minecraft.src.EntityTNTPrimed;
-import net.minecraft.src.EntityThrowablePotion;
-import net.minecraft.src.IAnimals;
 import net.minecraft.src.MCHash;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityPainting;
+import net.minecraft.world.entity.animal.EntitySquid;
+import net.minecraft.world.entity.animal.IAnimals;
+import net.minecraft.world.entity.item.EntityBoat;
+import net.minecraft.world.entity.item.EntityFallingSand;
+import net.minecraft.world.entity.item.EntityItem;
+import net.minecraft.world.entity.item.EntityMinecart;
+import net.minecraft.world.entity.item.EntityTNTPrimed;
+import net.minecraft.world.entity.monster.EntitySnowball;
+import net.minecraft.world.entity.projectile.EntityArrow;
+import net.minecraft.world.entity.projectile.EntityEgg;
+import net.minecraft.world.entity.projectile.EntityFireball;
+import net.minecraft.world.entity.projectile.EntityFish;
+import net.minecraft.world.entity.projectile.EntityThrowablePotion;
 
 public class EntityTracker {
 	private Set<EntityTrackerEntry> trackedEntitySet = new HashSet<EntityTrackerEntry>();

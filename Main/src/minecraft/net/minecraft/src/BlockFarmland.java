@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import net.minecraft.world.entity.Entity;
+
 public class BlockFarmland extends Block {
 	protected BlockFarmland(int blockID) {
 		super(blockID, Material.ground);

@@ -6,19 +6,19 @@ import java.util.List;
 
 import com.mojontwins.minecraft.entity.status.Status;
 
-import net.minecraft.src.AttackableTargetSorter;
 import net.minecraft.src.Block;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityCreature;
-import net.minecraft.src.EntityItem;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityMob;
-import net.minecraft.src.EntityZombie;
-import net.minecraft.src.IMob;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityCreature;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.IMob;
+import net.minecraft.world.entity.item.EntityItem;
+import net.minecraft.world.entity.monster.AttackableTargetSorter;
+import net.minecraft.world.entity.monster.EntityMob;
+import net.minecraft.world.entity.monster.EntityZombie;
 
 public class EntityPoisonWitch extends EntityMob implements IMob {
 

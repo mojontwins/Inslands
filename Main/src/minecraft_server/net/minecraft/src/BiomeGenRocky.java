@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import net.minecraft.world.entity.monster.EntityPigZombieVolcanoes;
+
 public class BiomeGenRocky extends BiomeGenBase {
 	public BiomeGenRocky() {
 		super();

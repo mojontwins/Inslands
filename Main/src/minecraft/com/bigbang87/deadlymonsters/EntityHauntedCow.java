@@ -3,13 +3,13 @@ package com.bigbang87.deadlymonsters;
 import java.util.Iterator;
 import java.util.List;
 
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityCow;
-import net.minecraft.src.EntityLightningBolt;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityMob;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityLightningBolt;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.animal.EntityCow;
+import net.minecraft.world.entity.monster.EntityMob;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class EntityHauntedCow extends EntityMob {
 	/*

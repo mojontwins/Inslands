@@ -2,7 +2,7 @@ package com.mojontwins.minecraft.entity.status;
 
 import com.mojang.minecraft.witch.EntityAlphaWitch;
 
-import net.minecraft.src.EntityLiving;
+import net.minecraft.world.entity.EntityLiving;
 
 public class StatusSlowness extends Status {
 

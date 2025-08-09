@@ -2,6 +2,9 @@ package net.minecraft.src;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.entity.projectile.EntityPebble;
+
 public class ItemSlingshot extends Item {
 	public ItemSlingshot(int i1) {
 		super(i1);

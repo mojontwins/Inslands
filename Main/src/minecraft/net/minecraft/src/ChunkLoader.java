@@ -6,6 +6,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityList;
+import net.minecraft.world.entity.block.EntityBlockEntity;
+
 public class ChunkLoader implements IChunkLoader {
 	private File saveDir;
 	private boolean createIfNecessary;

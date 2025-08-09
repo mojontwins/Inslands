@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.src.Container;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.InventoryPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Slot;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 class ContainerCreative extends Container {
 	/** the list of items in this container */

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import net.minecraft.world.entity.Entity;
+
 public class TileEntityPiston extends TileEntity {
 	private int storedBlockID;
 	private int storedMetadata;

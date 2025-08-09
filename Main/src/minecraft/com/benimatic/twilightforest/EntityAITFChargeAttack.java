@@ -1,12 +1,11 @@
 package com.benimatic.twilightforest;
 
-import com.mojang.minecraft.modernAI.EntityAIBase;
-
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityMob;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.Vec3D;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.ai.EntityAIBase;
+import net.minecraft.world.entity.monster.EntityMob;
 
 public class EntityAITFChargeAttack extends EntityAIBase {
 	protected static final double MIN_RANGE_SQ = 16.0D;

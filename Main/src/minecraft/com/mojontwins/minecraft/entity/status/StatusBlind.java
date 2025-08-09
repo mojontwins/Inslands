@@ -1,7 +1,7 @@
 package com.mojontwins.minecraft.entity.status;
 
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityPlayer;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class StatusBlind extends Status {
 

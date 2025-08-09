@@ -5,15 +5,15 @@ import java.util.List;
 
 import com.chocolatin.betterdungeons.EntityHumanBase;
 
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityAnimal;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.IMobWithLevel;
-import net.minecraft.src.ISentient;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.IMobWithLevel;
+import net.minecraft.world.entity.ISentient;
+import net.minecraft.world.entity.animal.EntityAnimal;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class EntityIceWarrior extends EntityHumanBase implements IMobWithLevel, ISentient {
 

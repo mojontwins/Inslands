@@ -3,6 +3,9 @@ package net.minecraft.src;
 import java.util.Arrays;
 import java.util.Random;
 
+import net.minecraft.world.entity.animal.EntityChickenBlack;
+import net.minecraft.world.entity.monster.EntityPigZombieVolcanoes;
+
 public class BiomeGenMesa extends BiomeGenBase {
 	private byte[] clayLayers;
 	private long randomSeed;

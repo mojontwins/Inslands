@@ -1,11 +1,11 @@
 package com.chocolatin.betterdungeons;
 
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.EntitySlime;
 import net.minecraft.src.Item;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.monster.EntitySlime;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class EntitySecretBoss extends EntitySlime {
 	int lvl = 0;

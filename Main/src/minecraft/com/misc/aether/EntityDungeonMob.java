@@ -1,13 +1,13 @@
 package com.misc.aether;
 
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityCreature;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EnumSkyBlock;
-import net.minecraft.src.IMob;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityCreature;
+import net.minecraft.world.entity.IMob;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class EntityDungeonMob extends EntityCreature implements IMob {
 	protected int attackStrength = 2;

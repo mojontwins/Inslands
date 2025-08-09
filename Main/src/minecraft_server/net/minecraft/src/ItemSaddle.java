@@ -2,6 +2,9 @@ package net.minecraft.src;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.animal.EntityPig;
+
 public class ItemSaddle extends Item {
 	public ItemSaddle(int i1) {
 		super(i1);

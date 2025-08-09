@@ -18,20 +18,20 @@ import java.util.List;
 import com.mojontwins.minecraft.entity.status.Status;
 import com.mojontwins.minecraft.entity.status.StatusEffect;
 
-import net.minecraft.src.AttackableTargetSorter;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockDoor;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityMob;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.ICaveMob;
-import net.minecraft.src.ISentient;
 import net.minecraft.src.Item;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.PathEntity;
-import net.minecraft.src.PathPoint;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.ICaveMob;
+import net.minecraft.world.entity.ISentient;
+import net.minecraft.world.entity.monster.AttackableTargetSorter;
+import net.minecraft.world.entity.monster.EntityMob;
+import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.pathfinder.PathEntity;
+import net.minecraft.world.level.pathfinder.PathPoint;
 
 public class EntityGhoul extends EntityMob implements ICaveMob {
     public boolean ignoreHeight;

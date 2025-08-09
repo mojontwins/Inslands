@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.src.EntityLiving;
+import net.minecraft.world.entity.EntityLiving;
 
 public class RenderTwoLayeredBiped extends RenderBiped {
 	protected ModelBiped layerTwo;

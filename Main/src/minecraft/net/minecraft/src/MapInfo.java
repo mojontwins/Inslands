@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class MapInfo {
 	public final EntityPlayer entityplayerObj;
 	public int[] field_28119_b;

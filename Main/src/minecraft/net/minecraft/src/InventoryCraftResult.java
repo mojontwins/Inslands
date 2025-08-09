@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class InventoryCraftResult implements IInventory {
 	private ItemStack[] stackResult = new ItemStack[1];
 

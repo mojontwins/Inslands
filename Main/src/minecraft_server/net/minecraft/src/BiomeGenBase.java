@@ -9,6 +9,18 @@ import com.misc.bo3import.WorldGenBo3Tree;
 import com.mojang.minecraft.betabiomes.BiomeGenBeta;
 import com.mojontwins.minecraft.poisonisland.BiomeGenThemePoisonIsland;
 
+import net.minecraft.world.entity.EnumCreatureType;
+import net.minecraft.world.entity.animal.EntityChicken;
+import net.minecraft.world.entity.animal.EntityCow;
+import net.minecraft.world.entity.animal.EntityPig;
+import net.minecraft.world.entity.animal.EntitySheep;
+import net.minecraft.world.entity.animal.EntitySquid;
+import net.minecraft.world.entity.monster.EntityCreeper;
+import net.minecraft.world.entity.monster.EntitySkeleton;
+import net.minecraft.world.entity.monster.EntitySlime;
+import net.minecraft.world.entity.monster.EntitySpider;
+import net.minecraft.world.entity.monster.EntityZombie;
+
 public class BiomeGenBase {
 	public static final BiomeGenBase biomeDefault = new BiomeGenBase().setBiomeName("Default Alpha");
 	

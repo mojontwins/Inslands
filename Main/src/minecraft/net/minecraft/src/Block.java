@@ -28,6 +28,12 @@ import com.mojontwins.minecraft.poisonisland.BlockSmallHead;
 import com.mojontwins.minecraft.poisonisland.BlockStationaryAcid;
 import com.mojontwins.minecraft.poisonisland.ItemCauldron;
 
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.EnumMobType;
+import net.minecraft.world.entity.item.EntityItem;
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class Block {
 	
 	// Step sounds

@@ -1,11 +1,11 @@
 package com.mojontwins.minecraft.poisonisland;
 
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntitySnowball;
 import net.minecraft.src.Item;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.monster.EntitySnowball;
 
 public class EntityThrowableBottle extends EntitySnowball {
 	public ItemBottle itemBottle;

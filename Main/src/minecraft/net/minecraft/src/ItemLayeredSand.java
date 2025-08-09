@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class ItemLayeredSand extends ItemBlock {
 	public ItemLayeredSand(int i1) {
 		super(i1);

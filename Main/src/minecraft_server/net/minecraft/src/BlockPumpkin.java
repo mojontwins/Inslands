@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.EntityLiving;
+
 public class BlockPumpkin extends Block {
 	private boolean isLantern;
 

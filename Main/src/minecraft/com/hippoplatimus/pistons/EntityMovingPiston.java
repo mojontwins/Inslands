@@ -9,15 +9,15 @@ import net.minecraft.src.Block;
 import net.minecraft.src.BlockRail;
 import net.minecraft.src.BlockStairs;
 import net.minecraft.src.BlockStep;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityFallingSand;
-import net.minecraft.src.EntityMinecart;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.EntityFallingSand;
+import net.minecraft.world.entity.item.EntityMinecart;
 
 public class EntityMovingPiston extends Entity {
 	public int xmove;

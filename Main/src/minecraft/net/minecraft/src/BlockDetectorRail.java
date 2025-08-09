@@ -3,6 +3,9 @@ package net.minecraft.src;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.EntityMinecart;
+
 public class BlockDetectorRail extends BlockRail {
 	public BlockDetectorRail(int i1, int i2) {
 		super(i1, i2, true);

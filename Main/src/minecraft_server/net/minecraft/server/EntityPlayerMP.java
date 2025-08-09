@@ -29,11 +29,6 @@ import net.minecraft.src.ContainerChest;
 import net.minecraft.src.ContainerDispenser;
 import net.minecraft.src.ContainerFurnace;
 import net.minecraft.src.ContainerWorkbench;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityArrow;
-import net.minecraft.src.EntityItem;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.EnumStatus;
 import net.minecraft.src.ICrafting;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.Item;
@@ -46,6 +41,11 @@ import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntityDispenser;
 import net.minecraft.src.TileEntityFurnace;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.EntityItem;
+import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.entity.player.EnumStatus;
+import net.minecraft.world.entity.projectile.EntityArrow;
 
 public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 	public NetServerHandler playerNetServerHandler;

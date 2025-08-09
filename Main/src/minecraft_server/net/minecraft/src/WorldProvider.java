@@ -1,5 +1,8 @@
 package net.minecraft.src;
 
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public abstract class WorldProvider {
 	public World worldObj;
 	public WorldChunkManager worldChunkMgr;

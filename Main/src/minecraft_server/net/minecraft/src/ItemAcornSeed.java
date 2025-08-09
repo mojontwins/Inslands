@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class ItemAcornSeed extends Item {
 
 	public ItemAcornSeed(int i1) {

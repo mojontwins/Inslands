@@ -1,12 +1,12 @@
 package com.benimatic.twilightforest;
 
 import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityFlying;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.Item;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.monster.EntityFlying;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class EntityTFWraith extends EntityFlying {
 	public int courseChangeCooldown;

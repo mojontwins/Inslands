@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class BlockPistonMoving extends BlockContainer {
 	public BlockPistonMoving(int i1) {
 		super(i1, Material.piston);

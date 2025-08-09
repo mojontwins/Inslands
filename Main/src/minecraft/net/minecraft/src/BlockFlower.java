@@ -4,6 +4,9 @@ import java.util.Random;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.item.EntityItem;
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class BlockFlower extends Block {
 	protected BlockFlower(int i1, int i2) {
 		super(i1, Material.plants);

@@ -7,8 +7,8 @@ import com.mojontwins.minecraft.icepalace.EntityIceBall;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.src.Entity;
 import net.minecraft.src.Item;
+import net.minecraft.world.entity.Entity;
 
 public class RenderIceBall extends Render {
 

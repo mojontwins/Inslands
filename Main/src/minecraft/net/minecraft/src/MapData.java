@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class MapData extends MapDataBase {
 	public int xCenter;
 	public int zCenter;

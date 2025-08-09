@@ -2,6 +2,16 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import net.minecraft.world.entity.animal.EntityColdCow;
+import net.minecraft.world.entity.animal.EntitySheep;
+import net.minecraft.world.entity.animal.EntityWolf;
+import net.minecraft.world.entity.monster.EntityCreeper;
+import net.minecraft.world.entity.monster.EntityIceSkeleton;
+import net.minecraft.world.entity.monster.EntitySlime;
+import net.minecraft.world.entity.monster.EntitySpider;
+import net.minecraft.world.entity.monster.EntityZombie;
+import net.minecraft.world.entity.monster.EntityZombieAlex;
+
 public class BiomeGenTaiga extends BiomeGenForest {
 	public BiomeGenTaiga() {
 		super();

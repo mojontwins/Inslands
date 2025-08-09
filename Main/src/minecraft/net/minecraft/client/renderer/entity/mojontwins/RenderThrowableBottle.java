@@ -8,7 +8,7 @@ import com.mojontwins.minecraft.poisonisland.ItemBottle;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.src.Entity;
+import net.minecraft.world.entity.Entity;
 
 public class RenderThrowableBottle extends Render {
 

@@ -9,6 +9,11 @@ import com.mojontwins.minecraft.entity.status.Status;
 import com.mojontwins.minecraft.poisonisland.ItemBottle;
 import com.mojontwins.minecraft.worldedit.ItemMagicWand;
 
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.EnumAction;
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class Item {
 	protected static Random rand = new Random();
 	public static Item[] itemsList = new Item[32000];
@@ -225,9 +230,9 @@ public class Item {
 
 	public boolean silkTouch = false;
 		
-	protected Status status = null;
-	protected int statusTime;
-	protected int statusAmplifier;
+	public Status status = null;
+	public int statusTime;
+	public int statusAmplifier;
 	
 	protected boolean showInCreative = true;
 	

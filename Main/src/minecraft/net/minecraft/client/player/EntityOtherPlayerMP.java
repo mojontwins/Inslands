@@ -1,10 +1,10 @@
 package net.minecraft.client.player;
 
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class EntityOtherPlayerMP extends EntityPlayer {
 	private int otherPlayerMPPosRotationIncrements;

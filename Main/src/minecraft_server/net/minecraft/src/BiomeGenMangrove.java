@@ -5,6 +5,14 @@ import java.util.Random;
 import com.benimatic.twilightforest.TFGenMangroveTree;
 import com.mojang.minecraft.witch.WorldGenWitchHut;
 
+import net.minecraft.world.entity.monster.EntityCreeper;
+import net.minecraft.world.entity.monster.EntityDrowned;
+import net.minecraft.world.entity.monster.EntityElementalCreeper;
+import net.minecraft.world.entity.monster.EntityPigZombieVolcanoes;
+import net.minecraft.world.entity.monster.EntitySkeleton;
+import net.minecraft.world.entity.monster.EntitySlime;
+import net.minecraft.world.entity.monster.EntitySpider;
+
 public class BiomeGenMangrove extends BiomeGenBase {
 	public BiomeGenMangrove() {
 		super();

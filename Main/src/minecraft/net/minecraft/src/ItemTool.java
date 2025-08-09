@@ -2,6 +2,9 @@ package net.minecraft.src;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityLiving;
+
 public class ItemTool extends Item {
 	private Block[] blocksEffectiveAgainst;
 	protected float efficiencyOnProperMaterial = 4.0F;

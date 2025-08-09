@@ -1,7 +1,6 @@
 package com.mojontwins.minecraft.poisonisland;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
@@ -9,6 +8,7 @@ import net.minecraft.src.MathHelper;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.Vec3D;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class ItemBottle extends Item {
 	public final int contents;

@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class SaveHandler implements ISaveHandler {
 	private static final Logger logger = Logger.getLogger("Minecraft");
 	private final File saveDirectory;

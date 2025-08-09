@@ -5,8 +5,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import net.minecraft.network.NetHandler;
-import net.minecraft.src.EntityItem;
 import net.minecraft.src.MathHelper;
+import net.minecraft.world.entity.item.EntityItem;
 
 public class Packet21PickupSpawn extends Packet {
 	public int entityId;

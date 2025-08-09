@@ -8,7 +8,6 @@ import net.minecraft.client.SaveHandlerMP;
 import net.minecraft.client.gui.GameSettings;
 import net.minecraft.network.packet.Packet255KickDisconnect;
 import net.minecraft.src.ChunkCoordinates;
-import net.minecraft.src.Entity;
 import net.minecraft.src.IChunkProvider;
 import net.minecraft.src.IWorldAccess;
 import net.minecraft.src.MCHash;
@@ -17,6 +16,7 @@ import net.minecraft.src.Weather;
 import net.minecraft.src.World;
 import net.minecraft.src.WorldProvider;
 import net.minecraft.src.WorldSettings;
+import net.minecraft.world.entity.Entity;
 
 public class WorldClient extends World {
 	private LinkedList<WorldBlockPositionType> blocksToReceive = new LinkedList<WorldBlockPositionType>();

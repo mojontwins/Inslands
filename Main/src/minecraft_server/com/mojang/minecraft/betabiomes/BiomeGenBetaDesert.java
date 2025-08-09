@@ -3,12 +3,6 @@ package com.mojang.minecraft.betabiomes;
 import java.util.Random;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.EntityChickenBlack;
-import net.minecraft.src.EntityCreeper;
-import net.minecraft.src.EntityHusk;
-import net.minecraft.src.EntitySkeleton;
-import net.minecraft.src.EntitySlime;
-import net.minecraft.src.EntitySpider;
 import net.minecraft.src.SpawnListEntry;
 import net.minecraft.src.Weather;
 import net.minecraft.src.World;
@@ -17,6 +11,12 @@ import net.minecraft.src.WorldGenDesertFlowers;
 import net.minecraft.src.WorldGenLakes;
 import net.minecraft.src.WorldGenMinable;
 import net.minecraft.src.WorldGenerator;
+import net.minecraft.world.entity.animal.EntityChickenBlack;
+import net.minecraft.world.entity.monster.EntityCreeper;
+import net.minecraft.world.entity.monster.EntityHusk;
+import net.minecraft.world.entity.monster.EntitySkeleton;
+import net.minecraft.world.entity.monster.EntitySlime;
+import net.minecraft.world.entity.monster.EntitySpider;
 
 public class BiomeGenBetaDesert extends BiomeGenBeta {
 

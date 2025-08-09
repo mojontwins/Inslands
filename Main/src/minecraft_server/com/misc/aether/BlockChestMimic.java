@@ -3,10 +3,10 @@ package com.misc.aether;
 import java.util.Random;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.Material;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class BlockChestMimic extends Block {
 	public BlockChestMimic(int i) {

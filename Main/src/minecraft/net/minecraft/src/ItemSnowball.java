@@ -2,6 +2,9 @@ package net.minecraft.src;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.monster.EntitySnowball;
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class ItemSnowball extends Item {
 	public ItemSnowball(int i1) {
 		super(i1);

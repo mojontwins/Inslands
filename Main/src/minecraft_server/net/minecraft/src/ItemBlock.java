@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class ItemBlock extends Item {
 	protected int blockID;
 

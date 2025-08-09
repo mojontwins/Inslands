@@ -4,6 +4,10 @@ import java.util.Random;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.item.EntityItem;
+import net.minecraft.world.entity.player.EntityPlayer;
+
 public class BlockFurnace extends BlockContainer {
 	private Random furnaceRand = new Random();
 	private final boolean isActive;

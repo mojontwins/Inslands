@@ -5,15 +5,6 @@ import java.util.Random;
 import net.minecraft.src.Block;
 import net.minecraft.src.BuildingTaigaHut;
 import net.minecraft.src.Chunk;
-import net.minecraft.src.EntityColdCow;
-import net.minecraft.src.EntityCreeper;
-import net.minecraft.src.EntityIceSkeleton;
-import net.minecraft.src.EntitySheep;
-import net.minecraft.src.EntitySlime;
-import net.minecraft.src.EntitySpider;
-import net.minecraft.src.EntityWolf;
-import net.minecraft.src.EntityZombie;
-import net.minecraft.src.EntityZombieAlex;
 import net.minecraft.src.SpawnListEntry;
 import net.minecraft.src.Weather;
 import net.minecraft.src.World;
@@ -25,6 +16,15 @@ import net.minecraft.src.WorldGenPineTree;
 import net.minecraft.src.WorldGenTaigaTree1;
 import net.minecraft.src.WorldGenTaigaTree2;
 import net.minecraft.src.WorldGenerator;
+import net.minecraft.world.entity.animal.EntityColdCow;
+import net.minecraft.world.entity.animal.EntitySheep;
+import net.minecraft.world.entity.animal.EntityWolf;
+import net.minecraft.world.entity.monster.EntityCreeper;
+import net.minecraft.world.entity.monster.EntityIceSkeleton;
+import net.minecraft.world.entity.monster.EntitySlime;
+import net.minecraft.world.entity.monster.EntitySpider;
+import net.minecraft.world.entity.monster.EntityZombie;
+import net.minecraft.world.entity.monster.EntityZombieAlex;
 
 public class BiomeGenBetaTaiga extends BiomeGenBetaForest {
 	public BiomeGenBetaTaiga() {

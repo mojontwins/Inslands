@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.item.EntityFallingSand;
+
 public class BlockSand extends Block {
 	public static boolean fallInstantly = false;
 

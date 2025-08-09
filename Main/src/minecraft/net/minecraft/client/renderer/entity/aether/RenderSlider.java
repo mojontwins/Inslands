@@ -6,7 +6,7 @@ import com.misc.aether.EntitySlider;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.src.EntityLiving;
+import net.minecraft.world.entity.EntityLiving;
 
 public class RenderSlider extends RenderLiving {
 	public RenderSlider(ModelBase ms, float f) {

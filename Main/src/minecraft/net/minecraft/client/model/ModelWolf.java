@@ -2,9 +2,9 @@ package net.minecraft.client.model;
 
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityWolf;
 import net.minecraft.src.MathHelper;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.animal.EntityWolf;
 
 public class ModelWolf extends ModelBase {
 	public ModelRenderer wolfHeadMain;

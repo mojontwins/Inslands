@@ -1,11 +1,11 @@
 package com.benimatic.twilightforest;
 
 import net.minecraft.src.AchievementList;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.EntityPlayer;
 
 public class EntityTFMinoshroom extends EntityTFMinotaur {
 	private static final ItemStack defaultHeldItem = new ItemStack(Item.axeGold, 1);

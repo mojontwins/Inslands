@@ -23,6 +23,9 @@ import com.benimatic.twilightforest.TFGenerator;
 import com.mojang.minecraft.ocelot.EntityBetaOcelot;
 import com.mojontwins.minecraft.monsters.EntityFungalCalamity;
 
+import net.minecraft.world.entity.animal.EntityChickenBlack;
+import net.minecraft.world.entity.animal.EntityWolf;
+
 public class BiomeGenThemeForest extends BiomeGenForest {
 	
 	private WorldGenPineTree pineTreeGen = new WorldGenPineTree();

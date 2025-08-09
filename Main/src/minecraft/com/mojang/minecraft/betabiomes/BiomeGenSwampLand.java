@@ -5,12 +5,6 @@ import java.util.Random;
 import com.mojang.minecraft.witch.WorldGenWitchHut;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.EntityCreeper;
-import net.minecraft.src.EntityDrowned;
-import net.minecraft.src.EntityElementalCreeper;
-import net.minecraft.src.EntitySkeleton;
-import net.minecraft.src.EntitySlime;
-import net.minecraft.src.EntitySpider;
 import net.minecraft.src.SpawnListEntry;
 import net.minecraft.src.Weather;
 import net.minecraft.src.World;
@@ -22,6 +16,12 @@ import net.minecraft.src.WorldGenLilypad;
 import net.minecraft.src.WorldGenSwamp;
 import net.minecraft.src.WorldGenVines;
 import net.minecraft.src.WorldGenerator;
+import net.minecraft.world.entity.monster.EntityCreeper;
+import net.minecraft.world.entity.monster.EntityDrowned;
+import net.minecraft.world.entity.monster.EntityElementalCreeper;
+import net.minecraft.world.entity.monster.EntitySkeleton;
+import net.minecraft.world.entity.monster.EntitySlime;
+import net.minecraft.world.entity.monster.EntitySpider;
 
 public class BiomeGenSwampLand extends BiomeGenBeta {
 	public BiomeGenSwampLand () {

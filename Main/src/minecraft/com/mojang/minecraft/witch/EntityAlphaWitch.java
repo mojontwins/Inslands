@@ -2,15 +2,15 @@ package com.mojang.minecraft.witch;
 
 import com.mojontwins.minecraft.entity.status.StatusEffect;
 
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityArmoredMob;
-import net.minecraft.src.EntityThrowablePotion;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemPotion;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.monster.EntityArmoredMob;
+import net.minecraft.world.entity.projectile.EntityThrowablePotion;
 
 public class EntityAlphaWitch extends EntityArmoredMob {
 	private Item possiblePotions[] = new Item[] {

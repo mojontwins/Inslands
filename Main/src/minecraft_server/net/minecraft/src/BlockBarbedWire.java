@@ -4,6 +4,9 @@ import java.util.Random;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityLiving;
+
 public class BlockBarbedWire extends Block {
 	protected BlockBarbedWire(int id, int blockIndexInTexture) {
 		super(id, blockIndexInTexture, Material.iron);

@@ -4,9 +4,9 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityThrowablePotion;
 import net.minecraft.src.ItemPotion;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.projectile.EntityThrowablePotion;
 
 public class RenderThrowablePotion extends Render {
 	
