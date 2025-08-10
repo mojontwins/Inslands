@@ -2,8 +2,6 @@ package com.mojang.minecraft.betabiomes;
 
 import java.util.Random;
 
-import com.benimatic.twilightforest.EntityTwilightBoar;
-
 import net.minecraft.src.Block;
 import net.minecraft.src.SpawnListEntry;
 import net.minecraft.src.Weather;
@@ -13,6 +11,7 @@ import net.minecraft.src.WorldGenMinable;
 import net.minecraft.world.entity.animal.EntityChicken;
 import net.minecraft.world.entity.animal.EntityColdCow;
 import net.minecraft.world.entity.animal.EntitySheep;
+import net.minecraft.world.entity.animal.EntityTwilightBoar;
 import net.minecraft.world.entity.monster.EntityCreeper;
 import net.minecraft.world.entity.monster.EntityIceSkeleton;
 import net.minecraft.world.entity.monster.EntitySlime;

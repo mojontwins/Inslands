@@ -2,8 +2,8 @@ package net.minecraft.client.gui.inventory;
 
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.src.ContainerChest;
-import net.minecraft.src.IInventory;
+import net.minecraft.world.inventory.ContainerChest;
+import net.minecraft.world.inventory.IInventory;
 
 public class GuiChest extends GuiContainer {
 	private IInventory upperChestInventory;

@@ -1,9 +1,8 @@
 package net.minecraft.client.model.aether;
 
-import com.misc.aether.EntityMimic;
-
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.world.entity.monster.EntityMimic;
 
 public class ModelMimic extends ModelBase {
 	ModelRenderer box = new ModelRenderer(0, 0);

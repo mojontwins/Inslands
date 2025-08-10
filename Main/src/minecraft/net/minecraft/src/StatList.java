@@ -7,6 +7,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingManager;
+import net.minecraft.world.item.crafting.FurnaceRecipes;
+import net.minecraft.world.item.crafting.IRecipe;
+
 public class StatList {
 	protected static Map<Integer,StatBase> oneShotStats = new HashMap<Integer,StatBase>();
 	public static List<StatBase> allStats = new ArrayList<StatBase>();

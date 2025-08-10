@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import net.minecraft.world.item.Item;
+
 public class BlockDeadBush extends BlockFlower {
 	protected BlockDeadBush(int i1, int i2) {
 		super(i1, i2);

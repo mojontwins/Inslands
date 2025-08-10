@@ -4,6 +4,8 @@ import java.util.Random;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.item.Item;
+
 public class BlockOre extends Block {
 	public BlockOre(int i1, int i2) {
 		super(i1, i2, Material.rock);

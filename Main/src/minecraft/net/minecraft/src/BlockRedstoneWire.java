@@ -7,6 +7,8 @@ import java.util.Set;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.item.Item;
+
 public class BlockRedstoneWire extends Block {
 	private boolean wiresProvidePower = true;
 	private Set<ChunkPosition> blocksNeedingUpdate = new HashSet<ChunkPosition>();

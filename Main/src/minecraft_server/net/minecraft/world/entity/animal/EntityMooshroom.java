@@ -1,12 +1,12 @@
 package net.minecraft.world.entity.animal;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.ItemSword;
 import net.minecraft.src.World;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemSword;
 
 public class EntityMooshroom extends EntityCow {
 	public EntityMooshroom(World par1World) {

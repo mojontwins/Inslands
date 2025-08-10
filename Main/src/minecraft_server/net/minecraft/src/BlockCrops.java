@@ -3,6 +3,8 @@ package net.minecraft.src;
 import java.util.Random;
 
 import net.minecraft.world.entity.item.EntityItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class BlockCrops extends BlockFlower {
 	protected BlockCrops(int i1, int i2) {

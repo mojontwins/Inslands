@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Item;
 import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
@@ -14,6 +13,7 @@ import net.minecraft.world.entity.ISentient;
 import net.minecraft.world.entity.animal.EntityAnimal;
 import net.minecraft.world.entity.block.EntityMeatBlock;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.item.Item;
 
 public class EntityHusk extends EntityZombie implements IMob {
 	

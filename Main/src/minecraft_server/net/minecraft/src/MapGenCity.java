@@ -3,6 +3,9 @@ package net.minecraft.src;
 import java.util.HashMap;
 import java.util.Random;
 
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+
 public class MapGenCity extends MapGenBase {
 	/* 
 	 * Generates chunks with buildings or roads or whatever.

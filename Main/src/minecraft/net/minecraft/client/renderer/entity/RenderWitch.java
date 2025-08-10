@@ -2,15 +2,14 @@ package net.minecraft.client.renderer.entity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.minecraft.witch.EntityAlphaWitch;
-
 import net.minecraft.client.model.ModelWitch;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.src.Block;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.monster.EntityAlphaWitch;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class RenderWitch extends RenderLiving {
 	private ModelWitch currentWitchModel;

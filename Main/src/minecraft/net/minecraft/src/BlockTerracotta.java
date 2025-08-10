@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.item.ItemStack;
+
 public class BlockTerracotta extends Block {
 	private boolean stained;
 	

@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.item.map.MapColor;
+
 public class Material {
 	public static final Material air = new MaterialTransparent(MapColor.airColor).setName("air");
 	public static final Material grass = new Material(MapColor.grassColor).setName("grass");

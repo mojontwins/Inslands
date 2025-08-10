@@ -5,6 +5,7 @@ import java.util.Random;
 import com.mojang.minecraft.creative.CreativeTabs;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.Item;
 
 public class BlockWeb extends Block {
 	public BlockWeb(int i1, int i2) {

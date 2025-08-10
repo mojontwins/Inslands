@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import net.minecraft.world.item.Item;
+
 public class BlockAcorn extends BlockFlower {
 
 	protected BlockAcorn(int i1, int i2) {

@@ -4,6 +4,8 @@ import java.util.Random;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.item.Item;
+
 public class BlockSeaweed extends Block {
 
 	public BlockSeaweed(int id, int blockIndex) {

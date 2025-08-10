@@ -4,6 +4,8 @@ import java.util.Random;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.item.Item;
+
 public class BlockReed extends Block {
 	protected BlockReed(int id, int blockIndex) {
 		super(id, Material.plants);

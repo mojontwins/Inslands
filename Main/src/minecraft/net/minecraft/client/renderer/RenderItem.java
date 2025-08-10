@@ -7,11 +7,11 @@ import org.lwjgl.opengl.GL12;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.src.Block;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.EntityItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class RenderItem extends Render {
 	private RenderBlocks renderBlocks = new RenderBlocks();

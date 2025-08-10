@@ -9,7 +9,6 @@ import com.mojang.minecraft.creative.CreativeTabs;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.IBlockAccess;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.Vec3D;
@@ -18,6 +17,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.monster.EntitySpider;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.item.ItemStack;
 
 public class BlockTFHedge extends Block {
 	public int damageDone;

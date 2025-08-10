@@ -7,10 +7,10 @@ import java.util.List;
 import org.lwjgl.input.Mouse;
 
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.src.Item;
 import net.minecraft.src.StatBase;
 import net.minecraft.src.StatCrafting;
 import net.minecraft.src.StringTranslate;
+import net.minecraft.world.item.Item;
 
 abstract class GuiSlotStats extends GuiSlot {
 	protected int currentStatsSection;

@@ -7,9 +7,9 @@ import com.mojang.minecraft.creative.CreativeTabs;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockSapling;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
 import net.minecraft.src.WorldGenerator;
+import net.minecraft.world.item.ItemStack;
 
 public class BlockSapling2 extends BlockSapling {
 	public int blockIndexForMeta[] = new int[] { 11*16+1, 0, 0, 0 };

@@ -3,12 +3,11 @@ package net.minecraft.client.renderer.entity.mojontwins;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import com.mojontwins.minecraft.icepalace.EntityIceBall;
-
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.src.Item;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.sentient.EntityIceBall;
+import net.minecraft.world.item.Item;
 
 public class RenderIceBall extends Render {
 

@@ -2,6 +2,9 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+
 public class BuildingGraveyard extends Building {
 	int y0 = 64;
 	

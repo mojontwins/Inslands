@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.item.ItemStack;
+
 public class BlockBigFlower extends Block {
 	// Uses metadata to represent three different blocks:
 	// meta 0 is red petal block

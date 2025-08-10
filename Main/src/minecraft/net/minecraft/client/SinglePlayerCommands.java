@@ -6,13 +6,13 @@ import com.misc.bo3import.WorldGenBo3Tree;
 import com.mojontwins.minecraft.worldedit.WorldEdit;
 
 import net.minecraft.src.IWorldAccess;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.Seasons;
 import net.minecraft.src.SpawnerAnimals;
 import net.minecraft.world.entity.EntityList;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.IMobWithLevel;
 import net.minecraft.world.entity.item.EntityItem;
+import net.minecraft.world.item.ItemStack;
 
 public class SinglePlayerCommands {
 	

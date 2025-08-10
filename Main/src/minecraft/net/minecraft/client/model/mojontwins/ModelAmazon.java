@@ -1,11 +1,10 @@
 package net.minecraft.client.model.mojontwins;
 
-import com.mojontwins.minecraft.amazonvillage.EntityAmazon;
-
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.src.MathHelper;
 import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.sentient.EntityAmazon;
 
 public class ModelAmazon extends ModelBase {
 	public ModelRenderer bipedHead;

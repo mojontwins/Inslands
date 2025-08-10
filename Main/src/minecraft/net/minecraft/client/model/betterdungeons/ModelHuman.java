@@ -2,12 +2,11 @@ package net.minecraft.client.model.betterdungeons;
 
 import org.lwjgl.opengl.GL11;
 
-import com.chocolatin.betterdungeons.EntityHumanBase;
-
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.src.MathHelper;
 import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.monster.EntityHumanBase;
 
 public class ModelHuman extends ModelBase {
 	public ModelRenderer bipedHead;

@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 import net.minecraft.network.NetHandler;
-import net.minecraft.src.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 public class Packet104WindowItems extends Packet {
 	public int windowId;

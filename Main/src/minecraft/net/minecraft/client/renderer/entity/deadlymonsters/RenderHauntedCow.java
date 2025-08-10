@@ -1,11 +1,10 @@
 package net.minecraft.client.renderer.entity.deadlymonsters;
 
-import com.bigbang87.deadlymonsters.EntityHauntedCow;
-
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.animal.EntityHauntedCow;
 
 public class RenderHauntedCow extends RenderLiving {
 	public RenderHauntedCow(ModelBase modelBase1, float f2) {

@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.item.map.MapColor;
+
 public class MaterialTransparent extends Material {
 	public MaterialTransparent(MapColor mapColor1) {
 		super(mapColor1);

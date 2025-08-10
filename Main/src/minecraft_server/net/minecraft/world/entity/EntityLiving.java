@@ -6,14 +6,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import com.mojontwins.minecraft.entity.status.Status;
-import com.mojontwins.minecraft.entity.status.StatusEffect;
-
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.ChunkCoordinates;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.MovingObjectPosition;
@@ -31,6 +27,9 @@ import net.minecraft.world.entity.monster.EntityCreeper;
 import net.minecraft.world.entity.monster.EntityGhast;
 import net.minecraft.world.entity.monster.EntityMob;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.entity.status.Status;
+import net.minecraft.world.entity.status.StatusEffect;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.pathfinder.PathNavigate;
 
 public abstract class EntityLiving extends Entity {

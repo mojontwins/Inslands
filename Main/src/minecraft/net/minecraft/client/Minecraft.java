@@ -90,7 +90,6 @@ import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.GlobalVars;
 import net.minecraft.src.ISaveFormat;
 import net.minecraft.src.ISaveHandler;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.MinecraftException;
 import net.minecraft.src.MovingObjectPosition;
@@ -106,6 +105,7 @@ import net.minecraft.src.WorldSize;
 import net.minecraft.src.WorldType;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.item.ItemStack;
 
 public abstract class Minecraft implements Runnable {
 	public static byte[] reservedBytes = new byte[10485760];

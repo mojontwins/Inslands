@@ -4,13 +4,13 @@ import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
-import net.minecraft.src.InventoryPlayer;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
 import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.inventory.InventoryPlayer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class PlayerController {
 	protected final Minecraft mc;

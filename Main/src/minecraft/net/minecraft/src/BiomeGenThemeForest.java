@@ -2,12 +2,6 @@ package net.minecraft.src;
 
 import java.util.Random;
 
-import com.benimatic.twilightforest.EntityTFHedgeSpider;
-import com.benimatic.twilightforest.EntityTFKobold;
-import com.benimatic.twilightforest.EntityTFRedcap;
-import com.benimatic.twilightforest.EntityTwilightBighorn;
-import com.benimatic.twilightforest.EntityTwilightBoar;
-import com.benimatic.twilightforest.EntityTwilightDeer;
 import com.benimatic.twilightforest.TFGenCanopyMushroom;
 import com.benimatic.twilightforest.TFGenCanopyTree;
 import com.benimatic.twilightforest.TFGenFoundation;
@@ -20,11 +14,17 @@ import com.benimatic.twilightforest.TFGenStoneCircle;
 import com.benimatic.twilightforest.TFGenWell;
 import com.benimatic.twilightforest.TFGenWitchHut;
 import com.benimatic.twilightforest.TFGenerator;
-import com.mojang.minecraft.ocelot.EntityBetaOcelot;
-import com.mojontwins.minecraft.monsters.EntityFungalCalamity;
 
+import net.minecraft.world.entity.animal.EntityBetaOcelot;
 import net.minecraft.world.entity.animal.EntityChickenBlack;
+import net.minecraft.world.entity.animal.EntityTwilightBighorn;
+import net.minecraft.world.entity.animal.EntityTwilightBoar;
+import net.minecraft.world.entity.animal.EntityTwilightDeer;
 import net.minecraft.world.entity.animal.EntityWolf;
+import net.minecraft.world.entity.monster.EntityFungalCalamity;
+import net.minecraft.world.entity.monster.EntityTFHedgeSpider;
+import net.minecraft.world.entity.monster.EntityTFKobold;
+import net.minecraft.world.entity.monster.EntityTFRedcap;
 
 public class BiomeGenThemeForest extends BiomeGenForest {
 	

@@ -10,12 +10,12 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.src.ContainerFurnace;
-import net.minecraft.src.FurnaceRecipe;
-import net.minecraft.src.FurnaceRecipes;
-import net.minecraft.src.InventoryPlayer;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.TileEntityFurnace;
+import net.minecraft.world.inventory.ContainerFurnace;
+import net.minecraft.world.inventory.InventoryPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.FurnaceRecipe;
+import net.minecraft.world.item.crafting.FurnaceRecipes;
 
 public class GuiFurnace extends GuiContainer {
 	/*

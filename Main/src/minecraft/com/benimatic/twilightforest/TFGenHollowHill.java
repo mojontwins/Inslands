@@ -3,12 +3,12 @@ package com.benimatic.twilightforest;
 import java.util.Random;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.TileEntityChest;
 import net.minecraft.src.TileEntityMobSpawner;
 import net.minecraft.src.TileEntityMobSpawnerOneshot;
 import net.minecraft.src.World;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class TFGenHollowHill extends TFGenerator {
 	int hsize;

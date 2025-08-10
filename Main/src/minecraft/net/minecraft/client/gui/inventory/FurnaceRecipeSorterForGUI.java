@@ -2,7 +2,7 @@ package net.minecraft.client.gui.inventory;
 
 import java.util.Comparator;
 
-import net.minecraft.src.FurnaceRecipe;
+import net.minecraft.world.item.crafting.FurnaceRecipe;
 
 public class FurnaceRecipeSorterForGUI implements Comparator<Object> {
 

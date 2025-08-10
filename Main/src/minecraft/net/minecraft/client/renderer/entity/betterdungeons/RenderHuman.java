@@ -3,8 +3,6 @@ package net.minecraft.client.renderer.entity.betterdungeons;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import com.chocolatin.betterdungeons.EntityHumanBase;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.betterdungeons.ModelHuman;
@@ -14,11 +12,12 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.src.Block;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.monster.EntityHumanBase;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class RenderHuman extends Render {
 	protected ModelHuman mainModel;

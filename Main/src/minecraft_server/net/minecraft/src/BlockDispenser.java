@@ -12,6 +12,9 @@ import net.minecraft.world.entity.projectile.EntityArrow;
 import net.minecraft.world.entity.projectile.EntityEgg;
 import net.minecraft.world.entity.projectile.EntityPebble;
 import net.minecraft.world.entity.projectile.EntityThrowablePotion;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemPotion;
+import net.minecraft.world.item.ItemStack;
 
 public class BlockDispenser extends BlockContainer {
 	private Random random = new Random();

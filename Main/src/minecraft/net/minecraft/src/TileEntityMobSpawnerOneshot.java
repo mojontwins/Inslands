@@ -1,10 +1,9 @@
 package net.minecraft.src;
 
-import com.mojang.minecraft.witch.EntityAlphaWitch;
-
 import net.minecraft.world.entity.EntityList;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.IMobWithLevel;
+import net.minecraft.world.entity.monster.EntityAlphaWitch;
 
 public class TileEntityMobSpawnerOneshot extends TileEntityMobSpawner {
 	// Just spawns its mob once when the player approaches.

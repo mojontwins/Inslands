@@ -5,6 +5,8 @@ import java.util.Random;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.item.ItemStack;
+
 public class BlockStone extends Block {
 	public static final int[] stoneColor = new int [] {
 		0xFFFFFF,

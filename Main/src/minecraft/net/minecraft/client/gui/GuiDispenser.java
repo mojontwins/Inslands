@@ -3,9 +3,9 @@ package net.minecraft.client.gui;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.src.ContainerDispenser;
-import net.minecraft.src.InventoryPlayer;
 import net.minecraft.src.TileEntityDispenser;
+import net.minecraft.world.inventory.ContainerDispenser;
+import net.minecraft.world.inventory.InventoryPlayer;
 
 public class GuiDispenser extends GuiContainer {
 	public GuiDispenser(InventoryPlayer inventoryPlayer1, TileEntityDispenser tileEntityDispenser2) {

@@ -5,9 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import com.benimatic.twilightforest.EntityTFNatureBolt;
-import com.mojontwins.minecraft.monsters.EntityThrowableToxicFungus;
-
 import net.minecraft.network.DataWatcher;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet17Sleep;
@@ -25,7 +22,6 @@ import net.minecraft.network.packet.Packet34EntityTeleport;
 import net.minecraft.network.packet.Packet40EntityMetadata;
 import net.minecraft.network.packet.Packet5PlayerInventory;
 import net.minecraft.src.Block;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
@@ -43,7 +39,10 @@ import net.minecraft.world.entity.projectile.EntityEgg;
 import net.minecraft.world.entity.projectile.EntityFireball;
 import net.minecraft.world.entity.projectile.EntityFish;
 import net.minecraft.world.entity.projectile.EntityPebble;
+import net.minecraft.world.entity.projectile.EntityTFNatureBolt;
 import net.minecraft.world.entity.projectile.EntityThrowablePotion;
+import net.minecraft.world.entity.projectile.EntityThrowableToxicFungus;
+import net.minecraft.world.item.ItemStack;
 
 public class EntityTrackerEntry {
 	public Entity trackedEntity;

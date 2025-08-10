@@ -1,12 +1,11 @@
 package net.minecraft.world.entity.monster;
 
-import com.mojontwins.minecraft.entity.status.Status;
-import com.mojontwins.minecraft.entity.status.StatusEffect;
-
 import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.IMob;
+import net.minecraft.world.entity.status.Status;
+import net.minecraft.world.entity.status.StatusEffect;
 
 public class EntityToxicZombie extends EntityCityHusk implements IMob {
 

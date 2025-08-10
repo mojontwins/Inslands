@@ -8,8 +8,8 @@ import com.mojang.minecraft.structure.StructureComponent;
 import com.mojang.minecraft.structure.StructurePieceTreasure;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Item;
 import net.minecraft.src.World;
+import net.minecraft.world.item.Item;
 
 public class ComponentStrongholdLibrary extends ComponentStronghold {
 	private static final StructurePieceTreasure[] treasureList = new StructurePieceTreasure[] {

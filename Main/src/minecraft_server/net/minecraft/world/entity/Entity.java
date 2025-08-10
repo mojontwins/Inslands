@@ -7,8 +7,6 @@ import net.minecraft.network.DataWatcher;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockFluid;
-import net.minecraft.src.IInventory;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
@@ -22,6 +20,8 @@ import net.minecraft.src.WorldSize;
 import net.minecraft.world.entity.item.EntityBoat;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.inventory.IInventory;
+import net.minecraft.world.item.ItemStack;
 
 public abstract class Entity {
 	private static int nextEntityID = 0;

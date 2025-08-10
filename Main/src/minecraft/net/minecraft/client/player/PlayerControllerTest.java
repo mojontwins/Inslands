@@ -3,9 +3,9 @@ package net.minecraft.client.player;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.User;
 import net.minecraft.src.Block;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.item.ItemStack;
 
 public class PlayerControllerTest extends PlayerController {
 	public PlayerControllerTest(Minecraft minecraft1) {

@@ -1,7 +1,7 @@
 package com.mojontwins.minecraft.poisonisland;
 
-import net.minecraft.src.ItemBlock;
-import net.minecraft.src.ItemStack;
+import net.minecraft.world.item.ItemBlock;
+import net.minecraft.world.item.ItemStack;
 
 public class ItemCauldron extends ItemBlock {
 

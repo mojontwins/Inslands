@@ -2,7 +2,7 @@ package net.minecraft.client.gui.inventory;
 
 import java.util.Comparator;
 
-import net.minecraft.src.IRecipe;
+import net.minecraft.world.item.crafting.IRecipe;
 
 public class RecipeSorterForGUI implements Comparator<Object> {
 	public int compareRecipesForGUI(IRecipe craftingRecipe1, IRecipe craftingRecipe2) {

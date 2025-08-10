@@ -1,8 +1,8 @@
 package net.minecraft.client.gui.creative;
 
-import net.minecraft.src.IInventory;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.Slot;
+import net.minecraft.world.inventory.IInventory;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 
 class SlotCreativeInventory extends Slot {
 	private final Slot theSlot;

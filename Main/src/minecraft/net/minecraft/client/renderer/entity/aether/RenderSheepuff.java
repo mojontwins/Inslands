@@ -2,12 +2,11 @@ package net.minecraft.client.renderer.entity.aether;
 
 import org.lwjgl.opengl.GL11;
 
-import com.misc.aether.EntitySheepuff;
-
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.animal.EntitySheep;
+import net.minecraft.world.entity.animal.EntitySheepuff;
 
 public class RenderSheepuff extends RenderLiving {
 	private ModelBase wool;

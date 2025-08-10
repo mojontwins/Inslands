@@ -7,6 +7,7 @@ import com.mojang.minecraft.creative.CreativeTabs;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.item.ItemStack;
 
 public class BlockFurnace extends BlockContainer {
 	private Random furnaceRand = new Random();

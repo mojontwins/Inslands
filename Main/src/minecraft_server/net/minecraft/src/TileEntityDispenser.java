@@ -3,6 +3,8 @@ package net.minecraft.src;
 import java.util.Random;
 
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.inventory.IInventory;
+import net.minecraft.world.item.ItemStack;
 
 public class TileEntityDispenser extends TileEntity implements IInventory {
 	private ItemStack[] dispenserContents = new ItemStack[9];

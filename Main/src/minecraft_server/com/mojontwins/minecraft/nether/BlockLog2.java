@@ -7,8 +7,8 @@ import com.mojang.minecraft.creative.CreativeTabs;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockLog;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
+import net.minecraft.world.item.ItemStack;
 
 public class BlockLog2 extends BlockLog {
 	public int textureBark[] = new int[] { 7 * 16 + 5, 0, 0, 0 };

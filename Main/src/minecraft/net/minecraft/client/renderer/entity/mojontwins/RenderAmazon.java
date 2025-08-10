@@ -2,18 +2,17 @@ package net.minecraft.client.renderer.entity.mojontwins;
 
 import org.lwjgl.opengl.GL11;
 
-import com.mojontwins.minecraft.amazonvillage.EntityAmazon;
-
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.mojontwins.ModelAmazon;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.src.Block;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemArmor;
-import net.minecraft.src.ItemStack;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.sentient.EntityAmazon;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemArmor;
+import net.minecraft.world.item.ItemStack;
 
 public class RenderAmazon extends RenderLiving {
 	private ModelAmazon modelBipedMain = (ModelAmazon)this.mainModel;

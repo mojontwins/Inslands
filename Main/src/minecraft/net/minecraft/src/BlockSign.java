@@ -4,6 +4,8 @@ import java.util.Random;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.item.Item;
+
 public class BlockSign extends BlockContainer {
 	private Class<TileEntitySign> signEntityClass;
 	private boolean isFreestanding;

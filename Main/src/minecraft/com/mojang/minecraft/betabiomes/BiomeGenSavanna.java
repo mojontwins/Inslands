@@ -2,8 +2,6 @@ package com.mojang.minecraft.betabiomes;
 
 import java.util.Random;
 
-import com.mojang.minecraft.ocelot.EntityBetaOcelot;
-
 import net.minecraft.src.Block;
 import net.minecraft.src.SpawnListEntry;
 import net.minecraft.src.Weather;
@@ -16,6 +14,7 @@ import net.minecraft.src.WorldGenPalmTree3;
 import net.minecraft.src.WorldGenSeaweed;
 import net.minecraft.src.WorldGenVines;
 import net.minecraft.src.WorldGenerator;
+import net.minecraft.world.entity.animal.EntityBetaOcelot;
 
 public class BiomeGenSavanna extends BiomeGenBeta {
 

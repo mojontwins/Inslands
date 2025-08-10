@@ -2,9 +2,9 @@ package net.minecraft.server;
 
 import net.minecraft.network.packet.Packet53BlockChange;
 import net.minecraft.src.Block;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.item.ItemStack;
 
 public class ItemInWorldManager {
 	private WorldServer thisWorld;

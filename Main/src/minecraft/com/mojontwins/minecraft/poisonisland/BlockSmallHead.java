@@ -11,6 +11,7 @@ import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.monster.EntityDiamondSkeleton;
 
 public class BlockSmallHead extends Block {
 	BlockModel blockModel;

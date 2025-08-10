@@ -6,6 +6,7 @@ import com.mojang.minecraft.creative.CreativeTabs;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.item.Item;
 
 public class BlockRedstoneOre extends Block {
 	private boolean glowing;

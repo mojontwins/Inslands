@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.item.ItemStack;
+
 public class BlockCloth extends Block {
 	public static final int clothColors[] = {
 		0x252121, 0xBC342F, 0x40591C, 0x633B20, 0x2D3BB2, 0x944DD2, 0x2D86AC, 0xB8BDBD,

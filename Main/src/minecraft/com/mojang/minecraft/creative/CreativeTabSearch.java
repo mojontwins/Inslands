@@ -1,6 +1,6 @@
 package com.mojang.minecraft.creative;
 
-import net.minecraft.src.Item;
+import net.minecraft.world.item.Item;
 
 final class CreativeTabSearch extends CreativeTabs {
 	CreativeTabSearch(int par1, String par2Str) {

@@ -1,0 +1,33 @@
+package net.minecraft.world.item;
+
+import com.mojang.minecraft.creative.CreativeTabs;
+
+import net.minecraft.src.Block;
+import net.minecraft.src.Material;
+import net.minecraft.world.entity.Entity;
+
+public class ItemHammer extends ItemPickaxe {
+
+	public ItemHammer(int i1, EnumToolMaterial enumToolMaterial2, boolean silkTouch) {
+		super(i1, 8, enumToolMaterial2, silkTouch);
+		this.displayOnCreativeTab = CreativeTabs.tabCombat;
+	}
+	
+	/*
+	 * Add knock back when hitting an entity.
+	 */
+	public float getExtraKnockbackVsEntity(Entity entity) {
+		return 1.0F;
+	}
+
+	/*
+	 * Default swinging speed = 6, less is faster. 
+	 */
+	public int getSwingSpeed() {
+		return 12;
+	}
+	
+	public float getStrVsBlock(ItemStack itemStack1, Block block2) {
+		return 1.5F * ( block2 == null || block2.blockMaterial != Material.iron && block2.blockMaterial != Material.rock ? super.getStrVsBlock(itemStack1, block2) : this.efficiencyOnProperMaterial );
+	}
+}

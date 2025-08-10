@@ -1,13 +1,13 @@
 package net.minecraft.world.entity.monster;
 
 import net.minecraft.src.Chunk;
-import net.minecraft.src.Item;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.IMob;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.item.Item;
 
 public class EntitySlime extends EntityLiving implements IMob {
 	public float squishFactor;

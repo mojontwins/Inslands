@@ -1,6 +1,6 @@
 package net.minecraft.client.gui.inventory;
 
-import net.minecraft.src.Container;
+import net.minecraft.world.inventory.Container;
 
 public abstract class GuiInventoryEffectRenderer extends GuiContainer {
 

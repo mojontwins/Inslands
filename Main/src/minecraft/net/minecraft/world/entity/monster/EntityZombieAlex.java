@@ -1,8 +1,8 @@
 package net.minecraft.world.entity.monster;
 
-import net.minecraft.src.Item;
 import net.minecraft.src.World;
 import net.minecraft.world.entity.IMob;
+import net.minecraft.world.item.Item;
 
 public class EntityZombieAlex extends EntityZombie implements IMob {
 	

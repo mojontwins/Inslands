@@ -7,8 +7,8 @@ import java.util.Random;
 import com.benimatic.twilightforest.BlockTFHedge;
 import com.benimatic.twilightforest.BlockTFMazestone;
 import com.benimatic.twilightforest.BlockTFMazestone2;
-import com.hippoplatimus.pistons.Piston;
-import com.hippoplatimus.pistons.PistonBase;
+import com.hippoplatimus.pistons.BlockPiston;
+import com.hippoplatimus.pistons.BlockPistonBase;
 import com.misc.aether.BlockAercloud;
 import com.misc.aether.BlockChestMimic;
 import com.misc.aether.BlockDungeon;
@@ -33,6 +33,24 @@ import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EnumMobType;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemBigFlower;
+import net.minecraft.world.item.ItemBlock;
+import net.minecraft.world.item.ItemCloth;
+import net.minecraft.world.item.ItemCoral;
+import net.minecraft.world.item.ItemGrass;
+import net.minecraft.world.item.ItemIce;
+import net.minecraft.world.item.ItemLayeredSand;
+import net.minecraft.world.item.ItemLeaves;
+import net.minecraft.world.item.ItemLilypad;
+import net.minecraft.world.item.ItemLog;
+import net.minecraft.world.item.ItemPiston;
+import net.minecraft.world.item.ItemPumpkin;
+import net.minecraft.world.item.ItemSapling;
+import net.minecraft.world.item.ItemSlab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemTallGrass;
+import net.minecraft.world.item.ItemTerracotta;
 
 public class Block {
 	
@@ -262,10 +280,10 @@ public class Block {
 	
 	
 	// Pistons - sorry, different IDs
-	public static final Block classicPistonBase = (new PistonBase(252, 22, false)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("piston");
-	public static final Block classicPiston = (new Piston(253, 22, false)).setHardness(1.5F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("piston");
-	public static final Block classicStickyPistonBase = (new PistonBase(254, 23, true)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("pistonSticky");
-	public static final Block classicStickyPiston = (new Piston(255, 23, true)).setLightOpacity(0).setHardness(1.5F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("pistonSticky");
+	public static final Block classicPistonBase = (new BlockPistonBase(252, 22, false)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("piston");
+	public static final Block classicPiston = (new BlockPiston(253, 22, false)).setHardness(1.5F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("piston");
+	public static final Block classicStickyPistonBase = (new BlockPistonBase(254, 23, true)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("pistonSticky");
+	public static final Block classicStickyPiston = (new BlockPiston(255, 23, true)).setLightOpacity(0).setHardness(1.5F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("pistonSticky");
 	
 	
 	public int blockIndexInTexture;

@@ -12,9 +12,6 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Random;
 
-import com.benimatic.twilightforest.EntityTFNatureBolt;
-import com.mojontwins.minecraft.monsters.EntityThrowableToxicFungus;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiConnectFailed;
 import net.minecraft.client.gui.GuiDownloadTerrain;
@@ -79,15 +76,9 @@ import net.minecraft.network.packet.Packet9Respawn;
 import net.minecraft.src.BiomeGenBase;
 import net.minecraft.src.Block;
 import net.minecraft.src.ChunkCoordinates;
-import net.minecraft.src.Container;
 import net.minecraft.src.Explosion;
 import net.minecraft.src.ISaveHandler;
-import net.minecraft.src.InventoryBasic;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemMap;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.LevelThemeGlobalSettings;
-import net.minecraft.src.MapStorage;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.StatList;
 import net.minecraft.src.TileEntity;
@@ -115,7 +106,15 @@ import net.minecraft.world.entity.projectile.EntityEgg;
 import net.minecraft.world.entity.projectile.EntityFireball;
 import net.minecraft.world.entity.projectile.EntityFish;
 import net.minecraft.world.entity.projectile.EntityPebble;
+import net.minecraft.world.entity.projectile.EntityTFNatureBolt;
 import net.minecraft.world.entity.projectile.EntityThrowablePotion;
+import net.minecraft.world.entity.projectile.EntityThrowableToxicFungus;
+import net.minecraft.world.inventory.Container;
+import net.minecraft.world.inventory.InventoryBasic;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.map.ItemMap;
+import net.minecraft.world.item.map.MapStorage;
 
 public class NetClientHandler extends NetHandler {
 	private boolean disconnected = false;

@@ -1,7 +1,7 @@
 package com.mojontwins.minecraft.nether;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.ItemBlock;
+import net.minecraft.world.item.ItemBlock;
 
 public class ItemLeaves2 extends ItemBlock {
 

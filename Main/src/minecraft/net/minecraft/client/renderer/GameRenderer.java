@@ -25,14 +25,13 @@ import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.entity.status.Status;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.glu.GLU;
-
-import com.mojontwins.minecraft.entity.status.Status;
 
 public class GameRenderer {
 	public static boolean anaglyphEnable = false;

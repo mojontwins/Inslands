@@ -6,6 +6,8 @@ import java.util.Random;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.item.ItemStack;
+
 public class BlockStep extends Block {
 	public static final String[] blockStepTypes = new String[]{"stone", "sand", "wood", "cobble"};
 	private boolean blockIsDouble;

@@ -1,12 +1,12 @@
 package net.minecraft.world.entity.animal;
 
 import net.minecraft.src.AchievementList;
-import net.minecraft.src.Item;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
 import net.minecraft.world.entity.EntityLightningBolt;
 import net.minecraft.world.entity.monster.EntityPigZombie;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.item.Item;
 
 public class EntityPig extends EntityAnimal {
 	public EntityPig(World world1) {

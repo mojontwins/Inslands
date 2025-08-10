@@ -1,8 +1,8 @@
 package net.minecraft.world.entity.animal;
 
-import net.minecraft.src.Item;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
+import net.minecraft.world.item.Item;
 
 public class EntityChicken extends EntityAnimal {
 	public boolean field_753_a = false;

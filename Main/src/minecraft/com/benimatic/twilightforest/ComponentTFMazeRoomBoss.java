@@ -6,6 +6,7 @@ import com.mojang.minecraft.structure.StructureBoundingBox;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.World;
+import net.minecraft.world.entity.monster.EntityTFMinoshroom;
 
 public class ComponentTFMazeRoomBoss extends ComponentTFMazeRoom {
 	private boolean taurPlaced = false;

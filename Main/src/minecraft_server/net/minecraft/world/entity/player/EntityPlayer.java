@@ -9,13 +9,7 @@ import net.minecraft.src.BiomeGenBase;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockBed;
 import net.minecraft.src.ChunkCoordinates;
-import net.minecraft.src.Container;
-import net.minecraft.src.ContainerPlayer;
 import net.minecraft.src.IChunkProvider;
-import net.minecraft.src.IInventory;
-import net.minecraft.src.InventoryPlayer;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
@@ -43,6 +37,12 @@ import net.minecraft.world.entity.monster.EntityGhast;
 import net.minecraft.world.entity.monster.EntityMob;
 import net.minecraft.world.entity.projectile.EntityArrow;
 import net.minecraft.world.entity.projectile.EntityFish;
+import net.minecraft.world.inventory.Container;
+import net.minecraft.world.inventory.ContainerPlayer;
+import net.minecraft.world.inventory.IInventory;
+import net.minecraft.world.inventory.InventoryPlayer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public abstract class EntityPlayer extends EntityLiving {
 	public InventoryPlayer inventory = new InventoryPlayer(this);
@@ -1166,7 +1166,7 @@ public abstract class EntityPlayer extends EntityLiving {
 			this.triggerAchievement(AchievementList.killEnemy);
 		}
 
-		if(entityLiving1 instanceof com.chocolatin.betterdungeons.EntitySecretBoss) {
+		if(entityLiving1 instanceof net.minecraft.world.entity.monster.EntitySecretBoss) {
 			this.triggerAchievement(AchievementList.slimeBoss);
 		}
 	}

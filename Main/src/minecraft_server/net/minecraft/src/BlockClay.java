@@ -4,6 +4,8 @@ import java.util.Random;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.item.Item;
+
 public class BlockClay extends Block {
 	public BlockClay(int id, int blockIndex) {
 		super(id, blockIndex, Material.clay);

@@ -3,8 +3,8 @@ package com.benimatic.twilightforest;
 import java.util.Random;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class TFTreasureItem {
 	int itemID;

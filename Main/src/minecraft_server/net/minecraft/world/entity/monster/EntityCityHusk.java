@@ -1,11 +1,11 @@
 package net.minecraft.world.entity.monster;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemArmor;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
 import net.minecraft.world.entity.IMob;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemArmor;
 
 public class EntityCityHusk extends EntityHusk implements IMob {
 	public int minArmorTier = 0;

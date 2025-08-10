@@ -5,6 +5,7 @@ import java.util.List;
 import com.mojang.minecraft.creative.CreativeTabs;
 
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.item.ItemStack;
 
 public class BlockIcePacked extends BlockIce {
 	public BlockIcePacked(int blockID, int blockIndex) {

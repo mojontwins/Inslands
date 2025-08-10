@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.item.map.MapColor;
+
 public class MaterialPortal extends Material {
 	public MaterialPortal(MapColor mapColor1) {
 		super(mapColor1);

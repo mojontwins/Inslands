@@ -5,6 +5,8 @@ import java.util.Random;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.item.ItemStack;
+
 public class BlockBigMushroom extends Block {
 	public int mushroomType;
 	

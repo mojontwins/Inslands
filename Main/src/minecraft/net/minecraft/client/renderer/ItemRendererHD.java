@@ -3,8 +3,8 @@ package net.minecraft.client.renderer;
 import net.minecraft.client.Config;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
-import net.minecraft.src.ItemStack;
 import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;

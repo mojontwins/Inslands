@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.minecraft.network.NetHandler;
-import net.minecraft.src.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 public abstract class Packet {
 	private static Map<Integer,Class<? extends Packet>> packetIdToClassMap = new HashMap<Integer,Class<? extends Packet>>();

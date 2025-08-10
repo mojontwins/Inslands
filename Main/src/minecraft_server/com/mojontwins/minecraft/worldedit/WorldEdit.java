@@ -1,6 +1,5 @@
 package com.mojontwins.minecraft.worldedit;
 
-//import net.minecraft.client.Minecraft;
 import net.minecraft.src.BlockPos;
 import net.minecraft.src.Vec3i;
 import net.minecraft.src.World;
@@ -240,8 +239,7 @@ public class WorldEdit {
 	public static int clipboardSize() {
 		return clipboardDims.x * clipboardDims.y * clipboardDims.z;
 	}
-
-	/*
+/*
 	public static void processCommands(Minecraft mc, String cmd, String[] tokens) {
 		int x = 0; 
 		int y = -1; 
@@ -356,7 +354,7 @@ public class WorldEdit {
 					mc.ingameGUI.addChatMessage("Unknown exporter \"" + tokens[2] + "\"");
 				}
 			} else if(idx > 3) {
-			if(checkCorners()) {
+				if(checkCorners()) {
 					String exporterName = tokens [1];
 					String fileName = tokens [2];
 					String arg = idx > 3 ? tokens [3] : "";
@@ -407,5 +405,5 @@ public class WorldEdit {
 			}
 		}
 	}
-	*/
+*/
 }

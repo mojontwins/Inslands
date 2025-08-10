@@ -2,11 +2,10 @@ package net.minecraft.client.renderer.entity.aether;
 
 import org.lwjgl.opengl.GL11;
 
-import com.misc.aether.EntityMimic;
-
 import net.minecraft.client.model.aether.ModelMimic;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.monster.EntityMimic;
 
 public class RenderMimic extends Render {
 	private ModelMimic model = new ModelMimic();

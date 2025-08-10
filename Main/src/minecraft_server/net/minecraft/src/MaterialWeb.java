@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.item.map.MapColor;
+
 public class MaterialWeb extends Material {
 
 	public MaterialWeb(MapColor mapColor1) {

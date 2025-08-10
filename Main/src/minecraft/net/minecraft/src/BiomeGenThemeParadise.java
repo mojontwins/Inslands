@@ -4,11 +4,11 @@ import java.util.Random;
 
 import com.misc.aether.AetherGenClouds;
 import com.misc.aether.AetherGenDungeonBronze;
-import com.misc.aether.EntityFlyingCow;
-import com.misc.aether.EntityPhyg;
-import com.misc.aether.EntitySheepuff;
 
 import net.minecraft.world.entity.animal.EntityChicken;
+import net.minecraft.world.entity.animal.EntityFlyingCow;
+import net.minecraft.world.entity.animal.EntityPhyg;
+import net.minecraft.world.entity.animal.EntitySheepuff;
 import net.minecraft.world.entity.monster.EntityCreeper;
 import net.minecraft.world.entity.monster.EntitySkeleton;
 import net.minecraft.world.entity.monster.EntitySlime;

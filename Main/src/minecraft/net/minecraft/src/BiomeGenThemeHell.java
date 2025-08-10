@@ -2,7 +2,7 @@ package net.minecraft.src;
 
 import java.util.Random;
 
-import com.gw.dm.EntityGhoul;
+import net.minecraft.world.entity.monster.EntityGhoul;
 
 public class BiomeGenThemeHell extends BiomeGenBase {
 

@@ -20,9 +20,9 @@ import net.minecraft.src.BlockCoral;
 import net.minecraft.src.BlockDoor;
 import net.minecraft.src.BlockSign;
 import net.minecraft.src.BlockStep;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemBlock;
-import net.minecraft.src.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemBlock;
+import net.minecraft.world.item.ItemStack;
 
 public class GuiCreativeInventory extends GuiScreen {
 	

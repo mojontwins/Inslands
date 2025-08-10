@@ -2,6 +2,9 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+
 public class WorldGenDungeons extends WorldGenerator {
 	
 	// Dehardcode possible loot (or at least be less cumbersome!)

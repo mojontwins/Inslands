@@ -1,9 +1,9 @@
 package net.minecraft.world.entity.monster;
 
-import net.minecraft.src.IInventory;
-import net.minecraft.src.InventoryMob;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
+import net.minecraft.world.inventory.IInventory;
+import net.minecraft.world.inventory.InventoryMob;
 
 public class EntityArmoredMob extends EntityMob {
 	// Added a proper inventory to manage actual armor and stuff

@@ -1,10 +1,10 @@
 package net.minecraft.world.entity.monster;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Item;
 import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.IMob;
+import net.minecraft.world.item.Item;
 
 public class EntityBuilderZombie extends EntityMob implements IMob {
 	private int collidingTicks;

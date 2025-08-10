@@ -1,11 +1,12 @@
 package net.minecraft.src;
 
-import com.mojontwins.minecraft.icepalace.EntityIceArcher;
-import com.mojontwins.minecraft.icepalace.EntityIceWarrior;
-
 import net.minecraft.world.entity.EntityList;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.monster.EntityArmoredMob;
+import net.minecraft.world.entity.sentient.EntityIceArcher;
+import net.minecraft.world.entity.sentient.EntityIceWarrior;
+import net.minecraft.world.inventory.InventoryMob;
+import net.minecraft.world.item.ItemArmor;
 
 public class TileEntityMobSpawner extends TileEntity {
 	public int delay = -1;

@@ -5,6 +5,7 @@ import java.util.Random;
 import com.mojang.minecraft.creative.CreativeTabs;
 
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.item.Item;
 
 public class BlockCryingObsidian extends BlockObsidian {
 

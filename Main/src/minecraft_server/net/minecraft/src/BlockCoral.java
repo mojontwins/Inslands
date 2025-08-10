@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.item.ItemStack;
+
 public class BlockCoral extends Block {
 	/*
 	 * Coral metadata will be 8, 9, 10 to make it compatible with flowing water.

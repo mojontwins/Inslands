@@ -4,9 +4,9 @@ import java.util.Random;
 
 import com.mojontwins.minecraft.feature.FeatureBuilding;
 
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public abstract class BuildingOceanRuin extends FeatureBuilding {
 	protected Random rand;

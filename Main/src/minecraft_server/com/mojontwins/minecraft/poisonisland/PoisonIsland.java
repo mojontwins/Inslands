@@ -1,9 +1,9 @@
 package com.mojontwins.minecraft.poisonisland;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.CraftingManager;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingManager;
 
 public class PoisonIsland {
 

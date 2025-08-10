@@ -4,15 +4,15 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemGolden;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.IMob;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemGolden;
+import net.minecraft.world.item.ItemStack;
 
 public class EntityPigZombie extends EntityZombie implements IMob {
 	private int angerLevel = 0;

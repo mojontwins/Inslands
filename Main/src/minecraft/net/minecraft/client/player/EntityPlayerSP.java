@@ -12,7 +12,6 @@ import net.minecraft.client.gui.inventory.GuiEditSign;
 import net.minecraft.client.gui.inventory.GuiFurnace;
 import net.minecraft.client.particle.EntityPickupFX;
 import net.minecraft.src.Achievement;
-import net.minecraft.src.IInventory;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.StatBase;
@@ -22,6 +21,7 @@ import net.minecraft.src.TileEntitySign;
 import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.inventory.IInventory;
 
 public class EntityPlayerSP extends EntityPlayer {
 	long lastJumpPress = System.currentTimeMillis();

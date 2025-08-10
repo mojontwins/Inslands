@@ -2,9 +2,6 @@ package com.mojontwins.minecraft.poisonisland;
 
 import java.util.Random;
 
-import com.benimatic.twilightforest.EntityTFSwarmSpiderCaves;
-import com.gw.dm.EntityGhoul;
-
 import net.minecraft.src.BiomeGenBase;
 import net.minecraft.src.Block;
 import net.minecraft.src.SpawnListEntry;
@@ -17,7 +14,10 @@ import net.minecraft.src.WorldGenSwamp;
 import net.minecraft.src.WorldGenTrees;
 import net.minecraft.src.WorldGenerator;
 import net.minecraft.world.entity.monster.EntityCreeper;
+import net.minecraft.world.entity.monster.EntityGhoul;
+import net.minecraft.world.entity.monster.EntityPoisonSkeleton;
 import net.minecraft.world.entity.monster.EntitySpider;
+import net.minecraft.world.entity.monster.EntityTFSwarmSpiderCaves;
 import net.minecraft.world.entity.monster.EntityZombie;
 
 public class BiomeGenThemePoisonIsland extends BiomeGenBase {

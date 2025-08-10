@@ -2,9 +2,9 @@ package com.mojang.minecraft.creative;
 
 import java.util.List;
 
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.StringTranslate;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class CreativeTabs {
 	public static final CreativeTabs[] creativeTabArray = new CreativeTabs[12];

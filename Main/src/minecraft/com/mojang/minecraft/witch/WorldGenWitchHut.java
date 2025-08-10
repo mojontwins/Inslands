@@ -3,13 +3,13 @@ package com.mojang.minecraft.witch;
 import java.util.Random;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.LootItem;
 import net.minecraft.src.TileEntityChest;
 import net.minecraft.src.TileEntityMobSpawnerOneshot;
 import net.minecraft.src.World;
 import net.minecraft.src.WorldGenerator;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class WorldGenWitchHut extends WorldGenerator {
 	public static LootItem possibleLootItems [] = {

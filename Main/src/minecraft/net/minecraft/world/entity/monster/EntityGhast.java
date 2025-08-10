@@ -1,7 +1,6 @@
 package net.minecraft.world.entity.monster;
 
 import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Item;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.Vec3D;
 import net.minecraft.src.World;
@@ -9,6 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.IMob;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.entity.projectile.EntityFireball;
+import net.minecraft.world.item.Item;
 
 public class EntityGhast extends EntityFlying implements IMob {
 	public int courseChangeCooldown = 0;

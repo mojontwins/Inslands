@@ -8,6 +8,9 @@ import net.minecraft.world.entity.EntityList;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.inventory.IInventory;
+import net.minecraft.world.inventory.InventoryLargeChest;
+import net.minecraft.world.item.ItemStack;
 
 public class BlockChest extends BlockContainer {
 	private Random rand = new Random();

@@ -5,14 +5,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import com.mojang.minecraft.witch.EntityAlphaWitch;
-
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EnumCreatureType;
 import net.minecraft.world.entity.IMobWithLevel;
 import net.minecraft.world.entity.animal.EntityCow;
 import net.minecraft.world.entity.animal.EntityPig;
 import net.minecraft.world.entity.animal.EntitySheep;
+import net.minecraft.world.entity.monster.EntityAlphaWitch;
 import net.minecraft.world.entity.monster.EntityHusk;
 import net.minecraft.world.entity.monster.EntitySkeleton;
 import net.minecraft.world.entity.monster.EntitySpider;

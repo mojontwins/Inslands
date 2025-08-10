@@ -8,7 +8,7 @@ import com.mojang.minecraft.structure.StructureComponent;
 import com.mojang.minecraft.structure.StructurePieceTreasure;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Item;
+import net.minecraft.world.item.Item;
 
 public class StructureMineshaftPieces {
 	private static final StructurePieceTreasure[] lootArray = new StructurePieceTreasure[]{

@@ -6,6 +6,7 @@ import net.minecraft.src.MapGenBase;
 import net.minecraft.src.World;
 import net.minecraft.src.WorldSize;
 import net.minecraft.src.WorldType;
+import net.minecraft.world.entity.sentient.EntityPoisonWitch;
 
 public class LevelThemePoisonIsland extends LevelThemeSettings {
 

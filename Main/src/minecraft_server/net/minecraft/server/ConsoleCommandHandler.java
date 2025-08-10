@@ -7,10 +7,10 @@ import java.util.logging.Logger;
 import net.minecraft.network.packet.Packet3Chat;
 import net.minecraft.network.packet.Packet4UpdateTime;
 import net.minecraft.src.IProgressUpdate;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
 import net.minecraft.world.entity.EntityList;
 import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class ConsoleCommandHandler {
 	private static Logger minecraftLogger = Logger.getLogger("Minecraft");

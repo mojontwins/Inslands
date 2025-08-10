@@ -1,11 +1,11 @@
 package net.minecraft.world.entity.monster;
 
-import net.minecraft.src.Item;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.item.Item;
 
 public class EntitySpiderBase extends EntityMob {
 	public EntitySpiderBase(World world1) {

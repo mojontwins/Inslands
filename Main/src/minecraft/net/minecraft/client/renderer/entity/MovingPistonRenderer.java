@@ -2,12 +2,11 @@ package net.minecraft.client.renderer.entity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hippoplatimus.pistons.EntityMovingPiston;
-
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.src.Block;
 import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.EntityMovingPiston;
 
 public class MovingPistonRenderer extends Render {
 	private RenderBlocks a = new RenderBlocks();

@@ -5,6 +5,9 @@ import java.util.Random;
 
 import com.mojang.minecraft.creative.CreativeTabs;
 
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+
 public class BlockTallGrass extends BlockFlower {
 	public static int[] tallGrassColor = new int [] {
 		0xFFFFFF,

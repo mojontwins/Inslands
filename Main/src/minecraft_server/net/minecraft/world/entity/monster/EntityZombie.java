@@ -7,7 +7,6 @@ import java.util.List;
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockDoor;
-import net.minecraft.src.Item;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.Vec3D;
@@ -18,6 +17,7 @@ import net.minecraft.world.entity.IMob;
 import net.minecraft.world.entity.ISentient;
 import net.minecraft.world.entity.block.EntityMeatBlock;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.pathfinder.PathEntity;
 import net.minecraft.world.level.pathfinder.PathPoint;
 
