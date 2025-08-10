@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.level.biome.BiomeGenBase;
+
 public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkProvider {
 	
 	public ChunkProviderSky(World world1, long j2) {

@@ -20,6 +20,7 @@ import net.minecraft.world.entity.block.EntityBlockEntity;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.map.MapDataBase;
 import net.minecraft.world.item.map.MapStorage;
+import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.pathfinder.PathEntity;
 import net.minecraft.world.level.pathfinder.Pathfinder;
 import net.minecraft.world.level.pathfinder.PathfinderRelease;

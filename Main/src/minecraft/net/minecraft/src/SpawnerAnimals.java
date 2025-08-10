@@ -18,6 +18,7 @@ import net.minecraft.world.entity.monster.EntitySpider;
 import net.minecraft.world.entity.monster.EntityZombie;
 import net.minecraft.world.entity.monster.EntityZombieAlex;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.pathfinder.PathEntity;
 import net.minecraft.world.level.pathfinder.PathPoint;
 import net.minecraft.world.level.pathfinder.Pathfinder;

@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.biome.BiomeGenBase;
 
 public class WorldGenDungeons extends WorldGenerator {
 	

@@ -73,7 +73,6 @@ import net.minecraft.network.packet.Packet96BadMoonDecide;
 import net.minecraft.network.packet.Packet98UpdateWeather;
 import net.minecraft.network.packet.Packet99SetCreativeMode;
 import net.minecraft.network.packet.Packet9Respawn;
-import net.minecraft.src.BiomeGenBase;
 import net.minecraft.src.Block;
 import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.src.Explosion;
@@ -115,6 +114,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.map.ItemMap;
 import net.minecraft.world.item.map.MapStorage;
+import net.minecraft.world.level.biome.BiomeGenBase;
 
 public class NetClientHandler extends NetHandler {
 	private boolean disconnected = false;

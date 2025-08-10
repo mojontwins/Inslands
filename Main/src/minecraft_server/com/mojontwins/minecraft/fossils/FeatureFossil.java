@@ -10,13 +10,13 @@ import com.mojontwins.minecraft.feature.FeatureAABB;
 import com.mojontwins.minecraft.feature.FeatureDynamicSchematic;
 import com.mojontwins.minecraft.feature.FeatureProvider;
 
-import net.minecraft.src.BiomeGenBase;
-import net.minecraft.src.BiomeGenDesert;
-import net.minecraft.src.BiomeGenThemeHell;
 import net.minecraft.src.Chunk;
 import net.minecraft.src.ChunkProviderSky;
 import net.minecraft.src.IChunkProvider;
 import net.minecraft.src.World;
+import net.minecraft.world.level.biome.BiomeGenBase;
+import net.minecraft.world.level.biome.BiomeGenDesert;
+import net.minecraft.world.level.biome.BiomeGenThemeHell;
 
 public class FeatureFossil extends FeatureDynamicSchematic {
 

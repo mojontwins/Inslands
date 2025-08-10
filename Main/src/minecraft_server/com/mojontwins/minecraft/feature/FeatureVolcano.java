@@ -3,16 +3,16 @@ package com.mojontwins.minecraft.feature;
 import java.util.Arrays;
 import java.util.Random;
 
-import net.minecraft.src.BiomeGenBase;
-import net.minecraft.src.BiomeGenMangrove;
-import net.minecraft.src.BiomeGenMesa;
-import net.minecraft.src.BiomeGenRocky;
 import net.minecraft.src.Block;
 import net.minecraft.src.Chunk;
 import net.minecraft.src.ChunkProviderSky;
 import net.minecraft.src.IChunkProvider;
 import net.minecraft.src.TileEntityMobSpawnerOneshot;
 import net.minecraft.src.World;
+import net.minecraft.world.level.biome.BiomeGenBase;
+import net.minecraft.world.level.biome.BiomeGenMangrove;
+import net.minecraft.world.level.biome.BiomeGenMesa;
+import net.minecraft.world.level.biome.BiomeGenRocky;
 
 public class FeatureVolcano extends FeatureDynamicSchematic {
 	// I'm making this configurable so I can generate bigger volcanos in other mods with taller worlds

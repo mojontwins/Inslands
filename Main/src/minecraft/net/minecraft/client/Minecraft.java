@@ -77,10 +77,6 @@ import net.minecraft.client.sound.SoundManager;
 import net.minecraft.client.title.GuiMainMenu;
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.BiomeGenBase;
-import net.minecraft.src.BiomeGenThemeForest;
-import net.minecraft.src.BiomeGenThemeHell;
-import net.minecraft.src.BiomeGenThemeParadise;
 import net.minecraft.src.Block;
 import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.src.ColorizerFoliage;
@@ -106,6 +102,10 @@ import net.minecraft.src.WorldType;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.biome.BiomeGenBase;
+import net.minecraft.world.level.biome.BiomeGenThemeForest;
+import net.minecraft.world.level.biome.BiomeGenThemeHell;
+import net.minecraft.world.level.biome.BiomeGenThemeParadise;
 
 public abstract class Minecraft implements Runnable {
 	public static byte[] reservedBytes = new byte[10485760];

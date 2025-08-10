@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Arrays;
 
+import net.minecraft.world.level.biome.BiomeGenBase;
+
 public class WorldChunkManagerHell extends WorldChunkManager {
 	private BiomeGenBase biomeHell;
 	private double temperatureHell;

@@ -5,7 +5,6 @@ import java.util.List;
 
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.BiomeGenBase;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockBed;
 import net.minecraft.src.ChunkCoordinates;
@@ -43,6 +42,7 @@ import net.minecraft.world.inventory.IInventory;
 import net.minecraft.world.inventory.InventoryPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.biome.BiomeGenBase;
 
 public abstract class EntityPlayer extends EntityLiving {
 	public InventoryPlayer inventory = new InventoryPlayer(this);

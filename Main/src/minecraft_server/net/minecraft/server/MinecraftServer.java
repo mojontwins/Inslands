@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 import net.minecraft.network.packet.Packet4UpdateTime;
 import net.minecraft.network.packet.Packet95UpdateDayOfTheYear;
 import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.BiomeGenBase;
 import net.minecraft.src.GlobalVars;
 import net.minecraft.src.IProgressUpdate;
 import net.minecraft.src.ISaveFormat;
@@ -32,6 +31,7 @@ import net.minecraft.src.Version;
 import net.minecraft.src.WorldSettings;
 import net.minecraft.src.WorldSize;
 import net.minecraft.src.WorldType;
+import net.minecraft.world.level.biome.BiomeGenBase;
 
 public class MinecraftServer implements Runnable, ICommandListener {
 	public static Logger logger = Logger.getLogger("Minecraft");

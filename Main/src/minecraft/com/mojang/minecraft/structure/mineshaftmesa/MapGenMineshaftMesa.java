@@ -3,8 +3,8 @@ package com.mojang.minecraft.structure.mineshaftmesa;
 import com.mojang.minecraft.structure.MapGenStructure;
 import com.mojang.minecraft.structure.StructureStart;
 
-import net.minecraft.src.BiomeGenMesa;
 import net.minecraft.src.World;
+import net.minecraft.world.level.biome.BiomeGenMesa;
 
 public class MapGenMineshaftMesa extends MapGenStructure {
 	public MapGenMineshaftMesa(World world) {

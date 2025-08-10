@@ -2,6 +2,9 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import net.minecraft.world.level.biome.BiomeGenBase;
+import net.minecraft.world.level.biome.BiomeGenThemeForest;
+
 public class BlockFire extends Block {
 	private int[] chanceToEncourageFire = new int[256];
 	private int[] abilityToCatchFire = new int[256];

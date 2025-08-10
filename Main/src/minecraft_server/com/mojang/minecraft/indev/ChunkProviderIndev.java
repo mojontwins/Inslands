@@ -1,12 +1,12 @@
 package com.mojang.minecraft.indev;
 
-import net.minecraft.src.BiomeGenBase;
 import net.minecraft.src.Block;
 import net.minecraft.src.Chunk;
 import net.minecraft.src.ChunkProviderGenerate;
 import net.minecraft.src.LevelThemeGlobalSettings;
 import net.minecraft.src.World;
 import net.minecraft.src.WorldSize;
+import net.minecraft.world.level.biome.BiomeGenBase;
 
 public class ChunkProviderIndev extends ChunkProviderGenerate {
 	private NoiseGeneratorOctavesIndev noise1;

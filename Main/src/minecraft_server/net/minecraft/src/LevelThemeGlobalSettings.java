@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.level.biome.BiomeGenBase;
+
 public class LevelThemeGlobalSettings {
 	public static float lightMultiplier = 1.0F;
 	public static boolean dayCycle = false;

@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import net.minecraft.world.level.biome.BiomeGenBase;
+
 public class ChunkProviderHell implements IChunkProvider {
 	private Random rand;
 	private NoiseGeneratorOctaves noiseGen1;

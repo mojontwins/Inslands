@@ -8,6 +8,8 @@ import com.mojang.minecraft.structure.mineshaft.MapGenMineshaft;
 import com.mojang.minecraft.structure.stronghold.MapGenStronghold;
 import com.mojontwins.minecraft.feature.FeatureProvider;
 
+import net.minecraft.world.level.biome.BiomeGenBase;
+
 public class ChunkProviderGenerate implements IChunkProvider {
 	protected Random rand;
 	protected NoiseGeneratorOctaves minLimitNoise;

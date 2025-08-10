@@ -2,6 +2,7 @@ package net.minecraft.src;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.biome.BiomeGenBase;
 
 public class WorldProviderHell extends WorldProvider {
 	public void registerWorldChunkManager() {

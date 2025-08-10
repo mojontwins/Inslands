@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import net.minecraft.world.level.biome.BiomeGenBase;
+
 public class WorldChunkManager {
 	private NoiseGeneratorOctaves2 ngo1;
 	private NoiseGeneratorOctaves2 ngo2;

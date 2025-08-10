@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import net.minecraft.world.level.biome.BiomeGenBase;
+
 public class Weather {
 	public static final int RAIN = 1;
 	public static final int SNOW = 2;

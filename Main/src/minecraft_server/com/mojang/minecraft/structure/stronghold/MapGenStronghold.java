@@ -8,13 +8,13 @@ import java.util.Random;
 import com.mojang.minecraft.structure.MapGenStructure;
 import com.mojang.minecraft.structure.StructureStart;
 
-import net.minecraft.src.BiomeGenBase;
-import net.minecraft.src.BiomeGenDesert;
-import net.minecraft.src.BiomeGenForest;
-import net.minecraft.src.BiomeGenTundra;
 import net.minecraft.src.Block;
 import net.minecraft.src.ChunkCoordIntPair;
 import net.minecraft.src.World;
+import net.minecraft.world.level.biome.BiomeGenBase;
+import net.minecraft.world.level.biome.BiomeGenDesert;
+import net.minecraft.world.level.biome.BiomeGenForest;
+import net.minecraft.world.level.biome.BiomeGenTundra;
 
 public class MapGenStronghold extends MapGenStructure {
 	public static final int chance = 10240;

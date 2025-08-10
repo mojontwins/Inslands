@@ -9,10 +9,10 @@ import com.mojontwins.minecraft.feature.FeatureBuilding;
 import com.mojontwins.minecraft.feature.FeatureProvider;
 import com.mojontwins.minecraft.feature.FeatureVillage;
 
-import net.minecraft.src.BiomeGenBase;
-import net.minecraft.src.BiomeGenGlacier;
 import net.minecraft.src.IChunkProvider;
 import net.minecraft.src.World;
+import net.minecraft.world.level.biome.BiomeGenBase;
+import net.minecraft.world.level.biome.BiomeGenGlacier;
 
 public class FeatureOceanRuins extends FeatureVillage {
 	

@@ -1,9 +1,9 @@
 package com.mojang.minecraft.infdev;
 
-import net.minecraft.src.BiomeGenBase;
 import net.minecraft.src.Block;
 import net.minecraft.src.ChunkProviderGenerate;
 import net.minecraft.src.World;
+import net.minecraft.world.level.biome.BiomeGenBase;
 
 public class ChunkProviderInfdev extends ChunkProviderGenerate {
 	private NoiseGeneratorOctavesInfdev infNoise1;
