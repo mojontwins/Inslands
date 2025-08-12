@@ -9,7 +9,6 @@ import java.util.Random;
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
-import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.NBTTagCompound;
@@ -30,6 +29,7 @@ import net.minecraft.world.entity.status.Status;
 import net.minecraft.world.entity.status.StatusEffect;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.PathNavigate;
 
 public abstract class EntityLiving extends Entity {

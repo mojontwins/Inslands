@@ -3,6 +3,7 @@ package net.minecraft.src;
 import java.util.Random;
 
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.material.Material;
 
 public class BlockCake extends Block {
 	protected BlockCake(int i1, int i2) {

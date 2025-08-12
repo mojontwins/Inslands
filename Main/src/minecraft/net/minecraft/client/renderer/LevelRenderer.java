@@ -33,7 +33,6 @@ import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.IWorldAccess;
-import net.minecraft.src.LevelThemeGlobalSettings;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.TileEntity;
@@ -45,6 +44,7 @@ import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemRecord;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Mouse;

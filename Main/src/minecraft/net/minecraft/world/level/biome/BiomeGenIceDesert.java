@@ -5,9 +5,9 @@ import java.util.Random;
 import net.minecraft.src.Block;
 import net.minecraft.src.Weather;
 import net.minecraft.src.World;
-import net.minecraft.src.WorldGenIceSpike;
-import net.minecraft.src.WorldGenIgloos;
-import net.minecraft.src.WorldGenMinable;
+import net.minecraft.world.level.levelgen.feature.WorldGenIceSpike;
+import net.minecraft.world.level.levelgen.feature.WorldGenIgloos;
+import net.minecraft.world.level.levelgen.feature.WorldGenMinable;
 
 public class BiomeGenIceDesert extends BiomeGenBetaDesert {
 

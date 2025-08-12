@@ -75,7 +75,6 @@ import net.minecraft.network.packet.Packet99SetCreativeMode;
 import net.minecraft.network.packet.Packet9Respawn;
 import net.minecraft.src.Block;
 import net.minecraft.src.Explosion;
-import net.minecraft.src.LevelThemeGlobalSettings;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.StatList;
 import net.minecraft.src.TileEntity;
@@ -115,6 +114,7 @@ import net.minecraft.world.item.map.MapStorage;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
 import net.minecraft.world.level.chunk.storage.ISaveHandler;
+import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 
 public class NetClientHandler extends NetHandler {
 	private boolean disconnected = false;

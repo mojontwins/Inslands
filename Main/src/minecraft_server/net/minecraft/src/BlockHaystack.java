@@ -1,6 +1,7 @@
 package net.minecraft.src;
 
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
 public class BlockHaystack extends Block {
 	

@@ -2,12 +2,11 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
-import com.mojontwins.minecraft.nether.WorldGenBloodTree;
-import com.mojontwins.minecraft.nether.WorldGenHellWillow;
-import com.mojontwins.minecraft.worldgen.WorldGenPopsicleshroom;
-
 import net.minecraft.src.World;
-import net.minecraft.src.WorldGenCaveVines;
+import net.minecraft.world.level.levelgen.feature.WorldGenCaveVines;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenBloodTree;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenHellWillow;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenPopsicleshroom;
 
 public class BiomeGenThemeForestHell extends BiomeGenHell {
 

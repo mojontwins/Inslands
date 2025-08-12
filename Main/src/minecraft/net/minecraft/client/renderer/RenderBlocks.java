@@ -18,10 +18,10 @@ import net.minecraft.src.BlockRail;
 import net.minecraft.src.BlockRedstoneRepeater;
 import net.minecraft.src.BlockRedstoneWire;
 import net.minecraft.src.IBlockAccess;
-import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.Vec3D;
 import net.minecraft.src.World;
+import net.minecraft.world.level.material.Material;
 
 public class RenderBlocks {
 	private IBlockAccess blockAccess;

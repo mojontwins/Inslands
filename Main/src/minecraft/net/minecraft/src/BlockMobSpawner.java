@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import net.minecraft.world.level.material.Material;
+
 public class BlockMobSpawner extends BlockContainer {
 	public boolean oneShot = false; 
 	

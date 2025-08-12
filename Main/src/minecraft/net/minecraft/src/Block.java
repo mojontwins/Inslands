@@ -25,7 +25,6 @@ import com.mojontwins.minecraft.poisonisland.BlockFluidAcid;
 import com.mojontwins.minecraft.poisonisland.BlockPodzol;
 import com.mojontwins.minecraft.poisonisland.BlockSmallHead;
 import com.mojontwins.minecraft.poisonisland.BlockStationaryAcid;
-import com.mojontwins.minecraft.poisonisland.ItemCauldron;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
@@ -35,6 +34,7 @@ import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemBigFlower;
 import net.minecraft.world.item.ItemBlock;
+import net.minecraft.world.item.ItemCauldron;
 import net.minecraft.world.item.ItemCloth;
 import net.minecraft.world.item.ItemCoral;
 import net.minecraft.world.item.ItemGrass;
@@ -51,6 +51,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemTallGrass;
 import net.minecraft.world.item.ItemTerracotta;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
 public class Block {
 	

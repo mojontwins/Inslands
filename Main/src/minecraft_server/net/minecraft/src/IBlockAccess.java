@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.level.material.Material;
+
 public interface IBlockAccess {
 	int getBlockId(int i1, int i2, int i3);
 

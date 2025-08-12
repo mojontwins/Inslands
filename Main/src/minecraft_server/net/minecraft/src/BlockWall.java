@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
 public class BlockWall extends Block {
 	protected BlockWall(int blockID, int blockIndex) {

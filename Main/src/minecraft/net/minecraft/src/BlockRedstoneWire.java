@@ -7,6 +7,7 @@ import java.util.Set;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
 public class BlockRedstoneWire extends Block {
 	private boolean wiresProvidePower = true;

@@ -2,35 +2,10 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
-import com.benimatic.twilightforest.TFGenCanopyMushroom;
-import com.benimatic.twilightforest.TFGenCanopyTree;
-import com.benimatic.twilightforest.TFGenFoundation;
-import com.benimatic.twilightforest.TFGenHedgeMaze;
-import com.benimatic.twilightforest.TFGenHillMaze;
-import com.benimatic.twilightforest.TFGenMonolith;
-import com.benimatic.twilightforest.TFGenMyceliumBlob;
-import com.benimatic.twilightforest.TFGenOutsideStalagmite;
-import com.benimatic.twilightforest.TFGenStoneCircle;
-import com.benimatic.twilightforest.TFGenWell;
-import com.benimatic.twilightforest.TFGenWitchHut;
-import com.benimatic.twilightforest.TFGenerator;
-
 import net.minecraft.src.Block;
 import net.minecraft.src.GlobalVars;
 import net.minecraft.src.SpawnListEntry;
 import net.minecraft.src.World;
-import net.minecraft.src.WorldGenBigMushroom;
-import net.minecraft.src.WorldGenBigTree;
-import net.minecraft.src.WorldGenCypress;
-import net.minecraft.src.WorldGenFir;
-import net.minecraft.src.WorldGenFlowers;
-import net.minecraft.src.WorldGenHugeTrees;
-import net.minecraft.src.WorldGenLilypad;
-import net.minecraft.src.WorldGenMazeMarker;
-import net.minecraft.src.WorldGenPineTree;
-import net.minecraft.src.WorldGenTrees;
-import net.minecraft.src.WorldGenVines;
-import net.minecraft.src.WorldGenerator;
 import net.minecraft.src.WorldSize;
 import net.minecraft.world.entity.animal.EntityBetaOcelot;
 import net.minecraft.world.entity.animal.EntityChickenBlack;
@@ -43,6 +18,30 @@ import net.minecraft.world.entity.monster.EntityTFHedgeSpider;
 import net.minecraft.world.entity.monster.EntityTFKobold;
 import net.minecraft.world.entity.monster.EntityTFRedcap;
 import net.minecraft.world.level.dimension.WorldProviderSky;
+import net.minecraft.world.level.levelgen.feature.TFGenFoundation;
+import net.minecraft.world.level.levelgen.feature.TFGenHedgeMaze;
+import net.minecraft.world.level.levelgen.feature.TFGenHillMaze;
+import net.minecraft.world.level.levelgen.feature.TFGenMonolith;
+import net.minecraft.world.level.levelgen.feature.TFGenMyceliumBlob;
+import net.minecraft.world.level.levelgen.feature.TFGenOutsideStalagmite;
+import net.minecraft.world.level.levelgen.feature.TFGenStoneCircle;
+import net.minecraft.world.level.levelgen.feature.TFGenWell;
+import net.minecraft.world.level.levelgen.feature.TFGenWitchHut;
+import net.minecraft.world.level.levelgen.feature.TFGenerator;
+import net.minecraft.world.level.levelgen.feature.WorldGenFlowers;
+import net.minecraft.world.level.levelgen.feature.WorldGenLilypad;
+import net.minecraft.world.level.levelgen.feature.WorldGenMazeMarker;
+import net.minecraft.world.level.levelgen.feature.WorldGenVines;
+import net.minecraft.world.level.levelgen.feature.WorldGenerator;
+import net.minecraft.world.level.levelgen.feature.trees.TFGenCanopyMushroom;
+import net.minecraft.world.level.levelgen.feature.trees.TFGenCanopyTree;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenBigMushroom;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenBigTree;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenCypress;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenFir;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenHugeTrees;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenPineTree;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenTrees;
 
 public class BiomeGenThemeForest extends BiomeGenForest {
 	

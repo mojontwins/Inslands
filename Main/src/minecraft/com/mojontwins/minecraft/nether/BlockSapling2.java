@@ -6,9 +6,10 @@ import java.util.Random;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockSapling;
 import net.minecraft.src.World;
-import net.minecraft.src.WorldGenerator;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.levelgen.feature.WorldGenerator;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenBloodTree;
 
 public class BlockSapling2 extends BlockSapling {
 	public int blockIndexForMeta[] = new int[] { 11*16+1, 0, 0, 0 };

@@ -2,9 +2,9 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
-import net.minecraft.src.WorldGenBigTree;
-import net.minecraft.src.WorldGenTrees;
-import net.minecraft.src.WorldGenerator;
+import net.minecraft.world.level.levelgen.feature.WorldGenerator;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenBigTree;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenTrees;
 
 public class BiomeGenRainforestOther extends BiomeGenBase {
 	public WorldGenerator getRandomWorldGenForTrees(Random random1) {

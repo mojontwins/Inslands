@@ -1,13 +1,13 @@
 package net.minecraft.world.inventory;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Material;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NBTTagList;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.ItemArmor;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Material;
 
 public class InventoryPlayer implements IInventory {
 	public ItemStack[] mainInventory = new ItemStack[36];

@@ -5,6 +5,7 @@ import net.minecraft.world.inventory.IInventory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.FurnaceRecipes;
+import net.minecraft.world.level.material.Material;
 
 public class TileEntityFurnace extends TileEntity implements IInventory {
 	private ItemStack[] furnaceItemStacks = new ItemStack[3];

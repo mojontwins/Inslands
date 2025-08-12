@@ -3,11 +3,9 @@ package net.minecraft.world.item;
 import java.util.List;
 import java.util.Random;
 
-import com.mojontwins.minecraft.poisonisland.ItemBottle;
 import com.mojontwins.minecraft.worldedit.ItemMagicWand;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Material;
 import net.minecraft.src.StatCollector;
 import net.minecraft.src.StatList;
 import net.minecraft.src.World;
@@ -18,6 +16,7 @@ import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.entity.status.Status;
 import net.minecraft.world.item.map.ItemMap;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
 public class Item {
 	protected static Random rand = new Random();

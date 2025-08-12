@@ -4,9 +4,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import com.mojontwins.minecraft.poisonisland.EntityThrowableBottle;
-import com.mojontwins.minecraft.poisonisland.ItemBottle;
-
 import net.minecraft.src.Block;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
@@ -18,8 +15,10 @@ import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.monster.AttackableTargetSorter;
 import net.minecraft.world.entity.monster.EntityMob;
 import net.minecraft.world.entity.monster.EntityZombie;
+import net.minecraft.world.entity.projectile.EntityThrowableBottle;
 import net.minecraft.world.entity.status.Status;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemBottle;
 import net.minecraft.world.item.ItemStack;
 
 public class EntityPoisonWitch extends EntityMob implements IMob {

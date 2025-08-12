@@ -6,12 +6,12 @@ import net.minecraft.src.Block;
 import net.minecraft.src.Seasons;
 import net.minecraft.src.Weather;
 import net.minecraft.src.World;
-import net.minecraft.src.WorldGenCaveVines;
-import net.minecraft.src.WorldGenFlowers;
-import net.minecraft.src.WorldGenHollowLogs;
-import net.minecraft.src.WorldGenLakes;
-import net.minecraft.src.WorldGenLeafPile;
-import net.minecraft.src.WorldGenSeaweed;
+import net.minecraft.world.level.levelgen.feature.WorldGenCaveVines;
+import net.minecraft.world.level.levelgen.feature.WorldGenFlowers;
+import net.minecraft.world.level.levelgen.feature.WorldGenHollowLogs;
+import net.minecraft.world.level.levelgen.feature.WorldGenLakes;
+import net.minecraft.world.level.levelgen.feature.WorldGenLeafPile;
+import net.minecraft.world.level.levelgen.feature.WorldGenSeaweed;
 
 public class BiomeGenForest extends BiomeGenBase {
 	public BiomeGenForest() {

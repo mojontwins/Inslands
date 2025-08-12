@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.chunk.ChunkCoordIntPair;
+import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 
 public class WorldChunkManagerHell extends WorldChunkManager {
 	private BiomeGenBase biomeHell;

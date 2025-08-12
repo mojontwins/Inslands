@@ -6,6 +6,7 @@ import java.util.Random;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
 public class BlockStep extends Block {
 	public static final String[] blockStepTypes = new String[]{"stone", "sand", "wood", "cobble"};

@@ -31,9 +31,13 @@ import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.chunk.storage.IProgressUpdate;
 import net.minecraft.world.level.chunk.storage.ISaveHandler;
 import net.minecraft.world.level.dimension.WorldProvider;
+import net.minecraft.world.level.levelgen.feature.WorldGenIndevHouse;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.PathEntity;
 import net.minecraft.world.level.pathfinder.Pathfinder;
 import net.minecraft.world.level.pathfinder.PathfinderRelease;
+import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
+import net.minecraft.world.level.theme.LevelThemeSettings;
 
 public class World implements IBlockAccess {
 	private static final int blocksToTickPerFrame = 80;

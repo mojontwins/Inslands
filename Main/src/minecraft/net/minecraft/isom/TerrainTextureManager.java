@@ -6,9 +6,9 @@ import java.util.Arrays;
 import javax.imageio.ImageIO;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Material;
 import net.minecraft.src.World;
 import net.minecraft.world.level.chunk.Chunk;
+import net.minecraft.world.level.material.Material;
 
 public class TerrainTextureManager {
 	private float[] field_1181_a = new float[768];

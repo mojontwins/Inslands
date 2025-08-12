@@ -3,10 +3,10 @@ package net.minecraft.world.level.biome;
 import java.util.Random;
 
 import net.minecraft.src.World;
-import net.minecraft.src.WorldGenShrub;
-import net.minecraft.src.WorldGenTrees;
-import net.minecraft.src.WorldGenWillow;
-import net.minecraft.src.WorldGenerator;
+import net.minecraft.world.level.levelgen.feature.WorldGenerator;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenShrub;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenTrees;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenWillow;
 
 public class BiomeGenShrubland extends BiomeGenBetaForest {
 

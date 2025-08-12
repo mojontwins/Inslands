@@ -1,7 +1,7 @@
 package net.minecraft.world.entity;
 
-import net.minecraft.src.Material;
 import net.minecraft.world.entity.animal.EntityAnimal;
+import net.minecraft.world.level.material.Material;
 
 public enum EnumCreatureType {
 	monster(IMob.class, 90, Material.air, false, "Monster"),

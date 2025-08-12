@@ -6,6 +6,8 @@ import java.util.Random;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.colorizer.ColorizerFoliage;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 
 public class BlockGrass extends Block {
 	protected BlockGrass(int blockID) {

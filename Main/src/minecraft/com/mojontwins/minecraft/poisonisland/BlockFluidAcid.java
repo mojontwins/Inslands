@@ -1,9 +1,9 @@
 package com.mojontwins.minecraft.poisonisland;
 
 import net.minecraft.src.BlockFluid;
-import net.minecraft.src.Material;
 import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.material.Material;
 
 public class BlockFluidAcid extends BlockFluid {
 

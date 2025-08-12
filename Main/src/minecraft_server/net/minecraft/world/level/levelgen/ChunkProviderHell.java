@@ -5,17 +5,17 @@ import java.util.Random;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockSand;
 import net.minecraft.src.World;
-import net.minecraft.src.WorldGenFire;
-import net.minecraft.src.WorldGenFlowers;
-import net.minecraft.src.WorldGenGlowStone1;
-import net.minecraft.src.WorldGenGlowStone2;
-import net.minecraft.src.WorldGenHellLava;
-import net.minecraft.src.WorldGenNetherMinable;
 import net.minecraft.src.WorldSize;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.chunk.storage.IProgressUpdate;
+import net.minecraft.world.level.levelgen.feature.WorldGenFire;
+import net.minecraft.world.level.levelgen.feature.WorldGenFlowers;
+import net.minecraft.world.level.levelgen.feature.WorldGenGlowStone1;
+import net.minecraft.world.level.levelgen.feature.WorldGenGlowStone2;
+import net.minecraft.world.level.levelgen.feature.WorldGenHellLava;
+import net.minecraft.world.level.levelgen.feature.WorldGenNetherMinable;
 import net.minecraft.world.level.levelgen.synth.NoiseGeneratorOctaves;
 
 public class ChunkProviderHell implements IChunkProvider {

@@ -1,7 +1,7 @@
 package com.mojontwins.minecraft.poisonisland;
 
 import net.minecraft.src.BlockStationary;
-import net.minecraft.src.Material;
+import net.minecraft.world.level.material.Material;
 
 public class BlockStationaryAcid extends BlockStationary {
 

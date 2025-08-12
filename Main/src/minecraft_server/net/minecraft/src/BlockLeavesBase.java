@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.level.material.Material;
+
 public class BlockLeavesBase extends Block {
 	protected boolean graphicsLevel;
 

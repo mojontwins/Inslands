@@ -7,7 +7,6 @@ import net.minecraft.network.DataWatcher;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockFluid;
-import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NBTTagDouble;
@@ -22,6 +21,7 @@ import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.inventory.IInventory;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Material;
 
 public abstract class Entity {
 	private static int nextEntityID = 0;

@@ -2,26 +2,25 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
-import com.mojang.minecraft.witch.WorldGenWitchHut;
-
 import net.minecraft.src.Block;
 import net.minecraft.src.SpawnListEntry;
 import net.minecraft.src.Weather;
 import net.minecraft.src.World;
-import net.minecraft.src.WorldGenBigTree;
-import net.minecraft.src.WorldGenFlowers;
-import net.minecraft.src.WorldGenHollowLogs;
-import net.minecraft.src.WorldGenLakes;
-import net.minecraft.src.WorldGenLilypad;
-import net.minecraft.src.WorldGenSwamp;
-import net.minecraft.src.WorldGenVines;
-import net.minecraft.src.WorldGenerator;
 import net.minecraft.world.entity.monster.EntityCreeper;
 import net.minecraft.world.entity.monster.EntityDrowned;
 import net.minecraft.world.entity.monster.EntityElementalCreeper;
 import net.minecraft.world.entity.monster.EntitySkeleton;
 import net.minecraft.world.entity.monster.EntitySlime;
 import net.minecraft.world.entity.monster.EntitySpider;
+import net.minecraft.world.level.levelgen.feature.WorldGenFlowers;
+import net.minecraft.world.level.levelgen.feature.WorldGenHollowLogs;
+import net.minecraft.world.level.levelgen.feature.WorldGenLakes;
+import net.minecraft.world.level.levelgen.feature.WorldGenLilypad;
+import net.minecraft.world.level.levelgen.feature.WorldGenVines;
+import net.minecraft.world.level.levelgen.feature.WorldGenWitchHut;
+import net.minecraft.world.level.levelgen.feature.WorldGenerator;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenBigTree;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenSwamp;
 
 public class BiomeGenSwampLand extends BiomeGenBeta {
 	public BiomeGenSwampLand () {

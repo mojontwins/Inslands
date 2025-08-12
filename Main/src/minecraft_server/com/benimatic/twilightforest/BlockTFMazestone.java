@@ -3,12 +3,12 @@ package com.benimatic.twilightforest;
 import java.util.Random;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Material;
 import net.minecraft.src.World;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemTool;
+import net.minecraft.world.level.material.Material;
 
 public class BlockTFMazestone extends Block {
 	static int[] mimicIDs = new int[]{Block.stoneBricks.blockID, Block.cobblestone.blockID, Block.cobblestoneMossy.blockID};

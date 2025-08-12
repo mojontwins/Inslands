@@ -14,6 +14,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemPotion;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
 public class BlockDispenser extends BlockContainer {
 	private Random random = new Random();

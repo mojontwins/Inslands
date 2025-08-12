@@ -3,10 +3,10 @@ package net.minecraft.world.level.chunk;
 import net.minecraft.src.Block;
 import net.minecraft.src.EnumSkyBlock;
 import net.minecraft.src.IBlockAccess;
-import net.minecraft.src.Material;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 import net.minecraft.src.WorldChunkManager;
+import net.minecraft.world.level.material.Material;
 
 public class ChunkCache implements IBlockAccess {
 	private int chunkX;

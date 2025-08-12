@@ -3,6 +3,7 @@ package net.minecraft.src;
 import java.util.Random;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.material.Material;
 
 public class BlockFarmland extends Block {
 	protected BlockFarmland(int blockID) {

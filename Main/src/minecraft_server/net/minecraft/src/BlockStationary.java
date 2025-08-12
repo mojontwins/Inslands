@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import net.minecraft.world.level.material.Material;
+
 public class BlockStationary extends BlockFluid {
 	protected BlockStationary(int i1, Material material2) {
 		super(i1, material2);

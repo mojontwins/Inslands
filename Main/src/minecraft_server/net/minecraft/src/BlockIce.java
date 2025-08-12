@@ -6,6 +6,7 @@ import java.util.Random;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
 public class BlockIce extends BlockBreakable {
 	private int rainbowCounter = 0;

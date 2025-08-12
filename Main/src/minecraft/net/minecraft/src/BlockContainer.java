@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.level.material.Material;
+
 public abstract class BlockContainer extends Block {
 	protected BlockContainer(int i1, Material material2) {
 		super(i1, material2);

@@ -3,12 +3,11 @@ package net.minecraft.client.renderer.entity.mojontwins;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import com.mojontwins.minecraft.poisonisland.EntityThrowableBottle;
-import com.mojontwins.minecraft.poisonisland.ItemBottle;
-
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.projectile.EntityThrowableBottle;
+import net.minecraft.world.item.ItemBottle;
 
 public class RenderThrowableBottle extends Render {
 

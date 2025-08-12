@@ -5,17 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.misc.bo3import.WorldGenBo3Tree;
-
 import net.minecraft.src.Block;
-import net.minecraft.src.LevelThemeGlobalSettings;
-import net.minecraft.src.LevelThemeSettings;
 import net.minecraft.src.SpawnListEntry;
 import net.minecraft.src.Weather;
 import net.minecraft.src.World;
-import net.minecraft.src.WorldGenBigTree;
-import net.minecraft.src.WorldGenTrees;
-import net.minecraft.src.WorldGenerator;
 import net.minecraft.world.entity.EnumCreatureType;
 import net.minecraft.world.entity.animal.EntityChicken;
 import net.minecraft.world.entity.animal.EntityCow;
@@ -30,6 +23,12 @@ import net.minecraft.world.entity.monster.EntityZombie;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.levelgen.ChunkProviderSky;
+import net.minecraft.world.level.levelgen.feature.WorldGenerator;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenBigTree;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenBo3Tree;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenTrees;
+import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
+import net.minecraft.world.level.theme.LevelThemeSettings;
 
 public class BiomeGenBase {
 	public static final BiomeGenBase biomeDefault = new BiomeGenBase().setBiomeName("Default Alpha");

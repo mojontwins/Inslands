@@ -2,28 +2,12 @@ package net.minecraft.world.level.levelgen;
 
 import java.util.Random;
 
-import com.benimatic.twilightforest.MapGenTFMinotaurMaze;
-import com.mojang.minecraft.structure.mineshaft.MapGenMineshaft;
-import com.mojang.minecraft.structure.stronghold.MapGenStronghold;
-import com.mojontwins.minecraft.feature.FeatureProvider;
-
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockSand;
 import net.minecraft.src.BlockTerracotta;
-import net.minecraft.src.LevelThemeGlobalSettings;
-import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.Weather;
 import net.minecraft.src.World;
-import net.minecraft.src.WorldGenCactus;
-import net.minecraft.src.WorldGenClay;
-import net.minecraft.src.WorldGenDungeons;
-import net.minecraft.src.WorldGenFlowers;
-import net.minecraft.src.WorldGenLiquids;
-import net.minecraft.src.WorldGenMinable;
-import net.minecraft.src.WorldGenPumpkin;
-import net.minecraft.src.WorldGenReed;
-import net.minecraft.src.WorldGenerator;
 import net.minecraft.src.WorldSize;
 import net.minecraft.src.WorldType;
 import net.minecraft.world.level.biome.BiomeGenBase;
@@ -32,8 +16,22 @@ import net.minecraft.world.level.chunk.EmptyChunk;
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.chunk.storage.IProgressUpdate;
 import net.minecraft.world.level.dimension.WorldProviderSky;
+import net.minecraft.world.level.levelgen.feature.WorldGenCactus;
+import net.minecraft.world.level.levelgen.feature.WorldGenClay;
+import net.minecraft.world.level.levelgen.feature.WorldGenDungeons;
+import net.minecraft.world.level.levelgen.feature.WorldGenFlowers;
+import net.minecraft.world.level.levelgen.feature.WorldGenLiquids;
+import net.minecraft.world.level.levelgen.feature.WorldGenMinable;
+import net.minecraft.world.level.levelgen.feature.WorldGenPumpkin;
+import net.minecraft.world.level.levelgen.feature.WorldGenReed;
+import net.minecraft.world.level.levelgen.feature.WorldGenerator;
+import net.minecraft.world.level.levelgen.mcfeature.FeatureProvider;
+import net.minecraft.world.level.levelgen.structure.mineshaft.MapGenMineshaft;
+import net.minecraft.world.level.levelgen.structure.stronghold.MapGenStronghold;
 import net.minecraft.world.level.levelgen.synth.NoiseGeneratorOctaves;
 import net.minecraft.world.level.levelgen.synth.NoiseGeneratorOctavesIndev;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 
 public class ChunkProviderGenerate implements IChunkProvider {
 	protected Random rand;

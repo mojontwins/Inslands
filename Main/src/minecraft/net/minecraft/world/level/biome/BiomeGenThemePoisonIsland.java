@@ -6,18 +6,18 @@ import net.minecraft.src.Block;
 import net.minecraft.src.SpawnListEntry;
 import net.minecraft.src.Weather;
 import net.minecraft.src.World;
-import net.minecraft.src.WorldGenBigMushroom;
-import net.minecraft.src.WorldGenBog1;
-import net.minecraft.src.WorldGenCaveVines;
-import net.minecraft.src.WorldGenSwamp;
-import net.minecraft.src.WorldGenTrees;
-import net.minecraft.src.WorldGenerator;
 import net.minecraft.world.entity.monster.EntityCreeper;
 import net.minecraft.world.entity.monster.EntityGhoul;
 import net.minecraft.world.entity.monster.EntityPoisonSkeleton;
 import net.minecraft.world.entity.monster.EntitySpider;
 import net.minecraft.world.entity.monster.EntityTFSwarmSpiderCaves;
 import net.minecraft.world.entity.monster.EntityZombie;
+import net.minecraft.world.level.levelgen.feature.WorldGenCaveVines;
+import net.minecraft.world.level.levelgen.feature.WorldGenerator;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenBigMushroom;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenBog1;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenSwamp;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenTrees;
 
 public class BiomeGenThemePoisonIsland extends BiomeGenBase {
 

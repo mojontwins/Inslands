@@ -7,6 +7,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 
 public class BlockLeaves extends BlockLeavesBase {
 	// Alpha version

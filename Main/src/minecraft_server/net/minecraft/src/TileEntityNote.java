@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.level.material.Material;
+
 public class TileEntityNote extends TileEntity {
 	public byte note = 0;
 	public boolean previousRedstoneState = false;

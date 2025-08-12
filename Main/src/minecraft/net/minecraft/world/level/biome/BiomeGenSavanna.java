@@ -6,15 +6,15 @@ import net.minecraft.src.Block;
 import net.minecraft.src.SpawnListEntry;
 import net.minecraft.src.Weather;
 import net.minecraft.src.World;
-import net.minecraft.src.WorldGenBaobab;
-import net.minecraft.src.WorldGenLakes;
-import net.minecraft.src.WorldGenLilypad;
-import net.minecraft.src.WorldGenPalmTree1;
-import net.minecraft.src.WorldGenPalmTree3;
-import net.minecraft.src.WorldGenSeaweed;
-import net.minecraft.src.WorldGenVines;
-import net.minecraft.src.WorldGenerator;
 import net.minecraft.world.entity.animal.EntityBetaOcelot;
+import net.minecraft.world.level.levelgen.feature.WorldGenLakes;
+import net.minecraft.world.level.levelgen.feature.WorldGenLilypad;
+import net.minecraft.world.level.levelgen.feature.WorldGenSeaweed;
+import net.minecraft.world.level.levelgen.feature.WorldGenVines;
+import net.minecraft.world.level.levelgen.feature.WorldGenerator;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenBaobab;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenPalmTree1;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenPalmTree3;
 
 public class BiomeGenSavanna extends BiomeGenBeta {
 

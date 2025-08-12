@@ -6,14 +6,6 @@ import net.minecraft.src.Block;
 import net.minecraft.src.SpawnListEntry;
 import net.minecraft.src.Weather;
 import net.minecraft.src.World;
-import net.minecraft.src.WorldGenFir;
-import net.minecraft.src.WorldGenIgloos;
-import net.minecraft.src.WorldGenLakes;
-import net.minecraft.src.WorldGenMinable;
-import net.minecraft.src.WorldGenPineTree;
-import net.minecraft.src.WorldGenTaigaTree1;
-import net.minecraft.src.WorldGenTaigaTree2;
-import net.minecraft.src.WorldGenerator;
 import net.minecraft.world.entity.animal.EntityColdCow;
 import net.minecraft.world.entity.animal.EntitySheep;
 import net.minecraft.world.entity.animal.EntityWolf;
@@ -25,6 +17,14 @@ import net.minecraft.world.entity.monster.EntityZombie;
 import net.minecraft.world.entity.monster.EntityZombieAlex;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.levelgen.city.BuildingTaigaHut;
+import net.minecraft.world.level.levelgen.feature.WorldGenIgloos;
+import net.minecraft.world.level.levelgen.feature.WorldGenLakes;
+import net.minecraft.world.level.levelgen.feature.WorldGenMinable;
+import net.minecraft.world.level.levelgen.feature.WorldGenerator;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenFir;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenPineTree;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenTaigaTree1;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenTaigaTree2;
 
 public class BiomeGenTaiga extends BiomeGenForest {
 	public BiomeGenTaiga() {

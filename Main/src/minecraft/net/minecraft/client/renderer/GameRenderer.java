@@ -15,7 +15,6 @@ import net.minecraft.client.renderer.culling.ClippingHelperImpl;
 import net.minecraft.client.renderer.culling.Frustrum;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
-import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.Vec3D;
@@ -26,6 +25,7 @@ import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.entity.status.Status;
 import net.minecraft.world.level.biome.BiomeGenBase;
+import net.minecraft.world.level.material.Material;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;

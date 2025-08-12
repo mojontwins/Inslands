@@ -3,6 +3,11 @@ package net.minecraft.src;
 import java.util.Random;
 
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.levelgen.feature.WorldGenerator;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenBigTree;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenForest;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenTaiga2;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenTrees;
 
 public class BlockSapling extends BlockFlower {
 	protected BlockSapling(int i1, int i2) {

@@ -2,7 +2,6 @@ package net.minecraft.client;
 
 import java.util.StringTokenizer;
 
-import com.misc.bo3import.WorldGenBo3Tree;
 import com.mojontwins.minecraft.worldedit.WorldEdit;
 
 import net.minecraft.src.IWorldAccess;
@@ -13,6 +12,7 @@ import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.IMobWithLevel;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenBo3Tree;
 
 public class SinglePlayerCommands {
 	

@@ -11,13 +11,13 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.src.Block;
-import net.minecraft.src.Material;
 import net.minecraft.src.Seasons;
 import net.minecraft.src.StringTranslate;
 import net.minecraft.src.Version;
 import net.minecraft.world.entity.status.Status;
 import net.minecraft.world.inventory.InventoryPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Material;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;

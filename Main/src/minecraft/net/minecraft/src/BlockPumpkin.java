@@ -2,6 +2,7 @@ package net.minecraft.src;
 
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
 public class BlockPumpkin extends Block {
 	private boolean isLantern;

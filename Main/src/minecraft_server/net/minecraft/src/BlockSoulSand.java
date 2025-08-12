@@ -2,6 +2,7 @@ package net.minecraft.src;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
 public class BlockSoulSand extends Block {
 	public BlockSoulSand(int i1, int i2) {

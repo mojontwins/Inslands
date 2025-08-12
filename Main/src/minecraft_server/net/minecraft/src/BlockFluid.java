@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.IWaterMob;
+import net.minecraft.world.level.material.Material;
 
 public abstract class BlockFluid extends Block {
 	protected BlockFluid(int i1, Material material2) {

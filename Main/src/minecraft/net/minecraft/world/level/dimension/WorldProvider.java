@@ -1,9 +1,6 @@
 package net.minecraft.world.level.dimension;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.LevelThemeGlobalSettings;
-import net.minecraft.src.LevelThemeSettings;
-import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.Seasons;
 import net.minecraft.src.Vec3D;
@@ -14,6 +11,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.chunk.IChunkProvider;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
+import net.minecraft.world.level.theme.LevelThemeSettings;
 
 public abstract class WorldProvider {
 	public World worldObj;

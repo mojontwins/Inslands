@@ -2,7 +2,6 @@ package net.minecraft.world.entity.item;
 
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.Block;
-import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
@@ -10,6 +9,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Material;
 
 public class EntityItem extends Entity {
 	public ItemStack item;

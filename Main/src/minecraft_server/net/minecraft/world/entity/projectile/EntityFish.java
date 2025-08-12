@@ -3,7 +3,6 @@ package net.minecraft.world.entity.projectile;
 import java.util.List;
 
 import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.NBTTagCompound;
@@ -15,6 +14,7 @@ import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Material;
 
 public class EntityFish extends Entity {
 	private int xTile;

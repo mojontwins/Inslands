@@ -3,6 +3,7 @@ package net.minecraft.src;
 import java.util.Random;
 
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
 public class BlockMycelium extends Block {
 	protected BlockMycelium(int par1) {

@@ -9,10 +9,6 @@ import net.minecraft.src.FurniturePieces;
 import net.minecraft.src.TileEntityChest;
 import net.minecraft.src.TileEntityMobSpawner;
 import net.minecraft.src.World;
-import net.minecraft.src.WorldGenStairs;
-import net.minecraft.src.WorldGenStreetLight;
-import net.minecraft.src.WorldGenTrees;
-import net.minecraft.src.WorldGenTreesDead;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.BiomeGenBase;
@@ -21,6 +17,10 @@ import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.levelgen.MapGenBase;
+import net.minecraft.world.level.levelgen.feature.WorldGenStairs;
+import net.minecraft.world.level.levelgen.feature.WorldGenStreetLight;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenTrees;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenTreesDead;
 
 public class MapGenCity extends MapGenBase {
 	/* 

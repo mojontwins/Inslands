@@ -2,15 +2,9 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
-import com.misc.aether.AetherGenClouds;
-import com.misc.aether.AetherGenDungeonBronze;
-
 import net.minecraft.src.Block;
 import net.minecraft.src.SpawnListEntry;
 import net.minecraft.src.World;
-import net.minecraft.src.WorldGenFlowers;
-import net.minecraft.src.WorldGenLilypad;
-import net.minecraft.src.WorldGenSeaweed;
 import net.minecraft.world.entity.animal.EntityChicken;
 import net.minecraft.world.entity.animal.EntityFlyingCow;
 import net.minecraft.world.entity.animal.EntityPhyg;
@@ -21,6 +15,11 @@ import net.minecraft.world.entity.monster.EntitySlime;
 import net.minecraft.world.entity.monster.EntitySpider;
 import net.minecraft.world.entity.monster.EntityZombie;
 import net.minecraft.world.level.dimension.WorldProviderSky;
+import net.minecraft.world.level.levelgen.feature.AetherGenClouds;
+import net.minecraft.world.level.levelgen.feature.AetherGenDungeonBronze;
+import net.minecraft.world.level.levelgen.feature.WorldGenFlowers;
+import net.minecraft.world.level.levelgen.feature.WorldGenLilypad;
+import net.minecraft.world.level.levelgen.feature.WorldGenSeaweed;
 
 public class BiomeGenThemeParadise extends BiomeGenBase {
 

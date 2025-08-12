@@ -6,17 +6,17 @@ import net.minecraft.src.Block;
 import net.minecraft.src.SpawnListEntry;
 import net.minecraft.src.Weather;
 import net.minecraft.src.World;
-import net.minecraft.src.WorldGenBigMushroom;
-import net.minecraft.src.WorldGenFireWithSet;
-import net.minecraft.src.WorldGenLakes;
-import net.minecraft.src.WorldGenMinable;
-import net.minecraft.src.WorldGenRockBoulder;
-import net.minecraft.src.WorldGenTrees;
-import net.minecraft.src.WorldGenTreesDead;
-import net.minecraft.src.WorldGenerator;
 import net.minecraft.world.entity.monster.EntityGhoul;
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.levelgen.ChunkProviderSky;
+import net.minecraft.world.level.levelgen.feature.WorldGenFireWithSet;
+import net.minecraft.world.level.levelgen.feature.WorldGenLakes;
+import net.minecraft.world.level.levelgen.feature.WorldGenMinable;
+import net.minecraft.world.level.levelgen.feature.WorldGenRockBoulder;
+import net.minecraft.world.level.levelgen.feature.WorldGenerator;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenBigMushroom;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenTrees;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenTreesDead;
 
 public class BiomeGenThemeHell extends BiomeGenBase {
 

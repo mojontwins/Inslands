@@ -10,6 +10,7 @@ import net.minecraft.world.inventory.IInventory;
 import net.minecraft.world.inventory.InventoryLargeChest;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
 public class BlockChest extends BlockContainer {
 	private Random rand = new Random();

@@ -4,8 +4,8 @@ import java.util.Random;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.World;
-import net.minecraft.src.WorldGenFlowers;
-import net.minecraft.src.WorldGenLakes;
+import net.minecraft.world.level.levelgen.feature.WorldGenFlowers;
+import net.minecraft.world.level.levelgen.feature.WorldGenLakes;
 
 public class BiomeGenPlains extends BiomeGenBase {
 	public BiomeGenPlains() {

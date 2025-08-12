@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
 public class BlockGlowStone extends Block {
 	public BlockGlowStone(int i1, int i2, Material material3) {

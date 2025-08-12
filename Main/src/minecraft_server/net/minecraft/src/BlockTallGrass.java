@@ -6,6 +6,7 @@ import java.util.Random;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 
 public class BlockTallGrass extends BlockFlower {
 	public static int[] tallGrassColor = new int [] {

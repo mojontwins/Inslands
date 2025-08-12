@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.material.Material;
 
 public class BlockPistonBase extends Block {
 	private boolean isSticky;

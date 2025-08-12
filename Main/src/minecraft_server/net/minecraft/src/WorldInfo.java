@@ -3,6 +3,7 @@ package net.minecraft.src;
 import java.util.List;
 
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 
 public class WorldInfo {
 	private long randomSeed;

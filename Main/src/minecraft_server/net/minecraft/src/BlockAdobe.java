@@ -3,6 +3,7 @@ package net.minecraft.src;
 import java.util.Random;
 
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
 public class BlockAdobe extends Block {
 	protected BlockAdobe(int id, int blockIndexInTexture) {

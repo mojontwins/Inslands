@@ -8,6 +8,7 @@ import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EnumMobType;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
 public class BlockPressurePlate extends Block {
 	private EnumMobType triggerMobType;

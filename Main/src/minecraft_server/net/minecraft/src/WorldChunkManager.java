@@ -6,6 +6,7 @@ import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.chunk.ChunkCoordIntPair;
 import net.minecraft.world.level.levelgen.synth.NoiseGeneratorOctaves2;
 import net.minecraft.world.level.levelgen.synth.NoiseGeneratorPerlin;
+import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 
 public class WorldChunkManager {
 	private NoiseGeneratorOctaves2 ngo1;

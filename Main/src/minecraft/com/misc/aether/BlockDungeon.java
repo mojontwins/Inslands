@@ -1,8 +1,8 @@
 package com.misc.aether;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Material;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
 public class BlockDungeon extends Block {
 	public static int sprBronze = BlockTrap.sprBronze;

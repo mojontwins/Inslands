@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenBigMushroom;
+
 public class BlockMushroom extends BlockFlower {
 	protected BlockMushroom(int i1, int i2) {
 		super(i1, i2);

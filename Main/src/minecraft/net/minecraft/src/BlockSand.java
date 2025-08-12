@@ -2,6 +2,7 @@ package net.minecraft.src;
 
 import net.minecraft.world.entity.item.EntityFallingSand;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
 public class BlockSand extends Block {
 	public static boolean fallInstantly = false;

@@ -1,8 +1,7 @@
 package net.minecraft.src;
 
-import com.mojontwins.minecraft.feature.FeatureAABB;
-
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.levelgen.mcfeature.FeatureAABB;
 
 public class GlobalVars {
 	public static Entity currentBoss = null;

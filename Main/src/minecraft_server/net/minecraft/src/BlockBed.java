@@ -8,6 +8,7 @@ import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.entity.player.EnumStatus;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
+import net.minecraft.world.level.material.Material;
 
 public class BlockBed extends Block {
 	public static final int[][] headBlockToFootBlockMap = new int[][]{{0, 1}, {-1, 0}, {0, -1}, {1, 0}};

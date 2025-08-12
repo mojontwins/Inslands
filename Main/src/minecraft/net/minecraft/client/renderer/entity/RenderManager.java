@@ -6,8 +6,6 @@ import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
 
-import com.mojontwins.minecraft.poisonisland.EntityThrowableBottle;
-
 import net.minecraft.client.gui.GameSettings;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelChicken;
@@ -134,6 +132,7 @@ import net.minecraft.world.entity.projectile.EntityFireball;
 import net.minecraft.world.entity.projectile.EntityFish;
 import net.minecraft.world.entity.projectile.EntityPebble;
 import net.minecraft.world.entity.projectile.EntityTFNatureBolt;
+import net.minecraft.world.entity.projectile.EntityThrowableBottle;
 import net.minecraft.world.entity.projectile.EntityThrowablePotion;
 import net.minecraft.world.entity.projectile.EntityThrowableToxicFungus;
 import net.minecraft.world.entity.sentient.EntityAmazon;

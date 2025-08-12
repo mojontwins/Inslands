@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.material.Material;
 
 public class BlockDoor extends Block {
 	protected BlockDoor(int i1, Material material2) {

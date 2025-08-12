@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import com.mojontwins.minecraft.poisonisland.PoisonIsland;
-
 import net.minecraft.src.Block;
 import net.minecraft.world.inventory.InventoryCrafting;
 import net.minecraft.world.item.Item;
@@ -103,7 +101,7 @@ public class CraftingManager {
 		// Custom
 		(new RecipesMine()).addRecipes(this);
 		(new RecipesNether()).addRecipes(this);
-		PoisonIsland.addRecipes(this);
+		RecipesPoisonIsland.addRecipes(this);
 		
 		Collections.sort(this.recipes, new RecipeSorter(this));
 		System.out.println(this.recipes.size() + " recipes");

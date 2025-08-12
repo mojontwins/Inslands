@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
 public class BlockCactus extends Block {
 	protected BlockCactus(int i1, int i2) {

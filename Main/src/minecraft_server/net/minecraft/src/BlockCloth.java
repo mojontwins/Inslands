@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
 public class BlockCloth extends Block {
 	public static final int clothColors[] = {

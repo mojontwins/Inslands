@@ -1,6 +1,7 @@
 package net.minecraft.src;
 
 import net.minecraft.world.entity.block.EntityBlockEntity;
+import net.minecraft.world.level.material.Material;
 
 public abstract class BlockEntity extends Block {
 

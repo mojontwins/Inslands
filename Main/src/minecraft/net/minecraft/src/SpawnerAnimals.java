@@ -23,9 +23,11 @@ import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.chunk.ChunkCoordIntPair;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
 import net.minecraft.world.level.chunk.IChunkProvider;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.PathEntity;
 import net.minecraft.world.level.pathfinder.PathPoint;
 import net.minecraft.world.level.pathfinder.Pathfinder;
+import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 
 public final class SpawnerAnimals {
 	private static Set<ChunkCoordIntPair> eligibleChunksForSpawning = new HashSet<ChunkCoordIntPair>();

@@ -6,17 +6,17 @@ import net.minecraft.src.Block;
 import net.minecraft.src.SpawnListEntry;
 import net.minecraft.src.Weather;
 import net.minecraft.src.World;
-import net.minecraft.src.WorldGenBigTreeDead;
-import net.minecraft.src.WorldGenDesertFlowers;
-import net.minecraft.src.WorldGenLakes;
-import net.minecraft.src.WorldGenMinable;
-import net.minecraft.src.WorldGenerator;
 import net.minecraft.world.entity.animal.EntityChickenBlack;
 import net.minecraft.world.entity.monster.EntityCreeper;
 import net.minecraft.world.entity.monster.EntityHusk;
 import net.minecraft.world.entity.monster.EntitySkeleton;
 import net.minecraft.world.entity.monster.EntitySlime;
 import net.minecraft.world.entity.monster.EntitySpider;
+import net.minecraft.world.level.levelgen.feature.WorldGenDesertFlowers;
+import net.minecraft.world.level.levelgen.feature.WorldGenLakes;
+import net.minecraft.world.level.levelgen.feature.WorldGenMinable;
+import net.minecraft.world.level.levelgen.feature.WorldGenerator;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenBigTreeDead;
 
 public class BiomeGenDesert extends BiomeGenBase {
 	public BiomeGenDesert() {

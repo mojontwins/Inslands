@@ -1,11 +1,11 @@
 package net.minecraft.world.item;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
 public class ItemDoor extends Item {
 	private Material doorMaterial;

@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.world.entity.block.EntityBlockEntity;
 import net.minecraft.world.entity.block.EntityMeatBlock;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
 public class BlockMeat extends BlockEntity {
 
