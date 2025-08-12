@@ -4,7 +4,7 @@ import java.util.Date;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.SaveFormatComparator;
+import net.minecraft.world.level.chunk.storage.SaveFormatComparator;
 
 class GuiWorldSlot extends GuiSlot {
 	final GuiSelectWorld parentWorldGui;

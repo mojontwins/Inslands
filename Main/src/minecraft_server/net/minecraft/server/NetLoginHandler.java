@@ -17,10 +17,10 @@ import net.minecraft.network.packet.Packet6SpawnPosition;
 import net.minecraft.network.packet.Packet93FiniteWorldSettings;
 import net.minecraft.network.packet.Packet95UpdateDayOfTheYear;
 import net.minecraft.network.packet.Packet99SetCreativeMode;
-import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.src.LevelThemeGlobalSettings;
 import net.minecraft.src.Seasons;
 import net.minecraft.src.WorldSize;
+import net.minecraft.world.level.chunk.ChunkCoordinates;
 
 public class NetLoginHandler extends NetHandler {
 	public static Logger logger = Logger.getLogger("Minecraft");

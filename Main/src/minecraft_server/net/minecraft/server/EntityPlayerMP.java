@@ -22,8 +22,6 @@ import net.minecraft.network.packet.Packet5PlayerInventory;
 import net.minecraft.network.packet.Packet8UpdateHealth;
 import net.minecraft.network.packet.Packet94FreezeLevel;
 import net.minecraft.network.packet.Packet99SetCreativeMode;
-import net.minecraft.src.ChunkCoordIntPair;
-import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.src.StatBase;
 import net.minecraft.src.StringTranslate;
 import net.minecraft.src.TileEntity;
@@ -46,6 +44,8 @@ import net.minecraft.world.inventory.SlotCrafting;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.map.ItemMapBase;
+import net.minecraft.world.level.chunk.ChunkCoordIntPair;
+import net.minecraft.world.level.chunk.ChunkCoordinates;
 
 public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 	public NetServerHandler playerNetServerHandler;

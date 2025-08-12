@@ -3,7 +3,6 @@ package net.minecraft.world.item;
 import java.util.List;
 import java.util.Random;
 
-import com.mojang.minecraft.creative.CreativeTabs;
 import com.mojontwins.minecraft.poisonisland.ItemBottle;
 import com.mojontwins.minecraft.worldedit.ItemMagicWand;
 
@@ -18,6 +17,7 @@ import net.minecraft.world.entity.EnumAction;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.entity.status.Status;
 import net.minecraft.world.item.map.ItemMap;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class Item {
 	protected static Random rand = new Random();

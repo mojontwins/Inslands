@@ -2,7 +2,7 @@ package net.minecraft.src;
 
 import java.util.Random;
 
-import com.mojang.minecraft.creative.CreativeTabs;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockLayeredSand extends Block {
 	public BlockLayeredSand(int id, int blockIndex) {

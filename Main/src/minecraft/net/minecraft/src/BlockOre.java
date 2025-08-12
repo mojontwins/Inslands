@@ -2,9 +2,8 @@ package net.minecraft.src;
 
 import java.util.Random;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockOre extends Block {
 	public BlockOre(int i1, int i2) {

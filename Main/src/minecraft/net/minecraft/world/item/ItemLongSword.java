@@ -1,8 +1,7 @@
 package net.minecraft.world.item;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class ItemLongSword extends ItemSword {
 

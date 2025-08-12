@@ -3,6 +3,7 @@ package net.minecraft.src;
 import java.util.Arrays;
 
 import net.minecraft.world.level.biome.BiomeGenBase;
+import net.minecraft.world.level.chunk.ChunkCoordIntPair;
 
 public class WorldChunkManagerHell extends WorldChunkManager {
 	private BiomeGenBase biomeHell;

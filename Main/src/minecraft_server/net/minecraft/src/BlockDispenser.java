@@ -2,8 +2,6 @@ package net.minecraft.src;
 
 import java.util.Random;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.monster.EntitySnowball;
@@ -15,6 +13,7 @@ import net.minecraft.world.entity.projectile.EntityThrowablePotion;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemPotion;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockDispenser extends BlockContainer {
 	private Random random = new Random();

@@ -3,8 +3,6 @@ package net.minecraft.world.level.biome;
 import java.util.Random;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.ChunkProviderSky;
-import net.minecraft.src.IChunkProvider;
 import net.minecraft.src.SpawnListEntry;
 import net.minecraft.src.Weather;
 import net.minecraft.src.World;
@@ -17,6 +15,8 @@ import net.minecraft.src.WorldGenTrees;
 import net.minecraft.src.WorldGenTreesDead;
 import net.minecraft.src.WorldGenerator;
 import net.minecraft.world.entity.monster.EntityGhoul;
+import net.minecraft.world.level.chunk.IChunkProvider;
+import net.minecraft.world.level.levelgen.ChunkProviderSky;
 
 public class BiomeGenThemeHell extends BiomeGenBase {
 

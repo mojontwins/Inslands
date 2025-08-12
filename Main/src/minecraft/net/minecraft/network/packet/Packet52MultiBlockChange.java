@@ -6,8 +6,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import net.minecraft.network.NetHandler;
-import net.minecraft.src.Chunk;
 import net.minecraft.src.World;
+import net.minecraft.world.level.chunk.Chunk;
 
 public class Packet52MultiBlockChange extends Packet {
 	public int xPosition;

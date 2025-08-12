@@ -8,9 +8,6 @@ import java.util.Random;
 import com.misc.bo3import.WorldGenBo3Tree;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Chunk;
-import net.minecraft.src.ChunkProviderSky;
-import net.minecraft.src.IChunkProvider;
 import net.minecraft.src.LevelThemeGlobalSettings;
 import net.minecraft.src.LevelThemeSettings;
 import net.minecraft.src.SpawnListEntry;
@@ -30,6 +27,9 @@ import net.minecraft.world.entity.monster.EntitySkeleton;
 import net.minecraft.world.entity.monster.EntitySlime;
 import net.minecraft.world.entity.monster.EntitySpider;
 import net.minecraft.world.entity.monster.EntityZombie;
+import net.minecraft.world.level.chunk.Chunk;
+import net.minecraft.world.level.chunk.IChunkProvider;
+import net.minecraft.world.level.levelgen.ChunkProviderSky;
 
 public class BiomeGenBase {
 	public static final BiomeGenBase biomeDefault = new BiomeGenBase().setBiomeName("Default Alpha");

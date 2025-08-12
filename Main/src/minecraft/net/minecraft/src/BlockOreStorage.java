@@ -1,6 +1,6 @@
 package net.minecraft.src;
 
-import com.mojang.minecraft.creative.CreativeTabs;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockOreStorage extends Block {
 	public BlockOreStorage(int i1, int i2) {

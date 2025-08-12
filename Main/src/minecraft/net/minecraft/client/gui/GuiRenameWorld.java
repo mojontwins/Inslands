@@ -2,9 +2,9 @@ package net.minecraft.client.gui;
 
 import org.lwjgl.input.Keyboard;
 
-import net.minecraft.src.ISaveFormat;
 import net.minecraft.src.StringTranslate;
 import net.minecraft.src.WorldInfo;
+import net.minecraft.world.level.chunk.storage.ISaveFormat;
 
 public class GuiRenameWorld extends GuiScreen {
 	private GuiScreen parentGuiScreen;

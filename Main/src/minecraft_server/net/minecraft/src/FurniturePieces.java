@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.world.level.chunk.Chunk;
+
 public class FurniturePieces {
 	public static final int NUM_FURNITURE_PIECES = 10;
 	

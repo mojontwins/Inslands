@@ -2,9 +2,8 @@ package net.minecraft.src;
 
 import java.util.List;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockBigFlower extends Block {
 	// Uses metadata to represent three different blocks:

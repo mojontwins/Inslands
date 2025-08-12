@@ -13,7 +13,6 @@ import com.misc.aether.BlockAercloud;
 import com.misc.aether.BlockChestMimic;
 import com.misc.aether.BlockDungeon;
 import com.misc.aether.BlockTrap;
-import com.mojang.minecraft.creative.CreativeTabs;
 import com.mojontwins.minecraft.blockmodels.BlockModel;
 import com.mojontwins.minecraft.nether.BlockLeaves2;
 import com.mojontwins.minecraft.nether.BlockLog2;
@@ -51,6 +50,7 @@ import net.minecraft.world.item.ItemSlab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemTallGrass;
 import net.minecraft.world.item.ItemTerracotta;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class Block {
 	

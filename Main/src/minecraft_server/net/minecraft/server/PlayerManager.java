@@ -3,7 +3,7 @@ package net.minecraft.server;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.src.WorldProvider;
+import net.minecraft.world.level.dimension.WorldProvider;
 
 public class PlayerManager {
 	public List<EntityPlayerMP> players = new ArrayList<EntityPlayerMP>();

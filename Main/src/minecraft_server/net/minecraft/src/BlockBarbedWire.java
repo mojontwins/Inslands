@@ -2,10 +2,9 @@ package net.minecraft.src;
 
 import java.util.Random;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockBarbedWire extends Block {
 	protected BlockBarbedWire(int id, int blockIndexInTexture) {

@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Chunk;
-import net.minecraft.src.NibbleArray;
 import net.minecraft.src.World;
+import net.minecraft.world.level.chunk.Chunk;
+import net.minecraft.world.level.chunk.NibbleArray;
 
 public class StarlightEngine {
 	// https://github.com/PaperMC/Starlight

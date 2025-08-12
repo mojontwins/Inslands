@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.mojang.minecraft.creative.CreativeTabs;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockRedstoneTorch extends BlockTorch {
 	private boolean torchActive = false;

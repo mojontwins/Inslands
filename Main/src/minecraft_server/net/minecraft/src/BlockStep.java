@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockStep extends Block {
 	public static final String[] blockStepTypes = new String[]{"stone", "sand", "wood", "cobble"};

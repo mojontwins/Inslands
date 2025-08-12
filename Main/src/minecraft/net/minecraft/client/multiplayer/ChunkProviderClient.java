@@ -6,12 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.src.Chunk;
-import net.minecraft.src.ChunkCoordIntPair;
-import net.minecraft.src.EmptyChunk;
-import net.minecraft.src.IChunkProvider;
-import net.minecraft.src.IProgressUpdate;
 import net.minecraft.src.World;
+import net.minecraft.world.level.chunk.Chunk;
+import net.minecraft.world.level.chunk.ChunkCoordIntPair;
+import net.minecraft.world.level.chunk.EmptyChunk;
+import net.minecraft.world.level.chunk.IChunkProvider;
+import net.minecraft.world.level.chunk.storage.IProgressUpdate;
 
 public class ChunkProviderClient implements IChunkProvider {
 	private Chunk blankChunk;

@@ -7,7 +7,6 @@ import org.lwjgl.input.Keyboard;
 import net.minecraft.client.player.PlayerControllerSP;
 import net.minecraft.src.ChatAllowedCharacters;
 import net.minecraft.src.GlobalVars;
-import net.minecraft.src.ISaveFormat;
 import net.minecraft.src.LevelThemeGlobalSettings;
 import net.minecraft.src.LevelThemeSettings;
 import net.minecraft.src.MathHelper;
@@ -16,6 +15,7 @@ import net.minecraft.src.StringTranslate;
 import net.minecraft.src.WorldSettings;
 import net.minecraft.src.WorldSize;
 import net.minecraft.src.WorldType;
+import net.minecraft.world.level.chunk.storage.ISaveFormat;
 
 public class GuiCreateWorld extends GuiScreen {
 	private GuiScreen parentGuiScreen;

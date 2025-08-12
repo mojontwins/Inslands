@@ -5,11 +5,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.src.ChunkCoordIntPair;
 import net.minecraft.src.ChunkPosition;
-import net.minecraft.src.ChunkProviderGenerate;
-import net.minecraft.src.MapGenBase;
 import net.minecraft.src.World;
+import net.minecraft.world.level.chunk.ChunkCoordIntPair;
+import net.minecraft.world.level.levelgen.ChunkProviderGenerate;
+import net.minecraft.world.level.levelgen.MapGenBase;
 
 public abstract class MapGenStructure extends MapGenBase {
 	protected World world;

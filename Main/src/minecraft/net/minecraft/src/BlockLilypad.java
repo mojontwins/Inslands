@@ -3,10 +3,9 @@ package net.minecraft.src;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.EntityBoat;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockLilypad extends Block {
 

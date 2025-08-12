@@ -2,11 +2,10 @@ package net.minecraft.world.item;
 
 import java.util.List;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.src.Block;
 import net.minecraft.src.World;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class ItemBlock extends Item {
 	protected int blockID;

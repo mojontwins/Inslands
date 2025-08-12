@@ -2,7 +2,7 @@ package net.minecraft.src;
 
 import java.util.Random;
 
-import com.mojang.minecraft.creative.CreativeTabs;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockDirtPath extends Block {
 	protected BlockDirtPath(int blockID, int textureIndex) {

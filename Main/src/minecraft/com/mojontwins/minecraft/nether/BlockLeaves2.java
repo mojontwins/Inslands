@@ -3,14 +3,13 @@ package com.mojontwins.minecraft.nether;
 import java.util.List;
 import java.util.Random;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockLeaves;
 import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.World;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockLeaves2 extends BlockLeaves {
 	public static int blockIndexForMeta[] = new int[] { 168, 168, 0, 0 };

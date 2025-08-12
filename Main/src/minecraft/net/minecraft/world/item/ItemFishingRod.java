@@ -1,10 +1,9 @@
 package net.minecraft.world.item;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.src.World;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.entity.projectile.EntityFish;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class ItemFishingRod extends Item {
 	public ItemFishingRod(int i1) {

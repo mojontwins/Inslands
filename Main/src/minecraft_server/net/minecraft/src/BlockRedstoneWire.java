@@ -5,9 +5,8 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockRedstoneWire extends Block {
 	private boolean wiresProvidePower = true;

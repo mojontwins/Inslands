@@ -1,11 +1,10 @@
 package net.minecraft.world.item;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.src.BlockRail;
 import net.minecraft.src.World;
 import net.minecraft.world.entity.item.EntityMinecart;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class ItemMinecart extends Item {
 	public int minecartType;

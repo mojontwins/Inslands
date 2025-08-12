@@ -4,12 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.mojang.minecraft.modernnoise.PerlinNoiseGenerator;
-import com.mojang.minecraft.modernnoise.SkippableRandom;
-
 import net.minecraft.src.Block;
-import net.minecraft.src.ChunkProviderSky;
-import net.minecraft.src.IChunkProvider;
 import net.minecraft.src.SpawnListEntry;
 import net.minecraft.src.Weather;
 import net.minecraft.src.World;
@@ -24,6 +19,10 @@ import net.minecraft.world.entity.monster.EntitySlime;
 import net.minecraft.world.entity.monster.EntitySpider;
 import net.minecraft.world.entity.monster.EntityZombie;
 import net.minecraft.world.entity.monster.EntityZombieAlex;
+import net.minecraft.world.level.chunk.IChunkProvider;
+import net.minecraft.world.level.levelgen.ChunkProviderSky;
+import net.minecraft.world.level.levelgen.synth.modernoise.PerlinNoiseGenerator;
+import net.minecraft.world.level.levelgen.synth.modernoise.SkippableRandom;
 
 public class BiomeGenGlacier extends BiomeGenBase {
 	private static final byte PACKED_ICE = (byte)Block.packedIce.blockID;

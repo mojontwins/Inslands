@@ -1,6 +1,6 @@
 package net.minecraft.src;
 
-import com.mojang.minecraft.creative.CreativeTabs;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockHollowLog extends Block {
 	public static final int[] textureIndex = new int[] { 13*16 + 9, 13*16 + 8, 20 };

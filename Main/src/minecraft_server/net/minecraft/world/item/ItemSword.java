@@ -1,10 +1,9 @@
 package net.minecraft.world.item;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.src.Block;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class ItemSword extends Item {
 	protected int weaponDamage;

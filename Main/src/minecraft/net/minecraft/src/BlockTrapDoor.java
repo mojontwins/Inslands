@@ -1,8 +1,7 @@
 package net.minecraft.src;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockTrapDoor extends Block {
 	protected BlockTrapDoor(int i1, Material material2) {

@@ -7,8 +7,6 @@ import net.minecraft.src.AchievementList;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockBed;
-import net.minecraft.src.ChunkCoordinates;
-import net.minecraft.src.IChunkProvider;
 import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
@@ -43,6 +41,8 @@ import net.minecraft.world.inventory.InventoryPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.BiomeGenBase;
+import net.minecraft.world.level.chunk.ChunkCoordinates;
+import net.minecraft.world.level.chunk.IChunkProvider;
 
 public abstract class EntityPlayer extends EntityLiving {
 	public InventoryPlayer inventory = new InventoryPlayer(this);

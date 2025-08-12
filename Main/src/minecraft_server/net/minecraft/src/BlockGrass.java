@@ -3,9 +3,9 @@ package net.minecraft.src;
 import java.util.List;
 import java.util.Random;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.colorizer.ColorizerFoliage;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockGrass extends Block {
 	protected BlockGrass(int blockID) {

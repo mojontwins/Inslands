@@ -10,19 +10,19 @@ import net.minecraft.network.packet.Packet71Weather;
 import net.minecraft.network.packet.Packet96BadMoonDecide;
 import net.minecraft.network.packet.Packet98UpdateWeather;
 import net.minecraft.src.Explosion;
-import net.minecraft.src.IChunkLoader;
-import net.minecraft.src.IChunkProvider;
-import net.minecraft.src.ISaveHandler;
 import net.minecraft.src.MCHash;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
-import net.minecraft.src.WorldProvider;
 import net.minecraft.src.WorldSettings;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.EntityAnimal;
 import net.minecraft.world.entity.animal.EntityWaterMob;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.chunk.IChunkLoader;
+import net.minecraft.world.level.chunk.IChunkProvider;
+import net.minecraft.world.level.chunk.storage.ISaveHandler;
+import net.minecraft.world.level.dimension.WorldProvider;
 
 public class WorldServer extends World {
 	public ChunkProviderServer chunkProviderServer;
@@ -52,7 +52,7 @@ public class WorldServer extends World {
 		super.updateEntityWithOptionalForce(entity1, z2);
 	}
 
-	protected IChunkProvider getChunkProvider() {
+	public IChunkProvider getChunkProvider() {
 		IChunkLoader iChunkLoader1 = this.saveHandler.getChunkLoader(this.worldProvider);
 		this.chunkProviderServer = new ChunkProviderServer(this, iChunkLoader1, this.worldProvider.getChunkProvider());
 		return this.chunkProviderServer;

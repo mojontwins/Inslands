@@ -7,6 +7,8 @@ import java.util.List;
 import com.mojontwins.minecraft.poisonisland.LevelThemePoisonIsland;
 
 import net.minecraft.world.level.biome.BiomeGenBase;
+import net.minecraft.world.level.levelgen.MapGenBase;
+import net.minecraft.world.level.levelgen.MapGenCaves;
 
 public class LevelThemeSettings {
 	public int id;

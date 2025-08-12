@@ -10,9 +10,6 @@ import com.mojontwins.minecraft.feature.FeatureDynamicSchematic;
 import com.mojontwins.minecraft.feature.FeatureProvider;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Chunk;
-import net.minecraft.src.ChunkProviderSky;
-import net.minecraft.src.IChunkProvider;
 import net.minecraft.src.TileEntityChest;
 import net.minecraft.src.TileEntityMobSpawner;
 import net.minecraft.src.TileEntityMobSpawnerOneshot;
@@ -22,6 +19,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.biome.BiomeGenGlacier;
 import net.minecraft.world.level.biome.BiomeGenTundra;
+import net.minecraft.world.level.chunk.Chunk;
+import net.minecraft.world.level.chunk.IChunkProvider;
+import net.minecraft.world.level.levelgen.ChunkProviderSky;
 
 public class FeatureIcePalace extends FeatureDynamicSchematic {
 	private static final int palaceHeight = 64;

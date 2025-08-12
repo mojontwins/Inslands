@@ -1,7 +1,7 @@
 package net.minecraft.world.item;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.ColorizerFoliage;
+import net.minecraft.world.level.colorizer.ColorizerFoliage;
 
 public class ItemLeaves extends ItemBlock {
 	public ItemLeaves(int i1) {

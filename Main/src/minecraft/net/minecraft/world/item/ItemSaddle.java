@@ -1,9 +1,8 @@
 package net.minecraft.world.item;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.animal.EntityPig;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class ItemSaddle extends Item {
 	public ItemSaddle(int i1) {

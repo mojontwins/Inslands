@@ -4,9 +4,9 @@ import java.util.Random;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockFluid;
-import net.minecraft.src.MapGenCaves;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
+import net.minecraft.world.level.levelgen.MapGenCaves;
 
 public class MapGenPoisonCaves extends MapGenCaves {
 

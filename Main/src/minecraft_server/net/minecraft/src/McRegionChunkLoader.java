@@ -5,6 +5,11 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 
+import net.minecraft.world.level.chunk.Chunk;
+import net.minecraft.world.level.chunk.ChunkLoader;
+import net.minecraft.world.level.chunk.IChunkLoader;
+import net.minecraft.world.level.chunk.storage.RegionFileCache;
+
 public class McRegionChunkLoader implements IChunkLoader {
 	private final File saveDirectory;
 

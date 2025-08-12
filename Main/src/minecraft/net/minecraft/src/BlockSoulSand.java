@@ -1,8 +1,7 @@
 package net.minecraft.src;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockSoulSand extends Block {
 	public BlockSoulSand(int i1, int i2) {

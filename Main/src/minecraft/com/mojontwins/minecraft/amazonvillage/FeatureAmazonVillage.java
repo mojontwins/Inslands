@@ -9,11 +9,11 @@ import com.mojontwins.minecraft.feature.FeatureBuilding;
 import com.mojontwins.minecraft.feature.FeatureProvider;
 import com.mojontwins.minecraft.feature.FeatureVillage;
 
-import net.minecraft.src.Chunk;
-import net.minecraft.src.IChunkProvider;
 import net.minecraft.src.World;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.biome.BiomeGenForest;
+import net.minecraft.world.level.chunk.Chunk;
+import net.minecraft.world.level.chunk.IChunkProvider;
 
 public class FeatureAmazonVillage extends FeatureVillage {
 	

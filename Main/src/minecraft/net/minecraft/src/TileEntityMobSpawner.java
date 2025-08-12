@@ -10,7 +10,7 @@ import net.minecraft.world.item.ItemArmor;
 
 public class TileEntityMobSpawner extends TileEntity {
 	public int delay = -1;
-	protected String mobID = "Pig";
+	public String mobID = "Pig";
 	public double yaw;
 	public double prevYaw = 0.0D;
 

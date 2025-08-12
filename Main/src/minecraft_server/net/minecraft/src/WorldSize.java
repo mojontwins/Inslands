@@ -1,5 +1,8 @@
 package net.minecraft.src;
 
+import net.minecraft.world.level.chunk.IChunkProvider;
+import net.minecraft.world.level.levelgen.ChunkProviderHell;
+
 public class WorldSize {
 	public static int xChunks;
 	public static int zChunks;

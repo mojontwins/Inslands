@@ -2,10 +2,9 @@ package net.minecraft.src;
 
 import java.util.Random;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.world.entity.block.EntityBlockEntity;
 import net.minecraft.world.entity.block.EntityMeatBlock;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockMeat extends BlockEntity {
 

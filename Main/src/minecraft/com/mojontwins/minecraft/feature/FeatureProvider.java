@@ -12,12 +12,12 @@ import com.mojontwins.minecraft.fossils.FeatureFossil;
 import com.mojontwins.minecraft.icepalace.FeatureIcePalace;
 import com.mojontwins.minecraft.oceanruins.FeatureOceanRuins;
 
-import net.minecraft.src.Chunk;
-import net.minecraft.src.ChunkCoordIntPair;
-import net.minecraft.src.IChunkProvider;
 import net.minecraft.src.World;
 import net.minecraft.src.WorldSize;
 import net.minecraft.world.level.biome.BiomeGenBase;
+import net.minecraft.world.level.chunk.Chunk;
+import net.minecraft.world.level.chunk.ChunkCoordIntPair;
+import net.minecraft.world.level.chunk.IChunkProvider;
 
 public class FeatureProvider {
 	public World world;

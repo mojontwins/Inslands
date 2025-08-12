@@ -4,8 +4,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.IBlockAccess;
@@ -18,6 +16,7 @@ import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.monster.EntitySpider;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockTFHedge extends Block {
 	public int damageDone;

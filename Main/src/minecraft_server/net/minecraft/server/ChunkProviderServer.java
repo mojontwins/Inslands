@@ -9,14 +9,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.minecraft.src.Chunk;
-import net.minecraft.src.ChunkCoordIntPair;
-import net.minecraft.src.ChunkCoordinates;
-import net.minecraft.src.EmptyChunk;
-import net.minecraft.src.IChunkLoader;
-import net.minecraft.src.IChunkProvider;
-import net.minecraft.src.IProgressUpdate;
 import net.minecraft.src.World;
+import net.minecraft.world.level.chunk.Chunk;
+import net.minecraft.world.level.chunk.ChunkCoordIntPair;
+import net.minecraft.world.level.chunk.ChunkCoordinates;
+import net.minecraft.world.level.chunk.EmptyChunk;
+import net.minecraft.world.level.chunk.IChunkLoader;
+import net.minecraft.world.level.chunk.IChunkProvider;
+import net.minecraft.world.level.chunk.storage.IProgressUpdate;
 
 public class ChunkProviderServer implements IChunkProvider {
 	private Set<Integer> droppedChunksSet = new HashSet<Integer>();

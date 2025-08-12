@@ -2,8 +2,6 @@ package net.minecraft.world.item;
 
 import java.util.List;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockAcorn;
@@ -14,6 +12,7 @@ import net.minecraft.src.World;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.animal.EntitySheep;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class ItemDye extends Item {
 	public static final String[] dyeColorNames = new String[]{"black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "lightBlue", "magenta", "orange", "white"};

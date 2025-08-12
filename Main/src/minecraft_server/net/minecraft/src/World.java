@@ -21,6 +21,16 @@ import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.map.MapDataBase;
 import net.minecraft.world.item.map.MapStorage;
 import net.minecraft.world.level.biome.BiomeGenBase;
+import net.minecraft.world.level.chunk.Chunk;
+import net.minecraft.world.level.chunk.ChunkCache;
+import net.minecraft.world.level.chunk.ChunkCoordIntPair;
+import net.minecraft.world.level.chunk.ChunkCoordinates;
+import net.minecraft.world.level.chunk.ChunkProvider;
+import net.minecraft.world.level.chunk.IChunkLoader;
+import net.minecraft.world.level.chunk.IChunkProvider;
+import net.minecraft.world.level.chunk.storage.IProgressUpdate;
+import net.minecraft.world.level.chunk.storage.ISaveHandler;
+import net.minecraft.world.level.dimension.WorldProvider;
 import net.minecraft.world.level.pathfinder.PathEntity;
 import net.minecraft.world.level.pathfinder.Pathfinder;
 import net.minecraft.world.level.pathfinder.PathfinderRelease;
@@ -278,7 +288,7 @@ public class World implements IBlockAccess {
 		WorldEdit.init();
 	}
 
-	protected IChunkProvider getChunkProvider() {
+	public IChunkProvider getChunkProvider() {
 		IChunkLoader iChunkLoader1 = this.saveHandler.getChunkLoader(this.worldProvider);
 		return new ChunkProvider(this, iChunkLoader1, this.worldProvider.getChunkProvider());
 	}

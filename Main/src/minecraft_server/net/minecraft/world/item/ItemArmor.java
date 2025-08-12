@@ -1,6 +1,6 @@
 package net.minecraft.world.item;
 
-import com.mojang.minecraft.creative.CreativeTabs;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class ItemArmor extends Item {
 	private static final int[] damageReduceAmountArray = new int[]{3, 8, 6, 3};

@@ -63,7 +63,7 @@ public class EntityCityHusk extends EntityHusk implements IMob {
 	}
 	
 	// Only spawns on city chunks
-	public boolean isUrban() {
+	public boolean isUrban() { 
 		return true;
 	}
 	

@@ -1,6 +1,6 @@
 package net.minecraft.src;
 
-import com.mojang.minecraft.creative.CreativeTabs;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockDirt extends Block {
 	protected BlockDirt(int i1, int i2) {

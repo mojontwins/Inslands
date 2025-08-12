@@ -3,12 +3,11 @@ package com.mojontwins.minecraft.nether;
 import java.util.List;
 import java.util.Random;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockLog;
 import net.minecraft.src.World;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockLog2 extends BlockLog {
 	public int textureBark[] = new int[] { 7 * 16 + 5, 0, 0, 0 };

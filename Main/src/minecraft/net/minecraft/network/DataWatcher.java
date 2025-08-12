@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.network.packet.Packet;
-import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.chunk.ChunkCoordinates;
 
 public class DataWatcher {
 	private static final HashMap<Class<?>, Integer> dataTypes = new HashMap<Class<?>, Integer>();

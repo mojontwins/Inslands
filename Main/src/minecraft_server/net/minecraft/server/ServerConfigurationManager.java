@@ -17,11 +17,11 @@ import net.minecraft.network.packet.Packet3Chat;
 import net.minecraft.network.packet.Packet4UpdateTime;
 import net.minecraft.network.packet.Packet70Bed;
 import net.minecraft.network.packet.Packet9Respawn;
-import net.minecraft.src.ChunkCoordinates;
-import net.minecraft.src.ISaveHandler;
-import net.minecraft.src.Teleporter;
 import net.minecraft.src.TileEntity;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.chunk.ChunkCoordinates;
+import net.minecraft.world.level.chunk.storage.ISaveHandler;
+import net.minecraft.world.level.dimension.Teleporter;
 
 public class ServerConfigurationManager {
 	public static Logger logger = Logger.getLogger("Minecraft");

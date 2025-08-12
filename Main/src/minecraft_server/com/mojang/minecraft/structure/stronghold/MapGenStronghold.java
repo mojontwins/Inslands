@@ -9,12 +9,12 @@ import com.mojang.minecraft.structure.MapGenStructure;
 import com.mojang.minecraft.structure.StructureStart;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.ChunkCoordIntPair;
 import net.minecraft.src.World;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.biome.BiomeGenDesert;
 import net.minecraft.world.level.biome.BiomeGenForest;
 import net.minecraft.world.level.biome.BiomeGenTundra;
+import net.minecraft.world.level.chunk.ChunkCoordIntPair;
 
 public class MapGenStronghold extends MapGenStructure {
 	public static final int chance = 10240;

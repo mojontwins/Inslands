@@ -3,9 +3,8 @@ package net.minecraft.src;
 import java.util.List;
 import java.util.Random;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockBigMushroom extends Block {
 	public int mushroomType;

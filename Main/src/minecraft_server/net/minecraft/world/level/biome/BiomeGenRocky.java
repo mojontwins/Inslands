@@ -3,7 +3,6 @@ package net.minecraft.world.level.biome;
 import java.util.Random;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.Chunk;
 import net.minecraft.src.SpawnListEntry;
 import net.minecraft.src.Weather;
 import net.minecraft.src.World;
@@ -11,6 +10,7 @@ import net.minecraft.src.WorldGenLakes;
 import net.minecraft.src.WorldGenMinable;
 import net.minecraft.src.WorldGenRockBoulder;
 import net.minecraft.world.entity.monster.EntityPigZombieVolcanoes;
+import net.minecraft.world.level.chunk.Chunk;
 
 public class BiomeGenRocky extends BiomeGenBase {
 	public BiomeGenRocky() {

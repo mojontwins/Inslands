@@ -3,7 +3,6 @@ package com.mojontwins.minecraft.poisonisland;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.minecraft.creative.CreativeTabs;
 import com.mojontwins.minecraft.blockmodels.BlockModel;
 
 import net.minecraft.src.AxisAlignedBB;
@@ -15,6 +14,7 @@ import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockCauldron extends Block {
 	BlockModel blockModel;

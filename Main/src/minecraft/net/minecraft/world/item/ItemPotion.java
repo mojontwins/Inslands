@@ -1,11 +1,10 @@
 package net.minecraft.world.item;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.src.World;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.entity.projectile.EntityThrowablePotion;
 import net.minecraft.world.entity.status.Status;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class ItemPotion extends Item {
 	private int potionColorMultiplier;

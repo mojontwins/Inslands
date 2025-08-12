@@ -31,7 +31,6 @@ import net.minecraft.src.WorldGenPineTree;
 import net.minecraft.src.WorldGenTrees;
 import net.minecraft.src.WorldGenVines;
 import net.minecraft.src.WorldGenerator;
-import net.minecraft.src.WorldProviderSky;
 import net.minecraft.src.WorldSize;
 import net.minecraft.world.entity.animal.EntityBetaOcelot;
 import net.minecraft.world.entity.animal.EntityChickenBlack;
@@ -43,6 +42,7 @@ import net.minecraft.world.entity.monster.EntityFungalCalamity;
 import net.minecraft.world.entity.monster.EntityTFHedgeSpider;
 import net.minecraft.world.entity.monster.EntityTFKobold;
 import net.minecraft.world.entity.monster.EntityTFRedcap;
+import net.minecraft.world.level.dimension.WorldProviderSky;
 
 public class BiomeGenThemeForest extends BiomeGenForest {
 	

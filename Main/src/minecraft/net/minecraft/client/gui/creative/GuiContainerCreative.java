@@ -9,8 +9,6 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.client.gui.GuiAchievements;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiStats;
@@ -29,6 +27,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemArmor;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class GuiContainerCreative extends GuiInventoryEffectRenderer {
 	private static InventoryBasic inventory = new InventoryBasic("tmp", 45);

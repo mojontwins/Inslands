@@ -1,6 +1,6 @@
 package net.minecraft.server;
 
-import net.minecraft.src.IProgressUpdate;
+import net.minecraft.world.level.chunk.storage.IProgressUpdate;
 
 public class ConvertProgressUpdater implements IProgressUpdate {
 	private long lastTimeMillis;

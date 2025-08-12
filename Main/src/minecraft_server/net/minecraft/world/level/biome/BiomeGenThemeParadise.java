@@ -11,7 +11,6 @@ import net.minecraft.src.World;
 import net.minecraft.src.WorldGenFlowers;
 import net.minecraft.src.WorldGenLilypad;
 import net.minecraft.src.WorldGenSeaweed;
-import net.minecraft.src.WorldProviderSky;
 import net.minecraft.world.entity.animal.EntityChicken;
 import net.minecraft.world.entity.animal.EntityFlyingCow;
 import net.minecraft.world.entity.animal.EntityPhyg;
@@ -21,6 +20,7 @@ import net.minecraft.world.entity.monster.EntitySkeleton;
 import net.minecraft.world.entity.monster.EntitySlime;
 import net.minecraft.world.entity.monster.EntitySpider;
 import net.minecraft.world.entity.monster.EntityZombie;
+import net.minecraft.world.level.dimension.WorldProviderSky;
 
 public class BiomeGenThemeParadise extends BiomeGenBase {
 

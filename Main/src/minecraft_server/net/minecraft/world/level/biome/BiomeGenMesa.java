@@ -4,9 +4,6 @@ import java.util.Arrays;
 import java.util.Random;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.ChunkProviderSky;
-import net.minecraft.src.IChunkProvider;
-import net.minecraft.src.NoiseGeneratorPerlin;
 import net.minecraft.src.SpawnListEntry;
 import net.minecraft.src.Weather;
 import net.minecraft.src.World;
@@ -15,6 +12,9 @@ import net.minecraft.src.WorldGenDesertFlowers;
 import net.minecraft.src.WorldGenerator;
 import net.minecraft.world.entity.animal.EntityChickenBlack;
 import net.minecraft.world.entity.monster.EntityPigZombieVolcanoes;
+import net.minecraft.world.level.chunk.IChunkProvider;
+import net.minecraft.world.level.levelgen.ChunkProviderSky;
+import net.minecraft.world.level.levelgen.synth.NoiseGeneratorPerlin;
 
 public class BiomeGenMesa extends BiomeGenBase {
 	private byte[] clayLayers;

@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.src.CompressedStreamTools;
-import net.minecraft.src.ISaveHandler;
 import net.minecraft.src.NBTBase;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NBTTagShort;
+import net.minecraft.world.level.chunk.storage.ISaveHandler;
 
 public class MapStorage {
 	private ISaveHandler saveHandler;

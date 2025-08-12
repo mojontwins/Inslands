@@ -1,7 +1,10 @@
 package net.minecraft.src;
 
-import com.mojang.minecraft.indev.ChunkProviderIndev;
-import com.mojang.minecraft.infdev.ChunkProviderInfdev;
+import net.minecraft.world.level.chunk.IChunkProvider;
+import net.minecraft.world.level.levelgen.ChunkProviderGenerate;
+import net.minecraft.world.level.levelgen.ChunkProviderIndev;
+import net.minecraft.world.level.levelgen.ChunkProviderInfdev;
+import net.minecraft.world.level.levelgen.ChunkProviderSky;
 
 public class WorldType {
 	public static final WorldType[] worldTypes = new WorldType[16];

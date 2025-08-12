@@ -1,6 +1,6 @@
 package net.minecraft.world.item;
 
-import com.mojang.minecraft.creative.CreativeTabs;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class ItemCoal extends Item {
 	public ItemCoal(int i1) {

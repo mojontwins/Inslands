@@ -1,11 +1,10 @@
 package net.minecraft.world.item;
 
-import com.mojang.minecraft.creative.CreativeTabs;
-
 import net.minecraft.src.AchievementList;
-import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.src.World;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.chunk.ChunkCoordinates;
+import net.minecraft.world.level.creative.CreativeTabs;
 
 public class ItemCryingObsidianWand extends Item {
 
