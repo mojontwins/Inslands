@@ -1,9 +1,9 @@
 package net.minecraft.world.item;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockStep;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockStep;
 
 public class ItemSlab extends ItemBlock {
 	public ItemSlab(int i1) {

@@ -1,10 +1,10 @@
 package net.minecraft.client.particle;
 
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.src.BlockFluid;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.tile.BlockFluid;
 
 public class EntityRainFX extends EntityFX {
 	public EntityRainFX(World world1, double d2, double d4, double d6) {

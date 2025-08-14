@@ -1,7 +1,7 @@
 package net.minecraft.world.entity.monster;
 
-import net.minecraft.src.World;
 import net.minecraft.world.entity.IMobWithLevel;
+import net.minecraft.world.level.World;
 
 public class EntityMobWithLevel extends EntityMob implements IMobWithLevel {
 	public EntityMobWithLevel(World world) {

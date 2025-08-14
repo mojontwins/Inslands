@@ -1,6 +1,6 @@
 package net.minecraft.world.level.levelgen.feature;
 
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 
 public abstract class WorldGenMojon extends WorldGenerator {
 	boolean withNotify = false;

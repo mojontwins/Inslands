@@ -1,8 +1,8 @@
 package net.minecraft.world.item;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockObsidian;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockObsidian;
 
 public class ItemPickaxe extends ItemTool {
 	private static Block[] blocksEffectiveAgainst = new Block[]{

@@ -1,7 +1,7 @@
 package net.minecraft.world.entity.monster;
 
-import net.minecraft.src.World;
 import net.minecraft.world.entity.IMob;
+import net.minecraft.world.level.World;
 
 public class EntityTFHedgeSpider extends EntitySpider implements IMob {
 	public EntityTFHedgeSpider(World world) {

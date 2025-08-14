@@ -1,6 +1,6 @@
 package net.minecraft.world.item.map;
 
-import net.minecraft.src.NBTTagCompound;
+import com.mojang.nbt.NBTTagCompound;
 
 public abstract class MapDataBase {
 	public final String name;

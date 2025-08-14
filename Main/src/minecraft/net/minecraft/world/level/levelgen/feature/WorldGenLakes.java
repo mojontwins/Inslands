@@ -2,10 +2,10 @@ package net.minecraft.world.level.levelgen.feature;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.EnumSkyBlock;
-import net.minecraft.src.World;
+import net.minecraft.world.level.EnumSkyBlock;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.tile.Block;
 
 public class WorldGenLakes extends WorldGenerator {
 	private int blockIndex;

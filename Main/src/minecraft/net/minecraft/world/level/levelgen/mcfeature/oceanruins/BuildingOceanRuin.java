@@ -2,9 +2,9 @@ package net.minecraft.world.level.levelgen.mcfeature.oceanruins;
 
 import java.util.Random;
 
-import net.minecraft.src.World;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.mcfeature.FeatureBuilding;
 
 public abstract class BuildingOceanRuin extends FeatureBuilding {

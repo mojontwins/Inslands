@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-import net.minecraft.src.Block;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.tile.Block;
 
 public class TFTreasureTable {
 	protected ArrayList<TFTreasureItem> list = new ArrayList<TFTreasureItem>();

@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockState;
-import net.minecraft.src.World;
+import net.minecraft.world.level.BlockState;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
 
 public class Bo3Schematic {
 	public static final boolean infHell = true;

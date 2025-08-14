@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.tile.Block;
 
 public class TileEntityPiston extends TileEntity {
 	private int storedBlockID;

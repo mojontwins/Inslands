@@ -2,15 +2,15 @@ package net.minecraft.world.item.map;
 
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet131MapData;
-import net.minecraft.src.Block;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.tile.Block;
 
 public class ItemMap extends ItemMapBase {
 	public ItemMap(int i1) {

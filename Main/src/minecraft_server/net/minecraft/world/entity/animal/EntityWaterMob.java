@@ -1,9 +1,10 @@
 package net.minecraft.world.entity.animal;
 
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.World;
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.world.entity.EntityCreature;
 import net.minecraft.world.entity.IWaterMob;
+import net.minecraft.world.level.World;
 
 public class EntityWaterMob extends EntityCreature implements IAnimals, IWaterMob {
 	public EntityWaterMob(World world1) {

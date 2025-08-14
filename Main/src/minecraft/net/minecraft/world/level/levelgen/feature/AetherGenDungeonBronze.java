@@ -2,13 +2,13 @@ package net.minecraft.world.level.levelgen.feature;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
 import net.minecraft.src.GlobalVars;
 import net.minecraft.src.TileEntityChest;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.monster.EntitySlider;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
 
 public class AetherGenDungeonBronze extends AetherGenBuildings {
 	private int corridorMeta1;

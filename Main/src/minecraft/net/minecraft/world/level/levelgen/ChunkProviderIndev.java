@@ -1,12 +1,12 @@
 package net.minecraft.world.level.levelgen;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
-import net.minecraft.src.WorldSize;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.levelgen.synth.NoiseGeneratorOctavesIndev;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
+import net.minecraft.world.level.tile.Block;
 
 public class ChunkProviderIndev extends ChunkProviderGenerate {
 	private NoiseGeneratorOctavesIndev noise1;

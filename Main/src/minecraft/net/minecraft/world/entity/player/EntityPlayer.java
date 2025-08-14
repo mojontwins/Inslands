@@ -3,14 +3,12 @@ package net.minecraft.world.entity.player;
 import java.util.Iterator;
 import java.util.List;
 
+import com.mojang.nbt.NBTTagCompound;
+import com.mojang.nbt.NBTTagList;
+
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockBed;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.NBTTagList;
-import net.minecraft.src.Seasons;
 import net.minecraft.src.StatBase;
 import net.minecraft.src.StatList;
 import net.minecraft.src.TileEntityChest;
@@ -18,8 +16,6 @@ import net.minecraft.src.TileEntityDispenser;
 import net.minecraft.src.TileEntityFurnace;
 import net.minecraft.src.TileEntitySign;
 import net.minecraft.src.Vec3D;
-import net.minecraft.src.Weather;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EnumAction;
@@ -39,10 +35,15 @@ import net.minecraft.world.inventory.IInventory;
 import net.minecraft.world.inventory.InventoryPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Seasons;
+import net.minecraft.world.level.Weather;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockBed;
 
 public abstract class EntityPlayer extends EntityLiving {
 	public InventoryPlayer inventory = new InventoryPlayer(this);

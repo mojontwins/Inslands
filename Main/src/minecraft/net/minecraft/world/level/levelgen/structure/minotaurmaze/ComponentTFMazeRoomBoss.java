@@ -2,11 +2,11 @@ package net.minecraft.world.level.levelgen.structure.minotaurmaze;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.monster.EntityTFMinoshroom;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.TFTreasure;
 import net.minecraft.world.level.levelgen.structure.StructureBoundingBox;
+import net.minecraft.world.level.tile.Block;
 
 public class ComponentTFMazeRoomBoss extends ComponentTFMazeRoom {
 	private boolean taurPlaced = false;

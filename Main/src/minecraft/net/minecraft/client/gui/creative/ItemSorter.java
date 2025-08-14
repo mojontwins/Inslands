@@ -2,8 +2,8 @@ package net.minecraft.client.gui.creative;
 
 import java.util.Comparator;
 
-import net.minecraft.src.Block;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.tile.Block;
 
 public class ItemSorter implements Comparator<Object> {
 	private int compareItems(ItemStack itemStack1, ItemStack itemStack2) {

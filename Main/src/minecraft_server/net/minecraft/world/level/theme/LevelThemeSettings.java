@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import net.minecraft.src.Seasons;
-import net.minecraft.src.World;
-import net.minecraft.src.WorldType;
+import net.minecraft.world.level.Seasons;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldType;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.levelgen.MapGenBase;
 import net.minecraft.world.level.levelgen.MapGenCaves;

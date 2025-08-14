@@ -3,14 +3,12 @@ package net.minecraft.world.level.levelgen.city;
 import java.util.HashMap;
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.CityChunkDescriptor;
 import net.minecraft.src.FurniturePieces;
 import net.minecraft.src.TileEntityChest;
 import net.minecraft.src.TileEntityMobSpawner;
-import net.minecraft.src.World;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.biome.BiomeGenDesert;
 import net.minecraft.world.level.chunk.Chunk;
@@ -21,6 +19,7 @@ import net.minecraft.world.level.levelgen.feature.WorldGenStairs;
 import net.minecraft.world.level.levelgen.feature.WorldGenStreetLight;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenTrees;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenTreesDead;
+import net.minecraft.world.level.tile.Block;
 
 public class MapGenCity extends MapGenBase {
 	/* 

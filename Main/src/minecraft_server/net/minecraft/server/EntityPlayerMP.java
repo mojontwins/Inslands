@@ -27,7 +27,6 @@ import net.minecraft.src.StringTranslate;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntityDispenser;
 import net.minecraft.src.TileEntityFurnace;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.player.EntityPlayer;
@@ -44,6 +43,7 @@ import net.minecraft.world.inventory.SlotCrafting;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.map.ItemMapBase;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.chunk.ChunkCoordIntPair;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
 

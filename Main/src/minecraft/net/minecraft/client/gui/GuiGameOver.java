@@ -3,7 +3,7 @@ package net.minecraft.client.gui;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.title.GuiMainMenu;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 
 public class GuiGameOver extends GuiScreen {
 	public void initGui() {

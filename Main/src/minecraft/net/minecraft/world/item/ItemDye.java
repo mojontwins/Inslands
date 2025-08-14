@@ -3,16 +3,16 @@ package net.minecraft.world.item;
 import java.util.List;
 
 import net.minecraft.src.AchievementList;
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockAcorn;
-import net.minecraft.src.BlockCloth;
-import net.minecraft.src.BlockCrops;
-import net.minecraft.src.BlockSapling;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.animal.EntitySheep;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockAcorn;
+import net.minecraft.world.level.tile.BlockCloth;
+import net.minecraft.world.level.tile.BlockCrops;
+import net.minecraft.world.level.tile.BlockSapling;
 
 public class ItemDye extends Item {
 	public static final String[] dyeColorNames = new String[]{"black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "lightBlue", "magenta", "orange", "white"};

@@ -10,12 +10,12 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.src.World;
 import net.minecraft.world.inventory.ContainerWorkbench;
 import net.minecraft.world.inventory.InventoryPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingManager;
 import net.minecraft.world.item.crafting.IRecipe;
+import net.minecraft.world.level.World;
 
 public class GuiCrafting extends GuiContainer {
 	/*

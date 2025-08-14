@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer.ptexture;
 
-import net.minecraft.src.Block;
+import net.minecraft.world.level.tile.Block;
 
 public class TextureWaterFX extends TextureFX {
 	protected float[] field_1158_g = new float[256];

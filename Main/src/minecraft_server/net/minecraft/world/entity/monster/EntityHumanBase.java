@@ -1,11 +1,12 @@
 package net.minecraft.world.entity.monster;
 
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.World;
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.world.entity.IMob;
 import net.minecraft.world.entity.IMobWithLevel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.World;
 
 public class EntityHumanBase extends EntityMobWithLevel implements IMob, IMobWithLevel {
 	public int armor = 4;

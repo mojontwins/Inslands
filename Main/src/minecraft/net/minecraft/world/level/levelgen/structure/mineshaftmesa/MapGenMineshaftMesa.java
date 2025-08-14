@@ -1,6 +1,6 @@
 package net.minecraft.world.level.levelgen.structure.mineshaftmesa;
 
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.biome.BiomeGenMesa;
 import net.minecraft.world.level.levelgen.MapGenStructure;
 import net.minecraft.world.level.levelgen.structure.StructureStart;

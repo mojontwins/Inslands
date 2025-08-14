@@ -2,7 +2,7 @@ package net.minecraft.world.level.levelgen.city;
 
 import java.util.Random;
 
-import net.minecraft.src.BlockArrayUtils;
+import net.minecraft.world.level.tile.BlockArrayUtils;
 
 public class BuildingHighway {
 	public static boolean generate(int chunkX, int chunkZ, Random rand, byte[] data, boolean airborne) {				

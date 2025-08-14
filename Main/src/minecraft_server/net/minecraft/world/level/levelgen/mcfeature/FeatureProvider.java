@@ -7,8 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.src.World;
-import net.minecraft.src.WorldSize;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.chunk.ChunkCoordIntPair;

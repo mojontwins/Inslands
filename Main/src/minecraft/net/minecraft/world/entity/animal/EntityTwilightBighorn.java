@@ -2,7 +2,7 @@ package net.minecraft.world.entity.animal;
 
 import java.util.Random;
 
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 
 public class EntityTwilightBighorn extends EntitySheep {
 	public EntityTwilightBighorn(World world) {

@@ -1,10 +1,10 @@
 package net.minecraft.world.item.crafting;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockCloth;
-import net.minecraft.src.BlockTerracotta;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockCloth;
+import net.minecraft.world.level.tile.BlockTerracotta;
 
 public class RecipesDyes {
 	public void addRecipes(CraftingManager craftingManager1) {

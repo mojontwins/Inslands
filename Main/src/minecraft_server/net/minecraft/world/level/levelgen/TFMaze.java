@@ -2,9 +2,9 @@ package net.minecraft.world.level.levelgen;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.feature.trees.TFGenCanopyTree;
+import net.minecraft.world.level.tile.Block;
 
 public class TFMaze {
 	public int width;

@@ -3,13 +3,13 @@ package net.minecraft.world.entity.projectile;
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.MovingObjectPosition;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.monster.EntitySnowball;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.entity.status.StatusEffect;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemPotion;
+import net.minecraft.world.level.World;
 
 public class EntityThrowablePotion extends EntitySnowball {
 	public ItemPotion itemPotion;

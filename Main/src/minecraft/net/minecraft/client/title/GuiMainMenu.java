@@ -20,10 +20,10 @@ import net.minecraft.client.gui.GuiTexturePacks;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.src.Block;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.StringTranslate;
 import net.minecraft.src.Version;
+import net.minecraft.world.level.tile.Block;
 
 public class GuiMainMenu extends GuiScreen {
 	private static final Random rand = new Random();

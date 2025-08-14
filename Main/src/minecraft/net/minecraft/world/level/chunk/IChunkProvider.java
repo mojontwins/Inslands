@@ -1,6 +1,6 @@
 package net.minecraft.world.level.chunk;
 
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.chunk.storage.IProgressUpdate;
 
 public interface IChunkProvider {

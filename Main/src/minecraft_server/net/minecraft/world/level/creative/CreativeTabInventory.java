@@ -1,6 +1,6 @@
 package net.minecraft.world.level.creative;
 
-import net.minecraft.src.Block;
+import net.minecraft.world.level.tile.Block;
 
 final class CreativeTabInventory extends CreativeTabs {
 	CreativeTabInventory(int par1, String par2Str) {

@@ -3,7 +3,7 @@ package net.minecraft.world.level.levelgen.structure.stronghold;
 import java.util.ArrayList;
 import java.util.Random;
 
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.structure.StructureComponent;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 

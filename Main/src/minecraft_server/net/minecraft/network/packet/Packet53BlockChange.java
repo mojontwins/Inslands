@@ -5,7 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import net.minecraft.network.NetHandler;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 
 public class Packet53BlockChange extends Packet {
 	public int xPosition;

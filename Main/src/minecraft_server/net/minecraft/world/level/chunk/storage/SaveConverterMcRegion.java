@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.zip.GZIPInputStream;
 
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.WorldInfo;
+import net.minecraft.world.level.WorldInfo;
 
 public class SaveConverterMcRegion extends SaveFormatOld {
 	public SaveConverterMcRegion(File file1) {

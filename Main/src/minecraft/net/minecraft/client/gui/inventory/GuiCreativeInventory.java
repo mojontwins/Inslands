@@ -13,16 +13,16 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderEngine;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockBigFlower;
-import net.minecraft.src.BlockBigMushroom;
-import net.minecraft.src.BlockCoral;
-import net.minecraft.src.BlockDoor;
-import net.minecraft.src.BlockSign;
-import net.minecraft.src.BlockStep;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemBlock;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockBigFlower;
+import net.minecraft.world.level.tile.BlockBigMushroom;
+import net.minecraft.world.level.tile.BlockCoral;
+import net.minecraft.world.level.tile.BlockDoor;
+import net.minecraft.world.level.tile.BlockSign;
+import net.minecraft.world.level.tile.BlockStep;
 
 public class GuiCreativeInventory extends GuiScreen {
 	

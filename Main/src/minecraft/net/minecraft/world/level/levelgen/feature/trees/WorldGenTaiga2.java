@@ -2,9 +2,9 @@ package net.minecraft.world.level.levelgen.feature.trees;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.feature.WorldGenerator;
+import net.minecraft.world.level.tile.Block;
 
 public class WorldGenTaiga2 extends WorldGenerator {
 	// Softlocked for b1.0 - No spruce wood / leaves!

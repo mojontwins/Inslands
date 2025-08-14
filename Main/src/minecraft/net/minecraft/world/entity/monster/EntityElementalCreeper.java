@@ -1,9 +1,9 @@
 package net.minecraft.world.entity.monster;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.IMob;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
 
 public class EntityElementalCreeper extends EntityCreeper implements IMob {
 	public static final int ELEMENT_DIRT = 0;

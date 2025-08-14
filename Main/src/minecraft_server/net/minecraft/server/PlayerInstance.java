@@ -8,9 +8,9 @@ import net.minecraft.network.packet.Packet50PreChunk;
 import net.minecraft.network.packet.Packet51MapChunk;
 import net.minecraft.network.packet.Packet52MultiBlockChange;
 import net.minecraft.network.packet.Packet53BlockChange;
-import net.minecraft.src.Block;
 import net.minecraft.src.TileEntity;
 import net.minecraft.world.level.chunk.ChunkCoordIntPair;
+import net.minecraft.world.level.tile.Block;
 
 class PlayerInstance {
 	private List<EntityPlayerMP> players;

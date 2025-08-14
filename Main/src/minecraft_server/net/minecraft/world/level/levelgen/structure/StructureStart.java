@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 
 public abstract class StructureStart {
 	protected LinkedList<StructureComponent> components = new LinkedList<StructureComponent>();

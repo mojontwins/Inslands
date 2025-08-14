@@ -1,6 +1,6 @@
 package net.minecraft.server;
 
-import net.minecraft.src.WorldSettings;
+import net.minecraft.world.level.WorldSettings;
 import net.minecraft.world.level.chunk.storage.ISaveHandler;
 
 public class WorldServerMulti extends WorldServer {

@@ -5,8 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.src.ChunkPosition;
-import net.minecraft.src.World;
+import net.minecraft.world.level.ChunkPosition;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.chunk.ChunkCoordIntPair;
 import net.minecraft.world.level.levelgen.structure.StructureBoundingBox;
 import net.minecraft.world.level.levelgen.structure.StructureComponent;

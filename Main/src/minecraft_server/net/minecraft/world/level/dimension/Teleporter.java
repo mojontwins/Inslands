@@ -2,12 +2,12 @@ package net.minecraft.world.level.dimension;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.World;
-import net.minecraft.src.WorldSize;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.chunk.IChunkProvider;
+import net.minecraft.world.level.tile.Block;
 
 public class Teleporter {
 	private Random rand = new Random();

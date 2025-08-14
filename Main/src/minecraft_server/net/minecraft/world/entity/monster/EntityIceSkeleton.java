@@ -3,7 +3,6 @@ package net.minecraft.world.entity.monster;
 import java.util.Iterator;
 import java.util.List;
 
-import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.IMob;
@@ -11,6 +10,7 @@ import net.minecraft.world.entity.animal.EntityAnimal;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.World;
 
 public class EntityIceSkeleton extends EntitySkeleton implements IMob {
 	public EntityIceSkeleton(World world1) {

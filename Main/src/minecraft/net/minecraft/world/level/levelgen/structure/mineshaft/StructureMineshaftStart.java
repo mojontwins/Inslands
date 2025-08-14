@@ -2,7 +2,7 @@ package net.minecraft.world.level.levelgen.structure.mineshaft;
 
 import java.util.Random;
 
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 
 public class StructureMineshaftStart extends StructureStart {

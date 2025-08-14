@@ -1,7 +1,8 @@
 package net.minecraft.world.inventory;
 
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.NBTTagList;
+import com.mojang.nbt.NBTTagCompound;
+import com.mojang.nbt.NBTTagList;
+
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.ItemArmor;

@@ -5,7 +5,6 @@ import net.minecraft.client.player.EntityPlayerSP;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraft.src.Block;
 import net.minecraft.src.MathHelper;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EnumAction;
@@ -13,6 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.map.MapData;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.tile.Block;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;

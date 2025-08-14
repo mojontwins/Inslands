@@ -1,6 +1,6 @@
 package net.minecraft.world.item;
 
-import net.minecraft.src.Block;
+import net.minecraft.world.level.tile.Block;
 
 public class ItemCoral extends ItemBlock {
 	public ItemCoral(int var1) {

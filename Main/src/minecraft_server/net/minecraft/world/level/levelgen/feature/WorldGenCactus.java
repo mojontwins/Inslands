@@ -2,8 +2,8 @@ package net.minecraft.world.level.levelgen.feature;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
 
 public class WorldGenCactus extends WorldGenerator {
 	public boolean generate(World world, Random rand, int x0, int y0, int z0) {

@@ -2,14 +2,13 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.SpawnListEntry;
-import net.minecraft.src.Weather;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.animal.EntityColdCow;
 import net.minecraft.world.entity.monster.EntityCreeper;
 import net.minecraft.world.entity.monster.EntityIceSkeleton;
 import net.minecraft.world.entity.monster.EntitySlime;
+import net.minecraft.world.level.SpawnListEntry;
+import net.minecraft.world.level.Weather;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.levelgen.city.BuildingTaigaHut;
 import net.minecraft.world.level.levelgen.feature.WorldGenIceSpike;
@@ -17,6 +16,7 @@ import net.minecraft.world.level.levelgen.feature.WorldGenIgloos;
 import net.minecraft.world.level.levelgen.feature.WorldGenMinable;
 import net.minecraft.world.level.levelgen.feature.WorldGenerator;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenShrub;
+import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenTundra extends BiomeGenPlains {
 	public BiomeGenTundra() {

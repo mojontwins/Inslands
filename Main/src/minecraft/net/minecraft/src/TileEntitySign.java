@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet130UpdateSign;
 

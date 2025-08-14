@@ -2,11 +2,11 @@ package net.minecraft.world.level.levelgen.mcfeature.amazonvillage;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.mcfeature.FeatureBuilding;
+import net.minecraft.world.level.tile.Block;
 
 public abstract class BuildingAmazon extends FeatureBuilding {
 	public static final int pedestalBlock[] = {

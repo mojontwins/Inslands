@@ -1,9 +1,10 @@
 package net.minecraft.world.entity.item;
 
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.World;
 
 public class EntityTNTPrimed extends Entity {
 	public int fuse;

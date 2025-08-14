@@ -2,9 +2,9 @@ package net.minecraft.world.level.levelgen.feature.trees;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.feature.TFGenerator;
+import net.minecraft.world.level.tile.Block;
 
 public class TFGenCanopyTree extends TFGenerator {
 	private Random treeRNG;

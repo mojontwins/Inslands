@@ -2,7 +2,7 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.feature.WorldGenCaveVines;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenBloodTree;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenHellWillow;

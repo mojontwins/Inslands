@@ -2,7 +2,7 @@ package net.minecraft.world.level.levelgen.feature;
 
 import java.util.Random;
 
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 
 public class WorldGenStairs extends WorldGenerator {
 	private int rotation;

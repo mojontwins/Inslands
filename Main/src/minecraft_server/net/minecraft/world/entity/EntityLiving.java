@@ -6,15 +6,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Block;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.MovingObjectPosition;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.StepSound;
 import net.minecraft.src.Vec3D;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.ai.EntityAITasks;
 import net.minecraft.world.entity.animal.EntityWolf;
 import net.minecraft.world.entity.helper.EntityJumpHelper;
@@ -28,9 +26,12 @@ import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.entity.status.Status;
 import net.minecraft.world.entity.status.StatusEffect;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.PathNavigate;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.StepSound;
 
 public abstract class EntityLiving extends Entity {
 	public int heartsHalvesLife = 20;

@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.src.Block;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.tile.Block;
 
 public class FurnaceRecipes {
 	private static final FurnaceRecipes smeltingBase = new FurnaceRecipes();

@@ -3,12 +3,12 @@ package net.minecraft.world.level.levelgen.structure.stronghold;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.structure.StructureBoundingBox;
 import net.minecraft.world.level.levelgen.structure.StructureComponent;
 import net.minecraft.world.level.levelgen.structure.StructurePieceTreasure;
+import net.minecraft.world.level.tile.Block;
 
 public class ComponentStrongholdLibrary extends ComponentStronghold {
 	private static final StructurePieceTreasure[] treasureList = new StructurePieceTreasure[] {

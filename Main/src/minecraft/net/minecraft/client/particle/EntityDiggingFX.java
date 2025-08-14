@@ -1,8 +1,8 @@
 package net.minecraft.client.particle;
 
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
 
 public class EntityDiggingFX extends EntityFX {
 	private Block blockInstance;

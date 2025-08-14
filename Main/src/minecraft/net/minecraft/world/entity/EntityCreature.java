@@ -2,7 +2,7 @@ package net.minecraft.world.entity;
 
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.Vec3D;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.pathfinder.PathEntity;
 
 public class EntityCreature extends EntityLiving {

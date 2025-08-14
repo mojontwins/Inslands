@@ -3,14 +3,15 @@ package net.minecraft.world.item;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.NBTTagCompound;
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.src.StatList;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EnumAction;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
 
 public final class ItemStack {
 	public int stackSize;

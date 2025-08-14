@@ -2,15 +2,15 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.SpawnListEntry;
-import net.minecraft.src.Weather;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.monster.EntityPigZombieVolcanoes;
+import net.minecraft.world.level.SpawnListEntry;
+import net.minecraft.world.level.Weather;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.levelgen.feature.WorldGenLakes;
 import net.minecraft.world.level.levelgen.feature.WorldGenMinable;
 import net.minecraft.world.level.levelgen.feature.WorldGenRockBoulder;
+import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenRocky extends BiomeGenBase {
 	public BiomeGenRocky() {

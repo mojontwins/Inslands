@@ -1,7 +1,7 @@
 package net.minecraft.world.item.crafting;
 
-import net.minecraft.src.Block;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.tile.Block;
 
 public class RecipesCrafting {
 	public void addRecipes(CraftingManager craftingManager1) {

@@ -2,9 +2,9 @@ package net.minecraft.world.level.levelgen.feature.trees;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.feature.WorldGenerator;
+import net.minecraft.world.level.tile.Block;
 
 public class WorldGenTaigaTree2 extends WorldGenerator {
 	public boolean generate(World world1, Random random2, int i3, int i4, int i5) {

@@ -2,6 +2,7 @@ package net.minecraft.src;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.tile.Block;
 
 public class Achievement extends StatBase {
 	public final int displayColumn;

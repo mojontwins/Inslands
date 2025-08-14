@@ -1,13 +1,13 @@
 package net.minecraft.world.level.pathfinder;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockDoor;
-import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.MCHash;
 import net.minecraft.src.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.IWaterMob;
+import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockDoor;
 
 public class Pathfinder {
 	private IBlockAccess worldMap;

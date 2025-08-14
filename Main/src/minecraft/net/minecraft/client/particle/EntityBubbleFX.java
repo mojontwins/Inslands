@@ -1,7 +1,7 @@
 package net.minecraft.client.particle;
 
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
 
 public class EntityBubbleFX extends EntityFX {

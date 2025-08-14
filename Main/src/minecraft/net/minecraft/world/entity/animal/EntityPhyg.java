@@ -1,12 +1,13 @@
 package net.minecraft.world.entity.animal;
 
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.src.AchievementList;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.World;
 
 public class EntityPhyg extends EntityAetherAnimal {
 	public boolean getSaddled = false;

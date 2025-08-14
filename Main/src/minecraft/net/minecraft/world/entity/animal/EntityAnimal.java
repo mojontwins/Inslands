@@ -1,10 +1,11 @@
 package net.minecraft.world.entity.animal;
 
-import net.minecraft.src.Block;
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.EntityCreature;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
 
 public abstract class EntityAnimal extends EntityCreature implements IAnimals {
 	public EntityAnimal(World world1) {

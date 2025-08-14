@@ -1,6 +1,6 @@
 package net.minecraft.client.particle;
 
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 
 public class EntityAuraFX extends EntityFX {
 	public EntityAuraFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12) {

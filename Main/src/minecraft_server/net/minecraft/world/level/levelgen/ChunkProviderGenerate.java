@@ -2,14 +2,11 @@ package net.minecraft.world.level.levelgen;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockSand;
-import net.minecraft.src.BlockTerracotta;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.Weather;
-import net.minecraft.src.World;
-import net.minecraft.src.WorldSize;
-import net.minecraft.src.WorldType;
+import net.minecraft.world.level.Weather;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldSize;
+import net.minecraft.world.level.WorldType;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.chunk.EmptyChunk;
@@ -32,6 +29,9 @@ import net.minecraft.world.level.levelgen.synth.NoiseGeneratorOctaves;
 import net.minecraft.world.level.levelgen.synth.NoiseGeneratorOctavesIndev;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockSand;
+import net.minecraft.world.level.tile.BlockTerracotta;
 
 public class ChunkProviderGenerate implements IChunkProvider {
 	protected Random rand;

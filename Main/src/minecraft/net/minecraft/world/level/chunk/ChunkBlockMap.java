@@ -1,6 +1,6 @@
 package net.minecraft.world.level.chunk;
 
-import net.minecraft.src.Block;
+import net.minecraft.world.level.tile.Block;
 
 public class ChunkBlockMap {
 	private static byte[] chunkBlockMap = new byte[256];

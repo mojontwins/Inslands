@@ -29,7 +29,7 @@ import net.minecraft.client.renderer.ptexture.TextureFX;
 import net.minecraft.client.skins.TexturePackBase;
 import net.minecraft.client.skins.TexturePackDefault;
 import net.minecraft.client.skins.TexturePackList;
-import net.minecraft.src.Block;
+import net.minecraft.world.level.tile.Block;
 
 public class RenderEngine {
 	public static boolean useMipmaps = false;

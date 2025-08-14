@@ -4,8 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.src.Block;
-import net.minecraft.src.IBlockAccess;
+import net.minecraft.world.level.IBlockAccess;
+import net.minecraft.world.level.tile.Block;
 
 public class RenderBlockClassicPiston {
 	public static boolean RenderWorldBlock(RenderBlocks renderBlocks1, IBlockAccess iBlockAccess2, int i3, int i4, int i5, Block block6, int i7) {

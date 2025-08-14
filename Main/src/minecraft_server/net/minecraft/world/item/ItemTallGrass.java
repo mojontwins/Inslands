@@ -1,7 +1,7 @@
 package net.minecraft.world.item;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockTallGrass;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockTallGrass;
 
 public class ItemTallGrass extends ItemBlock {
 

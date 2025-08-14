@@ -1,8 +1,9 @@
 package net.minecraft.world.entity.block;
 
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.World;
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.level.World;
 
 public class EntityBlockEntity extends EntityLiving {
 	public int xTile;

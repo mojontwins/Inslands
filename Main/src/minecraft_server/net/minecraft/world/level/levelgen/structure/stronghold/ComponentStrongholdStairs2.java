@@ -3,8 +3,8 @@ package net.minecraft.world.level.levelgen.structure.stronghold;
 import java.util.ArrayList;
 import java.util.Random;
 
-import net.minecraft.src.ChunkPosition;
-import net.minecraft.src.World;
+import net.minecraft.world.level.ChunkPosition;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.structure.StructureComponent;
 
 public class ComponentStrongholdStairs2 extends ComponentStrongholdStairs {

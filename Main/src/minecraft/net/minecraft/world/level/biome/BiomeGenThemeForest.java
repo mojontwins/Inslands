@@ -2,11 +2,7 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
 import net.minecraft.src.GlobalVars;
-import net.minecraft.src.SpawnListEntry;
-import net.minecraft.src.World;
-import net.minecraft.src.WorldSize;
 import net.minecraft.world.entity.animal.EntityBetaOcelot;
 import net.minecraft.world.entity.animal.EntityChickenBlack;
 import net.minecraft.world.entity.animal.EntityTwilightBighorn;
@@ -17,6 +13,9 @@ import net.minecraft.world.entity.monster.EntityFungalCalamity;
 import net.minecraft.world.entity.monster.EntityTFHedgeSpider;
 import net.minecraft.world.entity.monster.EntityTFKobold;
 import net.minecraft.world.entity.monster.EntityTFRedcap;
+import net.minecraft.world.level.SpawnListEntry;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.dimension.WorldProviderSky;
 import net.minecraft.world.level.levelgen.feature.TFGenFoundation;
 import net.minecraft.world.level.levelgen.feature.TFGenHedgeMaze;
@@ -42,6 +41,7 @@ import net.minecraft.world.level.levelgen.feature.trees.WorldGenFir;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenHugeTrees;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenPineTree;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenTrees;
+import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenThemeForest extends BiomeGenForest {
 	

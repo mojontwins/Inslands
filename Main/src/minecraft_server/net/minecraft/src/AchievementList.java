@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.tile.Block;
 
 public class AchievementList {
 	public static int minDisplayColumn;

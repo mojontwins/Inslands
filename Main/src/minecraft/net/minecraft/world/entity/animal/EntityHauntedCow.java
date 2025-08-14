@@ -3,12 +3,12 @@ package net.minecraft.world.entity.animal;
 import java.util.Iterator;
 import java.util.List;
 
-import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLightningBolt;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.monster.EntityMob;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.World;
 
 public class EntityHauntedCow extends EntityMob {
 	/*

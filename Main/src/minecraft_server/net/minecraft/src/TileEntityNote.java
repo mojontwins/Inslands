@@ -1,5 +1,8 @@
 package net.minecraft.src;
 
+import com.mojang.nbt.NBTTagCompound;
+
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
 
 public class TileEntityNote extends TileEntity {

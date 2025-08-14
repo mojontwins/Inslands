@@ -3,18 +3,18 @@ package net.minecraft.world.level.biome;
 import java.util.Arrays;
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.SpawnListEntry;
-import net.minecraft.src.Weather;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.animal.EntityChickenBlack;
 import net.minecraft.world.entity.monster.EntityPigZombieVolcanoes;
+import net.minecraft.world.level.SpawnListEntry;
+import net.minecraft.world.level.Weather;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.levelgen.ChunkProviderSky;
 import net.minecraft.world.level.levelgen.feature.WorldGenDesertFlowers;
 import net.minecraft.world.level.levelgen.feature.WorldGenerator;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenBigTreeDead;
 import net.minecraft.world.level.levelgen.synth.NoiseGeneratorPerlin;
+import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenMesa extends BiomeGenBase {
 	private byte[] clayLayers;

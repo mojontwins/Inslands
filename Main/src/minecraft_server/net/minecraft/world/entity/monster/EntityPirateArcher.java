@@ -1,9 +1,9 @@
 package net.minecraft.world.entity.monster;
 
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.IMob;
 import net.minecraft.world.entity.ISentient;
@@ -14,6 +14,7 @@ import net.minecraft.world.entity.status.Status;
 import net.minecraft.world.entity.status.StatusEffect;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.World;
 
 public class EntityPirateArcher extends EntityMob implements IMob, ISentient {
 	private static final ItemStack defaultHeldItem = new ItemStack(Item.bow, 1);

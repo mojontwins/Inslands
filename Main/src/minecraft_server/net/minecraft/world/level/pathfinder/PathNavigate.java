@@ -1,11 +1,11 @@
 package net.minecraft.world.level.pathfinder;
 
-import net.minecraft.src.Block;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.Vec3D;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.tile.Block;
 
 public class PathNavigate {
 	private EntityLiving theEntity;

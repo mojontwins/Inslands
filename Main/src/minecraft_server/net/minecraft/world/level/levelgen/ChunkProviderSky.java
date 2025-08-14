@@ -1,14 +1,14 @@
 package net.minecraft.world.level.levelgen;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
-import net.minecraft.src.WorldSize;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.chunk.EmptyChunk;
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.chunk.storage.IProgressUpdate;
 import net.minecraft.world.level.levelgen.feature.WorldGenMinable;
+import net.minecraft.world.level.tile.Block;
 
 public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkProvider {
 	

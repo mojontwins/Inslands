@@ -8,7 +8,7 @@ import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
 import net.minecraft.network.NetHandler;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 
 public class Packet51MapChunk extends Packet {
 	public int xPosition;

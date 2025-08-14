@@ -2,7 +2,7 @@ package net.minecraft.world.level.levelgen;
 
 import java.util.Random;
 
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.chunk.IChunkProvider;
 
 public class MapGenBase {

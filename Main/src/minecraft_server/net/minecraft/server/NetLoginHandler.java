@@ -17,8 +17,8 @@ import net.minecraft.network.packet.Packet6SpawnPosition;
 import net.minecraft.network.packet.Packet93FiniteWorldSettings;
 import net.minecraft.network.packet.Packet95UpdateDayOfTheYear;
 import net.minecraft.network.packet.Packet99SetCreativeMode;
-import net.minecraft.src.Seasons;
-import net.minecraft.src.WorldSize;
+import net.minecraft.world.level.Seasons;
+import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 

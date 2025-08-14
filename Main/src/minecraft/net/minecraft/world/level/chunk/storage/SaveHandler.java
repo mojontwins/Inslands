@@ -9,11 +9,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
-import net.minecraft.src.CompressedStreamTools;
+import com.mojang.nbt.CompressedStreamTools;
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.src.MinecraftException;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.WorldInfo;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.WorldInfo;
 import net.minecraft.world.level.chunk.ChunkLoader;
 import net.minecraft.world.level.chunk.IChunkLoader;
 import net.minecraft.world.level.dimension.WorldProvider;

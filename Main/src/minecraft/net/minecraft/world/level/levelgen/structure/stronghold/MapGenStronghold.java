@@ -5,8 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.biome.BiomeGenDesert;
 import net.minecraft.world.level.biome.BiomeGenForest;
@@ -14,6 +13,7 @@ import net.minecraft.world.level.biome.BiomeGenTundra;
 import net.minecraft.world.level.chunk.ChunkCoordIntPair;
 import net.minecraft.world.level.levelgen.MapGenStructure;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
+import net.minecraft.world.level.tile.Block;
 
 public class MapGenStronghold extends MapGenStructure {
 	public static final int chance = 10240;

@@ -1,10 +1,10 @@
 package net.minecraft.world.inventory;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingManager;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
 
 public class ContainerWorkbench extends Container {
 	public InventoryCrafting craftMatrix = new InventoryCrafting(this, 3, 3);

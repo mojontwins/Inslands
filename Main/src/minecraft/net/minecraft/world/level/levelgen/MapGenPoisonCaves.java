@@ -2,10 +2,10 @@ package net.minecraft.world.level.levelgen;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockFluid;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockFluid;
 
 public class MapGenPoisonCaves extends MapGenCaves {
 

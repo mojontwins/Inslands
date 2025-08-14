@@ -1,6 +1,6 @@
 package net.minecraft.world.entity.animal;
 
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 
 public class EntityCatRed extends EntityBetaOcelot {
 

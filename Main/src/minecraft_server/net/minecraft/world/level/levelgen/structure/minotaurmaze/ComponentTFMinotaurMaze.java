@@ -3,13 +3,13 @@ package net.minecraft.world.level.levelgen.structure.minotaurmaze;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.src.Block;
 import net.minecraft.src.GlobalVars;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.TFMazeNew;
 import net.minecraft.world.level.levelgen.mcfeature.FeatureAABB;
 import net.minecraft.world.level.levelgen.structure.StructureBoundingBox;
 import net.minecraft.world.level.levelgen.structure.StructureComponent;
+import net.minecraft.world.level.tile.Block;
 
 public class ComponentTFMinotaurMaze extends StructureTFComponent {
 	private static final int FLOOR_LEVEL = 1;

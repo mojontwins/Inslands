@@ -10,12 +10,12 @@ import net.minecraft.client.Config;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Block;
 import net.minecraft.src.TileEntity;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.chunk.ChunkCache;
+import net.minecraft.world.level.tile.Block;
 
 public class WorldRenderer {
 	

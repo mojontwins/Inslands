@@ -2,13 +2,14 @@ package net.minecraft.world.entity.monster;
 
 import java.util.List;
 
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.World;
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLightningBolt;
 import net.minecraft.world.entity.IMob;
 import net.minecraft.world.entity.animal.EntityBetaOcelot;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.World;
 
 public class EntityCreeper extends EntityMob implements IMob {
 	int timeSinceIgnited;

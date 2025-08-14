@@ -1,9 +1,9 @@
 package net.minecraft.world.entity.ai;
 
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.monster.EntityMob;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.pathfinder.PathEntity;
 
 public class EntityAIAttackOnCollide extends EntityAIBase {

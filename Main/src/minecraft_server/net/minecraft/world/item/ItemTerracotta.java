@@ -1,7 +1,7 @@
 package net.minecraft.world.item;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockTerracotta;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockTerracotta;
 
 public class ItemTerracotta extends ItemBlock {
 

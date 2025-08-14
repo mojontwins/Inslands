@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import net.minecraft.network.NetHandler;
-import net.minecraft.src.ChunkPosition;
+import net.minecraft.world.level.ChunkPosition;
 
 public class Packet60Explosion extends Packet {
 	public double explosionX;

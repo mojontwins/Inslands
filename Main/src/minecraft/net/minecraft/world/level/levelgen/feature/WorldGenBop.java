@@ -1,7 +1,7 @@
 package net.minecraft.world.level.levelgen.feature;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
 
 public abstract class WorldGenBop extends WorldGenerator {
 	// Shared methods for all Bop generators

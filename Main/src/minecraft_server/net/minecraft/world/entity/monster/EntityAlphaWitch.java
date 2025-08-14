@@ -1,14 +1,15 @@
 package net.minecraft.world.entity.monster;
 
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.EntityThrowablePotion;
 import net.minecraft.world.entity.status.StatusEffect;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemPotion;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.World;
 
 public class EntityAlphaWitch extends EntityArmoredMob {
 	private Item possiblePotions[] = new Item[] {

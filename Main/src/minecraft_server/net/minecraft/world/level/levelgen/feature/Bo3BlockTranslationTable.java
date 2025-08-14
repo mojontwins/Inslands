@@ -2,7 +2,7 @@ package net.minecraft.world.level.levelgen.feature;
 
 import java.util.HashMap;
 
-import net.minecraft.src.Block;
+import net.minecraft.world.level.tile.Block;
 
 public class Bo3BlockTranslationTable {
 	private static final HashMap<String, Integer> translationTable = new HashMap<String, Integer> () {

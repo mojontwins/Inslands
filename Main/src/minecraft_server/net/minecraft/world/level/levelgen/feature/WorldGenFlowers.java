@@ -2,10 +2,10 @@ package net.minecraft.world.level.levelgen.feature;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockFlower;
-import net.minecraft.src.BlockMushroom;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockFlower;
+import net.minecraft.world.level.tile.BlockMushroom;
 
 public class WorldGenFlowers extends WorldGenerator {
 	private int plantBlockId;

@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 
 import net.minecraft.client.gui.GameSettings;
-import net.minecraft.src.IBlockAccess;
+import net.minecraft.world.level.IBlockAccess;
 
 public class Config {
 	private static GameSettings gameSettings = null;

@@ -2,8 +2,8 @@ package net.minecraft.world.level.levelgen.city;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
 import net.minecraft.world.level.chunk.Chunk;
+import net.minecraft.world.level.tile.Block;
 
 public class BuildingTaigaHut extends BuildingDynamic {
 	public void generate(int y0, Chunk chunk) {

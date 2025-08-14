@@ -3,7 +3,7 @@ package net.minecraft.world.level.levelgen.mcfeature.amazonvillage;
 import java.util.Iterator;
 import java.util.Random;
 
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.biome.BiomeGenForest;
 import net.minecraft.world.level.chunk.Chunk;

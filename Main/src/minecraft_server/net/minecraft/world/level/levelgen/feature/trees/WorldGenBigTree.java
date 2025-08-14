@@ -2,10 +2,10 @@ package net.minecraft.world.level.levelgen.feature.trees;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.feature.WorldGenerator;
+import net.minecraft.world.level.tile.Block;
 
 public class WorldGenBigTree extends WorldGenerator {
 	static final byte[] otherCoordPairs = new byte[]{(byte)2, (byte)0, (byte)0, (byte)1, (byte)2, (byte)1};

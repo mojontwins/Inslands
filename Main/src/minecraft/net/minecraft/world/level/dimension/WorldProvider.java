@@ -1,19 +1,19 @@
 package net.minecraft.world.level.dimension;
 
-import net.minecraft.src.Block;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.Seasons;
 import net.minecraft.src.Vec3D;
-import net.minecraft.src.World;
-import net.minecraft.src.WorldChunkManager;
-import net.minecraft.src.WorldSize;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.Seasons;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldChunkManager;
+import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 import net.minecraft.world.level.theme.LevelThemeSettings;
+import net.minecraft.world.level.tile.Block;
 
 public abstract class WorldProvider {
 	public World worldObj;

@@ -2,11 +2,11 @@ package net.minecraft.world.level.levelgen;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenBigTree;
 import net.minecraft.world.level.levelgen.structure.StructureBoundingBox;
 import net.minecraft.world.level.levelgen.structure.minotaurmaze.StructureTFComponent;
+import net.minecraft.world.level.tile.Block;
 
 public class TFMazeNew extends TFMaze {
 	public int width;

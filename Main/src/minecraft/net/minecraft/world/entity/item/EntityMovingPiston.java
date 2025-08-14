@@ -4,20 +4,20 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.hippoplatimus.pistons.BlockPistonBase;
+import com.mojang.nbt.NBTTagCompound;
 
 import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockRail;
-import net.minecraft.src.BlockStairs;
-import net.minecraft.src.BlockStep;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.inventory.IInventory;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockPistonBase;
+import net.minecraft.world.level.tile.BlockRail;
+import net.minecraft.world.level.tile.BlockStairs;
+import net.minecraft.world.level.tile.BlockStep;
 
 public class EntityMovingPiston extends Entity {
 	public int xmove;

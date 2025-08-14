@@ -1,11 +1,11 @@
 package net.minecraft.world.entity.monster;
 
-import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.IMob;
 import net.minecraft.world.entity.status.Status;
 import net.minecraft.world.entity.status.StatusEffect;
+import net.minecraft.world.level.World;
 
 public class EntityToxicZombie extends EntityCityHusk implements IMob {
 

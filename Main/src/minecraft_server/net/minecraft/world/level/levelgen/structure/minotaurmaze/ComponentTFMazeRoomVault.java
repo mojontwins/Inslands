@@ -2,10 +2,10 @@ package net.minecraft.world.level.levelgen.structure.minotaurmaze;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.TFTreasure;
 import net.minecraft.world.level.levelgen.structure.StructureBoundingBox;
+import net.minecraft.world.level.tile.Block;
 
 public class ComponentTFMazeRoomVault extends ComponentTFMazeRoom {
 	public ComponentTFMazeRoomVault(int var1, Random var2, int var3, int var4, int var5) {

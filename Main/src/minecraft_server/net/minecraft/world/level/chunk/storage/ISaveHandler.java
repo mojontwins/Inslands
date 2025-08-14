@@ -3,8 +3,8 @@ package net.minecraft.world.level.chunk.storage;
 import java.io.File;
 import java.util.List;
 
-import net.minecraft.src.WorldInfo;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.WorldInfo;
 import net.minecraft.world.level.chunk.IChunkLoader;
 import net.minecraft.world.level.dimension.WorldProvider;
 

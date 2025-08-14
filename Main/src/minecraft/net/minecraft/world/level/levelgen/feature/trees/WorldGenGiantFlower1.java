@@ -2,9 +2,9 @@ package net.minecraft.world.level.levelgen.feature.trees;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.feature.WorldGenBop;
+import net.minecraft.world.level.tile.Block;
 
 public class WorldGenGiantFlower1 extends WorldGenBop {
 	private final int minTreeHeight;

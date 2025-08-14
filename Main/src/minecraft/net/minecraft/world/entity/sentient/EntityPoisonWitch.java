@@ -4,9 +4,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import net.minecraft.src.Block;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityCreature;
 import net.minecraft.world.entity.EntityLiving;
@@ -20,6 +18,8 @@ import net.minecraft.world.entity.status.Status;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemBottle;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
 
 public class EntityPoisonWitch extends EntityMob implements IMob {
 

@@ -3,7 +3,7 @@ package net.minecraft.world.level.levelgen.mcfeature.oceanruins;
 import java.util.Iterator;
 import java.util.Random;
 
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.biome.BiomeGenGlacier;
 import net.minecraft.world.level.chunk.IChunkProvider;

@@ -21,7 +21,6 @@ import net.minecraft.network.packet.Packet33RelEntityMoveLook;
 import net.minecraft.network.packet.Packet34EntityTeleport;
 import net.minecraft.network.packet.Packet40EntityMetadata;
 import net.minecraft.network.packet.Packet5PlayerInventory;
-import net.minecraft.src.Block;
 import net.minecraft.src.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
@@ -43,6 +42,7 @@ import net.minecraft.world.entity.projectile.EntityTFNatureBolt;
 import net.minecraft.world.entity.projectile.EntityThrowablePotion;
 import net.minecraft.world.entity.projectile.EntityThrowableToxicFungus;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.tile.Block;
 
 public class EntityTrackerEntry {
 	public Entity trackedEntity;

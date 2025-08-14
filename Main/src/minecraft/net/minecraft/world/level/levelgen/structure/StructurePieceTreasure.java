@@ -1,6 +1,6 @@
 package net.minecraft.world.level.levelgen.structure;
 
-import net.minecraft.src.WeightedRandomChoice;
+import net.minecraft.world.level.WeightedRandomChoice;
 
 public class StructurePieceTreasure extends WeightedRandomChoice {
 	public int itemID;

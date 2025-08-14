@@ -3,7 +3,7 @@ package net.minecraft.world.level.levelgen.structure.mineshaftmesa;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.structure.StructureBoundingBox;
 import net.minecraft.world.level.levelgen.structure.StructureComponent;
 

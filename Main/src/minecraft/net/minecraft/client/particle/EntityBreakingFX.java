@@ -1,9 +1,9 @@
 package net.minecraft.client.particle;
 
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
 
 public class EntityBreakingFX extends EntityFX {
 	public EntityBreakingFX(World world1, double d2, double d4, double d6, Item item8) {

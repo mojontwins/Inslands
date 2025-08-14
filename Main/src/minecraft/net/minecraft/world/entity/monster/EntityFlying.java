@@ -1,9 +1,9 @@
 package net.minecraft.world.entity.monster;
 
-import net.minecraft.src.Block;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
 
 public class EntityFlying extends EntityLiving {
 	public EntityFlying(World world1) {

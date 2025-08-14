@@ -5,18 +5,18 @@ import java.util.Random;
 
 import com.mojontwins.minecraft.worldedit.ItemMagicWand;
 
-import net.minecraft.src.Block;
 import net.minecraft.src.StatCollector;
 import net.minecraft.src.StatList;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EnumAction;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.entity.status.Status;
 import net.minecraft.world.item.map.ItemMap;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.tile.Block;
 
 public class Item {
 	protected static Random rand = new Random();

@@ -2,7 +2,7 @@ package net.minecraft.world.level.chunk;
 
 import java.io.IOException;
 
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 
 public interface IChunkLoader {
 	Chunk loadChunk(World world1, int i2, int i3) throws IOException;

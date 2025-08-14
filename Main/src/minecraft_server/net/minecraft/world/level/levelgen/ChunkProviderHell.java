@@ -2,10 +2,8 @@ package net.minecraft.world.level.levelgen;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockSand;
-import net.minecraft.src.World;
-import net.minecraft.src.WorldSize;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.chunk.IChunkProvider;
@@ -17,6 +15,8 @@ import net.minecraft.world.level.levelgen.feature.WorldGenGlowStone2;
 import net.minecraft.world.level.levelgen.feature.WorldGenHellLava;
 import net.minecraft.world.level.levelgen.feature.WorldGenNetherMinable;
 import net.minecraft.world.level.levelgen.synth.NoiseGeneratorOctaves;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockSand;
 
 public class ChunkProviderHell implements IChunkProvider {
 	private Random rand;

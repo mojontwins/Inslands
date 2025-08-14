@@ -1,6 +1,6 @@
 package net.minecraft.client.particle;
 
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 
 public class EntityStatusEffectFX extends EntityFX {
 	public EntityStatusEffectFX(World world, double x, double y, double z, double vx, double vy, double vz) {

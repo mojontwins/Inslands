@@ -1,6 +1,7 @@
 package net.minecraft.world.entity.status;
 
-import net.minecraft.src.NBTTagCompound;
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.world.entity.EntityLiving;
 
 public class StatusEffect {

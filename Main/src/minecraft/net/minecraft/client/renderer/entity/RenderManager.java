@@ -61,9 +61,7 @@ import net.minecraft.client.renderer.entity.mojontwins.RenderThrowableBottle;
 import net.minecraft.client.renderer.entity.mojontwins.RenderTriton;
 import net.minecraft.client.renderer.entity.twilight.RenderTFMinoshroom;
 import net.minecraft.client.renderer.entity.twilight.RenderTFWraith;
-import net.minecraft.src.Block;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLightningBolt;
 import net.minecraft.world.entity.EntityLiving;
@@ -142,6 +140,8 @@ import net.minecraft.world.entity.sentient.EntityIceBoss;
 import net.minecraft.world.entity.sentient.EntityIceWarrior;
 import net.minecraft.world.entity.sentient.EntityPoisonWitch;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
 
 public class RenderManager {
 	private Map<Class<?>, Render> entityRenderMap = new HashMap<Class<?>, Render>();

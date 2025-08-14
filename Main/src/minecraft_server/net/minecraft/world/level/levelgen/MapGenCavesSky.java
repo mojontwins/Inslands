@@ -2,9 +2,9 @@ package net.minecraft.world.level.levelgen;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
 
 public class MapGenCavesSky extends MapGenBase {
 	protected void func_870_a(int i1, int i2, byte[] b3, double d4, double d6, double d8) {

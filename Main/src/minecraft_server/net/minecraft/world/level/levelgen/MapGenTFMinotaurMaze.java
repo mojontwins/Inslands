@@ -1,8 +1,8 @@
 package net.minecraft.world.level.levelgen;
 
-import net.minecraft.src.World;
-import net.minecraft.src.WorldSize;
-import net.minecraft.src.WorldType;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldSize;
+import net.minecraft.world.level.WorldType;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.levelgen.structure.minotaurmaze.StructureTFMinotaurMazeStart;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;

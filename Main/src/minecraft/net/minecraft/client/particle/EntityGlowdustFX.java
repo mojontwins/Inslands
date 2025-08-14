@@ -1,6 +1,6 @@
 package net.minecraft.client.particle;
 
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 
 public class EntityGlowdustFX extends EntityReddustFX {
 	public EntityGlowdustFX(World world1, double d2, double d4, double d6) {

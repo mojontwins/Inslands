@@ -1,6 +1,6 @@
 package net.minecraft.world.level.levelgen.mcfeature.oceanruins;
 
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 
 public class BuildingBuild1 extends BuildingOceanRuin {
 

@@ -1,10 +1,10 @@
 package net.minecraft.world.entity.monster;
 
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.ICaveMob;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.World;
 
 public class EntityTFRedcap extends EntityMob implements ICaveMob {
 	private static final ItemStack defaultHeldItem = new ItemStack(Item.pickaxeSteel, 1);

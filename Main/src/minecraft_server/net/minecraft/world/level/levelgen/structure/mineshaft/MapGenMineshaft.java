@@ -1,6 +1,6 @@
 package net.minecraft.world.level.levelgen.structure.mineshaft;
 
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.MapGenStructure;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 

@@ -2,8 +2,8 @@ package net.minecraft.client.renderer.ptexture;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
 import net.minecraft.src.MathHelper;
+import net.minecraft.world.level.tile.Block;
 
 public class TexturePortalFX extends TextureFX {
 	private int portalTickCounter = 0;

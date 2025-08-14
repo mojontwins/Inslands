@@ -6,15 +6,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
-import net.minecraft.src.CompressedStreamTools;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.NBTTagList;
+import com.mojang.nbt.CompressedStreamTools;
+import com.mojang.nbt.NBTTagCompound;
+import com.mojang.nbt.NBTTagList;
+
 import net.minecraft.src.TileEntity;
-import net.minecraft.src.World;
-import net.minecraft.src.WorldInfo;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityList;
 import net.minecraft.world.entity.block.EntityBlockEntity;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldInfo;
 
 public class ChunkLoader implements IChunkLoader {
 	private File saveDir;

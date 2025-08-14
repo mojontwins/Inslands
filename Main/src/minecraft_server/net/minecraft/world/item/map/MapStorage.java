@@ -11,10 +11,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.src.CompressedStreamTools;
-import net.minecraft.src.NBTBase;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.NBTTagShort;
+import com.mojang.nbt.CompressedStreamTools;
+import com.mojang.nbt.NBTBase;
+import com.mojang.nbt.NBTTagCompound;
+import com.mojang.nbt.NBTTagShort;
+
 import net.minecraft.world.level.chunk.storage.ISaveHandler;
 
 public class MapStorage {

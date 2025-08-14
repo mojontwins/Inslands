@@ -1,7 +1,7 @@
 package net.minecraft.world.entity.animal;
 
-import net.minecraft.src.World;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.World;
 
 public class EntityTwilightDeer extends EntityCow {
 	public EntityTwilightDeer(World world) {

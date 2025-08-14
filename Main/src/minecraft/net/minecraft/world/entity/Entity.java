@@ -3,25 +3,26 @@ package net.minecraft.world.entity;
 import java.util.List;
 import java.util.Random;
 
+import com.mojang.nbt.NBTTagCompound;
+import com.mojang.nbt.NBTTagDouble;
+import com.mojang.nbt.NBTTagFloat;
+import com.mojang.nbt.NBTTagList;
+
 import net.minecraft.network.DataWatcher;
 import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockFluid;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.NBTTagDouble;
-import net.minecraft.src.NBTTagFloat;
-import net.minecraft.src.NBTTagList;
-import net.minecraft.src.StepSound;
 import net.minecraft.src.Vec3D;
-import net.minecraft.src.World;
-import net.minecraft.src.WorldSize;
 import net.minecraft.world.entity.item.EntityBoat;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.inventory.IInventory;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockFluid;
+import net.minecraft.world.level.tile.StepSound;
 
 public abstract class Entity {
 	private static int nextEntityID = 0;

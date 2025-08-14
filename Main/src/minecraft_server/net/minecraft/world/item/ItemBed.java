@@ -1,10 +1,10 @@
 package net.minecraft.world.item;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockBed;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockBed;
 
 public class ItemBed extends Item {
 	public ItemBed(int i1) {

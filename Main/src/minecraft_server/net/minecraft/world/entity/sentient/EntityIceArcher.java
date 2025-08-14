@@ -1,12 +1,12 @@
 package net.minecraft.world.entity.sentient;
 
-import net.minecraft.src.World;
 import net.minecraft.world.entity.ISentient;
 import net.minecraft.world.entity.monster.EntityPirateArcher;
 import net.minecraft.world.entity.projectile.EntityArrow;
 import net.minecraft.world.entity.projectile.EntityArrowWithEffect;
 import net.minecraft.world.entity.status.Status;
 import net.minecraft.world.entity.status.StatusEffect;
+import net.minecraft.world.level.World;
 
 public class EntityIceArcher extends EntityPirateArcher implements ISentient {
 

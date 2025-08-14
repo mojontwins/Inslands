@@ -1,8 +1,8 @@
 package net.minecraft.world.item;
 
 import net.minecraft.src.AchievementList;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
 import net.minecraft.world.level.creative.CreativeTabs;
 

@@ -3,8 +3,8 @@ package net.minecraft.world.entity;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.World;
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.world.entity.animal.EntityBetaOcelot;
 import net.minecraft.world.entity.animal.EntityCatBlack;
 import net.minecraft.world.entity.animal.EntityCatRed;
@@ -81,6 +81,7 @@ import net.minecraft.world.entity.sentient.EntityIceArcher;
 import net.minecraft.world.entity.sentient.EntityIceBoss;
 import net.minecraft.world.entity.sentient.EntityIceWarrior;
 import net.minecraft.world.entity.sentient.EntityPoisonWitch;
+import net.minecraft.world.level.World;
 
 public class EntityList {
 	private static Map<String,Class<?>> stringToClassMapping = new HashMap<String,Class<?>>();

@@ -1,8 +1,8 @@
 package net.minecraft.world.level.dimension;
 
-import net.minecraft.src.Block;
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.levelgen.ChunkProviderSky;
+import net.minecraft.world.level.tile.Block;
 
 public class WorldProviderSky extends WorldProvider {
 

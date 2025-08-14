@@ -2,8 +2,8 @@ package net.minecraft.client.renderer.entity.twilight;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderBiped;
-import net.minecraft.src.Block;
 import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.level.tile.Block;
 
 import org.lwjgl.opengl.GL11;
 

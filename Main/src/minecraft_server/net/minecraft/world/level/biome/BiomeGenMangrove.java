@@ -2,10 +2,6 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.SpawnListEntry;
-import net.minecraft.src.Weather;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.monster.EntityCreeper;
 import net.minecraft.world.entity.monster.EntityDrowned;
 import net.minecraft.world.entity.monster.EntityElementalCreeper;
@@ -13,6 +9,9 @@ import net.minecraft.world.entity.monster.EntityPigZombieVolcanoes;
 import net.minecraft.world.entity.monster.EntitySkeleton;
 import net.minecraft.world.entity.monster.EntitySlime;
 import net.minecraft.world.entity.monster.EntitySpider;
+import net.minecraft.world.level.SpawnListEntry;
+import net.minecraft.world.level.Weather;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.feature.TFGenMangroveTree;
 import net.minecraft.world.level.levelgen.feature.WorldGenFlowers;
 import net.minecraft.world.level.levelgen.feature.WorldGenHollowLogs;
@@ -23,6 +22,7 @@ import net.minecraft.world.level.levelgen.feature.WorldGenWitchHut;
 import net.minecraft.world.level.levelgen.feature.WorldGenerator;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenHugeTrees;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenTrees;
+import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenMangrove extends BiomeGenBase {
 	public BiomeGenMangrove() {

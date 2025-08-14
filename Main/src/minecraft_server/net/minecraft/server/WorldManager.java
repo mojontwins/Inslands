@@ -1,10 +1,10 @@
 package net.minecraft.server;
 
 import net.minecraft.network.packet.Packet61DoorChange;
-import net.minecraft.src.IWorldAccess;
 import net.minecraft.src.TileEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.IWorldAccess;
 
 public class WorldManager implements IWorldAccess {
 	private MinecraftServer mcServer;

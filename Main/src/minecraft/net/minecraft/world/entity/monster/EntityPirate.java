@@ -2,17 +2,18 @@ package net.minecraft.world.entity.monster;
 
 import java.util.List;
 
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.src.AchievementList;
-import net.minecraft.src.Block;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.IMobWithLevel;
 import net.minecraft.world.entity.ISentient;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
 
 public class EntityPirate extends EntityHumanBase implements IMobWithLevel, ISentient {
 	protected boolean angryAtPlayer = false;

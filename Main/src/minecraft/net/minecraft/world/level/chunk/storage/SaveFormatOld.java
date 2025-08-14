@@ -6,9 +6,10 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.src.CompressedStreamTools;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.WorldInfo;
+import com.mojang.nbt.CompressedStreamTools;
+import com.mojang.nbt.NBTTagCompound;
+
+import net.minecraft.world.level.WorldInfo;
 
 public class SaveFormatOld implements ISaveFormat {
 	protected final File savesDirectory;

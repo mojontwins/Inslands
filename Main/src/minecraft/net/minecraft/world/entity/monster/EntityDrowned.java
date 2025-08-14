@@ -1,8 +1,8 @@
 package net.minecraft.world.entity.monster;
 
-import net.minecraft.src.World;
 import net.minecraft.world.entity.IWaterMob;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.World;
 
 public class EntityDrowned extends EntityZombie implements IWaterMob {
 	public EntityDrowned(World world) {

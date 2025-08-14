@@ -2,10 +2,6 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.SpawnListEntry;
-import net.minecraft.src.Weather;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.animal.EntityColdCow;
 import net.minecraft.world.entity.animal.EntitySheep;
 import net.minecraft.world.entity.animal.EntityWolf;
@@ -15,6 +11,9 @@ import net.minecraft.world.entity.monster.EntitySlime;
 import net.minecraft.world.entity.monster.EntitySpider;
 import net.minecraft.world.entity.monster.EntityZombie;
 import net.minecraft.world.entity.monster.EntityZombieAlex;
+import net.minecraft.world.level.SpawnListEntry;
+import net.minecraft.world.level.Weather;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.levelgen.city.BuildingTaigaHut;
 import net.minecraft.world.level.levelgen.feature.WorldGenIgloos;
@@ -25,6 +24,7 @@ import net.minecraft.world.level.levelgen.feature.trees.WorldGenFir;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenPineTree;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenTaigaTree1;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenTaigaTree2;
+import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenTaiga extends BiomeGenForest {
 	public BiomeGenTaiga() {

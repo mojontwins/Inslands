@@ -2,12 +2,13 @@ package net.minecraft.world.entity;
 
 import java.util.List;
 
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Block;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.Vec3D;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
 
 public class EntityLightningBolt extends EntityWeatherEffect {
 	private int lightningState;

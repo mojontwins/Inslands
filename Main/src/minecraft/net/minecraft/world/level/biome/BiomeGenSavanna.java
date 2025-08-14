@@ -2,11 +2,10 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.SpawnListEntry;
-import net.minecraft.src.Weather;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.animal.EntityBetaOcelot;
+import net.minecraft.world.level.SpawnListEntry;
+import net.minecraft.world.level.Weather;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.feature.WorldGenLakes;
 import net.minecraft.world.level.levelgen.feature.WorldGenLilypad;
 import net.minecraft.world.level.levelgen.feature.WorldGenSeaweed;
@@ -15,6 +14,7 @@ import net.minecraft.world.level.levelgen.feature.WorldGenerator;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenBaobab;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenPalmTree1;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenPalmTree3;
+import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenSavanna extends BiomeGenBeta {
 

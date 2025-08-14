@@ -3,9 +3,8 @@ package net.minecraft.world.level.levelgen.mcfeature;
 import java.util.Arrays;
 import java.util.Random;
 
-import net.minecraft.src.Block;
 import net.minecraft.src.TileEntityMobSpawnerOneshot;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.biome.BiomeGenMangrove;
 import net.minecraft.world.level.biome.BiomeGenMesa;
@@ -13,6 +12,7 @@ import net.minecraft.world.level.biome.BiomeGenRocky;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.levelgen.ChunkProviderSky;
+import net.minecraft.world.level.tile.Block;
 
 public class FeatureVolcano extends FeatureDynamicSchematic {
 	// I'm making this configurable so I can generate bigger volcanos in other mods with taller worlds

@@ -1,6 +1,5 @@
 package net.minecraft.world.entity.monster;
 
-import net.minecraft.src.World;
 import net.minecraft.world.entity.ICaveMob;
 import net.minecraft.world.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.world.entity.ai.EntityAIHurtByTarget;
@@ -14,6 +13,7 @@ import net.minecraft.world.entity.ai.EntityAIWander;
 import net.minecraft.world.entity.ai.EntityAIWatchClosest;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.World;
 
 public class EntityTFKobold extends EntityMob implements ICaveMob {
 	private boolean shy;

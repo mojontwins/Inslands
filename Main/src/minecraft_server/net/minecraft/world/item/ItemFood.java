@@ -1,9 +1,9 @@
 package net.minecraft.world.item;
 
-import net.minecraft.src.World;
 import net.minecraft.world.entity.EnumAction;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.entity.status.StatusEffect;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 
 public class ItemFood extends Item {

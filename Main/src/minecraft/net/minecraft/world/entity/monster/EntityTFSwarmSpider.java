@@ -1,11 +1,12 @@
 package net.minecraft.world.entity.monster;
 
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.World;
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.status.Status;
 import net.minecraft.world.entity.status.StatusEffect;
+import net.minecraft.world.level.World;
 
 public class EntityTFSwarmSpider extends EntitySpiderBase {
 	public EntityTFSwarmSpider(World world) {

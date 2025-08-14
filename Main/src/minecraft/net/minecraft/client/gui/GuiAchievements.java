@@ -11,9 +11,9 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.src.Achievement;
 import net.minecraft.src.AchievementList;
-import net.minecraft.src.Block;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.StatCollector;
+import net.minecraft.world.level.tile.Block;
 
 public class GuiAchievements extends GuiScreen {
 	private static final int guiMapTop = AchievementList.minDisplayColumn * 24 - 112;

@@ -8,22 +8,22 @@ import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockContainer;
-import net.minecraft.src.BlockEntity;
-import net.minecraft.src.ChunkPosition;
-import net.minecraft.src.EnumSkyBlock;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.TileEntity;
-import net.minecraft.src.World;
-import net.minecraft.src.WorldChunkManager;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EnumCreatureType;
 import net.minecraft.world.entity.block.EntityBlockEntity;
+import net.minecraft.world.level.ChunkPosition;
+import net.minecraft.world.level.EnumSkyBlock;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldChunkManager;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.colorizer.ColorizerFoliage;
 import net.minecraft.world.level.colorizer.ColorizerGrass;
 import net.minecraft.world.level.levelgen.city.Building;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockContainer;
+import net.minecraft.world.level.tile.BlockEntity;
 
 public class Chunk {
 	public static boolean isLit;

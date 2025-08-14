@@ -2,10 +2,10 @@ package net.minecraft.world.level.levelgen.feature;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockFluid;
-import net.minecraft.src.BlockIce;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockFluid;
+import net.minecraft.world.level.tile.BlockIce;
 
 public abstract class WorldGenerator {
 	public abstract boolean generate(World world, Random rand, int x, int y, int z);

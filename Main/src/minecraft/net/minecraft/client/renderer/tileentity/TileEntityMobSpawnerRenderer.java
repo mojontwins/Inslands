@@ -8,9 +8,9 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntityMobSpawner;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityList;
+import net.minecraft.world.level.World;
 
 public class TileEntityMobSpawnerRenderer extends TileEntitySpecialRenderer {
 	private Map<String,Entity> entityHashMap = new HashMap<String,Entity>();

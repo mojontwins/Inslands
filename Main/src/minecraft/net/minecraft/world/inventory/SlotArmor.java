@@ -1,8 +1,8 @@
 package net.minecraft.world.inventory;
 
-import net.minecraft.src.Block;
 import net.minecraft.world.item.ItemArmor;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.tile.Block;
 
 class SlotArmor extends Slot {
 	final int armorType;

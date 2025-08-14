@@ -2,7 +2,7 @@ package net.minecraft.world.level.chunk.storage;
 
 import java.util.List;
 
-import net.minecraft.src.WorldInfo;
+import net.minecraft.world.level.WorldInfo;
 
 public interface ISaveFormat {
 	String getFormatName();

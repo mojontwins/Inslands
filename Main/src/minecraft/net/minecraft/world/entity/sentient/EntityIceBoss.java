@@ -1,12 +1,12 @@
 package net.minecraft.world.entity.sentient;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.monster.EntityHumanBase;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
 
 public class EntityIceBoss extends EntityHumanBase {
 	ItemStack heldItem = new ItemStack(Block.ice);

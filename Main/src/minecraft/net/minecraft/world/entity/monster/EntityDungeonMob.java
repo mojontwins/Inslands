@@ -1,13 +1,14 @@
 package net.minecraft.world.entity.monster;
 
-import net.minecraft.src.EnumSkyBlock;
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityCreature;
 import net.minecraft.world.entity.IMob;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.EnumSkyBlock;
+import net.minecraft.world.level.World;
 
 public class EntityDungeonMob extends EntityCreature implements IMob {
 	protected int attackStrength = 2;

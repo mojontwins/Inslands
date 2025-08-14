@@ -2,10 +2,10 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.feature.WorldGenFlowers;
 import net.minecraft.world.level.levelgen.feature.WorldGenLakes;
+import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenBetaPlains extends BiomeGenBeta {
 

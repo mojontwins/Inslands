@@ -2,8 +2,8 @@ package net.minecraft.world.level.chunk;
 
 import java.io.IOException;
 
-import net.minecraft.src.World;
-import net.minecraft.src.WorldSize;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.chunk.storage.IProgressUpdate;
 
 public class ChunkProvider implements IChunkProvider {

@@ -1,7 +1,7 @@
 package net.minecraft.world.item;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockCloth;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockCloth;
 
 public class ItemCloth extends ItemBlock {
 	public ItemCloth(int i1) {

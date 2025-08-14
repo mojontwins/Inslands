@@ -3,12 +3,11 @@ package net.minecraft.world.entity.sentient;
 import java.util.Iterator;
 import java.util.List;
 
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.src.AchievementList;
 import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Block;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.World;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.ISentient;
@@ -19,7 +18,9 @@ import net.minecraft.world.entity.projectile.EntityArrow;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemFood;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.pathfinder.PathEntity;
+import net.minecraft.world.level.tile.Block;
 
 public class EntityAmazon extends EntityArmoredMob implements ISentient {
 	private boolean looksWithInterest = false;

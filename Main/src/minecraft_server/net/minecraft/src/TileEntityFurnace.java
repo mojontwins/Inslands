@@ -1,11 +1,16 @@
 package net.minecraft.src;
 
+import com.mojang.nbt.NBTTagCompound;
+import com.mojang.nbt.NBTTagList;
+
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.inventory.IInventory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.FurnaceRecipes;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockFurnace;
 
 public class TileEntityFurnace extends TileEntity implements IInventory {
 	private ItemStack[] furnaceItemStacks = new ItemStack[3];

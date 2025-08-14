@@ -1,8 +1,8 @@
 package net.minecraft.client.renderer.tile;
 
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.src.Block;
-import net.minecraft.src.IBlockAccess;
+import net.minecraft.world.level.IBlockAccess;
+import net.minecraft.world.level.tile.Block;
 
 public class RenderBlockHollowLog {
 	/*

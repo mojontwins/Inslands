@@ -1,7 +1,7 @@
 package net.minecraft.world.level.levelgen.mcfeature.amazonvillage;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
 
 public class BuildingAmazonHut1 extends BuildingAmazon {
 

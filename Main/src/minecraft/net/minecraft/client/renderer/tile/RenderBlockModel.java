@@ -2,13 +2,12 @@ package net.minecraft.client.renderer.tile;
 
 import org.lwjgl.opengl.GL11;
 
-import com.mojontwins.minecraft.blockmodels.BlockElement;
-import com.mojontwins.minecraft.blockmodels.BlockFace;
-import com.mojontwins.minecraft.blockmodels.BlockModel;
-
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.src.Block;
-import net.minecraft.src.IBlockAccess;
+import net.minecraft.world.level.IBlockAccess;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.model.BlockElement;
+import net.minecraft.world.level.tile.model.BlockFace;
+import net.minecraft.world.level.tile.model.BlockModel;
 
 public class RenderBlockModel {
 

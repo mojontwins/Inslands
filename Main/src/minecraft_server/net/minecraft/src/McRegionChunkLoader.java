@@ -5,6 +5,11 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 
+import com.mojang.nbt.CompressedStreamTools;
+import com.mojang.nbt.NBTTagCompound;
+
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldInfo;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.chunk.ChunkLoader;
 import net.minecraft.world.level.chunk.IChunkLoader;

@@ -4,16 +4,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.ChunkPosition;
 import net.minecraft.src.TileEntityChest;
-import net.minecraft.src.WeightedRandom;
-import net.minecraft.src.WeightedRandomChoice;
-import net.minecraft.src.World;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDoor;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ChunkPosition;
+import net.minecraft.world.level.WeightedRandom;
+import net.minecraft.world.level.WeightedRandomChoice;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.tile.Block;
 
 public abstract class StructureComponent {
 	protected StructureBoundingBox boundingBox;

@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingManager;
 import net.minecraft.world.item.crafting.FurnaceRecipes;
 import net.minecraft.world.item.crafting.IRecipe;
+import net.minecraft.world.level.tile.Block;
 
 public class StatList {
 	protected static Map<Integer,StatBase> oneShotStats = new HashMap<Integer,StatBase>();

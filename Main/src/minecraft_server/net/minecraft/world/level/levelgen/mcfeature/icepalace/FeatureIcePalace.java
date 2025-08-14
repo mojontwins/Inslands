@@ -5,13 +5,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.src.Block;
 import net.minecraft.src.TileEntityChest;
 import net.minecraft.src.TileEntityMobSpawner;
 import net.minecraft.src.TileEntityMobSpawnerOneshot;
-import net.minecraft.src.World;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.World;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.biome.BiomeGenGlacier;
 import net.minecraft.world.level.biome.BiomeGenTundra;
@@ -21,6 +20,7 @@ import net.minecraft.world.level.levelgen.ChunkProviderSky;
 import net.minecraft.world.level.levelgen.mcfeature.FeatureAABB;
 import net.minecraft.world.level.levelgen.mcfeature.FeatureDynamicSchematic;
 import net.minecraft.world.level.levelgen.mcfeature.FeatureProvider;
+import net.minecraft.world.level.tile.Block;
 
 public class FeatureIcePalace extends FeatureDynamicSchematic {
 	private static final int palaceHeight = 64;
