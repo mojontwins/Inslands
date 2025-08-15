@@ -2,7 +2,7 @@ package net.minecraft.world.level.tile.entity;
 
 import com.mojang.nbt.NBTTagCompound;
 
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.EntityList;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.monster.EntityArmoredMob;

@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.Random;
 
 import net.minecraft.client.gui.GameSettings;
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.EntityLiving;
 import paulscode.sound.SoundSystem;
 import paulscode.sound.SoundSystemConfig;

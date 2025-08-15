@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL12;
 import net.minecraft.client.StatFileWriter;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.stats.Achievement;
 import net.minecraft.world.stats.AchievementList;

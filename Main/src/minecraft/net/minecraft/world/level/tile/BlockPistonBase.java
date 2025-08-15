@@ -1,6 +1,6 @@
 package net.minecraft.world.level.tile;
 
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.item.EntityMovingPiston;
 import net.minecraft.world.entity.player.EntityPlayer;

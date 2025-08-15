@@ -21,7 +21,7 @@ import net.minecraft.network.packet.Packet33RelEntityMoveLook;
 import net.minecraft.network.packet.Packet34EntityTeleport;
 import net.minecraft.network.packet.Packet40EntityMetadata;
 import net.minecraft.network.packet.Packet5PlayerInventory;
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EntityPainting;

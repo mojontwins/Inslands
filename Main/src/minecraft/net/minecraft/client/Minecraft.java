@@ -75,7 +75,7 @@ import net.minecraft.client.renderer.ptexture.TextureWaterFlowFX;
 import net.minecraft.client.skins.TexturePackList;
 import net.minecraft.client.sound.SoundManager;
 import net.minecraft.client.title.GuiMainMenu;
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MinecraftException;
 import net.minecraft.world.GlobalVars;
 import net.minecraft.world.Version;
@@ -205,6 +205,7 @@ public abstract class Minecraft implements Runnable {
 	}
 
 	public void startGame() throws LWJGLException {
+		System.out.println("Java library path: " + System.getProperty("java.library.path"));
 		if(this.mcCanvas != null) {
 			Graphics graphics1 = this.mcCanvas.getGraphics();
 			if(graphics1 != null) {

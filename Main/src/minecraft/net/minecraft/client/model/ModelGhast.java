@@ -2,7 +2,7 @@ package net.minecraft.client.model;
 
 import java.util.Random;
 
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 
 public class ModelGhast extends ModelBase {
 	ModelRenderer body;

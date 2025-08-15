@@ -2,7 +2,7 @@ package net.minecraft.world.level.levelgen.synth.modernoise;
 
 import java.util.Random;
 
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 
 public class SimplexNoiseGenerator {
 

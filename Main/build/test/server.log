@@ -1,0 +1,25 @@
+2025-08-15 17:02:24 [INFO] Starting minecraft server InSlands v250707
+2025-08-15 17:02:24 [INFO] Loading properties
+2025-08-15 17:02:24 [WARNING] server.properties does not exist
+2025-08-15 17:02:24 [INFO] Generating new properties file
+2025-08-15 17:02:25 [INFO] Starting Minecraft server on *:25565
+2025-08-15 17:02:25 [WARNING] Failed to load ban list: java.io.FileNotFoundException: banned-players.txt (El sistema no puede encontrar el archivo especificado)
+2025-08-15 17:02:25 [WARNING] Failed to load ip ban list: java.io.FileNotFoundException: banned-ips.txt (El sistema no puede encontrar el archivo especificado)
+2025-08-15 17:02:25 [WARNING] Failed to load ip ban list: java.io.FileNotFoundException: ops.txt (El sistema no puede encontrar el archivo especificado)
+2025-08-15 17:02:25 [WARNING] Failed to load white-list: java.io.FileNotFoundException: white-list.txt (El sistema no puede encontrar el archivo especificado)
+2025-08-15 17:02:25 [INFO] Preparing level "world"
+2025-08-15 17:02:25 [INFO] ** DIM 0
+2025-08-15 17:02:25 [INFO] Generating new world
+2025-08-15 17:02:26 [INFO] Preparing spawn area: 17%
+2025-08-15 17:02:27 [INFO] Preparing spawn area: 34%
+2025-08-15 17:02:28 [INFO] Preparing spawn area: 46%
+2025-08-15 17:02:29 [INFO] Preparing spawn area: 62%
+2025-08-15 17:02:30 [INFO] Preparing spawn area: 82%
+2025-08-15 17:02:31 [INFO] Preparing spawn area: 92%
+2025-08-15 17:02:32 [INFO] ** DIM -1
+2025-08-15 17:02:32 [INFO] Generating new world
+2025-08-15 17:02:33 [INFO] Preparing spawn area: 52%
+2025-08-15 17:02:34 [INFO] Done (9558333600ns)! For help, type "help" or "?"
+2025-08-15 17:06:10 [INFO] Stopping server
+2025-08-15 17:06:10 [INFO] Saving chunks
+2025-08-15 17:06:12 [INFO] Saving chunks

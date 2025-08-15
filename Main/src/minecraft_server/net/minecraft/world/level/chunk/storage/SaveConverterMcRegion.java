@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.level.WorldInfo;
 
 public class SaveConverterMcRegion extends SaveFormatOld {

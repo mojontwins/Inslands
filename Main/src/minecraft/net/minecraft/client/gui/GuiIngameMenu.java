@@ -1,7 +1,7 @@
 package net.minecraft.client.gui;
 
 import net.minecraft.client.title.GuiMainMenu;
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.level.World;
 import net.minecraft.world.stats.StatCollector;
 import net.minecraft.world.stats.StatList;

@@ -61,7 +61,7 @@ import net.minecraft.client.renderer.entity.mojontwins.RenderThrowableBottle;
 import net.minecraft.client.renderer.entity.mojontwins.RenderTriton;
 import net.minecraft.client.renderer.entity.twilight.RenderTFMinoshroom;
 import net.minecraft.client.renderer.entity.twilight.RenderTFWraith;
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLightningBolt;
 import net.minecraft.world.entity.EntityLiving;

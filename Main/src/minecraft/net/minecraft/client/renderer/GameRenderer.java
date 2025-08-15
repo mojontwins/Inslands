@@ -13,7 +13,7 @@ import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.client.player.PlayerControllerTest;
 import net.minecraft.client.renderer.culling.ClippingHelperImpl;
 import net.minecraft.client.renderer.culling.Frustrum;
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.player.EntityPlayer;

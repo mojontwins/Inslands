@@ -296,3 +296,41 @@ Also
 [ ] Add the witch hut to the poison island.
 [ ] Add the stone arches in deserts.
 [ ] Feature smaller biomes in biomed world theme and hell
+
+# Removing the need to rely on the original minecraft.jar
+
+* Removed it from the project, errors of missing stuff:
+
+	* SoundManager.java
+		* paulscode.sound.SoundSystem
+		* paulscode.sound.SoundSystemConfig
+		* paulscode.sound.codec.CodecJOrbis
+		* paulscode.sound.codec.CodecWav
+		* paulscode.sound.libraries.LibraryLWJGLOpenAL
+
+	* CodecMus.java
+		* paulscode.sound.codecs.CodecJOrbis
+
+* Added the paulscode soundsystem as found in the MinecraftForge github. It still lacks codecs.
+
+* Completed with https://github.com/kovertopz/Paulscode-SoundSystem/tree/master and got everything I needed.
+
+* Of course, now I lack lwgl in the library path (no minecraft.jar)... I have to solve this and I'll be set!
+
+# This is standalone nowyou
+
+Client->Export jar generates a .jar you can use directly. **Make sure you uncheck the lib folder**. in betacraft. Add a b1.7.3 equivalent .info in the versions/json folder or something like this:
+
+```info
+release-date:1755269895000
+compile-date:1755269894000
+url:https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar
+launch-method:indev
+launch-method-link:
+proxy-args:-Dhttp.proxyHost=betacraft.uk -Dhttp.proxyPort=11705
+other-name:Inslads-latest
+protocolVersion:beta_14
+file-ver:1
+```
+
+Server->Export executable jar

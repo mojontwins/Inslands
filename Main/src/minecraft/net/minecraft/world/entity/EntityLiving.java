@@ -8,7 +8,7 @@ import java.util.Random;
 
 import com.mojang.nbt.NBTTagCompound;
 
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.ai.EntityAITasks;
 import net.minecraft.world.entity.animal.EntityWolf;
 import net.minecraft.world.entity.helper.EntityJumpHelper;

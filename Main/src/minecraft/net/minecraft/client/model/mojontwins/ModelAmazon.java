@@ -2,7 +2,7 @@ package net.minecraft.client.model.mojontwins;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.sentient.EntityAmazon;
 

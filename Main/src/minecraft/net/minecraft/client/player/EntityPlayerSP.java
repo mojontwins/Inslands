@@ -13,7 +13,7 @@ import net.minecraft.client.gui.inventory.GuiCrafting;
 import net.minecraft.client.gui.inventory.GuiEditSign;
 import net.minecraft.client.gui.inventory.GuiFurnace;
 import net.minecraft.client.particle.EntityPickupFX;
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.inventory.IInventory;

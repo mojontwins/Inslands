@@ -7,7 +7,7 @@ import net.minecraft.client.model.ModelBed;
 import net.minecraft.client.renderer.tile.RenderBlockClassicPiston;
 import net.minecraft.client.renderer.tile.RenderBlockHollowLog;
 import net.minecraft.client.renderer.tile.RenderBlockModel;
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;

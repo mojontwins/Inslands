@@ -2,7 +2,7 @@ package net.minecraft.world.entity.animal;
 
 import com.mojang.nbt.NBTTagCompound;
 
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.tile.Block;
 

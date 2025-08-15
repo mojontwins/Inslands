@@ -73,7 +73,7 @@ import net.minecraft.network.packet.Packet96BadMoonDecide;
 import net.minecraft.network.packet.Packet98UpdateWeather;
 import net.minecraft.network.packet.Packet99SetCreativeMode;
 import net.minecraft.network.packet.Packet9Respawn;
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLightningBolt;
 import net.minecraft.world.entity.EntityList;

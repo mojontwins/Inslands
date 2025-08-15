@@ -2,7 +2,7 @@ package net.minecraft.client.model.twilight;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.EntityLiving;
 
 public class ModelTFKobold extends ModelBiped {

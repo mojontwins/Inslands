@@ -13,7 +13,7 @@ import net.minecraft.network.packet.Packet18Animation;
 import net.minecraft.network.packet.Packet19EntityAction;
 import net.minecraft.network.packet.Packet3Chat;
 import net.minecraft.network.packet.Packet9Respawn;
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.item.ItemStack;

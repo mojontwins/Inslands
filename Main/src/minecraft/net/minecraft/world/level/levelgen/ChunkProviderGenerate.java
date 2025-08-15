@@ -2,7 +2,7 @@ package net.minecraft.world.level.levelgen;
 
 import java.util.Random;
 
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.level.Weather;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.WorldSize;

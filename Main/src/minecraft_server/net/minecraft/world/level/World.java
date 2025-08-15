@@ -15,7 +15,7 @@ import com.mojang.nbt.NBTTagCompound;
 import com.mojontwins.minecraft.worldedit.WorldEdit;
 
 import ca.spottedleaf.starlight.StarlightEngine;
-import net.minecraft.src.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.GlobalVars;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLightningBolt;
