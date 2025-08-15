@@ -16,10 +16,8 @@ import java.util.logging.Logger;
 
 import net.minecraft.network.packet.Packet4UpdateTime;
 import net.minecraft.network.packet.Packet95UpdateDayOfTheYear;
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.GlobalVars;
-import net.minecraft.src.Vec3D;
-import net.minecraft.src.Version;
+import net.minecraft.world.GlobalVars;
+import net.minecraft.world.Version;
 import net.minecraft.world.level.Seasons;
 import net.minecraft.world.level.WorldSettings;
 import net.minecraft.world.level.WorldSize;
@@ -31,6 +29,8 @@ import net.minecraft.world.level.chunk.storage.SaveConverterMcRegion;
 import net.minecraft.world.level.chunk.storage.SaveOldDir;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 import net.minecraft.world.level.theme.LevelThemeSettings;
+import net.minecraft.world.phys.AxisAlignedBB;
+import net.minecraft.world.phys.Vec3D;
 import net.minecraft.world.stats.StatList;
 
 public class MinecraftServer implements Runnable, ICommandListener {

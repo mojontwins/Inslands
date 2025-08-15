@@ -30,9 +30,8 @@ import net.minecraft.network.packet.Packet7UseEntity;
 import net.minecraft.network.packet.Packet97SetInventorySlot;
 import net.minecraft.network.packet.Packet99SetCreativeMode;
 import net.minecraft.network.packet.Packet9Respawn;
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.ChatAllowedCharacters;
 import net.minecraft.src.MathHelper;
+import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.inventory.InventoryPlayer;
 import net.minecraft.world.inventory.Slot;
@@ -40,6 +39,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
 import net.minecraft.world.level.tile.entity.TileEntity;
 import net.minecraft.world.level.tile.entity.TileEntitySign;
+import net.minecraft.world.phys.AxisAlignedBB;
 
 public class NetServerHandler extends NetHandler implements ICommandListener {
 	public static Logger logger = Logger.getLogger("Minecraft");

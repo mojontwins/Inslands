@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import net.minecraft.network.packet.Packet;
-import net.minecraft.src.MCHash;
+import net.minecraft.world.MCHash;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityPainting;
 import net.minecraft.world.entity.animal.EntitySquid;
