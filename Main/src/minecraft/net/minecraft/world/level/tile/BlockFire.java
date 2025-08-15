@@ -2,12 +2,12 @@ package net.minecraft.world.level.tile;
 
 import java.util.Random;
 
-import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.biome.BiomeGenThemeForest;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.AxisAlignedBB;
 
 public class BlockFire extends Block {
 	private int[] chanceToEncourageFire = new int[256];

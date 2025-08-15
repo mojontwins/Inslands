@@ -14,11 +14,11 @@ import net.minecraft.network.packet.Packet19EntityAction;
 import net.minecraft.network.packet.Packet3Chat;
 import net.minecraft.network.packet.Packet9Respawn;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.StatBase;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.World;
+import net.minecraft.world.stats.StatBase;
 
 public class EntityClientPlayerMP extends EntityPlayerSP {
 	public NetClientHandler sendQueue;

@@ -9,11 +9,11 @@ import org.lwjgl.opengl.GL12;
 import net.minecraft.client.StatFileWriter;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.src.Achievement;
-import net.minecraft.src.AchievementList;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.StatCollector;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.stats.Achievement;
+import net.minecraft.world.stats.AchievementList;
+import net.minecraft.world.stats.StatCollector;
 
 public class GuiAchievements extends GuiScreen {
 	private static final int guiMapTop = AchievementList.minDisplayColumn * 24 - 112;

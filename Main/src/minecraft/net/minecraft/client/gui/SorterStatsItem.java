@@ -2,9 +2,9 @@ package net.minecraft.client.gui;
 
 import java.util.Comparator;
 
-import net.minecraft.src.StatBase;
-import net.minecraft.src.StatCrafting;
-import net.minecraft.src.StatList;
+import net.minecraft.world.stats.StatBase;
+import net.minecraft.world.stats.StatCrafting;
+import net.minecraft.world.stats.StatList;
 
 class SorterStatsItem implements Comparator<Object> {
 	final GuiStats statsGUI;

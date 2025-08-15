@@ -11,7 +11,6 @@ import net.minecraft.network.packet.Packet96BadMoonDecide;
 import net.minecraft.network.packet.Packet98UpdateWeather;
 import net.minecraft.src.MCHash;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.TileEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.EntityAnimal;
 import net.minecraft.world.entity.animal.EntityWaterMob;
@@ -23,6 +22,7 @@ import net.minecraft.world.level.chunk.IChunkLoader;
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.chunk.storage.ISaveHandler;
 import net.minecraft.world.level.dimension.WorldProvider;
+import net.minecraft.world.level.tile.entity.TileEntity;
 
 public class WorldServer extends World {
 	public ChunkProviderServer chunkProviderServer;

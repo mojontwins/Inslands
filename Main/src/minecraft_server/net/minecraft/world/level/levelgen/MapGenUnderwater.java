@@ -2,13 +2,13 @@ package net.minecraft.world.level.levelgen;
 
 import java.util.Random;
 
-import net.minecraft.src.TileEntityChest;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.entity.TileEntityChest;
 
 public class MapGenUnderwater extends MapGenBase {
 	byte [] heightMap;

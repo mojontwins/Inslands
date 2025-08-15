@@ -12,9 +12,9 @@ import net.minecraft.client.json.J_JdomParser;
 import net.minecraft.client.json.J_JsonNode;
 import net.minecraft.client.json.J_JsonRootNode;
 import net.minecraft.client.json.J_JsonStringNode;
-import net.minecraft.src.Achievement;
-import net.minecraft.src.StatBase;
-import net.minecraft.src.StatList;
+import net.minecraft.world.stats.Achievement;
+import net.minecraft.world.stats.StatBase;
+import net.minecraft.world.stats.StatList;
 
 public class StatFileWriter {
 	private Map<StatBase,Integer> statBase2Int1 = new HashMap<StatBase,Integer>();

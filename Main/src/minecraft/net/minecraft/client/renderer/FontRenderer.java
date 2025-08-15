@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.GameSettings;
-import net.minecraft.src.ChatAllowedCharacters;
+import net.minecraft.util.ChatAllowedCharacters;
 
 public class FontRenderer {
 	public static final int FONT_HEIGHT = 8;

@@ -4,10 +4,7 @@ import java.util.List;
 
 import com.mojang.nbt.NBTTagCompound;
 
-import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.MovingObjectPosition;
-import net.minecraft.src.Vec3D;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.animal.EntityChicken;
@@ -15,6 +12,9 @@ import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.World;
+import net.minecraft.world.phys.AxisAlignedBB;
+import net.minecraft.world.phys.MovingObjectPosition;
+import net.minecraft.world.phys.Vec3D;
 
 public class EntityEgg extends Entity {
 	private int xTile = -1;

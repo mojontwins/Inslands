@@ -1,9 +1,10 @@
 package com.mojontwins.minecraft.worldedit;
 
-import net.minecraft.src.Vec3i;
+import java.util.StringTokenizer;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.BlockPos;
 import net.minecraft.world.level.World;
+import net.minecraft.world.phys.Vec3i;
 
 public class WorldEdit {
 	public static BlockPos corner1 = new BlockPos();

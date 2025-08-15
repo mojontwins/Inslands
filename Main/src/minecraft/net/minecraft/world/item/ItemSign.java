@@ -1,11 +1,11 @@
 package net.minecraft.world.item;
 
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.TileEntitySign;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.entity.TileEntitySign;
 
 public class ItemSign extends Item {
 	public ItemSign(int i1) {

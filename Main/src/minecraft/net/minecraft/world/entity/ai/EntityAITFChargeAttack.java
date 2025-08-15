@@ -1,11 +1,11 @@
 package net.minecraft.world.entity.ai;
 
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.Vec3D;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.monster.EntityMob;
 import net.minecraft.world.entity.monster.EntityTFMinotaur;
+import net.minecraft.world.phys.Vec3D;
 
 public class EntityAITFChargeAttack extends EntityAIBase {
 	protected static final double MIN_RANGE_SQ = 16.0D;

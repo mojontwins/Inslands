@@ -9,12 +9,12 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.renderer.FontRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderEngine;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.TileEntityMobSpawner;
-import net.minecraft.src.TileEntityMobSpawnerOneshot;
-import net.minecraft.src.TileEntitySign;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.entity.TileEntity;
+import net.minecraft.world.level.tile.entity.TileEntityMobSpawner;
+import net.minecraft.world.level.tile.entity.TileEntityMobSpawnerOneshot;
+import net.minecraft.world.level.tile.entity.TileEntitySign;
 
 public class TileEntityRenderer {
 	private Map<Class<?>,TileEntitySpecialRenderer> specialRendererMap = new HashMap<Class<?>,TileEntitySpecialRenderer>();

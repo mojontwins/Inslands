@@ -1,7 +1,7 @@
 package net.minecraft.world.level.pathfinder;
 
-import net.minecraft.src.MCHash;
 import net.minecraft.src.MathHelper;
+import net.minecraft.world.MCHash;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.IWaterMob;
 import net.minecraft.world.level.IBlockAccess;

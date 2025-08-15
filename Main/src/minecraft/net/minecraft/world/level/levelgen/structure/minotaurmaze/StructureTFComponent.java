@@ -2,12 +2,12 @@ package net.minecraft.world.level.levelgen.structure.minotaurmaze;
 
 import java.util.Random;
 
-import net.minecraft.src.TileEntityMobSpawner;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.TFTreasure;
 import net.minecraft.world.level.levelgen.structure.StructureBoundingBox;
 import net.minecraft.world.level.levelgen.structure.StructureComponent;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.entity.TileEntityMobSpawner;
 
 public abstract class StructureTFComponent extends StructureComponent {
 	//private static final StructureTFStrongholdStones strongholdStones = new StructureTFStrongholdStones();

@@ -17,8 +17,7 @@ import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.gui.inventory.GuiInventoryEffectRenderer;
 import net.minecraft.client.renderer.FontRenderer;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.src.AchievementList;
-import net.minecraft.src.StringTranslate;
+import net.minecraft.util.StringTranslate;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.inventory.Container;
 import net.minecraft.world.inventory.InventoryBasic;
@@ -28,6 +27,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemArmor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.stats.AchievementList;
 
 public class GuiContainerCreative extends GuiInventoryEffectRenderer {
 	private static InventoryBasic inventory = new InventoryBasic("tmp", 45);

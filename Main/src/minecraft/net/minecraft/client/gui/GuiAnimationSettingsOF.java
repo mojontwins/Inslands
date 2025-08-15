@@ -1,6 +1,6 @@
 package net.minecraft.client.gui;
 
-import net.minecraft.src.StringTranslate;
+import net.minecraft.util.StringTranslate;
 
 public class GuiAnimationSettingsOF extends GuiScreen {
 	private GuiScreen prevScreen;

@@ -2,14 +2,14 @@ package net.minecraft.world.level.tile;
 
 import java.util.Random;
 
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.TileEntitySign;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.tile.entity.TileEntity;
+import net.minecraft.world.level.tile.entity.TileEntitySign;
+import net.minecraft.world.phys.AxisAlignedBB;
 
 public class BlockSign extends BlockContainer {
 	private Class<TileEntitySign> signEntityClass;

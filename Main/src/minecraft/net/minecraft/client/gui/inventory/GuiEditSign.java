@@ -7,9 +7,9 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.network.packet.Packet130UpdateSign;
-import net.minecraft.src.ChatAllowedCharacters;
-import net.minecraft.src.TileEntitySign;
+import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.entity.TileEntitySign;
 
 public class GuiEditSign extends GuiScreen {
 	protected String screenTitle = "Edit sign message:";

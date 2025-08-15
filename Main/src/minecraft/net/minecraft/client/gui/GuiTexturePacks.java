@@ -4,7 +4,7 @@ import java.io.File;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.FontRenderer;
-import net.minecraft.src.StringTranslate;
+import net.minecraft.util.StringTranslate;
 
 import org.lwjgl.Sys;
 

@@ -13,16 +13,16 @@ import net.minecraft.client.gui.inventory.GuiCrafting;
 import net.minecraft.client.gui.inventory.GuiEditSign;
 import net.minecraft.client.gui.inventory.GuiFurnace;
 import net.minecraft.client.particle.EntityPickupFX;
-import net.minecraft.src.Achievement;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.StatBase;
-import net.minecraft.src.TileEntityDispenser;
-import net.minecraft.src.TileEntityFurnace;
-import net.minecraft.src.TileEntitySign;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.inventory.IInventory;
 import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.entity.TileEntityDispenser;
+import net.minecraft.world.level.tile.entity.TileEntityFurnace;
+import net.minecraft.world.level.tile.entity.TileEntitySign;
+import net.minecraft.world.stats.Achievement;
+import net.minecraft.world.stats.StatBase;
 
 public class EntityPlayerSP extends EntityPlayer {
 	long lastJumpPress = System.currentTimeMillis();

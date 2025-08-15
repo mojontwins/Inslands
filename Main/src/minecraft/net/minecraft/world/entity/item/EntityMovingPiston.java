@@ -6,9 +6,7 @@ import java.util.List;
 
 import com.mojang.nbt.NBTTagCompound;
 
-import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.TileEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.inventory.IInventory;
 import net.minecraft.world.item.ItemStack;
@@ -18,6 +16,8 @@ import net.minecraft.world.level.tile.BlockPistonBase;
 import net.minecraft.world.level.tile.BlockRail;
 import net.minecraft.world.level.tile.BlockStairs;
 import net.minecraft.world.level.tile.BlockStep;
+import net.minecraft.world.level.tile.entity.TileEntity;
+import net.minecraft.world.phys.AxisAlignedBB;
 
 public class EntityMovingPiston extends Entity {
 	public int xmove;

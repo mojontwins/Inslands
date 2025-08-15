@@ -2,13 +2,13 @@ package net.minecraft.world.level.tile;
 
 import java.util.Random;
 
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Vec3D;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.IWaterMob;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.AxisAlignedBB;
+import net.minecraft.world.phys.Vec3D;
 
 public abstract class BlockFluid extends Block {
 	protected BlockFluid(int i1, Material material2) {

@@ -3,14 +3,13 @@ package net.minecraft.world.entity.ai;
 import java.util.Iterator;
 import java.util.List;
 
-import net.minecraft.src.AchievementList;
-import net.minecraft.src.RandomPositionGenerator;
-import net.minecraft.src.Vec3D;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityCreature;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.monster.EntityTFKobold;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.phys.Vec3D;
+import net.minecraft.world.stats.AchievementList;
 
 public class EntityAITFPanicOnFlockDeath extends EntityAIBase {
 	private EntityCreature flockCreature;

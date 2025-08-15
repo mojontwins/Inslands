@@ -2,7 +2,7 @@ package net.minecraft.world.level.levelgen.structure.minotaurmaze;
 
 import java.util.Random;
 
-import net.minecraft.src.GlobalVars;
+import net.minecraft.world.GlobalVars;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 

@@ -1,8 +1,6 @@
 package net.minecraft.world.entity.projectile;
 
-import net.minecraft.src.AchievementList;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.monster.EntitySnowball;
 import net.minecraft.world.entity.player.EntityPlayer;
@@ -10,6 +8,8 @@ import net.minecraft.world.entity.status.Status;
 import net.minecraft.world.entity.status.StatusEffect;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.phys.MovingObjectPosition;
+import net.minecraft.world.stats.AchievementList;
 
 public class EntityThrowableToxicFungus extends EntitySnowball {
 

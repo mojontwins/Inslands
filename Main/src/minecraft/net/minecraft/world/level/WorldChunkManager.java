@@ -2,7 +2,7 @@ package net.minecraft.world.level;
 
 import java.util.Random;
 
-import net.minecraft.src.GlobalVars;
+import net.minecraft.world.GlobalVars;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.chunk.ChunkCoordIntPair;
 import net.minecraft.world.level.levelgen.synth.NoiseGeneratorOctaves2;

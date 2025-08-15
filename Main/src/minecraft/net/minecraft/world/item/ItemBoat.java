@@ -1,14 +1,14 @@
 package net.minecraft.world.item;
 
-import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.MovingObjectPosition;
-import net.minecraft.src.Vec3D;
 import net.minecraft.world.entity.item.EntityBoat;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.phys.EnumMovingObjectType;
+import net.minecraft.world.phys.MovingObjectPosition;
+import net.minecraft.world.phys.Vec3D;
 
 public class ItemBoat extends Item {
 	boolean fireResistant = false;

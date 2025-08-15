@@ -2,13 +2,13 @@ package net.minecraft.world.level.levelgen.feature;
 
 import java.util.Random;
 
-import net.minecraft.src.GlobalVars;
-import net.minecraft.src.TileEntityMobSpawner;
+import net.minecraft.world.GlobalVars;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.levelgen.TFMaze;
 import net.minecraft.world.level.levelgen.TFTreasure;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.entity.TileEntityMobSpawner;
 
 public class TFGenHedgeMaze extends TFGenerator {
 	int size;

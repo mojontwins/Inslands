@@ -5,17 +5,17 @@ import java.util.Random;
 import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.player.PlayerControllerSP;
-import net.minecraft.src.ChatAllowedCharacters;
-import net.minecraft.src.GlobalVars;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.StatCollector;
-import net.minecraft.src.StringTranslate;
+import net.minecraft.util.ChatAllowedCharacters;
+import net.minecraft.util.StringTranslate;
+import net.minecraft.world.GlobalVars;
 import net.minecraft.world.level.WorldSettings;
 import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.WorldType;
 import net.minecraft.world.level.chunk.storage.ISaveFormat;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 import net.minecraft.world.level.theme.LevelThemeSettings;
+import net.minecraft.world.stats.StatCollector;
 
 public class GuiCreateWorld extends GuiScreen {
 	private GuiScreen parentGuiScreen;

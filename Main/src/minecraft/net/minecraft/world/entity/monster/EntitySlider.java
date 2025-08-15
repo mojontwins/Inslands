@@ -2,9 +2,8 @@ package net.minecraft.world.entity.monster;
 
 import com.mojang.nbt.NBTTagCompound;
 
-import net.minecraft.src.AchievementList;
-import net.minecraft.src.GlobalVars;
 import net.minecraft.src.MathHelper;
+import net.minecraft.world.GlobalVars;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityCreature;
 import net.minecraft.world.entity.EntityLiving;
@@ -15,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemTool;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.stats.AchievementList;
 
 public class EntitySlider extends EntityFlying implements IAetherBoss {
 	public int moveTimer;

@@ -2,13 +2,13 @@ package net.minecraft.world.level.levelgen.feature;
 
 import java.util.Random;
 
-import net.minecraft.src.TileEntityMobSpawner;
 import net.minecraft.world.entity.EntityPainting;
 import net.minecraft.world.entity.EnumArt;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.TFMaze;
 import net.minecraft.world.level.levelgen.TFTreasure;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.entity.TileEntityMobSpawner;
 
 public class TFGenHillMaze extends TFGenerator {
 	int hsize;

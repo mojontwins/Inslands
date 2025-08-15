@@ -6,9 +6,7 @@ import java.util.List;
 
 import com.mojang.nbt.NBTTagCompound;
 
-import net.minecraft.src.AchievementList;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.Vec3D;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.IMob;
@@ -21,6 +19,8 @@ import net.minecraft.world.level.pathfinder.PathEntity;
 import net.minecraft.world.level.pathfinder.PathPoint;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.BlockDoor;
+import net.minecraft.world.phys.Vec3D;
+import net.minecraft.world.stats.AchievementList;
 
 public class EntityZombie extends EntityArmoredMob implements IMob {
 	

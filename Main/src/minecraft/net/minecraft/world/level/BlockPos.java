@@ -1,6 +1,6 @@
 package net.minecraft.world.level;
 
-import net.minecraft.src.Direction;
+import net.minecraft.world.Direction;
 
 public class BlockPos {
 	public int x;

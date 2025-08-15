@@ -2,7 +2,7 @@ package net.minecraft.client;
 
 import org.lwjgl.input.Keyboard;
 
-import net.minecraft.src.IStatStringFormat;
+import net.minecraft.world.stats.IStatStringFormat;
 
 public class StatStringFormatKeyInv implements IStatStringFormat {
 	final Minecraft mc;

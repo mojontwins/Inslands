@@ -2,11 +2,11 @@ package net.minecraft.world.level.tile;
 
 import java.util.Random;
 
-import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.AxisAlignedBB;
 
 public class BlockPortal extends BlockBreakable {
 	public BlockPortal(int i1, int i2) {

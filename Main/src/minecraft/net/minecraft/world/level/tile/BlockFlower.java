@@ -2,8 +2,6 @@ package net.minecraft.world.level.tile;
 
 import java.util.Random;
 
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.StatList;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
@@ -11,6 +9,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.AxisAlignedBB;
+import net.minecraft.world.stats.StatList;
 
 public class BlockFlower extends Block {
 	protected BlockFlower(int i1, int i2) {

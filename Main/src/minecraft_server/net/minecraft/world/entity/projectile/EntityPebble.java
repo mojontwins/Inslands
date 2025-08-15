@@ -1,10 +1,10 @@
 package net.minecraft.world.entity.projectile;
 
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.monster.EntitySnowball;
 import net.minecraft.world.level.World;
+import net.minecraft.world.phys.MovingObjectPosition;
 
 public class EntityPebble extends EntitySnowball {
 	public static final float pebbleSpeed = 0.7F;

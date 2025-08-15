@@ -9,9 +9,7 @@ import com.mojang.nbt.NBTTagFloat;
 import com.mojang.nbt.NBTTagList;
 
 import net.minecraft.network.DataWatcher;
-import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.Vec3D;
 import net.minecraft.world.entity.item.EntityBoat;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.player.EntityPlayer;
@@ -23,6 +21,8 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.BlockFluid;
 import net.minecraft.world.level.tile.StepSound;
+import net.minecraft.world.phys.AxisAlignedBB;
+import net.minecraft.world.phys.Vec3D;
 
 public abstract class Entity {
 	private static int nextEntityID = 0;

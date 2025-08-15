@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.mojang.nbt.NBTTagCompound;
 
-import net.minecraft.src.GlobalVars;
+import net.minecraft.world.GlobalVars;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 

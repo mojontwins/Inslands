@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.tile.RenderBlockClassicPiston;
 import net.minecraft.client.renderer.tile.RenderBlockHollowLog;
 import net.minecraft.client.renderer.tile.RenderBlockModel;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.Vec3D;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
@@ -20,6 +19,7 @@ import net.minecraft.world.level.tile.BlockPane;
 import net.minecraft.world.level.tile.BlockRail;
 import net.minecraft.world.level.tile.BlockRedstoneRepeater;
 import net.minecraft.world.level.tile.BlockRedstoneWire;
+import net.minecraft.world.phys.Vec3D;
 
 public class RenderBlocks {
 	private IBlockAccess blockAccess;

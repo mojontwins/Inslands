@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Facing;
+import net.minecraft.world.Facing;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.AxisAlignedBB;
 
 public class BlockStep extends Block {
 	public static final String[] blockStepTypes = new String[]{"stone", "sand", "wood", "cobble"};

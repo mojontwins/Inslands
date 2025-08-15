@@ -1,6 +1,5 @@
 package net.minecraft.world.level.dimension;
 
-import net.minecraft.src.Vec3D;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.World;
@@ -12,6 +11,7 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 import net.minecraft.world.level.theme.LevelThemeSettings;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.phys.Vec3D;
 
 public class WorldProviderHell extends WorldProvider {
 	public void registerWorldChunkManager() {

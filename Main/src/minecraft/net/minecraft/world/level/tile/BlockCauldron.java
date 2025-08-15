@@ -3,7 +3,6 @@ package net.minecraft.world.level.tile;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.MathHelper;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.player.EntityPlayer;
@@ -13,6 +12,7 @@ import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.model.BlockModel;
+import net.minecraft.world.phys.AxisAlignedBB;
 
 public class BlockCauldron extends Block {
 	BlockModel blockModel;

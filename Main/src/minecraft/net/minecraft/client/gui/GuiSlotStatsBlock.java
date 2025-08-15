@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.src.StatBase;
-import net.minecraft.src.StatCrafting;
-import net.minecraft.src.StatList;
+import net.minecraft.world.stats.StatBase;
+import net.minecraft.world.stats.StatCrafting;
+import net.minecraft.world.stats.StatList;
 
 public class GuiSlotStatsBlock extends GuiSlotStats {
 	final GuiStats guiStats;

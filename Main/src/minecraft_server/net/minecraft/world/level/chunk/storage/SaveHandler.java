@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import com.mojang.nbt.CompressedStreamTools;
 import com.mojang.nbt.NBTTagCompound;
 
-import net.minecraft.src.MinecraftException;
+import net.minecraft.util.MinecraftException;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.WorldInfo;
 import net.minecraft.world.level.chunk.ChunkLoader;

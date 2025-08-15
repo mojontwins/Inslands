@@ -1,12 +1,12 @@
 package net.minecraft.world.level.chunk;
 
-import net.minecraft.src.TileEntity;
 import net.minecraft.world.level.EnumSkyBlock;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.WorldChunkManager;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.entity.TileEntity;
 
 public class ChunkCache implements IBlockAccess {
 	private int chunkX;

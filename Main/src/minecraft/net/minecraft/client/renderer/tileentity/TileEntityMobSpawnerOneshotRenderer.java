@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer.tileentity;
 
-import net.minecraft.src.TileEntity;
+import net.minecraft.world.level.tile.entity.TileEntity;
 
 public class TileEntityMobSpawnerOneshotRenderer extends TileEntitySpecialRenderer {
 

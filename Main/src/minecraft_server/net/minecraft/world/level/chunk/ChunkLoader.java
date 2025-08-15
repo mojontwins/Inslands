@@ -10,12 +10,12 @@ import com.mojang.nbt.CompressedStreamTools;
 import com.mojang.nbt.NBTTagCompound;
 import com.mojang.nbt.NBTTagList;
 
-import net.minecraft.src.TileEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityList;
 import net.minecraft.world.entity.block.EntityBlockEntity;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.WorldInfo;
+import net.minecraft.world.level.tile.entity.TileEntity;
 
 public class ChunkLoader implements IChunkLoader {
 	private File saveDir;

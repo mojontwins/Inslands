@@ -1,11 +1,11 @@
 package net.minecraft.world.level.tile;
 
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.TileEntityNote;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.tile.entity.TileEntity;
+import net.minecraft.world.level.tile.entity.TileEntityNote;
 
 public class BlockNote extends BlockContainer {
 	public BlockNote(int i1) {

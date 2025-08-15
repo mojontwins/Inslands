@@ -1,8 +1,7 @@
 package net.minecraft.world.entity.ai;
 
-import net.minecraft.src.RandomPositionGenerator;
-import net.minecraft.src.Vec3D;
 import net.minecraft.world.entity.EntityCreature;
+import net.minecraft.world.phys.Vec3D;
 
 public class EntityAIWander extends EntityAIBase {
 	private EntityCreature entity;

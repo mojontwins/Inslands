@@ -1,9 +1,9 @@
 package net.minecraft.world.item;
 
-import net.minecraft.src.AchievementList;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.stats.AchievementList;
 
 public class ItemAcornSeed extends Item {
 

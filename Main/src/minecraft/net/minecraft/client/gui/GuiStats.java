@@ -6,9 +6,9 @@ import net.minecraft.client.renderer.FontRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.src.StatCollector;
-import net.minecraft.src.StringTranslate;
+import net.minecraft.util.StringTranslate;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.stats.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;

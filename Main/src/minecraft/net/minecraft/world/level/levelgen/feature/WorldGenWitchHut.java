@@ -2,13 +2,13 @@ package net.minecraft.world.level.levelgen.feature;
 
 import java.util.Random;
 
-import net.minecraft.src.TileEntityChest;
-import net.minecraft.src.TileEntityMobSpawnerOneshot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LootItem;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.entity.TileEntityChest;
+import net.minecraft.world.level.tile.entity.TileEntityMobSpawnerOneshot;
 
 public class WorldGenWitchHut extends WorldGenerator {
 	public static LootItem possibleLootItems [] = {

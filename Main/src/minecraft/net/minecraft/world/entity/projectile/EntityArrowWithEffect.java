@@ -2,12 +2,12 @@ package net.minecraft.world.entity.projectile;
 
 import com.mojang.nbt.NBTTagCompound;
 
-import net.minecraft.src.AchievementList;
-import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.entity.status.StatusEffect;
 import net.minecraft.world.level.World;
+import net.minecraft.world.phys.MovingObjectPosition;
+import net.minecraft.world.stats.AchievementList;
 
 public class EntityArrowWithEffect extends EntityArrow {
 	private StatusEffect statusEffect;

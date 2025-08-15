@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.src.TileEntityChest;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDoor;
 import net.minecraft.world.item.ItemStack;
@@ -14,6 +13,7 @@ import net.minecraft.world.level.WeightedRandomChoice;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.entity.TileEntityChest;
 
 public abstract class StructureComponent {
 	protected StructureBoundingBox boundingBox;

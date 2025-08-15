@@ -3,9 +3,9 @@ package net.minecraft.world.entity.ai;
 import java.util.Random;
 
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.Vec3D;
 import net.minecraft.world.entity.EntityCreature;
 import net.minecraft.world.level.World;
+import net.minecraft.world.phys.Vec3D;
 
 public class EntityAIFleeSun extends EntityAIBase {
 	private EntityCreature theCreature;

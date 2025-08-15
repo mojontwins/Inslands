@@ -33,13 +33,13 @@ import net.minecraft.network.packet.Packet9Respawn;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.ChatAllowedCharacters;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.TileEntitySign;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.inventory.InventoryPlayer;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
+import net.minecraft.world.level.tile.entity.TileEntity;
+import net.minecraft.world.level.tile.entity.TileEntitySign;
 
 public class NetServerHandler extends NetHandler implements ICommandListener {
 	public static Logger logger = Logger.getLogger("Minecraft");

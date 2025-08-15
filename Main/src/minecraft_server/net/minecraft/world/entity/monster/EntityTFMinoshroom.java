@@ -1,11 +1,11 @@
 package net.minecraft.world.entity.monster;
 
-import net.minecraft.src.AchievementList;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.World;
+import net.minecraft.world.stats.AchievementList;
 
 public class EntityTFMinoshroom extends EntityTFMinotaur {
 	private static final ItemStack defaultHeldItem = new ItemStack(Item.axeGold, 1);

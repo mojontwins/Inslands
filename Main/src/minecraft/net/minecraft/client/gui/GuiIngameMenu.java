@@ -2,9 +2,9 @@ package net.minecraft.client.gui;
 
 import net.minecraft.client.title.GuiMainMenu;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.StatCollector;
-import net.minecraft.src.StatList;
 import net.minecraft.world.level.World;
+import net.minecraft.world.stats.StatCollector;
+import net.minecraft.world.stats.StatList;
 
 public class GuiIngameMenu extends GuiScreen {
 	private int updateCounter2 = 0;

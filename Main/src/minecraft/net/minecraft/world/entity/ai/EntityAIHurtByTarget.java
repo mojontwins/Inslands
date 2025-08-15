@@ -3,9 +3,9 @@ package net.minecraft.world.entity.ai;
 import java.util.Iterator;
 import java.util.List;
 
-import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.phys.AxisAlignedBB;
 
 public class EntityAIHurtByTarget extends EntityAITarget {
 	boolean field_48395_a;

@@ -2,7 +2,6 @@ package net.minecraft.world.entity.monster;
 
 import com.mojang.nbt.NBTTagCompound;
 
-import net.minecraft.src.AchievementList;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.IMob;
 import net.minecraft.world.entity.ai.EntityAIFleeSun;
@@ -18,6 +17,7 @@ import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.World;
+import net.minecraft.world.stats.AchievementList;
 
 public class EntityTFSkeletonDruid extends EntityMob implements IMob {
 	private static final ItemStack defaultHeldItem = new ItemStack(Item.hoeGold, 1);

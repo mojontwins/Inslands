@@ -1,7 +1,7 @@
 package net.minecraft.world.level.pathfinder;
 
-import net.minecraft.src.Vec3D;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3D;
 
 public class PathEntity {
 	private final PathPoint[] points;

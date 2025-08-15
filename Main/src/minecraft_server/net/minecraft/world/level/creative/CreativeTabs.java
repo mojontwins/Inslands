@@ -2,7 +2,7 @@ package net.minecraft.world.level.creative;
 
 import java.util.List;
 
-import net.minecraft.src.StringTranslate;
+import net.minecraft.util.StringTranslate;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 

@@ -1,13 +1,13 @@
 package net.minecraft.world.level.tile;
 
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.MovingObjectPosition;
-import net.minecraft.src.Vec3D;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.AxisAlignedBB;
+import net.minecraft.world.phys.MovingObjectPosition;
+import net.minecraft.world.phys.Vec3D;
 
 public class BlockTrapDoor extends Block {
 	protected BlockTrapDoor(int i1, Material material2) {

@@ -3,8 +3,8 @@ package net.minecraft.client.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.src.Achievement;
-import net.minecraft.src.StatCollector;
+import net.minecraft.world.stats.Achievement;
+import net.minecraft.world.stats.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;

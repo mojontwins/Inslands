@@ -1,13 +1,13 @@
 package net.minecraft.world.level.tile;
 
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.TileEntityRecordPlayer;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.tile.entity.TileEntity;
+import net.minecraft.world.level.tile.entity.TileEntityRecordPlayer;
 
 public class BlockJukeBox extends BlockContainer {
 	protected BlockJukeBox(int i1, int i2) {

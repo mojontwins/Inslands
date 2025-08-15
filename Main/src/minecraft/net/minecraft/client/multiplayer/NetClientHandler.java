@@ -74,11 +74,6 @@ import net.minecraft.network.packet.Packet98UpdateWeather;
 import net.minecraft.network.packet.Packet99SetCreativeMode;
 import net.minecraft.network.packet.Packet9Respawn;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.StatList;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.TileEntityDispenser;
-import net.minecraft.src.TileEntityFurnace;
-import net.minecraft.src.TileEntitySign;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLightningBolt;
 import net.minecraft.world.entity.EntityList;
@@ -115,6 +110,11 @@ import net.minecraft.world.level.chunk.ChunkCoordinates;
 import net.minecraft.world.level.chunk.storage.ISaveHandler;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.entity.TileEntity;
+import net.minecraft.world.level.tile.entity.TileEntityDispenser;
+import net.minecraft.world.level.tile.entity.TileEntityFurnace;
+import net.minecraft.world.level.tile.entity.TileEntitySign;
+import net.minecraft.world.stats.StatList;
 
 public class NetClientHandler extends NetHandler {
 	private boolean disconnected = false;

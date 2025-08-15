@@ -7,9 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.TileEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EnumCreatureType;
 import net.minecraft.world.entity.block.EntityBlockEntity;
@@ -24,6 +22,8 @@ import net.minecraft.world.level.levelgen.city.Building;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.BlockContainer;
 import net.minecraft.world.level.tile.BlockEntity;
+import net.minecraft.world.level.tile.entity.TileEntity;
+import net.minecraft.world.phys.AxisAlignedBB;
 
 public class Chunk {
 	public static boolean isLit;

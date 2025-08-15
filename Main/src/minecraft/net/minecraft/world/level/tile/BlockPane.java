@@ -3,11 +3,11 @@ package net.minecraft.world.level.tile;
 import java.util.ArrayList;
 import java.util.Random;
 
-import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.AxisAlignedBB;
 
 public class BlockPane extends Block {
 	private int sideTextureIndex;

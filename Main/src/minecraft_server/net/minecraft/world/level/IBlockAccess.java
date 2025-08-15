@@ -1,7 +1,7 @@
 package net.minecraft.world.level;
 
-import net.minecraft.src.TileEntity;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.tile.entity.TileEntity;
 
 public interface IBlockAccess {
 	int getBlockId(int i1, int i2, int i3);

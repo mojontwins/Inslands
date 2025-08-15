@@ -1,7 +1,7 @@
 package net.minecraft.world.inventory;
 
-import net.minecraft.src.TileEntityDispenser;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.tile.entity.TileEntityDispenser;
 
 public class ContainerDispenser extends Container {
 	private TileEntityDispenser tileEntityDispenser;

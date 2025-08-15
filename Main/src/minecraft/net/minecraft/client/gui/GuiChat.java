@@ -7,7 +7,7 @@ import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.SinglePlayerCommands;
-import net.minecraft.src.ChatAllowedCharacters;
+import net.minecraft.util.ChatAllowedCharacters;
 
 public class GuiChat extends GuiScreen {
 	protected String message = "";

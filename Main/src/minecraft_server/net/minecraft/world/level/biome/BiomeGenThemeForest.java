@@ -2,7 +2,7 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
-import net.minecraft.src.GlobalVars;
+import net.minecraft.world.GlobalVars;
 import net.minecraft.world.entity.animal.EntityBetaOcelot;
 import net.minecraft.world.entity.animal.EntityChickenBlack;
 import net.minecraft.world.entity.animal.EntityTwilightBighorn;

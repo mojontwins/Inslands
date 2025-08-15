@@ -1,11 +1,11 @@
 package net.minecraft.world.entity.monster;
 
-import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.World;
+import net.minecraft.world.phys.AxisAlignedBB;
 
 public class EntityTFWraith extends EntityFlying {
 	public int courseChangeCooldown;

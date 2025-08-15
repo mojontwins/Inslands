@@ -3,7 +3,7 @@ package net.minecraft.world.level.levelgen.structure.minotaurmaze;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.src.GlobalVars;
+import net.minecraft.world.GlobalVars;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.TFMazeNew;
 import net.minecraft.world.level.levelgen.mcfeature.FeatureAABB;

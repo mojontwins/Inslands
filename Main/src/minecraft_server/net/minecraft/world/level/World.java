@@ -15,12 +15,8 @@ import com.mojang.nbt.NBTTagCompound;
 import com.mojontwins.minecraft.worldedit.WorldEdit;
 
 import ca.spottedleaf.starlight.StarlightEngine;
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.GlobalVars;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.MovingObjectPosition;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.Vec3D;
+import net.minecraft.world.GlobalVars;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLightningBolt;
 import net.minecraft.world.entity.block.EntityBlockEntity;
@@ -47,6 +43,10 @@ import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 import net.minecraft.world.level.theme.LevelThemeSettings;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.BlockFluid;
+import net.minecraft.world.level.tile.entity.TileEntity;
+import net.minecraft.world.phys.AxisAlignedBB;
+import net.minecraft.world.phys.MovingObjectPosition;
+import net.minecraft.world.phys.Vec3D;
 
 public class World implements IBlockAccess {
 	private static final int blocksToTickPerFrame = 80;

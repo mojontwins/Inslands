@@ -2,7 +2,6 @@ package net.minecraft.world.level.tile;
 
 import java.util.ArrayList;
 
-import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
@@ -10,6 +9,7 @@ import net.minecraft.world.entity.monster.EntityDiamondSkeleton;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.model.BlockModel;
+import net.minecraft.world.phys.AxisAlignedBB;
 
 public class BlockSmallHead extends Block {
 	BlockModel blockModel;

@@ -6,7 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.EntityClientPlayerMP;
 import net.minecraft.client.multiplayer.NetClientHandler;
 import net.minecraft.network.packet.Packet19EntityAction;
-import net.minecraft.src.StringTranslate;
+import net.minecraft.util.StringTranslate;
 
 public class GuiSleepMP extends GuiChat {
 	public GuiSleepMP(Minecraft mc) {

@@ -5,14 +5,14 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Direction;
+import net.minecraft.world.Direction;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ChunkPosition;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.AxisAlignedBB;
 
 public class BlockRedstoneWire extends Block {
 	private boolean wiresProvidePower = true;

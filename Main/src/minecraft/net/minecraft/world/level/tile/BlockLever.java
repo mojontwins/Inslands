@@ -1,11 +1,11 @@
 package net.minecraft.world.level.tile;
 
-import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.AxisAlignedBB;
 
 public class BlockLever extends Block {
 	protected BlockLever(int i1, int i2) {

@@ -7,7 +7,7 @@ import java.util.List;
 
 import net.minecraft.client.player.PlayerControllerSP;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.StringTranslate;
+import net.minecraft.util.StringTranslate;
 import net.minecraft.world.level.WorldSettings;
 import net.minecraft.world.level.chunk.storage.ISaveFormat;
 import net.minecraft.world.level.chunk.storage.SaveFormatComparator;

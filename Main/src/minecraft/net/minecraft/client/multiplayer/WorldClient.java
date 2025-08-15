@@ -7,7 +7,7 @@ import java.util.Set;
 import net.minecraft.client.SaveHandlerMP;
 import net.minecraft.client.gui.GameSettings;
 import net.minecraft.network.packet.Packet255KickDisconnect;
-import net.minecraft.src.MCHash;
+import net.minecraft.world.MCHash;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.IWorldAccess;
 import net.minecraft.world.level.Seasons;

@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.Vec3D;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.phys.AxisAlignedBB;
+import net.minecraft.world.phys.Vec3D;
 
 public class Explosion {
 	public boolean isFlaming = false;

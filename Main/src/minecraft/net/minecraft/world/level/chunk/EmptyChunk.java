@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.TileEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.EnumSkyBlock;
 import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.entity.TileEntity;
+import net.minecraft.world.phys.AxisAlignedBB;
 
 public class EmptyChunk extends Chunk {
 	public EmptyChunk(World world1, int i2, int i3) {

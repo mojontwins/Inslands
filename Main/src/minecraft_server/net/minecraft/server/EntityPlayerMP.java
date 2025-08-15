@@ -22,11 +22,7 @@ import net.minecraft.network.packet.Packet5PlayerInventory;
 import net.minecraft.network.packet.Packet8UpdateHealth;
 import net.minecraft.network.packet.Packet94FreezeLevel;
 import net.minecraft.network.packet.Packet99SetCreativeMode;
-import net.minecraft.src.StatBase;
 import net.minecraft.src.StringTranslate;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.TileEntityDispenser;
-import net.minecraft.src.TileEntityFurnace;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.player.EntityPlayer;
@@ -46,6 +42,10 @@ import net.minecraft.world.item.map.ItemMapBase;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.chunk.ChunkCoordIntPair;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
+import net.minecraft.world.level.tile.entity.TileEntity;
+import net.minecraft.world.level.tile.entity.TileEntityDispenser;
+import net.minecraft.world.level.tile.entity.TileEntityFurnace;
+import net.minecraft.world.stats.StatBase;
 
 public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 	public NetServerHandler playerNetServerHandler;

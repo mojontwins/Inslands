@@ -1,8 +1,8 @@
 package net.minecraft.world.level;
 
-import net.minecraft.src.TileEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.tile.entity.TileEntity;
 
 public interface IWorldAccess {
 	void markBlockNeedsUpdate(int i1, int i2, int i3);

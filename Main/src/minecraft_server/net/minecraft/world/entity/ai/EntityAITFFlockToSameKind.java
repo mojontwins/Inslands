@@ -3,9 +3,9 @@ package net.minecraft.world.entity.ai;
 import java.util.Iterator;
 import java.util.List;
 
-import net.minecraft.src.Vec3D;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.phys.Vec3D;
 
 public class EntityAITFFlockToSameKind extends EntityAIBase {
 	private static final double MAX_DIST = 256.0D;

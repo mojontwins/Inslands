@@ -2,12 +2,12 @@ package net.minecraft.world.level.tile;
 
 import java.util.Random;
 
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.TileEntityMobSpawner;
-import net.minecraft.src.TileEntityMobSpawnerOneshot;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.tile.entity.TileEntity;
+import net.minecraft.world.level.tile.entity.TileEntityMobSpawner;
+import net.minecraft.world.level.tile.entity.TileEntityMobSpawnerOneshot;
+import net.minecraft.world.phys.AxisAlignedBB;
 
 public class BlockMobSpawner extends BlockContainer {
 	public boolean oneShot = false; 

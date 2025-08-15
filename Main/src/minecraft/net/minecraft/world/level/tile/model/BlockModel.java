@@ -8,9 +8,9 @@ import java.util.Map;
 
 import org.github.kasparnagu.json.JSONParser;
 
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Vec3D;
 import net.minecraft.world.level.World;
+import net.minecraft.world.phys.AxisAlignedBB;
+import net.minecraft.world.phys.Vec3D;
 
 public class BlockModel {
 

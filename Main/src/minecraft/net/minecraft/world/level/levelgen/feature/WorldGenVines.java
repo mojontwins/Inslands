@@ -2,8 +2,8 @@ package net.minecraft.world.level.levelgen.feature;
 
 import java.util.Random;
 
-import net.minecraft.src.Direction;
-import net.minecraft.src.Facing;
+import net.minecraft.world.Direction;
+import net.minecraft.world.Facing;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.tile.Block;
 

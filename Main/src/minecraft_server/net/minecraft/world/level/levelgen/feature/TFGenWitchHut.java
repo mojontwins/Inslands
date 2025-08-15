@@ -2,10 +2,10 @@ package net.minecraft.world.level.levelgen.feature;
 
 import java.util.Random;
 
-import net.minecraft.src.TileEntityMobSpawner;
-import net.minecraft.src.TileEntityMobSpawnerOneshot;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.entity.TileEntityMobSpawner;
+import net.minecraft.world.level.tile.entity.TileEntityMobSpawnerOneshot;
 
 public class TFGenWitchHut extends TFGenerator {
 	public boolean generate(World world, Random rand, int x, int y, int z) {

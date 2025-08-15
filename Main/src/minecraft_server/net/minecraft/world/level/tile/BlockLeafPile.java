@@ -1,9 +1,9 @@
 package net.minecraft.world.level.tile;
 
-import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.AxisAlignedBB;
 
 public class BlockLeafPile extends Block {
 

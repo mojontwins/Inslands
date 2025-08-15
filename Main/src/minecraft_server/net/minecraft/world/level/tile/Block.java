@@ -4,12 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.MovingObjectPosition;
-import net.minecraft.src.StatCollector;
-import net.minecraft.src.StatList;
-import net.minecraft.src.TileEntitySign;
-import net.minecraft.src.Vec3D;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EnumMobType;
@@ -40,7 +34,13 @@ import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.tile.entity.TileEntitySign;
 import net.minecraft.world.level.tile.model.BlockModel;
+import net.minecraft.world.phys.AxisAlignedBB;
+import net.minecraft.world.phys.MovingObjectPosition;
+import net.minecraft.world.phys.Vec3D;
+import net.minecraft.world.stats.StatCollector;
+import net.minecraft.world.stats.StatList;
 
 public class Block {
 	
@@ -104,7 +104,6 @@ public class Block {
 	public static final BlockTallGrass tallGrass = (BlockTallGrass)(new BlockTallGrass(31, 16*13+13)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("tallgrass");
 	public static final BlockDeadBush deadBush = (BlockDeadBush)(new BlockDeadBush(32, 16*13+10)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("deadbush");
 	public static final Block cloth = (new BlockCloth()).setHardness(0.8F).setStepSound(soundClothFootstep).setBlockName("cloth").setRequiresSelfNotify();
-	public static final BlockPistonMoving pistonMoving = new BlockPistonMoving(36);
 	public static final BlockFlower plantYellow = (BlockFlower)(new BlockFlower(37, 13)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("flower");
 	public static final BlockFlower plantRed = (BlockFlower)(new BlockFlower(38, 12)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("rose");
 	public static final BlockFlower mushroomBrown = (BlockFlower)(new BlockMushroom(39, 29)).setHardness(0.0F).setStepSound(soundGrassFootstep).setLightValue(0.125F).setBlockName("mushroom");

@@ -3,11 +3,11 @@ package net.minecraft.world.level.levelgen.structure.mineshaft;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.src.TileEntityMobSpawner;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.structure.StructureBoundingBox;
 import net.minecraft.world.level.levelgen.structure.StructureComponent;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.entity.TileEntityMobSpawner;
 
 public class ComponentMineshaftCorridor extends StructureComponent {
 	private final boolean hasRails;
