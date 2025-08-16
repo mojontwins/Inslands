@@ -1,3 +1,4 @@
+*.class
 Main/bin/*
 Main/reobf/*
 Main/jars/resources/*
@@ -5,10 +6,8 @@ Main/jars/saves/*
 Main/jars/world/*
 Main/jars/stats/*
 Main/temp/*
-Main/src-b1.7.3_vanilla
 Main/workspace/Client/bin/*
 Main/workspace/Server/bin/*
 Main/workspace/.metadata/.plugins/*
-Inf20100415
 Main/workspace/.metadata/.log
 Main/workspace/.metadata/version.ini
