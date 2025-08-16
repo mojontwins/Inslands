@@ -420,14 +420,14 @@ public class ChunkProviderHell implements IChunkProvider {
 		
 		int i, x, y, z;
 
-		for(i = 0; i < 8; ++i) {
+		for(i = 0; i < 8 + biomeGen.hellLavaExtraAttemtps; ++i) {
 			x = x0 + this.rand.nextInt(16) + 8;
 			y = this.rand.nextInt(120) + 4;
 			z = z0 + this.rand.nextInt(16) + 8;
 			(new WorldGenHellLava(Block.lavaMoving.blockID)).generate(this.worldObj, this.rand, x, y, z);
 		}
 
-		int fireAttempts = this.rand.nextInt(this.rand.nextInt(10) + 1) + 1;
+		int fireAttempts = biomeGen.hellFireExtraAttempts + this.rand.nextInt(this.rand.nextInt(10) + 1) + 1;
 
 		for(i = 0; i < fireAttempts*2; ++i) {
 			x = x0 + this.rand.nextInt(16) + 8;
@@ -436,7 +436,7 @@ public class ChunkProviderHell implements IChunkProvider {
 			(new WorldGenFire()).generate(this.worldObj, this.rand, x, y, z);
 		}
 
-		i = this.rand.nextInt(this.rand.nextInt(10) + 1);
+		i = biomeGen.hellGlowstoneExtraAttempts + this.rand.nextInt(this.rand.nextInt(10) + 1);
 
 		for(i = 0; i < i; ++i) {
 			x = x0 + this.rand.nextInt(16) + 8;
