@@ -334,3 +334,16 @@ file-ver:1
 ```
 
 Server->Export executable jar
+
+# Bigger texture atlases
+
+Voy a adaptar el código para poder ampliar a placer el atlas de texturas.
+
+
+
+# Clean / simplify
+
+There are several blocks that produce different blockstates depending on metadata. Each of them use a special subclass of ItemBlock that's very simmilar. I want to reuse the same in every one of them:
+
+* BlockSapling - ItemSapling, placedBlockMetadata = m, iconFromDamage: side 0
+* BlockSapling - ItemSapling2, lo mismo.

@@ -26,6 +26,7 @@ import org.lwjgl.opengl.GLContext;
 import net.minecraft.client.Config;
 import net.minecraft.client.gui.GameSettings;
 import net.minecraft.client.renderer.ptexture.TextureFX;
+import net.minecraft.client.renderer.util.TextureAtlasSize;
 import net.minecraft.client.skins.TexturePackBase;
 import net.minecraft.client.skins.TexturePackDefault;
 import net.minecraft.client.skins.TexturePackList;
@@ -57,7 +58,7 @@ public class RenderEngine {
 	private boolean dynamicTexturesUpdated = false;
 	
 	public RenderEngine(TexturePackList texturePackList1, GameSettings gameSettings2) {
-		this.allocateImageData(256);
+		this.allocateImageData(TextureAtlasSize.wi, TextureAtlasSize.hi);
 		this.textureList = new ArrayList<TextureFX>();
 		this.urlToImageDataMap = new HashMap<String, ThreadDownloadImageData>();
 		this.clampTexture = false;
@@ -284,7 +285,7 @@ public class RenderEngine {
 			b6[i7 * 4 + 3] = (byte)i8;
 		}
 
-		this.checkImageDataSize(width);
+		this.checkImageDataSize(width, height);
 		this.imageData.clear();
 		this.imageData.put(b6);
 		this.imageData.position(0).limit(b6.length);
@@ -493,7 +494,7 @@ public class RenderEngine {
 	}
 
 	public void updateDynamicTextures() {
-		this.checkHdTextures();
+		
 		++this.tickCounter;
 		this.terrainTextureId = this.getTexture("/terrain.png");
 		this.guiItemsTextureId = this.getTexture("/gui/items.png");
@@ -516,15 +517,16 @@ public class RenderEngine {
 					throw new IllegalArgumentException("Unknown dimensions for texture id: " + i13);
 				}
 
-				int tileWidth = dim.width / 16;
-				int tileHeight = dim.height / 16;
-				this.checkImageDataSize(dim.width);
+				int tileWidth = dim.width / TextureAtlasSize.widthInTiles;
+				int tileHeight = dim.height / TextureAtlasSize.heightInTiles;
+				
+				this.checkImageDataSize(dim.width, dim.height);
 				this.imageData.limit(0);
-				boolean customOk = this.updateCustomTexture(texturefx1, this.imageData, dim.width / 16);
+				boolean customOk = this.updateCustomTexture(texturefx1, this.imageData, dim.width / TextureAtlasSize.widthInTiles);
 				if(!customOk || this.imageData.limit() > 0) {
 					boolean fastColor;
 					if(this.imageData.limit() <= 0) {
-						fastColor = this.updateDefaultTexture(texturefx1, this.imageData, dim.width / 16);
+						fastColor = this.updateDefaultTexture(texturefx1, this.imageData, dim.width / TextureAtlasSize.widthInTiles);
 						if(fastColor && this.imageData.limit() <= 0) {
 							continue;
 						}
@@ -724,12 +726,12 @@ public class RenderEngine {
 	private void setTextureDimension(int id, Dimension dim) {
 		this.textureDimensionsMap.put(new Integer(id), dim);
 		if(id == this.terrainTextureId) {
-			Config.setIconWidthTerrain(dim.width / 16);
+			Config.setIconWidthTerrain(dim.width / TextureAtlasSize.widthInTiles);
 			this.updateDinamicTextures(0, dim);
 		}
 
 		if(id == this.guiItemsTextureId) {
-			Config.setIconWidthItems(dim.width / 16);
+			Config.setIconWidthItems(dim.width / TextureAtlasSize.widthInTiles);
 			this.updateDinamicTextures(1, dim);
 		}
 
@@ -1008,26 +1010,30 @@ public class RenderEngine {
 		return scaledImage;
 	}
 
-	private void checkImageDataSize(int width) {
+	private void checkImageDataSize(int width, int height) {
 		if(this.imageData != null) {
-			int len = width * width * 4;
+			int len = width * height * 4;
 			if(this.imageData.capacity() >= len) {
 				return;
 			}
 		}
 
-		this.allocateImageData(width);
+		this.allocateImageData(width, height);
 	}
 
-	private void allocateImageData(int width) {
-		int imgLen = width * width * 4;
+	private void allocateImageData(int width, int height) {
+		int imgLen = width * height * 4;
 		this.imageData = GLAllocation.createDirectByteBuffer(imgLen);
 		ArrayList<ByteBuffer> list = new ArrayList<ByteBuffer>();
 
+		int mipHeight = height / 2;
 		for(int mipWidth = width / 2; mipWidth > 0; mipWidth /= 2) {
-			int mipLen = mipWidth * mipWidth * 4;
+			
+			int mipLen = mipWidth * mipHeight * 4;
 			ByteBuffer buf = GLAllocation.createDirectByteBuffer(mipLen);
 			list.add(buf);
+			
+			mipHeight /= 2;
 		}
 
 		this.mipImageDatas = (ByteBuffer[])((ByteBuffer[])list.toArray(new ByteBuffer[list.size()]));

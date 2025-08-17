@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.util.TextureAtlasSize;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.EntityItem;
@@ -79,10 +80,10 @@ public class RenderItem extends Render {
 			}
 
 			Tessellator tessellator15 = Tessellator.instance;
-			f16 = (float)(i14 % 16 * 16 + 0) / 256.0F;
-			f17 = (float)(i14 % 16 * 16 + 16) / 256.0F;
-			f18 = (float)(i14 / 16 * 16 + 0) / 256.0F;
-			float f19 = (float)(i14 / 16 * 16 + 16) / 256.0F;
+			f16 = (float)(i14 % 16 * 16 + 0) / TextureAtlasSize.w;
+			f17 = (float)(i14 % 16 * 16 + 16) / TextureAtlasSize.w;
+			f18 = (float)(i14 / 16 * 16 + 0) / TextureAtlasSize.h;
+			float f19 = (float)(i14 / 16 * 16 + 16) / TextureAtlasSize.h;
 			float f20 = 1.0F;
 			float f21 = 0.5F;
 			float f22 = 0.25F;
@@ -226,8 +227,8 @@ public class RenderItem extends Render {
 
 	public void renderTexturedQuad(int i1, int i2, int i3, int i4, int i5, int i6) {
 		float f7 = 0.0F;
-		float f8 = 0.00390625F;
-		float f9 = 0.00390625F;
+		float f8 = 1F / TextureAtlasSize.w;
+		float f9 = 1F / TextureAtlasSize.h;
 		Tessellator tessellator10 = Tessellator.instance;
 		tessellator10.startDrawingQuads();
 		tessellator10.addVertexWithUV((double)(i1 + 0), (double)(i2 + i6), (double)f7, (double)((float)(i3 + 0) * f8), (double)((float)(i4 + i6) * f9));

@@ -1,10 +1,14 @@
 package net.minecraft.client.renderer;
 
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.EntityPlayerSP;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.client.renderer.util.Idx2uvF;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EnumAction;
@@ -13,9 +17,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.map.MapData;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.Block;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 public class ItemRenderer {
 	private Minecraft mc;
@@ -44,11 +45,19 @@ public class ItemRenderer {
 			}
 
 			Tessellator tessellator3 = Tessellator.instance;
+			/*
 			int i4 = entityLiving1.getItemIcon(itemStack2);
 			float f5 = ((float)(i4 % 16 * 16) + 0.0F) / 256.0F;
 			float f6 = ((float)(i4 % 16 * 16) + 15.99F) / 256.0F;
 			float f7 = ((float)(i4 / 16 * 16) + 0.0F) / 256.0F;
 			float f8 = ((float)(i4 / 16 * 16) + 15.99F) / 256.0F;
+			*/
+			Idx2uvF.calc(entityLiving1.getItemIcon(itemStack2));
+			float f5 = (float) Idx2uvF.u1;
+			float f6 = (float) Idx2uvF.u2;
+			float f7 = (float) (Idx2uvF.v1 + .0001D); 	// TODO : Figure out why I need this shit
+			float f8 = (float) Idx2uvF.v2;
+			
 			float f9 = 1.0F;
 			float f10 = 0.0F;
 			float f11 = 0.3F;
@@ -380,11 +389,21 @@ public class ItemRenderer {
 		float f7 = -1.0F;
 		float f8 = 1.0F;
 		float f9 = -0.5F;
-		float f10 = 0.0078125F;
+		//float f10 = 0.0078125F;
+		
+		/*
 		float f11 = (float)(i2 % 16) / 256.0F - f10;
 		float f12 = ((float)(i2 % 16) + 15.99F) / 256.0F + f10;
 		float f13 = (float)(i2 / 16) / 256.0F - f10;
 		float f14 = ((float)(i2 / 16) + 15.99F) / 256.0F + f10;
+		*/
+		
+		Idx2uvF.calc(i2);
+		double f11 = Idx2uvF.u1;
+		double f12 = Idx2uvF.u2;
+		double f13 = Idx2uvF.v1 + .0001D; 	// TODO : Figure out why I need this shit
+		double f14 = Idx2uvF.v2;
+		
 		tessellator3.startDrawingQuads();
 		tessellator3.addVertexWithUV((double)f5, (double)f7, (double)f9, (double)f12, (double)f14);
 		tessellator3.addVertexWithUV((double)f6, (double)f7, (double)f9, (double)f11, (double)f14);
@@ -431,12 +450,21 @@ public class ItemRenderer {
 		for(int i4 = 0; i4 < 2; ++i4) {
 			GL11.glPushMatrix();
 			int i5 = Block.fire.blockIndexInTexture + i4 * 16;
+			
+			/*
 			int i6 = (i5 & 15) << 4;
 			int i7 = i5 & 240;
 			float f8 = (float)i6 / 256.0F;
 			float f9 = ((float)i6 + 15.99F) / 256.0F;
 			float f10 = (float)i7 / 256.0F;
 			float f11 = ((float)i7 + 15.99F) / 256.0F;
+			*/
+			Idx2uvF.calc(i5);
+			double f8 = Idx2uvF.u1;
+			double f9 = Idx2uvF.u2;
+			double f10 = Idx2uvF.v1;
+			double f11 = Idx2uvF.v2;
+			
 			float f12 = (0.0F - f3) / 2.0F;
 			float f13 = f12 + f3;
 			float f14 = 0.0F - f3 / 2.0F;

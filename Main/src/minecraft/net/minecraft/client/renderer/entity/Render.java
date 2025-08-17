@@ -8,6 +8,8 @@ import net.minecraft.client.renderer.FontRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.RenderEngine;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.util.Idx2uvF;
+import net.minecraft.client.renderer.util.Texels;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.World;
@@ -42,12 +44,17 @@ public abstract class Render {
 	private void renderEntityOnFire(Entity entity1, double d2, double d4, double d6, float f8) {
 		GL11.glDisable(GL11.GL_LIGHTING);
 		int i9 = Block.fire.blockIndexInTexture;
+		
+		/*
 		int i10 = (i9 & 15) << 4;
 		int i11 = i9 & 240;
 		float f12 = (float)i10 / 256.0F;
 		float f13 = ((float)i10 + 15.99F) / 256.0F;
 		float f14 = (float)i11 / 256.0F;
 		float f15 = ((float)i11 + 15.99F) / 256.0F;
+		*/
+		
+		double f12, f13, f14, f15;
 		
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float)d2, (float)d4, (float)d6);
@@ -71,19 +78,21 @@ public abstract class Render {
 
 		while(f20 > 0.0F) {
 			if(i23 % 2 == 0) {
-				f12 = (float)i10 / 256.0F;
-				f13 = ((float)i10 + 15.99F) / 256.0F;
-				f14 = (float)i11 / 256.0F;
-				f15 = ((float)i11 + 15.99F) / 256.0F;
+				Idx2uvF.calc(i9);
+				f12 = Idx2uvF.u1;
+				f13 = Idx2uvF.u2;
+				f14 = Idx2uvF.v1;
+				f15 = Idx2uvF.v2;
 			} else {
-				f12 = (float)i10 / 256.0F;
-				f13 = ((float)i10 + 15.99F) / 256.0F;
-				f14 = (float)(i11 + 16) / 256.0F;
-				f15 = ((float)(i11 + 16) + 15.99F) / 256.0F;
+				Idx2uvF.calc(i9);
+				f12 = Idx2uvF.u1;
+				f13 = Idx2uvF.u2;
+				f14 = Idx2uvF.v1 + Texels.texelsV(16F);
+				f15 = Idx2uvF.v2 + Texels.texelsV(16F);
 			}
 
 			if(i23 / 2 % 2 == 0) {
-				float f24 = f13;
+				double f24 = f13;
 				f13 = f12;
 				f12 = f24;
 			}

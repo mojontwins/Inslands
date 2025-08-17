@@ -1,5 +1,7 @@
 package net.minecraft.world.level.tile.model;
 
+import net.minecraft.client.renderer.util.TextureAtlasSize;
+
 public class BlockFace {
 	public BlockFaceUV uvs;
 	public int textureIndex;
@@ -22,7 +24,7 @@ public class BlockFace {
 		// Precalc this 
 		if(textureIndex >= 0) {
 			this.u0 = (textureIndex & 15) << 4;
-			this.v0 = textureIndex & 0xf0;
+			this.v0 = textureIndex & 0xff0;
 		}
 	}
 
@@ -53,7 +55,7 @@ public class BlockFace {
 	public void overrideTexture(int textureIndex) {
 		// Precalc this 
 		this.u0 = (textureIndex & 15) << 4;
-		this.v0 = textureIndex & 0xf0;
+		this.v0 = textureIndex & 0xff0;
 	}
 	
 	/* index is:
@@ -68,11 +70,11 @@ public class BlockFace {
 	
 	
 	public double getRotatedU(int index) {
-		return (this.u0 + this.uvs.getRotatedU(index)) / 256.0D;
+		return (this.u0 + this.uvs.getRotatedU(index)) / TextureAtlasSize.w;
 	}
 	
 	public double getRotatedV(int index) {
-		return (this.v0 + this.uvs.getRotatedV(index)) / 256.0D;
+		return (this.v0 + this.uvs.getRotatedV(index)) / TextureAtlasSize.h;
 	}
 
 	public static int vanillaFace(int faceIdx) {

@@ -1,6 +1,8 @@
 package net.minecraft.client.particle;
 
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.util.Idx2uvF;
+import net.minecraft.client.renderer.util.Texels;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.tile.Block;
 
@@ -32,19 +34,27 @@ public class EntityDiggingFX extends EntityFX {
 	}
 
 	public void renderParticle(Tessellator tessellator1, float f2, float f3, float f4, float f5, float f6, float f7) {
-		float f8 = ((float)(this.particleTextureIndex % 16) + this.particleTextureJitterX / 4.0F) / 16.0F;
-		float f9 = f8 + 0.015609375F;
-		float f10 = ((float)(this.particleTextureIndex / 16) + this.particleTextureJitterY / 4.0F) / 16.0F;
-		float f11 = f10 + 0.015609375F;
+		/*
+		float u1 = ((float)(this.particleTextureIndex % 16) + this.particleTextureJitterX / 4.0F) / 16.0F;
+		float u2 = u1 + 0.015609375F;
+		float v1 = ((float)(this.particleTextureIndex / 16) + this.particleTextureJitterY / 4.0F) / 16.0F;
+		float v2 = v1 + 0.015609375F;
+		*/
+		Idx2uvF.calc(this.getParticleTextureIndex());
+		double u1 = Idx2uvF.u1 + Texels.texelsU(this.particleTextureJitterX * 4.0F);
+		double u2 = u1 + Texels.texelsU(4F);
+		double v1 = Idx2uvF.v1 + Texels.texelsV(this.particleTextureJitterY * 4.0F);
+		double v2 = v1 + Texels.texelsV(4F);
+		
 		float f12 = 0.1F * this.particleScale;
 		float f13 = (float)(this.prevPosX + (this.posX - this.prevPosX) * (double)f2 - interpPosX);
 		float f14 = (float)(this.prevPosY + (this.posY - this.prevPosY) * (double)f2 - interpPosY);
 		float f15 = (float)(this.prevPosZ + (this.posZ - this.prevPosZ) * (double)f2 - interpPosZ);
 		float f16 = this.getEntityBrightness(f2);
 		tessellator1.setColorOpaque_F(f16 * this.particleRed, f16 * this.particleGreen, f16 * this.particleBlue);
-		tessellator1.addVertexWithUV((double)(f13 - f3 * f12 - f6 * f12), (double)(f14 - f4 * f12), (double)(f15 - f5 * f12 - f7 * f12), (double)f8, (double)f11);
-		tessellator1.addVertexWithUV((double)(f13 - f3 * f12 + f6 * f12), (double)(f14 + f4 * f12), (double)(f15 - f5 * f12 + f7 * f12), (double)f8, (double)f10);
-		tessellator1.addVertexWithUV((double)(f13 + f3 * f12 + f6 * f12), (double)(f14 + f4 * f12), (double)(f15 + f5 * f12 + f7 * f12), (double)f9, (double)f10);
-		tessellator1.addVertexWithUV((double)(f13 + f3 * f12 - f6 * f12), (double)(f14 - f4 * f12), (double)(f15 + f5 * f12 - f7 * f12), (double)f9, (double)f11);
+		tessellator1.addVertexWithUV((double)(f13 - f3 * f12 - f6 * f12), (double)(f14 - f4 * f12), (double)(f15 - f5 * f12 - f7 * f12), (double)u1, (double)v2);
+		tessellator1.addVertexWithUV((double)(f13 - f3 * f12 + f6 * f12), (double)(f14 + f4 * f12), (double)(f15 - f5 * f12 + f7 * f12), (double)u1, (double)v1);
+		tessellator1.addVertexWithUV((double)(f13 + f3 * f12 + f6 * f12), (double)(f14 + f4 * f12), (double)(f15 + f5 * f12 + f7 * f12), (double)u2, (double)v1);
+		tessellator1.addVertexWithUV((double)(f13 + f3 * f12 - f6 * f12), (double)(f14 - f4 * f12), (double)(f15 + f5 * f12 - f7 * f12), (double)u2, (double)v2);
 	}
 }

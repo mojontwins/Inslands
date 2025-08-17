@@ -1943,7 +1943,7 @@ public class World implements IBlockAccess {
 					for(int i14 = i8; i14 < i9; ++i14) {
 						Block block15 = Block.blocksList[this.getBlockId(i12, i13, i14)];
 						if(block15 != null && block15.blockMaterial == material2) {
-							double d16 = (double)((float)(i13 + 1) - BlockFluid.getPercentAir(this.getBlockMetadata(i12, i13, i14)));
+							double d16 = (double)((float)(i13 + 1) - BlockFluid.getFluidHeightPercent(this.getBlockMetadata(i12, i13, i14)));
 							if((double)i7 >= d16) {
 								z10 = true;
 								block15.velocityToAddToEntity(this, i12, i13, i14, entity3, vec3D11);

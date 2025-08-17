@@ -23,7 +23,7 @@ public abstract class BlockFluid extends Block {
 		return 0xFFFFFF;
 	}
 
-	public static float getPercentAir(int i0) {
+	public static float getFluidHeightPercent(int i0) {
 		if(i0 >= 8) {
 			i0 = 0;
 		}

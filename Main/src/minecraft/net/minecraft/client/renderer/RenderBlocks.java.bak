@@ -3416,63 +3416,64 @@ public class RenderBlocks {
 		final double taw = TextureAtlasSize.w;
 		final double tah = TextureAtlasSize.h;
 		
-		double u1, u2, v1, v2;
-		double ru2, ru1, rv1, rv2;
-
+		/*
 		int i10 = (i8 & 15) << 4;
-		int i11 = i8 & 0xff0;
-				;
+		int i11 = i8 & 240;
+		double d12 = ((double)i10 + block1.minX * 16.0D) / 256.0D;
+		double d14 = ((double)i10 + block1.maxX * 16.0D - 0.01D) / 256.0D;
+		double d16 = ((double)i11 + block1.minZ * 16.0D) / 256.0D;
+		double d18 = ((double)i11 + block1.maxZ * 16.0D - 0.01D) / 256.0D;
+		*/
+		Idx2uvF.calc(i8);
+		double d12 = Idx2uvF.u1;
+		double d14 = Idx2uvF.u2;
+		double d16 = Idx2uvF.v1;
+		double d18 = Idx2uvF.v2;
+		if(block1.minX < 0.0D || block1.maxX > 1.0D) {
+			d12 = (double)(((float)i10 + 0.0F) / taw);
+			d14 = (double)(((float)i10 + 15.99F) / taw);
+		}
+
+		if(block1.minZ < 0.0D || block1.maxZ > 1.0D) {
+			d16 = (double)(((float)i11 + 0.0F) / tah);
+			d18 = (double)(((float)i11 + 15.99F) / tah);
+		}
+
+		double d20 = d14;
+		double d22 = d12;
+		double d24 = d16;
+		double d26 = d18;
 		if(this.uvRotateBottom == 2) {
-			u1 = ((double)i10 + block1.minZ * 16.0D) / taw;
-			v1 = ((double)(i11 + 16) - block1.maxX * 16.0D) / taw;
-			u2 = ((double)i10 + block1.maxZ * 16.0D) / tah;
-			v2 = ((double)(i11 + 16) - block1.minX * 16.0D) / tah;
-			rv1 = v1;
-			rv2 = v2;
-			ru2 = u1;
-			ru1 = u2;
-			v1 = v2;
-			v2 = rv1;
+			d12 = ((double)i10 + block1.minZ * 16.0D) / taw;
+			d16 = ((double)(i11 + 16) - block1.maxX * 16.0D) / taw;
+			d14 = ((double)i10 + block1.maxZ * 16.0D) / tah;
+			d18 = ((double)(i11 + 16) - block1.minX * 16.0D) / tah;
+			d24 = d16;
+			d26 = d18;
+			d20 = d12;
+			d22 = d14;
+			d16 = d18;
+			d18 = d24;
 		} else if(this.uvRotateBottom == 1) {
-			u1 = ((double)(i10 + 16) - block1.maxZ * 16.0D) / taw;
-			v1 = ((double)i11 + block1.minX * 16.0D) / tah;
-			u2 = ((double)(i10 + 16) - block1.minZ * 16.0D) / taw;
-			v2 = ((double)i11 + block1.maxX * 16.0D) / tah;
-			ru2 = u2;
-			ru1 = u1;
-			u1 = u2;
-			u2 = ru1;
-			rv1 = v2;
-			rv2 = v1;
+			d12 = ((double)(i10 + 16) - block1.maxZ * 16.0D) / taw;
+			d16 = ((double)i11 + block1.minX * 16.0D) / taw;
+			d14 = ((double)(i10 + 16) - block1.minZ * 16.0D) / tah;
+			d18 = ((double)i11 + block1.maxX * 16.0D) / tah;
+			d20 = d14;
+			d22 = d12;
+			d12 = d14;
+			d14 = d22;
+			d24 = d18;
+			d26 = d16;
 		} else if(this.uvRotateBottom == 3) {
-			u1 = ((double)(i10 + 16) - block1.minX * 16.0D) / taw;
-			u2 = ((double)(i10 + 16) - block1.maxX * 16.0D - 0.01D) / taw;
-			v1 = ((double)(i11 + 16) - block1.minZ * 16.0D) / tah;
-			v2 = ((double)(i11 + 16) - block1.maxZ * 16.0D - 0.01D) / tah;
-			ru2 = u2;
-			ru1 = u1;
-			rv1 = v1;
-			rv2 = v2;
-		} else {
-			u1 = ((double)i10 + block1.minX * 16.0D) / taw;
-			u2 = ((double)i10 + block1.maxX * 16.0D - 0.01D) / taw;
-			v1 = ((double)i11 + block1.minZ * 16.0D) / tah;
-			v2 = ((double)i11 + block1.maxZ * 16.0D - 0.01D) / tah;
-			
-			if(block1.minX < 0.0D || block1.maxX > 1.0D) {
-				u1 = (double)(((float)i10 + 0.0F) / taw);
-				u2 = (double)(((float)i10 + 15.99F) / taw);
-			}
-
-			if(block1.minZ < 0.0D || block1.maxZ > 1.0D) {
-				v1 = (double)(((float)i11 + 0.0F) / tah);
-				v2 = (double)(((float)i11 + 15.99F) / tah);
-			}
-
-			ru2 = u2;
-			ru1 = u1;
-			rv1 = v1;
-			rv2 = v2;
+			d12 = ((double)(i10 + 16) - block1.minX * 16.0D) / taw;
+			d14 = ((double)(i10 + 16) - block1.maxX * 16.0D - 0.01D) / taw;
+			d16 = ((double)(i11 + 16) - block1.minZ * 16.0D) / tah;
+			d18 = ((double)(i11 + 16) - block1.maxZ * 16.0D - 0.01D) / tah;
+			d20 = d14;
+			d22 = d12;
+			d24 = d16;
+			d26 = d18;
 		}
 
 		double d28 = d2 + block1.minX;
@@ -3483,21 +3484,21 @@ public class RenderBlocks {
 		if(this.enableAO) {
 			tessellator9.setColorOpaque_F(this.colorRedTopLeft, this.colorGreenTopLeft, this.colorBlueTopLeft);
 			tessellator9.setBrightness(this.brightnessTopLeft);
-			tessellator9.addVertexWithUV(d28, d32, d36, ru1, rv2);
+			tessellator9.addVertexWithUV(d28, d32, d36, d22, d26);
 			tessellator9.setColorOpaque_F(this.colorRedBottomLeft, this.colorGreenBottomLeft, this.colorBlueBottomLeft);
 			tessellator9.setBrightness(this.brightnessBottomLeft);
-			tessellator9.addVertexWithUV(d28, d32, d34, u1, v1);
+			tessellator9.addVertexWithUV(d28, d32, d34, d12, d16);
 			tessellator9.setColorOpaque_F(this.colorRedBottomRight, this.colorGreenBottomRight, this.colorBlueBottomRight);
 			tessellator9.setBrightness(this.brightnessBottomLeft);
-			tessellator9.addVertexWithUV(d30, d32, d34, ru2, rv1);
+			tessellator9.addVertexWithUV(d30, d32, d34, d20, d24);
 			tessellator9.setColorOpaque_F(this.colorRedTopRight, this.colorGreenTopRight, this.colorBlueTopRight);
 			tessellator9.setBrightness(this.brightnessTopRight);
-			tessellator9.addVertexWithUV(d30, d32, d36, u2, v2);
+			tessellator9.addVertexWithUV(d30, d32, d36, d14, d18);
 		} else {
-			tessellator9.addVertexWithUV(d28, d32, d36, ru1, rv2);
-			tessellator9.addVertexWithUV(d28, d32, d34, u1, v1);
-			tessellator9.addVertexWithUV(d30, d32, d34, ru2, rv1);
-			tessellator9.addVertexWithUV(d30, d32, d36, u2, v2);
+			tessellator9.addVertexWithUV(d28, d32, d36, d22, d26);
+			tessellator9.addVertexWithUV(d28, d32, d34, d12, d16);
+			tessellator9.addVertexWithUV(d30, d32, d34, d20, d24);
+			tessellator9.addVertexWithUV(d30, d32, d36, d14, d18);
 		}
 
 	}
@@ -4195,15 +4196,15 @@ public class RenderBlocks {
 			int ti_1 = block.getBlockTexture(blockAccess, x, y, z, 1); 	// CUSTOM : side = 1 means "ends"
 			if(this.overrideBlockTexture >= 0) ti_1 = this.overrideBlockTexture;
 			
-			float t1_u = (float) ((ti_1 & 0x0f) << 4) / TextureAtlasSize.w;
-			float t1_v = (float) (ti_1 & 0xff0) / TextureAtlasSize.h;
+			float t1_u = (float) ((ti_1 & 0x0f) << 4) / 256.0F;
+			float t1_v = (float) (ti_1 & 0xff0) / 256.0F;
 
 			// Texture #2 (sides)
 			int ti_2 = block.getBlockTexture(blockAccess, x, y, z, 0); 	// CUSTOM : side = 1 means "sides"
 			if(this.overrideBlockTexture >= 0) ti_2 = this.overrideBlockTexture;
 			
-			float t2_u = (float) ((ti_2 & 0x0f) << 4) / TextureAtlasSize.w;
-			float t2_v = (float) (ti_2 & 0xff0) / TextureAtlasSize.h;
+			float t2_u = (float) ((ti_2 & 0x0f) << 4) / 256.0F;
+			float t2_v = (float) (ti_2 & 0xff0) / 256.0F;
 			
 			x1 = x + 0.0000F;
 			y1 = y + 0.0625F;
@@ -4213,68 +4214,60 @@ public class RenderBlocks {
 			z2 = z + 0.9375F;
 
 			setLightValue(tessellator, blockAccess, block, x, y + 1, z, 1.0F);
-			u1 = t2_u; //  + 0.0000000F;
-			v1 = t2_v; //  + 0.0000000F;
-			u2 = t2_u + Texels.texelsU(16); // 0.0625000F;
-			v2 = t2_v + Texels.texelsV(16); // 0.0625000F;
+			u1 = t2_u + 0.0000000F;
+			v1 = t2_v + 0.0000000F;
+			u2 = t2_u + 0.0625000F;
+			v2 = t2_v + 0.0625000F;
 			tessellator.addVertexWithUV(x2, y2, z2, u1, v1);
 			tessellator.addVertexWithUV(x2, y2, z1, u2, v1);
 			tessellator.addVertexWithUV(x1, y2, z1, u2, v2);
 			tessellator.addVertexWithUV(x1, y2, z2, u1, v2);
 
 			setLightValue(tessellator, blockAccess, block, x, y - 1, z, 0.5F);
-			/*
 			u1 = t2_u + 0.0000000F;
 			v1 = t2_v + 0.0000000F;
 			u2 = t2_u + 0.0625000F;
 			v2 = t2_v + 0.0625000F;
-			*/
 			tessellator.addVertexWithUV(x1, y1, z2, u1, v2);
 			tessellator.addVertexWithUV(x1, y1, z1, u2, v2);
 			tessellator.addVertexWithUV(x2, y1, z1, u2, v1);
 			tessellator.addVertexWithUV(x2, y1, z2, u1, v1);
 
 			setLightValue(tessellator, blockAccess, block, x, y, z - 1, 0.8F);
-			/*
 			u1 = t2_u + 0.0000000F;
 			v1 = t2_v + 0.0000000F;
 			u2 = t2_u + 0.0625000F;
 			v2 = t2_v + 0.0625000F;
-			*/
 			tessellator.addVertexWithUV(x1, y2, z1, u1, v2);
 			tessellator.addVertexWithUV(x2, y2, z1, u1, v1);
 			tessellator.addVertexWithUV(x2, y1, z1, u2, v1);
 			tessellator.addVertexWithUV(x1, y1, z1, u2, v2);
 
 			setLightValue(tessellator, blockAccess, block, x, y, z + 1, 0.8F);
-			/*
 			u1 = t2_u + 0.0000000F;
 			v1 = t2_v + 0.0000000F;
 			u2 = t2_u + 0.0625000F;
 			v2 = t2_v + 0.0625000F;
-			*/
 			tessellator.addVertexWithUV(x1, y2, z2, u1, v1);
 			tessellator.addVertexWithUV(x1, y1, z2, u2, v1);
 			tessellator.addVertexWithUV(x2, y1, z2, u2, v2);
 			tessellator.addVertexWithUV(x2, y2, z2, u1, v2);
 
 			setLightValue(tessellator, blockAccess, block, x + 1, y, z, 0.6F);
-			u1 = t1_u + Texels.texelsU(1); // 0.00390625F;
-			v1 = t1_v + Texels.texelsV(1); // 0.00390625F;
-			u2 = t1_u + Texels.texelsU(15); // 0.05859375F;
-			v2 = t1_v + Texels.texelsV(15); // 0.05859375F;
+			u1 = t1_u + 0.00390625F;
+			v1 = t1_v + 0.00390625F;
+			u2 = t1_u + 0.05859375F;
+			v2 = t1_v + 0.05859375F;
 			tessellator.addVertexWithUV(x2, y2, z1, u1, v2);
 			tessellator.addVertexWithUV(x2, y2, z2, u1, v1);
 			tessellator.addVertexWithUV(x2, y1, z2, u2, v1);
 			tessellator.addVertexWithUV(x2, y1, z1, u2, v2);
 
 			setLightValue(tessellator, blockAccess, block, x - 1, y, z, 0.6F);
-			/*
 			u1 = t1_u + 0.00390625F;
 			v1 = t1_v + 0.00390625F;
 			u2 = t1_u + 0.05859375F;
 			v2 = t1_v + 0.05859375F;
-			*/
 			tessellator.addVertexWithUV(x1, y2, z1, u1, v1);
 			tessellator.addVertexWithUV(x1, y1, z1, u2, v1);
 			tessellator.addVertexWithUV(x1, y1, z2, u2, v2);
@@ -4287,14 +4280,14 @@ public class RenderBlocks {
 			// Texture #1 (ends)
 			int ti_1 = block.getBlockTexture(blockAccess, x, y, z, 1); 	// CUSTOM : side = 1 means "ends"
 			if(this.overrideBlockTexture >= 0) ti_1 = this.overrideBlockTexture;
-			float t1_u = (float) ((ti_1 & 0x0f) << 4) / TextureAtlasSize.w;
-			float t1_v = (float) (ti_1 & 0xff0) / TextureAtlasSize.h;
+			float t1_u = (float) ((ti_1 & 0x0f) << 4) / 256.0F;
+			float t1_v = (float) (ti_1 & 0xff0) / 256.0F;
 
 			// Texture #2 (sides)
 			int ti_2 = block.getBlockTexture(blockAccess, x, y, z, 0); 	// CUSTOM : side = 1 means "sides"
 			if(this.overrideBlockTexture >= 0) ti_2 = this.overrideBlockTexture;
-			float t2_u = (float) ((ti_2 & 0x0f) << 4) / TextureAtlasSize.w;
-			float t2_v = (float) (ti_2 & 0xff0) / TextureAtlasSize.h;
+			float t2_u = (float) ((ti_2 & 0x0f) << 4) / 256.0F;
+			float t2_v = (float) (ti_2 & 0xff0) / 256.0F;
 			
 			x1 = x + 0.0625F;
 			y1 = y + 0.0625F;
@@ -4304,68 +4297,60 @@ public class RenderBlocks {
 			z2 = z + 1.0000F;
 
 			setLightValue(tessellator, blockAccess, block, x, y + 1, z, 1.0F);
-			u1 = t2_u; //  + 0.0000000F;
-			v1 = t2_v; //  + 0.0000000F;
-			u2 = t2_u + Texels.texelsU(16); // 0.0625000F;
-			v2 = t2_v + Texels.texelsV(16); // 0.0625000F;
+			u1 = t2_u + 0.0000000F;
+			v1 = t2_v + 0.0000000F;
+			u2 = t2_u + 0.0625000F;
+			v2 = t2_v + 0.0625000F;
 			tessellator.addVertexWithUV(x2, y2, z2, u1, v1);
 			tessellator.addVertexWithUV(x2, y2, z1, u1, v2);
 			tessellator.addVertexWithUV(x1, y2, z1, u2, v2);
 			tessellator.addVertexWithUV(x1, y2, z2, u2, v1);
 
 			setLightValue(tessellator, blockAccess, block, x, y - 1, z, 0.5F);
-			/*
 			u1 = t2_u + 0.0000000F;
 			v1 = t2_v + 0.0000000F;
 			u2 = t2_u + 0.0625000F;
 			v2 = t2_v + 0.0625000F;
-			*/
 			tessellator.addVertexWithUV(x1, y1, z2, u2, v1);
 			tessellator.addVertexWithUV(x1, y1, z1, u2, v2);
 			tessellator.addVertexWithUV(x2, y1, z1, u1, v2);
 			tessellator.addVertexWithUV(x2, y1, z2, u1, v1);
 
 			setLightValue(tessellator, blockAccess, block, x + 1, y, z, 0.6F);
-			/*
 			u1 = t2_u + 0.0000000F;
 			v1 = t2_v + 0.0000000F;
 			u2 = t2_u + 0.0625000F;
 			v2 = t2_v + 0.0625000F;
-			*/
 			tessellator.addVertexWithUV(x1, y2, z1, u1, v1);
 			tessellator.addVertexWithUV(x1, y1, z1, u2, v1);
 			tessellator.addVertexWithUV(x1, y1, z2, u2, v2);
 			tessellator.addVertexWithUV(x1, y2, z2, u1, v2);
 
 			setLightValue(tessellator, blockAccess, block, x - 1, y, z, 0.6F);
-			/*
 			u1 = t2_u + 0.0000000F;
 			v1 = t2_v + 0.0000000F;
 			u2 = t2_u + 0.0625000F;
 			v2 = t2_v + 0.0625000F;
-			*/
 			tessellator.addVertexWithUV(x2, y2, z1, u1, v2);
 			tessellator.addVertexWithUV(x2, y2, z2, u1, v1);
 			tessellator.addVertexWithUV(x2, y1, z2, u2, v1);
 			tessellator.addVertexWithUV(x2, y1, z1, u2, v2);
 
 			setLightValue(tessellator, blockAccess, block, x, y, z - 1, 0.8F);
-			u1 = t1_u + Texels.texelsU(1); // 0.00390625F;
-			v1 = t1_v + Texels.texelsV(1); // 0.00390625F;
-			u2 = t1_u + Texels.texelsU(15); // 0.05859375F;
-			v2 = t1_v + Texels.texelsV(15); // 0.05859375F;
+			u1 = t1_u + 0.00390625F;
+			v1 = t1_v + 0.00390625F;
+			u2 = t1_u + 0.05859375F;
+			v2 = t1_v + 0.05859375F;
 			tessellator.addVertexWithUV(x1, y2, z1, u2, v1);
 			tessellator.addVertexWithUV(x2, y2, z1, u1, v1);
 			tessellator.addVertexWithUV(x2, y1, z1, u1, v2);
 			tessellator.addVertexWithUV(x1, y1, z1, u2, v2);
 
 			setLightValue(tessellator, blockAccess, block, x, y, z + 1, 0.8F);
-			/*
 			u1 = t1_u + 0.00390625F;
 			v1 = t1_v + 0.00390625F;
 			u2 = t1_u + 0.05859375F;
 			v2 = t1_v + 0.05859375F;
-			*/
 			tessellator.addVertexWithUV(x1, y2, z2, u1, v1);
 			tessellator.addVertexWithUV(x1, y1, z2, u1, v2);
 			tessellator.addVertexWithUV(x2, y1, z2, u2, v2);

@@ -634,7 +634,7 @@ public abstract class Entity {
 		int i7 = this.worldObj.getBlockId(i4, i5, i6);
 		Block block = Block.blocksList[i7];
 		if(block != null && block.blockMaterial == material1) {
-			float f8 = BlockFluid.getPercentAir(this.worldObj.getBlockMetadata(i4, i5, i6)) - 0.11111111F;
+			float f8 = BlockFluid.getFluidHeightPercent(this.worldObj.getBlockMetadata(i4, i5, i6)) - 0.11111111F;
 			float f9 = (float)(i5 + 1) - f8;
 			return d2 < (double)f9;
 		} else {

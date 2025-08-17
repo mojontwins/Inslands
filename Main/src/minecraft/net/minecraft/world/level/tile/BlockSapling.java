@@ -10,7 +10,21 @@ import net.minecraft.world.level.levelgen.feature.trees.WorldGenForest;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenTaiga2;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenTrees;
 
-public class BlockSapling extends BlockFlower {
+public class BlockSapling extends BlockFlower implements IBlockWithSubtypes {
+	private static final int GROWING_BIT = 16;
+	private String[] saplingNames = new String[] {
+		"sapling.oak",
+		"sapling.baobab",
+		"sapling.cypress",
+		"sapling.fir",
+		"sapling.jungle",
+		"sapling.mangrove",
+		"sapling.taiga",
+		"sapling.fancy",
+		"sapling.willow",
+		"sapling.shrub"
+	};
+
 	protected BlockSapling(int i1, int i2) {
 		super(i1, i2);
 		this.setMyBlockBounds();
@@ -23,15 +37,15 @@ public class BlockSapling extends BlockFlower {
 		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 	
-	public void updateTick(World world1, int i2, int i3, int i4, Random random5) {
-		if(!world1.isRemote) {
-			super.updateTick(world1, i2, i3, i4, random5);
-			if(world1.getBlockLightValue(i2, i3 + 1, i4) >= 9 && random5.nextInt(30) == 0) {
-				int i6 = world1.getBlockMetadata(i2, i3, i4);
-				if((i6 & 8) == 0) {
-					world1.setBlockMetadataWithNotify(i2, i3, i4, i6 | 8);
+	public void updateTick(World world, int i2, int i3, int i4, Random random5) {
+		if(!world.isRemote) {
+			super.updateTick(world, i2, i3, i4, random5);
+			if(world.getBlockLightValue(i2, i3 + 1, i4) >= 9 && random5.nextInt(30) == 0) {
+				int i6 = world.getBlockMetadata(i2, i3, i4);
+				if((i6 & GROWING_BIT) == 0) {
+					world.setBlockMetadataWithNotify(i2, i3, i4, i6 | 8);
 				} else {
-					this.growTree(world1, i2, i3, i4, random5);
+					this.growTree(world, i2, i3, i4, random5);
 				}
 			}
 
@@ -43,9 +57,9 @@ public class BlockSapling extends BlockFlower {
 		return i2 == 1 ? 63 : (i2 == 2 ? 79 : super.getBlockTextureFromSideAndMetadata(i1, i2));
 	}
 
-	public void growTree(World world1, int i2, int i3, int i4, Random random5) {
-		int i6 = world1.getBlockMetadata(i2, i3, i4) & 3;
-		world1.setBlock(i2, i3, i4, 0);
+	public void growTree(World world, int i2, int i3, int i4, Random random5) {
+		int i6 = world.getBlockMetadata(i2, i3, i4) & 3;
+		world.setBlock(i2, i3, i4, 0);
 		Object object7 = null;
 		if(i6 == 1) {
 			object7 = new WorldGenTaiga2();
@@ -58,8 +72,8 @@ public class BlockSapling extends BlockFlower {
 			}
 		}
 
-		if(!((WorldGenerator)object7).generate(world1, random5, i2, i3, i4)) {
-			world1.setBlockAndMetadata(i2, i3, i4, this.blockID, i6);
+		if(!((WorldGenerator)object7).generate(world, random5, i2, i3, i4)) {
+			world.setBlockAndMetadata(i2, i3, i4, this.blockID, i6);
 		}
 
 	}
@@ -71,5 +85,20 @@ public class BlockSapling extends BlockFlower {
 	@Override
 	public int getRenderType() {
 		return 111;
+	}
+
+	@Override
+	public int getItemBlockId() {
+		return this.blockID - 256;
+	}
+
+	@Override
+	public String getNameFromMeta(int meta) {
+		return this.saplingNames[meta & 15];
+	}
+
+	@Override
+	public int getIndexInTextureFromMeta(int meta) {
+		return 0;
 	}
 }

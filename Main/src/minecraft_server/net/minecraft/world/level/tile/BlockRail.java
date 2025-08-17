@@ -30,7 +30,7 @@ public class BlockRail extends Block {
 		this.displayOnCreativeTab = CreativeTabs.tabTransport;
 	}
 
-	public boolean getIsPowered() {
+	public boolean isPowered() {
 		return this.isPowered;
 	}
 

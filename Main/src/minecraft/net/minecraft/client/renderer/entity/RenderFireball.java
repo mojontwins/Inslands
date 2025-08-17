@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.util.Idx2uvF;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.EntityFireball;
 import net.minecraft.world.item.Item;
@@ -18,10 +19,17 @@ public class RenderFireball extends Render {
 		int i11 = Item.snowball.getIconFromDamage(0);
 		this.loadTexture("/gui/items.png");
 		Tessellator tessellator12 = Tessellator.instance;
-		float f13 = (float)(i11 % 16 * 16 + 0) / 256.0F;
-		float f14 = (float)(i11 % 16 * 16 + 16) / 256.0F;
-		float f15 = (float)(i11 / 16 * 16 + 0) / 256.0F;
-		float f16 = (float)(i11 / 16 * 16 + 16) / 256.0F;
+		/*
+		float f13 = (float)(b11 % 16 * 16 + 0) / 256.0F;
+		float f14 = (float)(b11 % 16 * 16 + 16) / 256.0F;
+		float f15 = (float)(b11 / 16 * 16 + 0) / 256.0F;
+		float f16 = (float)(b11 / 16 * 16 + 16) / 256.0F;
+		*/
+		Idx2uvF.calc(i11);
+		double f13 = Idx2uvF.u1;
+		double f14 = Idx2uvF.u2;
+		double f15 = Idx2uvF.v1;
+		double f16 = Idx2uvF.v2;
 		float f17 = 1.0F;
 		float f18 = 0.5F;
 		float f19 = 0.25F;
