@@ -339,11 +339,42 @@ Server->Export executable jar
 
 Voy a adaptar el código para poder ampliar a placer el atlas de texturas.
 
-
-
 # Clean / simplify
 
 There are several blocks that produce different blockstates depending on metadata. Each of them use a special subclass of ItemBlock that's very simmilar. I want to reuse the same in every one of them:
 
-* BlockSapling - ItemSapling, placedBlockMetadata = m, iconFromDamage: side 0
-* BlockSapling - ItemSapling2, lo mismo.
+## Tree types - leaf types - Sapling types
+
+Clean this up, so far I got:
+
+Meta|Tree
+---------
+0|Oak (normal tree / big tree)	
+1|Birch (forest)
+2|Taiga (taiga 1 / taiga 2)
+3|Fir
+4|Baobab
+5|Bog
+6|Cypress
+7|Huge
+8|Palm tree
+9|Pine
+10|Shrub
+11|Swamp
+12|Willow
+13|TFCanopy
+
+I need a class or enum that, for a tree type, stores:
+
+- Leaves BlockState.
+- Trunk BlockState.
+- Sapling BlockState.
+- Get a worldgen to make sapling grow.
+
+New leaves/log/sapling textures
+
+line 16: leaves, fancy
+line 17: leaves, fast
+line 18: wood
+line 19: sapling
+
