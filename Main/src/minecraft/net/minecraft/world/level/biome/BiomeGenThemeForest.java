@@ -45,7 +45,6 @@ import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenThemeForest extends BiomeGenForest {
 	
-	private WorldGenPineTree pineTreeGen = new WorldGenPineTree();
 	private WorldGenTrees normalTreeGen = new WorldGenTrees();
 	private WorldGenBigTree bigTreeGen = new WorldGenBigTree();
 	private WorldGenBigTree bigBigTreeGen = new WorldGenBigTree();
@@ -124,7 +123,7 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 		if(rand.nextInt(32) == 0) return this.bigTreeGen;
 		
 		if(rand.nextBoolean()) {
-			return this.pineTreeGen;
+			return new WorldGenPineTree(6 + rand.nextInt(8), false);
 		} else {
 			return new WorldGenCypress(5+rand.nextInt(5));
 		}

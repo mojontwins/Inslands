@@ -27,7 +27,7 @@ public class EntityPirateBoss extends EntityMob implements IMob {
 		super.entityInit();
 		
 		// Store "invisible" here to make this work in SMP
-		this.dataWatcher.addObject(19, new Byte((byte) 0));
+		this.dataWatcher.addObject(19, Byte.valueOf((byte) 0));
 	}
 	
 	public void setInvisible(boolean invisible) {

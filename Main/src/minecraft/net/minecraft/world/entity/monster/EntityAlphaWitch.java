@@ -43,7 +43,7 @@ public class EntityAlphaWitch extends EntityArmoredMob {
 		// I'm using it to store the potion the witch is about to launch (bits 0-3), if the witch has
 		// run out of potions (bit 5) and if the witch has already healed herself (bit 4).
 		
-		this.dataWatcher.addObject(16, new Byte((byte)0));
+		this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
 	}
 	
 	public void onUpdate() {

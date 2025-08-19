@@ -93,15 +93,15 @@ class Floor1 extends Floor implements Cloneable {
 
       ArrayList<Integer> alXList=new ArrayList<>();
 
-      alXList.add(new Integer(0));
-      alXList.add(new Integer(1<<rangeBits));
+      alXList.add(Integer.valueOf(0));
+      alXList.add(Integer.valueOf(1<<rangeBits));
 
       //System.out.println("partitions: "+partitions);
       //System.out.println("classDimensions.length: "+classDimensions.length);
 
       for(int i=0; i<partitions; i++) {
          for(int j=0; j<classDimensions[partitionClassList[i]]; j++) {
-            alXList.add(new Integer(source.getInt(rangeBits)));
+            alXList.add(Integer.valueOf(source.getInt(rangeBits)));
          }
       }
 

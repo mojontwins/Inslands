@@ -12,7 +12,7 @@ public class EntityMobWithLevel extends EntityMob implements IMobWithLevel {
 		super.entityInit();
 		
 		// Store "lvl" in DWO #16
-		this.dataWatcher.addObject(16, new Byte((byte) 0));
+		this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
 	}
 	
 	public int getLvl() {

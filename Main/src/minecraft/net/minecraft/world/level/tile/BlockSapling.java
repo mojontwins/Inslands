@@ -1,29 +1,17 @@
 package net.minecraft.world.level.tile;
 
+import java.util.List;
 import java.util.Random;
 
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockState;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.levelgen.feature.WorldGenerator;
-import net.minecraft.world.level.levelgen.feature.trees.WorldGenBigTree;
-import net.minecraft.world.level.levelgen.feature.trees.WorldGenForest;
-import net.minecraft.world.level.levelgen.feature.trees.WorldGenTaiga2;
-import net.minecraft.world.level.levelgen.feature.trees.WorldGenTrees;
+import net.minecraft.world.level.levelgen.feature.trees.EnumTreeType;
 
 public class BlockSapling extends BlockFlower implements IBlockWithSubtypes {
 	private static final int GROWING_BIT = 16;
-	private String[] saplingNames = new String[] {
-		"sapling.oak",
-		"sapling.baobab",
-		"sapling.cypress",
-		"sapling.fir",
-		"sapling.jungle",
-		"sapling.mangrove",
-		"sapling.taiga",
-		"sapling.fancy",
-		"sapling.willow",
-		"sapling.shrub"
-	};
 
 	protected BlockSapling(int i1, int i2) {
 		super(i1, i2);
@@ -52,34 +40,24 @@ public class BlockSapling extends BlockFlower implements IBlockWithSubtypes {
 		}
 	}
 
-	public int getBlockTextureFromSideAndMetadata(int i1, int i2) {
-		i2 &= 3;
-		return i2 == 1 ? 63 : (i2 == 2 ? 79 : super.getBlockTextureFromSideAndMetadata(i1, i2));
+	@Override
+	public int getBlockTextureFromSideAndMetadata(int side, int meta) {
+		return 320 + (meta >> 4);
 	}
 
-	public void growTree(World world, int i2, int i3, int i4, Random random5) {
-		int i6 = world.getBlockMetadata(i2, i3, i4) & 3;
-		world.setBlock(i2, i3, i4, 0);
-		Object object7 = null;
-		if(i6 == 1) {
-			object7 = new WorldGenTaiga2();
-		} else if(i6 == 2) {
-			object7 = new WorldGenForest();
-		} else {
-			object7 = new WorldGenTrees();
-			if(random5.nextInt(10) == 0) {
-				object7 = new WorldGenBigTree();
-			}
-		}
-
-		if(!((WorldGenerator)object7).generate(world, random5, i2, i3, i4)) {
-			world.setBlockAndMetadata(i2, i3, i4, this.blockID, i6);
+	public void growTree(World world, int x, int y, int z, Random rand) {
+		int meta = world.getBlockMetadata(x, y, z) & 0xf0;
+		world.setBlock(x, y, z, 0);
+		WorldGenerator worldGen = EnumTreeType.findTreeTypeFromSapling(new BlockState(Block.sapling, meta)).getGen(rand);
+		
+		if(worldGen == null || !worldGen.generate(world, rand, x, y, z)) {
+			world.setBlockAndMetadata(x, y, z, this.blockID, meta);
 		}
 
 	}
 
 	protected int damageDropped(int i1) {
-		return i1 & 3;
+		return i1 & 0xf0;
 	}
 	
 	@Override
@@ -94,11 +72,18 @@ public class BlockSapling extends BlockFlower implements IBlockWithSubtypes {
 
 	@Override
 	public String getNameFromMeta(int meta) {
-		return this.saplingNames[meta & 15];
+		return "sapling." + EnumTreeType.values()[meta >> 4].name;
 	}
 
 	@Override
 	public int getIndexInTextureFromMeta(int meta) {
 		return 0;
+	}
+	
+    @Override
+    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
+		for(int i = 0; i < 15; i ++) {
+			par3List.add(new ItemStack(par1, 1, i<<4));
+		}
 	}
 }

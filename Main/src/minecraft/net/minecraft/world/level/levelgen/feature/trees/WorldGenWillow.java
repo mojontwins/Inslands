@@ -2,145 +2,132 @@ package net.minecraft.world.level.levelgen.feature.trees;
 
 import java.util.Random;
 
+import net.minecraft.world.Direction;
+import net.minecraft.world.level.BlockPos;
 import net.minecraft.world.level.World;
-import net.minecraft.world.level.levelgen.feature.WorldGenerator;
-import net.minecraft.world.level.tile.Block;
 
-public class WorldGenWillow extends WorldGenerator {
-
-	// Code adapted from Enhanced Biomes mod
-	// so it works in a1.2.6 with vanilla blocks!
-	// https://github.com/SMEZ1234/EnhancedBiomes/
+public class WorldGenWillow extends WorldGenMojon {
+	private int height = 5;
 	
-	private static int leavesId = Block.leaves.blockID;
-	private static int woodId = Block.wood.blockID;
+	EnumTreeType tree = EnumTreeType.WILLOW;
 	
-	private int height;
+	private final int leavesID = tree.leaves.getBlock().blockID;
+	private final int leavesMeta = tree.leaves.getMetadata();
+	private final int trunkID = tree.wood.getBlock().blockID;
+	private final int trunkMeta = tree.wood.getMetadata();
 	
-	public WorldGenWillow (int height) {
+	public WorldGenWillow(int height) {
+		this(height, false);
+	}
+	
+	public WorldGenWillow(int height, boolean withNotify) {
+		super(withNotify);
 		this.height = height;
 	}
-	
-	public static double increaseMagnitude(double input, double increase) {
-		return input + (input > 0 ? increase : -increase);
-	}
-	
-	public void setBlockIfEmpty (World world, int x, int y, int z, int blockID) {
-		if (0 == world.getBlockId(x, y, z)) world.setBlock(x, y, z, blockID);
-	}
-	
-	public void setBlockIfEmpty (World world, int x, int y, int z, int blockID, int meta) {
-		if (0 == world.getBlockId(x, y, z)) world.setBlockAndMetadata(x, y, z, blockID, meta);
-	}
-	
+
 	@Override
-	public boolean generate(World world, Random rand, int x, int y, int z) {
-		int soilBlockId = world.getBlockId(x, y - 1, z);
-		if (soilBlockId == 0) return false;
-		if (!Block.blocksList[soilBlockId].canGrowPlants()) return false;
-		if (y + height > 126) return false;
+	public boolean generate(World world, Random rand, int x0, int y0, int z0) {
 		
-		// wood
-		int span = 3;
+		// Check if tree can grow here
+		if(!this.validGround(world, x0, y0 - 1, z0)) return false;
+		if(y0 + this.height > world.getWorldHeight() - 2) return false;
 		
-		int disX = (rand.nextInt((span * 2) + 1)) - span, 
-			disY = height, 
-			disZ = (rand.nextInt((span * 2) + 1)) - span;
-
-		int posX = x + disX, 
-			posY = y + height, 
-			posZ = z + disZ;
-
-		for(int b = 0; b < height; b++) {
-			int xx = (int) increaseMagnitude((double) (disX) * (b + 1) / height, 0.5D),
-				yy = disY * b / height,
-				zz = (int) increaseMagnitude((double) (disZ) * (b + 1) / height, 0.5D);
-
-			world.setBlock(x + xx, y + yy, z + zz, woodId);
+		// Make trunk
+		
+		int radius = 3;
+		
+		BlockPos src = new BlockPos().set(x0, y0, z0);
+		BlockPos dst = new BlockPos().set(
+				x0 + rand.nextInt((radius << 1) + 1) - radius, 
+				this.height + y0,
+				z0 + rand.nextInt((radius << 1) + 1) - radius
+		);
+		
+		this.bresenham(world, src, dst, trunkID, trunkMeta);
+		
+		// Make crown
+		
+		for(int y = 0; y <= 1; y ++) {
+			this.squareTreeLayer(world, rand, dst.x, dst.y + y, dst.z, 3, leavesID, leavesMeta);
 		}
+		dst.move(Direction.UP);
+	
+		// Throw branches
 		
-		//Crown
-		world.setBlock(posX, posY, posZ, leavesId);
+		BlockPos branchCursor = new BlockPos();
+		int amp, mulX, mulZ; 
 		
-		for(int xx = -1; xx <= 1; xx++) for(int yy = -1; yy <= 0; yy++) for(int zz = -1; zz <= 1; zz++) 
-			this.setBlockIfEmpty(world, posX + xx, posY + yy, posZ + zz, leavesId);
-		
-		//Branches
-		for(int branches = 0; branches < 16; branches++) {
-			int pos = branches % 8 + 1;
+		for(int j = 0; j <= 1; j ++) {
 			
-			int[] mods = new int[2];
-			
-			switch(pos) {
-				case 2:
-					mods[0] = -1;
-					break;
-				case 4:
-					mods[1] = -1;
-					break;
-				case 5:
-					mods[1] =  1;
-					break;
-				case 7:
-					mods[0] =  1;
-					break;
-				case 1:
-					mods[0] = -1;
-					mods[1] = -1;
-					break;
-				case 3:
-					mods[0] = -1;
-					mods[1] =  1;
-					break;
-				case 6:
-					mods[0] =  1;
-					mods[1] = -1;
-					break;
-				case 8:
-					mods[0] =  1;
-					mods[1] =  1;
-					break;
-			}
-
-			if(pos == 2 || pos == 4 || pos == 5 || pos == 7) {
-				this.setBlockIfEmpty(world, posX + 2*mods[0], posY - 1, posZ + 2*mods[1], leavesId);
-				this.setBlockIfEmpty(world, posX + 2*mods[0], posY - 2, posZ + 2*mods[1], leavesId);
-				this.setBlockIfEmpty(world, posX + (2+rand.nextInt(2))*mods[0], posY - 3, posZ + (2+rand.nextInt(2))*mods[1], leavesId);
+			for(int direction : Direction.HORZ_PLANE) {
+				// Start here
+				branchCursor.set(dst);
 				
-				int variationX = mods[0] == 0 ? rand.nextInt(3) - 1 : 0,
-					variationZ = mods[1] == 0 ? rand.nextInt(3) - 1 : 0;
+				// Move away from the center
+				branchCursor.move(direction, 2);
 				
-				int variation2X = variationX * (1 + rand.nextInt(2)),
-					variation2Z = variationZ * (1 + rand.nextInt(2));
-									
-				this.setBlockIfEmpty(world, posX + 3*mods[0] + variationX, posY - 4, posZ + 3*mods[1] + variationZ, leavesId);
-				this.setBlockIfEmpty(world, posX + 3*mods[0] + variationX, posY - 5, posZ + 3*mods[1] + variationZ, leavesId);
+				// Paint down
+				this.setBlockIfEmpty(world, branchCursor.move(Direction.DOWN), leavesID, leavesMeta);
+				this.setBlockIfEmpty(world, branchCursor.move(Direction.DOWN), leavesID, leavesMeta);
 				
-				for(int yy = -6; yy > -8 - rand.nextInt(3); yy--) {
-					this.setBlockIfEmpty(world, posX + 3*mods[0] + variation2X, posY + yy, posZ + 3*mods[1] + variation2Z, leavesId);
+				branchCursor.move(Direction.DOWN);
+				amp = rand.nextInt(2);
+				this.setBlockIfEmpty(world, 
+						branchCursor.x + Direction.offsetX[direction] * amp, 
+						branchCursor.y, 
+						branchCursor.z + Direction.offsetZ[direction] * amp, leavesID, leavesMeta);
+				
+				// Move sideways, at random.
+				int sideWays = Direction.getCW(direction);
+				int amount = rand.nextInt(3) - 1;
+				int vx = Direction.offsetX[sideWays] * amount;
+				int vz = Direction.offsetZ[sideWays] * amount;
+				
+				int vx2 = vx; if(rand.nextBoolean()) vx2 += vx;
+				int vz2 = vx; if(rand.nextBoolean()) vz2 += vz;
+				
+				branchCursor.move(Direction.DOWN).move(direction);
+				this.setBlockIfEmpty(world, branchCursor.x + vx, branchCursor.y, branchCursor.z + vz, leavesID, leavesMeta);
+				branchCursor.move(Direction.DOWN);
+				this.setBlockIfEmpty(world, branchCursor.x + vx, branchCursor.y, branchCursor.z + vz, leavesID, leavesMeta);
+							
+				int branchL = 2 + rand.nextInt(3); for(int i = 0; i < branchL; i ++) {
+					branchCursor.move(Direction.DOWN);
+					this.setBlockIfEmpty(world, branchCursor.x + vx2, branchCursor.y, branchCursor.z + vz2, leavesID, leavesMeta);
 				}
 			}
-			else {
-				int mulX = rand.nextInt(2),
-					mulZ = 1 - mulX;
+			
+			for(int direction : Direction.HORZ_PLANE_DIAGONALS) {
+				mulX = rand.nextInt(2);
+				mulZ = 1 - mulX; 
 				
-				mulX++; mulZ++;
+				// Start here
+				branchCursor.set(dst);
 				
-				this.setBlockIfEmpty(world, posX + mulX*mods[0], posY - 1, posZ + mulZ*mods[1], leavesId);
-				this.setBlockIfEmpty(world, posX + mulX*mods[0], posY - 2, posZ + mulZ*mods[1], leavesId);
-				this.setBlockIfEmpty(world, posX + (mulX + rand.nextInt(2))*mods[0], posY - 3, posZ + (mulZ + rand.nextInt(2))*mods[1], leavesId);
+				// Move away from the center
+				branchCursor.x += Direction.offsetX[direction] * (mulX + 1);
+				branchCursor.z += Direction.offsetZ[direction] * (mulZ + 1);
+		
+				// Paint down
+				this.setBlockIfEmpty(world, branchCursor.move(Direction.DOWN), leavesID, leavesMeta);
+				this.setBlockIfEmpty(world, branchCursor.move(Direction.DOWN), leavesID, leavesMeta);
+				this.setBlockIfEmpty(world, branchCursor.move(Direction.DOWN), leavesID, leavesMeta);
 				
-				mulX++; mulZ++;
+				// Move away from the center
+				branchCursor.x += Direction.offsetX[direction];
+				branchCursor.z += Direction.offsetZ[direction];
+							
+				this.setBlockIfEmpty(world, branchCursor.move(Direction.DOWN), leavesID, leavesMeta);
+				this.setBlockIfEmpty(world, branchCursor.move(Direction.DOWN), leavesID, leavesMeta);
 				
-				this.setBlockIfEmpty(world, posX + mulX*mods[0], posY - 4, posZ + mulZ*mods[1], leavesId);
-				this.setBlockIfEmpty(world, posX + mulX*mods[0], posY - 5, posZ + mulZ*mods[1], leavesId);
-				
-				mulX += rand.nextInt(2); mulZ += rand.nextInt(2);
-				
-				for(int yy = -6; yy > -8 - rand.nextInt(3); yy--) {
-					this.setBlockIfEmpty(world, posX + mulX*mods[0], posY + yy, posZ + mulZ*mods[1], leavesId);
+				// Random
+				branchCursor.x += Direction.offsetX[direction] * rand.nextInt(2);
+				branchCursor.z += Direction.offsetZ[direction] * rand.nextInt(2);
+				int branchL = 2 + rand.nextInt(3); for(int i = 0; i < branchL; i ++) {
+					this.setBlockIfEmpty(world, branchCursor.move(Direction.DOWN), leavesID, leavesMeta);
 				}
 			}
+			
 		}
 		
 		return true;

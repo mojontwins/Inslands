@@ -12,8 +12,7 @@ import net.minecraft.world.level.levelgen.feature.WorldGenSeaweed;
 import net.minecraft.world.level.levelgen.feature.WorldGenVines;
 import net.minecraft.world.level.levelgen.feature.WorldGenerator;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenBaobab;
-import net.minecraft.world.level.levelgen.feature.trees.WorldGenPalmTree1;
-import net.minecraft.world.level.levelgen.feature.trees.WorldGenPalmTree3;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenPalmTree;
 import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenSavanna extends BiomeGenBeta {
@@ -33,7 +32,7 @@ public class BiomeGenSavanna extends BiomeGenBeta {
 
 	public WorldGenerator getTreeGen(World world, Random rand, int chunkX, int chunkZ) {
 		if (rand.nextInt(3) == 0) {
-			return new WorldGenPalmTree1();
+			return new WorldGenPalmTree(true);
 		} else
 			return new WorldGenBaobab(2 + rand.nextInt(3));
 	}
@@ -119,7 +118,7 @@ public class BiomeGenSavanna extends BiomeGenBeta {
 			z = chunkZ + rand.nextInt(16) + 8;
 			y = world.getLandSurfaceHeightValue(x, z);
 
-			WorldGenerator treeGen = rand.nextBoolean() ? new WorldGenPalmTree1() : new WorldGenPalmTree3();
+			WorldGenerator treeGen =  new WorldGenPalmTree(false);
 			treeGen.generate(world, rand, x, y, z);
 		}
 	}

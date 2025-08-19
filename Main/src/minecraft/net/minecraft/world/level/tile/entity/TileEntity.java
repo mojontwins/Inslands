@@ -62,7 +62,7 @@ public class TileEntity {
 		try {
 			Class<?> class2 = (Class<?>)nameToClassMap.get(nBTTagCompound0.getString("id"));
 			if(class2 != null) {
-				tileEntity1 = (TileEntity)class2.newInstance();
+				tileEntity1 = (TileEntity)class2.getDeclaredConstructor().newInstance();
 			}
 		} catch (Exception exception3) {
 			exception3.printStackTrace();

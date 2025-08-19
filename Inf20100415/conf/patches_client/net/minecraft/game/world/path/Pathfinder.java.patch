@@ -1,0 +1,31 @@
+--- a/net/minecraft/game/world/path/Pathfinder.java
++++ b/net/minecraft/game/world/path/Pathfinder.java
+@@ -28,7 +28,7 @@
+ 	private PathEntity addToPath(Entity entity1, double d2, double d4, double d6, float f8) {
+ 		this.path.clearPath();
+ 		this.pointMap.clear();
+-		Object object9 = this.openPoint((int)entity1.boundingBox.minX, (int)entity1.boundingBox.minY, (int)entity1.boundingBox.minZ);
++		PathPoint object9 = this.openPoint((int)entity1.boundingBox.minX, (int)entity1.boundingBox.minY, (int)entity1.boundingBox.minZ);
+ 		PathPoint pathPoint21 = this.openPoint((int)(d2 - (double)(entity1.width / 2.0F)), (int)d4, (int)(d6 - (double)(entity1.width / 2.0F)));
+ 		PathPoint pathPoint3 = new PathPoint((int)(entity1.width + 1.0F), (int)(entity1.height + 1.0F), (int)(entity1.width + 1.0F));
+ 		float f24 = f8;
+@@ -61,7 +61,7 @@
+ 			}
+ 
+ 			pathPoint25.isFirst = true;
+-			Object object15 = 0;
++			int object15 = 0;
+ 			byte b16 = 0;
+ 			if(pathfinder20.getVerticalOffset(pathPoint25.xCoord, pathPoint25.yCoord + 1, pathPoint25.zCoord, pathPoint5) > 0) {
+ 				b16 = 1;
+@@ -88,9 +88,7 @@
+ 				pathfinder20.pathOptions[object15++] = pathPoint10;
+ 			}
+ 
+-			object9 = object15;
+-
+-			for(int i26 = 0; i26 < object9; ++i26) {
++			for(int i26 = 0; i26 < object15; ++i26) {
+ 				PathPoint pathPoint11 = pathfinder20.pathOptions[i26];
+ 				float f12 = pathPoint25.totalPathDistance + pathPoint25.distanceTo(pathPoint11);
+ 				if(!pathPoint11.isAssigned() || f12 < pathPoint11.totalPathDistance) {

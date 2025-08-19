@@ -142,7 +142,7 @@ public class CachedUrlStream implements PhysicalOggStream {
    }
 
    private LogicalOggStream getLogicalStream(int serialNumber) {
-      return (LogicalOggStream)logicalStreams.get(new Integer(serialNumber));
+      return (LogicalOggStream)logicalStreams.get(Integer.valueOf(serialNumber));
    }
 
    public void setTime(long granulePosition) throws IOException {
@@ -198,8 +198,8 @@ public class CachedUrlStream implements PhysicalOggStream {
                      System.arraycopy(arr3, 0, memoryCache, (int)pos+arr1.length+arr2.length, arr3.length);
                   }
 
-                  pageOffsets.add(new Long(pos));
-                  pageLengths.add(new Long(arr1.length+arr2.length+arr3.length));
+                  pageOffsets.add(Long.valueOf(pos));
+                  pageLengths.add(Long.valueOf(arr1.length+arr2.length+arr3.length));
                }
 
                if(!op.isBos()) {
@@ -213,7 +213,7 @@ public class CachedUrlStream implements PhysicalOggStream {
                LogicalOggStreamImpl los=(LogicalOggStreamImpl)getLogicalStream(op.getStreamSerialNumber());
                if(los==null) {
                   los=new LogicalOggStreamImpl(CachedUrlStream.this, op.getStreamSerialNumber());
-                  logicalStreams.put(new Integer(op.getStreamSerialNumber()), los);
+                  logicalStreams.put(Integer.valueOf(op.getStreamSerialNumber()), los);
                   los.checkFormat(op);
                }
 

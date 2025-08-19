@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 import java.util.Set;
+
 import javax.sound.sampled.AudioFormat;
 
 /**
@@ -1359,7 +1360,8 @@ public class SoundSystem
  * See {@link paulscode.sound.SoundSystemConfig SoundSystemConfig} for
  * information about chosing a sound library.
  */
-    public boolean switchLibrary( Class libraryClass )
+    @SuppressWarnings("unchecked")
+	public boolean switchLibrary( Class libraryClass )
                                                     throws SoundSystemException
     {
         synchronized( SoundSystemConfig.THREAD_SYNC )
@@ -1400,7 +1402,7 @@ public class SoundSystem
 
             try
             {
-                soundLibrary = (Library) libraryClass.newInstance();
+                soundLibrary = (Library) libraryClass.getDeclaredConstructor().newInstance();
             }
             catch( InstantiationException ie )
             {
@@ -1417,6 +1419,8 @@ public class SoundSystem
             catch( SecurityException se )
             {
                 errorMessage( "The specified library did not load properly", 1 );
+            } catch (Exception e) {
+            	
             }
 
             if( errorCheck( soundLibrary == null, "Library null after " +
@@ -1509,7 +1513,8 @@ public class SoundSystem
  * See {@link paulscode.sound.SoundSystemConfig SoundSystemConfig} for
  * information about chosing a sound library.
  */
-    private void CommandNewLibrary( Class libraryClass )
+    @SuppressWarnings("unchecked")
+	private void CommandNewLibrary( Class libraryClass )
     {
         initialized( SET, false );
         
@@ -1529,7 +1534,7 @@ public class SoundSystem
 
         try
         {
-            soundLibrary = (Library) libraryClass.newInstance();
+            soundLibrary = (Library) libraryClass.getDeclaredConstructor().newInstance();
         }
         catch( InstantiationException ie )
         {
@@ -1546,6 +1551,8 @@ public class SoundSystem
         catch( SecurityException se )
         {
             errorMessage( "The specified library did not load properly", 1 );
+        } catch (Exception e) {
+        	
         }
 
         if( errorCheck( soundLibrary == null, "Library null after " +

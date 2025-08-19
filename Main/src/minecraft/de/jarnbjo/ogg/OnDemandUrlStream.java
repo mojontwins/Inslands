@@ -63,7 +63,7 @@ public class OnDemandUrlStream implements PhysicalOggStream {
       firstPage=OggPage.create(sourceStream);
       position+=firstPage.getTotalLength();
       LogicalOggStreamImpl los=new LogicalOggStreamImpl(this, firstPage.getStreamSerialNumber());
-      logicalStreams.put(new Integer(firstPage.getStreamSerialNumber()), los);
+      logicalStreams.put(Integer.valueOf(firstPage.getStreamSerialNumber()), los);
       los.checkFormat(firstPage);
    }
 
@@ -104,7 +104,7 @@ public class OnDemandUrlStream implements PhysicalOggStream {
    }
 
    private LogicalOggStream getLogicalStream(int serialNumber) {
-      return (LogicalOggStream)logicalStreams.get(new Integer(serialNumber));
+      return (LogicalOggStream)logicalStreams.get(Integer.valueOf(serialNumber));
    }
 
    public void setTime(long granulePosition) throws IOException {

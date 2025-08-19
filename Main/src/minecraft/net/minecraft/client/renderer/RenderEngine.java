@@ -724,7 +724,7 @@ public class RenderEngine {
 	}
 
 	private void setTextureDimension(int id, Dimension dim) {
-		this.textureDimensionsMap.put(new Integer(id), dim);
+		this.textureDimensionsMap.put(Integer.valueOf(id), dim);
 		if(id == this.terrainTextureId) {
 			Config.setIconWidthTerrain(dim.width / TextureAtlasSize.widthInTiles);
 			this.updateDinamicTextures(0, dim);
@@ -738,7 +738,7 @@ public class RenderEngine {
 	}
 
 	private Dimension getTextureDimensions(int id) {
-		return (Dimension)this.textureDimensionsMap.get(new Integer(id));
+		return (Dimension)this.textureDimensionsMap.get(Integer.valueOf(id));
 	}
 
 	private void updateDinamicTextures(int texNum, Dimension dim) {

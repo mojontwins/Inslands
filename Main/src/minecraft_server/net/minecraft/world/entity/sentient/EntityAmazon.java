@@ -62,7 +62,7 @@ public class EntityAmazon extends EntityArmoredMob implements ISentient {
 		super.entityInit();
 		this.dataWatcher.addObject(16, (byte)0);
 		this.dataWatcher.addObject(17, "");
-		this.dataWatcher.addObject(18, new Integer(this.health));
+		this.dataWatcher.addObject(18, Integer.valueOf(this.health));
 		
 		// Datawatcher object 19 is texture variation
 		this.dataWatcher.addObject(19, (byte)0);

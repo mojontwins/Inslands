@@ -3496,4 +3496,8 @@ public class World implements IBlockAccess {
 			System.out.println(classString + ": " + stats.get(classString));
 		}
 	}
+
+	public int getWorldHeight() {
+		return 128;
+	}
 }

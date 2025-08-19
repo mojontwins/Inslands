@@ -54,7 +54,7 @@ final public class HuffmanNode {
 
    protected HuffmanNode(HuffmanNode parent, int value) {
       this(parent);
-      this.value=new Integer(value);
+      this.value=Integer.valueOf(value);
       full=true;
    }
 

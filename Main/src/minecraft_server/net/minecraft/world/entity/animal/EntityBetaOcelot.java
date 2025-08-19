@@ -38,7 +38,7 @@ public class EntityBetaOcelot extends EntityAnimal {
 		super.entityInit();
 		this.dataWatcher.addObject(16, (byte)0);
 		this.dataWatcher.addObject(17, "");
-		this.dataWatcher.addObject(18, new Integer(this.health));
+		this.dataWatcher.addObject(18, Integer.valueOf(this.health));
 	}
 
 	protected boolean canTriggerWalking() {

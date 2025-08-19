@@ -1,31 +1,27 @@
 package net.minecraft.world.level.tile;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
 
 public class BlockLog extends Block {
-	/*
-	 * Original beta logs use metadata 0, 1, 2 for wood type (oak, birch, spruce);
-	 * which means such info can be encoded in the first two bits of metadata.
-	 * 
-	 * This version has wood types soft-locked but will take account for them
-	 * and use bits 2 and 3 for orientation. 2 means horizontal, 3 means X or Z aligned
-	 */
+	// New version
+	// Wood meta >> 4 means wood type.
+	// Logs will use 288+type for bark and 304+type for ends.
 	
 	protected BlockLog(int i1) {
 		super(i1, Material.wood);
-		this.blockIndexInTexture = 20;
 		
 		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 	
 	protected BlockLog(int i1, Material m) {
 		super(i1, m);
-		this.blockIndexInTexture = 20;
 	}
 
 	public int quantityDropped(Random random1) {
@@ -58,17 +54,11 @@ public class BlockLog extends Block {
 	}
 
 	public int getBlockTextureFromSideAndMetadata(int side, int meta) {
-		int woodType = meta & 3;
+		int woodType = meta >> 4;
 		boolean horizontal = (meta & 4) != 0;
 
-		int outTextureIndex;
-		int endTextureIndex = 21;
-		
-		switch(woodType) {
-			case 1: outTextureIndex = 116; break;
-			case 2: outTextureIndex = 117; break;
-			default: outTextureIndex = this.blockIndexInTexture; break;
-		}
+		int outTextureIndex = 288 + woodType;
+		int endTextureIndex = 304 + woodType;
 		
 		if (!horizontal) {
 			// Vanilla logs:
@@ -91,7 +81,7 @@ public class BlockLog extends Block {
 	}
 
 	protected int damageDropped(int i1) {
-		return i1 & 3;
+		return i1 & 0xf0;
 	}
 	
 	public void onBlockPlaced(World world, int x, int y, int z, int side) {
@@ -123,5 +113,12 @@ public class BlockLog extends Block {
 	
 	public boolean canGrowMushrooms() {
 		return true;
+	}
+	
+    @Override
+    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
+		for(int i = 0; i < 15; i ++) {
+			par3List.add(new ItemStack(par1, 1, i<<4));
+		}
 	}
 }

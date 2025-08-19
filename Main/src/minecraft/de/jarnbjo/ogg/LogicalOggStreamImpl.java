@@ -53,11 +53,11 @@ public class LogicalOggStreamImpl implements LogicalOggStream {
    }
 
    public void addPageNumberMapping(int physicalPageNumber) {
-      pageNumberMapping.add(new Integer(physicalPageNumber));
+      pageNumberMapping.add(Integer.valueOf(physicalPageNumber));
    }
 
    public void addGranulePosition(long granulePosition) {
-      granulePositions.add(new Long(granulePosition));
+      granulePositions.add(Long.valueOf(granulePosition));
    }
 
    public synchronized void reset() throws OggFormatException, IOException {

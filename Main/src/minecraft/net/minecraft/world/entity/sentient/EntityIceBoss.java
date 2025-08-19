@@ -28,7 +28,7 @@ public class EntityIceBoss extends EntityHumanBase {
 		super.entityInit();
 		
 		// Store state bits in DWO #17
-		this.dataWatcher.addObject(17, new Byte((byte) 0));
+		this.dataWatcher.addObject(17, Byte.valueOf((byte) 0));
 	}
 
 	@Override

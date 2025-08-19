@@ -97,7 +97,7 @@ public class EntityMovingPiston extends Entity {
 		try {
 			if(tileEntity4 != null && tileEntity4 instanceof IInventory) {
 				IInventory iInventory5 = (IInventory)tileEntity4;
-				IInventory iInventory6 = (IInventory)tileEntity4.getClass().newInstance();
+				IInventory iInventory6 = (IInventory)tileEntity4.getClass().getDeclaredConstructor().newInstance();
 
 				for(int i7 = 0; i7 < iInventory5.getSizeInventory(); ++i7) {
 					iInventory6.setInventorySlotContents(i7, iInventory5.getStackInSlot(i7));
@@ -106,9 +106,8 @@ public class EntityMovingPiston extends Entity {
 
 				return (TileEntity)iInventory6;
 			}
-		} catch (InstantiationException instantiationException8) {
-		} catch (IllegalAccessException illegalAccessException9) {
-		}
+		} catch (Exception e) {
+		} 
 
 		return tileEntity4;
 	}

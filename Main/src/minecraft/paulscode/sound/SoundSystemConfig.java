@@ -1023,7 +1023,8 @@ public class SoundSystemConfig
             this.iCodecClass = iCodecClass;
         }
 
-        public ICodec getInstance()
+        @SuppressWarnings("unchecked")
+		public ICodec getInstance()
         {
             if( iCodecClass == null )
                 return null;
@@ -1031,7 +1032,7 @@ public class SoundSystemConfig
             Object o = null;
             try
             {
-                o = iCodecClass.newInstance();
+                o = iCodecClass.getDeclaredConstructor().newInstance();
             }
             catch( InstantiationException ie )
             {
@@ -1052,6 +1053,8 @@ public class SoundSystemConfig
             {
                 instantiationErrorMessage();
                 return null;
+            } catch (Exception e) {
+            	
             }
 
 
