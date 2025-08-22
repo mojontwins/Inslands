@@ -22,7 +22,8 @@ import net.minecraft.world.level.levelgen.feature.WorldGenMinable;
 import net.minecraft.world.level.levelgen.feature.WorldGenerator;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenFir;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenPineTree;
-import net.minecraft.world.level.levelgen.feature.trees.WorldGenTaigaTree1;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenTaiga1;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenTaiga2;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenTaigaTree2;
 import net.minecraft.world.level.tile.Block;
 
@@ -68,7 +69,7 @@ public class BiomeGenBetaTaiga extends BiomeGenBetaForest {
 	public WorldGenerator getBigTreeGen(World world, Random rand, int chunkX, int chunkZ) {
 		if(rand.nextInt(100) == 0) return new WorldGenPineTree(6 + rand.nextInt(8), false);
 		if(rand.nextInt(10) == 0) return new WorldGenFir(3 + rand.nextInt(3), false);
-		return new WorldGenTaigaTree1();
+		return rand.nextBoolean() ? new WorldGenTaiga2() : new WorldGenTaiga1();
 	}
 
 	public void prePopulate(World world, Random rand, int x0, int z0) {

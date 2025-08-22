@@ -5,11 +5,13 @@ import java.util.Random;
 
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockState;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.levelgen.feature.trees.EnumTreeType;
 import net.minecraft.world.level.material.Material;
 
-public class BlockLog extends Block {
+public class BlockLog extends Block implements IBlockWithSubtypes {
 	// New version
 	// Wood meta >> 4 means wood type.
 	// Logs will use 288+type for bark and 304+type for ends.
@@ -120,5 +122,20 @@ public class BlockLog extends Block {
 		for(int i = 0; i < 15; i ++) {
 			par3List.add(new ItemStack(par1, 1, i<<4));
 		}
+	}
+
+	@Override
+	public int getItemBlockId() {
+		return this.blockID - 256;
+	}
+
+	@Override
+	public String getNameFromMeta(int meta) {
+		return "log." + EnumTreeType.findTreeTypeFromWood(new BlockState(this, meta)).name;
+	}
+
+	@Override
+	public int getIndexInTextureFromMeta(int meta) {
+		return 2;
 	}
 }

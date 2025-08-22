@@ -47,15 +47,51 @@ public class BlockSapling extends BlockFlower implements IBlockWithSubtypes {
 
 	public void growTree(World world, int x, int y, int z, Random rand) {
 		int meta = world.getBlockMetadata(x, y, z) & 0xf0;
-		world.setBlock(x, y, z, 0);
-		WorldGenerator worldGen = EnumTreeType.findTreeTypeFromSapling(new BlockState(Block.sapling, meta)).getGen(rand);
 		
-		if(worldGen == null || !worldGen.generate(world, rand, x, y, z)) {
-			world.setBlockAndMetadata(x, y, z, this.blockID, meta);
+		EnumTreeType tree = EnumTreeType.findTreeTypeFromSapling(new BlockState(Block.sapling, meta));
+		WorldGenerator worldGen = tree.getGen(rand);
+		
+		if (tree.needsFourSaplings) {
+			// Check for 4 saplings
+			for(int dx = 0; dx >= -1; dx --) {
+				for(int dz = 0; dz >= -1; dz --) {
+					if(
+						this.sameSapling(world, x + dx, y, z + dz, meta) &&
+						this.sameSapling(world, x + dx + 1, y, z + dz, meta) &&
+						this.sameSapling(world, x + dx, y, z + dz + 1, meta) && 
+						this.sameSapling(world, x + dx + 1, y, z + dz + 1, meta)) {
+						
+						world.setBlock(x + dx, y, z + dz, 0);
+						world.setBlock(x + dx + 1, y, z + dz, 0);
+						world.setBlock(x + dx, y, z + dz + 1, 0);
+						world.setBlock(x + dx + 1, y, z + dz + 1, 0);
+						
+						if(worldGen == null || !worldGen.generate(world, rand, x + dx, y, z + dz)) {
+							world.setBlockAndMetadata(x + dx, y, z + dz, this.blockID, meta);
+							world.setBlockAndMetadata(x + dx + 1, y, z + dz, this.blockID, meta);
+							world.setBlockAndMetadata(x + dx, y, z + dz + 1, this.blockID, meta);
+							world.setBlockAndMetadata(x + dx + 1, y, z + dz + 1, this.blockID, meta);
+						}
+						
+						break;
+					}
+				}
+			}
+		} else {
+			world.setBlock(x, y, z, 0);
+			if(worldGen == null || !worldGen.generate(world, rand, x, y, z)) {
+				world.setBlockAndMetadata(x, y, z, this.blockID, meta);
+			}
 		}
 
 	}
 
+	public boolean sameSapling(World world, int x, int y, int z, int meta) {
+		return world.getBlockId(x, y, z) == this.blockID &&
+				world.getBlockMetadata(x, y, z) == meta;
+	}
+	
+	@Override
 	protected int damageDropped(int i1) {
 		return i1 & 0xf0;
 	}
@@ -64,7 +100,14 @@ public class BlockSapling extends BlockFlower implements IBlockWithSubtypes {
 	public int getRenderType() {
 		return 111;
 	}
-
+	
+    @Override
+    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
+		for(int i = 0; i < 15; i ++) {
+			par3List.add(new ItemStack(par1, 1, i<<4));
+		}
+	}
+    
 	@Override
 	public int getItemBlockId() {
 		return this.blockID - 256;
@@ -77,13 +120,7 @@ public class BlockSapling extends BlockFlower implements IBlockWithSubtypes {
 
 	@Override
 	public int getIndexInTextureFromMeta(int meta) {
-		return 0;
+		return 320 + (meta >> 4);
 	}
 	
-    @Override
-    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
-		for(int i = 0; i < 15; i ++) {
-			par3List.add(new ItemStack(par1, 1, i<<4));
-		}
-	}
 }

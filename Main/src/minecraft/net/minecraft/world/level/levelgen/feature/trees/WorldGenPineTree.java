@@ -28,7 +28,7 @@ public class WorldGenPineTree extends WorldGenMojon {
 		// Center
 		int reduction2 = reduction + reduction;
 		
-		this.squareTreeLayer(world, rand, x0, y0, z0, 4 - reduction2, leavesID, leavesMeta);
+		this.squareTreeLayer(world, rand, x0, y0, z0, 6 - reduction2, leavesID, leavesMeta);
 		
 		if((branch & 1) != 0) {
 			int offs = rand.nextInt(2); // 0 or 1

@@ -7,11 +7,15 @@ import net.minecraft.world.level.levelgen.feature.WorldGenerator;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.Block;
 
+// TODO: Rewrite this. ASAP
+
 public class WorldGenBog1 extends WorldGenerator {
-	public static int leavesBlockID =  Block.leaves.blockID;
-	public static int leavesMeta = 0;
-	public static int woodBlockID = Block.wood.blockID;
-	public static int woodMeta = 0;
+	EnumTreeType tree = EnumTreeType.BOG;
+	
+	private final int leavesID = tree.leaves.getBlock().blockID;
+	private final int leavesMeta = tree.leaves.getMetadata();
+	private final int trunkID = tree.wood.getBlock().blockID;
+	private final int trunkMeta = tree.wood.getMetadata();
 
 	public static int EWmeta = 4;
 	public static int NSmeta = 8;
@@ -48,7 +52,7 @@ public class WorldGenBog1 extends WorldGenerator {
 						if (yy >= 0 && yy < 128) {
 							int blockID = world.getBlockId(xx, yy, zz);
 
-							if (blockID != 0 && blockID != WorldGenBog1.leavesBlockID) {
+							if (blockID != 0 && blockID != this.leavesID) {
 								if (blockID != Block.waterStill.blockID && blockID != Block.waterMoving.blockID) {
 									validTree = false;
 								} else if (yy > y) {
@@ -83,7 +87,7 @@ public class WorldGenBog1 extends WorldGenerator {
 								if ((Math.abs(dx) != canopyRadius || Math.abs(dz) != canopyRadius
 										|| rand.nextInt(2) != 0 && canopyHeight != 0)
 										&& !Block.opaqueCubeLookup[world.getBlockId(xx, yy, zz)]) {
-									world.setBlock(xx, yy, zz, WorldGenBog1.leavesBlockID);
+									world.setBlockAndMetadata(xx, yy, zz, this.leavesID, this.leavesMeta);
 								}
 							}
 						}
@@ -92,37 +96,37 @@ public class WorldGenBog1 extends WorldGenerator {
 					for (int yy = 0; yy < height; ++yy) {
 						blockID = world.getBlockId(x, y + yy, z);
 
-						if (blockID == 0 || blockID == WorldGenBog1.leavesBlockID || blockID == Block.waterMoving.blockID
+						if (blockID == 0 || blockID == this.leavesID || blockID == Block.waterMoving.blockID
 								|| blockID == Block.waterStill.blockID) {
-							world.setBlockAndMetadata(x, y + yy, z, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta);
-							world.setBlockAndMetadata(x - 1, y + yy, z, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta);
-							world.setBlockAndMetadata(x + 1, y + yy, z, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta);
-							world.setBlockAndMetadata(x, y + yy, z - 1, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta);
-							world.setBlockAndMetadata(x, y + yy, z + 1, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta);
-							world.setBlockAndMetadata(x - 1, y, z - 1, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta);
-							world.setBlockAndMetadata(x + 1, y, z + 1, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta);
-							world.setBlockAndMetadata(x - 1, y, z + 1, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta);
-							world.setBlockAndMetadata(x + 1, y, z - 1, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta);
-							world.setBlockAndMetadata(x - 1, y + 1, z - 1, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta);
-							world.setBlockAndMetadata(x + 1, y + 1, z + 1, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta);
-							world.setBlockAndMetadata(x - 1, y + 1, z + 1, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta);
-							world.setBlockAndMetadata(x + 1, y + 1, z - 1, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta);
-							world.setBlockAndMetadata(x - 2, y, z, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta | WorldGenBog1.EWmeta);
-							world.setBlockAndMetadata(x + 2, y, z, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta | WorldGenBog1.EWmeta);
-							world.setBlockAndMetadata(x, y, z - 2, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta | WorldGenBog1.NSmeta);
-							world.setBlockAndMetadata(x, y, z + 2, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta | WorldGenBog1.NSmeta);
-							world.setBlockAndMetadata(x - 1, y + (height - 4), z - 1, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta);
-							world.setBlockAndMetadata(x + 1, y + (height - 4), z + 1, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta);
-							world.setBlockAndMetadata(x - 1, y + (height - 4), z + 1, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta);
-							world.setBlockAndMetadata(x + 1, y + (height - 4), z - 1, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta);
-							world.setBlockAndMetadata(x - 2, y + (height - 4), z, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta | WorldGenBog1.EWmeta);
-							world.setBlockAndMetadata(x + 2, y + (height - 4), z, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta | WorldGenBog1.EWmeta);
-							world.setBlockAndMetadata(x, y + (height - 4), z - 2, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta | WorldGenBog1.NSmeta);
-							world.setBlockAndMetadata(x, y + (height - 4), z + 2, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta | WorldGenBog1.NSmeta);
-							world.setBlockAndMetadata(x - 3, y + (height - 3), z, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta);
-							world.setBlockAndMetadata(x + 3, y + (height - 3), z, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta);
-							world.setBlockAndMetadata(x, y + (height - 3), z - 3, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta);
-							world.setBlockAndMetadata(x, y + (height - 3), z + 3, WorldGenBog1.woodBlockID, WorldGenBog1.woodMeta);
+							world.setBlockAndMetadata(x, y + yy, z, this.trunkID, this.trunkMeta);
+							world.setBlockAndMetadata(x - 1, y + yy, z, this.trunkID, this.trunkMeta);
+							world.setBlockAndMetadata(x + 1, y + yy, z, this.trunkID, this.trunkMeta);
+							world.setBlockAndMetadata(x, y + yy, z - 1, this.trunkID, this.trunkMeta);
+							world.setBlockAndMetadata(x, y + yy, z + 1, this.trunkID, this.trunkMeta);
+							world.setBlockAndMetadata(x - 1, y, z - 1, this.trunkID, this.trunkMeta);
+							world.setBlockAndMetadata(x + 1, y, z + 1, this.trunkID, this.trunkMeta);
+							world.setBlockAndMetadata(x - 1, y, z + 1, this.trunkID, this.trunkMeta);
+							world.setBlockAndMetadata(x + 1, y, z - 1, this.trunkID, this.trunkMeta);
+							world.setBlockAndMetadata(x - 1, y + 1, z - 1, this.trunkID, this.trunkMeta);
+							world.setBlockAndMetadata(x + 1, y + 1, z + 1, this.trunkID, this.trunkMeta);
+							world.setBlockAndMetadata(x - 1, y + 1, z + 1, this.trunkID, this.trunkMeta);
+							world.setBlockAndMetadata(x + 1, y + 1, z - 1, this.trunkID, this.trunkMeta);
+							world.setBlockAndMetadata(x - 2, y, z, this.trunkID, this.trunkMeta | WorldGenBog1.EWmeta);
+							world.setBlockAndMetadata(x + 2, y, z, this.trunkID, this.trunkMeta | WorldGenBog1.EWmeta);
+							world.setBlockAndMetadata(x, y, z - 2, this.trunkID, this.trunkMeta | WorldGenBog1.NSmeta);
+							world.setBlockAndMetadata(x, y, z + 2, this.trunkID, this.trunkMeta | WorldGenBog1.NSmeta);
+							world.setBlockAndMetadata(x - 1, y + (height - 4), z - 1, this.trunkID, this.trunkMeta);
+							world.setBlockAndMetadata(x + 1, y + (height - 4), z + 1, this.trunkID, this.trunkMeta);
+							world.setBlockAndMetadata(x - 1, y + (height - 4), z + 1, this.trunkID, this.trunkMeta);
+							world.setBlockAndMetadata(x + 1, y + (height - 4), z - 1, this.trunkID, this.trunkMeta);
+							world.setBlockAndMetadata(x - 2, y + (height - 4), z, this.trunkID, this.trunkMeta | WorldGenBog1.EWmeta);
+							world.setBlockAndMetadata(x + 2, y + (height - 4), z, this.trunkID, this.trunkMeta | WorldGenBog1.EWmeta);
+							world.setBlockAndMetadata(x, y + (height - 4), z - 2, this.trunkID, this.trunkMeta | WorldGenBog1.NSmeta);
+							world.setBlockAndMetadata(x, y + (height - 4), z + 2, this.trunkID, this.trunkMeta | WorldGenBog1.NSmeta);
+							world.setBlockAndMetadata(x - 3, y + (height - 3), z, this.trunkID, this.trunkMeta);
+							world.setBlockAndMetadata(x + 3, y + (height - 3), z, this.trunkID, this.trunkMeta);
+							world.setBlockAndMetadata(x, y + (height - 3), z - 3, this.trunkID, this.trunkMeta);
+							world.setBlockAndMetadata(x, y + (height - 3), z + 3, this.trunkID, this.trunkMeta);
 						}
 					}
 
@@ -132,7 +136,7 @@ public class WorldGenBog1 extends WorldGenerator {
 
 						for (int xx = x - canopyRadius; xx <= x + canopyRadius; ++xx) {
 							for (int zz = z - canopyRadius; zz <= z + canopyRadius; ++zz) {
-								if (world.getBlockId(xx, yy, zz) == WorldGenBog1.leavesBlockID) {
+								if (world.getBlockId(xx, yy, zz) == this.leavesID) {
 									if (rand.nextInt(4) == 0
 											&& world.getBlockId(xx - 1, yy, zz) == 0) {
 										this.generateVines(world, xx - 1, yy, zz, 8);

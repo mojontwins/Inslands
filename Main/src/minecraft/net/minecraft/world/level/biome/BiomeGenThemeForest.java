@@ -38,6 +38,7 @@ import net.minecraft.world.level.levelgen.feature.trees.WorldGenBigMushroom;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenBigTree;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenCypress;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenFir;
+import net.minecraft.world.level.levelgen.feature.trees.WorldGenForest;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenHugeTrees;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenPineTree;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenTrees;
@@ -54,6 +55,7 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 	private WorldGenBigMushroom brownMushroomGen = new WorldGenBigMushroom(0);
 	private WorldGenBigMushroom redMushroomGen = new WorldGenBigMushroom(1);
 	private WorldGenBigMushroom greenMushroomGen = new WorldGenBigMushroom(2);
+	private WorldGenForest forestTreeGen = new WorldGenForest();
 	
 	private int myceliumPerChunk = 8;
 	
@@ -106,6 +108,7 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 		}
 		
 		if(rand.nextInt(5) == 0) return this.canopyTreeGen;
+		if(rand.nextInt(5) == 0) return this.forestTreeGen;
 		if(rand.nextBoolean()) {
 			return this.normalTreeGen;
 		} else {

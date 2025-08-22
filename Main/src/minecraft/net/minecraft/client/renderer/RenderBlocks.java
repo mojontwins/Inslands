@@ -22,6 +22,7 @@ import net.minecraft.world.level.tile.BlockPane;
 import net.minecraft.world.level.tile.BlockRail;
 import net.minecraft.world.level.tile.BlockRedstoneRepeater;
 import net.minecraft.world.level.tile.BlockRedstoneWire;
+import net.minecraft.world.level.tile.BlockTallGrass;
 import net.minecraft.world.phys.Vec3D;
 
 public class RenderBlocks {
@@ -222,14 +223,16 @@ public class RenderBlocks {
 		zD += ((double)((float)(noise >> 24 & 15L) / 15.0F) - 0.5D) * 0.5D;
 
 		int meta = this.blockAccess.getBlockMetadata(x, y, z);
-		int grassType = (meta >> 4) & 7;
-		
-		if(((meta >> 4) & 8) != 0) {
-			this.drawCrossedSquaresDoubleHeight(block, grassType, xD, yD, zD);
+		if(block instanceof BlockTallGrass) {
+			int grassType = (meta >> 4) & 7;
+			if(((meta >> 4) & 8) != 0) {
+				this.drawCrossedSquaresDoubleHeight(block, grassType, xD, yD, zD);
+			} else {
+				this.drawCrossedSquares(block, grassType, xD, yD, zD);
+			}
 		} else {
-			this.drawCrossedSquares(block, grassType, xD, yD, zD);
+			this.drawCrossedSquares(block, meta, xD, yD, zD);
 		}
-		
 		// now render a layer of snow
 		int snowHeight = meta & 15;
 		if(snowHeight > 0) {
@@ -1889,90 +1892,90 @@ public class RenderBlocks {
 		tessellator12.addVertexWithUV(d28, d4 + 1.0D, d6 - d36, (double)f17, (double)f18);
 	}
 
-	public void drawCrossedSquares(Block block1, int i2, double d3, double d5, double d7) {
-		Tessellator tessellator9 = Tessellator.instance;
-		int i10 = block1.getBlockTextureFromSideAndMetadata(0, i2);
+	public void drawCrossedSquares(Block block, int meta, double x, double y, double z) {
+		Tessellator tes = Tessellator.instance;
+		int texId = block.getBlockTextureFromSideAndMetadata(0, meta);
 		if(this.overrideBlockTexture >= 0) {
-			i10 = this.overrideBlockTexture;
+			texId = this.overrideBlockTexture;
 		}
 
 		/*
-		int i11 = (i10 & 15) << 4;
-		int i12 = i10 & 0xff0;
-		double d13 = (double)((float)i11 / 256F);
-		double d15 = (double)(((float)i11 + 15.99F) / 256F);
-		double d17 = (double)((float)i12 / 256F);
-		double d19 = (double)(((float)i12 + 15.99F) / 256F);
+		int i11 = (texId & 15) << 4;
+		int i12 = texId & 0xff0;
+		double u1 = (double)((float)i11 / 256F);
+		double u2 = (double)(((float)i11 + 15.99F) / 256F);
+		double v1 = (double)((float)i12 / 256F);
+		double v2 = (double)(((float)i12 + 15.99F) / 256F);
 		*/
-		Idx2uvF.calc(i10);
-		double d13 = Idx2uvF.u1;
-		double d15 = Idx2uvF.u2;
-		double d17 = Idx2uvF.v1;
-		double d19 = Idx2uvF.v2;
+		Idx2uvF.calc(texId);
+		double u1 = Idx2uvF.u1;
+		double u2 = Idx2uvF.u2;
+		double v1 = Idx2uvF.v1;
+		double v2 = Idx2uvF.v2;
 		
-		double d21 = d3 + 0.5D - 0.45D;
-		double d23 = d3 + 0.5D + 0.45D;
-		double d25 = d7 + 0.5D - 0.45D;
-		double d27 = d7 + 0.5D + 0.45D;
-		tessellator9.addVertexWithUV(d21, d5 + 1.0D, d25, d13, d17);
-		tessellator9.addVertexWithUV(d21, d5 + 0.0D, d25, d13, d19);
-		tessellator9.addVertexWithUV(d23, d5 + 0.0D, d27, d15, d19);
-		tessellator9.addVertexWithUV(d23, d5 + 1.0D, d27, d15, d17);
-		tessellator9.addVertexWithUV(d23, d5 + 1.0D, d27, d13, d17);
-		tessellator9.addVertexWithUV(d23, d5 + 0.0D, d27, d13, d19);
-		tessellator9.addVertexWithUV(d21, d5 + 0.0D, d25, d15, d19);
-		tessellator9.addVertexWithUV(d21, d5 + 1.0D, d25, d15, d17);
-		tessellator9.addVertexWithUV(d21, d5 + 1.0D, d27, d13, d17);
-		tessellator9.addVertexWithUV(d21, d5 + 0.0D, d27, d13, d19);
-		tessellator9.addVertexWithUV(d23, d5 + 0.0D, d25, d15, d19);
-		tessellator9.addVertexWithUV(d23, d5 + 1.0D, d25, d15, d17);
-		tessellator9.addVertexWithUV(d23, d5 + 1.0D, d25, d13, d17);
-		tessellator9.addVertexWithUV(d23, d5 + 0.0D, d25, d13, d19);
-		tessellator9.addVertexWithUV(d21, d5 + 0.0D, d27, d15, d19);
-		tessellator9.addVertexWithUV(d21, d5 + 1.0D, d27, d15, d17);
+		double x1 = x + 0.5D - 0.45D;
+		double x2 = x + 0.5D + 0.45D;
+		double z1 = z + 0.5D - 0.45D;
+		double z2 = z + 0.5D + 0.45D;
+		tes.addVertexWithUV(x1, y + 1.0D, z1, u1, v1);
+		tes.addVertexWithUV(x1, y + 0.0D, z1, u1, v2);
+		tes.addVertexWithUV(x2, y + 0.0D, z2, u2, v2);
+		tes.addVertexWithUV(x2, y + 1.0D, z2, u2, v1);
+		tes.addVertexWithUV(x2, y + 1.0D, z2, u1, v1);
+		tes.addVertexWithUV(x2, y + 0.0D, z2, u1, v2);
+		tes.addVertexWithUV(x1, y + 0.0D, z1, u2, v2);
+		tes.addVertexWithUV(x1, y + 1.0D, z1, u2, v1);
+		tes.addVertexWithUV(x1, y + 1.0D, z2, u1, v1);
+		tes.addVertexWithUV(x1, y + 0.0D, z2, u1, v2);
+		tes.addVertexWithUV(x2, y + 0.0D, z1, u2, v2);
+		tes.addVertexWithUV(x2, y + 1.0D, z1, u2, v1);
+		tes.addVertexWithUV(x2, y + 1.0D, z1, u1, v1);
+		tes.addVertexWithUV(x2, y + 0.0D, z1, u1, v2);
+		tes.addVertexWithUV(x1, y + 0.0D, z2, u2, v2);
+		tes.addVertexWithUV(x1, y + 1.0D, z2, u2, v1);
 	}
 	
-	public void drawCrossedSquaresDoubleHeight(Block block1, int i2, double d3, double d5, double d7) {
-		Tessellator tessellator9 = Tessellator.instance;
-		int i10 = block1.getBlockTextureFromSideAndMetadata(0, i2);
+	public void drawCrossedSquaresDoubleHeight(Block block, int meta, double x, double y, double z) {
+		Tessellator tes = Tessellator.instance;
+		int texId = block.getBlockTextureFromSideAndMetadata(0, meta);
 		if(this.overrideBlockTexture >= 0) {
-			i10 = this.overrideBlockTexture;
+			texId = this.overrideBlockTexture;
 		}
 
 		/*
-		int i11 = (i10 & 15) << 4;
-		int i12 = i10 & 240;
-		double d13 = (double)((float)i11 / 256.0F);
-		double d15 = (double)(((float)i11 + 15.99F) / 256.0F);
-		double d17 = (double)((float)i12 / 256.0F);
-		double d19 = (double)(((float)i12 + 15.99F) / 256.0F);
+		int i11 = (texId & 15) << 4;
+		int i12 = texId & 240;
+		double u1 = (double)((float)i11 / 256.0F);
+		double u2 = (double)(((float)i11 + 15.99F) / 256.0F);
+		double v1 = (double)((float)i12 / 256.0F);
+		double v2 = (double)(((float)i12 + 15.99F) / 256.0F);
 		*/
-		Idx2uvF.calc(i10);
-		double d13 = Idx2uvF.u1;
-		double d15 = Idx2uvF.u2;
-		double d17 = Idx2uvF.v1;
-		double d19 = Idx2uvF.v2;
+		Idx2uvF.calc(texId);
+		double u1 = Idx2uvF.u1;
+		double u2 = Idx2uvF.u2;
+		double v1 = Idx2uvF.v1;
+		double v2 = Idx2uvF.v2;
 		
-		double d21 = d3 + 0.5D - (double)0.45F;
-		double d23 = d3 + 0.5D + (double)0.45F;
-		double d25 = d7 + 0.5D - (double)0.45F;
-		double d27 = d7 + 0.5D + (double)0.45F;
-		tessellator9.addVertexWithUV(d21, d5 + 2.0D, d25, d13, d17);
-		tessellator9.addVertexWithUV(d21, d5 + 0.0D, d25, d13, d19);
-		tessellator9.addVertexWithUV(d23, d5 + 0.0D, d27, d15, d19);
-		tessellator9.addVertexWithUV(d23, d5 + 2.0D, d27, d15, d17);
-		tessellator9.addVertexWithUV(d23, d5 + 2.0D, d27, d13, d17);
-		tessellator9.addVertexWithUV(d23, d5 + 0.0D, d27, d13, d19);
-		tessellator9.addVertexWithUV(d21, d5 + 0.0D, d25, d15, d19);
-		tessellator9.addVertexWithUV(d21, d5 + 2.0D, d25, d15, d17);
-		tessellator9.addVertexWithUV(d21, d5 + 2.0D, d27, d13, d17);
-		tessellator9.addVertexWithUV(d21, d5 + 0.0D, d27, d13, d19);
-		tessellator9.addVertexWithUV(d23, d5 + 0.0D, d25, d15, d19);
-		tessellator9.addVertexWithUV(d23, d5 + 2.0D, d25, d15, d17);
-		tessellator9.addVertexWithUV(d23, d5 + 2.0D, d25, d13, d17);
-		tessellator9.addVertexWithUV(d23, d5 + 0.0D, d25, d13, d19);
-		tessellator9.addVertexWithUV(d21, d5 + 0.0D, d27, d15, d19);
-		tessellator9.addVertexWithUV(d21, d5 + 2.0D, d27, d15, d17);
+		double x1 = x + 0.5D - (double)0.45F;
+		double x2 = x + 0.5D + (double)0.45F;
+		double z1 = z + 0.5D - (double)0.45F;
+		double z2 = z + 0.5D + (double)0.45F;
+		tes.addVertexWithUV(x1, y + 2.0D, z1, u1, v1);
+		tes.addVertexWithUV(x1, y + 0.0D, z1, u1, v2);
+		tes.addVertexWithUV(x2, y + 0.0D, z2, u2, v2);
+		tes.addVertexWithUV(x2, y + 2.0D, z2, u2, v1);
+		tes.addVertexWithUV(x2, y + 2.0D, z2, u1, v1);
+		tes.addVertexWithUV(x2, y + 0.0D, z2, u1, v2);
+		tes.addVertexWithUV(x1, y + 0.0D, z1, u2, v2);
+		tes.addVertexWithUV(x1, y + 2.0D, z1, u2, v1);
+		tes.addVertexWithUV(x1, y + 2.0D, z2, u1, v1);
+		tes.addVertexWithUV(x1, y + 0.0D, z2, u1, v2);
+		tes.addVertexWithUV(x2, y + 0.0D, z1, u2, v2);
+		tes.addVertexWithUV(x2, y + 2.0D, z1, u2, v1);
+		tes.addVertexWithUV(x2, y + 2.0D, z1, u1, v1);
+		tes.addVertexWithUV(x2, y + 0.0D, z1, u1, v2);
+		tes.addVertexWithUV(x1, y + 0.0D, z2, u2, v2);
+		tes.addVertexWithUV(x1, y + 2.0D, z2, u2, v1);
 	}
 
 	public boolean renderBlockLilyPad(Block block, int x, int y, int z) {

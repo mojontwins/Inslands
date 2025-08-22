@@ -4,12 +4,18 @@ import java.util.Random;
 
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.feature.WorldGenerator;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.Block;
 
 public class WorldGenBloodTree extends WorldGenerator {
-	private int mdWood = Block.wood2.blockID;
-	private int mdLeaves = Block.leaves2.blockID;
 
+	EnumTreeType tree = EnumTreeType.BLOOD;
+	
+	private final int leavesID = tree.leaves.getBlock().blockID;
+	private final int leavesMeta = tree.leaves.getMetadata();
+	private final int trunkID = tree.wood.getBlock().blockID;
+	private final int trunkMeta = tree.wood.getMetadata();
+	
 	// Adapted for Natura for 1.6.X
 	
 	public boolean generate(World world, Random random, int x, int y, int z) {
@@ -53,12 +59,12 @@ public class WorldGenBloodTree extends WorldGenerator {
 		 */
 
 		for (int heightIter = 0; heightIter < treeHeight; heightIter++) {
-			int localID = world.getBlockId(x, y - heightIter, z);
-			if (localID == 0 || localID == mdLeaves) {
-				world.setBlockAndMetadata(x, y - heightIter, z, mdWood, 0);
-				world.setBlockAndMetadata(x + 1, y - heightIter, z, mdWood, 0);
-				world.setBlockAndMetadata(x, y - heightIter, z + 1, mdWood, 0);
-				world.setBlockAndMetadata(x + 1, y - heightIter, z + 1, mdWood, 0);
+			Material m = world.getBlockMaterial(x, y - heightIter, z);
+			if (m == Material.air || m == Material.leaves) {
+				world.setBlockAndMetadata(x, y - heightIter, z, this.trunkID, this.trunkMeta);
+				world.setBlockAndMetadata(x + 1, y - heightIter, z, this.trunkID, this.trunkMeta);
+				world.setBlockAndMetadata(x, y - heightIter, z + 1, this.trunkID, this.trunkMeta);
+				world.setBlockAndMetadata(x + 1, y - heightIter, z + 1, this.trunkID, this.trunkMeta);
 			}
 		}
 
@@ -158,13 +164,13 @@ public class WorldGenBloodTree extends WorldGenerator {
 	}
 
 	public boolean generateNode(World world, Random random, int x, int y, int z) {
-		world.setBlockAndMetadata(x, y, z, mdWood, 8);
+		world.setBlockAndMetadata(x, y, z, this.trunkID, this.trunkMeta);
 		for (int l = x - 1; l <= x + 1; l++) {
 			for (int k1 = z - 1; k1 <= z + 1; k1++) {
 				for (int j2 = y - 1; j2 <= y + 1; j2++) {
 					int i3 = world.getBlockId(l, j2, k1);
-					if (i3 != mdLeaves && !Block.opaqueCubeLookup[i3]) {
-						world.setBlockAndMetadata(l, j2, k1, mdLeaves, 0);
+					if (i3 != this.leavesID && !Block.opaqueCubeLookup[i3]) {
+						world.setBlockAndMetadata(l, j2, k1, this.leavesID, this.leavesMeta);
 					}
 				}
 			}
@@ -173,8 +179,8 @@ public class WorldGenBloodTree extends WorldGenerator {
 		for (int i1 = x - 1; i1 <= x + 1; i1++) {
 			for (int l1 = z - 2; l1 <= z + 2; l1++) {
 				int k2 = world.getBlockId(i1, y, l1);
-				if (k2 != mdLeaves && !Block.opaqueCubeLookup[k2]) {
-					world.setBlockAndMetadata(i1, y, l1, mdLeaves, 0);
+				if (k2 != this.leavesID && !Block.opaqueCubeLookup[k2]) {
+					world.setBlockAndMetadata(i1, y, l1, this.leavesID, this.leavesMeta);
 				}
 			}
 		}
@@ -182,8 +188,8 @@ public class WorldGenBloodTree extends WorldGenerator {
 		for (int j1 = x - 2; j1 <= x + 2; j1++) {
 			for (int i2 = z - 1; i2 <= z + 1; i2++) {
 				int l2 = world.getBlockId(j1, y + 1, i2);
-				if (l2 != mdLeaves && !Block.opaqueCubeLookup[l2]) {
-					world.setBlockAndMetadata(j1, y, i2, mdLeaves, 0);
+				if (l2 != this.leavesID && !Block.opaqueCubeLookup[l2]) {
+					world.setBlockAndMetadata(j1, y, i2, this.leavesID, this.leavesMeta);
 				}
 			}
 		}

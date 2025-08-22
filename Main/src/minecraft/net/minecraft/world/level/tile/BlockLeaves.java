@@ -6,13 +6,15 @@ import java.util.Random;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockState;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.levelgen.feature.trees.EnumTreeType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 
-public class BlockLeaves extends BlockLeavesBase {
+public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes {
 	// New version.
 	// Leaves meta >> 4 is leaves type. It's transferred directly to sapling type (meta) when dropping.
 	// Leaves will be rendered using 256+type for fancy, 272+type for fast.
@@ -44,20 +46,19 @@ public class BlockLeaves extends BlockLeavesBase {
 		return rand.nextInt(20) != 0 ? 0 : 1;
 	}
 
-	public int idDropped(int i, Random rand) {
+	// I'm using this new, more convenient feature.
+	@Override
+	public ItemStack itemStackDropped(int meta, Random rand) {
 		switch(rand.nextInt(50)) {
 		case 0:
-			return Item.appleRed.shiftedIndex;
+			return new ItemStack(Item.appleRed);
 		case 1:
-			return Item.acornSeed.shiftedIndex;
+			if(meta == 0) return new ItemStack(Item.acornSeed);
+			return new ItemStack(Item.stick);
 		default:
-			return Block.sapling.blockID;
+			EnumTreeType tree = EnumTreeType.findTreeTypeFromLeaves(new BlockState(this, meta));
+			return new ItemStack(tree.sapling.getBlock().blockID, 1, tree.sapling.getMetadata() & 0xf0);
 		}
-	}
-
-	// When a sapling is dropped, damage is the same as leaf type (the high nibble)
-	protected int damageDropped(int meta) {
-		return meta & 0xf0;
 	}
 	
 	public boolean isOpaqueCube() {
@@ -327,5 +328,20 @@ public class BlockLeaves extends BlockLeavesBase {
 		for(int i = 0; i < 15; i ++) {
 			par3List.add(new ItemStack(par1, 1, i<<4));
 		}
+	}
+
+	@Override
+	public int getItemBlockId() {
+		return this.blockID - 256;
+	}
+
+	@Override
+	public String getNameFromMeta(int meta) {
+		return "leaves." + EnumTreeType.values()[meta >> 4].name;
+	}
+
+	@Override
+	public int getIndexInTextureFromMeta(int meta) {
+		return 2;
 	}
 }

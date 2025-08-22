@@ -5,16 +5,20 @@ import java.util.Random;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.feature.WorldGenerator;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockLog;
+import net.minecraft.world.level.tile.BlockSapling;
 
 public class WorldGenHugeTrees extends WorldGenerator
 {
-	// Code adapted from release 1.2.5
-	// so it works in a1.2.6 with vanilla blocks!
-	// https://github.com/SMEZ1234/EnhancedBiomes/
+
+	EnumTreeType tree = EnumTreeType.HUGE;
 	
-	private static final int leavesId = Block.leaves.blockID;
-	private static final int woodId = Block.wood.blockID;
+	private final int leavesID = tree.leaves.getBlock().blockID;
+	private final int leavesMeta = tree.leaves.getMetadata();
+	private final int trunkID = tree.wood.getBlock().blockID;
+	private final int trunkMeta = tree.wood.getMetadata();
 	
 	private int height;
 
@@ -44,11 +48,18 @@ public class WorldGenHugeTrees extends WorldGenerator
 			for (int xx = x - radius; xx <= x + radius && flag; xx++) {
 				for (int zz = z - radius; zz <= z + radius && flag; zz++) {
 					if (j >= 0 && j < 128) {
-						int k2 = world.getBlockId(xx, j, zz);
-
-						if (k2 != 0 && k2 != Block.leaves.blockID && k2 != Block.grass.blockID && k2 != Block.dirt.blockID && k2 != woodId && k2 != Block.sapling.blockID) {
+						Block b  = world.getBlock(xx, j, zz);
+						Material m = b == null ? Material.air : b.blockMaterial;
+						
+						if(m != Material.air &&
+								m != Material.leaves &&
+								m != Material.grass &&
+								m != Material.ground &&
+								!(b instanceof BlockLog) &&
+								!(b instanceof BlockSapling)) {
 							flag = false;
 						}
+
 					} else {
 						flag = false;
 					}
@@ -95,15 +106,15 @@ public class WorldGenHugeTrees extends WorldGenerator
 			for (int j3 = 0; j3 < 5; j3++) {
 				int i2 = x + (int)(1.5F + MathHelper.cos(f) * (float)j3);
 				int i3 = z + (int)(1.5F + MathHelper.sin(f) * (float)j3);
-				world.setBlock(i2, (l - 3) + j3 / 2, i3, woodId);
+				world.setBlockAndMetadata(i2, (l - 3) + j3 / 2, i3, this.trunkID, this.trunkMeta);
 			}
 		}
 
 		for (int j1 = 0; j1 < i; j1++) {
-			blockID = world.getBlockId(x, y + j1, z);
-
-			if (blockID == 0 || blockID == leavesId) {
-				world.setBlock(x, y + j1, z, woodId);
+			Material m = world.getBlockMaterial(x, y + j1, z);
+			
+			if(m == Material.air || m == Material.leaves) { 
+				world.setBlockAndMetadata(x, y + j1, z, this.trunkID, this.trunkMeta);
 
 				if (j1 > 0) {
 					if (rand.nextInt(3) > 0 && 0 == world.getBlockId(x - 1, y + j1, z)) {
@@ -120,10 +131,10 @@ public class WorldGenHugeTrees extends WorldGenerator
 				continue;
 			}
 
-			blockID = world.getBlockId(x + 1, y + j1, z);
+			m = world.getBlockMaterial(x + 1, y + j1, z);
 
-			if (blockID == 0 || blockID == leavesId) {
-				world.setBlock(x + 1, y + j1, z, woodId);
+			if(m == Material.air || m == Material.leaves) { 
+				world.setBlockAndMetadata(x + 1, y + j1, z, this.trunkID, this.trunkMeta);
 
 				if (j1 > 0) {
 					if (rand.nextInt(3) > 0 && 0 == world.getBlockId(x + 2, y + j1, z)) {
@@ -136,10 +147,10 @@ public class WorldGenHugeTrees extends WorldGenerator
 				}
 			}
 
-			blockID = world.getBlockId(x + 1, y + j1, z + 1);
+			m = world.getBlockMaterial(x + 1, y + j1, z + 1);
 
-			if (blockID == 0 || blockID == leavesId) {
-				world.setBlock(x + 1, y + j1, z + 1, woodId);
+			if(m == Material.air || m == Material.leaves) {
+				world.setBlockAndMetadata(x + 1, y + j1, z + 1, this.trunkID, this.trunkMeta);
 
 				if (j1 > 0) {
 					if (rand.nextInt(3) > 0 && 0 == world.getBlockId(x + 2, y + j1, z + 1)) {
@@ -152,13 +163,13 @@ public class WorldGenHugeTrees extends WorldGenerator
 				}
 			}
 
-			blockID = world.getBlockId(x, y + j1, z + 1);
+			m = world.getBlockMaterial(x, y + j1, z + 1);
 
-			if (blockID != 0 && blockID != leavesId) {
+			if(m != Material.air && m != Material.leaves) {
 				continue;
 			}
 
-			world.setBlock(x, y + j1, z + 1, woodId);
+			world.setBlockAndMetadata(x, y + j1, z + 1, this.trunkID, this.trunkMeta);
 
 			if (j1 <= 0) {
 				continue;
@@ -193,7 +204,7 @@ public class WorldGenHugeTrees extends WorldGenerator
 					int i1sq = i1 * i1; int k1sq = k1 * k1;
 
 					if ((i1 >= 0 || k1 >= 0 || i1sq + k1sq <= k * k) && (i1 <= 0 && k1 <= 0 || i1sq + k1sq <= (k + 1) * (k + 1)) && (par6Random.nextInt(4) != 0 || i1sq + k1sq <= (k - 1) * (k - 1)) && !Block.opaqueCubeLookup[world.getBlockId(l, i, j1)]) {
-						world.setBlock(l, i, j1, leavesId);
+						world.setBlockAndMetadata(l, i, j1, this.leavesID, this.leavesMeta);
 					}
 				}
 			}

@@ -28,6 +28,6 @@ public class ItemBlockWithSubtypes extends ItemBlock {
 	
 	@Override
 	public String getItemNameIS(ItemStack stack) {
-		return this.refBlock.getNameFromMeta(stack.getItemDamage());
+		return "tile." + this.refBlock.getNameFromMeta(stack.getItemDamage());
 	}
 }

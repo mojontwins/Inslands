@@ -4,85 +4,74 @@ import java.util.Random;
 
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.feature.WorldGenerator;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.Block;
 
 // Birch tree generator
 
 public class WorldGenForest extends WorldGenerator {
-	// Softlocked for b1.0 - No birch wood / leaves!
-	//private final int treeMetadata = 2;
-	private final int treeMetadata = 0;
+	EnumTreeType tree = EnumTreeType.BIRCH;
 	
-	public boolean generate(World world1, Random random2, int i3, int i4, int i5) {
-		int i6 = random2.nextInt(3) + 5;
-		boolean z7 = true;
-		if(i4 >= 1 && i4 + i6 + 1 <= 128) {
-			int i8;
-			int i10;
-			int i11;
-			int i12;
-			for(i8 = i4; i8 <= i4 + 1 + i6; ++i8) {
-				byte b9 = 1;
-				if(i8 == i4) {
-					b9 = 0;
-				}
+	private final int leavesID = tree.leaves.getBlock().blockID;
+	private final int leavesMeta = tree.leaves.getMetadata();
+	private final int trunkID = tree.wood.getBlock().blockID;
+	private final int trunkMeta = tree.wood.getMetadata();
+	
+	public boolean generate(World world, Random rand, int x0, int y0, int z0) {
+		int height = rand.nextInt(3) + 5;
 
-				if(i8 >= i4 + 1 + i6 - 2) {
-					b9 = 2;
-				}
+		// Tree fits in the world? 
 
-				for(i10 = i3 - b9; i10 <= i3 + b9 && z7; ++i10) {
-					for(i11 = i5 - b9; i11 <= i5 + b9 && z7; ++i11) {
-						if(i8 >= 0 && i8 < 128) {
-							i12 = world1.getBlockId(i10, i8, i11);
-							if(i12 != 0 && i12 != Block.leaves.blockID) {
-								z7 = false;
-							}
-						} else {
-							z7 = false;
-						}
+		if (y0 < 1 || y0 >= 256 - height - 1) return false;
+		
+		// Correct soil?
+
+		Block block = world.getBlock(x0, y0 - 1, z0);
+		if (block == null || !block.canGrowPlants()) return false;
+
+		// Check if tree fits
+		
+		for(int y = y0; y <= y0 + 1 + height; ++y) {
+
+			byte radius = (byte) (y == y0 ? 0 : (y >= y0 + 1 + height - 2 ? 2 : 1));
+
+			for(int x = x0 - radius; x <= x0 + radius; ++x) {
+				for(int z = z0 - radius; z <= z0 + radius; ++z) {
+					Material m = world.getBlockMaterial(x, y, z);
+					if (m != Material.air && m != Material.leaves) {
+						return false;
 					}
 				}
 			}
-
-			if(!z7) {
-				return false;
-			} else {
-				i8 = world1.getBlockId(i3, i4 - 1, i5);
-				if((i8 == Block.grass.blockID || i8 == Block.dirt.blockID) && i4 < 128 - i6 - 1) {
-					world1.setBlock(i3, i4 - 1, i5, Block.dirt.blockID);
-
-					int i16;
-					for(i16 = i4 - 3 + i6; i16 <= i4 + i6; ++i16) {
-						i10 = i16 - (i4 + i6);
-						i11 = 1 - i10 / 2;
-
-						for(i12 = i3 - i11; i12 <= i3 + i11; ++i12) {
-							int i13 = i12 - i3;
-
-							for(int i14 = i5 - i11; i14 <= i5 + i11; ++i14) {
-								int i15 = i14 - i5;
-								if((Math.abs(i13) != i11 || Math.abs(i15) != i11 || random2.nextInt(2) != 0 && i10 != 0) && !Block.opaqueCubeLookup[world1.getBlockId(i12, i16, i14)]) {
-									world1.setBlockAndMetadata(i12, i16, i14, Block.leaves.blockID, this.treeMetadata);
-								}
-							}
-						}
-					}
-
-					for(i16 = 0; i16 < i6; ++i16) {
-						i10 = world1.getBlockId(i3, i4 + i16, i5);
-						if(i10 == 0 || i10 == Block.leaves.blockID) {
-							world1.setBlockAndMetadata(i3, i4 + i16, i5, Block.wood.blockID, this.treeMetadata);
-						}
-					}
-
-					return true;
-				} else {
-					return false;
-				}
-			}
-		} else {
-			return false;
 		}
+
+		// Grow tree
+	
+		world.setBlock(x0, y0 - 1, z0, Block.dirt.blockID);
+
+		for(int y = y0 - 3 + height; y <= y0 + height; ++y) {
+			int yy = y - (y0 + height);
+			int cRadius = 1 - yy / 2;
+
+			for(int x = x0 - cRadius; x <= x0 + cRadius; ++x) {
+				int dx = Math.abs(x - x0);
+
+				for(int z = z0 - cRadius; z <= z0 + cRadius; ++z) {
+					int dz = Math.abs(z - z0);
+					if((dx != cRadius || dz != cRadius || rand.nextInt(2) != 0 && yy != 0) && !Block.opaqueCubeLookup[world.getBlockId(x, y, z)]) {
+						world.setBlockAndMetadata(x, y, z, this.leavesID, this.leavesMeta);
+					}
+				}
+			}
+		}
+
+		for(int y = 0; y < height; ++y) {
+			Material m = world.getBlockMaterial(x0, y0 + y, z0);
+			if(m == Material.air || m == Material.leaves) {
+				world.setBlockAndMetadata(x0, y0 + y, z0, this.trunkID, this.trunkMeta);
+			}
+		}
+
+		return true;
 	}
 }

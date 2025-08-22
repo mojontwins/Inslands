@@ -378,3 +378,11 @@ line 17: leaves, fast
 line 18: wood
 line 19: sapling
 
+Things to do to finish tree refactoring
+
+* [ ] Convert all trees to use the new enum for resources.
+* [ ] Finish the ItemMulti shit and give proper names to all new blocks via the item.
+* [ ] Think on a clever way to make this work in vanilla metas so I can reuse this in the b1666 mod.
+
+**Added blockStateDropped to Block**. By default, this will call idDropped and damageDropped.
+

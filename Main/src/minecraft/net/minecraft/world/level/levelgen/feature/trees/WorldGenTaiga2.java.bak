@@ -7,18 +7,19 @@ import net.minecraft.world.level.levelgen.feature.WorldGenerator;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.Block;
 
-public class WorldGenTaiga1 extends WorldGenerator {
+public class WorldGenTaiga2 extends WorldGenerator {
 	EnumTreeType tree = EnumTreeType.TAIGA;
 	
 	private final int leavesID = tree.leaves.getBlock().blockID;
 	private final int leavesMeta = tree.leaves.getMetadata();
 	private final int trunkID = tree.wood.getBlock().blockID;
 	private final int trunkMeta = tree.wood.getMetadata();
-	
+		
 	public boolean generate(World world, Random rand, int x0, int y0, int z0) {
-		int height = rand.nextInt(5) + 7;
-		int trunkHeight = height - rand.nextInt(2) - 3;
-		int cHeight = 1 + rand.nextInt(height - trunkHeight + 1);
+		int height = rand.nextInt(4) + 6;
+		int trunkHeight = 1 + rand.nextInt(2);
+		int canopyHeight = height - trunkHeight;
+		int canopyWidth = 2 + rand.nextInt(2);
 
 		// Check if it fits in the world
 
@@ -32,7 +33,7 @@ public class WorldGenTaiga1 extends WorldGenerator {
 		// Check if it fits
 
 		for(int y = y0; y <= y0 + 1 + height; ++y) {
-			int radius = (y - y0 < trunkHeight) ? 0 : cHeight;
+			int radius = (y - y0 < trunkHeight) ? 0 : canopyWidth;
 
 			for(int x = x0 - radius; x <= x0 + radius; ++x) {
 				for(int z = z0 - radius; z <= z0 + radius; ++z) {
@@ -45,31 +46,39 @@ public class WorldGenTaiga1 extends WorldGenerator {
 		}
 
 		world.setBlock(x0, y0 - 1, z0, Block.dirt.blockID);
-		
-		int radius = 0;
-		for(int y = y0 + height; y >= y0 + trunkHeight; --y) {
+
+		int radius = rand.nextInt(2);
+		int w = 1;
+		int radius0 = 0;
+
+		for(int y = 0; y <= canopyHeight; ++y) {
+			int yy = y0 + height - y;
+
 			for(int x = x0 - radius; x <= x0 + radius; ++x) {
 				int dx = Math.abs(x - x0);
 
 				for(int z = z0 - radius; z <= z0 + radius; ++z) {
 					int dz = Math.abs(z - z0);
-					if((dx != radius || dz != radius || radius <= 0) && !Block.opaqueCubeLookup[world.getBlockId(x, y, z)]) {
-						world.setBlockAndMetadata(x, y, z, this.leavesID, this.leavesMeta);
+					if((dx != radius || dz != radius || radius <= 0) && !Block.opaqueCubeLookup[world.getBlockId(x, yy, z)]) {
+						world.setBlockAndMetadata(x, yy, z, this.leavesID, this.leavesMeta);
 					}
 				}
 			}
 
-			if(radius >= 1 && y == y0 + trunkHeight + 1) {
-				--radius;
-			} else if(radius < cHeight) {
+			if(radius >= w) {
+				radius = radius0; radius0 = 1;
+				++w; if(w > canopyWidth) {
+					w = canopyWidth;
+				}
+			} else {
 				++radius;
 			}
 		}
 
-		for(int y = 0; y < height - 1; ++y) {
-			Material m = world.getBlockMaterial(x0, y0 + y, z0);
-			if(m == Material.air || m == Material.leaves) {
-				world.setBlockAndMetadata(x0, y0 + y, z0, this.trunkID, this.trunkMeta);
+		int y = rand.nextInt(3);
+		for(int yy = 0; yy < height - y; ++yy) {
+			if(BlockUtils.canBeReplacedByWood(world.getBlockId(x0, y0 + y, z0))) {
+				this.setBlockAndMetadata(world, x0, y0 + y, z0, Block.wood.blockID, BlockLog.SpruceMetadata);
 			}
 		}
 

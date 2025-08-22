@@ -53,16 +53,15 @@ public enum EnumTreeType {
 	CYPRESS("Cypress", new BlockState(Block.leaves, 0x60), new BlockState(Block.wood, 0x60), new BlockState(Block.sapling, 0x60)) {
 		@Override
 		public WorldGenerator getGen(Random rand) {
-			if(rand.nextInt(32) == 0) return new WorldGenCypress(5+rand.nextInt(5));
+			if(rand.nextInt(16) == 0) return new WorldGenCypress(5+rand.nextInt(5));
 			return null;
 		}
 	},
 	
-	HUGE("Huge", new BlockState(Block.leaves, 0x70), new BlockState(Block.wood, 0x70), new BlockState(Block.sapling, 0x70)) {
+	HUGE("Huge", new BlockState(Block.leaves, 0x70), new BlockState(Block.wood, 0x70), new BlockState(Block.sapling, 0x70), true) {
 		@Override
 		public WorldGenerator getGen(Random rand) {
-			if(rand.nextInt(64) == 0) return new WorldGenHugeTrees(16 + rand.nextInt(16));
-			return null;
+			return new WorldGenHugeTrees(16 + rand.nextInt(16));
 		}
 	},
 	
@@ -73,11 +72,10 @@ public enum EnumTreeType {
 		}
 	},
 	
-	PINE("Pine", new BlockState(Block.leaves, 0x90), new BlockState(Block.wood, 0x90), new BlockState(Block.sapling, 0x90)) {
+	PINE("Pine", new BlockState(Block.leaves, 0x90), new BlockState(Block.wood, 0x90), new BlockState(Block.sapling, 0x90), true) {
 		@Override
 		public WorldGenerator getGen(Random rand) {
-			if(rand.nextInt(32) == 0) return new WorldGenPineTree(6 + rand.nextInt(8), false);
-			return null;
+			return new WorldGenPineTree(6 + rand.nextInt(8), false);
 		}
 	},
 	
@@ -119,7 +117,7 @@ public enum EnumTreeType {
 	BLOOD("Blood", new BlockState(Block.leaves2, 0x0), new BlockState(Block.wood2, 0x0), new BlockState(Block.sapling2, 0x0)) {
 		@Override
 		public WorldGenerator getGen(Random rand) {
-			return new TFGenCanopyTree();
+			return new WorldGenBloodTree();
 		}
 	},
 	;
@@ -129,6 +127,8 @@ public enum EnumTreeType {
 	public final BlockState sapling;
 	
 	public final String name;
+	
+	public final boolean needsFourSaplings;
 	
 	public WorldGenerator getGen(Random rand) {
 		return new WorldGenTrees();
@@ -140,7 +140,7 @@ public enum EnumTreeType {
 	
 	public static EnumTreeType findTreeTypeFromLeaves(BlockState leaves) {
 		for(EnumTreeType e : EnumTreeType.values()) {
-			if(leaves.getBlock().blockID == e.leaves.getBlock().blockID && leaves.getMetadata() == e.leaves.getMetadata()) {
+			if(leaves.equals(e.leaves)) {
 				return e;
 			}
 		}
@@ -150,7 +150,7 @@ public enum EnumTreeType {
 	
 	public static EnumTreeType findTreeTypeFromSapling(BlockState sapling) {
 		for(EnumTreeType e : EnumTreeType.values()) {
-			if(sapling.getBlock().blockID == e.sapling.getBlock().blockID && sapling.getMetadata() == e.sapling.getMetadata()) {
+			if(sapling.equals(e.sapling)) {
 				return e;
 			}
 		}
@@ -158,12 +158,26 @@ public enum EnumTreeType {
 		return OAK;
 	}
 	
+	public static EnumTreeType findTreeTypeFromWood(BlockState wood) {
+		for(EnumTreeType e : EnumTreeType.values()) {
+			if(wood.equals(e.wood)) {
+				return e;
+			}
+		}
+		
+		return OAK;
+	}
 	
 	EnumTreeType(String name, BlockState leaves, BlockState wood, BlockState sapling) {
+		this(name, leaves, wood, sapling, false);
+	}
+	
+	EnumTreeType(String name, BlockState leaves, BlockState wood, BlockState sapling, boolean needsFourSaplings) {
 		this.name = name;
 		this.leaves = leaves;
 		this.wood = wood;
 		this.sapling = sapling;
+		this.needsFourSaplings = needsFourSaplings;
 	}
 	
 }

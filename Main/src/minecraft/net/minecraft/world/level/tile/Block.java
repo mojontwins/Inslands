@@ -12,20 +12,15 @@ import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemBigFlower;
 import net.minecraft.world.item.ItemBlock;
+import net.minecraft.world.item.ItemBlockWithSubtypes;
 import net.minecraft.world.item.ItemCauldron;
 import net.minecraft.world.item.ItemCloth;
 import net.minecraft.world.item.ItemCoral;
 import net.minecraft.world.item.ItemGrass;
 import net.minecraft.world.item.ItemIce;
 import net.minecraft.world.item.ItemLayeredSand;
-import net.minecraft.world.item.ItemLeaves;
-import net.minecraft.world.item.ItemLeaves2;
 import net.minecraft.world.item.ItemLilypad;
-import net.minecraft.world.item.ItemLog;
-import net.minecraft.world.item.ItemLog2;
 import net.minecraft.world.item.ItemPumpkin;
-import net.minecraft.world.item.ItemSapling;
-import net.minecraft.world.item.ItemSapling2;
 import net.minecraft.world.item.ItemSlab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemTallGrass;
@@ -480,6 +475,13 @@ public class Block {
 	public float blockStrength(EntityPlayer entityPlayer1, int metadata) {
 		return this.blockHardness < 0.0F ? 0.0F : (!entityPlayer1.canHarvestBlock(this, metadata) ? 1.0F / this.blockHardness / 100.0F : entityPlayer1.getCurrentPlayerStrVsBlock(this) / this.blockHardness / 30.0F);
 	}
+	
+	public ItemStack itemStackDropped(int meta, Random rand) {
+		ItemStack stack = null;
+		int idDropped = this.idDropped(meta, rand);
+		if(idDropped > 0) stack = new ItemStack(idDropped, 1, this.damageDropped(meta));
+		return stack;
+	}
 
 	public void dropBlockAsItem(World world, int x, int y, int z, int meta) {
 		this.dropBlockAsItemWithChance(world, x, y, z, meta, 1.0F);
@@ -491,9 +493,9 @@ public class Block {
 
 			for(int i8 = 0; i8 < i7; ++i8) {
 				if(world.rand.nextFloat() <= chance) {
-					int i9 = this.idDropped(meta, world.rand);
-					if(i9 > 0) {
-						this.dropBlockAsItem_do(world, x, y, z, new ItemStack(i9, 1, this.damageDropped(meta)));
+					ItemStack stack = this.itemStackDropped(meta, world.rand);
+					if(stack != null) {
+						this.dropBlockAsItem_do(world, x, y, z, stack);
 					}
 				}
 			}
@@ -813,10 +815,7 @@ public class Block {
 	
 	static {
 		Item.itemsList[cloth.blockID] = (new ItemCloth(cloth.blockID - 256)).setItemName("cloth");
-		Item.itemsList[wood.blockID] = (new ItemLog(wood.blockID - 256)).setItemName("log");
 		Item.itemsList[stairSingle.blockID] = (new ItemSlab(stairSingle.blockID - 256)).setItemName("stoneSlab");
-		Item.itemsList[sapling.blockID] = (new ItemSapling(sapling.blockID - 256)).setItemName("sapling");
-		Item.itemsList[leaves.blockID] = (new ItemLeaves(leaves.blockID - 256)).setItemName("leaves");
 		Item.itemsList[lilyPad.blockID] = new ItemLilypad(lilyPad.blockID - 256);
 		Item.itemsList[coral.blockID] = new ItemCoral(coral.blockID - 256);
 		Item.itemsList[layeredSand.blockID] = new ItemLayeredSand(layeredSand.blockID - 256);
@@ -826,38 +825,45 @@ public class Block {
 		Item.itemsList[ice.blockID] = (new ItemIce(ice.blockID - 256)).setItemName("ice");
 		Item.itemsList[grass.blockID] = (new ItemGrass(grass.blockID - 256)).setItemName("grass");
 		Item.itemsList[tallGrass.blockID] = (new ItemTallGrass(tallGrass.blockID - 256)).setItemName("tallGrass");
-		
-		Item.itemsList[sapling2.blockID] = (new ItemSapling2(sapling2.blockID - 256)).setItemName("sapling");
-		Item.itemsList[leaves2.blockID] = (new ItemLeaves2(leaves2.blockID - 256)).setItemName("leaves");
-		Item.itemsList[wood2.blockID] = (new ItemLog2(wood2.blockID - 256)).setItemName("log");
-	
+			
 		Item.itemsList[cauldron.blockID] = (new ItemCauldron(cauldron.blockID - 256)).setItemName("cauldron");		
 		
-		for(int i0 = 0; i0 < 256; ++i0) {
-			if(blocksList[i0] != null) {
-				if(Item.itemsList[i0] == null) {
-					Item.itemsList[i0] = new ItemBlock(i0 - 256);
-					blocksList[i0].initializeBlock();
+		for(int id = 0; id < 256; ++id) {
+
+			if(blocksList[id] instanceof IBlockWithSubtypes) {
+				// Automaticly assign the special ItemBlockWithSubTypes to
+				// blocks that implement the IBlockWithSubtypes interface
+
+				Item.itemsList[id] = new ItemBlockWithSubtypes((IBlockWithSubtypes)blocksList[id]);
+				blocksList[id].initializeBlock();
+
+			} else if(blocksList[id] != null) {
+				// Otherwise, assign a common ItemBlock if no
+				// assignment has been already made specificly
+
+				if(Item.itemsList[id] == null) {
+					Item.itemsList[id] = new ItemBlock(id - 256);
+					blocksList[id].initializeBlock();
 				}
 
-				boolean z1 = false;
-				if(i0 > 0 && blocksList[i0].getRenderType() == 10) {
-					z1 = true;
+				boolean unb = false;
+				if(id > 0 && blocksList[id].getRenderType() == 10) {
+					unb = true;
 				}
 
-				if(i0 > 0 && blocksList[i0] instanceof BlockStep) {
-					z1 = true;
+				if(id > 0 && blocksList[id] instanceof BlockStep) {
+					unb = true;
 				}
 
-				if(i0 == tilledField.blockID) {
-					z1 = true;
+				if(id == tilledField.blockID) {
+					unb = true;
 				}
 
-				if(canBlockGrass[i0]) {
-					z1 = true;
+				if(canBlockGrass[id]) {
+					unb = true;
 				}
 
-				useNeighborBrightness[i0] = z1;
+				useNeighborBrightness[id] = unb;
 			}
 		}
 

@@ -250,13 +250,13 @@ public class Item {
 		{ Item.helmetDiamond.shiftedIndex, Item.plateDiamond.shiftedIndex, Item.legsDiamond.shiftedIndex, Item.bootsDiamond.shiftedIndex }
 	};
 	
-	protected Item(int i1) {
-		this.shiftedIndex = 256 + i1;
-		if(itemsList[256 + i1] != null) {
-			System.out.println("CONFLICT @ " + i1);
+	protected Item(int index) {
+		this.shiftedIndex = 256 + index;
+		if(Item.itemsList[256 + index] != null) {
+			System.out.println(this.itemName + " CONFLICT @ " + index + " occuppied by " + Item.itemsList[256 + index].itemName);
 		}
 
-		itemsList[256 + i1] = this;
+		Item.itemsList[256 + index] = this;
 	}
 	
 	public boolean isShowInCreative() {

@@ -199,7 +199,7 @@ public class WorldGenBaobab extends WorldGenMojon {
 				trunkID, trunkMeta);
 		this.leavesCluster(world, rand, dstX, dstY + 1, dstZ);
 		
-		return false;
+		return true;
 	}
 
 }

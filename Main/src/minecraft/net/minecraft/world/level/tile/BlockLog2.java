@@ -7,7 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 
-public class BlockLog2 extends BlockLog {
+public class BlockLog2 extends BlockLog implements IBlockWithSubtypes {
 	public int textureBark[] = new int[] { 7 * 16 + 5, 0, 0, 0 };
 	public int textureHeart[] = new int [] { 166, 0, 0, 0 };
 
@@ -84,4 +84,10 @@ public class BlockLog2 extends BlockLog {
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
 		par3List.add(new ItemStack(par1, 1, 0));
 	}
+
+	@Override
+	public int getItemBlockId() {
+		return this.blockID - 256;
+	}
+
 }

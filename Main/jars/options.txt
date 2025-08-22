@@ -9,7 +9,7 @@ anaglyph3d:false
 advancedOpengl:true
 fpsLimit:0
 difficulty:2
-fancyGraphics:false
+fancyGraphics:true
 hand:true
 threadedLighting:false
 clearWaters:true
