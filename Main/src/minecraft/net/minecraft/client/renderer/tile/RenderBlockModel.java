@@ -3,6 +3,7 @@ package net.minecraft.client.renderer.tile;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.util.TextureAtlasSize;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.model.BlockElement;
@@ -10,7 +11,6 @@ import net.minecraft.world.level.tile.model.BlockFace;
 import net.minecraft.world.level.tile.model.BlockModel;
 
 public class RenderBlockModel {
-
 	public static boolean renderBlock(IBlockAccess blockAccess, Block block, int x, int y, int z, int meta) {
 		int angle = meta & 3;
 		
@@ -150,10 +150,10 @@ public class RenderBlockModel {
 		double y1 = y + blockElement.from[angle].yCoord;
 		double y2 = y + blockElement.to[angle].yCoord;
 		
-		tessellator.addVertexWithUV(x1, y2, z2, blockFace.getRotatedU(0), blockFace.getRotatedV(0));
-		tessellator.addVertexWithUV(x1, y1, z2, blockFace.getRotatedU(1), blockFace.getRotatedV(1));
-		tessellator.addVertexWithUV(x2, y1, z2, blockFace.getRotatedU(2), blockFace.getRotatedV(2));
-		tessellator.addVertexWithUV(x2, y2, z2, blockFace.getRotatedU(3), blockFace.getRotatedV(3));
+		tessellator.addVertexWithUV(x1, y2, z2, blockFace.getRotatedU(0, TextureAtlasSize.w), blockFace.getRotatedV(0, TextureAtlasSize.h));
+		tessellator.addVertexWithUV(x1, y1, z2, blockFace.getRotatedU(1, TextureAtlasSize.w), blockFace.getRotatedV(1, TextureAtlasSize.h));
+		tessellator.addVertexWithUV(x2, y1, z2, blockFace.getRotatedU(2, TextureAtlasSize.w), blockFace.getRotatedV(2, TextureAtlasSize.h));
+		tessellator.addVertexWithUV(x2, y2, z2, blockFace.getRotatedU(3, TextureAtlasSize.w), blockFace.getRotatedV(3, TextureAtlasSize.h));
 		
 	}
 
@@ -188,10 +188,10 @@ public class RenderBlockModel {
 		double y1 = y + blockElement.from[angle].yCoord;
 		double y2 = y + blockElement.to[angle].yCoord;
 		
-		tessellator.addVertexWithUV(x2, y2, z1, blockFace.getRotatedU(0), blockFace.getRotatedV(0));
-		tessellator.addVertexWithUV(x2, y1, z1, blockFace.getRotatedU(1), blockFace.getRotatedV(1));
-		tessellator.addVertexWithUV(x1, y1, z1, blockFace.getRotatedU(2), blockFace.getRotatedV(2));
-		tessellator.addVertexWithUV(x1, y2, z1, blockFace.getRotatedU(3), blockFace.getRotatedV(3));
+		tessellator.addVertexWithUV(x2, y2, z1, blockFace.getRotatedU(0, TextureAtlasSize.w), blockFace.getRotatedV(0, TextureAtlasSize.h));
+		tessellator.addVertexWithUV(x2, y1, z1, blockFace.getRotatedU(1, TextureAtlasSize.w), blockFace.getRotatedV(1, TextureAtlasSize.h));
+		tessellator.addVertexWithUV(x1, y1, z1, blockFace.getRotatedU(2, TextureAtlasSize.w), blockFace.getRotatedV(2, TextureAtlasSize.h));
+		tessellator.addVertexWithUV(x1, y2, z1, blockFace.getRotatedU(3, TextureAtlasSize.w), blockFace.getRotatedV(3, TextureAtlasSize.h));
 		
 	}
 
@@ -226,10 +226,10 @@ public class RenderBlockModel {
 		double y1 = y + blockElement.from[angle].yCoord;
 		double y2 = y + blockElement.to[angle].yCoord;
 		
-		tessellator.addVertexWithUV(x1, y2, z1, blockFace.getRotatedU(0), blockFace.getRotatedV(0));
-		tessellator.addVertexWithUV(x1, y1, z1, blockFace.getRotatedU(1), blockFace.getRotatedV(1));
-		tessellator.addVertexWithUV(x1, y1, z2, blockFace.getRotatedU(2), blockFace.getRotatedV(2));
-		tessellator.addVertexWithUV(x1, y2, z2, blockFace.getRotatedU(3), blockFace.getRotatedV(3));
+		tessellator.addVertexWithUV(x1, y2, z1, blockFace.getRotatedU(0, TextureAtlasSize.w), blockFace.getRotatedV(0, TextureAtlasSize.h));
+		tessellator.addVertexWithUV(x1, y1, z1, blockFace.getRotatedU(1, TextureAtlasSize.w), blockFace.getRotatedV(1, TextureAtlasSize.h));
+		tessellator.addVertexWithUV(x1, y1, z2, blockFace.getRotatedU(2, TextureAtlasSize.w), blockFace.getRotatedV(2, TextureAtlasSize.h));
+		tessellator.addVertexWithUV(x1, y2, z2, blockFace.getRotatedU(3, TextureAtlasSize.w), blockFace.getRotatedV(3, TextureAtlasSize.h));
 		
 	}
 
@@ -264,10 +264,10 @@ public class RenderBlockModel {
 		double y1 = y + blockElement.from[angle].yCoord;
 		double y2 = y + blockElement.to[angle].yCoord;
 		
-		tessellator.addVertexWithUV(x2, y2, z2, blockFace.getRotatedU(0), blockFace.getRotatedV(0));
-		tessellator.addVertexWithUV(x2, y1, z2, blockFace.getRotatedU(1), blockFace.getRotatedV(1));
-		tessellator.addVertexWithUV(x2, y1, z1, blockFace.getRotatedU(2), blockFace.getRotatedV(2));
-		tessellator.addVertexWithUV(x2, y2, z1, blockFace.getRotatedU(3), blockFace.getRotatedV(3));
+		tessellator.addVertexWithUV(x2, y2, z2, blockFace.getRotatedU(0, TextureAtlasSize.w), blockFace.getRotatedV(0, TextureAtlasSize.h));
+		tessellator.addVertexWithUV(x2, y1, z2, blockFace.getRotatedU(1, TextureAtlasSize.w), blockFace.getRotatedV(1, TextureAtlasSize.h));
+		tessellator.addVertexWithUV(x2, y1, z1, blockFace.getRotatedU(2, TextureAtlasSize.w), blockFace.getRotatedV(2, TextureAtlasSize.h));
+		tessellator.addVertexWithUV(x2, y2, z1, blockFace.getRotatedU(3, TextureAtlasSize.w), blockFace.getRotatedV(3, TextureAtlasSize.h));
 		
 	}
 
@@ -300,10 +300,10 @@ public class RenderBlockModel {
 		
 		double y2 = y + blockElement.to[angle].yCoord;
 		
-		tessellator.addVertexWithUV(x2, y2, z1, blockFace.getRotatedU(0), blockFace.getRotatedV(0));
-		tessellator.addVertexWithUV(x1, y2, z1, blockFace.getRotatedU(1), blockFace.getRotatedV(1));
-		tessellator.addVertexWithUV(x1, y2, z2, blockFace.getRotatedU(2), blockFace.getRotatedV(2));
-		tessellator.addVertexWithUV(x2, y2, z2, blockFace.getRotatedU(3), blockFace.getRotatedV(3));
+		tessellator.addVertexWithUV(x2, y2, z1, blockFace.getRotatedU(0, TextureAtlasSize.w), blockFace.getRotatedV(0, TextureAtlasSize.h));
+		tessellator.addVertexWithUV(x1, y2, z1, blockFace.getRotatedU(1, TextureAtlasSize.w), blockFace.getRotatedV(1, TextureAtlasSize.h));
+		tessellator.addVertexWithUV(x1, y2, z2, blockFace.getRotatedU(2, TextureAtlasSize.w), blockFace.getRotatedV(2, TextureAtlasSize.h));
+		tessellator.addVertexWithUV(x2, y2, z2, blockFace.getRotatedU(3, TextureAtlasSize.w), blockFace.getRotatedV(3, TextureAtlasSize.h));
 	}
 
 	private static void renderBottomFace(Block block, double x, double y, double z, BlockElement blockElement, int angle, int meta) {
@@ -335,10 +335,10 @@ public class RenderBlockModel {
 		
 		double y1 = y + blockElement.from[angle].yCoord;
 		
-		tessellator.addVertexWithUV(x2, y1, z2, blockFace.getRotatedU(0), blockFace.getRotatedV(0));
-		tessellator.addVertexWithUV(x1, y1, z2, blockFace.getRotatedU(1), blockFace.getRotatedV(1));
-		tessellator.addVertexWithUV(x1, y1, z1, blockFace.getRotatedU(2), blockFace.getRotatedV(2));
-		tessellator.addVertexWithUV(x2, y1, z1, blockFace.getRotatedU(3), blockFace.getRotatedV(3));
+		tessellator.addVertexWithUV(x2, y1, z2, blockFace.getRotatedU(0, TextureAtlasSize.w), blockFace.getRotatedV(0, TextureAtlasSize.h));
+		tessellator.addVertexWithUV(x1, y1, z2, blockFace.getRotatedU(1, TextureAtlasSize.w), blockFace.getRotatedV(1, TextureAtlasSize.h));
+		tessellator.addVertexWithUV(x1, y1, z1, blockFace.getRotatedU(2, TextureAtlasSize.w), blockFace.getRotatedV(2, TextureAtlasSize.h));
+		tessellator.addVertexWithUV(x2, y1, z1, blockFace.getRotatedU(3, TextureAtlasSize.w), blockFace.getRotatedV(3, TextureAtlasSize.h));
 	}
  
 }

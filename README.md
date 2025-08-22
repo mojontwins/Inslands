@@ -265,9 +265,7 @@ Port/adapt from the Indev Modloader example.
 * [X] Acid hurts
 * [X] Render green fog under acid
 * [X] Material.acid = Material.water
-<<<<<<< HEAD
 * [/] Add ballon to witch "I want ..." so you know what to give her.
-* [ ] Add ballon to witch "I want ..." so you know what to give her.
 
 ## More
 
@@ -293,9 +291,10 @@ After 8 months... I'd refactor and reorganize everything in packages like my oth
 
 Also
 
-[ ] Add the witch hut to the poison island.
+[ ] Add the witch hut to the poison island. And make the witch home on that. Add a cat, also home on that.
 [ ] Add the stone arches in deserts.
 [ ] Feature smaller biomes in biomed world theme and hell
+[ ] Fix pistons in SMP (they work, but need the special Packet for the animation)
 
 # Removing the need to rely on the original minecraft.jar
 

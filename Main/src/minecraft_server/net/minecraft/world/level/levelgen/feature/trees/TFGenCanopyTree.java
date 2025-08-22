@@ -12,11 +12,14 @@ public class TFGenCanopyTree extends TFGenerator {
 	private int y;
 	private int z;
 	private int height;
-	private byte treeBlock = (byte)Block.wood.blockID;
-	private byte treeMeta = 0;
-	private byte leafBlock = (byte)Block.leaves.blockID;
-	private byte leafMeta = 0;
-
+	
+	EnumTreeType tree = EnumTreeType.CANOPY;
+	
+	private final int leavesID = tree.leaves.getBlock().blockID;
+	private final int leavesMeta = tree.leaves.getMetadata();
+	private final int trunkID = tree.wood.getBlock().blockID;
+	private final int trunkMeta = tree.wood.getMetadata();
+	
 	public boolean generate(World world, Random random, int treeX, int treeY, int treeZ) {
 		this.worldObj = world;
 		this.treeRNG = random;
@@ -44,14 +47,14 @@ public class TFGenCanopyTree extends TFGenerator {
 	void buildBranch(int height, double length, double angle, double tilt) {
 		int[] src = new int[]{this.x, this.y + height, this.z};
 		int[] dest = this.translate(src[0], src[1], src[2], length, angle, tilt);
-		this.drawBresehnam(src[0], src[1], src[2], dest[0], dest[1], dest[2], this.treeBlock, this.treeMeta, true);
-		this.putBlockAndMetadata(dest[0] + 1, dest[1], dest[2], this.treeBlock, this.treeMeta, true);
-		this.putBlockAndMetadata(dest[0] - 1, dest[1], dest[2], this.treeBlock, this.treeMeta, true);
-		this.putBlockAndMetadata(dest[0], dest[1], dest[2] + 1, this.treeBlock, this.treeMeta, true);
-		this.putBlockAndMetadata(dest[0], dest[1], dest[2] - 1, this.treeBlock, this.treeMeta, true);
-		this.drawCircle(dest[0], dest[1] - 1, dest[2], (byte)3, this.leafBlock, this.leafMeta, false);
-		this.drawCircle(dest[0], dest[1], dest[2], (byte)4, this.leafBlock, this.leafMeta, false);
-		this.drawCircle(dest[0], dest[1] + 1, dest[2], (byte)2, this.leafBlock, this.leafMeta, false);
+		this.drawBresehnam(src[0], src[1], src[2], dest[0], dest[1], dest[2], this.trunkID, this.trunkMeta, true);
+		this.putBlockAndMetadata(dest[0] + 1, dest[1], dest[2], this.trunkID, this.trunkMeta, true);
+		this.putBlockAndMetadata(dest[0] - 1, dest[1], dest[2], this.trunkID, this.trunkMeta, true);
+		this.putBlockAndMetadata(dest[0], dest[1], dest[2] + 1, this.trunkID, this.trunkMeta, true);
+		this.putBlockAndMetadata(dest[0], dest[1], dest[2] - 1, this.trunkID, this.trunkMeta, true);
+		this.drawCircle(dest[0], dest[1] - 1, dest[2], (byte)3, (byte) this.leavesID, this.leavesMeta, false);
+		this.drawCircle(dest[0], dest[1], dest[2], (byte)4, (byte) this.leavesID, this.leavesMeta, false);
+		this.drawCircle(dest[0], dest[1] + 1, dest[2], (byte)2, (byte) this.leavesID, this.leavesMeta, false);
 	}
 
 	private void addFirefly(int height, double angle) {

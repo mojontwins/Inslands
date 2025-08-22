@@ -47,7 +47,7 @@ public class BlockCauldron extends Block {
 		int meta = world.getBlockMetadata(x, y, z);
 		int contents = meta >> 2;
 		int newContents = contents;
-System.out.println ("Stack = " + itemStack.getItem() + " meta = " + meta + " contents = " + contents);		
+
 		switch(contents) {
 		case 1:		
 			// Water

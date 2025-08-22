@@ -1,5 +1,8 @@
 package net.minecraft.world.level.tile;
 
+import java.util.List;
+
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
 
@@ -29,7 +32,11 @@ public class BlockBone extends BlockLog {
 			} else {
 				return (side == 2 || side == 3) ? endTextureIndex : outTextureIndex;
 			}
-	}
+		}
 	}
 
+	@Override
+    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
+		par3List.add(new ItemStack(par1, 1, 0));
+	}
 }

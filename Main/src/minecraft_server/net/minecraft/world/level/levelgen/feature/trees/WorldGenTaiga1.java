@@ -4,87 +4,75 @@ import java.util.Random;
 
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.feature.WorldGenerator;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.Block;
 
 public class WorldGenTaiga1 extends WorldGenerator {
-	// Softlocked for b1.0 - No spruce wood / leaves!
-	//private final int treeMetadata = 1;
-	private final int treeMetadata = 0;
+	EnumTreeType tree = EnumTreeType.TAIGA;
 	
-	public boolean generate(World world1, Random random2, int i3, int i4, int i5) {
-		int i6 = random2.nextInt(5) + 7;
-		int i7 = i6 - random2.nextInt(2) - 3;
-		int i8 = i6 - i7;
-		int i9 = 1 + random2.nextInt(i8 + 1);
-		boolean z10 = true;
-		if(i4 >= 1 && i4 + i6 + 1 <= 128) {
-			int i11;
-			int i13;
-			int i14;
-			int i15;
-			int i18;
-			for(i11 = i4; i11 <= i4 + 1 + i6 && z10; ++i11) {
-				if(i11 - i4 < i7) {
-					i18 = 0;
-				} else {
-					i18 = i9;
-				}
+	private final int leavesID = tree.leaves.getBlock().blockID;
+	private final int leavesMeta = tree.leaves.getMetadata();
+	private final int trunkID = tree.wood.getBlock().blockID;
+	private final int trunkMeta = tree.wood.getMetadata();
+	
+	public boolean generate(World world, Random rand, int x0, int y0, int z0) {
+		int height = rand.nextInt(5) + 7;
+		int trunkHeight = height - rand.nextInt(2) - 3;
+		int cHeight = 1 + rand.nextInt(height - trunkHeight + 1);
 
-				for(i13 = i3 - i18; i13 <= i3 + i18 && z10; ++i13) {
-					for(i14 = i5 - i18; i14 <= i5 + i18 && z10; ++i14) {
-						if(i11 >= 0 && i11 < 128) {
-							i15 = world1.getBlockId(i13, i11, i14);
-							if(i15 != 0 && i15 != Block.leaves.blockID) {
-								z10 = false;
-							}
-						} else {
-							z10 = false;
-						}
+		// Check if it fits in the world
+
+		if (y0 < 1 || y0 + height + 1 >= 256) return false;
+
+		// Check if valid soil
+
+		Block block = world.getBlock(x0, y0 - 1, z0);
+		if (block == null || !block.canGrowPlants ()) return false;
+
+		// Check if it fits
+
+		for(int y = y0; y <= y0 + 1 + height; ++y) {
+			int radius = (y - y0 < trunkHeight) ? 0 : cHeight;
+
+			for(int x = x0 - radius; x <= x0 + radius; ++x) {
+				for(int z = z0 - radius; z <= z0 + radius; ++z) {
+					Material m = world.getBlockMaterial(x, y, z);
+					if (m != Material.air && m != Material.leaves) {
+						return false;
 					}
 				}
 			}
-
-			if(!z10) {
-				return false;
-			} else {
-				i11 = world1.getBlockId(i3, i4 - 1, i5);
-				if((i11 == Block.grass.blockID || i11 == Block.dirt.blockID) && i4 < 128 - i6 - 1) {
-					world1.setBlock(i3, i4 - 1, i5, Block.dirt.blockID);
-					i18 = 0;
-
-					for(i13 = i4 + i6; i13 >= i4 + i7; --i13) {
-						for(i14 = i3 - i18; i14 <= i3 + i18; ++i14) {
-							i15 = i14 - i3;
-
-							for(int i16 = i5 - i18; i16 <= i5 + i18; ++i16) {
-								int i17 = i16 - i5;
-								if((Math.abs(i15) != i18 || Math.abs(i17) != i18 || i18 <= 0) && !Block.opaqueCubeLookup[world1.getBlockId(i14, i13, i16)]) {
-									world1.setBlockAndMetadata(i14, i13, i16, Block.leaves.blockID, this.treeMetadata);
-								}
-							}
-						}
-
-						if(i18 >= 1 && i13 == i4 + i7 + 1) {
-							--i18;
-						} else if(i18 < i9) {
-							++i18;
-						}
-					}
-
-					for(i13 = 0; i13 < i6 - 1; ++i13) {
-						i14 = world1.getBlockId(i3, i4 + i13, i5);
-						if(i14 == 0 || i14 == Block.leaves.blockID) {
-							world1.setBlockAndMetadata(i3, i4 + i13, i5, Block.wood.blockID, this.treeMetadata);
-						}
-					}
-
-					return true;
-				} else {
-					return false;
-				}
-			}
-		} else {
-			return false;
 		}
+
+		world.setBlock(x0, y0 - 1, z0, Block.dirt.blockID);
+		
+		int radius = 0;
+		for(int y = y0 + height; y >= y0 + trunkHeight; --y) {
+			for(int x = x0 - radius; x <= x0 + radius; ++x) {
+				int dx = Math.abs(x - x0);
+
+				for(int z = z0 - radius; z <= z0 + radius; ++z) {
+					int dz = Math.abs(z - z0);
+					if((dx != radius || dz != radius || radius <= 0) && !Block.opaqueCubeLookup[world.getBlockId(x, y, z)]) {
+						world.setBlockAndMetadata(x, y, z, this.leavesID, this.leavesMeta);
+					}
+				}
+			}
+
+			if(radius >= 1 && y == y0 + trunkHeight + 1) {
+				--radius;
+			} else if(radius < cHeight) {
+				++radius;
+			}
+		}
+
+		for(int y = 0; y < height - 1; ++y) {
+			Material m = world.getBlockMaterial(x0, y0 + y, z0);
+			if(m == Material.air || m == Material.leaves) {
+				world.setBlockAndMetadata(x0, y0 + y, z0, this.trunkID, this.trunkMeta);
+			}
+		}
+
+		return true;
 	}
 }

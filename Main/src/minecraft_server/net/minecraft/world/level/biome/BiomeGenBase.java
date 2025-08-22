@@ -38,6 +38,7 @@ public class BiomeGenBase {
 	public static final BiomeGenBase themeForest = new BiomeGenThemeForest().setBiomeName("Forest");
 	public static final BiomeGenBase themeParadise = new BiomeGenThemeParadise().setBiomeName("Paradise");
 	public static final BiomeGenBase themeForestHell = new BiomeGenThemeForestHell().setBiomeName("Forest Hell").setDisableRain();
+	public static final BiomeGenBase themeHellHell = new BiomeGenThemeHellHell().setBiomeName("Hell Hell").setDisableRain();
 	public static final BiomeGenBase themePoison = new BiomeGenThemePoisonIsland().setBiomeName("Poison Island");
 	
 	// Leave these for compatibility
@@ -140,6 +141,11 @@ public class BiomeGenBase {
 	private boolean enableRain;
 
 	public boolean forceBlockLightInitLikeNether = false;
+
+	// Hell general population modifiers
+	public int hellFireExtraAttempts = 0;
+	public int hellGlowstoneExtraAttempts = 0;
+	public int hellLavaExtraAttemtps = 0;
 
 	// Unused, as of yet.
 	//private boolean canSpawnLightningBolt = true;;

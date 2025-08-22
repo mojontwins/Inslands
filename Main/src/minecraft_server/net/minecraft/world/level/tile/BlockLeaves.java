@@ -6,32 +6,28 @@ import java.util.Random;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockState;
 import net.minecraft.world.level.IBlockAccess;
-import net.minecraft.world.level.Seasons;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.levelgen.feature.trees.EnumTreeType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 
-public class BlockLeaves extends BlockLeavesBase {
-	// Alpha version
-	private int leafTexIndex;
+public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes {
+	// New version.
+	// Leaves meta >> 4 is leaves type. It's transferred directly to sapling type (meta) when dropping.
+	// Leaves will be rendered using 256+type for fancy, 272+type for fast.
+	// Colourizer will only be used for meta 0.
+	
+	private int leafTexOffset = 256;
 	public static byte canopyDiameter = 32;
 	public static int canopyRadius = canopyDiameter / 2;
 
 	int[] surroundings;
 
-	// Change to fancy colors for fancy trees and use metadata 1..7 (0 means "biome
-	// controlled")
-	public static int[] fixedColors = { 0x5BFB3B, // Normal neon green
-			0xF6F535, // Yellower for arid biomes
-			0x5BFB3B, 0x5BFB3B, 0x5BFB3B, 0x5BFB3B, 0x5BFB3B, 0x5BFB3B // This will NEVER be used, it means "Seasonal
-																		// colorizer"
-	};
-
 	protected BlockLeaves(int id, int blockIndex) {
 		super(id, blockIndex, Material.leaves, false);
-		this.leafTexIndex = blockIndex;
 		this.setTickOnLoad(true);
 		
 		this.displayOnCreativeTab = CreativeTabs.tabDeco;
@@ -50,19 +46,19 @@ public class BlockLeaves extends BlockLeavesBase {
 		return rand.nextInt(20) != 0 ? 0 : 1;
 	}
 
-	public int idDropped(int i, Random rand) {
+	// I'm using this new, more convenient feature.
+	@Override
+	public ItemStack itemStackDropped(int meta, Random rand) {
 		switch(rand.nextInt(50)) {
 		case 0:
-			return Item.appleRed.shiftedIndex;
+			return new ItemStack(Item.appleRed);
 		case 1:
-			return Item.acornSeed.shiftedIndex;
+			if(meta == 0) return new ItemStack(Item.acornSeed);
+			return new ItemStack(Item.stick);
 		default:
-			return Block.sapling.blockID;
+			EnumTreeType tree = EnumTreeType.findTreeTypeFromLeaves(new BlockState(this, meta));
+			return new ItemStack(tree.sapling.getBlock().blockID, 1, tree.sapling.getMetadata() & 0xf0);
 		}
-	}
-
-	protected int damageDropped(int meta) {
-		return meta & 0xf0;
 	}
 	
 	public boolean isOpaqueCube() {
@@ -71,7 +67,7 @@ public class BlockLeaves extends BlockLeavesBase {
 
 	public void setGraphicsLevel(boolean flag) {
 		this.graphicsLevel = flag;
-		this.blockIndexInTexture = this.leafTexIndex + (flag ? 0 : 1);
+		this.leafTexOffset = flag ? 256 : 272;
 	}
 
 	public void onEntityWalking(World world, int i, int j, int k, Entity entity) {
@@ -313,23 +309,39 @@ public class BlockLeaves extends BlockLeavesBase {
 	// Not as complex as a colorizer, but allows for some freedom!
 	@Override
 	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
-		if(LevelThemeGlobalSettings.colorizedPlants) {
-			return world.getFoliageColorFromCache(x, z);
-		} else 	return this.getRenderColor(world.getBlockMetadata(x, y, z));
+		if((world.getBlockMetadata(x, y, z) & 0xf0) == 0) {
+			if(LevelThemeGlobalSettings.colorizedPlants) {
+				return world.getFoliageColorFromCache(x, z);
+			} else {
+				return 0x5BFB3B;
+			}
+		} else return 0xFFFFFF;
 	}
-
+	
 	@Override
-	public int getRenderColor(int meta) {
-		meta &= 7;
-		if (meta == 7)
-			return Seasons.getLeavesColorForToday();
-		return BlockLeaves.fixedColors[meta];
+	public int getBlockTextureFromSideAndMetadata(int side, int meta) {
+		return this.leafTexOffset + (meta >> 4);
 	}
 
     @Override
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
-		for(int i = 0; i < 2; i ++) {
-			par3List.add(new ItemStack(par1, 1, i));
+		for(int i = 0; i < 15; i ++) {
+			par3List.add(new ItemStack(par1, 1, i<<4));
 		}
+	}
+
+	@Override
+	public int getItemBlockId() {
+		return this.blockID - 256;
+	}
+
+	@Override
+	public String getNameFromMeta(int meta) {
+		return "leaves." + EnumTreeType.values()[meta >> 4].name;
+	}
+
+	@Override
+	public int getIndexInTextureFromMeta(int meta) {
+		return 2;
 	}
 }

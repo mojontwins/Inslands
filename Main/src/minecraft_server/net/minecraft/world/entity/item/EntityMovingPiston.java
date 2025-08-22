@@ -106,7 +106,9 @@ public class EntityMovingPiston extends Entity {
 
 				return (TileEntity)iInventory6;
 			}
-		} catch (Exception e) {
+		} catch(Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} 
 
 		return tileEntity4;

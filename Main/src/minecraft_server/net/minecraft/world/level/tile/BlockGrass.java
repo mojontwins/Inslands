@@ -34,7 +34,7 @@ public class BlockGrass extends Block {
 					
 					if(block != null && (
 							(block.blockMaterial == Material.snow || block.blockMaterial == Material.builtSnow) ||
-							(block.getRenderType() == 111 && blockAccess.getBlockMetadata(x, y + 1, z) > 0)
+							(block.getRenderType() == 111 && (blockAccess.getBlockMetadata(x, y + 1, z) & 0xf) > 0)
 						)
 					) {
 						return 14 * 16 + 1;
@@ -53,7 +53,7 @@ public class BlockGrass extends Block {
 				if(block == null) return 3;
 				
 				if(block.blockMaterial == Material.snow || block.blockMaterial == Material.builtSnow) return 68;
-				if(block.getRenderType() == 111 && blockAccess.getBlockMetadata(x, y + 1, z) > 0) return 68;
+				if(block.getRenderType() == 111 && (blockAccess.getBlockMetadata(x, y + 1, z) & 0xf) > 0) return 68;
 				
 				return 3;
 		}

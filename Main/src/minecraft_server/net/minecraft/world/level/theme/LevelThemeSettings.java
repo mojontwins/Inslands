@@ -50,6 +50,7 @@ public class LevelThemeSettings {
 			.setLightMultiplier(0.4F)
 			.setDayCycle(true)
 			.setLevelThemeMainBiome(BiomeGenBase.themeHell)
+			.setLevelThemeNetherBiome(BiomeGenBase.themeHellHell)
 			.setTemperature(1.0D)
 			.setHumidity(0.1D)
 			.setCanSnow(false)

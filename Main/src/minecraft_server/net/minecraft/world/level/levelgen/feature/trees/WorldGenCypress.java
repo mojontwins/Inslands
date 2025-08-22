@@ -3,79 +3,58 @@ package net.minecraft.world.level.levelgen.feature.trees;
 import java.util.Random;
 
 import net.minecraft.world.level.World;
-import net.minecraft.world.level.levelgen.feature.WorldGenerator;
-import net.minecraft.world.level.tile.Block;
 
-public class WorldGenCypress extends WorldGenerator {
+public class WorldGenCypress extends WorldGenMojon {
 
-	// Code adapted from Enhanced Biomes mod
-	// so it works in a1.2.6 with vanilla blocks!
-	// https://github.com/SMEZ1234/EnhancedBiomes/
+	EnumTreeType tree = EnumTreeType.CYPRESS;
 	
-	private static final int leavesId = Block.leaves.blockID;
-	private static final int trunkId = Block.wood.blockID;
+	private final int leavesID = tree.leaves.getBlock().blockID;
+	private final int leavesMeta = tree.leaves.getMetadata();
+	private final int trunkID = tree.wood.getBlock().blockID;
+	private final int trunkMeta = tree.wood.getMetadata();
 	
-	private int height;
+	public int height = 6;
 	
 	public WorldGenCypress (int height) {
+		this(height, false);
+	}
+
+	public WorldGenCypress(int height, boolean withNotify) {
+		super(withNotify);
 		this.height = height;
 	}
-	
-	public void setBlockIfEmpty (World world, int x, int y, int z, int blockID) {
-		if (0 == world.getBlockId(x, y, z)) world.setBlock(x, y, z, blockID);
-	}
-	
-	public void setBlockIfEmpty (World world, int x, int y, int z, int blockID, int meta) {
-		if (0 == world.getBlockId(x, y, z)) world.setBlockAndMetadata(x, y, z, blockID, meta);
-	}
-	
+
 	@Override
-	public boolean generate(World world, Random rand, int x, int y, int z) {
-		if (y + height > 126) return false;
+	public boolean generate(World world, Random rand, int x0, int y0, int z0) {
+		// May this tree grow here?
 		
-		Block soilBlock = Block.blocksList[world.getBlockId(x, y - 1, z)];
-		if (!(soilBlock != null && soilBlock.canGrowPlants())) return false;
-
-		for(int i = 0; i < this.height * 2; i++) {
-			for(int k = 0; k < 5; k++) {
-				for(int j = 0; j < 5; j++) {
-					if(world.getBlockId(x - 2 + k, y + 3 + i, z - 2 + j) != 0) {
-						return false;
-					}
+		if(y0 + this.height > world.getWorldHeight() - 2) return false;
+		if(!this.validGround(world, x0, y0 - 1, z0)) return false;
+		
+		for(int y = 0; y < this.height * 2; y ++) {
+			for(int x = -2; x < 3; x ++) {
+				for(int z = -2; z < 3; z ++) {
+					if(world.isBlockOpaqueCube(x + x0, y + y0, z + z0)) return false;
 				}
 			}
 		}
-
-		for(int xx = 0; xx < height; xx++) {
-			int largeLayer = xx * 2 + 3;
-			int smallLayer = xx * 2 + 4;
-
-			//Large Layer
-			for(int yy = -2; yy < 3; yy++) {
-				for(int zz = -2; zz < 3; zz++) {
-					if(!((yy == -2 || yy == 2) && (zz == -2 || zz == 2))) {
-						setBlockIfEmpty(world, x + yy, y + largeLayer, z + zz, leavesId);
-					}
-				}
-			}
-
-			//Small Layer
-			for(int yy = -1; yy < 2; yy++) {
-				for(int zz = -1; zz < 2; zz++) {
-					if(!((yy == -1 || yy == 1) && (zz == -1 || zz == 1))) {
-						setBlockIfEmpty(world, x + yy, y + smallLayer, z + zz, leavesId);
-					}
-				}
-			}
+		
+		// Trunk
+	
+		for(int y = y0; y < y0 + 3 + (this.height << 1); y ++) {
+			this.setBlockWithMetadata(world, x0, y, z0, trunkID, trunkMeta);
 		}
-
-		for(int i = 0; i < (height * 2) + 3; i++) {
-			world.setBlock(x, y + i, z, trunkId);
+		
+		// Canopy
+		
+		int y = y0 + 3;
+		for(int i = 0; i < this.height; i ++) {
+			this.roundedSquareTreeLayer(world, rand, x0, y ++, z0, 5, leavesID, leavesMeta);
+			this.roundedSquareTreeLayer(world, rand, x0, y ++, z0, 3, leavesID, leavesMeta);
 		}
-
-		setBlockIfEmpty(world, x, y + (this.height * 2) + 3, z, leavesId);
-
+		
 		return true;
 	}
-
+	
+	
 }
