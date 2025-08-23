@@ -163,7 +163,7 @@ Yay! fps boosted on shitty systems!
 * [X] Add "preferredWorldgen" to levelthemes and de-hardcode it
 * [X] Add torches to some trees, somehow
 * [X] Biomes level theme uses PostAlpha ramps;
-* [ ] optional fancy grass?
+* [ ] optional fancy grass
 * [X] Make sure the needed initialization is due so multibiomes work in SMP
 * [X] Renderpass for shiny eyes is broken and entities show white.
 

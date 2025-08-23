@@ -2597,7 +2597,7 @@ public class RenderBlocks {
 			this.renderTopFace(block1, (double)i2, (double)i3, (double)i4, block1.getBlockTexture(this.blockAccess, i2, i3, i4, 1));
 			z8 = true;
 		}
-
+		
 		int i27;
 		if(this.renderAllFaces || block1.shouldSideBeRendered(this.blockAccess, i2, i3, i4 - 1, 2)) {
 			if(this.aoType > 0) {
@@ -2695,7 +2695,7 @@ public class RenderBlocks {
 				this.colorBlueBottomLeft *= f7;
 				this.colorBlueBottomRight *= f7;
 				this.colorBlueTopRight *= f7;
-				this.renderEastFace(block1, (double)i2, (double)i3, (double)i4, 38);
+				this.renderEastFace(block1, (double)i2, (double)i3, (double)i4, 16*9+5);
 			}
 
 			z8 = true;
@@ -2797,7 +2797,7 @@ public class RenderBlocks {
 				this.colorBlueBottomLeft *= f7;
 				this.colorBlueBottomRight *= f7;
 				this.colorBlueTopRight *= f7;
-				this.renderWestFace(block1, (double)i2, (double)i3, (double)i4, 38);
+				this.renderWestFace(block1, (double)i2, (double)i3, (double)i4, 16*9+5);
 			}
 
 			z8 = true;
@@ -2899,7 +2899,7 @@ public class RenderBlocks {
 				this.colorBlueBottomLeft *= f7;
 				this.colorBlueBottomRight *= f7;
 				this.colorBlueTopRight *= f7;
-				this.renderNorthFace(block1, (double)i2, (double)i3, (double)i4, 38);
+				this.renderNorthFace(block1, (double)i2, (double)i3, (double)i4, 16*9+5);
 			}
 
 			z8 = true;
@@ -3001,7 +3001,7 @@ public class RenderBlocks {
 				this.colorBlueBottomLeft *= f7;
 				this.colorBlueBottomRight *= f7;
 				this.colorBlueTopRight *= f7;
-				this.renderSouthFace(block1, (double)i2, (double)i3, (double)i4, 38);
+				this.renderSouthFace(block1, (double)i2, (double)i3, (double)i4, 16*9+5);
 			}
 
 			z8 = true;
@@ -3028,6 +3028,7 @@ public class RenderBlocks {
 	}
 
 	public boolean renderStandardBlockWithColorMultiplier(Block block, int x, int y, int z, float r, float g, float b) {
+				
 		this.enableAO = false;
 		Tessellator tes = Tessellator.instance;
 		boolean renderedAny = false;
@@ -3101,7 +3102,7 @@ public class RenderBlocks {
 			this.renderEastFace(block, (double)x, (double)y, (double)z, textureId);
 			if(fancyGrass && textureId == 3 && this.overrideBlockTexture < 0) {
 				tes.setColorOpaque_F(rEW * r, gEW * g, bEW * b);
-				this.renderEastFace(block, (double)x, (double)y, (double)z, 38);
+				this.renderEastFace(block, (double)x, (double)y, (double)z, 9*16+5);
 			}
 
 			renderedAny = true;
@@ -3115,7 +3116,7 @@ public class RenderBlocks {
 			this.renderWestFace(block, (double)x, (double)y, (double)z, textureId);
 			if(fancyGrass && textureId == 3 && this.overrideBlockTexture < 0) {
 				tes.setColorOpaque_F(rEW * r, gEW * g, bEW * b);
-				this.renderWestFace(block, (double)x, (double)y, (double)z, 38);
+				this.renderWestFace(block, (double)x, (double)y, (double)z, 9*16+5);
 			}
 
 			renderedAny = true;
@@ -3129,7 +3130,7 @@ public class RenderBlocks {
 			this.renderNorthFace(block, (double)x, (double)y, (double)z, textureId);
 			if(fancyGrass && textureId == 3 && this.overrideBlockTexture < 0) {
 				tes.setColorOpaque_F(rNS * r, gNS * g, bNS * b);
-				this.renderNorthFace(block, (double)x, (double)y, (double)z, 38);
+				this.renderNorthFace(block, (double)x, (double)y, (double)z, 9*16+5);
 			}
 
 			renderedAny = true;
@@ -3143,7 +3144,7 @@ public class RenderBlocks {
 			this.renderSouthFace(block, (double)x, (double)y, (double)z, textureId);
 			if(fancyGrass && textureId == 3 && this.overrideBlockTexture < 0) {
 				tes.setColorOpaque_F(rNS * r, gNS * g, bNS * b);
-				this.renderSouthFace(block, (double)x, (double)y, (double)z, 38);
+				this.renderSouthFace(block, (double)x, (double)y, (double)z, 9*16+5);
 			}
 
 			renderedAny = true;

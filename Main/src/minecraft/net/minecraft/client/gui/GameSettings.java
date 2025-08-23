@@ -259,6 +259,7 @@ public class GameSettings {
 
 		if(enumOptions1 == EnumOptions.GRAPHICS) {
 			this.fancyGraphics = !this.fancyGraphics;
+			RenderBlocks.fancyGrass = Config.isGrassFancy();
 			this.mc.renderGlobal.loadRenderers();
 		}
 
@@ -777,6 +778,8 @@ public class GameSettings {
 
 					if(string3[0].equals("fancyGraphics")) {
 						this.fancyGraphics = string3[1].equals("true");
+						System.out.println("IsGrassFancy... ofGrass = " + this.ofGrass + ", fancyGraphics = " + this.fancyGraphics + " isGrassFaancy?" + Config.isGrassFancy());
+						RenderBlocks.fancyGrass = Config.isGrassFancy();
 					}
 
 					if(string3[0].equals("hand")) {
@@ -920,6 +923,7 @@ public class GameSettings {
 					if(string3[0].equals("ofGrass") && string3.length >= 2) {
 						this.ofGrass = Integer.valueOf(string3[1]).intValue();
 						this.ofGrass = Config.limit(this.ofGrass, 0, 2);
+						RenderBlocks.fancyGrass = Config.isGrassFancy();
 					}
 
 					if(string3[0].equals("ofRain") && string3.length >= 2) {

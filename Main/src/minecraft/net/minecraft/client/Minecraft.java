@@ -99,6 +99,7 @@ import net.minecraft.world.level.colorizer.ColorizerGrass;
 import net.minecraft.world.level.colorizer.ColorizerWater;
 import net.minecraft.world.level.dimension.Teleporter;
 import net.minecraft.world.level.dimension.WorldProvider;
+import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.phys.AxisAlignedBB;
 import net.minecraft.world.phys.EnumMovingObjectType;
@@ -557,8 +558,7 @@ public abstract class Minecraft implements Runnable {
 					}
 
 					this.checkGLError("Pre render");
-					// Soft locked fancy grass
-					RenderBlocks.fancyGrass = false; // this.gameSettings.fancyGraphics;
+					RenderBlocks.fancyGrass = Config.isGrassFancy() && LevelThemeGlobalSettings.colorizedPlants;
 					this.sndManager.func_338_a(this.thePlayer, this.timer.renderPartialTicks);
 					
 					GL11.glEnable(GL11.GL_TEXTURE_2D);
