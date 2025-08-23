@@ -5,7 +5,7 @@ import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
 
 public class BlockHollowLog extends Block {
-	public static final int[] textureIndex = new int[] { 13*16 + 9, 13*16 + 8, 20 };
+	public static final int[] textureIndex = new int[] { 13*16 + 9, 13*16 + 8, 288 };
 	
 	protected BlockHollowLog(int id, int textureIndex) {
 		super(id, textureIndex, Material.wood);	

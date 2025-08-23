@@ -10,13 +10,10 @@ import net.minecraft.world.entity.EnumMobType;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemBigFlower;
 import net.minecraft.world.item.ItemBlock;
 import net.minecraft.world.item.ItemBlockWithSubtypes;
 import net.minecraft.world.item.ItemCauldron;
 import net.minecraft.world.item.ItemCloth;
-import net.minecraft.world.item.ItemCoral;
-import net.minecraft.world.item.ItemGrass;
 import net.minecraft.world.item.ItemIce;
 import net.minecraft.world.item.ItemLayeredSand;
 import net.minecraft.world.item.ItemLilypad;
@@ -186,7 +183,7 @@ public class Block {
 	public static final Block streetLantern = (new BlockStreetLantern(130, 14*16 + 9, false)).setHardness(0.5F).setStepSound(soundMetalFootstep).setLightValue(0.875F).setIsUrban(true).setBlockName("streetLantern");
 	public static final Block streetLanternBroken = (new BlockStreetLantern(131, 14*16 + 9, true)).setHardness(0.5F).setStepSound(soundMetalFootstep).setIsUrban(true).setBlockName("streetLanternBroken");
 	public static final Block streetLanternFence = (new BlockFence(132, 14*16 + 7, Material.iron)).setHardness(2.0F).setResistance(5.0F).setStepSound(soundMetalFootstep).setBlockName("ironFence");
-	public static final Block barbedWire = (new BlockBarbedWire(133, 14*16 + 6)).setHardness(3.0F).setResistance(8.0F).setStepSound(soundMetalFootstep);
+	public static final Block barbedWire = (new BlockBarbedWire(133, 14*16 + 6)).setHardness(3.0F).setResistance(8.0F).setStepSound(soundMetalFootstep).setBlockName("barbedWire");
 	public static final Block layeredSand = (new BlockLayeredSand(134, 18)).setHardness(0.2F).setStepSound(soundSandFootstep).setBlockName("layeredSand");
 	public static final Block hollowLog = (new BlockHollowLog(135, 20)).setHardness(1.0F).setResistance(1.0F).setStepSound(soundWoodFootstep).setBlockName("hollowLog");
 	public static final Block dirtPath = (new BlockDirtPath(136, 13*16 + 6)).setHardness(0.6F).setStepSound(soundGrassFootstep).setBlockName("dirtPath");
@@ -817,15 +814,11 @@ public class Block {
 		Item.itemsList[cloth.blockID] = (new ItemCloth(cloth.blockID - 256)).setItemName("cloth");
 		Item.itemsList[stairSingle.blockID] = (new ItemSlab(stairSingle.blockID - 256)).setItemName("stoneSlab");
 		Item.itemsList[lilyPad.blockID] = new ItemLilypad(lilyPad.blockID - 256);
-		Item.itemsList[coral.blockID] = new ItemCoral(coral.blockID - 256);
 		Item.itemsList[layeredSand.blockID] = new ItemLayeredSand(layeredSand.blockID - 256);
-		Item.itemsList[bigFlower.blockID] = new ItemBigFlower(bigFlower.blockID - 256);
 		Item.itemsList[pumpkin.blockID] = new ItemPumpkin(pumpkin.blockID - 256);
 		Item.itemsList[stainedTerracotta.blockID] = (new ItemTerracotta(stainedTerracotta.blockID - 256)).setItemName("terracotta");
 		Item.itemsList[ice.blockID] = (new ItemIce(ice.blockID - 256)).setItemName("ice");
-		Item.itemsList[grass.blockID] = (new ItemGrass(grass.blockID - 256)).setItemName("grass");
-		Item.itemsList[tallGrass.blockID] = (new ItemTallGrass(tallGrass.blockID - 256)).setItemName("tallGrass");
-			
+		Item.itemsList[tallGrass.blockID] = (new ItemTallGrass(tallGrass.blockID - 256)).setItemName("tallGrass");		
 		Item.itemsList[cauldron.blockID] = (new ItemCauldron(cauldron.blockID - 256)).setItemName("cauldron");		
 		
 		for(int id = 0; id < 256; ++id) {

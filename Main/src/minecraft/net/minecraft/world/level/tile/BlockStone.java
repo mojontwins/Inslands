@@ -8,7 +8,7 @@ import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
 
-public class BlockStone extends Block {
+public class BlockStone extends Block implements IBlockWithSubtypes {
 	public static final int[] stoneColor = new int [] {
 		0xFFFFFF,
 		0xCCCCCC
@@ -37,7 +37,22 @@ public class BlockStone extends Block {
     @Override
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
 		for(int i = 0; i < 2; i ++) {
-			par3List.add(new ItemStack(par1, 1, i));
+			par3List.add(new ItemStack(par1, 1, i << 4));
 		}
+	}
+
+	@Override
+	public int getItemBlockId() {
+		return this.blockID - 256;
+	}
+
+	@Override
+	public String getNameFromMeta(int meta) {
+		return "stone";
+	}
+
+	@Override
+	public int getIndexInTextureFromMeta(int meta) {
+		return this.blockIndexInTexture;
 	}
 }

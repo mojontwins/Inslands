@@ -8,7 +8,12 @@ import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.AxisAlignedBB;
 
-public class BlockCoral extends Block {
+public class BlockCoral extends Block implements IBlockWithSubtypes {
+	
+	public static String[] coralNames = new String[] {
+			"pink", "yello", "blue"
+	};
+	
 	/*
 	 * Coral metadata will be 8, 9, 10 to make it compatible with flowing water.
 	 */
@@ -70,5 +75,21 @@ public class BlockCoral extends Block {
 		for(int i = 0; i < 3; i ++) {
 			par3List.add(new ItemStack(par1, 1, 8 + i));
 		}
+	}
+
+	@Override
+	public int getItemBlockId() {
+		return this.blockID - 256;
+	}
+
+	@Override
+	public String getNameFromMeta(int meta) {
+		if(meta < 8 || meta > 10) return null;
+		return "coral." + BlockCoral.coralNames [meta - 8];
+	}
+
+	@Override
+	public int getIndexInTextureFromMeta(int meta) {
+		return this.blockIndexInTexture + (meta & 7);
 	}
 }

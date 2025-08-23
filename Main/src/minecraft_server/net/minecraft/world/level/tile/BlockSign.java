@@ -5,7 +5,6 @@ import java.util.Random;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
-import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.entity.TileEntity;
 import net.minecraft.world.level.tile.entity.TileEntitySign;
@@ -24,7 +23,6 @@ public class BlockSign extends BlockContainer {
 		float f5 = 1.0F;
 		this.setBlockBounds(0.5F - f4, 0.0F, 0.5F - f4, 0.5F + f4, f5, 0.5F + f4);
 		
-		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {

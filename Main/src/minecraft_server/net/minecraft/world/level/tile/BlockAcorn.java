@@ -12,6 +12,8 @@ public class BlockAcorn extends BlockFlower {
 		this.setTickOnLoad(true);
 		float f3 = 0.2F;
 		this.setBlockBounds(0.5F - f3, 0.0F, 0.5F - f3, 0.5F + f3, f3 * 2.0F, 0.5F + f3);
+		
+		this.setCreativeTab(null);
 	}
 
 	protected boolean canThisPlantGrowOnThisBlockID(int blockID) {

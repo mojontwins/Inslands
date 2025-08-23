@@ -13,7 +13,7 @@ fancyGraphics:true
 hand:true
 threadedLighting:false
 clearWaters:true
-ao:false
+ao:true
 skin:Default
 lastServer:localhost
 FOV:0
@@ -41,7 +41,7 @@ ofPreloadedChunks:0
 ofOcclusionFancy:false
 ofSmoothFps:false
 ofSmoothInput:false
-ofAoLevel:0.0
+ofAoLevel:1.0
 ofClouds:0
 ofCloudsHeight:0.0
 ofTrees:0

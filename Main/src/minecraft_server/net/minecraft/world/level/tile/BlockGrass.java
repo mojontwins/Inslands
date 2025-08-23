@@ -12,7 +12,7 @@ import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 
-public class BlockGrass extends Block {
+public class BlockGrass extends Block implements IBlockWithSubtypes {
 	protected BlockGrass(int blockID) {
 		super(blockID, Material.grass);
 		this.blockIndexInTexture = 3;
@@ -150,5 +150,20 @@ public class BlockGrass extends Block {
 		for(int i = 0; i < 2; i ++) {
 			par3List.add(new ItemStack(par1, 1, i));
 		}
+	}
+
+	@Override
+	public int getItemBlockId() {
+		return this.blockID - 256;
+	}
+
+	@Override
+	public String getNameFromMeta(int meta) {
+		return "grass";
+	}
+
+	@Override
+	public int getIndexInTextureFromMeta(int meta) {
+		return meta == 0 ? 3 : 0;
 	}
 }

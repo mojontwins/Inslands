@@ -17,7 +17,7 @@ import net.minecraft.world.phys.AxisAlignedBB;
 import net.minecraft.world.phys.MovingObjectPosition;
 import net.minecraft.world.phys.Vec3D;
 
-public class BlockTFHedge extends Block {
+public class BlockTFHedge extends Block implements IBlockWithSubtypes {
 	public int damageDone;
 	public static final int hedgeColors[] = { 0x508F3D, 0x3D6345 };
 	
@@ -129,5 +129,20 @@ public class BlockTFHedge extends Block {
 		par3List.add(new ItemStack(par1, 1, 0));
 		par3List.add(new ItemStack(par1, 1, 1));
 
+	}
+
+	@Override
+	public int getItemBlockId() {
+		return this.blockID - 256;
+	}
+
+	@Override
+	public String getNameFromMeta(int meta) {
+		return "hedge";
+	}
+
+	@Override
+	public int getIndexInTextureFromMeta(int meta) {
+		return this.getBlockTextureFromSideAndMetadata(2, meta);
 	}
 }

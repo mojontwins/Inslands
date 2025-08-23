@@ -211,7 +211,7 @@ Yay! fps boosted on shitty systems!
 	* [X] Nether lighting works. It was a very, very stupid bug integrating starlight (it was in Chunk.setBlockIdAndMetadata)
 
 	* [ ] Nether biomes / content todo:
-		* [ ] Attempt to do this with the least amount possible of new blocks and textures!
+		* [-] Attempt to do this with the least amount possible of new blocks and textures!
 
 		* [ ] Create new fire proof, colorisable leaf block.
 		* [ ] Create new fire proof, colorisable log block.
@@ -379,9 +379,13 @@ line 19: sapling
 
 Things to do to finish tree refactoring
 
-* [ ] Convert all trees to use the new enum for resources.
+* [X] Convert all trees to use the new enum for resources.
 * [ ] Finish the ItemMulti shit and give proper names to all new blocks via the item.
 * [ ] Think on a clever way to make this work in vanilla metas so I can reuse this in the b1666 mod.
 
 **Added blockStateDropped to Block**. By default, this will call idDropped and damageDropped.
 
+* [ ] Revise all themes again
+* [X] grass as item is colourised ALL FACES but shouldn't
+* [X] Coral wrong texture on inventory,
+* [X] Sign twince on inventory; should show item not block tex.

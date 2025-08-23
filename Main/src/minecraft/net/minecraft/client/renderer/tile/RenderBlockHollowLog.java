@@ -262,7 +262,7 @@ public class RenderBlockHollowLog {
 		u1 = t2_u; // + 0.0000000F;
 		v1 = t2_v; // + 0.0000000F;
 		u2 = t2_u + Texels.texelsU(16); // 0.0625000F;
-		v2 = t2_v + Texels.texelsU(16); // 0.0625000F;
+		v2 = t2_v + Texels.texelsV(16); // 0.0625000F;
 		tessellator.addVertexWithUV(x2, y2, z2, u1, v1);
 		tessellator.addVertexWithUV(x2, y2, z1, u2, v1);
 		tessellator.addVertexWithUV(x1, y2, z1, u2, v2);
@@ -308,7 +308,7 @@ public class RenderBlockHollowLog {
 		u1 = t1_u; // + 0.0000000F;
 		v1 = t1_v; // + 0.0000000F;
 		u2 = t1_u + Texels.texelsU(16); // 0.0625000F;
-		v2 = t1_v + Texels.texelsU(16); // 0.0625000F;
+		v2 = t1_v + Texels.texelsV(16); // 0.0625000F;
 		tessellator.addVertexWithUV(x2, y2, z1, u1, v2);
 		tessellator.addVertexWithUV(x2, y2, z2, u1, v1);
 		tessellator.addVertexWithUV(x2, y1, z2, u2, v1);
@@ -414,7 +414,7 @@ public class RenderBlockHollowLog {
 		u1 = t2_u; // + 0.0000000F;
 		v1 = t2_v; // + 0.0000000F;
 		u2 = t2_u + Texels.texelsU(16); // 0.0625000F;
-		v2 = t2_v + Texels.texelsU(16); // 0.0625000F;
+		v2 = t2_v + Texels.texelsV(16); // 0.0625000F;
 		tessellator.addVertexWithUV(x2, y2, z2, u1, v1);
 		tessellator.addVertexWithUV(x2, y2, z1, u1, v2);
 		tessellator.addVertexWithUV(x1, y2, z1, u2, v2);
@@ -460,7 +460,7 @@ public class RenderBlockHollowLog {
 		u1 = t1_u; // + 0.0000000F;
 		v1 = t1_v; // + 0.0000000F;
 		u2 = t1_u + Texels.texelsU(16); // 0.0625000F;
-		v2 = t1_v + Texels.texelsU(16); // 0.0625000F;
+		v2 = t1_v + Texels.texelsV(16); // 0.0625000F;
 		tessellator.addVertexWithUV(x1, y2, z1, u2, v1);
 		tessellator.addVertexWithUV(x2, y2, z1, u1, v1);
 		tessellator.addVertexWithUV(x2, y1, z1, u1, v2);
@@ -570,7 +570,7 @@ public class RenderBlockHollowLog {
 		u1 = t2_u; // + 0.0000000F;
 		v1 = t2_v; // + 0.0000000F;
 		u2 = t2_u + Texels.texelsU(16); // 0.0625000F;
-		v2 = t2_v + Texels.texelsU(16); // 0.0625000F;
+		v2 = t2_v + Texels.texelsV(16); // 0.0625000F;
 		tessellator.addVertexWithUV(x2, y1, z2, u1, v1);
 		tessellator.addVertexWithUV(x2, y1, z1, u2, v1);
 		tessellator.addVertexWithUV(x2, y2, z1, u2, v2);
@@ -620,7 +620,7 @@ public class RenderBlockHollowLog {
 		u1 = t1_u; // + 0.0000000F;
 		v1 = t1_v; // + 0.0000000F;
 		u2 = t1_u + Texels.texelsU(16); // 0.0625000F;
-		v2 = t1_v + Texels.texelsU(16); // 0.0625000F;
+		v2 = t1_v + Texels.texelsV(16); // 0.0625000F;
 		tessellator.addVertexWithUV(x1, y2, z1, u1, v2);
 		tessellator.addVertexWithUV(x1, y2, z2, u1, v1);
 		tessellator.addVertexWithUV(x2, y2, z2, u2, v1);

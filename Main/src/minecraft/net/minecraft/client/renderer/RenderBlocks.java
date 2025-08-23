@@ -2023,7 +2023,7 @@ public class RenderBlocks {
 		
 		// Render a lily flower on top
 		if((variation & 4) != 0) {
-			this.overrideBlockTexture = 12 * 16 + 12;
+			this.overrideBlockTexture = 12 * 16 + 2;
 			this.drawCrossedSquares(block, x, y, z);
 			this.overrideBlockTexture = -1;
 		}
@@ -3027,107 +3027,129 @@ public class RenderBlocks {
 		return i1 + i2 + i3 + i4 >> 2 & 16711935;
 	}
 
-	public boolean renderStandardBlockWithColorMultiplier(Block block1, int i2, int i3, int i4, float f5, float f6, float f7) {
+	public boolean renderStandardBlockWithColorMultiplier(Block block, int x, int y, int z, float r, float g, float b) {
 		this.enableAO = false;
-		Tessellator tessellator8 = Tessellator.instance;
-		boolean z9 = false;
-		float f10 = 0.5F;
-		float f11 = 1.0F;
-		float f12 = 0.8F;
-		float f13 = 0.6F;
-		float f14 = f11 * f5;
-		float f15 = f11 * f6;
-		float f16 = f11 * f7;
-		float f17 = f10;
-		float f18 = f12;
-		float f19 = f13;
-		float f20 = f10;
-		float f21 = f12;
-		float f22 = f13;
-		float f23 = f10;
-		float f24 = f12;
-		float f25 = f13;
-		if(block1 != Block.grass) {
-			f17 = f10 * f5;
-			f18 = f12 * f5;
-			f19 = f13 * f5;
-			f20 = f10 * f6;
-			f21 = f12 * f6;
-			f22 = f13 * f6;
-			f23 = f10 * f7;
-			f24 = f12 * f7;
-			f25 = f13 * f7;
+		Tessellator tes = Tessellator.instance;
+		boolean renderedAny = false;
+		
+		// Global light value for each side
+		float lmBo = 0.5F;
+		float lmTo = 1.0F;
+		float lmEW = 0.8F;
+		float lmNS = 0.6F;
+
+		// Calculated RGB for TOP with color applied
+		float rTop = lmTo * r;
+		float gTop = lmTo * g;
+		float bTop = lmTo * b;
+
+		// Calculated RGB for Bottom
+		float rBottom = lmBo;
+		float gBottom = lmBo;
+		float bBottom = lmBo;
+
+		// Calculated RGB for EW
+		float rEW = lmEW;
+		float gEW = lmEW;
+		float bEW = lmEW;
+
+		// Calculated RGB for NS
+		float rNS = lmNS;
+		float gNS = lmNS;
+		float bNS = lmNS;
+
+		// Apply color to bottom, EW, NS if not grass
+		if(block != Block.grass) {
+			rBottom = lmBo * r;
+			gBottom = lmBo * g;
+			bBottom = lmBo * b;
+			
+			rEW = lmEW * r;
+			gEW = lmEW * g;
+			bEW = lmEW * b;
+			
+			rNS = lmNS * r;
+			gNS = lmNS * g;
+			bNS = lmNS * b;
 		}
 
-		int i26 = block1.getMixedBrightnessForBlock(this.blockAccess, i2, i3, i4);
-		if(this.renderAllFaces || block1.shouldSideBeRendered(this.blockAccess, i2, i3 - 1, i4, 0)) {
-			tessellator8.setBrightness(block1.minY > 0.0D ? i26 : block1.getMixedBrightnessForBlock(this.blockAccess, i2, i3 - 1, i4));
-			tessellator8.setColorOpaque_F(f17, f20, f23);
-			this.renderBottomFace(block1, (double)i2, (double)i3, (double)i4, block1.getBlockTexture(this.blockAccess, i2, i3, i4, 0));
-			z9 = true;
+		int blockBrightness = block.getMixedBrightnessForBlock(this.blockAccess, x, y, z);
+
+		// Render bottom
+		if(this.renderAllFaces || block.shouldSideBeRendered(this.blockAccess, x, y - 1, z, 0)) {
+			tes.setBrightness(block.minY > 0.0D ? blockBrightness : block.getMixedBrightnessForBlock(this.blockAccess, x, y - 1, z));
+			tes.setColorOpaque_F(rBottom, gBottom, bBottom);
+			this.renderBottomFace(block, (double)x, (double)y, (double)z, block.getBlockTexture(this.blockAccess, x, y, z, 0));
+			renderedAny = true;
 		}
 
-		if(this.renderAllFaces || block1.shouldSideBeRendered(this.blockAccess, i2, i3 + 1, i4, 1)) {
-			tessellator8.setBrightness(block1.maxY < 1.0D ? i26 : block1.getMixedBrightnessForBlock(this.blockAccess, i2, i3 + 1, i4));
-			tessellator8.setColorOpaque_F(f14, f15, f16);
-			this.renderTopFace(block1, (double)i2, (double)i3, (double)i4, block1.getBlockTexture(this.blockAccess, i2, i3, i4, 1));
-			z9 = true;
+		// Render top
+		if(this.renderAllFaces || block.shouldSideBeRendered(this.blockAccess, x, y + 1, z, 1)) {
+			tes.setBrightness(block.maxY < 1.0D ? blockBrightness : block.getMixedBrightnessForBlock(this.blockAccess, x, y + 1, z));
+			tes.setColorOpaque_F(rTop, gTop, bTop);
+			this.renderTopFace(block, (double)x, (double)y, (double)z, block.getBlockTexture(this.blockAccess, x, y, z, 1));
+			renderedAny = true;
 		}
 
-		int i28;
-		if(this.renderAllFaces || block1.shouldSideBeRendered(this.blockAccess, i2, i3, i4 - 1, 2)) {
-			tessellator8.setBrightness(block1.minZ > 0.0D ? i26 : block1.getMixedBrightnessForBlock(this.blockAccess, i2, i3, i4 - 1));
-			tessellator8.setColorOpaque_F(f18, f21, f24);
-			i28 = block1.getBlockTexture(this.blockAccess, i2, i3, i4, 2);
-			this.renderEastFace(block1, (double)i2, (double)i3, (double)i4, i28);
-			if(fancyGrass && i28 == 3 && this.overrideBlockTexture < 0) {
-				tessellator8.setColorOpaque_F(f18 * f5, f21 * f6, f24 * f7);
-				this.renderEastFace(block1, (double)i2, (double)i3, (double)i4, 38);
+		int textureId;
+
+		// Render East
+		if(this.renderAllFaces || block.shouldSideBeRendered(this.blockAccess, x, y, z - 1, 2)) {
+			tes.setBrightness(block.minZ > 0.0D ? blockBrightness : block.getMixedBrightnessForBlock(this.blockAccess, x, y, z - 1));
+			tes.setColorOpaque_F(rEW, gEW, bEW);
+			textureId = block.getBlockTexture(this.blockAccess, x, y, z, 2);
+			this.renderEastFace(block, (double)x, (double)y, (double)z, textureId);
+			if(fancyGrass && textureId == 3 && this.overrideBlockTexture < 0) {
+				tes.setColorOpaque_F(rEW * r, gEW * g, bEW * b);
+				this.renderEastFace(block, (double)x, (double)y, (double)z, 38);
 			}
 
-			z9 = true;
+			renderedAny = true;
 		}
 
-		if(this.renderAllFaces || block1.shouldSideBeRendered(this.blockAccess, i2, i3, i4 + 1, 3)) {
-			tessellator8.setBrightness(block1.maxZ < 1.0D ? i26 : block1.getMixedBrightnessForBlock(this.blockAccess, i2, i3, i4 + 1));
-			tessellator8.setColorOpaque_F(f18, f21, f24);
-			i28 = block1.getBlockTexture(this.blockAccess, i2, i3, i4, 3);
-			this.renderWestFace(block1, (double)i2, (double)i3, (double)i4, i28);
-			if(fancyGrass && i28 == 3 && this.overrideBlockTexture < 0) {
-				tessellator8.setColorOpaque_F(f18 * f5, f21 * f6, f24 * f7);
-				this.renderWestFace(block1, (double)i2, (double)i3, (double)i4, 38);
+		// Render West
+		if(this.renderAllFaces || block.shouldSideBeRendered(this.blockAccess, x, y, z + 1, 3)) {
+			tes.setBrightness(block.maxZ < 1.0D ? blockBrightness : block.getMixedBrightnessForBlock(this.blockAccess, x, y, z + 1));
+			tes.setColorOpaque_F(rEW, gEW, bEW);
+			textureId = block.getBlockTexture(this.blockAccess, x, y, z, 3);
+			this.renderWestFace(block, (double)x, (double)y, (double)z, textureId);
+			if(fancyGrass && textureId == 3 && this.overrideBlockTexture < 0) {
+				tes.setColorOpaque_F(rEW * r, gEW * g, bEW * b);
+				this.renderWestFace(block, (double)x, (double)y, (double)z, 38);
 			}
 
-			z9 = true;
+			renderedAny = true;
 		}
 
-		if(this.renderAllFaces || block1.shouldSideBeRendered(this.blockAccess, i2 - 1, i3, i4, 4)) {
-			tessellator8.setBrightness(block1.minX > 0.0D ? i26 : block1.getMixedBrightnessForBlock(this.blockAccess, i2 - 1, i3, i4));
-			tessellator8.setColorOpaque_F(f19, f22, f25);
-			i28 = block1.getBlockTexture(this.blockAccess, i2, i3, i4, 4);
-			this.renderNorthFace(block1, (double)i2, (double)i3, (double)i4, i28);
-			if(fancyGrass && i28 == 3 && this.overrideBlockTexture < 0) {
-				tessellator8.setColorOpaque_F(f19 * f5, f22 * f6, f25 * f7);
-				this.renderNorthFace(block1, (double)i2, (double)i3, (double)i4, 38);
+		// Render North
+		if(this.renderAllFaces || block.shouldSideBeRendered(this.blockAccess, x - 1, y, z, 4)) {
+			tes.setBrightness(block.minX > 0.0D ? blockBrightness : block.getMixedBrightnessForBlock(this.blockAccess, x - 1, y, z));
+			tes.setColorOpaque_F(rNS, gNS, bNS);
+			textureId = block.getBlockTexture(this.blockAccess, x, y, z, 4);
+			this.renderNorthFace(block, (double)x, (double)y, (double)z, textureId);
+			if(fancyGrass && textureId == 3 && this.overrideBlockTexture < 0) {
+				tes.setColorOpaque_F(rNS * r, gNS * g, bNS * b);
+				this.renderNorthFace(block, (double)x, (double)y, (double)z, 38);
 			}
 
-			z9 = true;
+			renderedAny = true;
 		}
 
-		if(this.renderAllFaces || block1.shouldSideBeRendered(this.blockAccess, i2 + 1, i3, i4, 5)) {
-			tessellator8.setBrightness(block1.maxX < 1.0D ? i26 : block1.getMixedBrightnessForBlock(this.blockAccess, i2 + 1, i3, i4));
-			tessellator8.setColorOpaque_F(f19, f22, f25);
-			i28 = block1.getBlockTexture(this.blockAccess, i2, i3, i4, 5);
-			this.renderSouthFace(block1, (double)i2, (double)i3, (double)i4, i28);
-			if(fancyGrass && i28 == 3 && this.overrideBlockTexture < 0) {
-				tessellator8.setColorOpaque_F(f19 * f5, f22 * f6, f25 * f7);
-				this.renderSouthFace(block1, (double)i2, (double)i3, (double)i4, 38);
+		// Render South
+		if(this.renderAllFaces || block.shouldSideBeRendered(this.blockAccess, x + 1, y, z, 5)) {
+			tes.setBrightness(block.maxX < 1.0D ? blockBrightness : block.getMixedBrightnessForBlock(this.blockAccess, x + 1, y, z));
+			tes.setColorOpaque_F(rNS, gNS, bNS);
+			textureId = block.getBlockTexture(this.blockAccess, x, y, z, 5);
+			this.renderSouthFace(block, (double)x, (double)y, (double)z, textureId);
+			if(fancyGrass && textureId == 3 && this.overrideBlockTexture < 0) {
+				tes.setColorOpaque_F(rNS * r, gNS * g, bNS * b);
+				this.renderSouthFace(block, (double)x, (double)y, (double)z, 38);
 			}
 
-			z9 = true;
+			renderedAny = true;
 		}
 
-		return z9;
+		return renderedAny;
 	}
 
 	public boolean renderBlockCactus(Block block1, int i2, int i3, int i4) {
@@ -4678,245 +4700,273 @@ public class RenderBlocks {
 	
 	// End
 	
-	public void renderBlockAsItem(Block block1, float f2) {
-		int i3 = block1.getRenderType();
-		Tessellator tessellator4 = Tessellator.instance;
-		if(i3 == 0) {
-			block1.setBlockBoundsForItemRender();
+	public void renderBlockAsItem(Block block, float brightness) {
+		int renderType = block.getRenderType();
+		Tessellator tes = Tessellator.instance;
+		if(renderType == 0) {
+			block.setBlockBoundsForItemRender();
 			GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
 			float f5 = 0.5F;
-			float f6 = 1.0F;
-			float f7 = 0.8F;
+			float n1 = 1.0F;
+			float n2 = 0.8F;
 			float f8 = 0.6F;
-			tessellator4.startDrawingQuads();
-			tessellator4.setColorRGBA_F(f6, f6, f6, f2);
-			this.renderBottomFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(0));
-			tessellator4.setColorRGBA_F(f5, f5, f5, f2);
-			this.renderTopFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(1));
-			tessellator4.setColorRGBA_F(f7, f7, f7, f2);
-			this.renderEastFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(2));
-			this.renderWestFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(3));
-			tessellator4.setColorRGBA_F(f8, f8, f8, f2);
-			this.renderNorthFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(4));
-			this.renderSouthFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(5));
-			tessellator4.draw();
+			tes.startDrawingQuads();
+			tes.setColorRGBA_F(n1, n1, n1, brightness);
+			this.renderBottomFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(0));
+			tes.setColorRGBA_F(f5, f5, f5, brightness);
+			this.renderTopFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(1));
+			tes.setColorRGBA_F(n2, n2, n2, brightness);
+			this.renderEastFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(2));
+			this.renderWestFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(3));
+			tes.setColorRGBA_F(f8, f8, f8, brightness);
+			this.renderNorthFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(4));
+			this.renderSouthFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(5));
+			tes.draw();
 			GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 		} else {
-			block1.setBlockBoundsForItemRender();
+			block.setBlockBoundsForItemRender();
 			GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-			tessellator4.startDrawingQuads();
-			tessellator4.setColorRGBA_F(1.0F, 1.0F, 1.0F, f2);
-			this.renderEastFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(0));
-			tessellator4.draw();
+			tes.startDrawingQuads();
+			tes.setColorRGBA_F(1.0F, 1.0F, 1.0F, brightness);
+			this.renderEastFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(0));
+			tes.draw();
 			GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 		}
 
 	}
 	
-	public void renderBlockOnInventory(Block block1, int i2, float f3) {
-		Tessellator tessellator4 = Tessellator.instance;
-		int i5;
-		float f6;
-		float f7;
+	public void renderBlockOnInventory(Block block, int meta, float brightness) {
+		Tessellator tes = Tessellator.instance;
+		boolean isGrass = block.blockID == Block.grass.blockID;
+
 		if(this.useInventoryTint) {
-			i5 = block1.getRenderColor(i2);
-			f6 = (float)(i5 >> 16 & 255) / 255.0F;
-			f7 = (float)(i5 >> 8 & 255) / 255.0F;
-			float f8 = (float)(i5 & 255) / 255.0F;
-			GL11.glColor4f(f6 * f3, f7 * f3, f8 * f3, 1.0F);
+			int rgba = block.getRenderColor(meta);
+			float r = (float)(rgba >> 16 & 255) / 255.0F;
+			float g = (float)(rgba >> 8 & 255) / 255.0F;
+			float b = (float)(rgba & 255) / 255.0F;
+			GL11.glColor4f(r * brightness, g * brightness, b * brightness, 1.0F);
 		}
 
-		i5 = block1.getRenderType();
+		int renderType = block.getRenderType();
+		float n1, n2;
 		
 		// Patch for blocks which can be rendered as cubes in the inventory
-		if(i5 >= 103 && i5 <= 108 && i5 != 104) i5 = 0;
-		if(i5 == 255) i5 = 0;
+		if(
+				(renderType >= 103 && renderType <= 108 && renderType != 104) ||
+				renderType == 112 ||
+				renderType == 255
+		) renderType = 0;
 		
-		if(i5 == 250) {
-			RenderBlockModel.renderBlockAsItem(tessellator4, block1, i2);
-		} else if(i5 != 0 && i5 != 16) {
-			if(i5 == 1 || i5 == 111) {
-				tessellator4.startDrawingQuads();
-				tessellator4.setNormal(0.0F, -1.0F, 0.0F);
-				this.drawCrossedSquares(block1, i2, -0.5D, -0.5D, -0.5D);
-				tessellator4.draw();
-			} else if(i5 == 13 || i5 == 104) {
-				block1.setBlockBoundsForItemRender();
+		if(renderType == 250) {
+			RenderBlockModel.renderBlockAsItem(tes, block, meta);
+
+		} else if(renderType != 0 && renderType != 16) {
+			if(renderType == 1 || renderType == 111) {
+				tes.startDrawingQuads();
+				tes.setNormal(0.0F, -1.0F, 0.0F);
+				this.drawCrossedSquares(block, meta, -0.5D, -0.5D, -0.5D);
+				tes.draw();
+
+			} else if(renderType == 13 || renderType == 104) {
+				block.setBlockBoundsForItemRender();
 				GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-				f6 = 0.0625F;
-				tessellator4.startDrawingQuads();
-				tessellator4.setNormal(0.0F, -1.0F, 0.0F);
-				this.renderBottomFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(0));
-				tessellator4.draw();
-				tessellator4.startDrawingQuads();
-				tessellator4.setNormal(0.0F, 1.0F, 0.0F);
-				this.renderTopFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(1));
-				tessellator4.draw();
-				tessellator4.startDrawingQuads();
-				tessellator4.setNormal(0.0F, 0.0F, -1.0F);
-				tessellator4.addTranslation(0.0F, 0.0F, f6);
-				this.renderEastFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(2));
-				tessellator4.addTranslation(0.0F, 0.0F, -f6);
-				tessellator4.draw();
-				tessellator4.startDrawingQuads();
-				tessellator4.setNormal(0.0F, 0.0F, 1.0F);
-				tessellator4.addTranslation(0.0F, 0.0F, -f6);
-				this.renderWestFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(3));
-				tessellator4.addTranslation(0.0F, 0.0F, f6);
-				tessellator4.draw();
-				tessellator4.startDrawingQuads();
-				tessellator4.setNormal(-1.0F, 0.0F, 0.0F);
-				tessellator4.addTranslation(f6, 0.0F, 0.0F);
-				this.renderNorthFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(4));
-				tessellator4.addTranslation(-f6, 0.0F, 0.0F);
-				tessellator4.draw();
-				tessellator4.startDrawingQuads();
-				tessellator4.setNormal(1.0F, 0.0F, 0.0F);
-				tessellator4.addTranslation(-f6, 0.0F, 0.0F);
-				this.renderSouthFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(5));
-				tessellator4.addTranslation(f6, 0.0F, 0.0F);
-				tessellator4.draw();
+				n1 = 0.0625F;
+				tes.startDrawingQuads();
+				tes.setNormal(0.0F, -1.0F, 0.0F);
+				this.renderBottomFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(0));
+				tes.draw();
+				tes.startDrawingQuads();
+				tes.setNormal(0.0F, 1.0F, 0.0F);
+				this.renderTopFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(1));
+				tes.draw();
+				tes.startDrawingQuads();
+				tes.setNormal(0.0F, 0.0F, -1.0F);
+				tes.addTranslation(0.0F, 0.0F, n1);
+				this.renderEastFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(2));
+				tes.addTranslation(0.0F, 0.0F, -n1);
+				tes.draw();
+				tes.startDrawingQuads();
+				tes.setNormal(0.0F, 0.0F, 1.0F);
+				tes.addTranslation(0.0F, 0.0F, -n1);
+				this.renderWestFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(3));
+				tes.addTranslation(0.0F, 0.0F, n1);
+				tes.draw();
+				tes.startDrawingQuads();
+				tes.setNormal(-1.0F, 0.0F, 0.0F);
+				tes.addTranslation(n1, 0.0F, 0.0F);
+				this.renderNorthFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(4));
+				tes.addTranslation(-n1, 0.0F, 0.0F);
+				tes.draw();
+				tes.startDrawingQuads();
+				tes.setNormal(1.0F, 0.0F, 0.0F);
+				tes.addTranslation(-n1, 0.0F, 0.0F);
+				this.renderSouthFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(5));
+				tes.addTranslation(n1, 0.0F, 0.0F);
+				tes.draw();
 				GL11.glTranslatef(0.5F, 0.5F, 0.5F);
-			} else if(i5 == 6) {
-				tessellator4.startDrawingQuads();
-				tessellator4.setNormal(0.0F, -1.0F, 0.0F);
-				this.renderBlockCropsImpl(block1, i2, -0.5D, -0.5D, -0.5D);
-				tessellator4.draw();
-			} else if(i5 == 2) {
-				tessellator4.startDrawingQuads();
-				tessellator4.setNormal(0.0F, -1.0F, 0.0F);
-				this.renderTorchAtAngle(block1, -0.5D, -0.5D, -0.5D, 0.0D, 0.0D);
-				tessellator4.draw();
-			} else if(i5 == 102) {
-				block1.setBlockBoundsForItemRender();
+
+			} else if(renderType == 6) {
+				tes.startDrawingQuads();
+				tes.setNormal(0.0F, -1.0F, 0.0F);
+				this.renderBlockCropsImpl(block, meta, -0.5D, -0.5D, -0.5D);
+				tes.draw();
+
+			} else if(renderType == 2) {
+				tes.startDrawingQuads();
+				tes.setNormal(0.0F, -1.0F, 0.0F);
+				this.renderTorchAtAngle(block, -0.5D, -0.5D, -0.5D, 0.0D, 0.0D);
+				tes.draw();
+
+			} else if(renderType == 102) {
+				block.setBlockBoundsForItemRender();
 				GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-				tessellator4.startDrawingQuads();
-				RenderBlockHollowLog.renderAsItem(this.blockAccess, block1, block1.getBlockTextureFromSide(0), block1.getBlockTextureFromSide(1), block1.getBlockTextureFromSide(2), tessellator4, 1.0F);
-				tessellator4.draw();
+				tes.startDrawingQuads();
+				RenderBlockHollowLog.renderAsItem(this.blockAccess, block, block.getBlockTextureFromSide(0), block.getBlockTextureFromSide(1), block.getBlockTextureFromSide(2), tes, 1.0F);
+				tes.draw();
 				GL11.glTranslatef(0.5F, 0.5F, 0.5F);
-			} else if(i5 == 109) {
-				RenderBlockClassicPiston.RenderInvBlock(this, block1, 0, 0);
+
+			} else if(renderType == 109) {
+				RenderBlockClassicPiston.RenderInvBlock(this, block, 0, 0);
+			
 			} else {
 				int i9;
-				if(i5 == 10) {
+				if(renderType == 10) {
 					for(i9 = 0; i9 < 2; ++i9) {
 						if(i9 == 0) {
-							block1.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.5F);
+							block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.5F);
 						}
 
 						if(i9 == 1) {
-							block1.setBlockBounds(0.0F, 0.0F, 0.5F, 1.0F, 0.5F, 1.0F);
+							block.setBlockBounds(0.0F, 0.0F, 0.5F, 1.0F, 0.5F, 1.0F);
 						}
 
 						GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-						tessellator4.startDrawingQuads();
-						tessellator4.setNormal(0.0F, -1.0F, 0.0F);
-						this.renderBottomFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(0));
-						tessellator4.draw();
-						tessellator4.startDrawingQuads();
-						tessellator4.setNormal(0.0F, 1.0F, 0.0F);
-						this.renderTopFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(1));
-						tessellator4.draw();
-						tessellator4.startDrawingQuads();
-						tessellator4.setNormal(0.0F, 0.0F, -1.0F);
-						this.renderEastFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(2));
-						tessellator4.draw();
-						tessellator4.startDrawingQuads();
-						tessellator4.setNormal(0.0F, 0.0F, 1.0F);
-						this.renderWestFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(3));
-						tessellator4.draw();
-						tessellator4.startDrawingQuads();
-						tessellator4.setNormal(-1.0F, 0.0F, 0.0F);
-						this.renderNorthFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(4));
-						tessellator4.draw();
-						tessellator4.startDrawingQuads();
-						tessellator4.setNormal(1.0F, 0.0F, 0.0F);
-						this.renderSouthFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(5));
-						tessellator4.draw();
+						tes.startDrawingQuads();
+						tes.setNormal(0.0F, -1.0F, 0.0F);
+						this.renderBottomFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(0));
+						tes.draw();
+						tes.startDrawingQuads();
+						tes.setNormal(0.0F, 1.0F, 0.0F);
+						this.renderTopFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(1));
+						tes.draw();
+						tes.startDrawingQuads();
+						tes.setNormal(0.0F, 0.0F, -1.0F);
+						this.renderEastFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(2));
+						tes.draw();
+						tes.startDrawingQuads();
+						tes.setNormal(0.0F, 0.0F, 1.0F);
+						this.renderWestFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(3));
+						tes.draw();
+						tes.startDrawingQuads();
+						tes.setNormal(-1.0F, 0.0F, 0.0F);
+						this.renderNorthFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(4));
+						tes.draw();
+						tes.startDrawingQuads();
+						tes.setNormal(1.0F, 0.0F, 0.0F);
+						this.renderSouthFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(5));
+						tes.draw();
 						GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 					}
-				} else if(i5 == 11) {
+
+				} else if(renderType == 11) {
 					for(i9 = 0; i9 < 4; ++i9) {
-						f7 = 0.125F;
+						n2 = 0.125F;
 						if(i9 == 0) {
-							block1.setBlockBounds(0.5F - f7, 0.0F, 0.0F, 0.5F + f7, 1.0F, f7 * 2.0F);
+							block.setBlockBounds(0.5F - n2, 0.0F, 0.0F, 0.5F + n2, 1.0F, n2 * 2.0F);
 						}
 
 						if(i9 == 1) {
-							block1.setBlockBounds(0.5F - f7, 0.0F, 1.0F - f7 * 2.0F, 0.5F + f7, 1.0F, 1.0F);
+							block.setBlockBounds(0.5F - n2, 0.0F, 1.0F - n2 * 2.0F, 0.5F + n2, 1.0F, 1.0F);
 						}
 
-						f7 = 0.0625F;
+						n2 = 0.0625F;
 						if(i9 == 2) {
-							block1.setBlockBounds(0.5F - f7, 1.0F - f7 * 3.0F, -f7 * 2.0F, 0.5F + f7, 1.0F - f7, 1.0F + f7 * 2.0F);
+							block.setBlockBounds(0.5F - n2, 1.0F - n2 * 3.0F, -n2 * 2.0F, 0.5F + n2, 1.0F - n2, 1.0F + n2 * 2.0F);
 						}
 
 						if(i9 == 3) {
-							block1.setBlockBounds(0.5F - f7, 0.5F - f7 * 3.0F, -f7 * 2.0F, 0.5F + f7, 0.5F - f7, 1.0F + f7 * 2.0F);
+							block.setBlockBounds(0.5F - n2, 0.5F - n2 * 3.0F, -n2 * 2.0F, 0.5F + n2, 0.5F - n2, 1.0F + n2 * 2.0F);
 						}
 
 						GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-						tessellator4.startDrawingQuads();
-						tessellator4.setNormal(0.0F, -1.0F, 0.0F);
-						this.renderBottomFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(0));
-						tessellator4.draw();
-						tessellator4.startDrawingQuads();
-						tessellator4.setNormal(0.0F, 1.0F, 0.0F);
-						this.renderTopFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(1));
-						tessellator4.draw();
-						tessellator4.startDrawingQuads();
-						tessellator4.setNormal(0.0F, 0.0F, -1.0F);
-						this.renderEastFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(2));
-						tessellator4.draw();
-						tessellator4.startDrawingQuads();
-						tessellator4.setNormal(0.0F, 0.0F, 1.0F);
-						this.renderWestFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(3));
-						tessellator4.draw();
-						tessellator4.startDrawingQuads();
-						tessellator4.setNormal(-1.0F, 0.0F, 0.0F);
-						this.renderNorthFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(4));
-						tessellator4.draw();
-						tessellator4.startDrawingQuads();
-						tessellator4.setNormal(1.0F, 0.0F, 0.0F);
-						this.renderSouthFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSide(5));
-						tessellator4.draw();
+						tes.startDrawingQuads();
+						tes.setNormal(0.0F, -1.0F, 0.0F);
+						this.renderBottomFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(0));
+						tes.draw();
+						tes.startDrawingQuads();
+						tes.setNormal(0.0F, 1.0F, 0.0F);
+						this.renderTopFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(1));
+						tes.draw();
+						tes.startDrawingQuads();
+						tes.setNormal(0.0F, 0.0F, -1.0F);
+						this.renderEastFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(2));
+						tes.draw();
+						tes.startDrawingQuads();
+						tes.setNormal(0.0F, 0.0F, 1.0F);
+						this.renderWestFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(3));
+						tes.draw();
+						tes.startDrawingQuads();
+						tes.setNormal(-1.0F, 0.0F, 0.0F);
+						this.renderNorthFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(4));
+						tes.draw();
+						tes.startDrawingQuads();
+						tes.setNormal(1.0F, 0.0F, 0.0F);
+						this.renderSouthFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(5));
+						tes.draw();
 						GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 					}
 
-					block1.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+					block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+
 				}
 			}
 		} else {
-			if(i5 == 16) {
-				i2 = 1;
+			// Normal blocks. Added the release patch for grass
+
+			if(renderType == 16) {
+				meta = 1;
 			}
 
-			block1.setBlockBoundsForItemRender();
+			block.setBlockBoundsForItemRender();
 			GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-			tessellator4.startDrawingQuads();
-			tessellator4.setNormal(0.0F, -1.0F, 0.0F);
-			this.renderBottomFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSideAndMetadata(0, i2));
-			tessellator4.draw();
-			tessellator4.startDrawingQuads();
-			tessellator4.setNormal(0.0F, 1.0F, 0.0F);
-			this.renderTopFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSideAndMetadata(1, i2));
-			tessellator4.draw();
-			tessellator4.startDrawingQuads();
-			tessellator4.setNormal(0.0F, 0.0F, -1.0F);
-			this.renderEastFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSideAndMetadata(2, i2));
-			tessellator4.draw();
-			tessellator4.startDrawingQuads();
-			tessellator4.setNormal(0.0F, 0.0F, 1.0F);
-			this.renderWestFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSideAndMetadata(3, i2));
-			tessellator4.draw();
-			tessellator4.startDrawingQuads();
-			tessellator4.setNormal(-1.0F, 0.0F, 0.0F);
-			this.renderNorthFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSideAndMetadata(4, i2));
-			tessellator4.draw();
-			tessellator4.startDrawingQuads();
-			tessellator4.setNormal(1.0F, 0.0F, 0.0F);
-			this.renderSouthFace(block1, 0.0D, 0.0D, 0.0D, block1.getBlockTextureFromSideAndMetadata(5, i2));
-			tessellator4.draw();
+			tes.startDrawingQuads();
+			tes.setNormal(0.0F, -1.0F, 0.0F);
+			this.renderBottomFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSideAndMetadata(0, meta));
+			tes.draw();
+
+			if(isGrass && this.useInventoryTint) {
+				int rgba = block.getRenderColor(meta);
+				float r = (float)(rgba >> 16 & 255) / 255.0F;
+				float g = (float)(rgba >> 8 & 255) / 255.0F;
+				float b = (float)(rgba & 255) / 255.0F;
+				GL11.glColor4f(r * brightness, g * brightness, b * brightness, 1.0F);
+			}
+
+			tes.startDrawingQuads();
+			tes.setNormal(0.0F, 1.0F, 0.0F);
+			this.renderTopFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSideAndMetadata(1, meta));
+			tes.draw();
+
+			if(isGrass && this.useInventoryTint) {
+				GL11.glColor4f(brightness, brightness, brightness, 1.0F);
+			}
+			
+			tes.startDrawingQuads();
+			tes.setNormal(0.0F, 0.0F, -1.0F);
+			this.renderEastFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSideAndMetadata(2, meta));
+			tes.draw();
+			tes.startDrawingQuads();
+			tes.setNormal(0.0F, 0.0F, 1.0F);
+			this.renderWestFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSideAndMetadata(3, meta));
+			tes.draw();
+			tes.startDrawingQuads();
+			tes.setNormal(-1.0F, 0.0F, 0.0F);
+			this.renderNorthFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSideAndMetadata(4, meta));
+			tes.draw();
+			tes.startDrawingQuads();
+			tes.setNormal(1.0F, 0.0F, 0.0F);
+			this.renderSouthFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSideAndMetadata(5, meta));
+			tes.draw();
 			GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 		}
 
@@ -4924,7 +4974,17 @@ public class RenderBlocks {
 
 	public static boolean renderItemIn3d(int i0) {
 		//return i0 == 0 ? true : (i0 == 13 ? true : (i0 == 10 ? true : (i0 == 11 ? true : i0 == 16)));
-		return (i0 == 0 || i0 == 13 || i0 == 10 || i0 == 11 || i0 == 16 || (i0 >= 102 && i0 <= 109) || i0 == 112 || i0 == 255 || i0 == 250);
+		return (
+				i0 == 0 || 
+				i0 == 13 || 
+				i0 == 10 || 
+				i0 == 11 || 
+				i0 == 16 || 
+				(i0 >= 102 && i0 <= 109) || 
+				i0 == 112 || 
+				i0 == 255 || 
+				i0 == 250
+			);
 	}
 	
 
