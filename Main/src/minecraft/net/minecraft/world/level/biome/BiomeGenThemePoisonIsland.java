@@ -34,6 +34,9 @@ public class BiomeGenThemePoisonIsland extends BiomeGenBase {
 		
 		this.topBlock = (byte)Block.podzol.blockID;
 	
+		this.diamondLumpAttempts = 8;
+		this.diamondLumpMaxHeight = 32;
+		
 		this.bigTreesEach10Trees = 1;
 		this.mushroomBrownChance = 1;
 		this.mushroomRedChance = 2;

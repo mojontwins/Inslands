@@ -721,13 +721,12 @@ public abstract class EntityLiving extends Entity {
 		return (block1 != null && block1.isClimbable()) || (block2 != null && block2.isClimbable());
 	}
 
-	public void writeEntityToNBT(NBTTagCompound nBTTagCompound1) {
-		nBTTagCompound1.setShort("Health", (short)this.health);
-		nBTTagCompound1.setShort("HurtTime", (short)this.hurtTime);
-		nBTTagCompound1.setShort("DeathTime", (short)this.deathTime);
-		nBTTagCompound1.setShort("AttackTime", (short)this.attackTime);
-		
-				
+	public void writeEntityToNBT(NBTTagCompound nbt) {
+		nbt.setShort("Health", (short)this.health);
+		nbt.setShort("HurtTime", (short)this.hurtTime);
+		nbt.setShort("DeathTime", (short)this.deathTime);
+		nbt.setShort("AttackTime", (short)this.attackTime);
+						
 		NBTTagCompound statusEffectsCompound = new NBTTagCompound();
 		statusEffectsCompound.setInteger("Size", this.activeStatusEffectsMap.size());
 		Iterator<Integer> it = activeStatusEffectsMap.keySet().iterator();
@@ -739,22 +738,30 @@ public abstract class EntityLiving extends Entity {
 			statusEffect.writeStatusEffectToNBT(statusEffectCompound);
 			statusEffectsCompound.setCompoundTag("StatusEffect_" + i, statusEffectCompound);
 			i ++;
+			
 		}
 		
-		nBTTagCompound1.setCompoundTag("ActiveStatusEffects", statusEffectsCompound);
+		nbt.setCompoundTag("ActiveStatusEffects", statusEffectsCompound);
+		
+		if(!this.isAIEnabled() && this.maximumHomeDistance > 0) {
+			nbt.setFloat("maximumHomeDistance", this.maximumHomeDistance);
+			nbt.setInteger("homeX", this.homePosition.posX);
+			nbt.setInteger("homeY", this.homePosition.posY);
+			nbt.setInteger("homeZ", this.homePosition.posZ);
+		}
 	}
 
-	public void readEntityFromNBT(NBTTagCompound nBTTagCompound1) {
-		this.health = nBTTagCompound1.getShort("Health");
-		if(!nBTTagCompound1.hasKey("Health")) {
+	public void readEntityFromNBT(NBTTagCompound nbt) {
+		this.health = nbt.getShort("Health");
+		if(!nbt.hasKey("Health")) {
 			this.health = 10;
 		}
 
-		this.hurtTime = nBTTagCompound1.getShort("HurtTime");
-		this.deathTime = nBTTagCompound1.getShort("DeathTime");
-		this.attackTime = nBTTagCompound1.getShort("AttackTime");
+		this.hurtTime = nbt.getShort("HurtTime");
+		this.deathTime = nbt.getShort("DeathTime");
+		this.attackTime = nbt.getShort("AttackTime");
 
-		NBTTagCompound statusEffectsCompound = nBTTagCompound1.getCompoundTag("ActiveStatusEffects");
+		NBTTagCompound statusEffectsCompound = nbt.getCompoundTag("ActiveStatusEffects");
 		int size = statusEffectsCompound.getInteger("Size");
 		
 		this.activeStatusEffectsMap.clear();
@@ -762,6 +769,15 @@ public abstract class EntityLiving extends Entity {
 			NBTTagCompound statusEffectCompound = statusEffectsCompound.getCompoundTag("StatusEffect_" + i);
 			StatusEffect statusEffect = new StatusEffect(statusEffectCompound);
 			this.activeStatusEffectsMap.put(statusEffect.statusID, statusEffect);
+		}
+		
+		if(!this.isAIEnabled() && nbt.hasKey("maximumHomeDistance")) {
+			this.maximumHomeDistance = nbt.getFloat("maximumHomeDistance");
+			this.homePosition = new ChunkCoordinates(
+					nbt.getInteger("homeX"),
+					nbt.getInteger("homeY"),
+					nbt.getInteger("homeZ")
+			);
 		}
 	}
 
@@ -807,6 +823,8 @@ public abstract class EntityLiving extends Entity {
 				d3 += d10 - this.boundingBox.minY;
 				this.setPosition(d1, d3, d5);
 			}
+			
+			
 		}
 
 		if(this.isMovementBlocked()) {

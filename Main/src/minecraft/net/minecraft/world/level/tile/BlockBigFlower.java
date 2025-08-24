@@ -30,8 +30,8 @@ public class BlockBigFlower extends Block implements IBlockWithSubtypes {
 			case 0: return 11 * 16 + 13;
 			case 1: return 11 * 16 + 14;
 			case 2:
-				if(side < 2) return 21;
-				return 20;
+				if(side < 2) return 304;
+				return 288;
 			default: return this.blockIndexInTexture;
 		}
 	}

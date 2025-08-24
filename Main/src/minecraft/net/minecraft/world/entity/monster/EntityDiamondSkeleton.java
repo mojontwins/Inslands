@@ -16,8 +16,7 @@ public class EntityDiamondSkeleton extends EntitySkeleton {
     
     @Override
 	protected void dropFewItems() {
-    	// TODO : CHANGE!
-		this.dropItem(Item.pirateSigil.shiftedIndex, 1);
+    	this.dropItem(Item.talisman.shiftedIndex, 1);
 
 	}
     

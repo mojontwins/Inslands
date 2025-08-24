@@ -35,11 +35,19 @@ public class GameHints {
 		"Give diamonds to the witch to get a cauldron",
 		"Fill the cauldron with water to start cooking",
 		"Experiment with mushrooms in the cauldron",
+		"You can fill a bottle with stuff you brew in the cauldron",
+		"Soup from a cauldron can be drink using a bottle",
+		"Most bottles can be thrown to mobs to cause damage",
 		"Acid burns but can be useful in a bottle",
 		"A strong disolvent in the cauldron with the right mushrooms...",
 		"Coral can only be replanted in water",
 		"Copper is used to create the diving helmet",
-		"Explore the oceans with a diving helmet!"
+		"Explore the oceans with a diving helmet!",
+		"Skeletons with red eyes may drop their head",
+		"A skeleton head on two diamond blocks summons a boss.",
+		"Diamond Skeletons only take damage from bottles of poison.",
+		"Black goo is not useless! Fill a bottle and throw it!",
+		"Right click cauldron with bottle to interact with it."
 		
 	};
 	

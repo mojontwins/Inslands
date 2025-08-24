@@ -173,8 +173,10 @@ public class BlockStep extends Block {
 	
     @Override
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
-		for(int i = 0; i < 4; i ++) {
-			par3List.add(new ItemStack(par1, 1, i));
-		}
+    	if(!blockIsDouble) {
+			for(int i = 0; i < 4; i ++) {
+				par3List.add(new ItemStack(par1, 1, i));
+			}
+    	}
 	}
 }

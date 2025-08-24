@@ -74,7 +74,7 @@ public class GuiIngame extends Gui {
 				this.renderPortalOverlay(f10, i6, i7);
 			}
 		}
-
+		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.mc.renderEngine.getTexture("/gui/gui.png"));
 		InventoryPlayer inventoryPlayer11 = this.mc.thePlayer.inventory;

@@ -268,8 +268,8 @@ public class RenderBlocks {
 		Idx2uvF.calc(i10);
 		double u1 = Idx2uvF.u1;
 		double u2 = Idx2uvF.u2;
-		double v1 = Idx2uvF.v1 + Texels.texelsV(16F);
-		double v2 = Idx2uvF.v2 + Texels.texelsV(16F);
+		double v1 = Idx2uvF.v1;
+		double v2 = Idx2uvF.v2;
 		
 		double x1 = (double)x + 0.5D - (double)0.45F;
 		double x2 = (double)x + 0.5D + (double)0.45F;

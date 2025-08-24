@@ -292,7 +292,7 @@ After 8 months... I'd refactor and reorganize everything in packages like my oth
 Also
 
 * [X] Add the witch hut to the poison island. And make the witch home on that. Add a cat, also home on that.
-	* [ ] `setHomeArea` - API for homing is in `EntityLiving` but it's there so it can be used by some modern AI tasks. If I want normal mobs to be able to home, I'll have to do it myself. Maybe adapt this bit of entity AI:
+	* [X] `setHomeArea` - API for homing is in `EntityLiving` but it's there so it can be used by some modern AI tasks. If I want normal mobs to be able to home, I'll have to do it myself. Maybe adapt this bit of entity AI:
 
 ```java
 	public boolean shouldExecute() {
@@ -312,7 +312,9 @@ Also
 		}
 	}
 ```
-	* [ ] Be sure to save the home position.
+
+	* [X] Finally, I just patched where it selects a new random position.
+	* [X] Be sure to save the home position.
 	* [ ] Add a method in Entity that is called right after being spawned in the world for the first time - but only if it's possible to not doing it if we are loading entities.
 
 * [ ] Add the stone arches in deserts.
@@ -412,3 +414,6 @@ Things to do to finish tree refactoring
 * [X] grass as item is colourised ALL FACES but shouldn't
 * [X] Coral wrong texture on inventory,
 * [X] Sign twince on inventory; should show item not block tex.
+* [X] Gui gets the brightness of the entity the cross is pointing to !? Didn't this happen before in either this or infhell? - Added `GL11.glDisable(GL11.GL_BLEND);` before drawing GUI
+* [ ] Change block of iron, gold, diamond textures for alpha's
+* [ ] Add lapis lazuli block.

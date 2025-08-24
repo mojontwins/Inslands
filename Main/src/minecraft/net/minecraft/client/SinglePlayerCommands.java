@@ -144,9 +144,6 @@ public class SinglePlayerCommands {
 						int y = (int)this.mc.thePlayer.posY + this.mc.theWorld.rand.nextInt(4) + 1;
 						int z = (int)this.mc.thePlayer.posZ + this.mc.theWorld.rand.nextInt(8) - 4;
 						
-						if("Derp".equals(tokens[1]))
-							entity.setHomeArea(x, y, z, 4);
-						
 						System.out.println ("Attempting to spawn @ " + x + " " + y + " " + z);
 						entity.setLocationAndAngles((double)x, (double)y, (double)z, this.mc.theWorld.rand.nextFloat() * 360.0F, 0.0F);
 						

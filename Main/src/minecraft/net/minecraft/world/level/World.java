@@ -1155,32 +1155,34 @@ public class World implements IBlockAccess {
 		return true;
 	}
 
-	public boolean spawnEntityInWorld(Entity entity1) {
+	public boolean spawnEntityInWorld(Entity entity) {
 		
-		if(entity1.posX < 0) entity1.posX = 0;
-		if(entity1.posZ < 0) entity1.posZ = 0;
-		if(entity1.posX >= WorldSize.width) entity1.posX = WorldSize.width - 1;
-		if(entity1.posZ >= WorldSize.length) entity1.posZ = WorldSize.length - 1;
+		if(entity.posX < 0) entity.posX = 0;
+		if(entity.posZ < 0) entity.posZ = 0;
+		if(entity.posX >= WorldSize.width) entity.posX = WorldSize.width - 1;
+		if(entity.posZ >= WorldSize.length) entity.posZ = WorldSize.length - 1;
 		
-		int i2 = MathHelper.floor_double(entity1.posX / 16.0D);
-		int i3 = MathHelper.floor_double(entity1.posZ / 16.0D);
-		boolean z4 = false;
-		if(entity1 instanceof EntityPlayer) {
-			z4 = true;
+		int chunkX = MathHelper.floor_double(entity.posX / 16.0D);
+		int chunkZ = MathHelper.floor_double(entity.posZ / 16.0D);
+		boolean isPlayer = false;
+		if(entity instanceof EntityPlayer) {
+			isPlayer = true;
 		}
 
-		if(!z4 && !this.chunkExists(i2, i3)) {
+		if(!isPlayer && !this.chunkExists(chunkX, chunkZ)) {
 			return false;
 		} else {
-			if(entity1 instanceof EntityPlayer) {
-				EntityPlayer entityPlayer5 = (EntityPlayer)entity1;
-				this.playerEntities.add(entityPlayer5);
+			if(isPlayer) {
+				EntityPlayer player = (EntityPlayer)entity;
+				this.playerEntities.add(player);
 				this.updateAllPlayersSleepingFlag();
 			}
 
-			this.getChunkFromChunkCoords(i2, i3).addEntity(entity1);
-			this.loadedEntityList.add(entity1);
-			this.obtainEntitySkin(entity1);
+			this.getChunkFromChunkCoords(chunkX, chunkZ).addEntity(entity);
+			this.loadedEntityList.add(entity);
+			this.obtainEntitySkin(entity);
+			
+			entity.justSpawned();
 			return true;
 		}
 	}
