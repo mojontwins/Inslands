@@ -257,7 +257,6 @@ public class Block {
 	public static final Block acidStill = (new BlockStationaryAcid(223, 9*16+6)).setHardness(100.0F).setLightOpacity(3).setBlockName("acid").disableStats().setRequiresSelfNotify();
 	public static final Block podzol = (new BlockPodzol(224)).setHardness(0.6F).setStepSound(soundGrassFootstep).setBlockName("podzol");
 	
-	
 	// Pistons - sorry, different IDs
 	public static final Block classicPistonBase = (new BlockPistonBase(252, 22, false)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("piston");
 	public static final Block classicPiston = (new BlockPiston(253, 22, false)).setHardness(1.5F).setResistance(10.0F).setStepSound(Block.soundMetalFootstep).setBlockName("piston");

@@ -69,7 +69,7 @@ Now spice it up a bit:
 	* [X] Smelting recipes (to obtain, as fuel)
 	* [X] Crafting recipes: combine with stick for 2 torches
 
-* [ ] Iron boat. What happens if you put a wooden boat in the lava?
+* [X] Iron boat. What happens if you put a wooden boat in the lava?
 
 * Achievements
 	* [X] Grass from dirt - Fertilize dead soil and bring it back to life
@@ -292,6 +292,27 @@ After 8 months... I'd refactor and reorganize everything in packages like my oth
 Also
 
 [ ] Add the witch hut to the poison island. And make the witch home on that. Add a cat, also home on that.
+	* `setHomeArea` - API for homing is in `EntityLiving` but it's there so it can be used by some modern AI tasks. If I want normal mobs to be able to home, I'll have to do it myself. Maybe adapt this bit of entity AI:
+
+```java
+	public boolean shouldExecute() {
+		if(this.theEntity.isWithinHomeDistanceCurrentPosition()) {
+			return false;
+		} else {
+			ChunkCoordinates chunkCoordinates1 = this.theEntity.getHomePosition();
+			Vec3D vec3D2 = RandomPositionGenerator.findRandomTargetBlockTowards(this.theEntity, 16, 7, Vec3D.createVector((double)chunkCoordinates1.posX, (double)chunkCoordinates1.posY, (double)chunkCoordinates1.posZ));
+			if(vec3D2 == null) {
+				return false;
+			} else {
+				this.movePosX = vec3D2.xCoord;
+				this.movePosY = vec3D2.yCoord;
+				this.movePosZ = vec3D2.zCoord;
+				return true;
+			}
+		}
+	}
+```
+
 [ ] Add the stone arches in deserts.
 [ ] Feature smaller biomes in biomed world theme and hell
 [ ] Fix pistons in SMP (they work, but need the special Packet for the animation)

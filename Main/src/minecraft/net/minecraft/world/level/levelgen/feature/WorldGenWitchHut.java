@@ -25,6 +25,16 @@ public class WorldGenWitchHut extends WorldGenerator {
 		new LootItem (Item.maceSteel.shiftedIndex, 1, true, 25),
 	};
 	
+	private boolean doNormalSpawners = true;
+	
+	public WorldGenWitchHut() {
+		this(true);
+	}
+	
+	public WorldGenWitchHut(boolean doNormalSpawners) {
+		this.doNormalSpawners = doNormalSpawners;
+	}
+	
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z) {
 		if(
@@ -131,15 +141,19 @@ public class WorldGenWitchHut extends WorldGenerator {
 			}
 		}
 		
-		world.setBlockWithNotify(x + 3, y + 3, z + 3, Block.mobSpawnerOneshot.blockID);
-		TileEntityMobSpawnerOneshot tileEntityMobSpawnerOneshot = (TileEntityMobSpawnerOneshot)world.getBlockTileEntity(x + 3, y + 3, z + 3);
-		tileEntityMobSpawnerOneshot.setMobID ("AlphaWitch");
+		TileEntityMobSpawnerOneshot tileEntityMobSpawnerOneshot = null;
+		
+		if(this.doNormalSpawners) {
+			world.setBlockWithNotify(x + 3, y + 3, z + 3, Block.mobSpawnerOneshot.blockID);
+			tileEntityMobSpawnerOneshot = (TileEntityMobSpawnerOneshot)world.getBlockTileEntity(x + 3, y + 3, z + 3);
+			tileEntityMobSpawnerOneshot.setMobID ("AlphaWitch");
+		}
 		
 		world.setBlockWithNotify(x + 3, y + 3, z + 2, Block.mobSpawnerOneshot.blockID);
 		tileEntityMobSpawnerOneshot = (TileEntityMobSpawnerOneshot)world.getBlockTileEntity(x + 3, y + 3, z + 2);
 		tileEntityMobSpawnerOneshot.setMobID ("BlackCat");
 		
-		//System.out.println("Witch hut @ " + x + " " + z);
+		System.out.println("Witch hut @ " + x + " " + z);
 				
 		return true;
 	}

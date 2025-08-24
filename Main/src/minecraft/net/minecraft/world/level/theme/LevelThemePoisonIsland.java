@@ -7,6 +7,7 @@ import net.minecraft.world.level.WorldType;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.levelgen.MapGenBase;
 import net.minecraft.world.level.levelgen.MapGenPoisonCaves;
+import net.minecraft.world.level.levelgen.feature.WorldGenWitchHut;
 
 public class LevelThemePoisonIsland extends LevelThemeSettings {
 
@@ -74,8 +75,11 @@ public class LevelThemePoisonIsland extends LevelThemeSettings {
 		int x = WorldSize.width / 2; int z = WorldSize.length / 2;
 		int y = world.getHeightValue(x, z) + 1;
 		
+		WorldGenWitchHut hut = new WorldGenWitchHut(false);
+		hut.generate(world, world.rand, x - 3, y, z - 3);
+		
 		witch.setPosition((double) x, (double) y, (double) z);
-		witch.setHomeArea(x, y, z, 15);
+		witch.setHomeArea(x, y, z, 20);
 		
 		world.spawnEntityInWorld(witch);
 	}
