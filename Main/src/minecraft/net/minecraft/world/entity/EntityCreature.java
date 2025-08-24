@@ -2,11 +2,12 @@ package net.minecraft.world.entity;
 
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.level.World;
+import net.minecraft.world.level.chunk.ChunkCoordinates;
 import net.minecraft.world.level.pathfinder.PathEntity;
 import net.minecraft.world.phys.Vec3D;
 
 public class EntityCreature extends EntityLiving {
-	protected PathEntity pathToEntity;
+	protected PathEntity activePath;
 	protected Entity entityToAttack;
 	protected boolean hasAttacked = false;
 
@@ -20,14 +21,20 @@ public class EntityCreature extends EntityLiving {
 
 	protected void updateEntityActionState() {
 		this.hasAttacked = this.isMovementCeased();
+		
 		float f1 = 16.0F;
+		
+		// Entity to attack 
+		
 		if(this.entityToAttack == null) {
 			this.entityToAttack = this.findPlayerToAttack();
 			if(this.entityToAttack != null) {
-				this.pathToEntity = this.worldObj.getPathToEntity(this, this.entityToAttack, f1);
+				this.activePath = this.worldObj.getPathToEntity(this, this.entityToAttack, f1);
 			}
+		
 		} else if(!this.entityToAttack.isEntityAlive()) {
 			this.entityToAttack = null;
+		
 		} else {
 			float f2 = this.entityToAttack.getDistanceToEntity(this);
 			if(this.canEntityBeSeen(this.entityToAttack)) {
@@ -35,31 +42,43 @@ public class EntityCreature extends EntityLiving {
 			} else {
 				this.attackBlockedEntity(this.entityToAttack, f2);
 			}
+		
 		}
 
-		if(this.hasAttacked || this.entityToAttack == null || this.pathToEntity != null && this.rand.nextInt(20) != 0) {
-			if(!this.hasAttacked && (this.pathToEntity == null && this.rand.nextInt(80) == 0 || this.rand.nextInt(80) == 0)) {
-				this.getPathToThis();
+		if(this.hasAttacked || this.entityToAttack == null || this.activePath != null && this.rand.nextInt(20) != 0) {
+			if(!this.hasAttacked && (this.activePath == null && this.rand.nextInt(80) == 0 || this.rand.nextInt(80) == 0)) {
+				if(this.hasHome() && !this.isWithinHomeDistanceCurrentPosition()) {
+					this.getBackHome();
+				} else {
+					this.getNewRandomPath();
+				}
 			}
+			
 		} else {
-			this.pathToEntity = this.worldObj.getPathToEntity(this, this.entityToAttack, f1);
+			this.activePath = this.worldObj.getPathToEntity(this, this.entityToAttack, f1);
+			
 		}
 
 		int i21 = MathHelper.floor_double(this.boundingBox.minY + 0.5D);
-		boolean z3 = this.isInWater() && this.triesToFloat();
-		boolean z4 = this.handleLavaMovement();
+		
+		boolean needsFloat = this.isInWater() && this.triesToFloat();
+		boolean isInLava = this.handleLavaMovement();
+		
 		this.rotationPitch = 0.0F;
-		if(this.pathToEntity != null && this.rand.nextInt(100) != 0) {
-			Vec3D vec3D5 = this.pathToEntity.getPosition(this);
+		
+		// If a path to an entity exists...
+		
+		if(this.activePath != null && this.rand.nextInt(100) != 0) {
+			Vec3D vec3D5 = this.activePath.getPosition(this);
 			double d6 = (double)(this.width * 2.0F);
 
 			while(vec3D5 != null && vec3D5.squareDistanceTo(this.posX, vec3D5.yCoord, this.posZ) < d6 * d6) {
-				this.pathToEntity.incrementPathIndex();
-				if(this.pathToEntity.isFinished()) {
+				this.activePath.incrementPathIndex();
+				if(this.activePath.isFinished()) {
 					vec3D5 = null;
-					this.pathToEntity = null;
+					this.activePath = null;
 				} else {
-					vec3D5 = this.pathToEntity.getPosition(this);
+					vec3D5 = this.activePath.getPosition(this);
 				}
 			}
 
@@ -110,41 +129,50 @@ public class EntityCreature extends EntityLiving {
 				this.isJumping = true;
 			}
 
-			if(this.rand.nextFloat() < 0.8F && (z3 || z4)) {
+			if(this.rand.nextFloat() < 0.8F && (needsFloat || isInLava)) {
 				this.isJumping = true;
 			}
 
 		} else {
+			// If a path to an entity does not exist, do the normal thing.
+			
 			super.updateEntityActionState();
-			this.pathToEntity = null;
+			this.activePath = null;
 		}
 	}
 
-	protected void getPathToThis() {
-		boolean z1 = false;
-		int i2 = -1;
-		int i3 = -1;
-		int i4 = -1;
-		float f5 = -99999.0F;
+	// Here is the awesome WANDER AI
+	protected void getNewRandomPath() {
+		boolean found = false;
+		int x = -1;
+		int y = -1;
+		int z = -1;
+		float maxPathWeight = -99999.0F;
 
-		for(int i6 = 0; i6 < 10; ++i6) {
-			int i7 = MathHelper.floor_double(this.posX + (double)this.rand.nextInt(13) - 6.0D);
-			int i8 = MathHelper.floor_double(this.posY + (double)this.rand.nextInt(7) - 3.0D);
-			int i9 = MathHelper.floor_double(this.posZ + (double)this.rand.nextInt(13) - 6.0D);
-			float f10 = this.getBlockPathWeight(i7, i8, i9);
-			if(f10 > f5) {
-				f5 = f10;
-				i2 = i7;
-				i3 = i8;
-				i4 = i9;
-				z1 = true;
+		for(int i = 0; i < 10; ++i) {
+			int rx = MathHelper.floor_double(this.posX + (double)this.rand.nextInt(13) - 6.0D);
+			int ry = MathHelper.floor_double(this.posY + (double)this.rand.nextInt(7) - 3.0D);
+			int rz = MathHelper.floor_double(this.posZ + (double)this.rand.nextInt(13) - 6.0D);
+			float pathWeight = this.getBlockPathWeight(rx, ry, rz);
+			if(pathWeight > maxPathWeight) {
+				maxPathWeight = pathWeight;
+				x = rx;
+				y = ry;
+				z = rz;
+				found = true;
 			}
 		}
 
-		if(z1) {
-			this.pathToEntity = this.worldObj.getEntityPathToXYZ(this, i2, i3, i4, 10.0F);
+		if(found) {
+			this.activePath = this.worldObj.getEntityPathToXYZ(this, x, y, z, 10.0F);
 		}
 
+	}
+	
+	// New: Back to home
+	protected void getBackHome() {
+		ChunkCoordinates homePosition = this.getHomePosition();
+		this.activePath = this.worldObj.getEntityPathToXYZ(this, homePosition.posX, homePosition.posY, homePosition.posZ, 16.0F);
 	}
 
 	protected void attackEntity(Entity entity1, float f2) {
@@ -169,11 +197,11 @@ public class EntityCreature extends EntityLiving {
 	}
 
 	public boolean hasPath() {
-		return this.pathToEntity != null;
+		return this.activePath != null;
 	}
 
 	public void setPathToEntity(PathEntity pathEntity1) {
-		this.pathToEntity = pathEntity1;
+		this.activePath = pathEntity1;
 	}
 
 	public Entity getTarget() {

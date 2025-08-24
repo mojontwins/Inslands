@@ -64,8 +64,8 @@ public abstract class EntityLiving extends Entity {
 	public float attackedAtYaw = 0.0F;
 	public int deathTime = 0;
 	public int attackTime = 0;
+	public float prevCameraPitch;
 	public float cameraPitch;
-	public float field_9328_R;
 	protected boolean unused_flag = false;
 	public int unusedInt = -1;
 	public float unusedFloat4 = (float)(Math.random() * (double)0.9F + (double)0.1F);
@@ -210,7 +210,7 @@ public abstract class EntityLiving extends Entity {
 			this.setAir(this.maxAir);
 		}
 
-		this.cameraPitch = this.field_9328_R;
+		this.prevCameraPitch = this.cameraPitch;
 		if(this.attackTime > 0) {
 			--this.attackTime;
 		}
@@ -275,7 +275,7 @@ public abstract class EntityLiving extends Entity {
 		//this.prevRidingRotUnused = 0.0F;
 	}
 
-	public void setPositionAndRotation2(double d1, double d3, double d5, float f7, float f8, int i9) {
+	public void setPositionAndRotation(double d1, double d3, double d5, float f7, float f8, int i9) {
 		this.yOffset = 0.0F;
 		this.newPosX = d1;
 		this.newPosY = d3;

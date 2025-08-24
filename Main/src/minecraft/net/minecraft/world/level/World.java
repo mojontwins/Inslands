@@ -2936,24 +2936,24 @@ public class World implements IBlockAccess {
 		return this.isBlockIndirectlyProvidingPowerTo(i1, i2 - 1, i3, 0) ? true : (this.isBlockIndirectlyProvidingPowerTo(i1, i2 + 1, i3, 1) ? true : (this.isBlockIndirectlyProvidingPowerTo(i1, i2, i3 - 1, 2) ? true : (this.isBlockIndirectlyProvidingPowerTo(i1, i2, i3 + 1, 3) ? true : (this.isBlockIndirectlyProvidingPowerTo(i1 - 1, i2, i3, 4) ? true : this.isBlockIndirectlyProvidingPowerTo(i1 + 1, i2, i3, 5)))));
 	}
 
-	public EntityPlayer getClosestPlayerToEntity(Entity entity1, double d2) {
-		return this.getClosestPlayer(entity1.posX, entity1.posY, entity1.posZ, d2);
+	public EntityPlayer getClosestPlayerToEntity(Entity entity, double distance) {
+		return this.getClosestPlayer(entity.posX, entity.posY, entity.posZ, distance);
 	}
 
-	public EntityPlayer getClosestPlayer(double d1, double d3, double d5, double d7) {
-		double d9 = -1.0D;
-		EntityPlayer entityPlayer11 = null;
+	public EntityPlayer getClosestPlayer(double x, double y, double z, double dMax) {
+		double curDistance = -1.0D;
+		EntityPlayer closestPlayer = null;
 
-		for(int i12 = 0; i12 < this.playerEntities.size(); ++i12) {
-			EntityPlayer entityPlayer13 = (EntityPlayer)this.playerEntities.get(i12);
-			double d14 = entityPlayer13.getDistanceSq(d1, d3, d5);
-			if((d7 < 0.0D || d14 < d7 * d7) && (d9 == -1.0D || d14 < d9)) {
-				d9 = d14;
-				entityPlayer11 = entityPlayer13;
+		for(int i = 0; i < this.playerEntities.size(); ++i) {
+			EntityPlayer player = (EntityPlayer)this.playerEntities.get(i);
+			double dSq = player.getDistanceSq(x, y, z);
+			if((dMax < 0.0D || dSq < dMax * dMax) && (curDistance == -1.0D || dSq < curDistance)) {
+				curDistance = dSq;
+				closestPlayer = player;
 			}
 		}
 
-		return entityPlayer11;
+		return closestPlayer;
 	}
 
 	public List<EntityPlayer> getPlayersInRangeFromEntity(Entity entity, double range) {

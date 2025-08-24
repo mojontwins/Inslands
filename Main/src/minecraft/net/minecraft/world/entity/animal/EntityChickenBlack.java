@@ -80,7 +80,7 @@ public class EntityChickenBlack extends EntityChicken {
 		if(this.entityToAttack == null) {
 			this.entityToAttack = this.findPlayerToAttack();
 			if(this.entityToAttack != null) {
-				this.pathToEntity = this.worldObj.getPathToEntity(this, this.entityToAttack, f1);
+				this.activePath = this.worldObj.getPathToEntity(this, this.entityToAttack, f1);
 			}
 		} else if(!this.entityToAttack.isEntityAlive()) {
 			this.entityToAttack = null;
@@ -93,29 +93,29 @@ public class EntityChickenBlack extends EntityChicken {
 			}
 		}
 
-		if(this.hasAttacked || this.entityToAttack == null || this.pathToEntity != null && this.rand.nextInt(20) != 0) {
-			if(!this.hasAttacked && (this.pathToEntity == null && this.rand.nextInt(80) == 0 || this.rand.nextInt(80) == 0)) {
-				this.getPathToThis();
+		if(this.hasAttacked || this.entityToAttack == null || this.activePath != null && this.rand.nextInt(20) != 0) {
+			if(!this.hasAttacked && (this.activePath == null && this.rand.nextInt(80) == 0 || this.rand.nextInt(80) == 0)) {
+				this.getNewRandomPath();
 			}
 		} else {
-			this.pathToEntity = this.worldObj.getPathToEntity(this, this.entityToAttack, f1);
+			this.activePath = this.worldObj.getPathToEntity(this, this.entityToAttack, f1);
 		}
 
 		int i21 = MathHelper.floor_double(this.boundingBox.minY + 0.5D);
 		boolean z3 = this.isInWater();
 		boolean z4 = this.handleLavaMovement();
 		this.rotationPitch = 0.0F;
-		if(this.pathToEntity != null && this.rand.nextInt(100) != 0) {
-			Vec3D vec3D5 = this.pathToEntity.getPosition(this);
+		if(this.activePath != null && this.rand.nextInt(100) != 0) {
+			Vec3D vec3D5 = this.activePath.getPosition(this);
 			double d6 = (double)(this.width * 2.0F);
 
 			while(vec3D5 != null && vec3D5.squareDistanceTo(this.posX, vec3D5.yCoord, this.posZ) < d6 * d6) {
-				this.pathToEntity.incrementPathIndex();
-				if(this.pathToEntity.isFinished()) {
+				this.activePath.incrementPathIndex();
+				if(this.activePath.isFinished()) {
 					vec3D5 = null;
-					this.pathToEntity = null;
+					this.activePath = null;
 				} else {
-					vec3D5 = this.pathToEntity.getPosition(this);
+					vec3D5 = this.activePath.getPosition(this);
 				}
 			}
 
@@ -172,35 +172,8 @@ public class EntityChickenBlack extends EntityChicken {
 
 		} else {
 			super.updateEntityActionState();
-			this.pathToEntity = null;
+			this.activePath = null;
 		}
-	}
-
-	protected void getPathToThis() {
-		boolean z1 = false;
-		int i2 = -1;
-		int i3 = -1;
-		int i4 = -1;
-		float f5 = -99999.0F;
-
-		for(int i6 = 0; i6 < 10; ++i6) {
-			int i7 = MathHelper.floor_double(this.posX + (double)this.rand.nextInt(13) - 6.0D);
-			int i8 = MathHelper.floor_double(this.posY + (double)this.rand.nextInt(7) - 3.0D);
-			int i9 = MathHelper.floor_double(this.posZ + (double)this.rand.nextInt(13) - 6.0D);
-			float f10 = this.getBlockPathWeight(i7, i8, i9);
-			if(f10 > f5) {
-				f5 = f10;
-				i2 = i7;
-				i3 = i8;
-				i4 = i9;
-				z1 = true;
-			}
-		}
-
-		if(z1) {
-			this.pathToEntity = this.worldObj.getEntityPathToXYZ(this, i2, i3, i4, 10.0F);
-		}
-
 	}
 	
 	protected void attackEntity(Entity entity1, float f2) {
@@ -212,11 +185,11 @@ public class EntityChickenBlack extends EntityChicken {
 	}
 	
 	public boolean hasPath() {
-		return this.pathToEntity != null;
+		return this.activePath != null;
 	}
 
 	public void setPathToEntity(PathEntity pathEntity1) {
-		this.pathToEntity = pathEntity1;
+		this.activePath = pathEntity1;
 	}
 
 	public Entity getTarget() {

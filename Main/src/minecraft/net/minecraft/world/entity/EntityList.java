@@ -224,11 +224,23 @@ public class EntityList {
 		addMapping(EntityTFHostileWolf.class, "HostileWolf", 40);
 		addMapping(EntityTFHedgeSpider.class, "HedgeSpider", 41);
 		
+		// Aether
+		addMapping(EntityMimic.class, "Mimic", 60);
+		addMapping(EntitySlider.class, "Slider", 61);
+		addMapping(EntityPhyg.class, "Phyg", 62);
+		addMapping(EntityFlyingCow.class, "FlyingCow", 63);
+		addMapping(EntitySheepuff.class, "Sheepuff", 64);
+		
 		// Better Dungeons
 		addMapping(EntityPirate.class, "PirateArmored", 70);
 		addMapping(EntityPirateArcher.class, "PirateArcher", 71);
 		addMapping(EntityPirateBoss.class, "PirateBoss", 72);
 		addMapping(EntitySecretBoss.class, "SlimeBoss", 73);
+		
+		// Poison island
+		addMapping(EntityPoisonSkeleton.class, "PoisonSkeleton", 80);
+		addMapping(EntityDiamondSkeleton.class, "DiamondSkeleton", 81);
+		addMapping(EntityPoisonWitch.class, "PoisonWitch", 82);
 		
 		// Classic pistons
 		addMapping(EntityMovingPiston.class, "MovingPiston", 119);
@@ -247,17 +259,7 @@ public class EntityList {
 		addMapping(EntityFungalCalamity.class, "FungalCalamity", 126);
 		addMapping(EntityGhoul.class, "Ghoul", 127);
 		
-		// Aether
-		addMapping(EntityMimic.class, "Mimic", 60);
-		addMapping(EntitySlider.class, "Slider", 61);
-		addMapping(EntityPhyg.class, "Phyg", 62);
-		addMapping(EntityFlyingCow.class, "FlyingCow", 63);
-		addMapping(EntitySheepuff.class, "Sheepuff", 64);
-		
-		// Poison island
-		addMapping(EntityPoisonSkeleton.class, "PoisonSkeleton", 80);
-		addMapping(EntityDiamondSkeleton.class, "DiamondSkeleton", 81);
-		addMapping(EntityPoisonWitch.class, "PoisonWitch", 82);
+		addMapping(EntityDerp.class, "Derp", 255);
 		
 		// Trading
 		/*

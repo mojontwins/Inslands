@@ -86,7 +86,7 @@ public class EntityZombie extends EntityArmoredMob implements IMob {
 		if (!this.chasingDoor) {
 			if(this.worldObj.worldInfo.isBloodMoon() || rand.nextInt(4) == 0) {
 				if(this.isCollidedHorizontally) {
-					PathEntity pathEntity = this.pathToEntity;
+					PathEntity pathEntity = this.activePath;
 					if(pathEntity != null && !pathEntity.isFinished()) {
 						for (int i = 0; i < Math.min(pathEntity.getCurrentPathIndex() + 2, pathEntity.pathLength); i++) {
 							PathPoint pathPoint = pathEntity.getPathPointFromIndex(i);
@@ -237,7 +237,7 @@ public class EntityZombie extends EntityArmoredMob implements IMob {
 		if(this.worldObj.getWorldInfo().isBloodMoon()) {
 			if(this.entityToAttack == null) {
 				if(this.homingTo != null) {
-					this.pathToEntity = this.worldObj.getEntityPathToXYZ(this, (int)this.homingTo.xCoord, (int)this.homingTo.yCoord, (int)this.homingTo.zCoord, 32.0F);
+					this.activePath = this.worldObj.getEntityPathToXYZ(this, (int)this.homingTo.xCoord, (int)this.homingTo.yCoord, (int)this.homingTo.zCoord, 32.0F);
 				} else {
 					EntityPlayer closestPlayer = this.worldObj.getClosestPlayerUnderRoof(this.posX, this.posY, this.posZ, 64.0D); 
 					if(closestPlayer != null) {

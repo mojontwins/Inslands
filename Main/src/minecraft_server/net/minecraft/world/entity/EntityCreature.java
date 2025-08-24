@@ -6,7 +6,7 @@ import net.minecraft.world.level.pathfinder.PathEntity;
 import net.minecraft.world.phys.Vec3D;
 
 public class EntityCreature extends EntityLiving {
-	protected PathEntity pathToEntity;
+	protected PathEntity activePath;
 	protected Entity entityToAttack;
 	protected boolean hasAttacked = false;
 
@@ -24,7 +24,7 @@ public class EntityCreature extends EntityLiving {
 		if(this.entityToAttack == null) {
 			this.entityToAttack = this.findPlayerToAttack();
 			if(this.entityToAttack != null) {
-				this.pathToEntity = this.worldObj.getPathToEntity(this, this.entityToAttack, f1);
+				this.activePath = this.worldObj.getPathToEntity(this, this.entityToAttack, f1);
 			}
 		} else if(!this.entityToAttack.isEntityAlive()) {
 			this.entityToAttack = null;
@@ -37,29 +37,29 @@ public class EntityCreature extends EntityLiving {
 			}
 		}
 
-		if(this.hasAttacked || this.entityToAttack == null || this.pathToEntity != null && this.rand.nextInt(20) != 0) {
-			if(!this.hasAttacked && (this.pathToEntity == null && this.rand.nextInt(80) == 0 || this.rand.nextInt(80) == 0)) {
-				this.getPathToThis();
+		if(this.hasAttacked || this.entityToAttack == null || this.activePath != null && this.rand.nextInt(20) != 0) {
+			if(!this.hasAttacked && (this.activePath == null && this.rand.nextInt(80) == 0 || this.rand.nextInt(80) == 0)) {
+				this.getNewRandomPath();
 			}
 		} else {
-			this.pathToEntity = this.worldObj.getPathToEntity(this, this.entityToAttack, f1);
+			this.activePath = this.worldObj.getPathToEntity(this, this.entityToAttack, f1);
 		}
 
 		int i21 = MathHelper.floor_double(this.boundingBox.minY + 0.5D);
 		boolean z3 = this.isInWater() && this.triesToFloat();
 		boolean z4 = this.handleLavaMovement();
 		this.rotationPitch = 0.0F;
-		if(this.pathToEntity != null && this.rand.nextInt(100) != 0) {
-			Vec3D vec3D5 = this.pathToEntity.getPosition(this);
+		if(this.activePath != null && this.rand.nextInt(100) != 0) {
+			Vec3D vec3D5 = this.activePath.getPosition(this);
 			double d6 = (double)(this.width * 2.0F);
 
 			while(vec3D5 != null && vec3D5.squareDistanceTo(this.posX, vec3D5.yCoord, this.posZ) < d6 * d6) {
-				this.pathToEntity.incrementPathIndex();
-				if(this.pathToEntity.isFinished()) {
+				this.activePath.incrementPathIndex();
+				if(this.activePath.isFinished()) {
 					vec3D5 = null;
-					this.pathToEntity = null;
+					this.activePath = null;
 				} else {
-					vec3D5 = this.pathToEntity.getPosition(this);
+					vec3D5 = this.activePath.getPosition(this);
 				}
 			}
 
@@ -116,11 +116,11 @@ public class EntityCreature extends EntityLiving {
 
 		} else {
 			super.updateEntityActionState();
-			this.pathToEntity = null;
+			this.activePath = null;
 		}
 	}
 
-	protected void getPathToThis() {
+	protected void getNewRandomPath() {
 		boolean z1 = false;
 		int i2 = -1;
 		int i3 = -1;
@@ -142,7 +142,7 @@ public class EntityCreature extends EntityLiving {
 		}
 
 		if(z1) {
-			this.pathToEntity = this.worldObj.getEntityPathToXYZ(this, i2, i3, i4, 10.0F);
+			this.activePath = this.worldObj.getEntityPathToXYZ(this, i2, i3, i4, 10.0F);
 		}
 
 	}
@@ -169,11 +169,11 @@ public class EntityCreature extends EntityLiving {
 	}
 
 	public boolean hasPath() {
-		return this.pathToEntity != null;
+		return this.activePath != null;
 	}
 
 	public void setPathToEntity(PathEntity pathEntity1) {
-		this.pathToEntity = pathEntity1;
+		this.activePath = pathEntity1;
 	}
 
 	public Entity getTarget() {

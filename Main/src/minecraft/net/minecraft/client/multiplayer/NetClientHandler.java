@@ -356,7 +356,7 @@ public class NetClientHandler extends NetHandler {
 			double d7 = (double) entity2.serverPosZ / 32.0D;
 			float f9 = (float) (packet34EntityTeleport1.yaw * 360) / 256.0F;
 			float f10 = (float) (packet34EntityTeleport1.pitch * 360) / 256.0F;
-			entity2.setPositionAndRotation2(d3, d5, d7, f9, f10, 3);
+			entity2.setPositionAndRotation(d3, d5, d7, f9, f10, 3);
 		}
 	}
 
@@ -372,7 +372,7 @@ public class NetClientHandler extends NetHandler {
 			float f9 = packet30Entity1.rotating ? (float) (packet30Entity1.yaw * 360) / 256.0F : entity2.rotationYaw;
 			float f10 = packet30Entity1.rotating ? (float) (packet30Entity1.pitch * 360) / 256.0F
 					: entity2.rotationPitch;
-			entity2.setPositionAndRotation2(d3, d5, d7, f9, f10, 3);
+			entity2.setPositionAndRotation(d3, d5, d7, f9, f10, 3);
 		}
 	}
 

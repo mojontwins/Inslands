@@ -117,7 +117,7 @@ public class EntityFish extends Entity {
 		this.ticksInGround = 0;
 	}
 
-	public void setPositionAndRotation2(double d1, double d3, double d5, float f7, float f8, int i9) {
+	public void setPositionAndRotation(double d1, double d3, double d5, float f7, float f8, int i9) {
 		this.field_6387_m = d1;
 		this.field_6386_n = d3;
 		this.field_6385_o = d5;

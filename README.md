@@ -291,8 +291,8 @@ After 8 months... I'd refactor and reorganize everything in packages like my oth
 
 Also
 
-[ ] Add the witch hut to the poison island. And make the witch home on that. Add a cat, also home on that.
-	* `setHomeArea` - API for homing is in `EntityLiving` but it's there so it can be used by some modern AI tasks. If I want normal mobs to be able to home, I'll have to do it myself. Maybe adapt this bit of entity AI:
+* [X] Add the witch hut to the poison island. And make the witch home on that. Add a cat, also home on that.
+	* [ ] `setHomeArea` - API for homing is in `EntityLiving` but it's there so it can be used by some modern AI tasks. If I want normal mobs to be able to home, I'll have to do it myself. Maybe adapt this bit of entity AI:
 
 ```java
 	public boolean shouldExecute() {
@@ -312,10 +312,12 @@ Also
 		}
 	}
 ```
+	* [ ] Be sure to save the home position.
+	* [ ] Add a method in Entity that is called right after being spawned in the world for the first time - but only if it's possible to not doing it if we are loading entities.
 
-[ ] Add the stone arches in deserts.
-[ ] Feature smaller biomes in biomed world theme and hell
-[ ] Fix pistons in SMP (they work, but need the special Packet for the animation)
+* [ ] Add the stone arches in deserts.
+* [ ] Feature smaller biomes in biomed world theme and hell
+* [ ] Fix pistons in SMP (they work, but need the special Packet for the animation)
 
 # Removing the need to rely on the original minecraft.jar
 

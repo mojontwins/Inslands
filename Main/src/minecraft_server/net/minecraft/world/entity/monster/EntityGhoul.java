@@ -93,7 +93,7 @@ public class EntityGhoul extends EntityMob implements ICaveMob {
 		if (!this.chasingDoor) {
 			if(this.worldObj.worldInfo.isBloodMoon() || rand.nextInt(4) == 0) {
 				if(this.isCollidedHorizontally) {
-					PathEntity pathEntity = this.pathToEntity;
+					PathEntity pathEntity = this.activePath;
 					if(pathEntity != null && !pathEntity.isFinished()) {
 						for (int i = 0; i < Math.min(pathEntity.getCurrentPathIndex() + 2, pathEntity.pathLength); i++) {
 							PathPoint pathPoint = pathEntity.getPathPointFromIndex(i);

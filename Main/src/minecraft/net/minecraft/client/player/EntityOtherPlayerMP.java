@@ -36,7 +36,7 @@ public class EntityOtherPlayerMP extends EntityPlayer {
 		return true;
 	}
 
-	public void setPositionAndRotation2(double d1, double d3, double d5, float f7, float f8, int i9) {
+	public void setPositionAndRotation(double d1, double d3, double d5, float f7, float f8, int i9) {
 		this.otherPlayerMPX = d1;
 		this.otherPlayerMPY = d3;
 		this.otherPlayerMPZ = d5;
@@ -102,7 +102,7 @@ public class EntityOtherPlayerMP extends EntityPlayer {
 		}
 
 		this.cameraYaw += (f9 - this.cameraYaw) * 0.4F;
-		this.field_9328_R += (f2 - this.field_9328_R) * 0.8F;
+		this.cameraPitch += (f2 - this.cameraPitch) * 0.8F;
 	}
 
 	public void outfitWithItem(int i1, int i2, int i3) {

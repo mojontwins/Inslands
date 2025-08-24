@@ -119,7 +119,7 @@ public class EntityBoat extends Entity {
 		return !this.isDead;
 	}
 
-	public void setPositionAndRotation2(double d1, double d3, double d5, float f7, float f8, int i9) {
+	public void setPositionAndRotation(double d1, double d3, double d5, float f7, float f8, int i9) {
 		this.boatX = d1;
 		this.boatY = d3;
 		this.boatZ = d5;

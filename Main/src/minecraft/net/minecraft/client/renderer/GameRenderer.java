@@ -63,7 +63,7 @@ public class GameRenderer {
 	private boolean cloudFog = false;
 	private double cameraZoom = 1.0D;
 	private double cameraYaw = 0.0D;
-	private double cameraPitch = 0.0D;
+	private double prevCameraPitch = 0.0D;
 	private long prevFrameTime = System.currentTimeMillis();
 	private long renderEndNanoTime = 0L;
 	private boolean lightmapUpdateNeeded = false;
@@ -235,7 +235,7 @@ public class GameRenderer {
 			float f3 = entityPlayer2.distanceWalkedModified - entityPlayer2.prevDistanceWalkedModified;
 			float f4 = -(entityPlayer2.distanceWalkedModified + f3 * f1);
 			float f5 = entityPlayer2.prevCameraYaw + (entityPlayer2.cameraYaw - entityPlayer2.prevCameraYaw) * f1;
-			float f6 = entityPlayer2.cameraPitch + (entityPlayer2.field_9328_R - entityPlayer2.cameraPitch) * f1;
+			float f6 = entityPlayer2.prevCameraPitch + (entityPlayer2.cameraPitch - entityPlayer2.prevCameraPitch) * f1;
 			GL11.glTranslatef(MathHelper.sin(f4 * (float)Math.PI) * f5 * 0.5F, -Math.abs(MathHelper.cos(f4 * (float)Math.PI) * f5), 0.0F);
 			GL11.glRotatef(MathHelper.sin(f4 * (float)Math.PI) * f5 * 3.0F, 0.0F, 0.0F, 1.0F);
 			GL11.glRotatef(Math.abs(MathHelper.cos(f4 * (float)Math.PI - 0.2F) * f5) * 5.0F, 1.0F, 0.0F, 0.0F);
@@ -333,7 +333,7 @@ public class GameRenderer {
 		}
 
 		if(this.cameraZoom != 1.0D) {
-			GL11.glTranslatef((float)this.cameraYaw, (float)(-this.cameraPitch), 0.0F);
+			GL11.glTranslatef((float)this.cameraYaw, (float)(-this.prevCameraPitch), 0.0F);
 			GL11.glScaled(this.cameraZoom, this.cameraZoom, 1.0D);
 			GLU.gluPerspective(this.getFOVModifier(f1), (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.farPlaneDistance * 2.0F);
 		} else {

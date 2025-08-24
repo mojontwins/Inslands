@@ -1056,7 +1056,7 @@ public abstract class Entity {
 		}
 	}
 
-	public void setPositionAndRotation2(double d1, double d3, double d5, float f7, float f8, int i9) {
+	public void setPositionAndRotation(double d1, double d3, double d5, float f7, float f8, int i9) {
 		this.setPosition(d1, d3, d5);
 		this.setRotation(f7, f8);
 		List<AxisAlignedBB> list10 = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.getInsetBoundingBox(8.0D / 256D, 0.0D, 8.0D / 256D));

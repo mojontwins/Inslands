@@ -63,6 +63,7 @@ import net.minecraft.client.renderer.entity.twilight.RenderTFMinoshroom;
 import net.minecraft.client.renderer.entity.twilight.RenderTFWraith;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDerp;
 import net.minecraft.world.entity.EntityLightningBolt;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EntityPainting;
@@ -267,6 +268,9 @@ public class RenderManager {
 		this.entityRenderMap.put(EntityThrowableBottle.class, new RenderThrowableBottle());
 		this.entityRenderMap.put(EntityPoisonWitch.class, new RenderTwoLayeredBiped());
 		
+		this.entityRenderMap.put(EntityDerp.class, new RenderBiped(new ModelBiped(), 0.5F));
+		
+		// Set this as the render manager to all Render objects
 		Iterator<Render> iterator1 = this.entityRenderMap.values().iterator();
 
 		while(iterator1.hasNext()) {

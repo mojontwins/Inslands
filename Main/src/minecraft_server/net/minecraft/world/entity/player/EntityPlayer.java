@@ -379,7 +379,7 @@ public abstract class EntityPlayer extends EntityLiving {
 		}
 
 		this.cameraYaw += (f1 - this.cameraYaw) * 0.4F;
-		this.field_9328_R += (f2 - this.field_9328_R) * 0.8F;
+		this.cameraPitch += (f2 - this.cameraPitch) * 0.8F;
 		if(this.health > 0) {
 			List<Entity> list3 = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(1.0D, 0.0D, 1.0D));
 			if(list3 != null) {
