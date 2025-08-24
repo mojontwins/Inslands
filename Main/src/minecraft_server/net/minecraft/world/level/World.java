@@ -1155,32 +1155,34 @@ public class World implements IBlockAccess {
 		return true;
 	}
 
-	public boolean spawnEntityInWorld(Entity entity1) {
+	public boolean spawnEntityInWorld(Entity entity) {
 		
-		if(entity1.posX < 0) entity1.posX = 0;
-		if(entity1.posZ < 0) entity1.posZ = 0;
-		if(entity1.posX >= WorldSize.width) entity1.posX = WorldSize.width - 1;
-		if(entity1.posZ >= WorldSize.length) entity1.posZ = WorldSize.length - 1;
+		if(entity.posX < 0) entity.posX = 0;
+		if(entity.posZ < 0) entity.posZ = 0;
+		if(entity.posX >= WorldSize.width) entity.posX = WorldSize.width - 1;
+		if(entity.posZ >= WorldSize.length) entity.posZ = WorldSize.length - 1;
 		
-		int i2 = MathHelper.floor_double(entity1.posX / 16.0D);
-		int i3 = MathHelper.floor_double(entity1.posZ / 16.0D);
-		boolean z4 = false;
-		if(entity1 instanceof EntityPlayer) {
-			z4 = true;
+		int chunkX = MathHelper.floor_double(entity.posX / 16.0D);
+		int chunkZ = MathHelper.floor_double(entity.posZ / 16.0D);
+		boolean isPlayer = false;
+		if(entity instanceof EntityPlayer) {
+			isPlayer = true;
 		}
 
-		if(!z4 && !this.chunkExists(i2, i3)) {
+		if(!isPlayer && !this.chunkExists(chunkX, chunkZ)) {
 			return false;
 		} else {
-			if(entity1 instanceof EntityPlayer) {
-				EntityPlayer entityPlayer5 = (EntityPlayer)entity1;
-				this.playerEntities.add(entityPlayer5);
+			if(isPlayer) {
+				EntityPlayer player = (EntityPlayer)entity;
+				this.playerEntities.add(player);
 				this.updateAllPlayersSleepingFlag();
 			}
 
-			this.getChunkFromChunkCoords(i2, i3).addEntity(entity1);
-			this.loadedEntityList.add(entity1);
-			this.obtainEntitySkin(entity1);
+			this.getChunkFromChunkCoords(chunkX, chunkZ).addEntity(entity);
+			this.loadedEntityList.add(entity);
+			this.obtainEntitySkin(entity);
+			
+			entity.justSpawned();
 			return true;
 		}
 	}
@@ -2936,24 +2938,24 @@ public class World implements IBlockAccess {
 		return this.isBlockIndirectlyProvidingPowerTo(i1, i2 - 1, i3, 0) ? true : (this.isBlockIndirectlyProvidingPowerTo(i1, i2 + 1, i3, 1) ? true : (this.isBlockIndirectlyProvidingPowerTo(i1, i2, i3 - 1, 2) ? true : (this.isBlockIndirectlyProvidingPowerTo(i1, i2, i3 + 1, 3) ? true : (this.isBlockIndirectlyProvidingPowerTo(i1 - 1, i2, i3, 4) ? true : this.isBlockIndirectlyProvidingPowerTo(i1 + 1, i2, i3, 5)))));
 	}
 
-	public EntityPlayer getClosestPlayerToEntity(Entity entity1, double d2) {
-		return this.getClosestPlayer(entity1.posX, entity1.posY, entity1.posZ, d2);
+	public EntityPlayer getClosestPlayerToEntity(Entity entity, double distance) {
+		return this.getClosestPlayer(entity.posX, entity.posY, entity.posZ, distance);
 	}
 
-	public EntityPlayer getClosestPlayer(double d1, double d3, double d5, double d7) {
-		double d9 = -1.0D;
-		EntityPlayer entityPlayer11 = null;
+	public EntityPlayer getClosestPlayer(double x, double y, double z, double dMax) {
+		double curDistance = -1.0D;
+		EntityPlayer closestPlayer = null;
 
-		for(int i12 = 0; i12 < this.playerEntities.size(); ++i12) {
-			EntityPlayer entityPlayer13 = (EntityPlayer)this.playerEntities.get(i12);
-			double d14 = entityPlayer13.getDistanceSq(d1, d3, d5);
-			if((d7 < 0.0D || d14 < d7 * d7) && (d9 == -1.0D || d14 < d9)) {
-				d9 = d14;
-				entityPlayer11 = entityPlayer13;
+		for(int i = 0; i < this.playerEntities.size(); ++i) {
+			EntityPlayer player = (EntityPlayer)this.playerEntities.get(i);
+			double dSq = player.getDistanceSq(x, y, z);
+			if((dMax < 0.0D || dSq < dMax * dMax) && (curDistance == -1.0D || dSq < curDistance)) {
+				curDistance = dSq;
+				closestPlayer = player;
 			}
 		}
 
-		return entityPlayer11;
+		return closestPlayer;
 	}
 
 	public List<EntityPlayer> getPlayersInRangeFromEntity(Entity entity, double range) {

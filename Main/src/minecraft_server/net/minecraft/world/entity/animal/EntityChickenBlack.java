@@ -175,33 +175,6 @@ public class EntityChickenBlack extends EntityChicken {
 			this.activePath = null;
 		}
 	}
-
-	protected void getNewRandomPath() {
-		boolean z1 = false;
-		int i2 = -1;
-		int i3 = -1;
-		int i4 = -1;
-		float f5 = -99999.0F;
-
-		for(int i6 = 0; i6 < 10; ++i6) {
-			int i7 = MathHelper.floor_double(this.posX + (double)this.rand.nextInt(13) - 6.0D);
-			int i8 = MathHelper.floor_double(this.posY + (double)this.rand.nextInt(7) - 3.0D);
-			int i9 = MathHelper.floor_double(this.posZ + (double)this.rand.nextInt(13) - 6.0D);
-			float f10 = this.getBlockPathWeight(i7, i8, i9);
-			if(f10 > f5) {
-				f5 = f10;
-				i2 = i7;
-				i3 = i8;
-				i4 = i9;
-				z1 = true;
-			}
-		}
-
-		if(z1) {
-			this.activePath = this.worldObj.getEntityPathToXYZ(this, i2, i3, i4, 10.0F);
-		}
-
-	}
 	
 	protected void attackEntity(Entity entity1, float f2) {
 		if(this.attackTime <= 0 && f2 < 2.0F && entity1.boundingBox.maxY > this.boundingBox.minY && entity1.boundingBox.minY < this.boundingBox.maxY) {

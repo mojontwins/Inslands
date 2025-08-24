@@ -220,9 +220,9 @@ public class Item {
 	public static Item bottleWater = new ItemBottle(1301, 1, 2).setIconIndex(12*16 + 11).setItemName("bottleWater").setCreativeTab(CreativeTabs.tabBrewing);
 	public static Item bottleAcid = new ItemBottle(1302, 2, 10).setIconIndex(11*16 + 13).setItemName("bottleAcid").setCreativeTab(CreativeTabs.tabBrewing);
 	public static Item bottleSoup = new ItemBottle(1303, 3, 2).setIconIndex(12*16 + 12).setItemName("bottleSoup").setStatusEffect(Status.statusSlowness, 100, 1).setCreativeTab(CreativeTabs.tabBrewing);
-	public static Item bottleGoo = new ItemBottle(1304, 4, 5).setIconIndex(11*16 + 12).setItemName("bottleGoo").setCreativeTab(CreativeTabs.tabBrewing);
-	public static Item bottlePoison= new ItemBottle(1305, 5, 500).setIconIndex(12*16 + 13).setItemName("bottlePoison").setCreativeTab(CreativeTabs.tabBrewing);
-	public static Item talisman = new Item(1306).setIconIndex(13*16+10).setItemName("talisman");
+	public static Item bottleGoo = new ItemBottle(1304, 4, 10).setIconIndex(11*16 + 12).setItemName("bottleGoo").setCreativeTab(CreativeTabs.tabBrewing);
+	public static Item bottlePoison= new ItemBottle(1305, 5, 799).setIconIndex(12*16 + 13).setItemName("bottlePoison").setCreativeTab(CreativeTabs.tabBrewing);
+	public static Item talisman = new Item(1306).setIconIndex(12*16+10).setItemName("talisman");
 	public final int shiftedIndex;
 	protected int maxStackSize = 64;
 	protected int maxDamage = 0;

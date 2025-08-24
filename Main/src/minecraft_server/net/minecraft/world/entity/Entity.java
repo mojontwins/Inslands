@@ -1263,4 +1263,10 @@ public abstract class Entity {
 		return false;
 	}
 
+	/*
+	 * Use this to do init stuff when you know the entity is already in the world		
+	 */
+	public void justSpawned() {
+	}
+
 }
