@@ -1301,7 +1301,8 @@ public abstract class Minecraft implements Runnable {
 							worldSettings.getHardcoreEnabled(), 
 							worldSettings.isGenerateCities(),
 							worldSettings.getTerrainType());
-						
+					
+						this.loadingScreen.printText("Regenerating Level :(");
 					}
 				}
 			} while(world.findingSpawnPoint || !valid);
