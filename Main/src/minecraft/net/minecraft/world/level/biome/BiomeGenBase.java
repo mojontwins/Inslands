@@ -203,12 +203,8 @@ public class BiomeGenBase {
 
 	public static BiomeGenBase getBiome(float temperature, float humidity) {
 		if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.biomes.id) return BiomeGenBeta.getBiome(temperature, humidity);
-		
-		humidity *= temperature;
-		
-		BiomeGenBase biome = biomeDefault;
 				
-		return biome;
+		return biomeDefault;
 	}
 
 	protected BiomeGenBase setEnableSnow() {

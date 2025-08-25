@@ -5,6 +5,7 @@ import java.util.Random;
 
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.biome.BiomeGenBase;
+import net.minecraft.world.level.biome.BiomeGenBetaPlains;
 import net.minecraft.world.level.biome.BiomeGenMangrove;
 import net.minecraft.world.level.biome.BiomeGenMesa;
 import net.minecraft.world.level.biome.BiomeGenRocky;
@@ -235,7 +236,7 @@ public class FeatureVolcano extends FeatureDynamicSchematic {
 	public boolean shouldSpawn(IChunkProvider chunkProvider, World world, Random rand, BiomeGenBase biome, int chunkX,
 			int chunkZ) {
 		if(chunkProvider instanceof ChunkProviderSky) return false;
-		return biome instanceof BiomeGenRocky || biome instanceof BiomeGenMangrove || biome instanceof BiomeGenMesa;
+		return biome instanceof BiomeGenRocky || biome instanceof BiomeGenMangrove || biome instanceof BiomeGenMesa || biome instanceof BiomeGenBetaPlains;
 	}
 	
 	@Override

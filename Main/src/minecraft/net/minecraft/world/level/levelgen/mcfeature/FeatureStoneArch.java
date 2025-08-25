@@ -5,6 +5,7 @@ import java.util.Random;
 
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.biome.BiomeGenBase;
+import net.minecraft.world.level.biome.BiomeGenBetaDesert;
 import net.minecraft.world.level.biome.BiomeGenRocky;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.chunk.IChunkProvider;
@@ -107,7 +108,7 @@ public class FeatureStoneArch extends FeatureDynamicSchematic {
 	@Override
 	public boolean shouldSpawn(IChunkProvider chunkProvider, World world, Random rand, BiomeGenBase biome, int chunkX,
 			int chunkZ) {
-		return biome instanceof BiomeGenRocky;
+		return (biome instanceof BiomeGenRocky) || (biome instanceof BiomeGenBetaDesert);
 	}
 
 	@Override

@@ -259,7 +259,7 @@ public class FeatureIcePalace extends FeatureDynamicSchematic {
 
 	@Override
 	public int getFeatureRadius() {
-		return 2;
+		return 3;
 	}
 
 	@Override

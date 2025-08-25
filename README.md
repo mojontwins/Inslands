@@ -2,31 +2,6 @@
 
 (Temporarily while I can think of a better name).
 
-Ideas:
-
-- Worlds are limited to the circular buffer, which will be made fixed.
-- All the world is calculated on world creatinon, that 32x32 chunks area, somehow.
-
-So:
-
-1.- Make it so the buffer is not circular and no chunks x, z < 0 or x, z > 31 are generated.
-2.- Make it so you can't exit the world from the side.
-
-Then:
-
-Expand!
-
-1.- The nether should have nether walls and be 256x256
-2.- Position in the nether is overworld x 2
-
-Than:
-
-Go crazy!
-
-1.- Make chunks in the overworld 256 blocks tall. Generate the sky dimension on top of the normal dimension.
-2.- Indev level themes.
-3.- Profit!
-
 ## Meh
 
 I did a very nice vanilla Indev in beta, it's so nice but:
@@ -204,7 +179,7 @@ Yay! fps boosted on shitty systems!
 
 	COOL. Now the nether spawns correctly but there's no lights still. Need to check why is this.
 
-	* [ ] Nether should be somewhat themed. Good look on thinking on "paradise nether" features :-D 
+	* [X] Nether should be somewhat themed. Good look on thinking on "paradise nether" features :-D 
 
 	So level Themes should store separate (fixed or multi) biome info for both dimensions.
 
@@ -226,7 +201,7 @@ Yay! fps boosted on shitty systems!
 * [ ] Think about gameplay items for a desert and a glacier based theme (for the future).
 	* [ ] both lack trees, dirt and saplings must be obtained. Make sure skeletons still drop acorns.
 	* [ ] cold mechanics. Need to reactivate code for freeze
-
+	* [ ] The ice palace in glacier.
 
 # Server
 
@@ -256,7 +231,7 @@ Port/adapt from the Indev Modloader example.
 
 * [X] Biome causes lots of lag over time for some reason. Find what it is . I was adding mobs as animals
 * [X] Find the way to make the theme be able to fire a secondary cave carver above the sea level.
-* [ ] Make it darker.
+* [-] Make it darker.
 * [X] run the terraformer directy over the heightmap rather than carving the world after it's terrain generated!! And apply the modifier afterwards.
 
 * [X] Cave vines
@@ -317,7 +292,7 @@ Also
 	* [X] Be sure to save the home position.
 	* [X] Add a method in Entity that is called right after being spawned in the world for the first time - but only if it's possible to not doing it if we are loading entities.
 
-* [ ] Add the stone arches in deserts.
+* [X] Add the stone arches in deserts.
 * [ ] Feature smaller biomes in biomed world theme and hell
 * [X] Fix pistons in SMP (they work, but need the special Packet for the animation)
 
@@ -345,16 +320,16 @@ Also
 
 Client->Export jar generates a .jar you can use directly. **Make sure you uncheck the lib folder**. in betacraft. Add a b1.7.3 equivalent .info in the versions/json folder or something like this:
 
-```info
-release-date:1755269895000
-compile-date:1755269894000
-url:https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar
-launch-method:indev
-launch-method-link:
-proxy-args:-Dhttp.proxyHost=betacraft.uk -Dhttp.proxyPort=11705
-other-name:Inslads-latest
-protocolVersion:beta_14
-file-ver:1
+```properties
+	release-date:1755269895000
+	compile-date:1755269894000
+	url:https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar
+	launch-method:indev
+	launch-method-link:
+	proxy-args:-Dhttp.proxyHost=betacraft.uk -Dhttp.proxyPort=11705
+	other-name:Inslads-latest
+	protocolVersion:beta_14
+	file-ver:1
 ```
 
 Server->Export executable jar
@@ -402,7 +377,7 @@ Things to do to finish tree refactoring
 * [X] Add smooth stone block, smelted from stone.
 * [X] Nerf swarm spiders a bit so they poison less often and less time.
 * [/] Prune world loaded entity list after a blood moon to kill excess entities. NEEDS TESTING
-* [ ] Make sure poison witch never dies or despawns.
+* [X] Make sure poison witch never dies or despawns.
 
 # When I'm ready to add new stuff
 

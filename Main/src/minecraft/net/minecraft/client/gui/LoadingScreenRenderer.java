@@ -79,7 +79,7 @@ public class LoadingScreenRenderer implements IProgressUpdate {
 		} else {
 			long currentMillis = System.currentTimeMillis();
 			
-			if(currentMillis - hintTimer >= 2000) {
+			if(currentMillis - hintTimer >= 4000) {
 				this.selectHint();
 				hintTimer = currentMillis;
 			}
