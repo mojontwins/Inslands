@@ -11,7 +11,12 @@ import net.minecraft.world.level.material.Material;
 public class BlockStone extends Block implements IBlockWithSubtypes {
 	public static final int[] stoneColor = new int [] {
 		0xFFFFFF,
-		0xCCCCCC
+		0xCCCCCC,
+		0xFFFFFF,
+	};
+	
+	public static final int[] texIdx = new int [] {
+		1, 1, 6
 	};
 	
 	public BlockStone(int id, int blockIndex) {
@@ -20,8 +25,20 @@ public class BlockStone extends Block implements IBlockWithSubtypes {
 		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
-	public int idDropped(int metadata, Random rand) {
-		return Block.cobblestone.blockID;
+	@Override
+	public int getBlockTextureFromSideAndMetadata(int side, int meta) {
+		return BlockStone.texIdx[(meta >> 4) & 7];
+	}
+	
+	@Override
+	public ItemStack itemStackDropped(int meta, Random rand) {
+		switch(meta) {
+		case 2: 
+			// Meta 2 is expensive, so drop itself.
+			return new ItemStack(Block.stone.blockID, 1, 2);
+		default: 
+			return new ItemStack(Block.cobblestone.blockID, 1, 0);
+		}
 	}
 	
 	@Override
@@ -36,7 +53,7 @@ public class BlockStone extends Block implements IBlockWithSubtypes {
 	
     @Override
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
-		for(int i = 0; i < 2; i ++) {
+		for(int i = 0; i < 3; i ++) {
 			par3List.add(new ItemStack(par1, 1, i << 4));
 		}
 	}

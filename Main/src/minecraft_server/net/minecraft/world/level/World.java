@@ -19,6 +19,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.GlobalVars;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLightningBolt;
+import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.EnumCreatureType;
 import net.minecraft.world.entity.block.EntityBlockEntity;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.map.MapDataBase;
@@ -1623,8 +1625,8 @@ public class World implements IBlockAccess {
 				for(int j = 0; j < playerEntities.size(); j ++) {
 					EntityPlayer curPlayer = playerEntities.get(j);
 					if(
-							Math.abs(curPlayer.curChunkX - curEntity.chunkCoordX) <= 8 &&
-							Math.abs(curPlayer.curChunkZ - curEntity.chunkCoordZ) <= 8)  {
+							Math.abs(curPlayer.curChunkX - curEntity.chunkCoordX) < 8 &&
+							Math.abs(curPlayer.curChunkZ - curEntity.chunkCoordZ) < 8)  {
 						processThis = true;
 						break;
 					}
@@ -3501,5 +3503,22 @@ public class World implements IBlockAccess {
 
 	public int getWorldHeight() {
 		return 128;
+	}
+
+	public void pruneEntitiesToCap(EnumCreatureType creatureType, int maxEntitiesOfThisType) {
+		int numEntitiesOfThisType = 0;
+		for(int i = 0; i < this.loadedEntityList.size(); ++i) {
+			Entity entity = this.loadedEntityList.get(i);
+			if(creatureType.getCreatureClass().isAssignableFrom(entity.getClass())) {
+				numEntitiesOfThisType ++;
+				if(numEntitiesOfThisType >= maxEntitiesOfThisType) {
+					if(entity instanceof EntityLiving) {
+						((EntityLiving) entity).health = 0;
+					} else {
+						entity.setEntityDead();
+					}
+				}
+			}
+		}
 	}
 }

@@ -369,25 +369,6 @@ There are several blocks that produce different blockstates depending on metadat
 
 ## Tree types - leaf types - Sapling types
 
-Clean this up, so far I got:
-
-Meta|Tree
----------
-0|Oak (normal tree / big tree)	
-1|Birch (forest)
-2|Taiga (taiga 1 / taiga 2)
-3|Fir
-4|Baobab
-5|Bog
-6|Cypress
-7|Huge
-8|Palm tree
-9|Pine
-10|Shrub
-11|Swamp
-12|Willow
-13|TFCanopy
-
 I need a class or enum that, for a tree type, stores:
 
 - Leaves BlockState.
@@ -419,6 +400,9 @@ Things to do to finish tree refactoring
 * [X] Add lapis lazuli block.
 * [ ] Option to turn layered sand off when creating new world.
 * [X] Add smooth stone block, smelted from stone.
+* [X] Nerf swarm spiders a bit so they poison less often and less time.
+* [/] Prune world loaded entity list after a blood moon to kill excess entities. NEEDS TESTING
+* [ ] Make sure poison witch never dies or despawns.
 
 # When I'm ready to add new stuff
 

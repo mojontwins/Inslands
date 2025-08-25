@@ -81,13 +81,11 @@ public class EntityPoisonWitch extends EntityMob implements IMob {
 
 	@Override
 	protected boolean canDespawn() {
-		return true;
+		return false;
 	}
 
-	
 	@Override
 	protected void despawnEntity() {
-		
 	}
 	
 	@Override
@@ -100,7 +98,6 @@ public class EntityPoisonWitch extends EntityMob implements IMob {
 	public ItemStack getHeldItem() {
 		return new ItemStack(Block.cauldron);
 	}
-
 
 	@Override
 	protected String getLivingSound() {
@@ -116,7 +113,6 @@ public class EntityPoisonWitch extends EntityMob implements IMob {
 	protected String getDeathSound() {
 		return "mob.zombiedeath";
 	}
-	
 
 	@Override
 	protected int getDropItemId() {
@@ -237,5 +233,10 @@ public class EntityPoisonWitch extends EntityMob implements IMob {
 	@Override
 	public ItemStack getSpeech() {
 		return this.speakItemStack;
+	}
+	
+	@Override
+	public int getFullHealth() {
+		return Integer.MAX_VALUE;
 	}
 }

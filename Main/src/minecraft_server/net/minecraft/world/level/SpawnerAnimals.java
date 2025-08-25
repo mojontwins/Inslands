@@ -115,7 +115,11 @@ public final class SpawnerAnimals {
 				}
 
 				// System.out.println ("Chunks: " + eligibleChunksForSpawning.size() + ", TYPE: " + creatureType + " #" + activeEntitiesOfThisType + " of " + maxEntitiesOfThisType);
-								
+					
+				if(activeEntitiesOfThisType > maxEntitiesOfThisType) {
+					world.pruneEntitiesToCap(creatureType, maxEntitiesOfThisType);
+				}
+				
 				if(
 					(!creatureType.getPeacefulCreature() || flag2) && 
 					(creatureType.getPeacefulCreature() || flag1) && 
