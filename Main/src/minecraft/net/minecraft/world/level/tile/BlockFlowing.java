@@ -119,7 +119,7 @@ public class BlockFlowing extends BlockFluid {
 
 	private void flowIntoBlock(World world1, int i2, int i3, int i4, int i5) {
 		if(this.liquidCanDisplaceBlock(world1, i2, i3, i4)) {
-			Block block = Block.blocksList[world1.getBlockId(i2, i3, i4)];
+			Block block = Block.blocksList[world1.getblockID(i2, i3, i4)];
 			if(block != null) {
 				if(this.blockMaterial == Material.lava || this.blockMaterial == Material.acid) {
 					this.triggerLavaMixEffects(world1, i2, i3, i4);
@@ -222,7 +222,7 @@ public class BlockFlowing extends BlockFluid {
 	}
 
 	private boolean blockBlocksFlow(World world1, int i2, int i3, int i4) {
-		int i5 = world1.getBlockId(i2, i3, i4);
+		int i5 = world1.getblockID(i2, i3, i4);
 		if(i5 != Block.doorWood.blockID && i5 != Block.doorSteel.blockID && i5 != Block.signPost.blockID && i5 != Block.ladder.blockID && i5 != Block.reed.blockID) {
 			if(i5 == 0) {
 				return false;
@@ -261,7 +261,7 @@ public class BlockFlowing extends BlockFluid {
 
 	public void onBlockAdded(World world1, int i2, int i3, int i4) {
 		super.onBlockAdded(world1, i2, i3, i4);
-		if(world1.getBlockId(i2, i3, i4) == this.blockID) {
+		if(world1.getblockID(i2, i3, i4) == this.blockID) {
 			world1.scheduleBlockUpdate(i2, i3, i4, this.blockID, this.tickRate());
 		}
 

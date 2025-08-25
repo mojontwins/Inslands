@@ -106,7 +106,7 @@ public class BiomeGenSwampLand extends BiomeGenBeta {
 			x = x0 + rand.nextInt(16) + 8;
 			z = z0 + rand.nextInt(16) + 8;
 			
-			for(y = rand.nextInt(128); y > 0 && world.getBlockId(x, y - 1, z) == 0; y --) {}
+			for(y = rand.nextInt(128); y > 0 && world.getblockID(x, y - 1, z) == 0; y --) {}
 			
 			(new WorldGenLilypad()).generate(world, rand, x, y, z);
 		}

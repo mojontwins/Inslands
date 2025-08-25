@@ -68,7 +68,7 @@ public class Explosion {
 							int i22 = MathHelper.floor_double(d15);
 							int i23 = MathHelper.floor_double(d17);
 							int i24 = MathHelper.floor_double(d19);
-							int i25 = this.worldObj.getBlockId(i22, i23, i24);
+							int i25 = this.worldObj.getblockID(i22, i23, i24);
 							if(i25 > 0) {
 								f14 -= (Block.blocksList[i25].getExplosionResistance(this.exploder) + 0.3F) * f21;
 							}
@@ -125,8 +125,8 @@ public class Explosion {
 				int i36 = chunkPosition35.x;
 				int i37 = chunkPosition35.y;
 				int i16 = chunkPosition35.z;
-				int i38 = this.worldObj.getBlockId(i36, i37, i16);
-				int i18 = this.worldObj.getBlockId(i36, i37 - 1, i16);
+				int i38 = this.worldObj.getblockID(i36, i37, i16);
+				int i18 = this.worldObj.getblockID(i36, i37 - 1, i16);
 				if(i38 == 0 && Block.opaqueCubeLookup[i18] && this.ExplosionRNG.nextInt(3) == 0) {
 					this.worldObj.setBlockWithNotify(i36, i37, i16, Block.fire.blockID);
 				}
@@ -145,7 +145,7 @@ public class Explosion {
 			int i5 = chunkPosition4.x;
 			int i6 = chunkPosition4.y;
 			int i7 = chunkPosition4.z;
-			int i8 = this.worldObj.getBlockId(i5, i6, i7);
+			int i8 = this.worldObj.getblockID(i5, i6, i7);
 			if(z1) {
 				double d9 = (double)((float)i5 + this.worldObj.rand.nextFloat());
 				double d11 = (double)((float)i6 + this.worldObj.rand.nextFloat());

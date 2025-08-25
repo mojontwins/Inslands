@@ -347,7 +347,7 @@ public class ItemRenderer {
 			int i4 = MathHelper.floor_double(this.mc.thePlayer.posZ);
 			int i5 = this.mc.renderEngine.getTexture("/terrain.png");
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, i5);
-			int i6 = this.mc.theWorld.getBlockId(i2, i3, i4);
+			int i6 = this.mc.theWorld.getblockID(i2, i3, i4);
 			if(this.mc.theWorld.isBlockNormalCube(i2, i3, i4)) {
 				this.renderInsideOfBlock(f1, Block.blocksList[i6].getBlockTextureFromSide(2));
 			} else {
@@ -359,7 +359,7 @@ public class ItemRenderer {
 					int i12 = MathHelper.floor_float((float)i3 + f9);
 					int i13 = MathHelper.floor_float((float)i4 + f10);
 					if(this.mc.theWorld.isBlockNormalCube(i11, i12, i13)) {
-						i6 = this.mc.theWorld.getBlockId(i11, i12, i13);
+						i6 = this.mc.theWorld.getblockID(i11, i12, i13);
 					}
 				}
 			}

@@ -36,7 +36,7 @@ public class BlockLeafPile extends Block {
 	
 	@Override
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
-		Block block = Block.blocksList[world.getBlockId(x, y - 1, z)];
+		Block block = Block.blocksList[world.getblockID(x, y - 1, z)];
 		if(block == null) return false;
 		if(!block.isOpaqueCube()) return false;
 		if(block == Block.sand ) return false;

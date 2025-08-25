@@ -32,8 +32,8 @@ public class TFGenHedgeMaze extends TFGenerator {
 		byte msize = 16;
 		this.maze = new TFMaze(msize, msize);
 		this.maze.oddBias = 2;
-		this.maze.torchBlockID = Block.torchWood.blockID;
-		this.maze.wallBlockID = Block.hedge.blockID;
+		this.maze.torchblockID = Block.torchWood.blockID;
+		this.maze.wallblockID = Block.hedge.blockID;
 		this.maze.type = 4;
 		this.maze.tall = 3;
 		this.maze.roots = 3;
@@ -154,7 +154,7 @@ public class TFGenHedgeMaze extends TFGenerator {
 	private boolean roomTreasure(int dx, int dy, int dz, int diameter) {
 		int rx = this.rand.nextInt(diameter) + dx - diameter / 2;
 		int rz = this.rand.nextInt(diameter) + dz - diameter / 2;
-		return this.worldObj.getBlockId(rx, dy, rz) != 0 ? false : TFTreasure.hedgemaze.generate(this.worldObj, this.rand, rx, dy, rz);
+		return this.worldObj.getblockID(rx, dy, rz) != 0 ? false : TFTreasure.hedgemaze.generate(this.worldObj, this.rand, rx, dy, rz);
 	}
 
 	protected boolean placeMobSpawner(int dx, int dy, int dz, String mobID) {
@@ -171,7 +171,7 @@ public class TFGenHedgeMaze extends TFGenerator {
 	private boolean roomJackO(int dx, int dy, int dz, int diameter) {
 		int rx = this.rand.nextInt(diameter) + dx - diameter / 2;
 		int rz = this.rand.nextInt(diameter) + dz - diameter / 2;
-		if(this.worldObj.getBlockId(rx, dy, rz) != 0) {
+		if(this.worldObj.getblockID(rx, dy, rz) != 0) {
 			return false;
 		} else {
 			this.worldObj.setBlockAndMetadataWithNotify(rx, dy, rz, Block.pumpkinLantern.blockID, this.rand.nextInt(4));

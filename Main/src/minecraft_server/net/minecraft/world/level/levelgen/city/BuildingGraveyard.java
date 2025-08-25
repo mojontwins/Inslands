@@ -537,7 +537,7 @@ public class BuildingGraveyard extends Building {
 			do {
 				row = rand.nextInt(3);
 				x = this.getXforRow(rand, row);
-			} while (world.getBlockId(x0 + x, this.y0, z0 + 11 - row * 4) != Block.grass.blockID);
+			} while (world.getblockID(x0 + x, this.y0, z0 + 11 - row * 4) != Block.grass.blockID);
 			this.addSpawner(world, rand, x0 + x, this.y0, z0 + 11 - row * 4, "Skeleton");
 		}
 	}

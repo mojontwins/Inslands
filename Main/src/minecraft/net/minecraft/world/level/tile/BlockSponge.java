@@ -22,7 +22,7 @@ public class BlockSponge extends Block {
 		for(int x = a - 2; x <= a + 2; ++x) {
 			for(int y = b - 2; y <= b + 2; ++y) {
 				for(int z = c - 2; z <= c + 2; ++z) {
-					if (world.getBlockId(x, y, z) == Block.waterMoving.blockID || world.getBlockId(x, y, z) == Block.waterStill.blockID) {
+					if (world.getblockID(x, y, z) == Block.waterMoving.blockID || world.getblockID(x, y, z) == Block.waterStill.blockID) {
 						world.setBlockWithNotify(x, y, z, 0);
 					}
 				}
@@ -66,28 +66,28 @@ public class BlockSponge extends Block {
 	}
 
 	public void dropWater(World world, int x, int y, int z) {
-		for(int i = y; i > y - 3 && (world.getBlockId(x, i, z) == 0 || world.getBlockId(x, i, z) == Block.waterStill.blockID) && getSurroundSponge(world, x, i, z); --i) {
+		for(int i = y; i > y - 3 && (world.getblockID(x, i, z) == 0 || world.getblockID(x, i, z) == Block.waterStill.blockID) && getSurroundSponge(world, x, i, z); --i) {
 		}
 
 	}
 
 	public void flowWater(World world, int x, int y, int z, int sx, int sy, int sz) {
 		int radius = 3;
-		if ((world.getBlockId(x, y, z) == 0 || world.getBlockId(x, y, z) == Block.waterStill.blockID) && !getSurroundSponge(world, x, y, z)) {
+		if ((world.getblockID(x, y, z) == 0 || world.getblockID(x, y, z) == Block.waterStill.blockID) && !getSurroundSponge(world, x, y, z)) {
 			this.dropWater(world, x, y, z);
-			if (x + 1 < sx + radius && (world.getBlockId(x + 1, y, z) == 0 || world.getBlockId(x + 1, y, z) == Block.waterStill.blockID) && !getSurroundSponge(world, x + 1, y, z)) {
+			if (x + 1 < sx + radius && (world.getblockID(x + 1, y, z) == 0 || world.getblockID(x + 1, y, z) == Block.waterStill.blockID) && !getSurroundSponge(world, x + 1, y, z)) {
 				world.notifyBlocksOfNeighborChange(x + 1, y, z, 1);
 			}
 
-			if (z + 1 < sz + radius && (world.getBlockId(x, y, z + 1) == 0 || world.getBlockId(x, y, z + 1) == Block.waterStill.blockID) && !getSurroundSponge(world, x, y, z + 1)) {
+			if (z + 1 < sz + radius && (world.getblockID(x, y, z + 1) == 0 || world.getblockID(x, y, z + 1) == Block.waterStill.blockID) && !getSurroundSponge(world, x, y, z + 1)) {
 				world.notifyBlocksOfNeighborChange(x, y, z + 1, 1);
 			}
 
-			if (x - 1 > sx - radius && (world.getBlockId(x - 1, y, z) == 0 || world.getBlockId(x - 1, y, z) == Block.waterStill.blockID) && !getSurroundSponge(world, x - 1, y, z)) {
+			if (x - 1 > sx - radius && (world.getblockID(x - 1, y, z) == 0 || world.getblockID(x - 1, y, z) == Block.waterStill.blockID) && !getSurroundSponge(world, x - 1, y, z)) {
 				world.notifyBlocksOfNeighborChange(x - 1, y, z, 1);
 			}
 
-			if (z - 1 > sz - radius && (world.getBlockId(x, y, z - 1) == 0 || world.getBlockId(x, y, z - 1) == Block.waterStill.blockID) && !getSurroundSponge(world, x, y, z - 1)) {
+			if (z - 1 > sz - radius && (world.getblockID(x, y, z - 1) == 0 || world.getblockID(x, y, z - 1) == Block.waterStill.blockID) && !getSurroundSponge(world, x, y, z - 1)) {
 				world.notifyBlocksOfNeighborChange(x, y, z + 1, 1);
 			}
 		}
@@ -100,7 +100,7 @@ public class BlockSponge extends Block {
 		for(int x = a - 2; x <= a + 2; ++x) {
 			for(int y = b - 2; y <= b + 2; ++y) {
 				for(int z = c - 2; z <= c + 2; ++z) {
-					if (world.getBlockId(x, y, z) == Block.waterMoving.blockID || world.getBlockId(x, y, z) == Block.waterStill.blockID) {
+					if (world.getblockID(x, y, z) == Block.waterMoving.blockID || world.getblockID(x, y, z) == Block.waterStill.blockID) {
 						world.setBlockWithNotify(x, y, z, 0);
 					}
 				}
@@ -115,7 +115,7 @@ public class BlockSponge extends Block {
 		for(int x1 = x - radius; x1 <= x + radius; ++x1) {
 			for(int y1 = y; y1 > y - radius; --y1) {
 				for(int z1 = z - radius; z1 <= z + radius; ++z1) {
-					if ((world.getBlockId(x1, y1, z1) == 0 || world.getBlockId(x1, y1, z1) == Block.waterStill.blockID || world.getBlockId(x1, y1, z1) == Block.waterMoving.blockID) && !getSurroundSponge(world, x, y, z)) {
+					if ((world.getblockID(x1, y1, z1) == 0 || world.getblockID(x1, y1, z1) == Block.waterStill.blockID || world.getblockID(x1, y1, z1) == Block.waterMoving.blockID) && !getSurroundSponge(world, x, y, z)) {
 						world.setBlockWithNotify(x1, y1, z1, Block.waterMoving.blockID);
 					}
 				}
@@ -128,7 +128,7 @@ public class BlockSponge extends Block {
 		for(int x1 = x - 2; x1 <= x + 2; ++x1) {
 			for(int y1 = y - 2; y1 <= y + 2; ++y1) {
 				for(int z1 = z - 2; z1 <= z + 2; ++z1) {
-					if (world.getBlockId(x1, y1, z1) == Block.sponge.blockID) {
+					if (world.getblockID(x1, y1, z1) == Block.sponge.blockID) {
 						return true;
 					}
 				}
@@ -145,7 +145,7 @@ public class BlockSponge extends Block {
 		for(int x = a - radius; x <= a + radius; ++x) {
 			for(int y = b + radius; y > b - radius; --y) {
 				for(int z = c - radius; z <= c + radius; ++z) {
-					if (world.getBlockId(x, y, z) == Block.waterMoving.blockID || world.getBlockId(x, y, z) == Block.waterStill.blockID) {
+					if (world.getblockID(x, y, z) == Block.waterMoving.blockID || world.getblockID(x, y, z) == Block.waterStill.blockID) {
 						this.flowWater(world, x, y, z, a, b, c);
 					}
 				}

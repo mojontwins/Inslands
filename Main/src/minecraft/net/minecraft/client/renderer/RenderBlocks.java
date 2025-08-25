@@ -1118,7 +1118,7 @@ public class RenderBlocks {
 			u2 = (double)(((float)(i13 + 16) + 15.99F) / TextureAtlasSize.w);
 			v1 = (double)((float)i14 / TextureAtlasSize.h);
 			v2 = (double)(((float)i14 + 15.99F) / TextureAtlasSize.h);
-			if(this.blockAccess.isBlockNormalCube(i2 - 1, i3, i4) && this.blockAccess.getBlockId(i2 - 1, i3 + 1, i4) == Block.redstoneWire.blockID) {
+			if(this.blockAccess.isBlockNormalCube(i2 - 1, i3, i4) && this.blockAccess.getblockID(i2 - 1, i3 + 1, i4) == Block.redstoneWire.blockID) {
 				tessellator5.setColorOpaque_F(f8 * f10, f8 * f11, f8 * f12);
 				tessellator5.addVertexWithUV((double)i2 + 0.015625D, (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 1), u2, v1);
 				tessellator5.addVertexWithUV((double)i2 + 0.015625D, (double)(i3 + 0), (double)(i4 + 1), u1, v1);
@@ -1131,7 +1131,7 @@ public class RenderBlocks {
 				tessellator5.addVertexWithUV((double)i2 + 0.015625D, (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 0), u2, v2 + Texels.texH);
 			}
 
-			if(this.blockAccess.isBlockNormalCube(i2 + 1, i3, i4) && this.blockAccess.getBlockId(i2 + 1, i3 + 1, i4) == Block.redstoneWire.blockID) {
+			if(this.blockAccess.isBlockNormalCube(i2 + 1, i3, i4) && this.blockAccess.getblockID(i2 + 1, i3 + 1, i4) == Block.redstoneWire.blockID) {
 				tessellator5.setColorOpaque_F(f8 * f10, f8 * f11, f8 * f12);
 				tessellator5.addVertexWithUV((double)(i2 + 1) - 0.015625D, (double)(i3 + 0), (double)(i4 + 1), u1, v2);
 				tessellator5.addVertexWithUV((double)(i2 + 1) - 0.015625D, (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 1), u2, v2);
@@ -1144,7 +1144,7 @@ public class RenderBlocks {
 				tessellator5.addVertexWithUV((double)(i2 + 1) - 0.015625D, (double)(i3 + 0), (double)(i4 + 0), u1, v1 + Texels.texH);
 			}
 
-			if(this.blockAccess.isBlockNormalCube(i2, i3, i4 - 1) && this.blockAccess.getBlockId(i2, i3 + 1, i4 - 1) == Block.redstoneWire.blockID) {
+			if(this.blockAccess.isBlockNormalCube(i2, i3, i4 - 1) && this.blockAccess.getblockID(i2, i3 + 1, i4 - 1) == Block.redstoneWire.blockID) {
 				tessellator5.setColorOpaque_F(f8 * f10, f8 * f11, f8 * f12);
 				tessellator5.addVertexWithUV((double)(i2 + 1), (double)(i3 + 0), (double)i4 + 0.015625D, u1, v2);
 				tessellator5.addVertexWithUV((double)(i2 + 1), (double)((float)(i3 + 1) + 0.021875F), (double)i4 + 0.015625D, u2, v2);
@@ -1157,7 +1157,7 @@ public class RenderBlocks {
 				tessellator5.addVertexWithUV((double)(i2 + 0), (double)(i3 + 0), (double)i4 + 0.015625D, u1, v1 + Texels.texH);
 			}
 
-			if(this.blockAccess.isBlockNormalCube(i2, i3, i4 + 1) && this.blockAccess.getBlockId(i2, i3 + 1, i4 + 1) == Block.redstoneWire.blockID) {
+			if(this.blockAccess.isBlockNormalCube(i2, i3, i4 + 1) && this.blockAccess.getblockID(i2, i3 + 1, i4 + 1) == Block.redstoneWire.blockID) {
 				tessellator5.setColorOpaque_F(f8 * f10, f8 * f11, f8 * f12);
 				tessellator5.addVertexWithUV((double)(i2 + 1), (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 1) - 0.015625D, u2, v1);
 				tessellator5.addVertexWithUV((double)(i2 + 1), (double)(i3 + 0), (double)(i4 + 1) - 0.015625D, u1, v1);
@@ -1454,10 +1454,10 @@ public class RenderBlocks {
 		double dZc1 = (double)z + 0.5D - 0.0625D;
 		double dZc2 = (double)z + 0.5D + 0.0625D;
 		
-		boolean connectN = block.canThisPaneConnectToThisBlockID(this.blockAccess.getBlockId(x, y, z - 1));
-		boolean connectS = block.canThisPaneConnectToThisBlockID(this.blockAccess.getBlockId(x, y, z + 1));
-		boolean connectW = block.canThisPaneConnectToThisBlockID(this.blockAccess.getBlockId(x - 1, y, z));
-		boolean connectE = block.canThisPaneConnectToThisBlockID(this.blockAccess.getBlockId(x + 1, y, z));
+		boolean connectN = block.canThisPaneConnectToThisblockID(this.blockAccess.getblockID(x, y, z - 1));
+		boolean connectS = block.canThisPaneConnectToThisblockID(this.blockAccess.getblockID(x, y, z + 1));
+		boolean connectW = block.canThisPaneConnectToThisblockID(this.blockAccess.getblockID(x - 1, y, z));
+		boolean connectE = block.canThisPaneConnectToThisblockID(this.blockAccess.getblockID(x + 1, y, z));
 		boolean renderTop = block.shouldSideBeRendered(this.blockAccess, x, y + 1, z, 1);
 		boolean renderBottom = block.shouldSideBeRendered(this.blockAccess, x, y - 1, z, 0);
 
@@ -2400,18 +2400,18 @@ public class RenderBlocks {
 
 		Tessellator tessellator26 = Tessellator.instance;
 		tessellator26.setBrightness(983055);
-		this.aoGrassXYZPPC = Block.canBlockGrass[this.blockAccess.getBlockId(i2 + 1, i3 + 1, i4)];
-		this.aoGrassXYZPNC = Block.canBlockGrass[this.blockAccess.getBlockId(i2 + 1, i3 - 1, i4)];
-		this.aoGrassXYZPCP = Block.canBlockGrass[this.blockAccess.getBlockId(i2 + 1, i3, i4 + 1)];
-		this.aoGrassXYZPCN = Block.canBlockGrass[this.blockAccess.getBlockId(i2 + 1, i3, i4 - 1)];
-		this.aoGrassXYZNPC = Block.canBlockGrass[this.blockAccess.getBlockId(i2 - 1, i3 + 1, i4)];
-		this.aoGrassXYZNNC = Block.canBlockGrass[this.blockAccess.getBlockId(i2 - 1, i3 - 1, i4)];
-		this.aoGrassXYZNCN = Block.canBlockGrass[this.blockAccess.getBlockId(i2 - 1, i3, i4 - 1)];
-		this.aoGrassXYZNCP = Block.canBlockGrass[this.blockAccess.getBlockId(i2 - 1, i3, i4 + 1)];
-		this.aoGrassXYZCPP = Block.canBlockGrass[this.blockAccess.getBlockId(i2, i3 + 1, i4 + 1)];
-		this.aoGrassXYZCPN = Block.canBlockGrass[this.blockAccess.getBlockId(i2, i3 + 1, i4 - 1)];
-		this.aoGrassXYZCNP = Block.canBlockGrass[this.blockAccess.getBlockId(i2, i3 - 1, i4 + 1)];
-		this.aoGrassXYZCNN = Block.canBlockGrass[this.blockAccess.getBlockId(i2, i3 - 1, i4 - 1)];
+		this.aoGrassXYZPPC = Block.canBlockGrass[this.blockAccess.getblockID(i2 + 1, i3 + 1, i4)];
+		this.aoGrassXYZPNC = Block.canBlockGrass[this.blockAccess.getblockID(i2 + 1, i3 - 1, i4)];
+		this.aoGrassXYZPCP = Block.canBlockGrass[this.blockAccess.getblockID(i2 + 1, i3, i4 + 1)];
+		this.aoGrassXYZPCN = Block.canBlockGrass[this.blockAccess.getblockID(i2 + 1, i3, i4 - 1)];
+		this.aoGrassXYZNPC = Block.canBlockGrass[this.blockAccess.getblockID(i2 - 1, i3 + 1, i4)];
+		this.aoGrassXYZNNC = Block.canBlockGrass[this.blockAccess.getblockID(i2 - 1, i3 - 1, i4)];
+		this.aoGrassXYZNCN = Block.canBlockGrass[this.blockAccess.getblockID(i2 - 1, i3, i4 - 1)];
+		this.aoGrassXYZNCP = Block.canBlockGrass[this.blockAccess.getblockID(i2 - 1, i3, i4 + 1)];
+		this.aoGrassXYZCPP = Block.canBlockGrass[this.blockAccess.getblockID(i2, i3 + 1, i4 + 1)];
+		this.aoGrassXYZCPN = Block.canBlockGrass[this.blockAccess.getblockID(i2, i3 + 1, i4 - 1)];
+		this.aoGrassXYZCNP = Block.canBlockGrass[this.blockAccess.getblockID(i2, i3 - 1, i4 + 1)];
+		this.aoGrassXYZCNN = Block.canBlockGrass[this.blockAccess.getblockID(i2, i3 - 1, i4 - 1)];
 		if(block1.blockIndexInTexture == 3) {
 			z18 = false;
 			z17 = false;
@@ -3253,18 +3253,18 @@ public class RenderBlocks {
 		
 		boolean connectEorW = false;
 		boolean connectNorS = false;
-		if(this.blockAccess.getBlockId(x - 1, y, z) == block.blockID || this.blockAccess.getBlockId(x + 1, y, z) == block.blockID) {
+		if(this.blockAccess.getblockID(x - 1, y, z) == block.blockID || this.blockAccess.getblockID(x + 1, y, z) == block.blockID) {
 			connectEorW = true;
 		}
 
-		if(this.blockAccess.getBlockId(x, y, z - 1) == block.blockID || this.blockAccess.getBlockId(x, y, z + 1) == block.blockID) {
+		if(this.blockAccess.getblockID(x, y, z - 1) == block.blockID || this.blockAccess.getblockID(x, y, z + 1) == block.blockID) {
 			connectNorS = true;
 		}
 
-		boolean connectE = this.blockAccess.getBlockId(x - 1, y, z) == block.blockID;
-		boolean connectW = this.blockAccess.getBlockId(x + 1, y, z) == block.blockID;
-		boolean connectN = this.blockAccess.getBlockId(x, y, z - 1) == block.blockID;
-		boolean connectS = this.blockAccess.getBlockId(x, y, z + 1) == block.blockID;
+		boolean connectE = this.blockAccess.getblockID(x - 1, y, z) == block.blockID;
+		boolean connectW = this.blockAccess.getblockID(x + 1, y, z) == block.blockID;
+		boolean connectN = this.blockAccess.getblockID(x, y, z - 1) == block.blockID;
+		boolean connectS = this.blockAccess.getblockID(x, y, z + 1) == block.blockID;
 		if(!connectEorW && !connectNorS) {
 			connectEorW = true;
 		}

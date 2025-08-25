@@ -141,7 +141,7 @@ public class EffectRenderer {
 	}
 
 	public void addBlockHitEffects(int i1, int i2, int i3, int i4) {
-		int i5 = this.worldObj.getBlockId(i1, i2, i3);
+		int i5 = this.worldObj.getblockID(i1, i2, i3);
 		if(i5 != 0) {
 			Block block6 = Block.blocksList[i5];
 			float f7 = 0.1F;

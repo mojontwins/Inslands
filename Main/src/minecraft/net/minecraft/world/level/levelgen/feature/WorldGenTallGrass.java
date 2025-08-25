@@ -17,7 +17,7 @@ public class WorldGenTallGrass extends WorldGenerator {
 
 	public boolean generate(World world1, Random random2, int i3, int i4, int i5) {
 		int i11;
-		for(; ((i11 = world1.getBlockId(i3, i4, i5)) == 0 || i11 == Block.leaves.blockID) && i4 > 0; --i4) {
+		for(; ((i11 = world1.getblockID(i3, i4, i5)) == 0 || i11 == Block.leaves.blockID) && i4 > 0; --i4) {
 		}
 
 		for(int i7 = 0; i7 < 128; ++i7) {

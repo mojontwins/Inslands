@@ -498,15 +498,15 @@ public abstract class Entity {
 				i38 = MathHelper.floor_double(this.posX);
 				i26 = MathHelper.floor_double(this.posY - (double)0.2F - (double)this.yOffset);
 				i39 = MathHelper.floor_double(this.posZ);
-				Block block = Block.blocksList[this.worldObj.getBlockId(i38, i26, i39)];
-				if(this.worldObj.getBlockId(i38, i26 - 1, i39) == Block.fence.blockID) {
-					block = Block.blocksList[this.worldObj.getBlockId(i38, i26 - 1, i39)];
+				Block block = Block.blocksList[this.worldObj.getblockID(i38, i26, i39)];
+				if(this.worldObj.getblockID(i38, i26 - 1, i39) == Block.fence.blockID) {
+					block = Block.blocksList[this.worldObj.getblockID(i38, i26 - 1, i39)];
 				}
 
 				if(this.distanceWalkedModified > (float)this.nextStepDistance && block != null) {
 					++this.nextStepDistance;
 					StepSound stepSound29 = block.stepSound;
-					if(this.worldObj.getBlockId(i38, i26 + 1, i39) == Block.snow.blockID) {
+					if(this.worldObj.getblockID(i38, i26 + 1, i39) == Block.snow.blockID) {
 						stepSound29 = Block.snow.stepSound;
 						this.worldObj.playSoundAtEntity(this, stepSound29.getStepSound(), stepSound29.getVolume() * 0.15F, stepSound29.getPitch());
 					} else if(!block.blockMaterial.getIsLiquid()) {
@@ -527,7 +527,7 @@ public abstract class Entity {
 				for(int i31 = i38; i31 <= i28; ++i31) {
 					for(int i32 = i26; i32 <= i40; ++i32) {
 						for(int i33 = i39; i33 <= i30; ++i33) {
-							Block block = Block.blocksList[this.worldObj.getBlockId(i31, i32, i33)];
+							Block block = Block.blocksList[this.worldObj.getblockID(i31, i32, i33)];
 							if(block != null) {
 								block.onEntityCollidedWithBlock(this.worldObj, i31, i32, i33, this);
 							}
@@ -631,7 +631,7 @@ public abstract class Entity {
 		int i4 = MathHelper.floor_double(this.posX);
 		int i5 = MathHelper.floor_float((float)MathHelper.floor_double(d2));
 		int i6 = MathHelper.floor_double(this.posZ);
-		int i7 = this.worldObj.getBlockId(i4, i5, i6);
+		int i7 = this.worldObj.getblockID(i4, i5, i6);
 		Block block = Block.blocksList[i7];
 		if(block != null && block.blockMaterial == material1) {
 			float f8 = BlockFluid.getFluidHeightPercent(this.worldObj.getBlockMetadata(i4, i5, i6)) - 0.11111111F;

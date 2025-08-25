@@ -60,7 +60,7 @@ public class BlockFarmland extends Block {
 
 		for(int i6 = x - b5; i6 <= x + b5; ++i6) {
 			for(int i7 = z - b5; i7 <= z + b5; ++i7) {
-				if(world.getBlockId(i6, y + 1, i7) == Block.crops.blockID) {
+				if(world.getblockID(i6, y + 1, i7) == Block.crops.blockID) {
 					return true;
 				}
 			}

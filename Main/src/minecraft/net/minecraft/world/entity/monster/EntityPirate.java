@@ -86,7 +86,7 @@ public class EntityPirate extends EntityHumanBase implements IMobWithLevel, ISen
 		int j = MathHelper.floor_double(this.boundingBox.minY);
 		int k = MathHelper.floor_double(this.posZ);
 		return this.posY > 60.0D && 
-				(this.worldObj.getBlockId(i, j, k) == Block.planks.blockID || this.worldObj.getBlockId(i, j, k) == Block.stone.blockID || this.worldObj.getBlockId(i, j, k) == Block.wood.blockID || this.worldObj.getBlockId(i, j, k) == Block.stoneBricks.blockID || this.worldObj.getBlockId(i, j, k) == Block.dirt.blockID || this.worldObj.getBlockId(i, j, k) == Block.grass.blockID) ? true : (this.rand.nextInt(4) == 1 ? super.getCanSpawnHere() : false);
+				(this.worldObj.getblockID(i, j, k) == Block.planks.blockID || this.worldObj.getblockID(i, j, k) == Block.stone.blockID || this.worldObj.getblockID(i, j, k) == Block.wood.blockID || this.worldObj.getblockID(i, j, k) == Block.stoneBricks.blockID || this.worldObj.getblockID(i, j, k) == Block.dirt.blockID || this.worldObj.getblockID(i, j, k) == Block.grass.blockID) ? true : (this.rand.nextInt(4) == 1 ? super.getCanSpawnHere() : false);
 	}
 
 	@Override

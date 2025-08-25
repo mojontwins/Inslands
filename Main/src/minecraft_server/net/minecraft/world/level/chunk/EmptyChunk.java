@@ -38,15 +38,15 @@ public class EmptyChunk extends Chunk {
 	public void doesNothing() {
 	}
 
-	public int getBlockID(int i1, int i2, int i3) {
+	public int getblockID(int i1, int i2, int i3) {
 		return 0;
 	}
 
-	public boolean setBlockIDWithMetadata(int i1, int i2, int i3, int i4, int i5) {
+	public boolean setblockIDWithMetadata(int i1, int i2, int i3, int i4, int i5) {
 		return true;
 	}
 
-	public boolean setBlockID(int i1, int i2, int i3, int i4) {
+	public boolean setblockID(int i1, int i2, int i3, int i4) {
 		return true;
 	}
 

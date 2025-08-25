@@ -101,13 +101,13 @@ public class BlockDoor extends Block {
 		} else {
 			int i6 = world.getBlockMetadata(x, y, z);
 			if((i6 & 8) != 0) {
-				if(world.getBlockId(x, y - 1, z) == this.blockID) {
+				if(world.getblockID(x, y - 1, z) == this.blockID) {
 					this.blockActivated(world, x, y - 1, z, entityPlayer);
 				}
 
 				return true;
 			} else {
-				if(world.getBlockId(x, y + 1, z) == this.blockID) {
+				if(world.getblockID(x, y + 1, z) == this.blockID) {
 					world.setBlockMetadataWithNotify(x, y + 1, z, (i6 ^ 4) + 8);
 				}
 
@@ -122,14 +122,14 @@ public class BlockDoor extends Block {
 	public void onPoweredBlockChange(World world, int x, int y, int z, boolean z5) {
 		int i6 = world.getBlockMetadata(x, y, z);
 		if((i6 & 8) != 0) {
-			if(world.getBlockId(x, y - 1, z) == this.blockID) {
+			if(world.getblockID(x, y - 1, z) == this.blockID) {
 				this.onPoweredBlockChange(world, x, y - 1, z, z5);
 			}
 
 		} else {
 			boolean z7 = (world.getBlockMetadata(x, y, z) & 4) > 0;
 			if(z7 != z5) {
-				if(world.getBlockId(x, y + 1, z) == this.blockID) {
+				if(world.getblockID(x, y + 1, z) == this.blockID) {
 					world.setBlockMetadataWithNotify(x, y + 1, z, (i6 ^ 4) + 8);
 				}
 
@@ -143,7 +143,7 @@ public class BlockDoor extends Block {
 	public void onNeighborBlockChange(World world, int x, int y, int z, int id) {
 		int i6 = world.getBlockMetadata(x, y, z);
 		if((i6 & 8) != 0) {
-			if(world.getBlockId(x, y - 1, z) != this.blockID) {
+			if(world.getblockID(x, y - 1, z) != this.blockID) {
 				world.setBlockWithNotify(x, y, z, 0);
 			}
 
@@ -152,7 +152,7 @@ public class BlockDoor extends Block {
 			}
 		} else {
 			boolean z7 = false;
-			if(world.getBlockId(x, y + 1, z) != this.blockID) {
+			if(world.getblockID(x, y + 1, z) != this.blockID) {
 				world.setBlockWithNotify(x, y, z, 0);
 				z7 = true;
 			}
@@ -160,7 +160,7 @@ public class BlockDoor extends Block {
 			if(!world.isBlockNormalCube(x, y - 1, z)) {
 				world.setBlockWithNotify(x, y, z, 0);
 				z7 = true;
-				if(world.getBlockId(x, y + 1, z) == this.blockID) {
+				if(world.getblockID(x, y + 1, z) == this.blockID) {
 					world.setBlockWithNotify(x, y + 1, z, 0);
 				}
 			}

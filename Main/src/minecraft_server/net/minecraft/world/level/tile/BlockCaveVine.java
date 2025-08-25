@@ -107,7 +107,7 @@ public class BlockCaveVine extends Block {
 			var13 = true;
 		}
 
-		if (!var13 && this.canBePlacedOn(par1IBlockAccess.getBlockId(par2, par3 + 1, par4))) {
+		if (!var13 && this.canBePlacedOn(par1IBlockAccess.getblockID(par2, par3 + 1, par4))) {
 			var8 = Math.min(var8, 0.9375F);
 			var11 = 1.0F;
 			var7 = 0.0F;
@@ -137,19 +137,19 @@ public class BlockCaveVine extends Block {
 	public boolean canPlaceBlockOnSide(World par1World, int par2, int par3, int par4, int par5) {
 		switch (par5) {
 		case 1:
-			return this.canBePlacedOn(par1World.getBlockId(par2, par3 + 1, par4));
+			return this.canBePlacedOn(par1World.getblockID(par2, par3 + 1, par4));
 
 		case 2:
-			return this.canBePlacedOn(par1World.getBlockId(par2, par3, par4 + 1));
+			return this.canBePlacedOn(par1World.getblockID(par2, par3, par4 + 1));
 
 		case 3:
-			return this.canBePlacedOn(par1World.getBlockId(par2, par3, par4 - 1));
+			return this.canBePlacedOn(par1World.getblockID(par2, par3, par4 - 1));
 
 		case 4:
-			return this.canBePlacedOn(par1World.getBlockId(par2 + 1, par3, par4));
+			return this.canBePlacedOn(par1World.getblockID(par2 + 1, par3, par4));
 
 		case 5:
-			return this.canBePlacedOn(par1World.getBlockId(par2 - 1, par3, par4));
+			return this.canBePlacedOn(par1World.getblockID(par2 - 1, par3, par4));
 
 		default:
 			return false;
@@ -175,7 +175,7 @@ public class BlockCaveVine extends Block {
 	 * according to neighboring blocks.
 	 */
 	private boolean canVineStay(World par1World, int par2, int par3, int par4) {
-		return this.canBePlacedOn(par1World.getBlockId(par2, par3 + 1, par4));
+		return this.canBePlacedOn(par1World.getblockID(par2, par3 + 1, par4));
 	}
 
 	/**

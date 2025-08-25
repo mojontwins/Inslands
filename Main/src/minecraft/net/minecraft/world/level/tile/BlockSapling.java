@@ -87,7 +87,7 @@ public class BlockSapling extends BlockFlower implements IBlockWithSubtypes {
 	}
 
 	public boolean sameSapling(World world, int x, int y, int z, int meta) {
-		return world.getBlockId(x, y, z) == this.blockID &&
+		return world.getblockID(x, y, z) == this.blockID &&
 				world.getBlockMetadata(x, y, z) == meta;
 	}
 	
@@ -109,7 +109,7 @@ public class BlockSapling extends BlockFlower implements IBlockWithSubtypes {
 	}
     
 	@Override
-	public int getItemBlockId() {
+	public int getItemblockID() {
 		return this.blockID - 256;
 	}
 

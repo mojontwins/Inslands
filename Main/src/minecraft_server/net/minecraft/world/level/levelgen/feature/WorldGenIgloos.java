@@ -18,13 +18,13 @@ public class WorldGenIgloos extends WorldGenerator {
 		int zeros = 0;
 		for (int xx = x - 3; xx <= x + 3; xx ++) {
 			for (int zz = z - 3; zz <= z + 3; zz ++) {
-				if (world.getBlockId(xx, y - 1, zz) == 0) zeros ++;
+				if (world.getblockID(xx, y - 1, zz) == 0) zeros ++;
 				
 				if ((xx == x - 3 || xx == x + 3) && (zz <= z - 2 || zz >= z + 2) ||
 					(zz == x - 3 || zz == x + 3) && (xx <= z - 2 || zz >= z + 2)) continue;
 				
-				if (world.getBlockId(xx, y, zz) != 0) return false;
-				if (world.getBlockId(xx, y - 1, zz) == blockWater) return false;	
+				if (world.getblockID(xx, y, zz) != 0) return false;
+				if (world.getblockID(xx, y - 1, zz) == blockWater) return false;	
 			}
 		}
 		
@@ -36,7 +36,7 @@ public class WorldGenIgloos extends WorldGenerator {
 	private void pillarDown (World world, int x, int y, int z) {
 		while (y > 0) {
 			y --;
-			if (world.getBlockId(x, y, z) != 0) return;
+			if (world.getblockID(x, y, z) != 0) return;
 			world.setBlock(x, y, z, blockSnow);
 		}
 	}

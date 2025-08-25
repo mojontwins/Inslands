@@ -76,7 +76,7 @@ public class EntityFireball extends Entity {
 		}
 
 		if(this.inGround) {
-			int i1 = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
+			int i1 = this.worldObj.getblockID(this.xTile, this.yTile, this.zTile);
 			if(i1 == this.inTile) {
 				++this.ticksAlive;
 				if(this.ticksAlive == 1200) {

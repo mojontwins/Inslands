@@ -76,17 +76,17 @@ public class WorldGenHugeTrees extends WorldGenerator
 			
 		while (y > 32) {		
 			if(
-				world.getBlockId(x, y - 1, z) != Block.waterMoving.blockID &&
-				world.getBlockId(x + 1, y - 1, z + 1) != Block.waterMoving.blockID &&
-				world.getBlockId(x + 1, y - 1, z) != Block.waterMoving.blockID &&
-				world.getBlockId(x, y - 1, z + 1) != Block.waterMoving.blockID
+				world.getblockID(x, y - 1, z) != Block.waterMoving.blockID &&
+				world.getblockID(x + 1, y - 1, z + 1) != Block.waterMoving.blockID &&
+				world.getblockID(x + 1, y - 1, z) != Block.waterMoving.blockID &&
+				world.getblockID(x, y - 1, z + 1) != Block.waterMoving.blockID
 			) break;
 			y --;
 			diveFor --;
 			if(diveFor == 0) return false;
 		}
 
-		int blockID = world.getBlockId(x, y - 1, z);
+		int blockID = world.getblockID(x, y - 1, z);
 		if (blockID != Block.grass.blockID && blockID != Block.dirt.blockID || y >= 256 - i - 1) {
 			return false;
 		}
@@ -117,11 +117,11 @@ public class WorldGenHugeTrees extends WorldGenerator
 				world.setBlockAndMetadata(x, y + j1, z, this.trunkID, this.trunkMeta);
 
 				if (j1 > 0) {
-					if (rand.nextInt(3) > 0 && 0 == world.getBlockId(x - 1, y + j1, z)) {
+					if (rand.nextInt(3) > 0 && 0 == world.getblockID(x - 1, y + j1, z)) {
 						world.setBlockAndMetadata(x - 1, y + j1, z, Block.vine.blockID, 8);
 					}
 
-					if (rand.nextInt(3) > 0 && 0 == world.getBlockId(x, y + j1, z - 1)) {
+					if (rand.nextInt(3) > 0 && 0 == world.getblockID(x, y + j1, z - 1)) {
 						world.setBlockAndMetadata(x, y + j1, z - 1, Block.vine.blockID, 1);
 					}
 				}
@@ -137,11 +137,11 @@ public class WorldGenHugeTrees extends WorldGenerator
 				world.setBlockAndMetadata(x + 1, y + j1, z, this.trunkID, this.trunkMeta);
 
 				if (j1 > 0) {
-					if (rand.nextInt(3) > 0 && 0 == world.getBlockId(x + 2, y + j1, z)) {
+					if (rand.nextInt(3) > 0 && 0 == world.getblockID(x + 2, y + j1, z)) {
 						world.setBlockAndMetadata(x + 2, y + j1, z, Block.vine.blockID, 2);
 					}
 
-					if (rand.nextInt(3) > 0 && 0 == world.getBlockId(x + 1, y + j1, z - 1)) {
+					if (rand.nextInt(3) > 0 && 0 == world.getblockID(x + 1, y + j1, z - 1)) {
 						world.setBlockAndMetadata(x + 1, y + j1, z - 1, Block.vine.blockID, 1);
 					}
 				}
@@ -153,11 +153,11 @@ public class WorldGenHugeTrees extends WorldGenerator
 				world.setBlockAndMetadata(x + 1, y + j1, z + 1, this.trunkID, this.trunkMeta);
 
 				if (j1 > 0) {
-					if (rand.nextInt(3) > 0 && 0 == world.getBlockId(x + 2, y + j1, z + 1)) {
+					if (rand.nextInt(3) > 0 && 0 == world.getblockID(x + 2, y + j1, z + 1)) {
 						world.setBlockAndMetadata(x + 2, y + j1, z + 1, Block.vine.blockID, 2);
 					}
 
-					if (rand.nextInt(3) > 0 && 0 == world.getBlockId(x + 1, y + j1, z + 2)) {
+					if (rand.nextInt(3) > 0 && 0 == world.getblockID(x + 1, y + j1, z + 2)) {
 						world.setBlockAndMetadata(x + 1, y + j1, z + 2, Block.vine.blockID, 4);
 					}
 				}
@@ -175,11 +175,11 @@ public class WorldGenHugeTrees extends WorldGenerator
 				continue;
 			}
 
-			if (rand.nextInt(3) > 0 && 0 == world.getBlockId(x - 1, y + j1, z + 1)) {
+			if (rand.nextInt(3) > 0 && 0 == world.getblockID(x - 1, y + j1, z + 1)) {
 				world.setBlockAndMetadata(x - 1, y + j1, z + 1, Block.vine.blockID, 8);
 			}
 
-			if (rand.nextInt(3) > 0 && 0 == world.getBlockId(x, y + j1, z + 2))
+			if (rand.nextInt(3) > 0 && 0 == world.getblockID(x, y + j1, z + 2))
 			{
 				world.setBlockAndMetadata(x, y + j1, z + 2, Block.vine.blockID, 4);
 			}
@@ -203,7 +203,7 @@ public class WorldGenHugeTrees extends WorldGenerator
 
 					int i1sq = i1 * i1; int k1sq = k1 * k1;
 
-					if ((i1 >= 0 || k1 >= 0 || i1sq + k1sq <= k * k) && (i1 <= 0 && k1 <= 0 || i1sq + k1sq <= (k + 1) * (k + 1)) && (par6Random.nextInt(4) != 0 || i1sq + k1sq <= (k - 1) * (k - 1)) && !Block.opaqueCubeLookup[world.getBlockId(l, i, j1)]) {
+					if ((i1 >= 0 || k1 >= 0 || i1sq + k1sq <= k * k) && (i1 <= 0 && k1 <= 0 || i1sq + k1sq <= (k + 1) * (k + 1)) && (par6Random.nextInt(4) != 0 || i1sq + k1sq <= (k - 1) * (k - 1)) && !Block.opaqueCubeLookup[world.getblockID(l, i, j1)]) {
 						world.setBlockAndMetadata(l, i, j1, this.leavesID, this.leavesMeta);
 					}
 				}

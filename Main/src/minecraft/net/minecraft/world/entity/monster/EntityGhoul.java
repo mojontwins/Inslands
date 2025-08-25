@@ -141,7 +141,7 @@ public class EntityGhoul extends EntityMob implements ICaveMob {
 	
 
 	protected BlockDoor findDoorBlock(int x, int y, int z) {
-		int blockID = this.worldObj.getBlockId(x, y, z);
+		int blockID = this.worldObj.getblockID(x, y, z);
 		if (blockID != Block.doorWood.blockID) return null;
 		BlockDoor blockDoor = (BlockDoor)Block.blocksList[blockID];
 		return blockDoor;

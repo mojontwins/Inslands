@@ -15,7 +15,7 @@ public class ItemAcornSeed extends Item {
 		if(side != 1) {
 			return false;
 		} else {
-			int blockID = world.getBlockId(x, y, z);
+			int blockID = world.getblockID(x, y, z);
 			if(blockID == Block.tilledField.blockID && world.isAirBlock(x, y + 1, z)) {
 				world.setBlockWithNotify(x, y + 1, z, Block.acorn.blockID);
 				thePlayer.triggerAchievement(AchievementList.plantAcorn);

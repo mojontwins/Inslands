@@ -20,19 +20,19 @@ public class ComponentTFMazeRoomBoss extends ComponentTFMazeRoom {
 	 * Spawners, it closes Mineshafts at the end, it adds Fences...
 	 */
 	public boolean addComponentParts(World var1, Random var2, StructureBoundingBox var3, boolean mostlySolid) {
-		if (this.getBlockIdAtCurrentPosition(var1, 7, 1, 0, var3) == 0) {
+		if (this.getblockIDAtCurrentPosition(var1, 7, 1, 0, var3) == 0) {
 			this.fillWithBlocks(var1, var3, 6, 1, 0, 9, 4, 0, Block.fence.blockID, 0, false);
 		}
 
-		if (this.getBlockIdAtCurrentPosition(var1, 7, 1, 15, var3) == 0) {
+		if (this.getblockIDAtCurrentPosition(var1, 7, 1, 15, var3) == 0) {
 			this.fillWithBlocks(var1, var3, 6, 1, 15, 9, 4, 15, Block.fence.blockID, 0, false);
 		}
 
-		if (this.getBlockIdAtCurrentPosition(var1, 0, 1, 7, var3) == 0) {
+		if (this.getblockIDAtCurrentPosition(var1, 0, 1, 7, var3) == 0) {
 			this.fillWithBlocks(var1, var3, 0, 1, 6, 0, 4, 9, Block.fence.blockID, 0, false);
 		}
 
-		if (this.getBlockIdAtCurrentPosition(var1, 15, 1, 7, var3) == 0) {
+		if (this.getblockIDAtCurrentPosition(var1, 15, 1, 7, var3) == 0) {
 			this.fillWithBlocks(var1, var3, 15, 1, 6, 15, 4, 9, Block.fence.blockID, 0, false);
 		}
 

@@ -964,7 +964,7 @@ public abstract class Minecraft implements Runnable {
 
 	private void clickMiddleMouseButton() {
 		if(this.objectMouseOver != null) {
-			int i1 = this.theWorld.getBlockId(this.objectMouseOver.blockX, this.objectMouseOver.blockY, this.objectMouseOver.blockZ);
+			int i1 = this.theWorld.getblockID(this.objectMouseOver.blockX, this.objectMouseOver.blockY, this.objectMouseOver.blockZ);
 			if(i1 == Block.grass.blockID) {
 				i1 = Block.dirt.blockID;
 			}
@@ -1497,7 +1497,7 @@ public abstract class Minecraft implements Runnable {
 		for(int x = 0; x < WorldSize.width; x += 16) {
 			for(int z = 0 ; z < WorldSize.length; z += 16) {
 				this.loadingScreen.setLoadingProgress(i3++ * 100 / WorldSize.getTotalChunks());
-				world.getBlockId(x, 64, z);
+				world.getblockID(x, 64, z);
 			}
 		}
 

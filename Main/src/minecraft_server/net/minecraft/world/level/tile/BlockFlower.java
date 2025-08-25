@@ -28,10 +28,10 @@ public class BlockFlower extends Block {
 	}
 	
 	public boolean canPlaceBlockAt(World world1, int i2, int i3, int i4) {
-		return super.canPlaceBlockAt(world1, i2, i3, i4) && this.canThisPlantGrowOnThisBlockID(world1.getBlockId(i2, i3 - 1, i4));
+		return super.canPlaceBlockAt(world1, i2, i3, i4) && this.canThisPlantGrowOnThisblockID(world1.getblockID(i2, i3 - 1, i4));
 	}
 
-	protected boolean canThisPlantGrowOnThisBlockID(int i1) {
+	protected boolean canThisPlantGrowOnThisblockID(int i1) {
 		Block block = Block.blocksList[i1];
 		return block != null && block.canGrowPlants();
 	}
@@ -54,7 +54,7 @@ public class BlockFlower extends Block {
     }
 	
 	public boolean canBlockStay(World world1, int i2, int i3, int i4) {
-		return (world1.getFullBlockLightValue(i2, i3, i4) >= 8 || world1.canBlockSeeTheSky(i2, i3, i4)) && this.canThisPlantGrowOnThisBlockID(world1.getBlockId(i2, i3 - 1, i4));
+		return (world1.getFullBlockLightValue(i2, i3, i4) >= 8 || world1.canBlockSeeTheSky(i2, i3, i4)) && this.canThisPlantGrowOnThisblockID(world1.getblockID(i2, i3 - 1, i4));
 	}
 
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world1, int i2, int i3, int i4) {

@@ -139,7 +139,7 @@ public abstract class Render {
 		for(int i32 = i19; i32 <= i20; ++i32) {
 			for(int i33 = i21; i33 <= i22; ++i33) {
 				for(int i34 = i23; i34 <= i24; ++i34) {
-					int i35 = world11.getBlockId(i32, i33 - 1, i34);
+					int i35 = world11.getblockID(i32, i33 - 1, i34);
 					if(i35 > 0 && world11.getBlockLightValue(i32, i33, i34) > 3) {
 						this.renderShadowOnBlock(Block.blocksList[i35], d2, d4 + (double)entity1.getShadowSize(), d6, i32, i33, i34, f8, f12, d25, d27 + (double)entity1.getShadowSize(), d29);
 					}

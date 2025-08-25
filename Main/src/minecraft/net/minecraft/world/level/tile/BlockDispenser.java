@@ -46,10 +46,10 @@ public class BlockDispenser extends BlockContainer {
 
 	private void setDispenserDefaultDirection(World world1, int i2, int i3, int i4) {
 		if(!world1.isRemote) {
-			int i5 = world1.getBlockId(i2, i3, i4 - 1);
-			int i6 = world1.getBlockId(i2, i3, i4 + 1);
-			int i7 = world1.getBlockId(i2 - 1, i3, i4);
-			int i8 = world1.getBlockId(i2 + 1, i3, i4);
+			int i5 = world1.getblockID(i2, i3, i4 - 1);
+			int i6 = world1.getblockID(i2, i3, i4 + 1);
+			int i7 = world1.getblockID(i2 - 1, i3, i4);
+			int i8 = world1.getblockID(i2 + 1, i3, i4);
 			byte b9 = 3;
 			if(Block.opaqueCubeLookup[i5] && !Block.opaqueCubeLookup[i6]) {
 				b9 = 3;

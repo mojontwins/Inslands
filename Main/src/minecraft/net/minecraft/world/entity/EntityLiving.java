@@ -583,7 +583,7 @@ public abstract class EntityLiving extends Entity {
 		int y = MathHelper.floor_double(this.posY - (double)0.2F - (double)this.yOffset);
 		int z = MathHelper.floor_double(this.posZ);
 		
-		int i3 = this.worldObj.getBlockId(x, y, z);
+		int i3 = this.worldObj.getblockID(x, y, z);
 		int meta = this.worldObj.getBlockMetadata(x, y, z);
 		
 		if(i3 == Block.slimeBlock.blockID) {
@@ -639,7 +639,7 @@ public abstract class EntityLiving extends Entity {
 			float f8 = 0.91F;
 			if(this.onGround) {
 				f8 = 0.54600006F;
-				int i4 = this.worldObj.getBlockId(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
+				int i4 = this.worldObj.getblockID(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
 				if(i4 > 0) {
 					f8 = Block.blocksList[i4].slipperiness * 0.91F;
 				}
@@ -652,7 +652,7 @@ public abstract class EntityLiving extends Entity {
 			f8 = 0.91F;
 			if(this.onGround) {
 				f8 = 0.54600006F;
-				int i5 = this.worldObj.getBlockId(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
+				int i5 = this.worldObj.getblockID(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
 				if(i5 > 0) {
 					f8 = Block.blocksList[i5].slipperiness * 0.91F;
 				}
@@ -714,10 +714,10 @@ public abstract class EntityLiving extends Entity {
 		int i2 = MathHelper.floor_double(this.boundingBox.minY);
 		int i3 = MathHelper.floor_double(this.posZ);
 		/*
-		return this.worldObj.getBlockId(i1, i2, i3) == Block.ladder.blockID;
+		return this.worldObj.getblockID(i1, i2, i3) == Block.ladder.blockID;
 		*/
-		Block block1 = Block.blocksList[this.worldObj.getBlockId(i1, i2, i3)];
-		Block block2 = Block.blocksList[this.worldObj.getBlockId(i1, i2 + 1, i3)];
+		Block block1 = Block.blocksList[this.worldObj.getblockID(i1, i2, i3)];
+		Block block2 = Block.blocksList[this.worldObj.getblockID(i1, i2 + 1, i3)];
 		return (block1 != null && block1.isClimbable()) || (block2 != null && block2.isClimbable());
 	}
 

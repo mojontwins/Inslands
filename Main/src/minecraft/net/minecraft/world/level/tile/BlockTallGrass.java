@@ -84,7 +84,7 @@ public class BlockTallGrass extends BlockFlower {
 			return super.canBlockStay(world, x, y, z);
 			
 		default:
-			int blockID = world.getBlockId(x, y - 1, z);
+			int blockID = world.getblockID(x, y - 1, z);
 			Block block = Block.blocksList[blockID];
 			
 			if(block != null && block.canGrowPlants()) return true;

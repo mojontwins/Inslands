@@ -137,7 +137,7 @@ public abstract class StructureComponent {
 		
 		for(int x = x1; x <= x2; x ++) {
 			for(int z = z1; z <= z2; z++) {
-				Block block = Block.blocksList[world.getBlockId(x, y, z)];
+				Block block = Block.blocksList[world.getblockID(x, y, z)];
 				if(block != null && block.isOpaqueCube()) return false;
 			}
 		}
@@ -158,7 +158,7 @@ public abstract class StructureComponent {
 	
 		for(int x = x1; x <= x2; x ++) {
 			for(int z = z1; z <= z2; z++) {
-				Block block = Block.blocksList[world.getBlockId(x, y, z)]; 
+				Block block = Block.blocksList[world.getblockID(x, y, z)]; 
 				if(block == null || !block.isOpaqueCube()) nonOpaque ++;
 				totalBlocks ++;
 			}
@@ -183,12 +183,12 @@ public abstract class StructureComponent {
 		int i11;
 		for(i9 = i3; i9 <= i6; ++i9) {
 			for(i10 = i5; i10 <= i8; ++i10) {
-				i11 = world1.getBlockId(i9, i4, i10);
+				i11 = world1.getblockID(i9, i4, i10);
 				if(i11 > 0 && Block.blocksList[i11].blockMaterial.getIsLiquid()) {
 					return true;
 				}
 
-				i11 = world1.getBlockId(i9, i7, i10);
+				i11 = world1.getblockID(i9, i7, i10);
 				if(i11 > 0 && Block.blocksList[i11].blockMaterial.getIsLiquid()) {
 					return true;
 				}
@@ -197,12 +197,12 @@ public abstract class StructureComponent {
 
 		for(i9 = i3; i9 <= i6; ++i9) {
 			for(i10 = i4; i10 <= i7; ++i10) {
-				i11 = world1.getBlockId(i9, i10, i5);
+				i11 = world1.getblockID(i9, i10, i5);
 				if(i11 > 0 && Block.blocksList[i11].blockMaterial.getIsLiquid()) {
 					return true;
 				}
 
-				i11 = world1.getBlockId(i9, i10, i8);
+				i11 = world1.getblockID(i9, i10, i8);
 				if(i11 > 0 && Block.blocksList[i11].blockMaterial.getIsLiquid()) {
 					return true;
 				}
@@ -211,12 +211,12 @@ public abstract class StructureComponent {
 
 		for(i9 = i5; i9 <= i8; ++i9) {
 			for(i10 = i4; i10 <= i7; ++i10) {
-				i11 = world1.getBlockId(i3, i10, i9);
+				i11 = world1.getblockID(i3, i10, i9);
 				if(i11 > 0 && Block.blocksList[i11].blockMaterial.getIsLiquid()) {
 					return true;
 				}
 
-				i11 = world1.getBlockId(i6, i10, i9);
+				i11 = world1.getblockID(i6, i10, i9);
 				if(i11 > 0 && Block.blocksList[i11].blockMaterial.getIsLiquid()) {
 					return true;
 				}
@@ -245,11 +245,11 @@ public abstract class StructureComponent {
 		int i11;
 		for(i9 = i3; i9 <= i6; ++i9) {
 			for(i10 = i5; i10 <= i8; ++i10) {
-				i11 = world1.getBlockId(i9, i4, i10);
+				i11 = world1.getblockID(i9, i4, i10);
 				if(i11 == 0) nonOpaque ++;
 				totalBlocks ++;
 
-				i11 = world1.getBlockId(i9, i7, i10);
+				i11 = world1.getblockID(i9, i7, i10);
 				if(i11 == 0) nonOpaque ++;
 				totalBlocks ++;
 			}
@@ -257,11 +257,11 @@ public abstract class StructureComponent {
 
 		for(i9 = i3; i9 <= i6; ++i9) {
 			for(i10 = i4; i10 <= i7; ++i10) {
-				i11 = world1.getBlockId(i9, i10, i5);
+				i11 = world1.getblockID(i9, i10, i5);
 				if(i11 == 0) nonOpaque ++;
 				totalBlocks ++;
 
-				i11 = world1.getBlockId(i9, i10, i8);
+				i11 = world1.getblockID(i9, i10, i8);
 				if(i11 == 0) nonOpaque ++;
 				totalBlocks ++;
 			}
@@ -269,11 +269,11 @@ public abstract class StructureComponent {
 
 		for(i9 = i5; i9 <= i8; ++i9) {
 			for(i10 = i4; i10 <= i7; ++i10) {
-				i11 = world1.getBlockId(i3, i10, i9);
+				i11 = world1.getblockID(i3, i10, i9);
 				if(i11 == 0) nonOpaque ++;
 				totalBlocks ++;
 
-				i11 = world1.getBlockId(i6, i10, i9);
+				i11 = world1.getblockID(i6, i10, i9);
 				if(i11 == 0) nonOpaque ++;
 				totalBlocks ++;
 			}
@@ -483,12 +483,12 @@ public abstract class StructureComponent {
 		int zAbs = this.getZWithOffset(x, z);
 		if(structureBoundingBox.isVecInside(xAbs, yAbs, zAbs)) {
 			if(
-					world.getBlockId(xAbs - 1, yAbs, zAbs) != 0 ||
-					world.getBlockId(xAbs + 1, yAbs, zAbs) != 0 ||
-					world.getBlockId(xAbs, yAbs, zAbs - 1) != 0 ||
-					world.getBlockId(xAbs, yAbs, zAbs + 1) != 0 ||
-					world.getBlockId(xAbs, yAbs - 1, zAbs) != 0 ||
-					world.getBlockId(xAbs, yAbs + 1, zAbs) != 0
+					world.getblockID(xAbs - 1, yAbs, zAbs) != 0 ||
+					world.getblockID(xAbs + 1, yAbs, zAbs) != 0 ||
+					world.getblockID(xAbs, yAbs, zAbs - 1) != 0 ||
+					world.getblockID(xAbs, yAbs, zAbs + 1) != 0 ||
+					world.getblockID(xAbs, yAbs - 1, zAbs) != 0 ||
+					world.getblockID(xAbs, yAbs + 1, zAbs) != 0
 			) {
 				world.setBlockAndMetadata(xAbs, yAbs, zAbs, blockID, metadata);
 			}
@@ -504,11 +504,11 @@ public abstract class StructureComponent {
 		}
 	}
 
-	protected int getBlockIdAtCurrentPosition(World world1, int i2, int i3, int i4, StructureBoundingBox structureBoundingBox5) {
+	protected int getblockIDAtCurrentPosition(World world1, int i2, int i3, int i4, StructureBoundingBox structureBoundingBox5) {
 		int i6 = this.getXWithOffset(i2, i4);
 		int i7 = this.getYWithOffset(i3);
 		int i8 = this.getZWithOffset(i2, i4);
-		return !structureBoundingBox5.isVecInside(i6, i7, i8) ? 0 : world1.getBlockId(i6, i7, i8);
+		return !structureBoundingBox5.isVecInside(i6, i7, i8) ? 0 : world1.getblockID(i6, i7, i8);
 	}
 	
 	protected Material getBlockMaterialAtCurrentPosition(World world1, int i2, int i3, int i4, StructureBoundingBox structureBoundingBox5) {
@@ -518,11 +518,11 @@ public abstract class StructureComponent {
 		return !structureBoundingBox5.isVecInside(i6, i7, i8) ? Material.air : world1.getBlockMaterial(i6, i7, i8);
 	}
 	
-	protected int getBlockIdAtCurrentPositionNoVertClip(World world1, int i2, int i3, int i4, StructureBoundingBox structureBoundingBox5) {
+	protected int getblockIDAtCurrentPositionNoVertClip(World world1, int i2, int i3, int i4, StructureBoundingBox structureBoundingBox5) {
 		int i6 = this.getXWithOffset(i2, i4);
 		int i7 = this.getYWithOffset(i3);
 		int i8 = this.getZWithOffset(i2, i4);
-		return !structureBoundingBox5.isVecInsideHorizontally(i6, i7, i8) ? -1 : world1.getBlockId(i6, i7, i8);
+		return !structureBoundingBox5.isVecInsideHorizontally(i6, i7, i8) ? -1 : world1.getblockID(i6, i7, i8);
 	}
 
 	protected boolean canBlockSeeTheSky(World world, int x, int y, int z, StructureBoundingBox structureBoundingBox) {
@@ -536,7 +536,7 @@ public abstract class StructureComponent {
 		for(int y = y1; y <= y2; ++y) {
 			for(int x = x1; x <= x2; ++x) {
 				for(int z = z1; z <= z2; ++z) {
-					if(!z11 || this.getBlockIdAtCurrentPosition(world, x, y, z, structureBoundingBox) != 0) {
+					if(!z11 || this.getblockIDAtCurrentPosition(world, x, y, z, structureBoundingBox) != 0) {
 						if(y != y1 && y != y2 && x != x1 && x != x2 && z != z1 && z != z2) {
 							this.placeBlockAtCurrentPosition(world, blockID2, 0, x, y, z, structureBoundingBox);
 						} else {
@@ -555,7 +555,7 @@ public abstract class StructureComponent {
 			if(this.getYWithOffset(y) > 127) break;
 			for(int x = x1; x <= x2; ++x) {
 				for(int z = z1; z <= z2; ++z) {
-					if(!z11 || this.getBlockIdAtCurrentPositionNoVertClip(world, x, y, z, structureBoundingBox) != 0) {
+					if(!z11 || this.getblockIDAtCurrentPositionNoVertClip(world, x, y, z, structureBoundingBox) != 0) {
 						if(y != y1 && y != y2 && x != x1 && x != x2 && z != z1 && z != z2) {
 							this.placeBlockAtCurrentPositionNoVertClip(world, blockID2, 0, x, y, z, structureBoundingBox);
 						} else {
@@ -590,7 +590,7 @@ public abstract class StructureComponent {
 		for(int y = y1; y <= y2; ++y) {
 			for(int x = x1; x <= x2; ++x) {
 				for(int z = z1; z <= z2; ++z) {
-					if(!checkEmpty || this.getBlockIdAtCurrentPosition(world1, x, y, z, structureBB) != 0) {
+					if(!checkEmpty || this.getblockIDAtCurrentPosition(world1, x, y, z, structureBB) != 0) {
 						this.placeBlockAtCurrentPosition(world1, rand.nextInt(chance) == 0 ? block2 : block1, 0, x, y, z, structureBB);
 					}
 				}
@@ -603,9 +603,9 @@ public abstract class StructureComponent {
 		for(int y = y1; y <= y2; ++y) {
 			for(int x = x1; x <= x2; ++x) {
 				for(int z = z1; z <= z2; ++z) {
-					if(!onlyReplace || this.getBlockIdAtCurrentPosition(world, x, y, z, structureBoundingBox) != 0) {
+					if(!onlyReplace || this.getblockIDAtCurrentPosition(world, x, y, z, structureBoundingBox) != 0) {
 						blockSelector.selectBlocks(rand, x, y, z, y == y1 || y == y2 || x == x1 || x == x2 || z == z1 || z == z2);
-						this.placeBlockAtCurrentPosition(world, blockSelector.getSelectedBlockId(), blockSelector.getSelectedBlockMetaData(), x, y, z, structureBoundingBox);
+						this.placeBlockAtCurrentPosition(world, blockSelector.getSelectedblockID(), blockSelector.getSelectedBlockMetaData(), x, y, z, structureBoundingBox);
 					}
 				}
 			}
@@ -617,7 +617,7 @@ public abstract class StructureComponent {
 		for(int i14 = i6; i14 <= i9; ++i14) {
 			for(int i15 = i5; i15 <= i8; ++i15) {
 				for(int i16 = i7; i16 <= i10; ++i16) {
-					if(random3.nextFloat() <= f4 && (!z13 || this.getBlockIdAtCurrentPosition(world1, i15, i14, i16, structureBoundingBox2) != 0)) {
+					if(random3.nextFloat() <= f4 && (!z13 || this.getblockIDAtCurrentPosition(world1, i15, i14, i16, structureBoundingBox2) != 0)) {
 						if(i14 != i6 && i14 != i9 && i15 != i5 && i15 != i8 && i16 != i7 && i16 != i10) {
 							this.placeBlockAtCurrentPosition(world1, i12, 0, i15, i14, i16, structureBoundingBox2);
 						} else {
@@ -657,7 +657,7 @@ public abstract class StructureComponent {
 
 				for(int i20 = i5; i20 <= i8; ++i20) {
 					float f21 = ((float)i20 - f15) / (f13 * 0.5F);
-					if(!z10 || this.getBlockIdAtCurrentPosition(world1, i18, i16, i20, structureBoundingBox2) != 0) {
+					if(!z10 || this.getblockIDAtCurrentPosition(world1, i18, i16, i20, structureBoundingBox2) != 0) {
 						float f22 = f19 * f19 + f17 * f17 + f21 * f21;
 						if(f22 <= 1.05F) {
 							this.placeBlockAtCurrentPosition(world1, i9, 0, i18, i16, i20, structureBoundingBox2);
@@ -699,7 +699,7 @@ public abstract class StructureComponent {
 		int i9 = this.getXWithOffset(i4, i6);
 		int i10 = this.getYWithOffset(i5);
 		int i11 = this.getZWithOffset(i4, i6);
-		if(structureBoundingBox2.isVecInside(i9, i10, i11) && world1.getBlockId(i9, i10, i11) != Block.chest.blockID) {
+		if(structureBoundingBox2.isVecInside(i9, i10, i11) && world1.getblockID(i9, i10, i11) != Block.chest.blockID) {
 			world1.setBlockWithNotify(i9, i10, i11, Block.chest.blockID);
 			// System.out.println ("Structure treasure @ " + i9 + " " + i10 + " " + i11);
 			TileEntityChest tileEntityChest12 = (TileEntityChest)world1.getBlockTileEntity(i9, i10, i11);
@@ -752,7 +752,7 @@ public abstract class StructureComponent {
 		for (int var14 = par4; var14 <= par7; ++var14) {
 			for (int var15 = par3; var15 <= par6; ++var15) {
 				for (int var16 = par5; var16 <= par8; ++var16) {
-					if (!par13 || this.getBlockIdAtCurrentPosition(par1World, var15, var14, var16,
+					if (!par13 || this.getblockIDAtCurrentPosition(par1World, var15, var14, var16,
 							par2StructureBoundingBox) != 0) {
 						if (var14 != par4 && var14 != par7 && var15 != par3 && var15 != par6 && var16 != par5
 								&& var16 != par8) {

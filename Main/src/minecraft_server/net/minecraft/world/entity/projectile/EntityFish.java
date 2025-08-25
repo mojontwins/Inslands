@@ -181,7 +181,7 @@ public class EntityFish extends Entity {
 			}
 
 			if(this.inGround) {
-				int i19 = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
+				int i19 = this.worldObj.getblockID(this.xTile, this.yTile, this.zTile);
 				if(i19 == this.inTile) {
 					++this.ticksInGround;
 					if(this.ticksInGround == 1200) {

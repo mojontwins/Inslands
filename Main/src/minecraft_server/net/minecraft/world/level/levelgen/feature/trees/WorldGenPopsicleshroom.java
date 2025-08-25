@@ -19,7 +19,7 @@ public class WorldGenPopsicleshroom extends WorldGenMojon {
 		
 		// on solid?
 		if(!world.isBlockOpaqueCube(x0, y0 - 1, z0)) return false;
-		if(world.getBlockId(x0, y0 - 1, z0) == Block.pop.blockID) return false;
+		if(world.getblockID(x0, y0 - 1, z0) == Block.pop.blockID) return false;
 		
 		// Fits?
 		int r = 0;

@@ -44,7 +44,7 @@ public class BlockLeaves2 extends BlockLeaves {
 	
 	@Override
 	public void onBlockRemoval(World world, int x, int y, int z) {
-		int blockID = world.getBlockId(x, y, z);
+		int blockID = world.getblockID(x, y, z);
 
 		// Small optimization: When replaced with leaves or wood, surrounding leaves are
 		// NOT affected

@@ -100,7 +100,7 @@ public class TileEntity {
 	}
 
 	public Block getBlockType() {
-		return Block.blocksList[this.worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord)];
+		return Block.blocksList[this.worldObj.getblockID(this.xCoord, this.yCoord, this.zCoord)];
 	}
 
 	public boolean isInvalid() {

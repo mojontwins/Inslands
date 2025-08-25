@@ -15,7 +15,7 @@ public abstract class WorldGenerator {
 	
 	public boolean blockIsCube(World world, int x, int y, int z) {
 		if(world.isBlockOpaqueCube(x, y, z)) return true;
-		Block block = Block.blocksList[world.getBlockId(x, y, z)];
+		Block block = Block.blocksList[world.getblockID(x, y, z)];
 		return (block instanceof BlockIce) || (block instanceof BlockFluid);
 	}
 }

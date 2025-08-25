@@ -1086,7 +1086,7 @@ public class BuildingShoppe1 extends Building {
 			for(int z = 6; z <= 11; z ++) {
 				for(int y = 6; y <= 8; y ++) {
 					int xx = x0 + x, yy = this.y0 + y, zz = z0 + z;
-					if(rand.nextInt(4) != 0 && world.getBlockId(xx, yy, zz) == 0) {
+					if(rand.nextInt(4) != 0 && world.getblockID(xx, yy, zz) == 0) {
 						world.setBlock(xx, yy, zz, Block.web.blockID);
 					}
 				}

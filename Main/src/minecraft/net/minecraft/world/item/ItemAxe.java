@@ -20,9 +20,11 @@ public class ItemAxe extends ItemTool {
 		Block.fence,
 		Block.woodenSpikes,
 		Block.jukebox,
+		Block.musicBlock,
 		Block.pumpkin,
 		Block.pumpkinLantern,
-		Block.chippedWood 
+		Block.chippedWood,
+		Block.trapdoor
 	};
 
 	protected ItemAxe(int i1, EnumToolMaterial enumToolMaterial2, boolean silkTouch) {
@@ -34,7 +36,7 @@ public class ItemAxe extends ItemTool {
 	}
 	
 	public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side) {
-		int blockID = world.getBlockId(x, y, z);
+		int blockID = world.getblockID(x, y, z);
 		
 		if(blockID == Block.wood.blockID) {
 			Block blockChippedLog = Block.chippedWood;

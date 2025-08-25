@@ -159,7 +159,7 @@ public class TFGenCaveStalactite extends TFGenerator {
 				// Real height. "y + 8" is a good place to start. This cap will prevent spikes going outside of the hill.
 				int height = 128;
 				if(this.hang) { 
-					while(this.worldObj.getBlockId(x + dx, height, z + dz) == 0) height --;
+					while(this.worldObj.getblockID(x + dx, height, z + dz) == 0) height --;
 				}
 				
 				for(int dy = 0; dy != dl * this.dir; dy += this.dir) {
@@ -175,7 +175,7 @@ public class TFGenCaveStalactite extends TFGenerator {
 		this.worldObj = world;
 		if(!world.isAirBlock(i, j, k)) {
 			return false;
-		} else if(world.getBlockId(i, j + 1, k) != Block.stone.blockID && world.getBlockId(i, j + 1, k) != Block.dirt.blockID) {
+		} else if(world.getblockID(i, j + 1, k) != Block.stone.blockID && world.getblockID(i, j + 1, k) != Block.dirt.blockID) {
 			return false;
 		} else {
 			this.drawDiameterCircle(i, j + 1, k, 3, (byte)this.bType, 0, false);

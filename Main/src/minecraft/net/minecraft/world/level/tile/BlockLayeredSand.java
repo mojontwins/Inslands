@@ -20,7 +20,7 @@ public class BlockLayeredSand extends Block {
 	}
 	
 	public void onNeighborBlockChange(World world, int x, int y, int z, int id) {
-		Block block = Block.blocksList[world.getBlockId(x, y - 1, z)];
+		Block block = Block.blocksList[world.getblockID(x, y - 1, z)];
 		if(block == null || !block.isOpaqueCube()) world.setBlock(x, y, z, 0);
 	}
 	
@@ -41,7 +41,7 @@ public class BlockLayeredSand extends Block {
 	}
 	
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
-		Block block = Block.blocksList[world.getBlockId(x, y - 1, z)];
+		Block block = Block.blocksList[world.getblockID(x, y - 1, z)];
 		return (block != null && block.isOpaqueCube());
 	}
 	

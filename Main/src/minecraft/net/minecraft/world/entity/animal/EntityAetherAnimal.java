@@ -12,7 +12,7 @@ public abstract class EntityAetherAnimal extends EntityAnimal {
 	}
 
 	public float getBlockPathWeight(int i, int j, int k) {
-		return this.worldObj.getBlockId(i, j - 1, k) == Block.grass.blockID ? 10.0F : this.worldObj.getLightBrightness(i, j, k) - 0.5F;
+		return this.worldObj.getblockID(i, j - 1, k) == Block.grass.blockID ? 10.0F : this.worldObj.getLightBrightness(i, j, k) - 0.5F;
 	}
 
 	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
@@ -27,7 +27,7 @@ public abstract class EntityAetherAnimal extends EntityAnimal {
 		int i = MathHelper.floor_double(this.posX);
 		int j = MathHelper.floor_double(this.boundingBox.minY);
 		int k = MathHelper.floor_double(this.posZ);
-		return this.worldObj.checkIfAABBIsClear(this.boundingBox) && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).size() == 0 && !this.worldObj.getIsAnyLiquid(this.boundingBox) && this.worldObj.getBlockId(i, j - 1, k) == Block.grass.blockID && this.worldObj.getFullBlockLightValue(i, j, k) > 8 && this.getBlockPathWeight(i, j, k) >= 0.0F;
+		return this.worldObj.checkIfAABBIsClear(this.boundingBox) && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).size() == 0 && !this.worldObj.getIsAnyLiquid(this.boundingBox) && this.worldObj.getblockID(i, j - 1, k) == Block.grass.blockID && this.worldObj.getFullBlockLightValue(i, j, k) > 8 && this.getBlockPathWeight(i, j, k) >= 0.0F;
 	}
 
 	public int getTalkInterval() {

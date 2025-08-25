@@ -16,7 +16,7 @@ public class WorldGenVines extends WorldGenerator {
         int j = par5;
 
         for (; par4 < 128; par4++) {
-            if (par1World.getBlockId(par3, par4, par5) == 0) {
+            if (par1World.getblockID(par3, par4, par5) == 0) {
                 int k = 2;
 
                 while (k <= 5) {                        

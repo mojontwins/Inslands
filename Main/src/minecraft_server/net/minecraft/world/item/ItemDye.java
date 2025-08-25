@@ -37,7 +37,7 @@ public class ItemDye extends Item {
 	public boolean onItemUse(ItemStack itemStack, EntityPlayer thePlayer, World world, int x, int y, int z, int side) {
 		if(itemStack.getItemDamage() == 15) {
 
-			int blockID = world.getBlockId(x, y, z);
+			int blockID = world.getblockID(x, y, z);
 			if(blockID == Block.sapling.blockID) {
 				if(!world.isRemote) {
 					((BlockSapling)Block.sapling).growTree(world, x, y, z, world.rand);
@@ -90,12 +90,12 @@ public class ItemDye extends Item {
 								xx += rand.nextInt(2) - 1;
 								yy += (rand.nextInt(2) - 1) * rand.nextInt(3) / 2;
 								zz += rand.nextInt(2) - 1;
-								if(world.getBlockId(xx, yy, zz) == Block.dirt.blockID) {
+								if(world.getblockID(xx, yy, zz) == Block.dirt.blockID) {
 									break;
 								}
 							}
 
-							if(world.getBlockId(xx, yy, zz) == Block.dirt.blockID && !Block.opaqueCubeLookup[world.getBlockId(xx, yy + 1, zz)]) {
+							if(world.getblockID(xx, yy, zz) == Block.dirt.blockID && !Block.opaqueCubeLookup[world.getblockID(xx, yy + 1, zz)]) {
 								world.setBlockWithNotify(xx, yy, zz, Block.grass.blockID);
 								thePlayer.triggerAchievement(AchievementList.grassFromSoil);
 								this.particles(world, "glowdust", x, y, z);
@@ -114,12 +114,12 @@ public class ItemDye extends Item {
 								xx += rand.nextInt(3) - 1;
 								yy += (rand.nextInt(3) - 1) * rand.nextInt(3) / 2;
 								zz += rand.nextInt(3) - 1;
-								if(world.getBlockId(xx, yy - 1, zz) != Block.dirt.blockID || world.getBlockId(xx, yy, zz) != 0) {
+								if(world.getblockID(xx, yy - 1, zz) != Block.dirt.blockID || world.getblockID(xx, yy, zz) != 0) {
 									continue label53b;
 								}
 							}
 	
-							if(world.getBlockId(xx, yy, zz) == 0 && Block.mushroomRed.canBlockStay(world, xx, yy, zz)) {
+							if(world.getblockID(xx, yy, zz) == 0 && Block.mushroomRed.canBlockStay(world, xx, yy, zz)) {
 								if(rand.nextInt(4) == 0) {
 									world.setBlockWithNotify(xx, yy, zz, Block.mushroomRed.blockID);
 									this.particles(world, "glowdust", xx, yy, zz);
@@ -154,12 +154,12 @@ public class ItemDye extends Item {
 							xx += rand.nextInt(3) - 1;
 							yy += (rand.nextInt(3) - 1) * rand.nextInt(3) / 2;
 							zz += rand.nextInt(3) - 1;
-							if(world.getBlockId(xx, yy - 1, zz) != Block.grass.blockID || world.isBlockNormalCube(xx, yy, zz)) {
+							if(world.getblockID(xx, yy - 1, zz) != Block.grass.blockID || world.isBlockNormalCube(xx, yy, zz)) {
 								continue label53;
 							}
 						}
 
-						if(world.getBlockId(xx, yy, zz) == 0) {
+						if(world.getblockID(xx, yy, zz) == 0) {
 							if(rand.nextInt(10) != 0) {
 								world.setBlockWithNotify(xx, yy, zz, Block.tallGrass.blockID);
 							} else if(rand.nextInt(3) != 0) {

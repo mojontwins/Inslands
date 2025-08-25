@@ -41,7 +41,7 @@ public class PlayerControllerMP extends PlayerController {
 		if(this.mc.thePlayer.isCreative) {
 			return super.sendBlockRemoved(i1, i2, i3, i4);
 		} else {
-			int i5 = this.mc.theWorld.getBlockId(i1, i2, i3);
+			int i5 = this.mc.theWorld.getblockID(i1, i2, i3);
 			boolean z6 = super.sendBlockRemoved(i1, i2, i3, i4);
 			ItemStack itemStack7 = this.mc.thePlayer.getCurrentEquippedItem();
 			if(itemStack7 != null) {
@@ -67,7 +67,7 @@ public class PlayerControllerMP extends PlayerController {
 				this.blockHitDelay = 5;
 			} else if(!this.isHittingBlock || x != this.currentBlockX || y != this.currentBlockY || z != this.currentblockZ) {
 				this.netClientHandler.addToSendQueue(new Packet14BlockDig(0, x, y, z, side, itemStack, xWithinFace, yWithinFace, zWithinFace));
-				int i5 = this.mc.theWorld.getBlockId(x, y, z);
+				int i5 = this.mc.theWorld.getblockID(x, y, z);
 				int meta = this.mc.theWorld.getBlockMetadata(x, y, z);
 				if(i5 > 0 && this.curBlockDamageMP == 0.0F) {
 					Block.blocksList[i5].onBlockClicked(this.mc.theWorld, x, y, z, this.mc.thePlayer);
@@ -108,7 +108,7 @@ public class PlayerControllerMP extends PlayerController {
 				}
 			} else {
 				if(i1 == this.currentBlockX && i2 == this.currentBlockY && i3 == this.currentblockZ) {
-					int i5 = this.mc.theWorld.getBlockId(i1, i2, i3);
+					int i5 = this.mc.theWorld.getblockID(i1, i2, i3);
 					int meta = this.mc.theWorld.getBlockMetadata(i1, i2, i3);
 					
 					if(i5 == 0) {

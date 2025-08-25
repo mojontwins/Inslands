@@ -30,7 +30,7 @@ public class ChunkCache implements IBlockAccess {
 
 	}
 
-	public int getBlockId(int i1, int i2, int i3) {
+	public int getblockID(int i1, int i2, int i3) {
 		if(i2 < 0) {
 			return 0;
 		} else if(i2 >= 128) {
@@ -40,7 +40,7 @@ public class ChunkCache implements IBlockAccess {
 			int i5 = (i3 >> 4) - this.chunkZ;
 			if(i4 >= 0 && i4 < this.chunkArray.length && i5 >= 0 && i5 < this.chunkArray[i4].length) {
 				Chunk chunk6 = this.chunkArray[i4][i5];
-				return chunk6 == null ? 0 : chunk6.getBlockID(i1 & 15, i2, i3 & 15);
+				return chunk6 == null ? 0 : chunk6.getblockID(i1 & 15, i2, i3 & 15);
 			} else {
 				return 0;
 			}
@@ -85,7 +85,7 @@ public class ChunkCache implements IBlockAccess {
 			int i5;
 			int i6;
 			if(z4) {
-				i5 = this.getBlockId(i1, i2, i3);
+				i5 = this.getblockID(i1, i2, i3);
 				if(i5 == Block.stairSingle.blockID || i5 == Block.tilledField.blockID || i5 == Block.stairCompactPlanks.blockID || i5 == Block.stairCompactCobblestone.blockID) {
 					i6 = this.getLightValueExt(i1, i2 + 1, i3, false);
 					int i7 = this.getLightValueExt(i1 + 1, i2, i3, false);
@@ -144,7 +144,7 @@ public class ChunkCache implements IBlockAccess {
 	}
 
 	public Material getBlockMaterial(int i1, int i2, int i3) {
-		int i4 = this.getBlockId(i1, i2, i3);
+		int i4 = this.getblockID(i1, i2, i3);
 		Block block = Block.blocksList[i4];
 		return block == null ? Material.air : block.blockMaterial;
 	}
@@ -154,17 +154,17 @@ public class ChunkCache implements IBlockAccess {
 	}
 
 	public boolean isBlockOpaqueCube(int i1, int i2, int i3) {
-		Block block4 = Block.blocksList[this.getBlockId(i1, i2, i3)];
+		Block block4 = Block.blocksList[this.getblockID(i1, i2, i3)];
 		return block4 == null ? false : block4.isOpaqueCube();
 	}
 
 	public boolean isBlockNormalCube(int i1, int i2, int i3) {
-		Block block4 = Block.blocksList[this.getBlockId(i1, i2, i3)];
+		Block block4 = Block.blocksList[this.getblockID(i1, i2, i3)];
 		return block4 == null ? false : block4.blockMaterial.getIsSolid() && block4.renderAsNormalBlock();
 	}
 	
 	public boolean isAirBlock(int i1, int i2, int i3) {
-		Block block4 = Block.blocksList[this.getBlockId(i1, i2, i3)];
+		Block block4 = Block.blocksList[this.getblockID(i1, i2, i3)];
 		return block4 == null;
 	}
 	
@@ -180,7 +180,7 @@ public class ChunkCache implements IBlockAccess {
 		if(i3 >= 0 && i3 < 256 && i2 >= -30000000 && i4 >= -30000000 && i2 < 30000000 && i4 <= 30000000) {
 			int i5;
 			int i6;
-			if(Block.useNeighborBrightness[this.getBlockId(i2, i3, i4)]) {
+			if(Block.useNeighborBrightness[this.getblockID(i2, i3, i4)]) {
 				i5 = this.getSpecialBlockBrightness(enumSkyBlock1, i2, i3 + 1, i4);
 				i6 = this.getSpecialBlockBrightness(enumSkyBlock1, i2 + 1, i3, i4);
 				int i7 = this.getSpecialBlockBrightness(enumSkyBlock1, i2 - 1, i3, i4);

@@ -35,7 +35,7 @@ public abstract class StructureTFComponent extends StructureComponent {
 		int dx = this.getXWithOffset(x, z);
 		int dy = this.getYWithOffset(y);
 		int dz = this.getZWithOffset(x, z);
-		if(sbb.isVecInside(dx, dy, dz) && world.getBlockId(dx, dy, dz) != Block.mobSpawner.blockID) {
+		if(sbb.isVecInside(dx, dy, dz) && world.getblockID(dx, dy, dz) != Block.mobSpawner.blockID) {
 			world.setBlockWithNotify(dx, dy, dz, Block.mobSpawner.blockID);
 			TileEntityMobSpawner tileEntitySpawner = (TileEntityMobSpawner)world.getBlockTileEntity(dx, dy, dz);
 			if(tileEntitySpawner != null) {
@@ -49,7 +49,7 @@ public abstract class StructureTFComponent extends StructureComponent {
 		int dx = this.getXWithOffset(x, z);
 		int dy = this.getYWithOffset(y);
 		int dz = this.getZWithOffset(x, z);
-		if(sbb.isVecInside(dx, dy, dz) && world.getBlockId(dx, dy, dz) != Block.chest.blockID) {
+		if(sbb.isVecInside(dx, dy, dz) && world.getblockID(dx, dy, dz) != Block.chest.blockID) {
 			treasureType.generate(world, rand, dx, dy, dz);
 		}
 
@@ -115,8 +115,8 @@ public abstract class StructureTFComponent extends StructureComponent {
 		this.coordBaseMode = coordBaseMode;
 	}
 
-	public int getBlockIdAtCurrentPosition(World par1World, int par2, int par3, int par4, StructureBoundingBox par5StructureBoundingBox) {
-		return super.getBlockIdAtCurrentPosition(par1World, par2, par3, par4, par5StructureBoundingBox);
+	public int getblockIDAtCurrentPosition(World par1World, int par2, int par3, int par4, StructureBoundingBox par5StructureBoundingBox) {
+		return super.getblockIDAtCurrentPosition(par1World, par2, par3, par4, par5StructureBoundingBox);
 	}
 
 	public void placeBlockAtCurrentPosition(World par1World, int par2, int par3, int par4, int par5, int par6, StructureBoundingBox par7StructureBoundingBox) {

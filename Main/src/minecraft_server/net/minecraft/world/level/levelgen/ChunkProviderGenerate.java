@@ -844,7 +844,7 @@ public class ChunkProviderGenerate implements IChunkProvider {
 			z = z0 + this.rand.nextInt(16) + 8;
 			y = this.worldObj.getHeightValue(x, z);
 			
-			Block block = Block.blocksList[this.worldObj.getBlockId(x, y - 1, z)];
+			Block block = Block.blocksList[this.worldObj.getblockID(x, y - 1, z)];
 			if (block == Block.sand || block == Block.grass || block == Block.dirt || (block instanceof BlockTerracotta)) 
 				this.worldObj.setBlock(x, y, z, Block.deadBush.blockID);
 		}
@@ -897,12 +897,12 @@ public class ChunkProviderGenerate implements IChunkProvider {
 			for (z = 0; z < 16; z ++) {
 				float f = blurredHeightMap[x][z];
 				y = (int)f - 1;
-				if(y >= 63 && this.worldObj.getBlockId(x0 + x, y, z0 + z) == Block.sand.blockID) {
+				if(y >= 63 && this.worldObj.getblockID(x0 + x, y, z0 + z) == Block.sand.blockID) {
 					int yy = (int)f;
 					int meta = (int)(16.0F * (f - Math.floor(f))) - 1 + (this.rand.nextInt(2) << 1) - 1;
 					if(meta < 0) meta = 0;
 					if(meta > 15) meta = 15;
-					if (this.worldObj.getBlockId(x0 + x, yy + 1, z0 + z) == 0 && meta > 0) {
+					if (this.worldObj.getblockID(x0 + x, yy + 1, z0 + z) == 0 && meta > 0) {
 						this.worldObj.setBlockAndMetadata(x0 + x, yy , z0 + z, Block.layeredSand.blockID, meta);
 					}
 				}
@@ -919,7 +919,7 @@ public class ChunkProviderGenerate implements IChunkProvider {
 				
 				y = this.worldObj.findTopSolidBlockUsingBlockMaterial(x, z);
 				
-				Block blockBeneath = Block.blocksList[this.worldObj.getBlockId(x, y - 1, z)];
+				Block blockBeneath = Block.blocksList[this.worldObj.getblockID(x, y - 1, z)];
 				
 				if(
 					y > 0 && y < 128 && 
@@ -927,7 +927,7 @@ public class ChunkProviderGenerate implements IChunkProvider {
 					blockBeneath.blockMaterial != Material.ice
 				) {
 					if(blockBeneath.isOpaqueCube() || blockBeneath.blockID == Block.leaves.blockID) {
-						Block block = Block.blocksList[this.worldObj.getBlockId(x, y, z)];
+						Block block = Block.blocksList[this.worldObj.getblockID(x, y, z)];
 						if(block != null) {
 							if (block.getRenderType() == 111) {
 								this.worldObj.setBlockMetadata(x, y, z, (this.worldObj.getBlockMetadata(x, y, z) & 0xf0) | rand.nextInt(5));

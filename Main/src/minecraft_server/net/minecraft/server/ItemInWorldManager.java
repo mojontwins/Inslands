@@ -28,8 +28,8 @@ public class ItemInWorldManager {
 		++this.curblockDamage;
 		if(this.isRemoving) {
 			int i1 = this.curblockDamage - this.lastDamage;
-			int i2 = this.thisWorld.getBlockId(this.lastBlockX, this.lastBlockY, this.lastBlockZ);
-			int meta = this.thisWorld.getBlockId(this.lastBlockX, this.lastBlockY, this.lastBlockZ);
+			int i2 = this.thisWorld.getblockID(this.lastBlockX, this.lastBlockY, this.lastBlockZ);
+			int meta = this.thisWorld.getblockID(this.lastBlockX, this.lastBlockY, this.lastBlockZ);
 			if(i2 != 0) {
 				Block block3 = Block.blocksList[i2];
 				float f4 = block3.blockStrength(this.thisPlayer, meta) * (float)(i1 + 1);
@@ -53,7 +53,7 @@ public class ItemInWorldManager {
 		} else {
 			this.thisWorld.onBlockHit((EntityPlayer)null, i1, i2, i3, i4);
 			this.initialDamage = this.curblockDamage;
-			int i5 = this.thisWorld.getBlockId(i1, i2, i3);
+			int i5 = this.thisWorld.getblockID(i1, i2, i3);
 			int meta = this.thisWorld.getBlockMetadata(i1, i2, i3);
 			if(i5 > 0) {
 				Block.blocksList[i5].onBlockClicked(this.thisWorld, i1, i2, i3, this.thisPlayer);
@@ -73,7 +73,7 @@ public class ItemInWorldManager {
 	public void blockRemoving(int i1, int i2, int i3) {
 		if(i1 == this.curBlockX && i2 == this.curBlockY && i3 == this.curBlockZ) {
 			int i4 = this.curblockDamage - this.initialDamage;
-			int i5 = this.thisWorld.getBlockId(i1, i2, i3);
+			int i5 = this.thisWorld.getblockID(i1, i2, i3);
 			int meta = this.thisWorld.getBlockMetadata(i1, i2, i3);
 			if(i5 != 0) {
 				Block block6 = Block.blocksList[i5];
@@ -92,7 +92,7 @@ public class ItemInWorldManager {
 	}
 
 	public boolean removeBlock(int i1, int i2, int i3) {
-		Block block4 = Block.blocksList[this.thisWorld.getBlockId(i1, i2, i3)];
+		Block block4 = Block.blocksList[this.thisWorld.getblockID(i1, i2, i3)];
 		int i5 = this.thisWorld.getBlockMetadata(i1, i2, i3);
 		boolean z6 = this.thisWorld.setBlockWithNotify(i1, i2, i3, 0);
 		if(block4 != null && z6) {
@@ -103,7 +103,7 @@ public class ItemInWorldManager {
 	}
 
 	public boolean blockHarvested(int x, int y, int z) {
-		int blockID = this.thisWorld.getBlockId(x, y, z);
+		int blockID = this.thisWorld.getblockID(x, y, z);
 		int meta = this.thisWorld.getBlockMetadata(x, y, z);
 		this.thisWorld.playAuxSFXAtEntity(this.thisPlayer, 2001, x, y, z, blockID + this.thisWorld.getBlockMetadata(x, y, z) * 256);
 		boolean wasRemoved = this.removeBlock(x, y, z);
@@ -158,7 +158,7 @@ public class ItemInWorldManager {
 	}
 
 	public boolean activeBlockOrUseItem(EntityPlayer entityPlayer1, World world2, ItemStack itemStack3, int i4, int i5, int i6, int i7, float xWithinFace, float yWithinFace, float zWithinFace) {
-		int i8 = world2.getBlockId(i4, i5, i6);
+		int i8 = world2.getblockID(i4, i5, i6);
 		return i8 > 0 && Block.blocksList[i8].blockActivated(world2, i4, i5, i6, entityPlayer1) ? true : (itemStack3 == null ? false : itemStack3.useItem(entityPlayer1, world2, i4, i5, i6, i7, xWithinFace, yWithinFace, zWithinFace));
 	}
 }

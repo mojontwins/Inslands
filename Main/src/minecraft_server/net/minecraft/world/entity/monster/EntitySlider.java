@@ -346,7 +346,7 @@ public class EntitySlider extends EntityFlying implements IAetherBoss {
 		int i = MathHelper.floor_double(this.posX);
 		int j = MathHelper.floor_double(this.boundingBox.minY);
 		int k = MathHelper.floor_double(this.posZ);
-		return this.worldObj.getBlockId(i, j - 1, k) == Block.grass.blockID && this.worldObj.getFullBlockLightValue(i, j, k) > 8 && super.getCanSpawnHere();
+		return this.worldObj.getblockID(i, j - 1, k) == Block.grass.blockID && this.worldObj.getFullBlockLightValue(i, j, k) > 8 && super.getCanSpawnHere();
 	}
 
 	public void stop() {
@@ -465,7 +465,7 @@ public class EntitySlider extends EntityFlying implements IAetherBoss {
 	}
 
 	private void unlockBlock(int i, int j, int k) {
-		int id = this.worldObj.getBlockId(i, j, k);
+		int id = this.worldObj.getblockID(i, j, k);
 		if(id == Block.lockedDungeonStone.blockID) {
 			this.worldObj.setBlockAndMetadata(i, j, k, Block.dungeonStone.blockID, this.worldObj.getBlockMetadata(i, j, k));
 			this.unlockBlock(i + 1, j, k);
@@ -495,7 +495,7 @@ public class EntitySlider extends EntityFlying implements IAetherBoss {
 	}
 
 	public void blockCrush(int x, int y, int z) {
-		int a = this.worldObj.getBlockId(x, y, z);
+		int a = this.worldObj.getblockID(x, y, z);
 		int b = this.worldObj.getBlockMetadata(x, y, z);
 		if(a != 0 && a != Block.lockedDungeonStone.blockID && a != Block.lockedLightDungeonStone.blockID) {
 			this.addCrackedPebbles(x, y, z);

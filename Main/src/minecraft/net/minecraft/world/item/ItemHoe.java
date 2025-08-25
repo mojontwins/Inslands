@@ -14,8 +14,8 @@ public class ItemHoe extends Item {
 	}
 
 	public boolean onItemUse(ItemStack itemStack1, EntityPlayer entityPlayer2, World world3, int i4, int i5, int i6, int i7) {
-		int i8 = world3.getBlockId(i4, i5, i6);
-		int i9 = world3.getBlockId(i4, i5 + 1, i6);
+		int i8 = world3.getblockID(i4, i5, i6);
+		int i9 = world3.getblockID(i4, i5 + 1, i6);
 		if((i7 == 0 || i9 != 0 || i8 != Block.grass.blockID) && i8 != Block.dirt.blockID) {
 			return false;
 		} else {

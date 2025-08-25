@@ -78,7 +78,7 @@ public class WorldEdit {
 		for(int x = from.x; x <= to.x; x ++) {
 			for(int z = from.z; z <= to.z; z ++) {
 				for(int y = from.y; y <= to.y; y ++) {
-					buffer[x-from.x][z-from.z][y-from.y] = world.getBlockId(x, y, z) | world.getBlockMetadata(x, y, z) << 16;
+					buffer[x-from.x][z-from.z][y-from.y] = world.getblockID(x, y, z) | world.getBlockMetadata(x, y, z) << 16;
 				}
 			}
 		}
@@ -145,7 +145,7 @@ public class WorldEdit {
 		return cleared;
 	}
 	
-	public static int substitute(World world, int existingBlockID, int existingMeta, int blockID, int meta) {
+	public static int substitute(World world, int existingblockID, int existingMeta, int blockID, int meta) {
 		BlockPos from = getFrom();
 		BlockPos to = getTo();
 		int cleared = 0;
@@ -159,9 +159,9 @@ public class WorldEdit {
 		for(int x = from.x; x <= to.x; x ++) {
 			for(int z = from.z; z <= to.z; z ++) {
 				for(int y = from.y; y <= to.y; y ++) {
-					int worldBlockID = world.getBlockId(x, y, z);
+					int worldblockID = world.getblockID(x, y, z);
 					int worldMeta = world.getBlockMetadata(x, y, z);
-					if(worldBlockID == existingBlockID && (existingMeta == -1 || worldMeta == existingMeta)) world.setBlockAndMetadataWithNotify(x, y, z, blockID, meta);
+					if(worldblockID == existingblockID && (existingMeta == -1 || worldMeta == existingMeta)) world.setBlockAndMetadataWithNotify(x, y, z, blockID, meta);
 					cleared ++;
 				}
 			}
@@ -293,13 +293,13 @@ public class WorldEdit {
 			}
 		} else if("//replace".equals(cmd)) {
 			if(idx > 4) {
-				int existingBlockID = -1;
+				int existingblockID = -1;
 				int existingMeta = -1;
 				int blockID = 0;
 				int meta = 0;
 				
 				try {
-					existingBlockID = Integer.parseInt(tokens[1]);
+					existingblockID = Integer.parseInt(tokens[1]);
 					existingMeta = Integer.parseInt(tokens[2]);
 					blockID = Integer.parseInt(tokens[3]);
 					if(idx > 4) meta = Integer.parseInt(tokens[4]);
@@ -308,13 +308,13 @@ public class WorldEdit {
 				}
 				
 				if(checkCorners()) {
-					int cleared = substitute(mc.theWorld, existingBlockID, existingMeta, blockID, meta);
+					int cleared = substitute(mc.theWorld, existingblockID, existingMeta, blockID, meta);
 					mc.ingameGUI.addChatMessage(cleared + " blocks filled.");
 				} else {
 					mc.ingameGUI.addChatMessage("Set points first!");
 				}
 			} else {
-				mc.ingameGUI.addChatMessage("Use //replace <existingBlockID> <existingMeta> <blockID> <meta>");
+				mc.ingameGUI.addChatMessage("Use //replace <existingblockID> <existingMeta> <blockID> <meta>");
 				mc.ingameGUI.addChatMessage("Use -1 as existingMeta for any existing meta");
 			}
 		} else if("//cut".equals(cmd)) {

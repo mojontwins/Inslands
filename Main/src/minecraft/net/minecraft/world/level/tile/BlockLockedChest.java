@@ -21,10 +21,10 @@ public class BlockLockedChest extends Block {
 		} else if(i5 == 0) {
 			return this.blockIndexInTexture - 1;
 		} else {
-			int i6 = iBlockAccess1.getBlockId(i2, i3, i4 - 1);
-			int i7 = iBlockAccess1.getBlockId(i2, i3, i4 + 1);
-			int i8 = iBlockAccess1.getBlockId(i2 - 1, i3, i4);
-			int i9 = iBlockAccess1.getBlockId(i2 + 1, i3, i4);
+			int i6 = iBlockAccess1.getblockID(i2, i3, i4 - 1);
+			int i7 = iBlockAccess1.getblockID(i2, i3, i4 + 1);
+			int i8 = iBlockAccess1.getblockID(i2 - 1, i3, i4);
+			int i9 = iBlockAccess1.getblockID(i2 + 1, i3, i4);
 			byte b10 = 3;
 			if(Block.opaqueCubeLookup[i6] && !Block.opaqueCubeLookup[i7]) {
 				b10 = 3;

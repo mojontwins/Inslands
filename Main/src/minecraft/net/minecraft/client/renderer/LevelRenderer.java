@@ -1152,7 +1152,7 @@ public class LevelRenderer implements IWorldAccess {
 				GL11.glBindTexture(GL11.GL_TEXTURE_2D, i7);
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5F);
 				GL11.glPushMatrix();
-				i8 = this.worldObj.getBlockId(movingObjectPosition2.blockX, movingObjectPosition2.blockY, movingObjectPosition2.blockZ);
+				i8 = this.worldObj.getblockID(movingObjectPosition2.blockX, movingObjectPosition2.blockY, movingObjectPosition2.blockZ);
 				Block block9 = i8 > 0 ? Block.blocksList[i8] : null;
 				GL11.glDisable(GL11.GL_ALPHA_TEST);
 				GL11.glPolygonOffset(-3.0F, -3.0F);
@@ -1216,7 +1216,7 @@ public class LevelRenderer implements IWorldAccess {
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glDepthMask(false);
 			float f6 = 0.002F;
-			int i7 = this.worldObj.getBlockId(movingObjectPosition2.blockX, movingObjectPosition2.blockY, movingObjectPosition2.blockZ);
+			int i7 = this.worldObj.getblockID(movingObjectPosition2.blockX, movingObjectPosition2.blockY, movingObjectPosition2.blockZ);
 			if(i7 > 0) {
 				Block.blocksList[i7].setBlockBoundsBasedOnState(this.worldObj, movingObjectPosition2.blockX, movingObjectPosition2.blockY, movingObjectPosition2.blockZ);
 				double d8 = entityPlayer1.lastTickPosX + (entityPlayer1.posX - entityPlayer1.lastTickPosX) * (double)f5;

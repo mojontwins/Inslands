@@ -315,11 +315,11 @@ Also
 
 	* [X] Finally, I just patched where it selects a new random position.
 	* [X] Be sure to save the home position.
-	* [ ] Add a method in Entity that is called right after being spawned in the world for the first time - but only if it's possible to not doing it if we are loading entities.
+	* [X] Add a method in Entity that is called right after being spawned in the world for the first time - but only if it's possible to not doing it if we are loading entities.
 
 * [ ] Add the stone arches in deserts.
 * [ ] Feature smaller biomes in biomed world theme and hell
-* [ ] Fix pistons in SMP (they work, but need the special Packet for the animation)
+* [X] Fix pistons in SMP (they work, but need the special Packet for the animation)
 
 # Removing the need to rely on the original minecraft.jar
 
@@ -415,5 +415,12 @@ Things to do to finish tree refactoring
 * [X] Coral wrong texture on inventory,
 * [X] Sign twince on inventory; should show item not block tex.
 * [X] Gui gets the brightness of the entity the cross is pointing to !? Didn't this happen before in either this or infhell? - Added `GL11.glDisable(GL11.GL_BLEND);` before drawing GUI
-* [ ] Change block of iron, gold, diamond textures for alpha's
-* [ ] Add lapis lazuli block.
+* [X] Change block of iron, gold, diamond textures for alpha's
+* [X] Add lapis lazuli block.
+* [ ] Option to turn layered sand off when creating new world.
+* [X] Add smooth stone block, smelted from stone.
+
+# When I'm ready to add new stuff
+
+* [ ] Goats and the named entity dynamic.
+* [ ] Backport all the custom command block shit.

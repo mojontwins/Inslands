@@ -41,32 +41,32 @@ public class BuildingTaigaHut extends BuildingDynamic {
 		
 		// Pillars
 		int[] pillar = new int[] { 17, 17, 17 };
-		this.setBlockIdColumn(x0, y0, z0, pillar);
-		this.setBlockIdColumn(x0 + w - 1, y0, z0, pillar);
-		this.setBlockIdColumn(x0, y0, z0 + l - 1, pillar);
-		this.setBlockIdColumn(x0 + w - 1, y0, z0 + l - 1, pillar);
+		this.setblockIDColumn(x0, y0, z0, pillar);
+		this.setblockIDColumn(x0 + w - 1, y0, z0, pillar);
+		this.setblockIDColumn(x0, y0, z0 + l - 1, pillar);
+		this.setblockIDColumn(x0 + w - 1, y0, z0 + l - 1, pillar);
 
 		// Walls
 		int[] wall = new int[] { 4, 5, 5 };
 		
 		for(int x = 1; x < w - 1; x ++) {
-			this.setBlockIdColumn(x + x0, y0, z0, wall);
-			this.setBlockIdColumn(x + x0, y0, z0 + l - 1, wall);
+			this.setblockIDColumn(x + x0, y0, z0, wall);
+			this.setblockIDColumn(x + x0, y0, z0 + l - 1, wall);
 		}
 		
 		for(int z = 1; z < l - 1; z ++) {
-			this.setBlockIdColumn(x0, y0, z + z0, wall);
-			this.setBlockIdColumn(x0 + w - 1, y0, z + z0, wall);
+			this.setblockIDColumn(x0, y0, z + z0, wall);
+			this.setblockIDColumn(x0 + w - 1, y0, z + z0, wall);
 		}
 		
 		// Door
-		this.setBlockIdAndMetadata(x0 + 2, y0, z0, Block.doorWood.blockID, 3);
-		this.setBlockIdAndMetadata(x0 + 2, y0 + 1, z0, Block.doorWood.blockID, 11);
+		this.setblockIDAndMetadata(x0 + 2, y0, z0, Block.doorWood.blockID, 3);
+		this.setblockIDAndMetadata(x0 + 2, y0 + 1, z0, Block.doorWood.blockID, 11);
 		
 		// Windows
 		for(int i = 0; i < (l - 3) / 2; i ++) {
-			this.setBlockId(x0, y0 + 1, z0 + 2 + i * 2, Block.thinGlass.blockID);
-			this.setBlockId(x0 + w - 1, y0 + 1, z0 + 2 + i * 2, Block.thinGlass.blockID);
+			this.setblockID(x0, y0 + 1, z0 + 2 + i * 2, Block.thinGlass.blockID);
+			this.setblockID(x0 + w - 1, y0 + 1, z0 + 2 + i * 2, Block.thinGlass.blockID);
 		}
 		
 		// Roof
@@ -74,19 +74,19 @@ public class BuildingTaigaHut extends BuildingDynamic {
 			// Log
 			int y = x < (w + 1) / 2 ? x : w - 1 - x;
 			for(int z = 0; z < l; z ++) {
-				this.setBlockIdAndMetadata(x0 + x, y0 + 2 + y, z0 + z, Block.wood.blockID, 8);
+				this.setblockIDAndMetadata(x0 + x, y0 + 2 + y, z0 + z, Block.wood.blockID, 8);
 				
 				// Air/planks below
 				for(int yy = 0; yy < y; yy ++) {
-					this.setBlockId(x0 + x, y0 + 2 + yy, z0 + z, z == 0 || z == l - 1 ? Block.planks.blockID : 0);
+					this.setblockID(x0 + x, y0 + 2 + yy, z0 + z, z == 0 || z == l - 1 ? Block.planks.blockID : 0);
 				}
 			}
 		}
 		
 		// Holes
 		if(w > 5) {
-			this.setBlockId(x0 + w / 2, y0 + w / 2, z0, Block.thinGlass.blockID);
-			this.setBlockId(x0 + w / 2, y0 + w / 2, z0 + l - 1, Block.thinGlass.blockID);
+			this.setblockID(x0 + w / 2, y0 + w / 2, z0, Block.thinGlass.blockID);
+			this.setblockID(x0 + w / 2, y0 + w / 2, z0 + l - 1, Block.thinGlass.blockID);
 		}
 	}
 }

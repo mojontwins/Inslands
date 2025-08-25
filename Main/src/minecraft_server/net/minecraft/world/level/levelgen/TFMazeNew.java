@@ -20,18 +20,18 @@ public class TFMazeNew extends TFMaze {
 	public int worldY;
 	public int worldZ;
 	public int type;
-	public int wallBlockID;
+	public int wallblockID;
 	public int wallBlockMeta;
 	public int wallVar0ID;
 	public int wallVar0Meta;
 	public float wallVarRarity;
-	public int headBlockID;
+	public int headblockID;
 	public int headBlockMeta;
-	public int rootBlockID;
+	public int rootblockID;
 	public int rootBlockMeta;
-	public int pillarBlockID;
+	public int pillarblockID;
 	public int pillarBlockMeta;
-	public int torchBlockID;
+	public int torchblockID;
 	public int torchBlockMeta;
 	public float torchRarity;
 	public int rawWidth;
@@ -44,12 +44,12 @@ public class TFMazeNew extends TFMaze {
 
 	public TFMazeNew(int var1, int var2) {
 		super(var1, var2);
-		this.wallBlockID = Block.mazeStone2.blockID;
+		this.wallblockID = Block.mazeStone2.blockID;
 		this.wallBlockMeta = 2;
-		this.rootBlockID = Block.mazeStone2.blockID;
+		this.rootblockID = Block.mazeStone2.blockID;
 		this.rootBlockMeta = 0;
-		this.torchBlockID = Block.torchWood.blockID;
-		this.pillarBlockID = -1;
+		this.torchblockID = Block.torchWood.blockID;
+		this.pillarblockID = -1;
 		this.torchBlockMeta = 0;
 		this.torchRarity = 0.75F;
 		this.width = var1;
@@ -348,8 +348,8 @@ public class TFMazeNew extends TFMaze {
 					var12 = var5 + var9 / 2 * (this.evenBias + this.oddBias);
 
 					if (this.isEven(var8) && this.isEven(var9) && this.shouldTorch(var8, var9)
-							&& var6.getBlockIdAtCurrentPosition(var1, var10, var11, var12, var7) == this.wallBlockID) {
-						var6.placeBlockAtCurrentPosition(var1, this.torchBlockID, this.torchBlockMeta, var10, var11,
+							&& var6.getblockIDAtCurrentPosition(var1, var10, var11, var12, var7) == this.wallblockID) {
+						var6.placeBlockAtCurrentPosition(var1, this.torchblockID, this.torchBlockMeta, var10, var11,
 								var12, var7);
 					}
 				}
@@ -359,11 +359,11 @@ public class TFMazeNew extends TFMaze {
 
 	protected void putPillarBlock(World var1, int var2, int var3, int var4, StructureTFComponent var5,
 			StructureBoundingBox var6) {
-		var5.placeBlockAtCurrentPosition(var1, this.pillarBlockID, this.pillarBlockMeta, var2, var3, var4, var6);
+		var5.placeBlockAtCurrentPosition(var1, this.pillarblockID, this.pillarBlockMeta, var2, var3, var4, var6);
 	}
 
 	protected void putWallBlock(World var1, int var2, int var3, int var4) {
-		var1.setBlockAndMetadataWithNotify(var2, var3, var4, this.wallBlockID, this.wallBlockMeta);
+		var1.setBlockAndMetadataWithNotify(var2, var3, var4, this.wallblockID, this.wallBlockMeta);
 	}
 
 	protected void putWallBlock(World var1, int var2, int var3, int var4, StructureTFComponent var5,
@@ -371,7 +371,7 @@ public class TFMazeNew extends TFMaze {
 		if (this.wallVarRarity > 0.0F && this.rand.nextFloat() < this.wallVarRarity) {
 			var5.placeBlockAtCurrentPosition(var1, this.wallVar0ID, this.wallVar0Meta, var2, var3, var4, var6);
 		} else {
-			var5.placeBlockAtCurrentPosition(var1, this.wallBlockID, this.wallBlockMeta, var2, var3, var4, var6);
+			var5.placeBlockAtCurrentPosition(var1, this.wallblockID, this.wallBlockMeta, var2, var3, var4, var6);
 		}
 	}
 
@@ -380,21 +380,21 @@ public class TFMazeNew extends TFMaze {
 	}
 
 	protected void putHeadBlock(World var1, int var2, int var3, int var4) {
-		var1.setBlockAndMetadataWithNotify(var2, var3, var4, this.headBlockID, this.headBlockMeta);
+		var1.setBlockAndMetadataWithNotify(var2, var3, var4, this.headblockID, this.headBlockMeta);
 	}
 
 	protected void putHeadBlock(World var1, int var2, int var3, int var4, StructureTFComponent var5,
 			StructureBoundingBox var6) {
-		var5.placeBlockAtCurrentPosition(var1, this.headBlockID, this.headBlockMeta, var2, var3, var4, var6);
+		var5.placeBlockAtCurrentPosition(var1, this.headblockID, this.headBlockMeta, var2, var3, var4, var6);
 	}
 
 	protected void putRootBlock(World var1, int var2, int var3, int var4) {
-		var1.setBlockAndMetadataWithNotify(var2, var3, var4, this.rootBlockID, this.rootBlockMeta);
+		var1.setBlockAndMetadataWithNotify(var2, var3, var4, this.rootblockID, this.rootBlockMeta);
 	}
 
 	protected void putRootBlock(World var1, int var2, int var3, int var4, StructureTFComponent var5,
 			StructureBoundingBox var6) {
-		var5.placeBlockAtCurrentPosition(var1, this.rootBlockID, this.rootBlockMeta, var2, var3, var4, var6);
+		var5.placeBlockAtCurrentPosition(var1, this.rootblockID, this.rootBlockMeta, var2, var3, var4, var6);
 	}
 
 	protected void putCanopyTree(World var1, int var2, int var3, int var4, StructureTFComponent var5,
@@ -419,8 +419,8 @@ public class TFMazeNew extends TFMaze {
 					int var7 = this.worldZ + var4 / 2 * (this.evenBias + this.oddBias);
 
 					if (this.isEven(var3) && this.isEven(var4) && this.shouldTorch(var3, var4)
-							&& var1.getBlockId(var5, var6, var7) == this.wallBlockID) {
-						var1.setBlockAndMetadataWithNotify(var5, var6, var7, this.torchBlockID, this.torchBlockMeta);
+							&& var1.getblockID(var5, var6, var7) == this.wallblockID) {
+						var1.setBlockAndMetadataWithNotify(var5, var6, var7, this.torchblockID, this.torchBlockMeta);
 					}
 				}
 			}
@@ -438,7 +438,7 @@ public class TFMazeNew extends TFMaze {
 	}
 
 	public boolean shouldPillar(int var1, int var2) {
-		return this.pillarBlockID == -1 ? false
+		return this.pillarblockID == -1 ? false
 				: (this.getRaw(var1 + 1, var2) != Integer.MIN_VALUE && this.getRaw(var1 - 1, var2) != Integer.MIN_VALUE
 						&& this.getRaw(var1, var2 + 1) != Integer.MIN_VALUE
 						&& this.getRaw(var1, var2 - 1) != Integer.MIN_VALUE

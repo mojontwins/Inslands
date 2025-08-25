@@ -332,7 +332,7 @@ public class EntityBoat extends Entity {
 				for(int y0 = 0; y0 < 2; y0 ++) {
 					int y = MathHelper.floor_double(this.posY) + y0;
 					
-					int blockID = this.worldObj.getBlockId(x, y, z);
+					int blockID = this.worldObj.getblockID(x, y, z);
 					int meta = this.worldObj.getBlockMetadata(x, y, z);
 					
 					if(blockID == Block.snow.blockID) {

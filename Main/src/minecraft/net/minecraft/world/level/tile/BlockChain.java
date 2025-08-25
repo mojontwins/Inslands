@@ -21,12 +21,12 @@ public class BlockChain extends Block {
 
 	@Override
 	public boolean canBlockStay(World world, int x, int y, int z) {
-		Block above = Block.blocksList[world.getBlockId(x, y + 1, z)];
+		Block above = Block.blocksList[world.getblockID(x, y + 1, z)];
 		return above != null && (above.isOpaqueCube() || above.blockID == Block.chain.blockID || (above instanceof BlockFence));
 	}
 	
 	@Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, int neighborBlockID) {
+    public void onNeighborBlockChange(World world, int x, int y, int z, int neighborblockID) {
         if (!canBlockStay(world, x, y, z)) {
         	world.playAuxSFX(2001, x, y, z, blockID);
             dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z));

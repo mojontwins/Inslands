@@ -37,7 +37,7 @@ public abstract class WorldGenMojon extends WorldGenerator {
 	}
 	
 	public void setBlockIfEmpty(World world, int x, int y, int z, int blockID, int meta) {
-		if (0 == world.getBlockId(x, y, z)) this.setBlockWithMetadata(world, x, y, z, blockID, meta);
+		if (0 == world.getblockID(x, y, z)) this.setBlockWithMetadata(world, x, y, z, blockID, meta);
 	}
 	
 	public void setBlockIfAirOrLeaves(World world, int x, int y, int z, int blockID, int meta) {
@@ -211,7 +211,7 @@ public abstract class WorldGenMojon extends WorldGenerator {
 	}
 
 	public boolean validGround(World world, int x, int y, int z) {
-		Block b = Block.blocksList[world.getBlockId(x, y, z)];
+		Block b = Block.blocksList[world.getblockID(x, y, z)];
 		return b != null && b.canGrowPlants();
 	}
 	

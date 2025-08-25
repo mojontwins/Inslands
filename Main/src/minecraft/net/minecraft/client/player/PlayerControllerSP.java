@@ -24,13 +24,13 @@ public class PlayerControllerSP extends PlayerController {
 	}
 
 	public boolean sendBlockRemoved(int x, int y, int z, int side) {
-		int blockId = this.mc.theWorld.getBlockId(x, y, z);
+		int blockID = this.mc.theWorld.getblockID(x, y, z);
 		int metadata = this.mc.theWorld.getBlockMetadata(x, y, z);
 		boolean wasRemoved = super.sendBlockRemoved(x, y, z, side);
 		ItemStack itemStack = this.mc.thePlayer.getCurrentEquippedItem();
-		boolean canHarvestBlock = this.mc.thePlayer.canHarvestBlock(Block.blocksList[blockId], metadata);
+		boolean canHarvestBlock = this.mc.thePlayer.canHarvestBlock(Block.blocksList[blockID], metadata);
 		if(itemStack != null) {
-			itemStack.onDestroyBlock(blockId, x, y, z, this.mc.thePlayer);
+			itemStack.onDestroyBlock(blockID, x, y, z, this.mc.thePlayer);
 			if(itemStack.stackSize == 0) {
 				itemStack.onItemDestroyedByUse(this.mc.thePlayer);
 				this.mc.thePlayer.destroyCurrentEquippedItem();
@@ -39,9 +39,9 @@ public class PlayerControllerSP extends PlayerController {
 
 		if(wasRemoved && canHarvestBlock && !this.mc.thePlayer.isCreative) {
 			if (itemStack != null && itemStack.getItem() != null && itemStack.getItem().silkTouch) {
-				Block.blocksList[blockId].silkTouchBlock(this.mc.theWorld, x, y, z, metadata);
+				Block.blocksList[blockID].silkTouchBlock(this.mc.theWorld, x, y, z, metadata);
 			} else {
-				Block.blocksList[blockId].harvestBlock(this.mc.theWorld, this.mc.thePlayer, x, y, z, metadata);
+				Block.blocksList[blockID].harvestBlock(this.mc.theWorld, this.mc.thePlayer, x, y, z, metadata);
 			}
 		}
 
@@ -53,7 +53,7 @@ public class PlayerControllerSP extends PlayerController {
 		
 		if(itemStack == null || !itemStack.itemLeftClick(entityPlayer, world, x, y, z, side, xWithinFace, yWithinFace, zWithinFace)) {	
 			this.mc.theWorld.onBlockHit(this.mc.thePlayer, x, y, z, side);
-			int i5 = this.mc.theWorld.getBlockId(x, y, z);
+			int i5 = this.mc.theWorld.getblockID(x, y, z);
 			int meta = this.mc.theWorld.getBlockMetadata(x, y, z);
 			if(i5 > 0 && this.curBlockDamage == 0.0F) {
 				Block.blocksList[i5].onBlockClicked(this.mc.theWorld, x, y, z, this.mc.thePlayer);
@@ -79,7 +79,7 @@ public class PlayerControllerSP extends PlayerController {
 			--this.blockHitWait;
 		} else {
 			if(i1 == this.curBlockX && i2 == this.curBlockY && i3 == this.curBlockZ) {
-				int i5 = this.mc.theWorld.getBlockId(i1, i2, i3);
+				int i5 = this.mc.theWorld.getblockID(i1, i2, i3);
 				int meta = this.mc.theWorld.getBlockMetadata(i1, i2, i3);
 				if(i5 == 0) {
 					return;

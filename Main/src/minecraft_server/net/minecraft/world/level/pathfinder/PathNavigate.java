@@ -184,7 +184,7 @@ public class PathNavigate {
 	private int getPathableYPos() {
 		if(this.theEntity.isInWater() && this.canSwim) {
 			int i1 = (int)this.theEntity.boundingBox.minY;
-			int i2 = this.worldObj.getBlockId(MathHelper.floor_double(this.theEntity.posX), i1, MathHelper.floor_double(this.theEntity.posZ));
+			int i2 = this.worldObj.getblockID(MathHelper.floor_double(this.theEntity.posX), i1, MathHelper.floor_double(this.theEntity.posZ));
 			int i3 = 0;
 
 			do {
@@ -193,7 +193,7 @@ public class PathNavigate {
 				}
 
 				++i1;
-				i2 = this.worldObj.getBlockId(MathHelper.floor_double(this.theEntity.posX), i1, MathHelper.floor_double(this.theEntity.posZ));
+				i2 = this.worldObj.getblockID(MathHelper.floor_double(this.theEntity.posX), i1, MathHelper.floor_double(this.theEntity.posZ));
 				++i3;
 			} while(i3 <= 16);
 
@@ -296,7 +296,7 @@ public class PathNavigate {
 					double d16 = (double)i14 + 0.5D - vec3D7.xCoord;
 					double d18 = (double)i15 + 0.5D - vec3D7.zCoord;
 					if(d16 * d8 + d18 * d10 >= 0.0D) {
-						int i20 = this.worldObj.getBlockId(i14, i2 - 1, i15);
+						int i20 = this.worldObj.getblockID(i14, i2 - 1, i15);
 						if(i20 <= 0) {
 							return false;
 						}
@@ -328,7 +328,7 @@ public class PathNavigate {
 					double d15 = (double)i12 + 0.5D - vec3D7.xCoord;
 					double d17 = (double)i14 + 0.5D - vec3D7.zCoord;
 					if(d15 * d8 + d17 * d10 >= 0.0D) {
-						int i19 = this.worldObj.getBlockId(i12, i13, i14);
+						int i19 = this.worldObj.getblockID(i12, i13, i14);
 						if(i19 > 0 && !Block.blocksList[i19].getBlocksMovement(this.worldObj, i12, i13, i14)) {
 							return false;
 						}

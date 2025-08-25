@@ -65,7 +65,7 @@ public class EntityThrowableToxicFungus extends EntitySnowball {
 			int x = MathHelper.floor_double((double)par1MovingObjectPosition.blockX);
 			int y = MathHelper.floor_double((double)par1MovingObjectPosition.blockY);
 			int z = MathHelper.floor_double((double)par1MovingObjectPosition.blockZ);
-			int blockID = this.worldObj.getBlockId(x, y, z);
+			int blockID = this.worldObj.getblockID(x, y, z);
 			if(blockID == Block.dirt.blockID || blockID == Block.grass.blockID || blockID == Block.sand.blockID) {
 				this.worldObj.setBlockWithNotify(x, y, z, Block.mycelium.blockID);
 			}

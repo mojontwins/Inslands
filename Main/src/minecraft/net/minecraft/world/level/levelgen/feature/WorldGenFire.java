@@ -11,7 +11,7 @@ public class WorldGenFire extends WorldGenerator {
 			int i7 = x + rand.nextInt(8) - rand.nextInt(8);
 			int i8 = y + rand.nextInt(4) - rand.nextInt(4);
 			int i9 = z + rand.nextInt(8) - rand.nextInt(8);
-			if(world.isAirBlock(i7, i8, i9) && world.getBlockId(i7, i8 - 1, i9) == Block.bloodStone.blockID) {
+			if(world.isAirBlock(i7, i8, i9) && world.getblockID(i7, i8 - 1, i9) == Block.bloodStone.blockID) {
 				world.setBlockWithNotify(i7, i8, i9, Block.fire.blockID);
 			}
 		}

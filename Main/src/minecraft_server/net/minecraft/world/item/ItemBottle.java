@@ -48,7 +48,7 @@ public class ItemBottle extends Item {
 			int y = movingObjectPosition.blockY;
 			int z = movingObjectPosition.blockZ;
 			
-			int blockID = world.getBlockId(x, y, z);
+			int blockID = world.getblockID(x, y, z);
 			int metadata = world.getBlockMetadata(x, y, z);
 
 			if(this.contents == 0) {

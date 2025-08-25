@@ -31,7 +31,7 @@ public class EntityFlying extends EntityLiving {
 			float f3 = 0.91F;
 			if(this.onGround) {
 				f3 = 0.54600006F;
-				int i4 = this.worldObj.getBlockId(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
+				int i4 = this.worldObj.getblockID(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
 				if(i4 > 0) {
 					f3 = Block.blocksList[i4].slipperiness * 0.91F;
 				}
@@ -42,7 +42,7 @@ public class EntityFlying extends EntityLiving {
 			f3 = 0.91F;
 			if(this.onGround) {
 				f3 = 0.54600006F;
-				int i5 = this.worldObj.getBlockId(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
+				int i5 = this.worldObj.getblockID(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
 				if(i5 > 0) {
 					f3 = Block.blocksList[i5].slipperiness * 0.91F;
 				}

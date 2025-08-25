@@ -31,6 +31,7 @@ public class GameHints {
 		"Winners never kill creepers!",
 		"You can travel to the Nether...",
 		"Craft a glass bottle using glass panes",
+		"You can turn layered sand off when generating a new world",
 		"Glass bottles can be filled with certain liquids",
 		"Give diamonds to the witch to get a cauldron",
 		"Fill the cauldron with water to start cooking",

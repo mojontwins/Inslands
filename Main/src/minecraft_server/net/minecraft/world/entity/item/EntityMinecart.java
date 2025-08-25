@@ -224,7 +224,7 @@ public class EntityMinecart extends Entity implements IInventory {
 			double d4 = 0.4D;
 			boolean z6 = false;
 			d7 = 2.0D / 256D;
-			int i9 = this.worldObj.getBlockId(i1, i2, i3);
+			int i9 = this.worldObj.getblockID(i1, i2, i3);
 			if(BlockRail.isRailBlock(i9)) {
 				Vec3D vec3D10 = this.func_514_g(this.posX, this.posY, this.posZ);
 				int i11 = this.worldObj.getBlockMetadata(i1, i2, i3);
@@ -517,7 +517,7 @@ public class EntityMinecart extends Entity implements IInventory {
 			--i10;
 		}
 
-		int i12 = this.worldObj.getBlockId(i9, i10, i11);
+		int i12 = this.worldObj.getblockID(i9, i10, i11);
 		if(!BlockRail.isRailBlock(i12)) {
 			return null;
 		} else {
@@ -557,7 +557,7 @@ public class EntityMinecart extends Entity implements IInventory {
 			--i8;
 		}
 
-		int i10 = this.worldObj.getBlockId(i7, i8, i9);
+		int i10 = this.worldObj.getblockID(i7, i8, i9);
 		if(BlockRail.isRailBlock(i10)) {
 			int i11 = this.worldObj.getBlockMetadata(i7, i8, i9);
 			d3 = (double)i8;

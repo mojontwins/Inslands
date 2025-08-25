@@ -8,7 +8,7 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.Block;
 
 public class WorldGenClay extends WorldGenerator {
-	private int clayBlockId = Block.blockClay.blockID;
+	private int clayblockID = Block.blockClay.blockID;
 	private int numberOfBlocks;
 
 	public WorldGenClay(int i1) {
@@ -48,9 +48,9 @@ public class WorldGenClay extends WorldGenerator {
 							double d43 = ((double)i39 + 0.5D - d22) / (d30 / 2.0D);
 							double d45 = ((double)i40 + 0.5D - d24) / (d28 / 2.0D);
 							if(d41 * d41 + d43 * d43 + d45 * d45 < 1.0D) {
-								int i47 = world1.getBlockId(i38, i39, i40);
+								int i47 = world1.getblockID(i38, i39, i40);
 								if(i47 == Block.sand.blockID) {
-									world1.setBlock(i38, i39, i40, this.clayBlockId);
+									world1.setBlock(i38, i39, i40, this.clayblockID);
 								}
 							}
 						}

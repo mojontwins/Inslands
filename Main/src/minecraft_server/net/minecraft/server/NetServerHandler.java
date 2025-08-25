@@ -320,7 +320,7 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 				}
 			} else if(packet14BlockDig1.status == 2) {
 				this.playerEntity.itemInWorldManager.blockRemoving(i5, i6, i7);
-				if(worldServer2.getBlockId(i5, i6, i7) != 0) {
+				if(worldServer2.getblockID(i5, i6, i7) != 0) {
 					this.playerEntity.playerNetServerHandler
 							.sendPacket(new Packet53BlockChange(i5, i6, i7, worldServer2));
 				}

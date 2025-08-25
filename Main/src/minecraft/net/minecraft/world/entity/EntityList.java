@@ -132,7 +132,7 @@ public class EntityList {
 		return entity2;
 	}
 
-	public static Entity createEntity(int i0, World world1) {
+	public static Entity createEntityByID(int i0, World world1) {
 		Entity entity2 = null;
 
 		try {

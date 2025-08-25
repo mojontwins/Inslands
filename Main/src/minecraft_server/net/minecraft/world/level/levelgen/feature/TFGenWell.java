@@ -43,7 +43,7 @@ public class TFGenWell extends TFGenerator {
 			this.putBlock(x + 1, y + 3, z + 1, Block.planks.blockID, true);
 
 			for(int dy = -1; dy >= -20; --dy) {
-				int dblock = world.getBlockId(x + 1, y + dy, z + 1);
+				int dblock = world.getblockID(x + 1, y + dy, z + 1);
 				if(dblock != Block.dirt.blockID && dblock != Block.grass.blockID && dblock != Block.gravel.blockID && dblock != Block.stone.blockID || !world.getBlockMaterial(x + 1, y + dy - 1, z + 1).isSolid()) {
 					break;
 				}
@@ -104,7 +104,7 @@ public class TFGenWell extends TFGenerator {
 			for(int dx = 1; dx <= 2; ++dx) {
 				for(int dz = 1; dz <= 2; ++dz) {
 					for(int dy = -1; dy >= -20; --dy) {
-						int dblock = world.getBlockId(x + dx, y + dy, z + dz);
+						int dblock = world.getblockID(x + dx, y + dy, z + dz);
 						if(dblock != Block.dirt.blockID && dblock != Block.grass.blockID && dblock != Block.gravel.blockID && dblock != Block.stone.blockID || !world.getBlockMaterial(x + dx, y + dy - 1, z + dz).isSolid()) {
 							break;
 						}

@@ -18,7 +18,7 @@ public class BlockStationary extends BlockFluid {
 
 	public void onNeighborBlockChange(World world, int x, int y, int z, int id) {
 		super.onNeighborBlockChange(world, x, y, z, id);
-		if(world.getBlockId(x, y, z) == this.blockID) {
+		if(world.getblockID(x, y, z) == this.blockID) {
 			this.setNotStationary(world, x, y, z);
 		}
 
@@ -41,7 +41,7 @@ public class BlockStationary extends BlockFluid {
 				x += rand.nextInt(3) - 1;
 				++y;
 				z += rand.nextInt(3) - 1;
-				int i8 = world.getBlockId(x, y, z);
+				int i8 = world.getblockID(x, y, z);
 				if(i8 == 0) {
 					if(this.isFlammable(world, x - 1, y, z) || this.isFlammable(world, x + 1, y, z) || this.isFlammable(world, x, y, z - 1) || this.isFlammable(world, x, y, z + 1) || this.isFlammable(world, x, y - 1, z) || this.isFlammable(world, x, y + 1, z)) {
 						world.setBlockWithNotify(x, y, z, Block.fire.blockID);

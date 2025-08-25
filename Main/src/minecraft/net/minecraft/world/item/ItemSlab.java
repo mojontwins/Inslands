@@ -28,7 +28,7 @@ public class ItemSlab extends ItemBlock {
 		if(itemStack.stackSize == 0) {
 			return false;
 		} else {
-			int blockID = world.getBlockId(x, y, z);
+			int blockID = world.getblockID(x, y, z);
 			int meta = world.getBlockMetadata(x, y, z);
 			int type = meta & 7;
 			boolean isUpper = (meta & 8) != 0;
@@ -69,7 +69,7 @@ public class ItemSlab extends ItemBlock {
 			case 5: x ++; break;
 		}
 
-		int blockID = world.getBlockId(x, y, z);
+		int blockID = world.getblockID(x, y, z);
 		int meta = world.getBlockMetadata(x, y, z);
 		int type = meta & 7;
 

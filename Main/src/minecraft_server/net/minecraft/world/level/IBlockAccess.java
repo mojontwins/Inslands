@@ -4,7 +4,7 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.entity.TileEntity;
 
 public interface IBlockAccess {
-	int getBlockId(int i1, int i2, int i3);
+	int getblockID(int i1, int i2, int i3);
 
 	TileEntity getBlockTileEntity(int i1, int i2, int i3);
 

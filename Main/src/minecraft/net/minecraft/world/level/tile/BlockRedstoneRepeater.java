@@ -101,13 +101,13 @@ public class BlockRedstoneRepeater extends Block {
 		int i6 = i5 & 3;
 		switch(i6) {
 		case 0:
-			return world1.isBlockIndirectlyProvidingPowerTo(i2, i3, i4 + 1, 3) || world1.getBlockId(i2, i3, i4 + 1) == Block.redstoneWire.blockID && world1.getBlockMetadata(i2, i3, i4 + 1) > 0;
+			return world1.isBlockIndirectlyProvidingPowerTo(i2, i3, i4 + 1, 3) || world1.getblockID(i2, i3, i4 + 1) == Block.redstoneWire.blockID && world1.getBlockMetadata(i2, i3, i4 + 1) > 0;
 		case 1:
-			return world1.isBlockIndirectlyProvidingPowerTo(i2 - 1, i3, i4, 4) || world1.getBlockId(i2 - 1, i3, i4) == Block.redstoneWire.blockID && world1.getBlockMetadata(i2 - 1, i3, i4) > 0;
+			return world1.isBlockIndirectlyProvidingPowerTo(i2 - 1, i3, i4, 4) || world1.getblockID(i2 - 1, i3, i4) == Block.redstoneWire.blockID && world1.getBlockMetadata(i2 - 1, i3, i4) > 0;
 		case 2:
-			return world1.isBlockIndirectlyProvidingPowerTo(i2, i3, i4 - 1, 2) || world1.getBlockId(i2, i3, i4 - 1) == Block.redstoneWire.blockID && world1.getBlockMetadata(i2, i3, i4 - 1) > 0;
+			return world1.isBlockIndirectlyProvidingPowerTo(i2, i3, i4 - 1, 2) || world1.getblockID(i2, i3, i4 - 1) == Block.redstoneWire.blockID && world1.getBlockMetadata(i2, i3, i4 - 1) > 0;
 		case 3:
-			return world1.isBlockIndirectlyProvidingPowerTo(i2 + 1, i3, i4, 5) || world1.getBlockId(i2 + 1, i3, i4) == Block.redstoneWire.blockID && world1.getBlockMetadata(i2 + 1, i3, i4) > 0;
+			return world1.isBlockIndirectlyProvidingPowerTo(i2 + 1, i3, i4, 5) || world1.getblockID(i2 + 1, i3, i4) == Block.redstoneWire.blockID && world1.getBlockMetadata(i2 + 1, i3, i4) > 0;
 		default:
 			return false;
 		}

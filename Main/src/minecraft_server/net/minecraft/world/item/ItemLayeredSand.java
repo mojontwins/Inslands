@@ -12,7 +12,7 @@ public class ItemLayeredSand extends ItemBlock {
 	// Support for stacking sand using metadata
 	public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side) {
 
-		if(world.getBlockId(x, y, z) == Block.snow.blockID) {
+		if(world.getblockID(x, y, z) == Block.snow.blockID) {
 			side = 0;
 		} else {
 			if(side == 0) {
@@ -43,7 +43,7 @@ public class ItemLayeredSand extends ItemBlock {
 		if(itemStack.stackSize == 0) {
 			return false;
 		} else {
-			if(world.getBlockId(x, y - 1, z) == Block.layeredSand.blockID) {
+			if(world.getblockID(x, y - 1, z) == Block.layeredSand.blockID) {
 				--y;
 				int meta = world.getBlockMetadata(x, y, z); 
 				if(meta < 14) {
@@ -58,7 +58,7 @@ public class ItemLayeredSand extends ItemBlock {
 				if(!block8.canPlaceBlockAt(world, x, y, z)) return false;
 												
 				if(world.setBlockAndMetadataWithNotify(x, y, z, this.blockID, this.getPlacedBlockMetadata(itemStack.getItemDamage()))) {
-					if(world.getBlockId(x, y, z) == blockID) {
+					if(world.getblockID(x, y, z) == blockID) {
 						Block.blocksList[this.blockID].onBlockPlaced(world, x, y, z, side);
 						Block.blocksList[this.blockID].onBlockPlacedBy(world, x, y, z, entityPlayer);
 					}

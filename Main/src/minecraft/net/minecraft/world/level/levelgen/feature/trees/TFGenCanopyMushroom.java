@@ -21,7 +21,7 @@ public class TFGenCanopyMushroom extends TFGenerator {
 	public boolean generate(World world, Random random, int treeX, int treeY, int treeZ) {
 		this.worldObj = world;
 		this.treeRNG = random;
-		int blockUnder = world.getBlockId(treeX, treeY - 1, treeZ);
+		int blockUnder = world.getblockID(treeX, treeY - 1, treeZ);
 		if((blockUnder == Block.grass.blockID || blockUnder == Block.dirt.blockID || blockUnder == Block.mycelium.blockID) && this.y < 128 - this.treeHeight - 1) {
 			this.x = treeX;
 			this.y = treeY;

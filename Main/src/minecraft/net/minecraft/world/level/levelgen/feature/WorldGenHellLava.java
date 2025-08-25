@@ -13,29 +13,29 @@ public class WorldGenHellLava extends WorldGenerator {
 	}
 
 	public boolean generate(World world1, Random random2, int i3, int i4, int i5) {
-		if(world1.getBlockId(i3, i4 + 1, i5) != Block.bloodStone.blockID) {
+		if(world1.getblockID(i3, i4 + 1, i5) != Block.bloodStone.blockID) {
 			return false;
-		} else if(world1.getBlockId(i3, i4, i5) != 0 && world1.getBlockId(i3, i4, i5) != Block.bloodStone.blockID) {
+		} else if(world1.getblockID(i3, i4, i5) != 0 && world1.getblockID(i3, i4, i5) != Block.bloodStone.blockID) {
 			return false;
 		} else {
 			int i6 = 0;
-			if(world1.getBlockId(i3 - 1, i4, i5) == Block.bloodStone.blockID) {
+			if(world1.getblockID(i3 - 1, i4, i5) == Block.bloodStone.blockID) {
 				++i6;
 			}
 
-			if(world1.getBlockId(i3 + 1, i4, i5) == Block.bloodStone.blockID) {
+			if(world1.getblockID(i3 + 1, i4, i5) == Block.bloodStone.blockID) {
 				++i6;
 			}
 
-			if(world1.getBlockId(i3, i4, i5 - 1) == Block.bloodStone.blockID) {
+			if(world1.getblockID(i3, i4, i5 - 1) == Block.bloodStone.blockID) {
 				++i6;
 			}
 
-			if(world1.getBlockId(i3, i4, i5 + 1) == Block.bloodStone.blockID) {
+			if(world1.getblockID(i3, i4, i5 + 1) == Block.bloodStone.blockID) {
 				++i6;
 			}
 
-			if(world1.getBlockId(i3, i4 - 1, i5) == Block.bloodStone.blockID) {
+			if(world1.getblockID(i3, i4 - 1, i5) == Block.bloodStone.blockID) {
 				++i6;
 			}
 

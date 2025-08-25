@@ -6,7 +6,7 @@ import net.minecraft.world.level.World;
 import net.minecraft.world.level.tile.Block;
 
 public class TFGenMyceliumBlob extends WorldGenerator {
-	private int myceliumBlockId = Block.mycelium.blockID;
+	private int myceliumblockID = Block.mycelium.blockID;
 	private int numberOfBlocks;
 
 	public TFGenMyceliumBlob(int i) {
@@ -23,9 +23,9 @@ public class TFGenMyceliumBlob extends WorldGenerator {
 				int i2 = k1 - k;
 				if(l1 * l1 + i2 * i2 <= l * l) {
 					for(int j2 = j - i1; j2 <= j + i1; ++j2) {
-						int k2 = world.getBlockId(j1, j2, k1);
+						int k2 = world.getblockID(j1, j2, k1);
 						if(k2 == Block.dirt.blockID || k2 == Block.grass.blockID) {
-							world.setBlock(j1, j2, k1, this.myceliumBlockId);
+							world.setBlock(j1, j2, k1, this.myceliumblockID);
 						}
 					}
 				}

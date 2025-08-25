@@ -7,7 +7,7 @@ public class ItemBlockWithSubtypes extends ItemBlock {
 	
 	// Id is set so it substitutes the ItemBlock
 	public ItemBlockWithSubtypes(IBlockWithSubtypes ref) {
-		super(ref.getItemBlockId());
+		super(ref.getItemblockID());
 		this.refBlock = ref;
 		
 		this.setMaxDamage(0);

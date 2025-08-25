@@ -162,7 +162,7 @@ public class Pathfinder {
 		for(int i6 = i2; i6 < i2 + pathPoint5.xCoord; ++i6) {
 			for(int i7 = i3; i7 < i3 + pathPoint5.yCoord; ++i7) {
 				for(int i8 = i4; i8 < i4 + pathPoint5.zCoord; ++i8) {
-					int i9 = this.worldMap.getBlockId(i6, i7, i8);
+					int i9 = this.worldMap.getblockID(i6, i7, i8);
 					if(i9 > 0) {
 						if(i9 != Block.doorSteel.blockID && i9 != Block.doorWood.blockID) {
 							Block block = Block.blocksList[i9];

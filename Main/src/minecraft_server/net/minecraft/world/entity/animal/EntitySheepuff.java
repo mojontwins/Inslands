@@ -110,7 +110,7 @@ public class EntitySheepuff extends EntityAetherAnimal {
 			int x = MathHelper.floor_double(this.posX);
 			int y = MathHelper.floor_double(this.posY);
 			int z = MathHelper.floor_double(this.posZ);
-			if(this.worldObj.getBlockId(x, y - 1, z) == Block.grass.blockID) {
+			if(this.worldObj.getblockID(x, y - 1, z) == Block.grass.blockID) {
 				this.worldObj.setBlockWithNotify(x, y - 1, z, Block.dirt.blockID);
 				++this.amountEaten;
 			}

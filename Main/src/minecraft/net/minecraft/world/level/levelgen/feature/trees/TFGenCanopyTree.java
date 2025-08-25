@@ -27,7 +27,7 @@ public class TFGenCanopyTree extends TFGenerator {
 		this.y = treeY;
 		this.z = treeZ;
 
-		int j1 = world.getBlockId(this.x, this.y - 1, this.z);
+		int j1 = world.getblockID(this.x, this.y - 1, this.z);
 		if((j1 == Block.grass.blockID || j1 == Block.dirt.blockID) && this.y < 128 - this.height - 1) {
 			this.buildBranch(0, 20.0D, 0.0D, 0.0D);
 			int numBranches = 3 + this.treeRNG.nextInt(2);

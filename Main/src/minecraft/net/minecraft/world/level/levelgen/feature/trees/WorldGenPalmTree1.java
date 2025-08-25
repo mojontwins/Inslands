@@ -19,7 +19,7 @@ public class WorldGenPalmTree1 extends WorldGenerator {
 			--y;
 		}
 
-		int blockID = world.getBlockId(x, y, z);
+		int blockID = world.getblockID(x, y, z);
 
 		if (blockID != Block.sand.blockID ) {
 			return false;

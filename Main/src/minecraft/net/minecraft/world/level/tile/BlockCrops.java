@@ -16,7 +16,7 @@ public class BlockCrops extends BlockFlower {
 		this.setBlockBounds(0.5F - f3, 0.0F, 0.5F - f3, 0.5F + f3, 0.25F, 0.5F + f3);
 	}
 
-	protected boolean canThisPlantGrowOnThisBlockID(int blockID) {
+	protected boolean canThisPlantGrowOnThisblockID(int blockID) {
 		return blockID == Block.tilledField.blockID;
 	}
 
@@ -41,21 +41,21 @@ public class BlockCrops extends BlockFlower {
 
 	private float getGrowthRate(World world, int x, int y, int z) {
 		float f5 = 1.0F;
-		int i6 = world.getBlockId(x, y, z - 1);
-		int i7 = world.getBlockId(x, y, z + 1);
-		int i8 = world.getBlockId(x - 1, y, z);
-		int i9 = world.getBlockId(x + 1, y, z);
-		int i10 = world.getBlockId(x - 1, y, z - 1);
-		int i11 = world.getBlockId(x + 1, y, z - 1);
-		int i12 = world.getBlockId(x + 1, y, z + 1);
-		int i13 = world.getBlockId(x - 1, y, z + 1);
+		int i6 = world.getblockID(x, y, z - 1);
+		int i7 = world.getblockID(x, y, z + 1);
+		int i8 = world.getblockID(x - 1, y, z);
+		int i9 = world.getblockID(x + 1, y, z);
+		int i10 = world.getblockID(x - 1, y, z - 1);
+		int i11 = world.getblockID(x + 1, y, z - 1);
+		int i12 = world.getblockID(x + 1, y, z + 1);
+		int i13 = world.getblockID(x - 1, y, z + 1);
 		boolean z14 = i8 == this.blockID || i9 == this.blockID;
 		boolean z15 = i6 == this.blockID || i7 == this.blockID;
 		boolean z16 = i10 == this.blockID || i11 == this.blockID || i12 == this.blockID || i13 == this.blockID;
 
 		for(int i17 = x - 1; i17 <= x + 1; ++i17) {
 			for(int i18 = z - 1; i18 <= z + 1; ++i18) {
-				int i19 = world.getBlockId(i17, y - 1, i18);
+				int i19 = world.getblockID(i17, y - 1, i18);
 				float f20 = 0.0F;
 				if(i19 == Block.tilledField.blockID) {
 					f20 = 1.0F;

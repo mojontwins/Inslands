@@ -17,9 +17,9 @@ public class WorldGenIcebergs extends WorldGenerator {
 	}
 	
 	private void spawnColumn (World world, Random rand, int x, int y, int z, int chance) {
-		/*int blockId = world.getBlockId(x, y - 1, z);
-		while (blockId == 0 && y > 1) {
-			y --; blockId = world.getBlockId(x, y - 1, z);
+		/*int blockID = world.getblockID(x, y - 1, z);
+		while (blockID == 0 && y > 1) {
+			y --; blockID = world.getblockID(x, y - 1, z);
 		}
 		*/
 		while(!this.blockIsCube(world, x, y - 1, z) && y > 1) {

@@ -5,13 +5,13 @@ import java.util.Random;
 import net.minecraft.world.level.World;
 
 public class AetherGenClouds extends WorldGenerator {
-	private int cloudBlockId;
+	private int cloudblockID;
 	private int meta;
 	private int numberOfBlocks;
 	private boolean flat;
 
 	public AetherGenClouds(int i, int meta, int j, boolean flag) {
-		this.cloudBlockId = i;
+		this.cloudblockID = i;
 		this.meta = meta;
 		this.numberOfBlocks = j;
 		this.flat = flag;
@@ -35,8 +35,8 @@ public class AetherGenClouds extends WorldGenerator {
 			for(int x1 = x; x1 < x + random.nextInt(4) + 3 * (this.flat ? 3 : 1); ++x1) {
 				for(int y1 = y; y1 < y + random.nextInt(1) + 2; ++y1) {
 					for(int z1 = z; z1 < z + random.nextInt(4) + 3 * (this.flat ? 3 : 1); ++z1) {
-						if(world.getBlockId(x1, y1, z1) == 0 && Math.abs(x1 - x) + Math.abs(y1 - y) + Math.abs(z1 - z) < 4 * (this.flat ? 3 : 1) + random.nextInt(2)) {
-							world.setBlockAndMetadataWithNotify(x1, y1, z1, this.cloudBlockId, this.meta);
+						if(world.getblockID(x1, y1, z1) == 0 && Math.abs(x1 - x) + Math.abs(y1 - y) + Math.abs(z1 - z) < 4 * (this.flat ? 3 : 1) + random.nextInt(2)) {
+							world.setBlockAndMetadataWithNotify(x1, y1, z1, this.cloudblockID, this.meta);
 						}
 					}
 				}

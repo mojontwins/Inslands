@@ -41,7 +41,7 @@ public class PathfinderRelease {
 		if(this.canEntityDrown && entity1.isInWater()) {
 			i10 = (int)entity1.boundingBox.minY;
 
-			for(int i11 = this.worldMap.getBlockId(MathHelper.floor_double(entity1.posX), i10, MathHelper.floor_double(entity1.posZ)); i11 == Block.waterMoving.blockID || i11 == Block.waterStill.blockID; i11 = this.worldMap.getBlockId(MathHelper.floor_double(entity1.posX), i10, MathHelper.floor_double(entity1.posZ))) {
+			for(int i11 = this.worldMap.getblockID(MathHelper.floor_double(entity1.posX), i10, MathHelper.floor_double(entity1.posZ)); i11 == Block.waterMoving.blockID || i11 == Block.waterStill.blockID; i11 = this.worldMap.getblockID(MathHelper.floor_double(entity1.posX), i10, MathHelper.floor_double(entity1.posZ))) {
 				++i10;
 			}
 
@@ -200,7 +200,7 @@ public class PathfinderRelease {
 		for(int i7 = i2; i7 < i2 + pathPoint5.xCoord; ++i7) {
 			for(int i8 = i3; i8 < i3 + pathPoint5.yCoord; ++i8) {
 				for(int i9 = i4; i9 < i4 + pathPoint5.zCoord; ++i9) {
-					int i10 = this.worldMap.getBlockId(i7, i8, i9);
+					int i10 = this.worldMap.getblockID(i7, i8, i9);
 					if(i10 > 0) {
 						if(i10 == Block.trapdoor.blockID) {
 							z6 = true;

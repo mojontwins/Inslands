@@ -34,7 +34,7 @@ public class BlockTorch extends Block {
 
 	private boolean canPlaceTorchOn(World world, int x, int y, int z) {
 		if(world.isBlockNormalCube(x, y, z)) return true;
-		int blockID = world.getBlockId(x, y, z);
+		int blockID = world.getblockID(x, y, z);
 		int metadata = world.getBlockMetadata(x, y, z);
 		return 	blockID == Block.fence.blockID || 
 				blockID == Block.streetLanternFence.blockID ||

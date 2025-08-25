@@ -65,7 +65,9 @@ import net.minecraft.network.packet.Packet61DoorChange;
 import net.minecraft.network.packet.Packet6SpawnPosition;
 import net.minecraft.network.packet.Packet70Bed;
 import net.minecraft.network.packet.Packet71Weather;
+import net.minecraft.network.packet.Packet88MovingPiston;
 import net.minecraft.network.packet.Packet8UpdateHealth;
+import net.minecraft.network.packet.Packet90ArmoredMobSpawn;
 import net.minecraft.network.packet.Packet93FiniteWorldSettings;
 import net.minecraft.network.packet.Packet94FreezeLevel;
 import net.minecraft.network.packet.Packet95UpdateDayOfTheYear;
@@ -83,7 +85,9 @@ import net.minecraft.world.entity.item.EntityBoat;
 import net.minecraft.world.entity.item.EntityFallingSand;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.item.EntityMinecart;
+import net.minecraft.world.entity.item.EntityMovingPiston;
 import net.minecraft.world.entity.item.EntityTNTPrimed;
+import net.minecraft.world.entity.monster.EntityArmoredMob;
 import net.minecraft.world.entity.monster.EntitySnowball;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.entity.projectile.EntityArrow;
@@ -164,7 +168,7 @@ public class NetClientHandler extends NetHandler {
 		entityItem8.serverPosX = packet21PickupSpawn1.xPosition;
 		entityItem8.serverPosY = packet21PickupSpawn1.yPosition;
 		entityItem8.serverPosZ = packet21PickupSpawn1.zPosition;
-		this.worldClient.addEntityToLookup(packet21PickupSpawn1.entityId, entityItem8);
+		this.worldClient.addEntityToWorld(packet21PickupSpawn1.entityId, entityItem8);
 	}
 
 	public void handleVehicleSpawn(Packet23VehicleSpawn packet23VehicleSpawn1) {
@@ -247,7 +251,9 @@ public class NetClientHandler extends NetHandler {
 			((Entity) entityToSpawn).rotationYaw = 0.0F;
 			((Entity) entityToSpawn).rotationPitch = 0.0F;
 			((Entity) entityToSpawn).entityId = packet23VehicleSpawn1.entityId;
-			this.worldClient.addEntityToLookup(packet23VehicleSpawn1.entityId, (Entity) entityToSpawn);
+			
+			this.worldClient.addEntityToWorld(packet23VehicleSpawn1.entityId, (Entity) entityToSpawn);
+			
 			if (packet23VehicleSpawn1.throwerEntityId > 0) {
 				Entity e = this.getEntityByID(packet23VehicleSpawn1.throwerEntityId);
 				if (e instanceof EntityLiving) {
@@ -273,6 +279,17 @@ public class NetClientHandler extends NetHandler {
 			}
 		}
 
+	}
+	
+	@Override
+	public void handleMovingPiston(Packet88MovingPiston packet) {
+		EntityMovingPiston piston = new EntityMovingPiston(this.worldClient, packet.x, packet.y, packet.z, packet.sticky);
+		piston.xmove = packet.xmove;
+		piston.ymove = packet.ymove;
+		piston.zmove = packet.zmove;
+		piston.data = packet.data;
+		piston.entityId = packet.entityId;
+		this.worldClient.addEntityToWorld(packet.entityId, (Entity)piston);
 	}
 
 	public void handleWeather(Packet71Weather packet71Weather1) {
@@ -300,7 +317,7 @@ public class NetClientHandler extends NetHandler {
 		EntityPainting entityPainting2 = new EntityPainting(this.worldClient, packet25EntityPainting1.xPosition,
 				packet25EntityPainting1.yPosition, packet25EntityPainting1.zPosition, packet25EntityPainting1.direction,
 				packet25EntityPainting1.title);
-		this.worldClient.addEntityToLookup(packet25EntityPainting1.entityId, entityPainting2);
+		this.worldClient.addEntityToWorld(packet25EntityPainting1.entityId, entityPainting2);
 	}
 
 	public void handleEntityVelocity(Packet28EntityVelocity packet28EntityVelocity1) {
@@ -342,7 +359,7 @@ public class NetClientHandler extends NetHandler {
 		}
 
 		entityOtherPlayerMP10.setPositionAndRotation(d2, d4, d6, f8, f9);
-		this.worldClient.addEntityToLookup(packet20NamedEntitySpawn1.entityId, entityOtherPlayerMP10);
+		this.worldClient.addEntityToWorld(packet20NamedEntitySpawn1.entityId, entityOtherPlayerMP10);
 	}
 
 	public void handleEntityTeleport(Packet34EntityTeleport packet34EntityTeleport1) {
@@ -580,23 +597,55 @@ public class NetClientHandler extends NetHandler {
 		this.netManager.networkShutdown("disconnect.closed", new Object[0]);
 	}
 
-	public void handleMobSpawn(Packet24MobSpawn packet24MobSpawn1) {
-		double d2 = (double) packet24MobSpawn1.xPosition / 32.0D;
-		double d4 = (double) packet24MobSpawn1.yPosition / 32.0D;
-		double d6 = (double) packet24MobSpawn1.zPosition / 32.0D;
-		float f8 = (float) (packet24MobSpawn1.yaw * 360) / 256.0F;
-		float f9 = (float) (packet24MobSpawn1.pitch * 360) / 256.0F;
-		EntityLiving entityLiving10 = (EntityLiving) EntityList.createEntity(packet24MobSpawn1.type, this.mc.theWorld);
-		entityLiving10.serverPosX = packet24MobSpawn1.xPosition;
-		entityLiving10.serverPosY = packet24MobSpawn1.yPosition;
-		entityLiving10.serverPosZ = packet24MobSpawn1.zPosition;
-		entityLiving10.entityId = packet24MobSpawn1.entityId;
-		entityLiving10.setPositionAndRotation(d2, d4, d6, f8, f9);
-		entityLiving10.isMultiplayerEntity = true;
-		this.worldClient.addEntityToLookup(packet24MobSpawn1.entityId, entityLiving10);
-		List<WatchableObject> list11 = packet24MobSpawn1.getMetadata();
-		if (list11 != null) {
-			entityLiving10.getDataWatcher().updateWatchedObjectsFromList(list11);
+	public void handleMobSpawn(Packet24MobSpawn packet) {
+		double x = (double)packet.xPosition / 32.0D;
+		double y = (double)packet.yPosition / 32.0D;
+		double z = (double)packet.zPosition / 32.0D;
+		float yaw = (float)(packet.yaw * 360) / 256.0F;
+		float pitch = (float)(packet.pitch * 360) / 256.0F;
+
+		EntityLiving theEntity = (EntityLiving)EntityList.createEntityByID(packet.type, this.mc.theWorld);
+		theEntity.serverPosX = packet.xPosition;
+		theEntity.serverPosY = packet.yPosition;
+		theEntity.serverPosZ = packet.zPosition;
+		theEntity.entityId = packet.entityId;
+		theEntity.setPositionAndRotation(x, y, z, yaw, pitch);
+
+		this.worldClient.addEntityToWorld(packet.entityId, theEntity);
+		
+		List<WatchableObject> watchables = packet.getMetadata();
+		if(watchables != null) {
+			theEntity.getDataWatcher().updateWatchedObjectsFromList(watchables);
+		}
+
+	}
+	
+	public void handleArmoredMobSpawn(Packet90ArmoredMobSpawn packet) {
+		double x = (double)packet.xPosition / 32.0D;
+		double y = (double)packet.yPosition / 32.0D;
+		double z = (double)packet.zPosition / 32.0D;
+		float yaw = (float)(packet.yaw * 360) / 256.0F;
+		float pitch = (float)(packet.pitch * 360) / 256.0F;
+
+		EntityArmoredMob theEntity = (EntityArmoredMob)EntityList.createEntityByID(packet.type, this.mc.theWorld);
+		theEntity.serverPosX = packet.xPosition;
+		theEntity.serverPosY = packet.yPosition;
+		theEntity.serverPosZ = packet.zPosition;
+		theEntity.rotationYawHead = (float)(packet.yawHead * 360) / 256.0F;
+		
+		// Add armor
+		for(int i = 0; i < 5; i ++) {
+			theEntity.inventory.setInventorySlotContents(i, packet.inventory[i]);
+		}
+		
+		theEntity.entityId = packet.entityId;
+		theEntity.setPositionAndRotation(x, y, z, yaw, pitch);
+
+		this.worldClient.addEntityToWorld(packet.entityId, theEntity);
+		
+		List<WatchableObject> watchables = packet.getMetadata();
+		if(watchables != null) {
+			theEntity.getDataWatcher().updateWatchedObjectsFromList(watchables);
 		}
 
 	}

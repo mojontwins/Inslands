@@ -46,7 +46,7 @@ public class ItemBoat extends Item {
 				int i26 = movingObjectPosition24.blockY;
 				int i27 = movingObjectPosition24.blockZ;
 				if(!world2.isRemote) {
-					if(world2.getBlockId(i25, i26, i27) == Block.snow.blockID) {
+					if(world2.getblockID(i25, i26, i27) == Block.snow.blockID) {
 						--i26;
 					}
 

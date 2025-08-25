@@ -31,7 +31,7 @@ public class WorldGenTreesDead extends WorldGenTrees {
 				for(i10 = x - b9; i10 <= x + b9 && z7; ++i10) {
 					for(i11 = z - b9; i11 <= z + b9 && z7; ++i11) {
 						if(i8 >= 0 && i8 < 128) {
-							i12 = world.getBlockId(i10, i8, i11);
+							i12 = world.getblockID(i10, i8, i11);
 							if(i12 != 0 && i12 != Block.leaves.blockID) {
 								z7 = false;
 							}
@@ -45,7 +45,7 @@ public class WorldGenTreesDead extends WorldGenTrees {
 			if(!z7) {
 				return false;
 			} else {
-				i8 = world.getBlockId(x, y - 1, z);
+				i8 = world.getblockID(x, y - 1, z);
 				Block block = Block.blocksList[i8];
 				
 				if(block != null && block.canGrowPlants() && y < 127 - i6) {
@@ -63,7 +63,7 @@ public class WorldGenTreesDead extends WorldGenTrees {
 
 							for(int i14 = z - i11; i14 <= z + i11; ++i14) {
 								int i15 = i14 - z;
-								if((Math.abs(i13) != i11 || Math.abs(i15) != i11 || rand.nextInt(2) != 0 && i10 != 0) && !Block.opaqueCubeLookup[world.getBlockId(i12, i16, i14)]) {
+								if((Math.abs(i13) != i11 || Math.abs(i15) != i11 || rand.nextInt(2) != 0 && i10 != 0) && !Block.opaqueCubeLookup[world.getblockID(i12, i16, i14)]) {
 									world.setBlockAndMetadata(i12, i16, i14, Block.leaves.blockID, meta);
 								}
 							}

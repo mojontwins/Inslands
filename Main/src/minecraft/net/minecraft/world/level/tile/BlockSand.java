@@ -70,7 +70,7 @@ public class BlockSand extends Block {
 	}
 
 	public static boolean canFallBelow(World world0, int i1, int i2, int i3) {
-		int i4 = world0.getBlockId(i1, i2, i3);
+		int i4 = world0.getblockID(i1, i2, i3);
 		if(i4 == 0) {
 			return true;
 		} else if(i4 == Block.fire.blockID) {

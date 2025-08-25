@@ -15,6 +15,7 @@ import net.minecraft.world.entity.item.EntityBoat;
 import net.minecraft.world.entity.item.EntityFallingSand;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.item.EntityMinecart;
+import net.minecraft.world.entity.item.EntityMovingPiston;
 import net.minecraft.world.entity.item.EntityTNTPrimed;
 import net.minecraft.world.entity.monster.EntitySnowball;
 import net.minecraft.world.entity.projectile.EntityArrow;
@@ -76,7 +77,9 @@ public class EntityTracker {
 			this.trackEntity(entity1, 160, 20, true);
 		} else if(entity1 instanceof EntityPainting) {
 			this.trackEntity(entity1, 160, Integer.MAX_VALUE, false);
-		}
+		} else if(entity1 instanceof EntityMovingPiston) {
+			this.trackEntity(entity1, 160, 20, true);
+		} 
 
 	}
 

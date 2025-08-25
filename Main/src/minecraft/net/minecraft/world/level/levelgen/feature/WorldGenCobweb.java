@@ -17,7 +17,7 @@ public class WorldGenCobweb {
 			yy += rand.nextInt(3) - 1;
 			zz += rand.nextInt(3) - 1;
 			
-			if (world.getBlockId(xx, yy, zz) == 0) {
+			if (world.getblockID(xx, yy, zz) == 0) {
 				world.setBlock(xx, yy, zz, Block.web.blockID);
 			}
 		}

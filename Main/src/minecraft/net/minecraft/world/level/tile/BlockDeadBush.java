@@ -13,7 +13,7 @@ public class BlockDeadBush extends BlockFlower {
 	}
 
 	@Override
-	protected boolean canThisPlantGrowOnThisBlockID(int var1) {
+	protected boolean canThisPlantGrowOnThisblockID(int var1) {
 		Block block = Block.blocksList[var1];
 		if(block != null && block.canGrowPlants()) return true;
 		
@@ -24,7 +24,7 @@ public class BlockDeadBush extends BlockFlower {
 	
 	@Override
 	public boolean canBlockStay(World world1, int i2, int i3, int i4) {
-		return this.canThisPlantGrowOnThisBlockID(world1.getBlockId(i2, i3 - 1, i4));
+		return this.canThisPlantGrowOnThisblockID(world1.getblockID(i2, i3 - 1, i4));
 	}
 
 	public int getBlockTextureFromSideAndMetadata(int i1, int i2) {

@@ -51,7 +51,9 @@ import net.minecraft.network.packet.Packet6SpawnPosition;
 import net.minecraft.network.packet.Packet70Bed;
 import net.minecraft.network.packet.Packet71Weather;
 import net.minecraft.network.packet.Packet7UseEntity;
+import net.minecraft.network.packet.Packet88MovingPiston;
 import net.minecraft.network.packet.Packet8UpdateHealth;
+import net.minecraft.network.packet.Packet90ArmoredMobSpawn;
 import net.minecraft.network.packet.Packet93FiniteWorldSettings;
 import net.minecraft.network.packet.Packet94FreezeLevel;
 import net.minecraft.network.packet.Packet95UpdateDayOfTheYear;
@@ -271,6 +273,14 @@ public abstract class NetHandler {
 
 	public void handleDoorChange(Packet61DoorChange packet61DoorChange1) {
 		this.registerPacket(packet61DoorChange1);
+	}
+	
+	public void handleMovingPiston(Packet88MovingPiston packet) {
+		this.registerPacket(packet);
+	}
+	
+	public void handleArmoredMobSpawn(Packet90ArmoredMobSpawn packet90ArmoredMobSpawn) {
+		this.registerPacket(packet90ArmoredMobSpawn);
 	}
 	
 	public void handleSetCreative(Packet99SetCreativeMode packet) {

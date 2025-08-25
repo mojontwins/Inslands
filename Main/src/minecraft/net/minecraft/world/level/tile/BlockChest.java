@@ -32,10 +32,10 @@ public class BlockChest extends BlockContainer {
 		} else if(side == 0) {
 			return this.blockIndexInTexture - 1;
 		} else {
-			int i6 = blockAccess.getBlockId(x, y, z - 1);
-			int i7 = blockAccess.getBlockId(x, y, z + 1);
-			int i8 = blockAccess.getBlockId(x - 1, y, z);
-			int i9 = blockAccess.getBlockId(x + 1, y, z);
+			int i6 = blockAccess.getblockID(x, y, z - 1);
+			int i7 = blockAccess.getblockID(x, y, z + 1);
+			int i8 = blockAccess.getblockID(x - 1, y, z);
+			int i9 = blockAccess.getblockID(x + 1, y, z);
 			int i10;
 			int i11;
 			int i12;
@@ -66,8 +66,8 @@ public class BlockChest extends BlockContainer {
 						i10 = -1;
 					}
 
-					i11 = blockAccess.getBlockId(i8 == this.blockID ? x - 1 : x + 1, y, z - 1);
-					i12 = blockAccess.getBlockId(i8 == this.blockID ? x - 1 : x + 1, y, z + 1);
+					i11 = blockAccess.getblockID(i8 == this.blockID ? x - 1 : x + 1, y, z - 1);
+					i12 = blockAccess.getblockID(i8 == this.blockID ? x - 1 : x + 1, y, z + 1);
 					if(side == 3) {
 						i10 = -1 - i10;
 					}
@@ -91,8 +91,8 @@ public class BlockChest extends BlockContainer {
 					i10 = -1;
 				}
 
-				i11 = blockAccess.getBlockId(x - 1, y, i6 == this.blockID ? z - 1 : z + 1);
-				i12 = blockAccess.getBlockId(x + 1, y, i6 == this.blockID ? z - 1 : z + 1);
+				i11 = blockAccess.getblockID(x - 1, y, i6 == this.blockID ? z - 1 : z + 1);
+				i12 = blockAccess.getblockID(x + 1, y, i6 == this.blockID ? z - 1 : z + 1);
 				if(side == 4) {
 					i10 = -1 - i10;
 				}
@@ -119,19 +119,19 @@ public class BlockChest extends BlockContainer {
 
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
 		int i5 = 0;
-		if(world.getBlockId(x - 1, y, z) == this.blockID) {
+		if(world.getblockID(x - 1, y, z) == this.blockID) {
 			++i5;
 		}
 
-		if(world.getBlockId(x + 1, y, z) == this.blockID) {
+		if(world.getblockID(x + 1, y, z) == this.blockID) {
 			++i5;
 		}
 
-		if(world.getBlockId(x, y, z - 1) == this.blockID) {
+		if(world.getblockID(x, y, z - 1) == this.blockID) {
 			++i5;
 		}
 
-		if(world.getBlockId(x, y, z + 1) == this.blockID) {
+		if(world.getblockID(x, y, z + 1) == this.blockID) {
 			++i5;
 		}
 
@@ -139,7 +139,7 @@ public class BlockChest extends BlockContainer {
 	}
 
 	private boolean isThereANeighborChest(World world, int x, int y, int z) {
-		return world.getBlockId(x, y, z) != this.blockID ? false : (world.getBlockId(x - 1, y, z) == this.blockID ? true : (world.getBlockId(x + 1, y, z) == this.blockID ? true : (world.getBlockId(x, y, z - 1) == this.blockID ? true : world.getBlockId(x, y, z + 1) == this.blockID)));
+		return world.getblockID(x, y, z) != this.blockID ? false : (world.getblockID(x - 1, y, z) == this.blockID ? true : (world.getblockID(x + 1, y, z) == this.blockID ? true : (world.getblockID(x, y, z - 1) == this.blockID ? true : world.getblockID(x, y, z + 1) == this.blockID)));
 	}
 
 	public void onBlockRemoval(World world, int x, int y, int z) {
@@ -178,28 +178,28 @@ public class BlockChest extends BlockContainer {
 		
 		if(world.isBlockNormalCube(x, y + 1, z)) {
 			return true;
-		} else if(world.getBlockId(x - 1, y, z) == this.blockID && world.isBlockNormalCube(x - 1, y + 1, z)) {
+		} else if(world.getblockID(x - 1, y, z) == this.blockID && world.isBlockNormalCube(x - 1, y + 1, z)) {
 			return true;
-		} else if(world.getBlockId(x + 1, y, z) == this.blockID && world.isBlockNormalCube(x + 1, y + 1, z)) {
+		} else if(world.getblockID(x + 1, y, z) == this.blockID && world.isBlockNormalCube(x + 1, y + 1, z)) {
 			return true;
-		} else if(world.getBlockId(x, y, z - 1) == this.blockID && world.isBlockNormalCube(x, y + 1, z - 1)) {
+		} else if(world.getblockID(x, y, z - 1) == this.blockID && world.isBlockNormalCube(x, y + 1, z - 1)) {
 			return true;
-		} else if(world.getBlockId(x, y, z + 1) == this.blockID && world.isBlockNormalCube(x, y + 1, z + 1)) {
+		} else if(world.getblockID(x, y, z + 1) == this.blockID && world.isBlockNormalCube(x, y + 1, z + 1)) {
 			return true;
 		} else {
-			if(world.getBlockId(x - 1, y, z) == this.blockID) {
+			if(world.getblockID(x - 1, y, z) == this.blockID) {
 				object6 = new InventoryLargeChest("Large chest", (TileEntityChest)world.getBlockTileEntity(x - 1, y, z), (IInventory)object6);
 			}
 
-			if(world.getBlockId(x + 1, y, z) == this.blockID) {
+			if(world.getblockID(x + 1, y, z) == this.blockID) {
 				object6 = new InventoryLargeChest("Large chest", (IInventory)object6, (TileEntityChest)world.getBlockTileEntity(x + 1, y, z));
 			}
 
-			if(world.getBlockId(x, y, z - 1) == this.blockID) {
+			if(world.getblockID(x, y, z - 1) == this.blockID) {
 				object6 = new InventoryLargeChest("Large chest", (TileEntityChest)world.getBlockTileEntity(x, y, z - 1), (IInventory)object6);
 			}
 
-			if(world.getBlockId(x, y, z + 1) == this.blockID) {
+			if(world.getblockID(x, y, z + 1) == this.blockID) {
 				object6 = new InventoryLargeChest("Large chest", (IInventory)object6, (TileEntityChest)world.getBlockTileEntity(x, y, z + 1));
 			}
 

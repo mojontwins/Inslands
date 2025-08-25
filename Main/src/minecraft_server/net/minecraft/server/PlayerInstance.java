@@ -141,7 +141,7 @@ class PlayerInstance {
 				i3 = this.minY;
 				i4 = this.chunkZ * 16 + this.minZ;
 				this.sendPacketToPlayersInInstance(new Packet53BlockChange(i2, i3, i4, worldServer1));
-				if(Block.isBlockContainer[worldServer1.getBlockId(i2, i3, i4)]) {
+				if(Block.isBlockContainer[worldServer1.getblockID(i2, i3, i4)]) {
 					this.updateTileEntity(worldServer1.getBlockTileEntity(i2, i3, i4));
 				}
 			} else {
@@ -168,7 +168,7 @@ class PlayerInstance {
 						i3 = this.chunkX * 16 + (this.numBlocksToUpdate >> 12 & 15);
 						i4 = this.numBlocksToUpdate & 255;
 						i5 = this.chunkZ * 16 + (this.numBlocksToUpdate >> 8 & 15);
-						if(Block.isBlockContainer[worldServer1.getBlockId(i3, i4, i5)]) {
+						if(Block.isBlockContainer[worldServer1.getblockID(i3, i4, i5)]) {
 							this.updateTileEntity(worldServer1.getBlockTileEntity(i3, i4, i5));
 						}
 					}
