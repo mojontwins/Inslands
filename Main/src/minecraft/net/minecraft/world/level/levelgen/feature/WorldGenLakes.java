@@ -81,7 +81,7 @@ public class WorldGenLakes extends WorldGenerator {
 							return false;
 						}
 
-						if(y < 4 && !material12.isSolid() && world.getBlockId(x0 + x, y0 + y, z0 + z) != this.blockIndex) {
+						if(y < 4 && !material12.isSolid() && world.getblockID(x0 + x, y0 + y, z0 + z) != this.blockIndex) {
 							return false;
 						}
 					}
@@ -106,7 +106,7 @@ public class WorldGenLakes extends WorldGenerator {
 		for(x = 0; x < 16; ++x) {
 			for(z = 0; z < 16; ++z) {
 				for(y = 4; y < 8; ++y) {
-					if(liquid[(x * 16 + z) * 8 + y] && world.getBlockId(x0 + x, y0 + y - 1, z0 + z) == Block.dirt.blockID && world.getSavedLightValue(EnumSkyBlock.Sky, x0 + x, y0 + y, z0 + z) > 0) {
+					if(liquid[(x * 16 + z) * 8 + y] && world.getblockID(x0 + x, y0 + y - 1, z0 + z) == Block.dirt.blockID && world.getSavedLightValue(EnumSkyBlock.Sky, x0 + x, y0 + y, z0 + z) > 0) {
 						world.setBlock(x0 + x, y0 + y - 1, z0 + z, Block.grass.blockID);
 					}
 				}

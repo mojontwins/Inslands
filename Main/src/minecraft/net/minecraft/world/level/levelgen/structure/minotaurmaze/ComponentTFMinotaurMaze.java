@@ -259,13 +259,13 @@ public class ComponentTFMinotaurMaze extends StructureTFComponent {
 				Block.stone.blockID, 0, this.level == FLOOR_LEVEL);
 		this.func_74872_a(var1, var3, 1, 0, 1, this.getDiameter(), 0, this.getDiameter(), Block.mazeStone2.blockID, 6,
 				Block.stone.blockID, 0, false);
-		this.maze.headBlockID = Block.mazeStone2.blockID;
+		this.maze.headblockID = Block.mazeStone2.blockID;
 		this.maze.headBlockMeta = 3;
-		this.maze.wallBlockID = Block.mazeStone2.blockID;
+		this.maze.wallblockID = Block.mazeStone2.blockID;
 		this.maze.wallBlockMeta = 1;
-		this.maze.rootBlockID = Block.mazeStone2.blockID;
+		this.maze.rootblockID = Block.mazeStone2.blockID;
 		this.maze.rootBlockMeta = 3;
-		this.maze.pillarBlockID = Block.mazeStone2.blockID;
+		this.maze.pillarblockID = Block.mazeStone2.blockID;
 		this.maze.pillarBlockMeta = 2;
 		this.maze.wallVar0ID = Block.mazeStone2.blockID;
 		this.maze.wallVar0Meta = 4;

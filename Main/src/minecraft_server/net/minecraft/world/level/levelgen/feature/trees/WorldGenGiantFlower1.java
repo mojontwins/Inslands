@@ -44,7 +44,7 @@ public class WorldGenGiantFlower1 extends WorldGenBop {
 				for (int var12 = x - var9; var12 <= x + var9 && var7; ++var12) {
 					for (var10 = z - var9; var10 <= z + var9 && var7; ++var10) {
 						if (var8 >= 0 && var8 < 256) {
-							var11 = world.getBlockId(var12, var8, var10);
+							var11 = world.getblockID(var12, var8, var10);
 
 							if (var11 != 0 && var11 != Block.leaves.blockID && var11 != Block.grass.blockID && var11 != Block.dirt.blockID && var11 != Block.wood.blockID) {
 								var7 = false;
@@ -59,7 +59,7 @@ public class WorldGenGiantFlower1 extends WorldGenBop {
 			if (!var7) {
 				return false;
 			} else {
-				var8 = world.getBlockId(x, y - 1, z);
+				var8 = world.getblockID(x, y - 1, z);
 
 				if ((var8 == Block.grass.blockID || var8 == Block.dirt.blockID) && y < 256 - var6 - 1) {
 					world.setBlock(x, y - 1, z, Block.dirt.blockID);
@@ -79,7 +79,7 @@ public class WorldGenGiantFlower1 extends WorldGenBop {
 							for (int var16 = z - var13; var16 <= z + var13; ++var16) {
 								int var17 = var16 - z;
 
-								if ((Math.abs(var15) != var13 || Math.abs(var17) != var13 || rand.nextInt(2) != 0 && var11 != 0) && !Block.opaqueCubeLookup[world.getBlockId(var14, var10, var16)]) {
+								if ((Math.abs(var15) != var13 || Math.abs(var17) != var13 || rand.nextInt(2) != 0 && var11 != 0) && !Block.opaqueCubeLookup[world.getblockID(var14, var10, var16)]) {
 									;
 								}
 							}
@@ -87,7 +87,7 @@ public class WorldGenGiantFlower1 extends WorldGenBop {
 					}
 
 					for (var10 = 0; var10 < var6; ++var10) {
-						var11 = world.getBlockId(x, y + var10, z);
+						var11 = world.getblockID(x, y + var10, z);
 
 						if (var11 == 0 || var11 == Block.leaves.blockID) {
 							world.setBlockAndMetadata(x, y + var10, z, bigFlowerId, 2);
@@ -151,20 +151,20 @@ public class WorldGenGiantFlower1 extends WorldGenBop {
 
 							for (var14 = x - var13; var14 <= x + var13; ++var14) {
 								for (var15 = z - var13; var15 <= z + var13; ++var15) {
-									if (world.getBlockId(var14, var10, var15) == Block.leaves.blockID) {
-										if (rand.nextInt(4) == 0 && world.getBlockId(var14 - 1, var10, var15) == 0) {
+									if (world.getblockID(var14, var10, var15) == Block.leaves.blockID) {
+										if (rand.nextInt(4) == 0 && world.getblockID(var14 - 1, var10, var15) == 0) {
 											this.growVines(world, var14 - 1, var10, var15, 8);
 										}
 
-										if (rand.nextInt(4) == 0 && world.getBlockId(var14 + 1, var10, var15) == 0) {
+										if (rand.nextInt(4) == 0 && world.getblockID(var14 + 1, var10, var15) == 0) {
 											this.growVines(world, var14 + 1, var10, var15, 2);
 										}
 
-										if (rand.nextInt(4) == 0 && world.getBlockId(var14, var10, var15 - 1) == 0) {
+										if (rand.nextInt(4) == 0 && world.getblockID(var14, var10, var15 - 1) == 0) {
 											this.growVines(world, var14, var10, var15 - 1, 1);
 										}
 
-										if (rand.nextInt(4) == 0 && world.getBlockId(var14, var10, var15 + 1) == 0) {
+										if (rand.nextInt(4) == 0 && world.getblockID(var14, var10, var15 + 1) == 0) {
 											this.growVines(world, var14, var10, var15 + 1, 4);
 										}
 									}

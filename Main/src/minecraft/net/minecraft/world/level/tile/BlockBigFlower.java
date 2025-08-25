@@ -64,7 +64,7 @@ public class BlockBigFlower extends Block implements IBlockWithSubtypes {
 	}
 
 	@Override
-	public int getItemBlockId() {
+	public int getItemblockID() {
 		return this.blockID - 256;
 	}
 

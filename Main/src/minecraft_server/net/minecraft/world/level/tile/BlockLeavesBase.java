@@ -16,7 +16,7 @@ public class BlockLeavesBase extends Block {
 	}
 
 	public boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side) {
-		int i6 = blockAccess.getBlockId(x, y, z);
+		int i6 = blockAccess.getblockID(x, y, z);
 		return !this.graphicsLevel && i6 == this.blockID ? false : super.shouldSideBeRendered(blockAccess, x, y, z, side);
 	}
 }

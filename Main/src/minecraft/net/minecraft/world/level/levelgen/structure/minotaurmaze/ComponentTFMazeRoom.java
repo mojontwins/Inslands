@@ -30,22 +30,22 @@ public class ComponentTFMazeRoom extends StructureTFComponent {
 		this.func_74872_a(var1, var3, 1, 0, 1, 14, 0, 14, Block.mazeStone2.blockID, 7, 0, 0, true);
 		this.func_74872_a(var1, var3, 2, 0, 2, 13, 0, 13, Block.mazeStone2.blockID, 6, 0, 0, true);
 
-		if (this.getBlockIdAtCurrentPosition(var1, 7, 1, 0, var3) == 0) {
+		if (this.getblockIDAtCurrentPosition(var1, 7, 1, 0, var3) == 0) {
 			this.fillWithBlocks(var1, var3, 6, 1, 0, 9, 4, 0, Block.fence.blockID, 0, false);
 			this.func_74878_a(var1, var3, 7, 1, 0, 8, 3, 0);
 		}
 
-		if (this.getBlockIdAtCurrentPosition(var1, 7, 1, 15, var3) == 0) {
+		if (this.getblockIDAtCurrentPosition(var1, 7, 1, 15, var3) == 0) {
 			this.fillWithBlocks(var1, var3, 6, 1, 15, 9, 4, 15, Block.fence.blockID, 0, false);
 			this.func_74878_a(var1, var3, 7, 1, 15, 8, 3, 15);
 		}
 
-		if (this.getBlockIdAtCurrentPosition(var1, 0, 1, 7, var3) == 0) {
+		if (this.getblockIDAtCurrentPosition(var1, 0, 1, 7, var3) == 0) {
 			this.fillWithBlocks(var1, var3, 0, 1, 6, 0, 4, 9, Block.fence.blockID, 0, false);
 			this.func_74878_a(var1, var3, 0, 1, 7, 0, 3, 8);
 		}
 
-		if (this.getBlockIdAtCurrentPosition(var1, 15, 1, 7, var3) == 0) {
+		if (this.getblockIDAtCurrentPosition(var1, 15, 1, 7, var3) == 0) {
 			this.fillWithBlocks(var1, var3, 15, 1, 6, 15, 4, 9, Block.fence.blockID, 0, false);
 			this.func_74878_a(var1, var3, 15, 1, 7, 15, 3, 8);
 		}

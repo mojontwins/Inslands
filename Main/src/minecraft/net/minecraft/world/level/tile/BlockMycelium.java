@@ -42,16 +42,16 @@ public class BlockMycelium extends Block {
 			return;
 		}
 
-		if (par1World.getBlockLightValue(par2, par3 + 1, par4) < 4 && Block.lightOpacity[par1World.getBlockId(par2, par3 + 1, par4)] > 2) {
+		if (par1World.getBlockLightValue(par2, par3 + 1, par4) < 4 && Block.lightOpacity[par1World.getblockID(par2, par3 + 1, par4)] > 2) {
 			par1World.setBlockWithNotify(par2, par3, par4, Block.dirt.blockID);
 		} else if (par1World.getBlockLightValue(par2, par3 + 1, par4) >= 9) {
 			for (int i = 0; i < 4; i++) {
 				int j = (par2 + par5Random.nextInt(3)) - 1;
 				int k = (par3 + par5Random.nextInt(5)) - 3;
 				int l = (par4 + par5Random.nextInt(3)) - 1;
-				int i1 = par1World.getBlockId(j, k + 1, l);
+				int i1 = par1World.getblockID(j, k + 1, l);
 
-				if (par1World.getBlockId(j, k, l) == Block.dirt.blockID && par1World.getBlockLightValue(j, k + 1, l) >= 4 && Block.lightOpacity[i1] <= 2) {
+				if (par1World.getblockID(j, k, l) == Block.dirt.blockID && par1World.getBlockLightValue(j, k + 1, l) >= 4 && Block.lightOpacity[i1] <= 2) {
 					par1World.setBlockWithNotify(j, k, l, blockID);
 				}
 			}

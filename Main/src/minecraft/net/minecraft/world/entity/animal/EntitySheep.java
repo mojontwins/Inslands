@@ -142,11 +142,11 @@ public class EntitySheep extends EntityAnimal {
 			int i1 = MathHelper.floor_double(this.posX);
 			int i2 = MathHelper.floor_double(this.posY);
 			int i3 = MathHelper.floor_double(this.posZ);
-			if(this.worldObj.getBlockId(i1, i2, i3) == Block.tallGrass.blockID) {
+			if(this.worldObj.getblockID(i1, i2, i3) == Block.tallGrass.blockID) {
 				this.worldObj.playAuxSFX(2001, i1, i2, i3, Block.tallGrass.blockID + 4096);
 				this.worldObj.setBlockWithNotify(i1, i2, i3, 0);
 				this.regrowWool();
-			} else if(this.worldObj.getBlockId(i1, i2 - 1, i3) == Block.grass.blockID) {
+			} else if(this.worldObj.getblockID(i1, i2 - 1, i3) == Block.grass.blockID) {
 				this.worldObj.playAuxSFX(2001, i1, i2 - 1, i3, Block.grass.blockID);
 				this.worldObj.setBlockWithNotify(i1, i2 - 1, i3, Block.dirt.blockID);
 				this.regrowWool();

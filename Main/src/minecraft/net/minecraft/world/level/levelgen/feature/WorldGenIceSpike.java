@@ -20,11 +20,11 @@ public class WorldGenIceSpike {
 	}
 	
 	public boolean generate(World world, Random rand, int x, int y, int z) {
-		while ((world.isAirBlock(x, y, z) || world.getBlockId(x, y, z) == Block.snow.blockID) && y > 2) {
+		while ((world.isAirBlock(x, y, z) || world.getblockID(x, y, z) == Block.snow.blockID) && y > 2) {
 			--y;
 		}
 
-		if (world.getBlockId(x, y, z) != Block.blockSnow.blockID && world.getBlockId(x, y, z) != Block.grass.blockID && world.getBlockId(x, y, z) != Block.dirt.blockID) {
+		if (world.getblockID(x, y, z) != Block.blockSnow.blockID && world.getblockID(x, y, z) != Block.grass.blockID && world.getblockID(x, y, z) != Block.dirt.blockID) {
 			return false;
 		} else {
 			y += rand.nextInt(6);
@@ -53,7 +53,7 @@ public class WorldGenIceSpike {
 								&& (dX != -radius && dX != radius && dZ != -radius && dZ != radius
 										|| rand.nextFloat() <= 0.75F)) {
 							
-							int blockID = world.getBlockId(x + dX, y + dY, z + dZ);
+							int blockID = world.getblockID(x + dX, y + dY, z + dZ);
 							Block block = Block.blocksList[blockID];							
 
 							if (block == null || block.blockMaterial == Material.air || blockID == Block.dirt.blockID || blockID == Block.blockSnow.blockID
@@ -62,7 +62,7 @@ public class WorldGenIceSpike {
 							}
 
 							if (dY != 0 && radius > 1) {
-								blockID = world.getBlockId(x + dX, y - dY, z + dZ);
+								blockID = world.getblockID(x + dX, y - dY, z + dZ);
 								block = Block.blocksList[blockID];
 
 								if (block == null || block.blockMaterial == Material.air || blockID == Block.dirt.blockID || blockID == Block.blockSnow.blockID
@@ -96,7 +96,7 @@ public class WorldGenIceSpike {
 
 					while (true) {
 						if (yy > 50) {
-							int blockID = world.getBlockId(x + xx, yy, z + zz);
+							int blockID = world.getblockID(x + xx, yy, z + zz);
 							Block block = Block.blocksList[blockID];
 
 							if (

@@ -254,7 +254,7 @@ public class GameRenderer {
 			f3 = (float)((double)f3 + 1.0D);
 			GL11.glTranslatef(0.0F, 0.3F, 0.0F);
 			if(!this.mc.gameSettings.field_22273_E) {
-				int i10 = this.mc.theWorld.getBlockId(MathHelper.floor_double(entityLiving2.posX), MathHelper.floor_double(entityLiving2.posY), MathHelper.floor_double(entityLiving2.posZ));
+				int i10 = this.mc.theWorld.getblockID(MathHelper.floor_double(entityLiving2.posX), MathHelper.floor_double(entityLiving2.posY), MathHelper.floor_double(entityLiving2.posZ));
 				if(i10 == Block.blockBed.blockID) {
 					int i11 = this.mc.theWorld.getBlockMetadata(MathHelper.floor_double(entityLiving2.posX), MathHelper.floor_double(entityLiving2.posY), MathHelper.floor_double(entityLiving2.posZ));
 					int i12 = i11 & 3;
@@ -754,7 +754,7 @@ public class GameRenderer {
 				if(particleType != Weather.RAIN) continue;
 				
 				int i18 = world3.findTopSolidBlockUsingBlockMaterial(i16, i17);
-				int i19 = world3.getBlockId(i16, i18 - 1, i17);
+				int i19 = world3.getblockID(i16, i18 - 1, i17);
 				if(i18 <= i5 + b7 && i18 >= i5 - b7 /*&& world3.getWorldChunkManager().getBiomeGenAt(i16, i17).canSpawnLightningBolt()*/) {
 					float f20 = this.random.nextFloat();
 					float f21 = this.random.nextFloat();

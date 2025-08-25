@@ -30,7 +30,7 @@ public class BlockGrass extends Block implements IBlockWithSubtypes {
 				case 0: return 2;
 				case 1: return LevelThemeGlobalSettings.colorizedPlants ? 253 : 0;
 				default: 
-					Block block = Block.blocksList[blockAccess.getBlockId(x, y + 1, z)];
+					Block block = Block.blocksList[blockAccess.getblockID(x, y + 1, z)];
 					
 					if(block != null && (
 							(block.blockMaterial == Material.snow || block.blockMaterial == Material.builtSnow) ||
@@ -48,7 +48,7 @@ public class BlockGrass extends Block implements IBlockWithSubtypes {
 			case 0: return 2;
 			case 1: return 0;
 			default: 
-				Block block = Block.blocksList[blockAccess.getBlockId(x, y + 1, z)];
+				Block block = Block.blocksList[blockAccess.getblockID(x, y + 1, z)];
 				
 				if(block == null) return 3;
 				
@@ -99,10 +99,10 @@ public class BlockGrass extends Block implements IBlockWithSubtypes {
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		if(!world.isRemote) {
 			int meta = world.getBlockMetadata(x, y, z);
-			int blockIDAbove = world.getBlockId(x, y + 1, z);
+			int blockIDAbove = world.getblockID(x, y + 1, z);
 			
 			if(meta == 1) {
-				int blockBelow = world.getBlockId(x, y - 1, z);
+				int blockBelow = world.getblockID(x, y - 1, z);
 				if(blockBelow == Block.dirt.blockID) {
 					world.setBlock(x, y - 1, z, Block.grass.blockID);
 				} else if (blockBelow == 0) {
@@ -125,8 +125,8 @@ public class BlockGrass extends Block implements IBlockWithSubtypes {
 				int xx = x + rand.nextInt(3) - 1;
 				int yy = y + rand.nextInt(5) - 3;
 				int zz = z + rand.nextInt(3) - 1;
-				int blockID = world.getBlockId(xx, yy + 1, zz);
-				if(world.getBlockId(xx, yy, zz) == Block.dirt.blockID && world.getBlockLightValue(xx, yy + 1, zz) >= 4 && Block.lightOpacity[blockID] <= 2) {
+				int blockID = world.getblockID(xx, yy + 1, zz);
+				if(world.getblockID(xx, yy, zz) == Block.dirt.blockID && world.getBlockLightValue(xx, yy + 1, zz) >= 4 && Block.lightOpacity[blockID] <= 2) {
 					world.setBlockAndMetadataWithNotify(xx, yy, zz, Block.grass.blockID, meta);
 				}
 			}
@@ -153,7 +153,7 @@ public class BlockGrass extends Block implements IBlockWithSubtypes {
 	}
 
 	@Override
-	public int getItemBlockId() {
+	public int getItemblockID() {
 		return this.blockID - 256;
 	}
 

@@ -13,7 +13,7 @@ public abstract class WorldGenBop extends WorldGenerator {
 		while (true) {
 			--y;
 
-			if (world.getBlockId(x, y, z) != 0 || var6 <= 0) {
+			if (world.getblockID(x, y, z) != 0 || var6 <= 0) {
 				return;
 			}
 

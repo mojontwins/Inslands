@@ -120,7 +120,7 @@ public class ComponentMineshaftMesaCross extends StructureComponent {
 			for(int i4 = this.boundingBox.minX; i4 <= this.boundingBox.maxX; ++i4) {
 				for(int i5 = this.boundingBox.minZ; i5 <= this.boundingBox.maxZ; ++i5) {
 					this.placeBlockAtCurrentPosition(world1, Block.planks.blockID, 0, i4, this.boundingBox.maxY, i5, structureBoundingBox3);
-					int i6 = this.getBlockIdAtCurrentPosition(world1, i4, this.boundingBox.minY - 1, i5, structureBoundingBox3);
+					int i6 = this.getblockIDAtCurrentPosition(world1, i4, this.boundingBox.minY - 1, i5, structureBoundingBox3);
 					if(i6 == 0) {
 						this.placeBlockAtCurrentPosition(world1, Block.stairSingle.blockID, 8|2, i4, this.boundingBox.minY - 1, i5, structureBoundingBox3); // Was: planks, 0
 					}
@@ -138,11 +138,11 @@ public class ComponentMineshaftMesaCross extends StructureComponent {
 
 	private void throwChainUp(World world1, int x, int z, StructureBoundingBox structureBoundingBox3) {
 		if(
-				this.getBlockIdAtCurrentPositionNoVertClip(world1, x, this.boundingBox.maxY + 1, z, structureBoundingBox3) == 0 && 
+				this.getblockIDAtCurrentPositionNoVertClip(world1, x, this.boundingBox.maxY + 1, z, structureBoundingBox3) == 0 && 
 				!this.canBlockSeeTheSky(world1, x, this.boundingBox.maxY + 1, z, structureBoundingBox3)
 		) {
 			int y = this.boundingBox.maxY + 1;
-			while(this.getBlockIdAtCurrentPositionNoVertClip(world1, x, y, z, structureBoundingBox3) == 0) {
+			while(this.getblockIDAtCurrentPositionNoVertClip(world1, x, y, z, structureBoundingBox3) == 0) {
 				this.placeBlockAtCurrentPositionNoVertClip(world1, Block.chain.blockID, 0, x, y, z, structureBoundingBox3);
 				y ++;
 			}

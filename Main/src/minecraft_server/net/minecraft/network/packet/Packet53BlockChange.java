@@ -23,7 +23,7 @@ public class Packet53BlockChange extends Packet {
 		this.xPosition = i1;
 		this.yPosition = i2;
 		this.zPosition = i3;
-		this.type = world4.getBlockId(i1, i2, i3);
+		this.type = world4.getblockID(i1, i2, i3);
 		this.metadata = world4.getBlockMetadata(i1, i2, i3);
 	}
 

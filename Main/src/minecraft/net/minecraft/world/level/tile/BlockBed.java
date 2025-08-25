@@ -30,7 +30,7 @@ public class BlockBed extends Block {
 				int i7 = getDirectionFromMetadata(i6);
 				i2 += headBlockToFootBlockMap[i7][0];
 				i4 += headBlockToFootBlockMap[i7][1];
-				if(world1.getBlockId(i2, i3, i4) != this.blockID) {
+				if(world1.getblockID(i2, i3, i4) != this.blockID) {
 					return true;
 				}
 
@@ -45,7 +45,7 @@ public class BlockBed extends Block {
 				int i13 = getDirectionFromMetadata(i6);
 				i2 += headBlockToFootBlockMap[i13][0];
 				i4 += headBlockToFootBlockMap[i13][1];
-				if(world1.getBlockId(i2, i3, i4) == this.blockID) {
+				if(world1.getblockID(i2, i3, i4) == this.blockID) {
 					world1.setBlockWithNotify(i2, i3, i4, 0);
 					d16 = (d16 + (double)i2 + 0.5D) / 2.0D;
 					d17 = (d17 + (double)i3 + 0.5D) / 2.0D;
@@ -122,10 +122,10 @@ public class BlockBed extends Block {
 		int i6 = world1.getBlockMetadata(i2, i3, i4);
 		int i7 = getDirectionFromMetadata(i6);
 		if(isBlockFootOfBed(i6)) {
-			if(world1.getBlockId(i2 - headBlockToFootBlockMap[i7][0], i3, i4 - headBlockToFootBlockMap[i7][1]) != this.blockID) {
+			if(world1.getblockID(i2 - headBlockToFootBlockMap[i7][0], i3, i4 - headBlockToFootBlockMap[i7][1]) != this.blockID) {
 				world1.setBlockWithNotify(i2, i3, i4, 0);
 			}
-		} else if(world1.getBlockId(i2 + headBlockToFootBlockMap[i7][0], i3, i4 + headBlockToFootBlockMap[i7][1]) != this.blockID) {
+		} else if(world1.getblockID(i2 + headBlockToFootBlockMap[i7][0], i3, i4 + headBlockToFootBlockMap[i7][1]) != this.blockID) {
 			world1.setBlockWithNotify(i2, i3, i4, 0);
 			if(!world1.isRemote) {
 				this.dropBlockAsItem(world1, i2, i3, i4, i6);

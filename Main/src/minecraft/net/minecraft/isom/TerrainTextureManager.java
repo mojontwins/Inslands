@@ -98,11 +98,11 @@ public class TerrainTextureManager {
 						for(int i14 = 0; i14 < 128; ++i14) {
 							int i15 = i11 - i10 - i14 + 160 - 16;
 							if(i15 < this.field_1183_f[i12] || i15 < this.field_1183_f[i12 + 1]) {
-								Block block16 = Block.blocksList[world2.getBlockId(i9, i14, i8)];
+								Block block16 = Block.blocksList[world2.getblockID(i9, i14, i8)];
 								if(block16 == null) {
 									z13 = false;
 								} else if(block16.blockMaterial == Material.water) {
-									int i24 = world2.getBlockId(i9, i14 + 1, i8);
+									int i24 = world2.getblockID(i9, i14 + 1, i8);
 									if(i24 == 0 || Block.blocksList[i24].blockMaterial != Material.water) {
 										float f25 = (float)i14 / 127.0F * 0.6F + 0.4F;
 										float f26 = world2.getLightBrightness(i9, i14 + 1, i8) * f25;

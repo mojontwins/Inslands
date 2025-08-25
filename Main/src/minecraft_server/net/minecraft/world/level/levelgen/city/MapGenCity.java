@@ -1276,7 +1276,7 @@ public class MapGenCity extends MapGenBase {
 			if(rand.nextBoolean()) for (i = 0; i < 8; i ++) {
 				x = rand.nextInt(16);
 				z = rand.nextInt(16);
-				if (world.getBlockId(x0 + x, y - 1, z0 + z) == 0 && world.getBlockId(x0 + x, y - 2, z0 + z) != 0) {
+				if (world.getblockID(x0 + x, y - 1, z0 + z) == 0 && world.getblockID(x0 + x, y - 2, z0 + z) != 0) {
 					world.setBlock(x0 + x, y - 1, z0 + z, Block.woodenSpikes.blockID);
 				}
 			}

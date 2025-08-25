@@ -8,7 +8,7 @@ import net.minecraft.world.level.tile.BlockFlower;
 import net.minecraft.world.level.tile.BlockMushroom;
 
 public class WorldGenFlowers extends WorldGenerator {
-	private int plantBlockId;
+	private int plantblockID;
 	private int plantMeta;
 	private Block plantBlock;
 
@@ -17,7 +17,7 @@ public class WorldGenFlowers extends WorldGenerator {
 	}
 	
 	public WorldGenFlowers(int blockID, int meta) {
-		this.plantBlockId = blockID;
+		this.plantblockID = blockID;
 		this.plantBlock = Block.blocksList[blockID];
 		this.plantMeta = meta;
 	}
@@ -36,7 +36,7 @@ public class WorldGenFlowers extends WorldGenerator {
 					}
 				}
 				
-				world.setBlockAndMetadata(i7, i8, i9, this.plantBlockId, this.plantMeta);
+				world.setBlockAndMetadata(i7, i8, i9, this.plantblockID, this.plantMeta);
 			}
 		}
 

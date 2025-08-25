@@ -243,7 +243,7 @@ public abstract class BlockFluid extends Block {
 	}
 	
 	private void checkForHarden(World world, int x, int y, int z) {
-		if(world.getBlockId(x, y, z) == this.blockID) {
+		if(world.getblockID(x, y, z) == this.blockID) {
 			if(this.blockMaterial == Material.lava) {
 				boolean doHarden = false;
 				if(doHarden || Material.woa(world.getBlockMaterial(x, y, z - 1))) {

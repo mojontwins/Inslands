@@ -25,7 +25,7 @@ public class EntityLightningBolt extends EntityWeatherEffect {
 			int i8 = MathHelper.floor_double(d2);
 			int i9 = MathHelper.floor_double(d4);
 			int i10 = MathHelper.floor_double(d6);
-			if(world1.getBlockId(i8, i9, i10) == 0 && Block.fire.canPlaceBlockAt(world1, i8, i9, i10)) {
+			if(world1.getblockID(i8, i9, i10) == 0 && Block.fire.canPlaceBlockAt(world1, i8, i9, i10)) {
 				world1.setBlockWithNotify(i8, i9, i10, Block.fire.blockID);
 			}
 
@@ -33,7 +33,7 @@ public class EntityLightningBolt extends EntityWeatherEffect {
 				i9 = MathHelper.floor_double(d2) + this.rand.nextInt(3) - 1;
 				i10 = MathHelper.floor_double(d4) + this.rand.nextInt(3) - 1;
 				int i11 = MathHelper.floor_double(d6) + this.rand.nextInt(3) - 1;
-				if(world1.getBlockId(i9, i10, i11) == 0 && Block.fire.canPlaceBlockAt(world1, i9, i10, i11)) {
+				if(world1.getblockID(i9, i10, i11) == 0 && Block.fire.canPlaceBlockAt(world1, i9, i10, i11)) {
 					world1.setBlockWithNotify(i9, i10, i11, Block.fire.blockID);
 				}
 			}
@@ -60,7 +60,7 @@ public class EntityLightningBolt extends EntityWeatherEffect {
 					int i1 = MathHelper.floor_double(this.posX);
 					int i2 = MathHelper.floor_double(this.posY);
 					int i3 = MathHelper.floor_double(this.posZ);
-					if(this.worldObj.getBlockId(i1, i2, i3) == 0 && Block.fire.canPlaceBlockAt(this.worldObj, i1, i2, i3)) {
+					if(this.worldObj.getblockID(i1, i2, i3) == 0 && Block.fire.canPlaceBlockAt(this.worldObj, i1, i2, i3)) {
 						this.worldObj.setBlockWithNotify(i1, i2, i3, Block.fire.blockID);
 					}
 				}

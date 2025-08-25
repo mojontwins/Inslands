@@ -17,7 +17,7 @@ public class EntityPigZombieVolcanoes extends EntityPigZombie {
 		int z = MathHelper.floor_double(this.posZ);
 		
 		boolean s = super.getCanSpawnHere();
-		boolean b = this.worldObj.getBlockId(x, y - 1, z) == Block.bloodStone.blockID;
+		boolean b = this.worldObj.getblockID(x, y - 1, z) == Block.bloodStone.blockID;
 		
 		return b && s;
 	}

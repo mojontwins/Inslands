@@ -27,8 +27,8 @@ public class TFGenMangroveTree extends TFGenerator {
 		this.treeMeta = 0;
 		this.leafBlock = (byte)Block.leaves.blockID;
 		this.leafMeta = 2;
-		int blockUnder = world.getBlockId(this.x, this.y - 1, this.z);
-		int blockOn = world.getBlockId(this.x, this.y, this.z);
+		int blockUnder = world.getblockID(this.x, this.y - 1, this.z);
+		int blockOn = world.getblockID(this.x, this.y, this.z);
 		if(
 			(blockUnder == Block.waterStill.blockID || blockOn == Block.waterStill.blockID || 
 			blockUnder == Block.waterMoving.blockID || blockOn == Block.waterMoving.blockID) 
@@ -81,7 +81,7 @@ public class TFGenMangroveTree extends TFGenerator {
 		int y = dest[1];
 		int z = dest[2];
 		while(y > 8) {
-			Block block = Block.blocksList[this.worldObj.getBlockId(x, y - 1, z)];
+			Block block = Block.blocksList[this.worldObj.getblockID(x, y - 1, z)];
 			if(block != null && block.blockMaterial != Material.water) break;
 			y --;
 			this.putBlockAndMetadata(x, y, z, this.treeBlock, this.treeMeta, true);

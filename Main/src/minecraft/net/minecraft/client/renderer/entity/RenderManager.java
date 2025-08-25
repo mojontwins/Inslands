@@ -301,7 +301,7 @@ public class RenderManager {
 		this.livingPlayer = entityLiving4;
 		this.fontRenderer = fontRenderer3;
 		if(entityLiving4.isPlayerSleeping()) {
-			int i7 = world1.getBlockId(MathHelper.floor_double(entityLiving4.posX), MathHelper.floor_double(entityLiving4.posY), MathHelper.floor_double(entityLiving4.posZ));
+			int i7 = world1.getblockID(MathHelper.floor_double(entityLiving4.posX), MathHelper.floor_double(entityLiving4.posY), MathHelper.floor_double(entityLiving4.posZ));
 			if(i7 == Block.blockBed.blockID) {
 				int i8 = world1.getBlockMetadata(MathHelper.floor_double(entityLiving4.posX), MathHelper.floor_double(entityLiving4.posY), MathHelper.floor_double(entityLiving4.posZ));
 				int i9 = i8 & 3;

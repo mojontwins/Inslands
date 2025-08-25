@@ -17,18 +17,18 @@ abstract class ComponentStronghold extends StructureComponent {
 		
 		// Only generate a door on NON air 100%
 		if(
-				this.getBlockIdAtCurrentPosition(world1, i5, i6 - 1, i7, structureBoundingBox3) == 0 ||
-				this.getBlockIdAtCurrentPosition(world1, i5 + 1, i6 - 1, i7, structureBoundingBox3) == 0 ||
-				this.getBlockIdAtCurrentPosition(world1, i5 + 2, i6 - 1, i7, structureBoundingBox3) == 0
+				this.getblockIDAtCurrentPosition(world1, i5, i6 - 1, i7, structureBoundingBox3) == 0 ||
+				this.getblockIDAtCurrentPosition(world1, i5 + 1, i6 - 1, i7, structureBoundingBox3) == 0 ||
+				this.getblockIDAtCurrentPosition(world1, i5 + 2, i6 - 1, i7, structureBoundingBox3) == 0
 		) {
 			return;
 		}
 		
 		// Only generate if at least 1 non air above
 		if(
-				this.getBlockIdAtCurrentPosition(world1, i5, i6 + 3, i7, structureBoundingBox3) == 0 &&
-				this.getBlockIdAtCurrentPosition(world1, i5 + 1, i6 + 3, i7, structureBoundingBox3) == 0 &&
-				this.getBlockIdAtCurrentPosition(world1, i5 + 2, i6 + 3, i7, structureBoundingBox3) == 0
+				this.getblockIDAtCurrentPosition(world1, i5, i6 + 3, i7, structureBoundingBox3) == 0 &&
+				this.getblockIDAtCurrentPosition(world1, i5 + 1, i6 + 3, i7, structureBoundingBox3) == 0 &&
+				this.getblockIDAtCurrentPosition(world1, i5 + 2, i6 + 3, i7, structureBoundingBox3) == 0
 		) {
 			return;
 		}

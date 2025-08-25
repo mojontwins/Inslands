@@ -50,7 +50,7 @@ public class Packet52MultiBlockChange extends Packet {
 					outputStream.writeShort(encodedData[i]);
 					
 					// Now encode IIIIIIIIMMMMMMMM (ID, meta)
-					outputStream.writeShort((short)((chunk.getBlockID(x, y, z) & 255) << 8 | chunk.getBlockMetadata(x, y, z) & 255));
+					outputStream.writeShort((short)((chunk.getblockID(x, y, z) & 255) << 8 | chunk.getBlockMetadata(x, y, z) & 255));
 				}
 
 				this.encodedBlocks = byteArrayOutputStream.toByteArray();

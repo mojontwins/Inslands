@@ -7,11 +7,11 @@ import net.minecraft.world.level.World;
 import net.minecraft.world.level.tile.Block;
 
 public class WorldGenMinable extends WorldGenerator {
-	private int minableBlockId;
+	private int minableblockID;
 	private int numberOfBlocks;
 
 	public WorldGenMinable(int i1, int i2) {
-		this.minableBlockId = i1;
+		this.minableblockID = i1;
 		this.numberOfBlocks = i2;
 	}
 
@@ -46,8 +46,8 @@ public class WorldGenMinable extends WorldGenerator {
 						if(d39 * d39 + d42 * d42 < 1.0D) {
 							for(int i44 = i34; i44 <= i37; ++i44) {
 								double d45 = ((double)i44 + 0.5D - d24) / (d28 / 2.0D);
-								if(d39 * d39 + d42 * d42 + d45 * d45 < 1.0D && world1.getBlockId(i38, i41, i44) == Block.stone.blockID) {
-									world1.setBlock(i38, i41, i44, this.minableBlockId);
+								if(d39 * d39 + d42 * d42 + d45 * d45 < 1.0D && world1.getblockID(i38, i41, i44) == Block.stone.blockID) {
+									world1.setBlock(i38, i41, i44, this.minableblockID);
 								}
 							}
 						}

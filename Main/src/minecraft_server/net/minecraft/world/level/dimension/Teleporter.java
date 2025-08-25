@@ -40,8 +40,8 @@ public class Teleporter {
 				double posZi = (double)zI + 0.5D - entity.posZ;
 
 				for(int yI = 127; yI >= 0; --yI) {
-					if(world.getBlockId(xI, yI, zI) == Block.portal.blockID) {
-						while(world.getBlockId(xI, yI - 1, zI) == Block.portal.blockID) {
+					if(world.getblockID(xI, yI, zI) == Block.portal.blockID) {
+						while(world.getblockID(xI, yI - 1, zI) == Block.portal.blockID) {
 							--yI;
 						}
 
@@ -62,19 +62,19 @@ public class Teleporter {
 			double xPos = (double)x + 0.5D;
 			double yPos = (double)y + 0.5D;
 			double zPos = (double)z + 0.5D;
-			if(world.getBlockId(x - 1, y, z) == Block.portal.blockID) {
+			if(world.getblockID(x - 1, y, z) == Block.portal.blockID) {
 				xPos -= 0.5D;
 			}
 
-			if(world.getBlockId(x + 1, y, z) == Block.portal.blockID) {
+			if(world.getblockID(x + 1, y, z) == Block.portal.blockID) {
 				xPos += 0.5D;
 			}
 
-			if(world.getBlockId(x, y, z - 1) == Block.portal.blockID) {
+			if(world.getblockID(x, y, z - 1) == Block.portal.blockID) {
 				zPos -= 0.5D;
 			}
 
-			if(world.getBlockId(x, y, z + 1) == Block.portal.blockID) {
+			if(world.getblockID(x, y, z + 1) == Block.portal.blockID) {
 				zPos += 0.5D;
 			}
 
@@ -302,7 +302,7 @@ public class Teleporter {
 					i23 = i30 + (i21 - 1) * i31;
 					i24 = i16 + i22;
 					i25 = zI + (i21 - 1) * i19;
-					world.notifyBlocksOfNeighborChange(i23, i24, i25, world.getBlockId(i23, i24, i25));
+					world.notifyBlocksOfNeighborChange(i23, i24, i25, world.getblockID(i23, i24, i25));
 				}
 			}
 		}

@@ -13,7 +13,7 @@ public class ItemRedstone extends Item {
 	}
 
 	public boolean onItemUse(ItemStack itemStack1, EntityPlayer entityPlayer2, World world3, int i4, int i5, int i6, int i7) {
-		if(world3.getBlockId(i4, i5, i6) != Block.snow.blockID) {
+		if(world3.getblockID(i4, i5, i6) != Block.snow.blockID) {
 			if(i7 == 0) {
 				--i5;
 			}

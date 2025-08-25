@@ -15,11 +15,11 @@ public class WorldGenBigPine extends WorldGenerator {
 	private int height;
 	
 	public void setBlockIfEmpty (World world, int x, int y, int z, int blockID) {
-		if (0 == world.getBlockId(x, y, z)) world.setBlock(x, y, z, blockID);
+		if (0 == world.getblockID(x, y, z)) world.setBlock(x, y, z, blockID);
 	}
 	
 	public void setBlockIfEmpty (World world, int x, int y, int z, int blockID, int meta) {
-		if (0 == world.getBlockId(x, y, z)) world.setBlockAndMetadata(x, y, z, blockID, meta);
+		if (0 == world.getblockID(x, y, z)) world.setBlockAndMetadata(x, y, z, blockID, meta);
 	}
 	
 	public void drawLeavesPlatform(World world, Random rand, int x0, int y, int z0, int size) {
@@ -36,7 +36,7 @@ public class WorldGenBigPine extends WorldGenerator {
 		
 		for(int z = -(size + 3) + 1; z < size + 3; z ++) {
 			for (int x = -(size + 3) + 1; x < size + 3; x ++) {
-				if(rand.nextInt(64) == 0 && world.getBlockId(x + x0, y, z + z0) == leavesId) {
+				if(rand.nextInt(64) == 0 && world.getblockID(x + x0, y, z + z0) == leavesId) {
 					world.setBlock(x + x0, y, z + z0, Block.wood.blockID);
 				}
 			}
@@ -55,7 +55,7 @@ public class WorldGenBigPine extends WorldGenerator {
 			for(int yy = 0; yy < this.height; yy++) {
 				for(int xx = 0; xx < 2; xx++) {
 					for(int zz = 0; zz < 2; zz++) {
-						blockID = world.getBlockId(x + zz, y + yy, z + xx);
+						blockID = world.getblockID(x + zz, y + yy, z + xx);
 						if(blockID != 0 && blockID != leavesId) {
 							this.height = yy - 1;
 							break limitHeight;
@@ -68,16 +68,16 @@ public class WorldGenBigPine extends WorldGenerator {
 
 		// Check soil 
 		
-		Block soilBlock = Block.blocksList[world.getBlockId(x, y - 1, z)];
+		Block soilBlock = Block.blocksList[world.getblockID(x, y - 1, z)];
 		if (!(soilBlock != null && soilBlock.canGrowPlants())) return false;
 
-		soilBlock = Block.blocksList[world.getBlockId(x, y - 1, z + 1)];
+		soilBlock = Block.blocksList[world.getblockID(x, y - 1, z + 1)];
 		if (!(soilBlock != null && soilBlock.canGrowPlants())) return false;
 
-		soilBlock = Block.blocksList[world.getBlockId(x + 1, y - 1, z)];
+		soilBlock = Block.blocksList[world.getblockID(x + 1, y - 1, z)];
 		if (!(soilBlock != null && soilBlock.canGrowPlants())) return false;
 		
-		soilBlock = Block.blocksList[world.getBlockId(x + 1, y - 1, z + 1)];
+		soilBlock = Block.blocksList[world.getblockID(x + 1, y - 1, z + 1)];
 		if (!(soilBlock != null && soilBlock.canGrowPlants())) return false;
 
 		// Canopy half vertical size
@@ -108,10 +108,10 @@ public class WorldGenBigPine extends WorldGenerator {
 		}
 		
 		for(int i = 1; i < branchesSize; i ++) {
-			if(world.getBlockId(x - i, branchesY, z + 1 + i) == leavesId) world.setBlock(x - i, branchesY, z + 1 + i, trunkId); 
-			if(world.getBlockId(x + 1 + i, branchesY, z + 1 + i) == leavesId) world.setBlock(x + 1 + i, branchesY, z + 1 + i, trunkId); 
-			if(world.getBlockId(x - i, branchesY, z - i) == leavesId) world.setBlock(x - i, branchesY, z - i, trunkId); 
-			if(world.getBlockId(x + 1 + i, branchesY, z - i) == leavesId) world.setBlock(x + 1 + i, branchesY, z - i, trunkId); 
+			if(world.getblockID(x - i, branchesY, z + 1 + i) == leavesId) world.setBlock(x - i, branchesY, z + 1 + i, trunkId); 
+			if(world.getblockID(x + 1 + i, branchesY, z + 1 + i) == leavesId) world.setBlock(x + 1 + i, branchesY, z + 1 + i, trunkId); 
+			if(world.getblockID(x - i, branchesY, z - i) == leavesId) world.setBlock(x - i, branchesY, z - i, trunkId); 
+			if(world.getblockID(x + 1 + i, branchesY, z - i) == leavesId) world.setBlock(x + 1 + i, branchesY, z - i, trunkId); 
 		}
 		
 

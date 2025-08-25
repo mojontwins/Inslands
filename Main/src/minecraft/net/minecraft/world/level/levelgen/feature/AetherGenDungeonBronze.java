@@ -13,24 +13,24 @@ import net.minecraft.world.level.tile.entity.TileEntityChest;
 public class AetherGenDungeonBronze extends AetherGenBuildings {
 	private int corridorMeta1;
 	private int corridorMeta2;
-	private int lockedBlockID1;
-	private int lockedBlockID2;
-	private int wallBlockID1;
-	private int wallBlockID2;
-	private int corridorBlockID1;
-	private int corridorBlockID2;
+	private int lockedblockID1;
+	private int lockedblockID2;
+	private int wallblockID1;
+	private int wallblockID2;
+	private int corridorblockID1;
+	private int corridorblockID2;
 	private int numRooms;
 	private int n;
 	private boolean finished;
 
 	public AetherGenDungeonBronze(int i, int j, int k, int l, int m, int m1, int o, int o1, int p, boolean flag) {
-		this.lockedBlockID1 = i;
-		this.lockedBlockID2 = j;
-		this.wallBlockID1 = k;
-		this.wallBlockID2 = l;
-		this.corridorBlockID1 = m;
+		this.lockedblockID1 = i;
+		this.lockedblockID2 = j;
+		this.wallblockID1 = k;
+		this.wallblockID2 = l;
+		this.corridorblockID1 = m;
 		this.corridorMeta1 = m1;
-		this.corridorBlockID2 = o;
+		this.corridorblockID2 = o;
 		this.corridorMeta2 = o1;
 		this.numRooms = p;
 		this.finished = false;
@@ -41,7 +41,7 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
 		this.replaceSolid = true;
 		this.n = 0;
 		if(this.isBoxSolid(world, i, j, k, 16, 12, 16) && this.isBoxSolid(world, i + 20, j, k + 2, 12, 12, 12)) {
-			this.setBlocks(this.lockedBlockID1, this.lockedBlockID2, 20);
+			this.setBlocks(this.lockedblockID1, this.lockedblockID2, 20);
 			this.addHollowBox(world, random, i, j, k, 16, 12, 16);
 			this.addHollowBox(world, random, i + 6, j - 2, k + 6, 4, 4, 4);
 			
@@ -75,9 +75,9 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
 				return true;
 			} else {
 				
-				this.setBlocks(this.wallBlockID1, this.wallBlockID2, 20);
+				this.setBlocks(this.wallblockID1, this.wallblockID2, 20);
 				this.addHollowBox(world, random, x, j, z, 12, 12, 12);
-				this.setBlocks(this.corridorBlockID2, this.corridorBlockID1, 5);
+				this.setBlocks(this.corridorblockID2, this.corridorblockID1, 5);
 				this.setMetadata(this.corridorMeta2, this.corridorMeta1);
 				this.addSquareTube(world, random, x - 5, j, z + 3, 6, 6, 6, 0);
 
@@ -136,7 +136,7 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
 				return false;
 			} else {
 				this.replaceAir = false;
-				this.setBlocks(this.wallBlockID1, this.wallBlockID2, 20);
+				this.setBlocks(this.wallblockID1, this.wallblockID2, 20);
 				this.setMetadata(0, 0);
 				this.addHollowBox(world, random, x, j, z, 12, 8, 12);
 				this.replaceAir = true;
@@ -147,7 +147,7 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
 				for(type = x; type < x + 12; ++type) {
 					for(p = y; p < y + 8; ++p) {
 						for(q = z; q < z + 12; ++q) {
-							if(world.getBlockId(type, p, q) == this.wallBlockID1 && random.nextInt(100) == 0) {
+							if(world.getblockID(type, p, q) == this.wallblockID1 && random.nextInt(100) == 0) {
 								world.setBlock(type, p, q, Block.trap.blockID);
 							}
 						}
@@ -169,7 +169,7 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
 					world.setBlockWithNotify(p, y + 2, q, Block.chestMimic.blockID);
 					break;
 				case 1:
-					if(world.getBlockId(p, y + 2, q) == 0) {
+					if(world.getblockID(p, y + 2, q) == 0) {
 						world.setBlockWithNotify(p, y + 2, q, Block.chest.blockID);
 						TileEntityChest chest = (TileEntityChest)world.getBlockTileEntity(p, y + 2, q);
 
@@ -180,7 +180,7 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
 					}
 				}
 
-				this.setBlocks(this.corridorBlockID2, this.corridorBlockID1, 5);
+				this.setBlocks(this.corridorblockID2, this.corridorblockID1, 5);
 				this.setMetadata(this.corridorMeta2, this.corridorMeta1);
 				switch(dir) {
 				case 0:
@@ -225,15 +225,15 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
 				flag = true;
 
 				while(true) {
-					while(flag && (world.getBlockId(x, y, z) == this.wallBlockID1 || world.getBlockId(x, y, z) == this.wallBlockID2 || world.getBlockId(x, y, z) == this.lockedBlockID1 || world.getBlockId(x, y, z) == this.lockedBlockID2)) {
-						if(world.getBlockId(x + 1, y, z) != this.wallBlockID1 && world.getBlockId(x + 1, y, z) != this.wallBlockID2 && world.getBlockId(x + 1, y, z) != this.lockedBlockID1 && world.getBlockId(x + 1, y, z) != this.lockedBlockID2) {
+					while(flag && (world.getblockID(x, y, z) == this.wallblockID1 || world.getblockID(x, y, z) == this.wallblockID2 || world.getblockID(x, y, z) == this.lockedblockID1 || world.getblockID(x, y, z) == this.lockedblockID2)) {
+						if(world.getblockID(x + 1, y, z) != this.wallblockID1 && world.getblockID(x + 1, y, z) != this.wallblockID2 && world.getblockID(x + 1, y, z) != this.lockedblockID1 && world.getblockID(x + 1, y, z) != this.lockedblockID2) {
 							flag = false;
 						} else {
 							++x;
 						}
 					}
 
-					this.setBlocks(this.corridorBlockID2, this.corridorBlockID1, 5);
+					this.setBlocks(this.corridorblockID2, this.corridorblockID1, 5);
 					this.setMetadata(this.corridorMeta2, this.corridorMeta1);
 					this.addPlaneX(world, random, x, y, z, 8, 6);
 					this.setBlocks(0, 0, 1);
@@ -254,15 +254,15 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
 				flag = true;
 
 				while(true) {
-					while(flag && (world.getBlockId(x, y, z) == this.wallBlockID1 || world.getBlockId(x, y, z) == this.wallBlockID2 || world.getBlockId(x, y, z) == this.lockedBlockID1 || world.getBlockId(x, y, z) == this.lockedBlockID2)) {
-						if(world.getBlockId(x, y, z + 1) != this.wallBlockID1 && world.getBlockId(x, y, z + 1) != this.wallBlockID2 && world.getBlockId(x, y, z + 1) != this.lockedBlockID1 && world.getBlockId(x, y, z + 1) != this.lockedBlockID2) {
+					while(flag && (world.getblockID(x, y, z) == this.wallblockID1 || world.getblockID(x, y, z) == this.wallblockID2 || world.getblockID(x, y, z) == this.lockedblockID1 || world.getblockID(x, y, z) == this.lockedblockID2)) {
+						if(world.getblockID(x, y, z + 1) != this.wallblockID1 && world.getblockID(x, y, z + 1) != this.wallblockID2 && world.getblockID(x, y, z + 1) != this.lockedblockID1 && world.getblockID(x, y, z + 1) != this.lockedblockID2) {
 							flag = false;
 						} else {
 							++z;
 						}
 					}
 
-					this.setBlocks(this.corridorBlockID2, this.corridorBlockID1, 5);
+					this.setBlocks(this.corridorblockID2, this.corridorblockID1, 5);
 					this.setMetadata(this.corridorMeta2, this.corridorMeta1);
 					this.addPlaneZ(world, random, x, y, z, 6, 8);
 					this.setBlocks(0, 0, 1);
@@ -283,15 +283,15 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
 				flag = true;
 
 				while(true) {
-					while(flag && (world.getBlockId(x, y, z) == this.wallBlockID1 || world.getBlockId(x, y, z) == this.wallBlockID2 || world.getBlockId(x, y, z) == this.lockedBlockID1 || world.getBlockId(x, y, z) == this.lockedBlockID2)) {
-						if(world.getBlockId(x, y, z - 1) != this.wallBlockID1 && world.getBlockId(x, y, z - 1) != this.wallBlockID2 && world.getBlockId(x, y, z - 1) != this.lockedBlockID1 && world.getBlockId(x, y, z - 1) != this.lockedBlockID2) {
+					while(flag && (world.getblockID(x, y, z) == this.wallblockID1 || world.getblockID(x, y, z) == this.wallblockID2 || world.getblockID(x, y, z) == this.lockedblockID1 || world.getblockID(x, y, z) == this.lockedblockID2)) {
+						if(world.getblockID(x, y, z - 1) != this.wallblockID1 && world.getblockID(x, y, z - 1) != this.wallblockID2 && world.getblockID(x, y, z - 1) != this.lockedblockID1 && world.getblockID(x, y, z - 1) != this.lockedblockID2) {
 							flag = false;
 						} else {
 							--z;
 						}
 					}
 
-					this.setBlocks(this.corridorBlockID2, this.corridorBlockID1, 5);
+					this.setBlocks(this.corridorblockID2, this.corridorblockID1, 5);
 					this.setMetadata(this.corridorMeta2, this.corridorMeta1);
 					this.addPlaneZ(world, random, x, y, z, 6, 8);
 					this.setBlocks(0, 0, 1);

@@ -17,11 +17,11 @@ public class TFMaze {
 	public int worldY;
 	public int worldZ;
 	public int type;
-	public int wallBlockID = Block.mazeStone.blockID;
+	public int wallblockID = Block.mazeStone.blockID;
 	public int wallBlockMeta = 0;
-	public int rootBlockID = Block.mazeStone.blockID;
+	public int rootblockID = Block.mazeStone.blockID;
 	public int rootBlockMeta = 1;
-	public int torchBlockID = Block.torchWood.blockID;
+	public int torchblockID = Block.torchWood.blockID;
 	public int torchBlockMeta = 0;
 	public int torchRarity = 2;
 	public int rawWidth;
@@ -230,8 +230,8 @@ public class TFMaze {
 	}
 
 	protected void putWallBlock(World world, int x, int y, int z) {
-		if(this.type == 4 || world.getBlockId(x, y, z) != 0)
-			world.setBlockAndMetadataWithNotify(x, y, z, this.wallBlockID, this.wallBlockMeta);
+		if(this.type == 4 || world.getblockID(x, y, z) != 0)
+			world.setBlockAndMetadataWithNotify(x, y, z, this.wallblockID, this.wallBlockMeta);
 	}
 
 	protected void carveBlock(World world, int x, int y, int z) {
@@ -239,8 +239,8 @@ public class TFMaze {
 	}
 
 	protected void putRootBlock(World world, int x, int y, int z) {
-		if(this.type == 4 || world.getBlockId(x, y, z) != 0)
-			world.setBlockAndMetadataWithNotify(x, y, z, this.rootBlockID, this.rootBlockMeta);
+		if(this.type == 4 || world.getblockID(x, y, z) != 0)
+			world.setBlockAndMetadataWithNotify(x, y, z, this.rootblockID, this.rootBlockMeta);
 	}
 
 	public boolean isEven(int n) {
@@ -256,8 +256,8 @@ public class TFMaze {
 					int mdx = this.worldX + x / 2 * (this.evenBias + this.oddBias);
 					int mdy = this.worldY + torchHeight;
 					int mdz = this.worldZ + z / 2 * (this.evenBias + this.oddBias);
-					if(this.isEven(x) && this.isEven(z) && this.shouldTorch(x, z) && world.getBlockId(mdx, mdy, mdz) == this.wallBlockID) {
-						world.setBlockAndMetadataWithNotify(mdx, mdy, mdz, this.torchBlockID, this.torchBlockMeta);
+					if(this.isEven(x) && this.isEven(z) && this.shouldTorch(x, z) && world.getblockID(mdx, mdy, mdz) == this.wallblockID) {
+						world.setBlockAndMetadataWithNotify(mdx, mdy, mdz, this.torchblockID, this.torchBlockMeta);
 					}
 				}
 			}

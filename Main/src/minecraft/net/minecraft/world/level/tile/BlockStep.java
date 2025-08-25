@@ -78,7 +78,7 @@ public class BlockStep extends Block {
 			super.onBlockAdded(world1, i2, i3, i4);
 		}
 
-		int i5 = world1.getBlockId(i2, i3 - 1, i4);
+		int i5 = world1.getblockID(i2, i3 - 1, i4);
 		int i6 = world1.getBlockMetadata(i2, i3, i4);
 		int i7 = world1.getBlockMetadata(i2, i3 - 1, i4);
 
@@ -109,7 +109,7 @@ public class BlockStep extends Block {
 			super.shouldSideBeRendered(blockAccess, x, y, z, side);
 		}
 
-		//return side == 1 ? true : (!super.shouldSideBeRendered(blockAccess, x, y, z, side) ? false : (side == 0 ? true : blockAccess.getBlockId(x, y, z) != this.blockID));
+		//return side == 1 ? true : (!super.shouldSideBeRendered(blockAccess, x, y, z, side) ? false : (side == 0 ? true : blockAccess.getblockID(x, y, z) != this.blockID));
 		
 		if (side != 1 && side != 0 && !super.shouldSideBeRendered(blockAccess, x, y, z, side)) {
 			return false;
@@ -131,7 +131,7 @@ public class BlockStep extends Block {
 			if (side == 0 && super.shouldSideBeRendered(blockAccess, x, y, z, side)) {
 				return true;
 			} else {
-				return blockAccess.getBlockId(x, y, z) != blockID || (blockAccess.getBlockMetadata(x, y, z) & 8) != 0;
+				return blockAccess.getblockID(x, y, z) != blockID || (blockAccess.getBlockMetadata(x, y, z) & 8) != 0;
 			}
 		}
 
@@ -142,7 +142,7 @@ public class BlockStep extends Block {
 		if (side == 1 && super.shouldSideBeRendered(blockAccess, x, y, z, side)) {
 			return true;
 		} else {
-			return blockAccess.getBlockId(x, y, z) != blockID || (blockAccess.getBlockMetadata(x, y, z) & 8) == 0;
+			return blockAccess.getblockID(x, y, z) != blockID || (blockAccess.getBlockMetadata(x, y, z) & 8) == 0;
 		}
 	}
 

@@ -58,7 +58,7 @@ public class WorldGenForest extends WorldGenerator {
 
 				for(int z = z0 - cRadius; z <= z0 + cRadius; ++z) {
 					int dz = Math.abs(z - z0);
-					if((dx != cRadius || dz != cRadius || rand.nextInt(2) != 0 && yy != 0) && !Block.opaqueCubeLookup[world.getBlockId(x, y, z)]) {
+					if((dx != cRadius || dz != cRadius || rand.nextInt(2) != 0 && yy != 0) && !Block.opaqueCubeLookup[world.getblockID(x, y, z)]) {
 						world.setBlockAndMetadata(x, y, z, this.leavesID, this.leavesMeta);
 					}
 				}

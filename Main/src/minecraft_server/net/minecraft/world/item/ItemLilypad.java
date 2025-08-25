@@ -41,7 +41,7 @@ public class ItemLilypad extends ItemBlock {
 			int j = movingobjectposition.blockY;
 			int k = movingobjectposition.blockZ;
 
-			if (world2.getBlockMaterial(i, j, k) == Material.water && world2.getBlockMetadata(i, j, k) == 0 && world2.getBlockId(i, j + 1, k) == 0) {
+			if (world2.getBlockMaterial(i, j, k) == Material.water && world2.getBlockMetadata(i, j, k) == 0 && world2.getblockID(i, j + 1, k) == 0) {
 				world2.setBlockWithNotify(i, j + 1, k, Block.lilyPad.blockID);
 				if (!entityPlayer3.isCreative) par1ItemStack.stackSize--;
 			}

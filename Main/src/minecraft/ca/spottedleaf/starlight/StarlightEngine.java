@@ -171,7 +171,7 @@ public class StarlightEngine {
 			return AIR_BLOCK_STATE;
 		}
 
-		return chunk.getBlockID(worldX & 15, worldY & 127, worldZ & 15);
+		return chunk.getblockID(worldX & 15, worldY & 127, worldZ & 15);
 	}
 
 
@@ -597,7 +597,7 @@ public class StarlightEngine {
 				for (int y = 0; y <= 127; ++y) {
 					for (int z = 0; z <= 15; ++z) {
 						for (int x = 0; x <= 15; ++x) {
-							final int blockState = chunk.getBlockID(x, y, z);
+							final int blockState = chunk.getblockID(x, y, z);
 							if (blockState == AIR_BLOCK_STATE) {
 								continue;
 							}

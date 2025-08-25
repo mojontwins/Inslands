@@ -59,7 +59,7 @@ public class WorldGenTaiga2 extends WorldGenerator {
 
 				for(int z = z0 - radius; z <= z0 + radius; ++z) {
 					int dz = Math.abs(z - z0);
-					if((dx != radius || dz != radius || radius <= 0) && !Block.opaqueCubeLookup[world.getBlockId(x, yy, z)]) {
+					if((dx != radius || dz != radius || radius <= 0) && !Block.opaqueCubeLookup[world.getblockID(x, yy, z)]) {
 						world.setBlockAndMetadata(x, yy, z, this.leavesID, this.leavesMeta);
 					}
 				}

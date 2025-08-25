@@ -19,7 +19,7 @@ public class WorldGenRockBoulder extends WorldGenerator {
 		int blockID;
 		int y0 = y - 1;
 		for (; l > 0 && y < 127; l--) {
-			Block block = Block.blocksList[world.getBlockId(x, y, z)];
+			Block block = Block.blocksList[world.getblockID(x, y, z)];
 			if(block != null && block.isOpaqueCube()) break;
 			switch(rand.nextInt(30)) {
 				case 0:
@@ -51,16 +51,16 @@ public class WorldGenRockBoulder extends WorldGenerator {
 		}
 		
 		Block block;
-		while (y0 > 0 && (block = Block.blocksList[world.getBlockId(x, y0, z)]) != null && !block.isOpaqueCube() && !block.blockMaterial.isSolid()) {
+		while (y0 > 0 && (block = Block.blocksList[world.getblockID(x, y0, z)]) != null && !block.isOpaqueCube() && !block.blockMaterial.isSolid()) {
 			world.setBlock(x, y0, z, Block.stone.blockID);
 			y0 --;
 		}
 	}
 	
 	private void spawnColumn (World world, Random rand, int x, int y, int z, int height) {
-		int blockId = world.getBlockId(x, y - 1, z);
-		while (!Block.opaqueCubeLookup[blockId] && y > 1) {
-			y --; blockId = world.getBlockId(x, y - 1, z);
+		int blockID = world.getblockID(x, y - 1, z);
+		while (!Block.opaqueCubeLookup[blockID] && y > 1) {
+			y --; blockID = world.getblockID(x, y - 1, z);
 		}
 		
 		if(y <= 1) return;
@@ -70,10 +70,10 @@ public class WorldGenRockBoulder extends WorldGenerator {
 		
 		// Spawn new columns
 		if(height > 5) {
-			if (!Block.opaqueCubeLookup[world.getBlockId (x - 1, y, z)]) spawnColumn (world, rand, x - 1, y, z, height - rand.nextInt(2) - 1);
-			if (!Block.opaqueCubeLookup[world.getBlockId (x + 1, y, z)]) spawnColumn (world, rand, x + 1, y, z, height - rand.nextInt(2) - 1);
-			if (!Block.opaqueCubeLookup[world.getBlockId (x, y, z - 1)]) spawnColumn (world, rand, x, y, z - 1, height - rand.nextInt(2) - 1);
-			if (!Block.opaqueCubeLookup[world.getBlockId (x, y, z + 1)]) spawnColumn (world, rand, x, y, z + 1, height - rand.nextInt(2) - 1);
+			if (!Block.opaqueCubeLookup[world.getblockID (x - 1, y, z)]) spawnColumn (world, rand, x - 1, y, z, height - rand.nextInt(2) - 1);
+			if (!Block.opaqueCubeLookup[world.getblockID (x + 1, y, z)]) spawnColumn (world, rand, x + 1, y, z, height - rand.nextInt(2) - 1);
+			if (!Block.opaqueCubeLookup[world.getblockID (x, y, z - 1)]) spawnColumn (world, rand, x, y, z - 1, height - rand.nextInt(2) - 1);
+			if (!Block.opaqueCubeLookup[world.getblockID (x, y, z + 1)]) spawnColumn (world, rand, x, y, z + 1, height - rand.nextInt(2) - 1);
 		}
 	}
 	

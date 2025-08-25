@@ -28,7 +28,7 @@ public class WorldGenTaigaTree2 extends WorldGenerator {
 				for(i13 = i3 - i21; i13 <= i3 + i21 && z10; ++i13) {
 					for(int i14 = i5 - i21; i14 <= i5 + i21 && z10; ++i14) {
 						if(i11 >= 0 && i11 < 128) {
-							i15 = world1.getBlockId(i13, i11, i14);
+							i15 = world1.getblockID(i13, i11, i14);
 							if(i15 != 0 && i15 != Block.leaves.blockID) {
 								z10 = false;
 							}
@@ -42,7 +42,7 @@ public class WorldGenTaigaTree2 extends WorldGenerator {
 			if(!z10) {
 				return false;
 			} else {
-				i11 = world1.getBlockId(i3, i4 - 1, i5);
+				i11 = world1.getblockID(i3, i4 - 1, i5);
 				Block block = Block.blocksList[i11];
 				if(((block != null && block.canGrowPlants()) || i11 == Block.wood.blockID) && i4 < 128 - i6 - 1) {
 					//world1.setBlock(i3, i4 - 1, i5, Block.dirt.blockID);
@@ -60,7 +60,7 @@ public class WorldGenTaigaTree2 extends WorldGenerator {
 
 							for(int i19 = i5 - i21; i19 <= i5 + i21; ++i19) {
 								int i20 = i19 - i5;
-								if((Math.abs(i18) != i21 || Math.abs(i20) != i21 || i21 <= 0) && !Block.opaqueCubeLookup[world1.getBlockId(i17, i16, i19)]) {
+								if((Math.abs(i18) != i21 || Math.abs(i20) != i21 || i21 <= 0) && !Block.opaqueCubeLookup[world1.getblockID(i17, i16, i19)]) {
 									world1.setBlock(i17, i16, i19, Block.leaves.blockID);
 								}
 							}
@@ -81,7 +81,7 @@ public class WorldGenTaigaTree2 extends WorldGenerator {
 					i15 = random2.nextInt(3);
 
 					for(i16 = 0; i16 < i6 - i15; ++i16) {
-						i17 = world1.getBlockId(i3, i4 + i16, i5);
+						i17 = world1.getblockID(i3, i4 + i16, i5);
 						if(i17 == 0 || i17 == Block.leaves.blockID) {
 							world1.setBlock(i3, i4 + i16, i5, Block.wood.blockID);
 						}

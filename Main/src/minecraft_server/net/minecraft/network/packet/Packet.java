@@ -223,6 +223,8 @@ public abstract class Packet {
 		addIdClassMapping(255, true, true, Packet255KickDisconnect.class);
 		
 		// Custom
+		addIdClassMapping(88, true, true, Packet88MovingPiston.class);
+		addIdClassMapping(90, true, false, Packet90ArmoredMobSpawn.class);
 		addIdClassMapping(93, true, true, Packet93FiniteWorldSettings.class);
 		addIdClassMapping(94, true, false, Packet94FreezeLevel.class);
 		addIdClassMapping(95, true, false, Packet95UpdateDayOfTheYear.class);

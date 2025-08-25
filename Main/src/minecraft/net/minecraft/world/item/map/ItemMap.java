@@ -111,7 +111,7 @@ public class ItemMap extends ItemMapBase {
 											label164:
 											while(true) {
 												z37 = true;
-												i36 = chunk27.getBlockID(i33 + i28, i35 - 1, i34 + i29);
+												i36 = chunk27.getblockID(i33 + i28, i35 - 1, i34 + i29);
 												if(i36 == 0) {
 													z37 = false;
 												} else if(i35 > 0 && i36 > 0 && Block.blocksList[i36].blockMaterial.materialMapColor == MapColor.airColor) {
@@ -120,7 +120,7 @@ public class ItemMap extends ItemMapBase {
 
 												if(!z37) {
 													--i35;
-													i36 = chunk27.getBlockID(i33 + i28, i35 - 1, i34 + i29);
+													i36 = chunk27.getblockID(i33 + i28, i35 - 1, i34 + i29);
 												}
 
 												if(z37) {
@@ -130,7 +130,7 @@ public class ItemMap extends ItemMapBase {
 
 													i38 = i35 - 1;
 													while(true) {
-														int i43 = chunk27.getBlockID(i33 + i28, i38--, i34 + i29);
+														int i43 = chunk27.getblockID(i33 + i28, i38--, i34 + i29);
 														++i30;
 														if(i38 <= 0 || i43 == 0 || !Block.blocksList[i43].blockMaterial.getIsLiquid()) {
 															break label164;

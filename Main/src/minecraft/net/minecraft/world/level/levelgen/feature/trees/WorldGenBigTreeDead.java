@@ -117,7 +117,7 @@ public class WorldGenBigTreeDead extends WorldGenerator {
 						++i13;
 					} else {
 						i11[b9] = i10[b9] + i13;
-						int i14 = this.world.getBlockId(i11[0], i11[1], i11[2]);
+						int i14 = this.world.getblockID(i11[0], i11[1], i11[2]);
 						if(i14 != 0 && i14 != Block.leaves.blockID) {
 							++i13;
 						} else {
@@ -290,7 +290,7 @@ public class WorldGenBigTreeDead extends WorldGenerator {
 				i13[b5] = i1[b5] + i14;
 				i13[b6] = (int)((double)i1[b6] + (double)i14 * d9);
 				i13[b7] = (int)((double)i1[b7] + (double)i14 * d11);
-				int i16 = this.world.getBlockId(i13[0], i13[1], i13[2]);
+				int i16 = this.world.getblockID(i13[0], i13[1], i13[2]);
 				if(i16 != 0 && i16 != 18) {
 					break;
 				}
@@ -303,7 +303,7 @@ public class WorldGenBigTreeDead extends WorldGenerator {
 	boolean validTreeLocation() {
 		int[] i1 = new int[]{this.basePos[0], this.basePos[1] + 2, this.basePos[2]};
 		int[] i2 = new int[]{this.basePos[0], this.basePos[1] + this.heightLimit - 1, this.basePos[2]};
-		int i3 = this.world.getBlockId(this.basePos[0], this.basePos[1] - 1, this.basePos[2]);
+		int i3 = this.world.getblockID(this.basePos[0], this.basePos[1] - 1, this.basePos[2]);
 		if(i3 != Block.sand.blockID && i3 != Block.dirt.blockID && i3 != Block.gravel.blockID && i3 != Block.terracotta.blockID) {
 			return false;
 		} else {

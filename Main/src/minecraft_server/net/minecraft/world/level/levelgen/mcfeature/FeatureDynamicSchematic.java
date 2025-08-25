@@ -116,7 +116,7 @@ public abstract class FeatureDynamicSchematic extends Feature {
 						byte blockID = (byte)(blockAndMeta & 0xff);
 						byte metadata = (byte)(blockAndMeta >> 8);
 						
-						chunk.setBlockIDWithMetadata(x, y, z, blockID, metadata);
+						chunk.setblockIDWithMetadata(x, y, z, blockID, metadata);
 					}
 					
 					y ++;

@@ -14,7 +14,7 @@ public class WorldGenLilypad extends WorldGenerator {
 			int y = (y0 + rand.nextInt(4)) - rand.nextInt(4);
 			int z = (z0 + rand.nextInt(8)) - rand.nextInt(8);
 			
-			if(world.getBlockId(x, y, z) == 0 && Block.lilyPad.canPlaceBlockAt(world, x, y, z)) {
+			if(world.getblockID(x, y, z) == 0 && Block.lilyPad.canPlaceBlockAt(world, x, y, z)) {
 				world.setBlock(x, y, z, Block.lilyPad.blockID);
 			}
 		}

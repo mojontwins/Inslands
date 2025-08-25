@@ -81,7 +81,7 @@ public class BlockPiston extends Block {
 				--i7;
 			}
 
-			if(world1.getBlockId(i7, i8, i9) == 0) {
+			if(world1.getblockID(i7, i8, i9) == 0) {
 				world1.setBlockWithNotify(i2, i3, i4, 0);
 			}
 

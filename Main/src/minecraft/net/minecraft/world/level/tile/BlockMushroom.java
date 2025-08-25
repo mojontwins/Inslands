@@ -13,7 +13,7 @@ public class BlockMushroom extends BlockFlower {
 		this.setTickOnLoad(true);
 	}
 
-	protected boolean canThisPlantGrowOnThisBlockID(int i1) {
+	protected boolean canThisPlantGrowOnThisblockID(int i1) {
 		// override for non opaque blocks
 		Block block = Block.blocksList[i1]; 
 		if(block == null) return false;
@@ -24,7 +24,7 @@ public class BlockMushroom extends BlockFlower {
 	}
 
 	public boolean canBlockStay(World world1, int i2, int i3, int i4) {
-		return i3 >= 0 && i3 < 128 ? world1.getFullBlockLightValue(i2, i3, i4) < 13 && this.canThisPlantGrowOnThisBlockID(world1.getBlockId(i2, i3 - 1, i4)) : false;
+		return i3 >= 0 && i3 < 128 ? world1.getFullBlockLightValue(i2, i3, i4) < 13 && this.canThisPlantGrowOnThisblockID(world1.getblockID(i2, i3 - 1, i4)) : false;
 	}
 
 	public boolean growBigMushroom(World world, int x, int y, int z, Random rand) {

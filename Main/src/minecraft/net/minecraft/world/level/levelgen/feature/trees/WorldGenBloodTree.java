@@ -30,10 +30,10 @@ public class WorldGenBloodTree extends WorldGenerator {
 		int ret = -1;
 		int height = y;
 		do {
-			// int heightID = world.getBlockId(x, height, z);
+			// int heightID = world.getblockID(x, height, z);
 			// if ((heightID == Block.netherrack.blockID || heightID ==
 			// Block.slowSand.blockID || heightID == NContent.taintedSoil.blockID) &&
-			// !Block.opaqueCubeLookup[world.getBlockId(x, height - 1, z)])
+			// !Block.opaqueCubeLookup[world.getblockID(x, height - 1, z)])
 			if (world.isBlockOpaqueCube(x, height, z) && !world.isBlockOpaqueCube(x, height - 1, z)) {
 				ret = height - 1;
 				break;
@@ -53,7 +53,7 @@ public class WorldGenBloodTree extends WorldGenerator {
 		 * if (yPos == 0) range = 0; else if (yPos >= treeHeight -2) range = 3;
 		 * 
 		 * for (int xPos = 0-range; xPos < 2+range; xPos++) { for (int zPos = 0-range;
-		 * zPos < 2+range; zPos++) { Block block = Block.blocksList[world.getBlockId(x +
+		 * zPos < 2+range; zPos++) { Block block = Block.blocksList[world.getblockID(x +
 		 * xPos, y - yPos, z + zPos)]; if (block == null || block.isLeaves(world, x +
 		 * xPos, y - yPos, z + zPos)) valid = false; } } if (!valid) return false; }
 		 */
@@ -168,7 +168,7 @@ public class WorldGenBloodTree extends WorldGenerator {
 		for (int l = x - 1; l <= x + 1; l++) {
 			for (int k1 = z - 1; k1 <= z + 1; k1++) {
 				for (int j2 = y - 1; j2 <= y + 1; j2++) {
-					int i3 = world.getBlockId(l, j2, k1);
+					int i3 = world.getblockID(l, j2, k1);
 					if (i3 != this.leavesID && !Block.opaqueCubeLookup[i3]) {
 						world.setBlockAndMetadata(l, j2, k1, this.leavesID, this.leavesMeta);
 					}
@@ -178,7 +178,7 @@ public class WorldGenBloodTree extends WorldGenerator {
 
 		for (int i1 = x - 1; i1 <= x + 1; i1++) {
 			for (int l1 = z - 2; l1 <= z + 2; l1++) {
-				int k2 = world.getBlockId(i1, y, l1);
+				int k2 = world.getblockID(i1, y, l1);
 				if (k2 != this.leavesID && !Block.opaqueCubeLookup[k2]) {
 					world.setBlockAndMetadata(i1, y, l1, this.leavesID, this.leavesMeta);
 				}
@@ -187,7 +187,7 @@ public class WorldGenBloodTree extends WorldGenerator {
 
 		for (int j1 = x - 2; j1 <= x + 2; j1++) {
 			for (int i2 = z - 1; i2 <= z + 1; i2++) {
-				int l2 = world.getBlockId(j1, y + 1, i2);
+				int l2 = world.getblockID(j1, y + 1, i2);
 				if (l2 != this.leavesID && !Block.opaqueCubeLookup[l2]) {
 					world.setBlockAndMetadata(j1, y, i2, this.leavesID, this.leavesMeta);
 				}

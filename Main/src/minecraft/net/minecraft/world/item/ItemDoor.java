@@ -65,8 +65,8 @@ public class ItemDoor extends Item {
 
 		int i12 = (world3.isBlockNormalCube(i4 - b10, i5, i6 - b11) ? 1 : 0) + (world3.isBlockNormalCube(i4 - b10, i5 + 1, i6 - b11) ? 1 : 0);
 		int i13 = (world3.isBlockNormalCube(i4 + b10, i5, i6 + b11) ? 1 : 0) + (world3.isBlockNormalCube(i4 + b10, i5 + 1, i6 + b11) ? 1 : 0);
-		boolean z14 = world3.getBlockId(i4 - b10, i5, i6 - b11) == block8.blockID || world3.getBlockId(i4 - b10, i5 + 1, i6 - b11) == block8.blockID;
-		boolean z15 = world3.getBlockId(i4 + b10, i5, i6 + b11) == block8.blockID || world3.getBlockId(i4 + b10, i5 + 1, i6 + b11) == block8.blockID;
+		boolean z14 = world3.getblockID(i4 - b10, i5, i6 - b11) == block8.blockID || world3.getblockID(i4 - b10, i5 + 1, i6 - b11) == block8.blockID;
+		boolean z15 = world3.getblockID(i4 + b10, i5, i6 + b11) == block8.blockID || world3.getblockID(i4 + b10, i5 + 1, i6 + b11) == block8.blockID;
 		boolean z16 = false;
 		if(z14 && !z15) {
 			z16 = true;

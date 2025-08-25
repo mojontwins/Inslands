@@ -75,7 +75,7 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes {
 	}
 
 	public void onBlockRemoval(World world, int x, int y, int z) {
-		int blockID = world.getBlockId(x, y, z);
+		int blockID = world.getblockID(x, y, z);
 
 		// Small optimization: When replaced with leaves or wood, surrounding leaves are
 		// NOT affected
@@ -93,7 +93,7 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes {
 			for (int xx = -radius; xx <= radius; ++xx) {
 				for (int yy = -radius; yy <= radius; ++yy) {
 					for (int zz = -radius; zz <= radius; ++zz) {
-						int i2 = world.getBlockId(x + xx, y + yy, z + zz);
+						int i2 = world.getblockID(x + xx, y + yy, z + zz);
 						if (i2 == this.blockID) {
 							int j2 = world.getBlockMetadata(x + xx, y + yy, z + zz);
 							world.setBlockMetadata(x + xx, y + yy, z + zz, j2 | 8);
@@ -124,7 +124,7 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes {
 					for (int xx = -4; xx <= 4; ++xx) {
 						for (int yy = -4; yy <= 4; ++yy) {
 							for (int zz = -4; zz <= 4; ++zz) {
-								Block block = Block.blocksList[world.getBlockId(x + xx, y + yy, z + zz)];
+								Block block = Block.blocksList[world.getblockID(x + xx, y + yy, z + zz)];
 
 								if (block == null || block.blockMaterial != Material.wood) {
 									if (block instanceof BlockLeaves) {
@@ -272,7 +272,7 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes {
 
 						for (xx = -radius; xx <= radius; ++xx) {
 							for (yy = -radius; yy <= radius; ++yy) {
-								zz = world.getBlockId(x + density, y + xx, z + yy);
+								zz = world.getblockID(x + density, y + xx, z + yy);
 								Block block = Block.blocksList[zz];
 								if (block != null && block instanceof BlockLog) {
 									this.surroundings[((density + canopyRadius) << 10) + ((xx + canopyRadius) << 5) + yy
@@ -331,7 +331,7 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes {
 	}
 
 	@Override
-	public int getItemBlockId() {
+	public int getItemblockID() {
 		return this.blockID - 256;
 	}
 

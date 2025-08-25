@@ -13,17 +13,17 @@ public class BuildingDynamic extends Building {
 		return x << 11 | z << 7 | y;
 	}
 	
-	public void setBlockIdAndMetadata(int x, int y, int z, int blockID, int metadata) {
+	public void setblockIDAndMetadata(int x, int y, int z, int blockID, int metadata) {
 		int idx = this.coords2Idx(x, y, z);
 		this.blocks[idx] = (byte)blockID;
 		this.meta[idx] = (byte)metadata;
 	}
 	
-	public void setBlockId(int x, int y, int z, int blockID) {
+	public void setblockID(int x, int y, int z, int blockID) {
 		this.blocks[this.coords2Idx(x, y, z)] = (byte)blockID;
 	}
 	
-	public void setBlockIdColumn(int x, int y, int z, int[] blockIDs) {
+	public void setblockIDColumn(int x, int y, int z, int[] blockIDs) {
 		for(int i = 0; i < blockIDs.length; i ++) {
 			this.blocks[this.coords2Idx(x, y ++ , z)] = (byte)blockIDs[i];
 		}

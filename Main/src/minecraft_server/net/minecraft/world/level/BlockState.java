@@ -39,8 +39,8 @@ public class BlockState {
 	}
 
 	public boolean isBlock(int blockID) {
-		int thisBlockID = this.block == null ? 0 : this.block.blockID;
-		return thisBlockID == blockID;
+		int thisblockID = this.block == null ? 0 : this.block.blockID;
+		return thisblockID == blockID;
 	}
 
 	public int getX() {

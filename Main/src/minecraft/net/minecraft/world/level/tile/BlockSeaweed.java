@@ -22,18 +22,18 @@ public class BlockSeaweed extends Block {
 	// - a water block on top
 	// - a valid block beneath
     public boolean canPlaceBlockAt(World world, int x, int y, int z) {
-        return world.getBlockId(x, y, z) == Block.waterStill.blockID 
-        		&& world.getBlockId(x, y + 1, z) == Block.waterStill.blockID 
-        		&& canThisPlantGrowOnThisBlockID(world.getBlockId(x, y - 1, z));
+        return world.getblockID(x, y, z) == Block.waterStill.blockID 
+        		&& world.getblockID(x, y + 1, z) == Block.waterStill.blockID 
+        		&& canThisPlantGrowOnThisblockID(world.getblockID(x, y - 1, z));
     }
     
-    protected boolean canThisPlantGrowOnThisBlockID(int par1) {
+    protected boolean canThisPlantGrowOnThisblockID(int par1) {
         return par1 == this.blockID || par1 == Block.dirt.blockID 
         		|| par1 == Block.sand.blockID
         		|| par1 == Block.stone.blockID;
     }    
     
-    public void onNeighborBlockChange(World world, int x, int y, int z, int neighborBlockID) {
+    public void onNeighborBlockChange(World world, int x, int y, int z, int neighborblockID) {
         if (!canBlockStay(world, x, y, z)) {
             dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z));
             world.setBlockWithNotify(x, y, z, Block.waterStill.blockID);
@@ -42,7 +42,7 @@ public class BlockSeaweed extends Block {
     
     public void updateTick(World world, int x, int y, int z, Random rand) {
     	if (rand.nextInt (32) == 0) {
-	    	if (world.getBlockId(x, y + 1, z) == Block.waterStill.blockID && world.getBlockId(x, y + 2, z) == Block.waterStill.blockID ) {
+	    	if (world.getblockID(x, y + 1, z) == Block.waterStill.blockID && world.getblockID(x, y + 2, z) == Block.waterStill.blockID ) {
 	    		world.setBlockWithNotify(x, y + 1, z, blockID);
 	    	}
     	}
@@ -52,9 +52,9 @@ public class BlockSeaweed extends Block {
     	// This block can stay if
     	// - there's water or same on top
     	// - there's valid beneath
-    	int blockOnTop = world.getBlockId(x, y + 1, z);
+    	int blockOnTop = world.getblockID(x, y + 1, z);
     	if(! (blockOnTop == this.blockID || blockOnTop == Block.waterStill.blockID || blockOnTop == Block.waterMoving.blockID)) return false;
-    	return canThisPlantGrowOnThisBlockID(world.getBlockId(x, y - 1, z));
+    	return canThisPlantGrowOnThisblockID(world.getblockID(x, y - 1, z));
     }
     
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int i) {

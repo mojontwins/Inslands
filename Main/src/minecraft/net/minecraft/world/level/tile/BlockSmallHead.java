@@ -36,7 +36,7 @@ public class BlockSmallHead extends Block {
 		for (int i = x - 1; i <= x + 1; i ++) {
 			for (int j = y - 2; j <= y; j ++) {
 				for (int k = z - 1; k <= z + 1; k ++)  {
-					int blockID = world.getBlockId(i, j, k);
+					int blockID = world.getblockID(i, j, k);
 					if (j < y && i == x && k == z) {
 						if (blockID != Block.blockDiamond.blockID) return;
 					} else if ((i != x || k != z) && (blockID != 0)) return;    				

@@ -24,7 +24,7 @@ public class BlockFence extends Block {
 
 	/*
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
-		return world.getBlockId(x, y - 1, z) == this.blockID ? true : (!world.getBlockMaterial(x, y - 1, z).isSolid() ? false : super.canPlaceBlockAt(world, x, y, z));
+		return world.getblockID(x, y - 1, z) == this.blockID ? true : (!world.getBlockMaterial(x, y - 1, z).isSolid() ? false : super.canPlaceBlockAt(world, x, y, z));
 	}
 	*/
 	
@@ -112,7 +112,7 @@ public class BlockFence extends Block {
 	
 	public boolean canConnectFenceTo(IBlockAccess iBlockAccess1, int i2, int i3, int i4) {
 		/*
-		int i5 = iBlockAccess1.getBlockId(i2, i3, i4);
+		int i5 = iBlockAccess1.getblockID(i2, i3, i4);
 		if(i5 != this.blockID) {
 			Block block6 = Block.blocksList[i5];
 			return block6 != null && block6.isOpaqueCube() && block6.renderAsNormalBlock() ? block6.blockMaterial != Material.pumpkin : false;
@@ -120,6 +120,6 @@ public class BlockFence extends Block {
 			return true;
 		}
 		*/
-		return iBlockAccess1.getBlockId(i2, i3, i4) == this.blockID;
+		return iBlockAccess1.getblockID(i2, i3, i4) == this.blockID;
 	}
 }

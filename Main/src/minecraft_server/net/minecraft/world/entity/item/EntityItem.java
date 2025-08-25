@@ -85,7 +85,7 @@ public class EntityItem extends Entity {
 		float f1 = 0.98F;
 		if(this.onGround) {
 			f1 = 0.58800006F;
-			int i2 = this.worldObj.getBlockId(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
+			int i2 = this.worldObj.getblockID(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
 			if(i2 > 0) {
 				Block block =  Block.blocksList[i2];
 				f1 = block == null ? 0 : block.slipperiness * 0.98F;

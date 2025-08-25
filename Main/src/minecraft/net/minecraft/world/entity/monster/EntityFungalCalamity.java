@@ -133,7 +133,7 @@ public class EntityFungalCalamity extends EntityMob implements IMob {
 		int i1 = MathHelper.floor_double(this.posX);
 		int i2 = MathHelper.floor_double(this.boundingBox.minY);
 		int i3 = MathHelper.floor_double(this.posZ);
-		return this.worldObj.getBlockId(i1, i2 - 1, i3) == Block.mycelium.blockID && super.getCanSpawnHere();
+		return this.worldObj.getblockID(i1, i2 - 1, i3) == Block.mycelium.blockID && super.getCanSpawnHere();
 	}
 
 }

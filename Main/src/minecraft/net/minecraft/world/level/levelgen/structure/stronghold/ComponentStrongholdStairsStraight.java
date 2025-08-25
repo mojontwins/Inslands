@@ -39,13 +39,13 @@ public class ComponentStrongholdStairsStraight extends ComponentStronghold {
 			int i4 = this.getMetadataWithOffset(Block.stairCompactCobblestone.blockID, 2);
 
 			for(int i5 = 0; i5 < 6; ++i5) {
-				if(this.getBlockIdAtCurrentPosition(world1, 1, 6 - i5, i5, structureBoundingBox3) != 0) {
+				if(this.getblockIDAtCurrentPosition(world1, 1, 6 - i5, i5, structureBoundingBox3) != 0) {
 					this.placeBlockAtCurrentPosition(world1, Block.stairCompactCobblestone.blockID, i4, 1, 6 - i5, 1 + i5, structureBoundingBox3);
 				}
-				if(this.getBlockIdAtCurrentPosition(world1, 2, 6 - i5, i5, structureBoundingBox3) != 0) {
+				if(this.getblockIDAtCurrentPosition(world1, 2, 6 - i5, i5, structureBoundingBox3) != 0) {
 					this.placeBlockAtCurrentPosition(world1, Block.stairCompactCobblestone.blockID, i4, 2, 6 - i5, 1 + i5, structureBoundingBox3);
 				}
-				if(this.getBlockIdAtCurrentPosition(world1, 3, 6 - i5, i5, structureBoundingBox3) != 0) {
+				if(this.getblockIDAtCurrentPosition(world1, 3, 6 - i5, i5, structureBoundingBox3) != 0) {
 					this.placeBlockAtCurrentPosition(world1, Block.stairCompactCobblestone.blockID, i4, 3, 6 - i5, 1 + i5, structureBoundingBox3);
 				}
 				if(i5 < 5) {

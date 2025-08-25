@@ -60,7 +60,7 @@ public class WorldGenTrees extends WorldGenerator {
 
 				for(int z = z0 - radius; z <= z0 + radius; ++z) {
 					int dz = Math.abs(z - z0);
-					if((dx != radius || Math.abs(dz) != radius || rand.nextInt(2) != 0 && yy != 0) && !Block.opaqueCubeLookup[world.getBlockId(x, y, z)]) {
+					if((dx != radius || Math.abs(dz) != radius || rand.nextInt(2) != 0 && yy != 0) && !Block.opaqueCubeLookup[world.getblockID(x, y, z)]) {
 						world.setBlockAndMetadata(x, y, z, this.leavesID, this.leavesMeta);
 					}
 				}

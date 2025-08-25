@@ -142,7 +142,7 @@ public class WorldRenderer {
 						for(int y = yMin; y < yMax; ++y) {
 							for(int z = zMin; z < zMax; ++z) {
 								for(int x = i24; x < xMax; ++x) {
-									int i3 = chunkcache.getBlockId(x, y, z);
+									int i3 = chunkcache.getblockID(x, y, z);
 									if(i3 > 0) {
 										if(!hasGlList) {
 											hasGlList = true;

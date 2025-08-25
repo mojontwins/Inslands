@@ -14,7 +14,7 @@ public class BlockRail extends Block {
 	private final boolean isPowered;
 
 	public static final boolean isRailBlockAt(World world0, int i1, int i2, int i3) {
-		int i4 = world0.getBlockId(i1, i2, i3);
+		int i4 = world0.getblockID(i1, i2, i3);
 		return i4 == Block.rail.blockID || i4 == Block.railPowered.blockID || i4 == Block.railDetector.blockID;
 	}
 
@@ -226,7 +226,7 @@ public class BlockRail extends Block {
 	}
 
 	private boolean func_27043_a(World world1, int i2, int i3, int i4, boolean z5, int i6, int i7) {
-		int i8 = world1.getBlockId(i2, i3, i4);
+		int i8 = world1.getblockID(i2, i3, i4);
 		if(i8 == Block.railPowered.blockID) {
 			int i9 = world1.getBlockMetadata(i2, i3, i4);
 			int i10 = i9 & 7;

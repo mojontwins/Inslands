@@ -361,7 +361,7 @@ public class WorldGenBigTree extends WorldGenerator {
 	}
 
 	boolean validTreeLocation() {
-		int i3 = this.world.getBlockId(this.basePos[0], this.basePos[1] - 1, this.basePos[2]);
+		int i3 = this.world.getblockID(this.basePos[0], this.basePos[1] - 1, this.basePos[2]);
 		Block block = Block.blocksList[i3];
 		
 		if(!(block != null && block.canGrowPlants())) return false;

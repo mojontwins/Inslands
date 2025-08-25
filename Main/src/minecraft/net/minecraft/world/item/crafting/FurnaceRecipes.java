@@ -46,6 +46,8 @@ public class FurnaceRecipes {
 		this.addSmelting(Block.mushroomCapBrown.blockID, new ItemStack(Item.charcoal));
 		this.addSmelting(Block.mushroomCapRed.blockID, new ItemStack(Item.charcoal));
 		this.addSmelting(Block.mushroomCapGreen.blockID, new ItemStack(Item.charcoal, 2));
+		
+		this.addSmelting(Block.stone.blockID, new ItemStack(Block.stone, 1, 2<<4));
 	}
 	
 	public List<FurnaceRecipe> getSmeltingsAsList() {

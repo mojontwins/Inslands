@@ -60,7 +60,7 @@ public class ContainerWorkbench extends Container {
 	}
 
 	public boolean canInteractWith(EntityPlayer entityPlayer1) {
-		return this.worldObj.getBlockId(this.posX, this.posY, this.posZ) != Block.workbench.blockID ? false : entityPlayer1.getDistanceSq((double)this.posX + 0.5D, (double)this.posY + 0.5D, (double)this.posZ + 0.5D) <= 64.0D;
+		return this.worldObj.getblockID(this.posX, this.posY, this.posZ) != Block.workbench.blockID ? false : entityPlayer1.getDistanceSq((double)this.posX + 0.5D, (double)this.posY + 0.5D, (double)this.posZ + 0.5D) <= 64.0D;
 	}
 
 	public ItemStack getStackInSlot(int i1) {

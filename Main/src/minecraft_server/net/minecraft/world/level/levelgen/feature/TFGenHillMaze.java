@@ -453,37 +453,37 @@ public class TFGenHillMaze extends TFGenerator {
 		int dy = this.maze.worldY;
 		int dz = this.maze.getWorldZ(z);
 		if(f == 0) {
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 0, dz + 0, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 0, dz + 0, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 1, dz + 0, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 1, dz + 0, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 2, dz + 0, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 1, dy + 2, dz + 0, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 2, dz + 0, this.maze.wallBlockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 0, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 0, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 1, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 1, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 2, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 1, dy + 2, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 2, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
 		} else if(f == 1) {
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 0, dz + 0, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 0, dz + 2, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 1, dz + 0, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 1, dz + 2, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 2, dz + 0, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 2, dz + 1, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 2, dz + 2, this.maze.wallBlockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 0, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 0, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 1, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 1, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 2, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 2, dz + 1, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 2, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
 		} else if(f == 2) {
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 0, dz + 2, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 0, dz + 2, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 1, dz + 2, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 1, dz + 2, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 2, dz + 2, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 1, dy + 2, dz + 2, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 2, dz + 2, this.maze.wallBlockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 0, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 0, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 1, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 1, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 2, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 1, dy + 2, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 2, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
 		} else if(f == 3) {
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 0, dz + 0, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 0, dz + 2, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 1, dz + 0, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 1, dz + 2, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 2, dz + 0, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 2, dz + 1, this.maze.wallBlockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 2, dz + 2, this.maze.wallBlockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 0, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 0, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 1, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 1, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 2, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 2, dz + 1, this.maze.wallblockID, this.maze.wallBlockMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 2, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
 		}
 
 	}
@@ -576,7 +576,7 @@ public class TFGenHillMaze extends TFGenerator {
 	private boolean roomTreasure(int dx, int dy, int dz, int diameter) {
 		int rx = this.rand.nextInt(diameter) + dx - diameter / 2;
 		int rz = this.rand.nextInt(diameter) + dz - diameter / 2;
-		return this.worldObj.getBlockId(rx, dy, rz) != 0 ? false : TFTreasure.underhill_room.generate(this.worldObj, this.rand, rx, dy, rz);
+		return this.worldObj.getblockID(rx, dy, rz) != 0 ? false : TFTreasure.underhill_room.generate(this.worldObj, this.rand, rx, dy, rz);
 	}
 
 	private boolean roomSpiderwebs(int dx, int dy, int dz, int diameter) {
@@ -607,7 +607,7 @@ public class TFGenHillMaze extends TFGenerator {
 	private boolean roomSpiderweb(int dx, int dy, int dz, int diameter) {
 		int rx = this.rand.nextInt(diameter) + dx - diameter / 2;
 		int rz = this.rand.nextInt(diameter) + dz - diameter / 2;
-		if(this.worldObj.getBlockId(rx, dy + 2, rz) != 0) {
+		if(this.worldObj.getblockID(rx, dy + 2, rz) != 0) {
 			return false;
 		} else {
 			this.worldObj.setBlockWithNotify(rx, dy + 2, rz, Block.web.blockID);

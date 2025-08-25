@@ -29,7 +29,7 @@ public class EntityMovingPiston extends Entity {
 	public int data;
 	private boolean extending;
 	private int timeout;
-	public int blockid;
+	public int blockID;
 	private TileEntity tileEntity;
 
 	public int getXRender() {
@@ -56,9 +56,9 @@ public class EntityMovingPiston extends Entity {
 	public EntityMovingPiston(World world1, int i2, int i3, int i4, boolean z5) {
 		this(world1, i2, i3, i4, 0);
 		if(z5) {
-			this.blockid = Block.classicStickyPiston.blockID;
+			this.blockID = Block.classicStickyPiston.blockID;
 		} else {
-			this.blockid = Block.classicPiston.blockID;
+			this.blockID = Block.classicPiston.blockID;
 		}
 
 	}
@@ -79,11 +79,11 @@ public class EntityMovingPiston extends Entity {
 		this.xstart = i2;
 		this.ystart = i3;
 		this.zstart = i4;
-		this.blockid = i5;
+		this.blockID = i5;
 	}
 
 	private void start() {
-		if(this.blockid != Block.classicPiston.blockID && this.blockid != Block.classicStickyPiston.blockID) {
+		if(this.blockID != Block.classicPiston.blockID && this.blockID != Block.classicStickyPiston.blockID) {
 			this.data = this.worldObj.getBlockMetadata(this.xstart, this.ystart, this.zstart);
 			this.worldObj.setBlockWithNotify(this.xstart, this.ystart, this.zstart, 0);
 		}
@@ -148,7 +148,7 @@ public class EntityMovingPiston extends Entity {
 				i6 += i9;
 				i7 += i10;
 				i8 += i11;
-				int i12 = movingPiston0.worldObj.getBlockId(i6, i7, i8);
+				int i12 = movingPiston0.worldObj.getblockID(i6, i7, i8);
 				if(i12 != 0 && !tryBreak(movingPiston0.worldObj, i6, i7, i8, Block.blocksList[i12])) {
 					if(i12 != Block.bedrock.blockID && i12 != Block.obsidian.blockID && i12 != Block.classicPiston.blockID && i12 != Block.classicStickyPiston.blockID && i13 < 16) {
 						if(i12 == Block.classicPistonBase.blockID || i12 == Block.classicStickyPistonBase.blockID) {
@@ -172,7 +172,7 @@ public class EntityMovingPiston extends Entity {
 			EntityMovingPiston movingPiston22 = (EntityMovingPiston)arrayList5.get(arrayList5.size() - 1);
 			List<Entity> list14 = movingPiston22.worldObj.getEntitiesWithinAABBExcludingEntity(movingPiston22, AxisAlignedBB.getBoundingBoxFromPool((double)i6, (double)i7, (double)i8, (double)(i6 + 1), (double)(i7 + 1), (double)(i8 + 1)));
 			double d15 = 1.1999999731779099D;
-			if(movingPiston0.blockid == Block.classicStickyPiston.blockID) {
+			if(movingPiston0.blockID == Block.classicStickyPiston.blockID) {
 				d15 = 0.7199999839067459D;
 			}
 
@@ -196,18 +196,18 @@ public class EntityMovingPiston extends Entity {
 				}
 			}
 
-			if(i10 > 0 && i9 == 0 && i11 == 0 && movingPiston0.blockid != Block.classicStickyPiston.blockID) {
+			if(i10 > 0 && i9 == 0 && i11 == 0 && movingPiston0.blockID != Block.classicStickyPiston.blockID) {
 				double d25 = (double)i10 * (double)0.24F * 5.0D;
 
 				while(arrayList5.size() > 0) {
 					int i19 = arrayList5.size() - 1;
 					EntityMovingPiston movingPiston20 = (EntityMovingPiston)arrayList5.get(i19);
-					if(movingPiston20.blockid != Block.sand.blockID && movingPiston20.blockid != Block.gravel.blockID) {
+					if(movingPiston20.blockID != Block.sand.blockID && movingPiston20.blockID != Block.gravel.blockID) {
 						break;
 					}
 
 					movingPiston20.worldObj.setBlockWithNotify(movingPiston20.xstart, movingPiston20.ystart, movingPiston20.zstart, 0);
-					EntityFallingSand entityFallingSand21 = new EntityFallingSand(movingPiston20.worldObj, (double)((float)movingPiston20.xstart + 0.5F), (double)((float)movingPiston20.ystart + 0.5F), (double)((float)movingPiston20.zstart + 0.5F), movingPiston20.blockid);
+					EntityFallingSand entityFallingSand21 = new EntityFallingSand(movingPiston20.worldObj, (double)((float)movingPiston20.xstart + 0.5F), (double)((float)movingPiston20.ystart + 0.5F), (double)((float)movingPiston20.zstart + 0.5F), movingPiston20.blockID);
 					entityFallingSand21.motionY += d25;
 					movingPiston20.worldObj.spawnEntityInWorld(entityFallingSand21);
 					arrayList5.remove(i19);
@@ -250,7 +250,7 @@ public class EntityMovingPiston extends Entity {
 			i2 -= i10;
 			i3 -= i11;
 			z8 = false;
-			int i13 = world0.getBlockId(i1, i2, i3);
+			int i13 = world0.getblockID(i1, i2, i3);
 			if(i13 == 0) {
 				return;
 			}
@@ -304,7 +304,7 @@ public class EntityMovingPiston extends Entity {
 	}
 
 	public void onUpdate() {
-		if(this.blockid == 0) {
+		if(this.blockID == 0) {
 			this.setEntityDead();
 		} else {
 			this.prevPosX = this.posX;
@@ -319,15 +319,15 @@ public class EntityMovingPiston extends Entity {
 			int i2 = MathHelper.floor_double(this.posY + (double)(this.ymove >= 0 ? -0.5F : 0.5F));
 			int i3 = MathHelper.floor_double(this.posZ + (double)(this.zmove >= 0 ? -0.5F : 0.5F));
 			if(i1 == this.xstart + this.xmove && i2 == this.ystart + this.ymove && i3 == this.zstart + this.zmove) {
-				boolean z4 = this.blockid == Block.classicPiston.blockID || this.blockid == Block.classicStickyPiston.blockID;
+				boolean z4 = this.blockID == Block.classicPiston.blockID || this.blockID == Block.classicStickyPiston.blockID;
 				if(!this.extending && z4) {
 					int i8 = this.worldObj.getBlockMetadata(i1, i2, i3);
 					this.worldObj.setBlockMetadataWithNotify(i1, i2, i3, i8 & 7);
 					this.worldObj.markBlockAsNeedsUpdate(i1, i2, i3);
 				} else {
 					this.end(i1, i2, i3, !z4);
-					if(this.blockid == Block.classicPistonBase.blockID || this.blockid == Block.classicStickyPistonBase.blockID) {
-						((BlockPistonBase)Block.blocksList[this.blockid]).onPistonPushed(this.worldObj, i1, i2, i3);
+					if(this.blockID == Block.classicPistonBase.blockID || this.blockID == Block.classicStickyPistonBase.blockID) {
+						((BlockPistonBase)Block.blocksList[this.blockID]).onPistonPushed(this.worldObj, i1, i2, i3);
 					}
 
 					List<Entity> list5 = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, AxisAlignedBB.getBoundingBoxFromPool((double)i1, (double)(i2 + 1), (double)i3, (double)(i1 + 1), (double)i2 + 1.1D, (double)(i3 + 1)));
@@ -347,19 +347,19 @@ public class EntityMovingPiston extends Entity {
 	}
 
 	private void end(int i1, int i2, int i3, boolean z4) {
-		int i5 = this.worldObj.getBlockId(i1, i2, i3);
+		int i5 = this.worldObj.getblockID(i1, i2, i3);
 		boolean z6 = Block.blocksList[i5] == null ? false : isNormalBlock(Block.blocksList[i5]);
 		if(z6) {
 			if(z4) {
-				Block.blocksList[this.blockid].dropBlockAsItem(this.worldObj, i1, i2, i3, 0);
+				Block.blocksList[this.blockID].dropBlockAsItem(this.worldObj, i1, i2, i3, 0);
 				this.worldObj.setBlockWithNotify(i1, i2, i3, 0);
 			} else {
-				boolean z7 = this.blockid == Block.classicStickyPiston.blockID;
+				boolean z7 = this.blockID == Block.classicStickyPiston.blockID;
 				buildRetractingPistons(this.worldObj, i1, i2, i3, this.xstart, this.ystart, this.zstart, this.worldObj.getBlockMetadata(i1, i2, i3), z7);
 			}
 
 		} else {
-			this.worldObj.setBlockWithNotify(i1, i2, i3, this.blockid);
+			this.worldObj.setBlockWithNotify(i1, i2, i3, this.blockID);
 			if(this.data != 0) {
 				this.worldObj.setBlockMetadataWithNotify(i1, i2, i3, this.data);
 			}
@@ -378,7 +378,7 @@ public class EntityMovingPiston extends Entity {
 		nBTTagCompound1.setInteger("xstart", this.xstart);
 		nBTTagCompound1.setInteger("ystart", this.ystart);
 		nBTTagCompound1.setInteger("zstart", this.zstart);
-		nBTTagCompound1.setByte("Block", (byte)this.blockid);
+		nBTTagCompound1.setByte("Block", (byte)this.blockID);
 		nBTTagCompound1.setByte("Data", (byte)this.data);
 		nBTTagCompound1.setBoolean("Extending", this.extending);
 	}
@@ -390,7 +390,7 @@ public class EntityMovingPiston extends Entity {
 		this.xstart = nBTTagCompound1.getInteger("xstart");
 		this.ystart = nBTTagCompound1.getInteger("ystart");
 		this.zstart = nBTTagCompound1.getInteger("zstart");
-		this.blockid = nBTTagCompound1.getByte("Block") & 255;
+		this.blockID = nBTTagCompound1.getByte("Block") & 255;
 		this.data = nBTTagCompound1.getByte("Data") & 255;
 		this.extending = nBTTagCompound1.getBoolean("Extending");
 		this.timeout = 0;

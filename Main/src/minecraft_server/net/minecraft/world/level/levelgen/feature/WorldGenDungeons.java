@@ -77,8 +77,8 @@ public class WorldGenDungeons extends WorldGenerator {
 					}
 
 					if((xx == x - width - 1 || xx == x + width + 1 || zz == z - depth - 1 || zz == z + depth + 1) && yy == y) {
-						int bid1 = world.getBlockId(xx, yy, zz); 
-						int bid2 = world.getBlockId(xx, yy + 1, zz);
+						int bid1 = world.getblockID(xx, yy, zz); 
+						int bid2 = world.getblockID(xx, yy + 1, zz);
 						if ((bid1 == 0 || bid1 == Block.waterStill.blockID) &&
 							(bid2 == 0 || bid2 == Block.waterStill.blockID)) {
 							++var9;
@@ -119,7 +119,7 @@ public class WorldGenDungeons extends WorldGenerator {
 					xx = x + rand.nextInt(width * 2 + 1) - width;
 					zz = z + rand.nextInt(depth * 2 + 1) - depth;
 					
-					if(world.getBlockId(xx, y, zz) == 0) {
+					if(world.getblockID(xx, y, zz) == 0) {
 						int adjacentSolidBlocks = 0;
 						if(world.getBlockMaterial(xx - 1, y, zz).getIsSolid()) {
 							++adjacentSolidBlocks;

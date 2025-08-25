@@ -57,7 +57,7 @@ public class EntityFallingSand extends Entity {
 			int i1 = MathHelper.floor_double(this.posX);
 			int i2 = MathHelper.floor_double(this.posY);
 			int i3 = MathHelper.floor_double(this.posZ);
-			if(this.worldObj.getBlockId(i1, i2, i3) == this.blockID) {
+			if(this.worldObj.getblockID(i1, i2, i3) == this.blockID) {
 				this.worldObj.setBlockWithNotify(i1, i2, i3, 0);
 			}
 

@@ -24,16 +24,16 @@ public class BlockCoral extends Block implements IBlockWithSubtypes {
 	}
 	
     public boolean canPlaceBlockAt(World world, int x, int y, int z) {
-        return world.getBlockId(x, y, z) == Block.waterStill.blockID 
-        		&& world.getBlockId(x, y + 1, z) == Block.waterStill.blockID 
-        		&& canThisPlantGrowOnThisBlockID(world.getBlockId(x, y - 1, z));
+        return world.getblockID(x, y, z) == Block.waterStill.blockID 
+        		&& world.getblockID(x, y + 1, z) == Block.waterStill.blockID 
+        		&& canThisPlantGrowOnThisblockID(world.getblockID(x, y - 1, z));
     }
     
-    protected boolean canThisPlantGrowOnThisBlockID(int par1) {
+    protected boolean canThisPlantGrowOnThisblockID(int par1) {
     	return Block.opaqueCubeLookup[par1];
     }
     
-    public void onNeighborBlockChange(World world, int x, int y, int z, int neighborBlockID) {
+    public void onNeighborBlockChange(World world, int x, int y, int z, int neighborblockID) {
         if (!canBlockStay(world, x, y, z)) {
             dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z));
             world.setBlockWithNotify(x, y, z, Block.waterStill.blockID);
@@ -41,9 +41,9 @@ public class BlockCoral extends Block implements IBlockWithSubtypes {
     }
     
     public boolean canBlockStay(World world, int x, int y, int z) {
-    	int blockOnTop = world.getBlockId(x, y + 1, z);
+    	int blockOnTop = world.getblockID(x, y + 1, z);
     	if(! (blockOnTop == Block.waterStill.blockID || blockOnTop == Block.waterMoving.blockID)) return false;
-    	return canThisPlantGrowOnThisBlockID(world.getBlockId(x, y - 1, z));
+    	return canThisPlantGrowOnThisblockID(world.getblockID(x, y - 1, z));
     }
     
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int i) {
@@ -78,7 +78,7 @@ public class BlockCoral extends Block implements IBlockWithSubtypes {
 	}
 
 	@Override
-	public int getItemBlockId() {
+	public int getItemblockID() {
 		return this.blockID - 256;
 	}
 

@@ -256,11 +256,11 @@ public class Chunk {
 		}
 	}
 
-	public int getBlockID(int x, int y, int z) {
+	public int getblockID(int x, int y, int z) {
 		return (int) this.blocks[x << 11 | z << 7 | y] & 0xff;
 	}
 
-	public boolean setBlockIDWithMetadata(int x, int y, int z, int id, int metadata) {
+	public boolean setblockIDWithMetadata(int x, int y, int z, int id, int metadata) {
 		int height = this.heightMap[z << 4 | x] & 255;
 		int index = x << 11 | z << 7 | y;
 		int existingId = this.blocks[index] & 255;
@@ -315,7 +315,7 @@ public class Chunk {
 		}
 	}
 	
-	public boolean setBlockIDAndMetadataColumn(int x, int y, int z, int[] id) {
+	public boolean setblockIDAndMetadataColumn(int x, int y, int z, int[] id) {
 		// Column is bottom to top ordered
 		// Metadata is encoded as a most significant byte
 
@@ -381,8 +381,8 @@ public class Chunk {
 		return true;
 	}
 
-	public boolean setBlockID(int x, int y, int z, int id) {
-		return this.setBlockIDWithMetadata(x, y, z, id, 0);
+	public boolean setblockID(int x, int y, int z, int id) {
+		return this.setblockIDWithMetadata(x, y, z, id, 0);
 	}
 
 	public int getBlockMetadata(int x, int y, int z) {
@@ -507,7 +507,7 @@ public class Chunk {
 		ChunkPosition chunkPosition4 = new ChunkPosition(i1, i2, i3);
 		TileEntity tileEntity5 = (TileEntity)this.chunkTileEntityMap.get(chunkPosition4);
 		if(tileEntity5 == null) {
-			int i6 = this.getBlockID(i1, i2, i3);
+			int i6 = this.getblockID(i1, i2, i3);
 			if(!Block.isBlockContainer[i6]) {
 				return null;
 			}
@@ -529,7 +529,7 @@ public class Chunk {
 		ChunkPosition chunkPosition = new ChunkPosition(x, y, z);
 		EntityBlockEntity entity = this.chunkSpecialEntityMap.get(chunkPosition);
 		if(entity == null) {
-			Block block = Block.blocksList[this.getBlockID(x, y, z)];
+			Block block = Block.blocksList[this.getblockID(x, y, z)];
 			if(block == null || !(block instanceof BlockEntity)) {
 				return null;
 			}
@@ -595,7 +595,7 @@ public class Chunk {
 		tileEntity4.xCoord = this.xPosition << 4 | i1;
 		tileEntity4.yCoord = i2;
 		tileEntity4.zCoord = this.zPosition << 4 | i3;
-		if(this.getBlockID(i1, i2, i3) != 0 && Block.blocksList[this.getBlockID(i1, i2, i3)] instanceof BlockContainer) {
+		if(this.getblockID(i1, i2, i3) != 0 && Block.blocksList[this.getblockID(i1, i2, i3)] instanceof BlockContainer) {
 			tileEntity4.validate();
 			this.chunkTileEntityMap.put(chunkPosition5, tileEntity4);
 		} else {
@@ -606,7 +606,7 @@ public class Chunk {
 	public void setChunkBlockEntity(int x, int y, int z, EntityBlockEntity entity) {
 		ChunkPosition chunkPosition5 = new ChunkPosition(x, y, z); 
 		entity.worldObj = this.worldObj;
-		Block block = Block.blocksList[this.getBlockID(x, y, z)];
+		Block block = Block.blocksList[this.getblockID(x, y, z)];
 		if(block != null && block instanceof BlockEntity) {
 			/*
 			if(this.isChunkLoaded) {
@@ -620,7 +620,7 @@ public class Chunk {
 
 			this.chunkSpecialEntityMap.put(chunkPosition5, entity);
 		} else {
-			System.out.println("Attempted to place a special entity where there was no entity tile! " + x + " " + y + " " + z + "   " + entity.getClass() + " block was " + this.getBlockID(x, y, z));
+			System.out.println("Attempted to place a special entity where there was no entity tile! " + x + " " + y + " " + z + "   " + entity.getClass() + " block was " + this.getblockID(x, y, z));
 		}	
 	}
 
@@ -886,7 +886,7 @@ public class Chunk {
 		return this.biomeGenCache [x << 4 | z];
 	}
 
-	public boolean setBlockIDWithMetadataNoLights(int x, int y, int z, int id, int metadata) {
+	public boolean setblockIDWithMetadataNoLights(int x, int y, int z, int id, int metadata) {
 		int index = x << 11 | z << 7 | y;
 		int existingId = this.blocks[index] & 255;
 		if(existingId == id && this.data[index] == metadata) {

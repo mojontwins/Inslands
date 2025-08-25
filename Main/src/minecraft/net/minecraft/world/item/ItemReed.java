@@ -13,7 +13,7 @@ public class ItemReed extends Item {
 	}
 
 	public boolean onItemUse(ItemStack itemStack1, EntityPlayer entityPlayer2, World world3, int i4, int i5, int i6, int i7) {
-		if(world3.getBlockId(i4, i5, i6) == Block.snow.blockID) {
+		if(world3.getblockID(i4, i5, i6) == Block.snow.blockID) {
 			i7 = 0;
 		} else {
 			if(i7 == 0) {

@@ -31,7 +31,7 @@ public class ItemSpade extends ItemTool {
 	}
 	
 	public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side) {
-		int blockID = world.getBlockId(x, y, z);
+		int blockID = world.getblockID(x, y, z);
 		Material material = world.getBlockMaterial(x, y + 1, z);
 		if(material.isSolid() || blockID != Block.grass.blockID) {
 			return false;

@@ -114,7 +114,7 @@ public class TFGenHollowHill extends TFGenerator {
 		do {
 			rx = this.hx + this.hillRNG.nextInt(2 * rad) - rad;
 			rz = this.hz + this.hillRNG.nextInt(2 * rad) - rad;
-			whatsThere = this.worldObj.getBlockId(rx, ry, rz);
+			whatsThere = this.worldObj.getblockID(rx, ry, rz);
 		} while(!this.isInHill(rx, rz) || whatsThere != 0);
 
 		int[] coords = new int[]{rx, rz};

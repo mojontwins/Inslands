@@ -31,7 +31,7 @@ public class PlayerController {
 
 	public boolean sendBlockRemoved(int i1, int i2, int i3, int i4) {
 		World world5 = this.mc.theWorld;
-		Block block6 = Block.blocksList[world5.getBlockId(i1, i2, i3)];
+		Block block6 = Block.blocksList[world5.getblockID(i1, i2, i3)];
 		world5.playAuxSFX(2001, i1, i2, i3, block6.blockID + world5.getBlockMetadata(i1, i2, i3) * 256);
 		int i7 = world5.getBlockMetadata(i1, i2, i3);
 		boolean z8 = 
@@ -92,7 +92,7 @@ public class PlayerController {
 	}
 
 	public boolean sendPlaceBlock(EntityPlayer entityPlayer, World world, ItemStack itemStack, int x, int y, int z, int face, float xWithinFace, float yWithinFace, float zWithinFace) {
-		int i8 = world.getBlockId(x, y, z);
+		int i8 = world.getblockID(x, y, z);
 		return i8 > 0 && Block.blocksList[i8].blockActivated(world, x, y, z, entityPlayer, itemStack) ? true : (itemStack == null ? false : itemStack.useItem(entityPlayer, world, x, y, z, face, xWithinFace, yWithinFace, zWithinFace));
 	}
 

@@ -113,7 +113,7 @@ public class EntityPirateBoss extends EntityMob implements IMob {
 
 			while(true) {
 				while(!foundSolid && y > 0) {
-					Block block = Block.blocksList[this.worldObj.getBlockId(x, y - 1, z)];
+					Block block = Block.blocksList[this.worldObj.getblockID(x, y - 1, z)];
 					if(block != null && block.blockMaterial.getIsSolid()) {
 						foundSolid = true;
 					} else {

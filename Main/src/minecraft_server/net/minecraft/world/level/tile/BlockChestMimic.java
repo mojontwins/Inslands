@@ -20,10 +20,10 @@ public class BlockChestMimic extends Block {
 		} else if(l == 0) {
 			return this.blockIndexInTexture - 1;
 		} else {
-			int i1 = iblockaccess.getBlockId(i, j, k - 1);
-			int j1 = iblockaccess.getBlockId(i, j, k + 1);
-			int k1 = iblockaccess.getBlockId(i - 1, j, k);
-			int l1 = iblockaccess.getBlockId(i + 1, j, k);
+			int i1 = iblockaccess.getblockID(i, j, k - 1);
+			int j1 = iblockaccess.getblockID(i, j, k + 1);
+			int k1 = iblockaccess.getblockID(i - 1, j, k);
+			int l1 = iblockaccess.getblockID(i + 1, j, k);
 			int byte0;
 			int l2;
 			int j3;
@@ -54,8 +54,8 @@ public class BlockChestMimic extends Block {
 						byte0 = -1;
 					}
 
-					l2 = iblockaccess.getBlockId(k1 != this.blockID ? i + 1 : i - 1, j, k - 1);
-					j3 = iblockaccess.getBlockId(k1 != this.blockID ? i + 1 : i - 1, j, k + 1);
+					l2 = iblockaccess.getblockID(k1 != this.blockID ? i + 1 : i - 1, j, k - 1);
+					j3 = iblockaccess.getblockID(k1 != this.blockID ? i + 1 : i - 1, j, k + 1);
 					if(l == 3) {
 						byte0 = -1 - byte0;
 					}
@@ -79,8 +79,8 @@ public class BlockChestMimic extends Block {
 					byte0 = -1;
 				}
 
-				l2 = iblockaccess.getBlockId(i - 1, j, i1 != this.blockID ? k + 1 : k - 1);
-				j3 = iblockaccess.getBlockId(i + 1, j, i1 != this.blockID ? k + 1 : k - 1);
+				l2 = iblockaccess.getblockID(i - 1, j, i1 != this.blockID ? k + 1 : k - 1);
+				j3 = iblockaccess.getblockID(i + 1, j, i1 != this.blockID ? k + 1 : k - 1);
 				if(l == 4) {
 					byte0 = -1 - byte0;
 				}
@@ -107,19 +107,19 @@ public class BlockChestMimic extends Block {
 
 	public boolean canPlaceBlockAt(World world, int i, int j, int k) {
 		int l = 0;
-		if(world.getBlockId(i - 1, j, k) == this.blockID) {
+		if(world.getblockID(i - 1, j, k) == this.blockID) {
 			++l;
 		}
 
-		if(world.getBlockId(i + 1, j, k) == this.blockID) {
+		if(world.getblockID(i + 1, j, k) == this.blockID) {
 			++l;
 		}
 
-		if(world.getBlockId(i, j, k - 1) == this.blockID) {
+		if(world.getblockID(i, j, k - 1) == this.blockID) {
 			++l;
 		}
 
-		if(world.getBlockId(i, j, k + 1) == this.blockID) {
+		if(world.getblockID(i, j, k + 1) == this.blockID) {
 			++l;
 		}
 
@@ -127,7 +127,7 @@ public class BlockChestMimic extends Block {
 	}
 
 	private boolean isThereANeighborChest(World world, int i, int j, int k) {
-		return world.getBlockId(i, j, k) != this.blockID ? false : (world.getBlockId(i - 1, j, k) == this.blockID ? true : (world.getBlockId(i + 1, j, k) == this.blockID ? true : (world.getBlockId(i, j, k - 1) == this.blockID ? true : world.getBlockId(i, j, k + 1) == this.blockID)));
+		return world.getblockID(i, j, k) != this.blockID ? false : (world.getblockID(i - 1, j, k) == this.blockID ? true : (world.getblockID(i + 1, j, k) == this.blockID ? true : (world.getblockID(i, j, k - 1) == this.blockID ? true : world.getblockID(i, j, k + 1) == this.blockID)));
 	}
 
 	public void onBlockRemoval(World world, int i, int j, int k) {

@@ -50,7 +50,7 @@ public class BlockRedstoneWire extends Block {
 	}
 
 	public boolean canPlaceBlockAt(World world1, int i2, int i3, int i4) {
-		return world1.isBlockNormalCube(i2, i3 - 1, i4) || world1.getBlockId(i2, i3 - 1, i4) == Block.glowStone.blockID;
+		return world1.isBlockNormalCube(i2, i3 - 1, i4) || world1.getblockID(i2, i3 - 1, i4) == Block.glowStone.blockID;
 	}
 
 	private void updateAndPropagateCurrentStrength(World world1, int i2, int i3, int i4) {
@@ -181,7 +181,7 @@ public class BlockRedstoneWire extends Block {
 	}
 
 	private void notifyWireNeighborsOfNeighborChange(World world1, int i2, int i3, int i4) {
-		if(world1.getBlockId(i2, i3, i4) == this.blockID) {
+		if(world1.getblockID(i2, i3, i4) == this.blockID) {
 			world1.notifyBlocksOfNeighborChange(i2, i3, i4, this.blockID);
 			world1.notifyBlocksOfNeighborChange(i2 - 1, i3, i4, this.blockID);
 			world1.notifyBlocksOfNeighborChange(i2 + 1, i3, i4, this.blockID);
@@ -271,7 +271,7 @@ public class BlockRedstoneWire extends Block {
 	}
 
 	private int getMaxCurrentStrength(World world1, int i2, int i3, int i4, int i5) {
-		if(world1.getBlockId(i2, i3, i4) != this.blockID) {
+		if(world1.getblockID(i2, i3, i4) != this.blockID) {
 			return i5;
 		} else {
 			int i6 = world1.getBlockMetadata(i2, i3, i4);
@@ -368,7 +368,7 @@ public class BlockRedstoneWire extends Block {
 	}
 
 	public static boolean isPowerProviderOrWire(IBlockAccess iBlockAccess0, int i1, int i2, int i3, int i4) {
-		int i5 = iBlockAccess0.getBlockId(i1, i2, i3);
+		int i5 = iBlockAccess0.getblockID(i1, i2, i3);
 		if(i5 == Block.redstoneWire.blockID) {
 			return true;
 		} else if(i5 == 0) {
@@ -385,7 +385,7 @@ public class BlockRedstoneWire extends Block {
 		if(isPowerProviderOrWire(iBlockAccess0, i1, i2, i3, i4)) {
 			return true;
 		} else {
-			int i5 = iBlockAccess0.getBlockId(i1, i2, i3);
+			int i5 = iBlockAccess0.getblockID(i1, i2, i3);
 			if(i5 == Block.redstoneRepeaterActive.blockID) {
 				int i6 = iBlockAccess0.getBlockMetadata(i1, i2, i3);
 				return i4 == (i6 & 3);

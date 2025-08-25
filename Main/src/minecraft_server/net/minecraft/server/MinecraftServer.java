@@ -147,7 +147,7 @@ public class MinecraftServer implements Runnable, ICommandListener {
 					this.outputPercentRemaining("Preparing spawn area", chunksLoaded * 100 / WorldSize.getTotalChunks());
 				}
 				chunksLoaded++;
-				world.getBlockId(x, 64, z);
+				world.getblockID(x, 64, z);
 				world.chunkProviderServer.prepareChunk(x, z);
 			}
 		}

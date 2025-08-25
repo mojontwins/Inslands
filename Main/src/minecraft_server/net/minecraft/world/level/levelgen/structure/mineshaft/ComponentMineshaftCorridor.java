@@ -149,10 +149,10 @@ public class ComponentMineshaftCorridor extends StructureComponent {
 				i10 = 2 + i9 * 5;
 								
 				// Modification: Only add arch if needed and if possible (so no floating stuff
-				if(getBlockIdAtCurrentPositionNoVertClip(world1, 1, 3, i10, structureBoundingBox3) != 0) {
+				if(getblockIDAtCurrentPositionNoVertClip(world1, 1, 3, i10, structureBoundingBox3) != 0) {
 					if(
-							this.getBlockIdAtCurrentPositionNoVertClip(world1, 0, -1, i10, structureBoundingBox3) != 0 &&
-							this.getBlockIdAtCurrentPositionNoVertClip(world1, 2, -1, i10, structureBoundingBox3) != 0
+							this.getblockIDAtCurrentPositionNoVertClip(world1, 0, -1, i10, structureBoundingBox3) != 0 &&
+							this.getblockIDAtCurrentPositionNoVertClip(world1, 2, -1, i10, structureBoundingBox3) != 0
 					) {
 						this.fillWithBlocks(world1, structureBoundingBox3, 0, 0, i10, 0, 1, i10, Block.fence.blockID, 0, false);
 						this.fillWithBlocks(world1, structureBoundingBox3, 2, 0, i10, 2, 1, i10, Block.fence.blockID, 0, false);
@@ -164,24 +164,24 @@ public class ComponentMineshaftCorridor extends StructureComponent {
 				} else {
 					// Chains if needed / possible
 					if(
-							this.getBlockIdAtCurrentPositionNoVertClip(world1, 0, -1, i10, structureBoundingBox3) != 0 &&
+							this.getblockIDAtCurrentPositionNoVertClip(world1, 0, -1, i10, structureBoundingBox3) != 0 &&
 							!this.canBlockSeeTheSky(world1, 0, 1, i10, structureBoundingBox3)
 					) {
 						this.placeBlockAtCurrentPosition(world1, Block.fence.blockID, 0, 0, 0, i10, structureBoundingBox3);
 						int y = 1;
-						while(this.getBlockIdAtCurrentPositionNoVertClip(world1, 0, y, i10, structureBoundingBox3) == 0) {
+						while(this.getblockIDAtCurrentPositionNoVertClip(world1, 0, y, i10, structureBoundingBox3) == 0) {
 							this.placeBlockAtCurrentPositionNoVertClip(world1, Block.chain.blockID, 0, 0, y, i10, structureBoundingBox3);
 							y ++;
 						}
 					}
 						
 					if(
-							this.getBlockIdAtCurrentPositionNoVertClip(world1, 2, -1, i10, structureBoundingBox3) != 0 &&
+							this.getblockIDAtCurrentPositionNoVertClip(world1, 2, -1, i10, structureBoundingBox3) != 0 &&
 							!this.canBlockSeeTheSky(world1, 2, 1, i10, structureBoundingBox3)
 					) {
 						this.placeBlockAtCurrentPosition(world1, Block.fence.blockID, 0, 2, 0, i10, structureBoundingBox3);
 						int y = 1;
-						while(this.getBlockIdAtCurrentPositionNoVertClip(world1, 2, y, i10, structureBoundingBox3) == 0) {
+						while(this.getblockIDAtCurrentPositionNoVertClip(world1, 2, y, i10, structureBoundingBox3) == 0) {
 							this.placeBlockAtCurrentPositionNoVertClip(world1, Block.chain.blockID, 0, 2, y, i10, structureBoundingBox3);
 							y ++;
 						}
@@ -225,7 +225,7 @@ public class ComponentMineshaftCorridor extends StructureComponent {
 							for(int x = -4; x <= 4; x ++) {
 								for(int z = -4; z <= 4; z ++) {
 									int xx = i13 + x; int yy = i11 + y; int zz = i12 + z;
-									if(world1.getBlockId(xx, yy, zz) == 0) {
+									if(world1.getblockID(xx, yy, zz) == 0) {
 										world1.setBlockWithNotify(xx, yy, zz, Block.web.blockID);
 									}
 								}
@@ -237,7 +237,7 @@ public class ComponentMineshaftCorridor extends StructureComponent {
 
 			for(i9 = 0; i9 <= 2; ++i9) {
 				for(i10 = 0; i10 <= i8; ++i10) {
-					i11 = this.getBlockIdAtCurrentPosition(world1, i9, -1, i10, structureBoundingBox3);
+					i11 = this.getblockIDAtCurrentPosition(world1, i9, -1, i10, structureBoundingBox3);
 					if(i11 == 0) {
 						this.placeBlockAtCurrentPosition(world1, Block.planks.blockID, 0, i9, -1, i10, structureBoundingBox3);
 					}
@@ -246,7 +246,7 @@ public class ComponentMineshaftCorridor extends StructureComponent {
 
 			if(this.hasRails) {
 				for(i9 = 0; i9 <= i8; ++i9) {
-					i10 = this.getBlockIdAtCurrentPosition(world1, 1, -1, i9, structureBoundingBox3);
+					i10 = this.getblockIDAtCurrentPosition(world1, 1, -1, i9, structureBoundingBox3);
 					if(i10 > 0 && Block.opaqueCubeLookup[i10]) {
 						this.randomlyPlaceBlock(world1, structureBoundingBox3, random2, 0.7F, 1, 0, i9, Block.rail.blockID, this.getMetadataWithOffset(Block.rail.blockID, 0));
 					}

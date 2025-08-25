@@ -50,7 +50,7 @@ public class WorldGenIndevHouse extends WorldGenerator {
 		for(int x = x0 - 3; x <= x0 + 3; ++x) {
 			for(int z = z0 - 6; z <= z0 + 3; ++z) {
 				int y = y0 - 3;
-				while (y > 0 && notGroundOrStone(world.getBlockId(x, y, z))) {
+				while (y > 0 && notGroundOrStone(world.getblockID(x, y, z))) {
 					world.setBlock(x, y, z, Block.cobblestone.blockID);
 					y --;
 				}

@@ -120,7 +120,7 @@ public class EntityArrow extends Entity {
 			this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(this.motionY, (double)f1) * 180.0D / (double)(float)Math.PI);
 		}
 
-		int i15 = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
+		int i15 = this.worldObj.getblockID(this.xTile, this.yTile, this.zTile);
 		if(i15 > 0) {
 			Block.blocksList[i15].setBlockBoundsBasedOnState(this.worldObj, this.xTile, this.yTile, this.zTile);
 			AxisAlignedBB axisAlignedBB2 = Block.blocksList[i15].getCollisionBoundingBoxFromPool(this.worldObj, this.xTile, this.yTile, this.zTile);
@@ -134,7 +134,7 @@ public class EntityArrow extends Entity {
 		}
 
 		if(this.inGround) {
-			i15 = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
+			i15 = this.worldObj.getblockID(this.xTile, this.yTile, this.zTile);
 			int i18 = this.worldObj.getBlockMetadata(this.xTile, this.yTile, this.zTile);
 			if(i15 == this.inTile && i18 == this.inMeta) {
 				++this.ticksInGround;
@@ -250,7 +250,7 @@ public class EntityArrow extends Entity {
 			this.xTile = movingObjectPosition.blockX;
 			this.yTile = movingObjectPosition.blockY;
 			this.zTile = movingObjectPosition.blockZ;
-			this.inTile = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
+			this.inTile = this.worldObj.getblockID(this.xTile, this.yTile, this.zTile);
 			this.inMeta = this.worldObj.getBlockMetadata(this.xTile, this.yTile, this.zTile);
 			this.motionX = (double)((float)(movingObjectPosition.hitVec.xCoord - this.posX));
 			this.motionY = (double)((float)(movingObjectPosition.hitVec.yCoord - this.posY));

@@ -66,7 +66,7 @@ public class EntityIceBoss extends EntityHumanBase {
 		//System.out.println("Attempt to teleport to " + x + " " + y + " " + z);
 		
 		// on floor?
-		Block block = Block.blocksList[this.worldObj.getBlockId(x, y - 1, z)];
+		Block block = Block.blocksList[this.worldObj.getblockID(x, y - 1, z)];
 		if(block == null || !block.blockMaterial.getIsSolid()) {
 			return false;
 		}
