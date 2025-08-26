@@ -8,7 +8,7 @@ import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
 
-public class BlockStone extends Block implements IBlockWithSubtypes {
+public class BlockStone extends Block implements IBlockWithSubtypes, IGroundSubstitute {
 	public static final int[] stoneColor = new int [] {
 		0xFFFFFF,
 		0xCCCCCC,

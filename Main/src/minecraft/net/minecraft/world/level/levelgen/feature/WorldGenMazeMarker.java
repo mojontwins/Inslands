@@ -13,7 +13,7 @@ public class WorldGenMazeMarker extends WorldGenerator {
 	public WorldGenMazeMarker(boolean carver) {
 		this.carver = carver;
 	}
-	
+
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z) {
 
@@ -21,13 +21,15 @@ public class WorldGenMazeMarker extends WorldGenerator {
 			while (world.isBlockOpaqueCube(x, y, z)) y ++;
 		}
 		
+		if(world.isAirBlock(x, y - 1, z)) return false;
+		
 		for(int i = 0; i < 5; i ++) {
 			world.setBlock(x, y++, z, Block.stoneBricks.blockID);
 		}
 		world.setBlock(x, y++, z, Block.blockLapis.blockID);
 		world.setBlock(x, y, z, Block.shinyGlass.blockID);
 		
-		return false;
+		return true;
 	}
 
 }

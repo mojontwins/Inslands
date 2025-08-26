@@ -6,7 +6,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
 
-public class BlockRegolith extends Block {
+public class BlockRegolith extends Block implements IGroundSubstitute {
 	public BlockRegolith(int id, int blockIndex) {
 		super(id, blockIndex, Material.grass);
 		

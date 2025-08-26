@@ -5,7 +5,7 @@ import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
 
-public class BlockSand extends Block {
+public class BlockSand extends Block implements IGroundSubstitute {
 	public static boolean fallInstantly = false;
 
 	public BlockSand(int id, int blockIndex) {

@@ -1287,11 +1287,11 @@ public abstract class Minecraft implements Runnable {
 				if(isNew) {
 					valid = world.levelIsValidUponWorldTheme();
 					if(world.findingSpawnPoint || !valid) {
-						/*
+					
 						System.out.println("World not valid [ Found spawn point? " + !world.findingSpawnPoint + 
 								", Valid upon theme? " + valid + 
 								" ] - trying again!");
-						*/
+						
 						Random rand = new Random(worldSettings.getSeed());
 						
 						worldSettings = new WorldSettings(
@@ -1459,9 +1459,6 @@ public abstract class Minecraft implements Runnable {
 			}
 
 			this.playerController.func_6473_b(this.thePlayer);
-			if(entityPlayer != null) {
-				world.emptyMethod1();
-			}
 
 			world.spawnPlayerWithLoadedChunks(this.thePlayer);
 			if(world.isNewWorld) {

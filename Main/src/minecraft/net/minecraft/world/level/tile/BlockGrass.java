@@ -12,7 +12,7 @@ import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 
-public class BlockGrass extends Block implements IBlockWithSubtypes {
+public class BlockGrass extends Block implements IBlockWithSubtypes, IGroundSubstitute {
 	protected BlockGrass(int blockID) {
 		super(blockID, Material.grass);
 		this.blockIndexInTexture = 3;

@@ -156,7 +156,7 @@ Yay! fps boosted on shitty systems!
 	I need to add an offset to `modelBiped` so it can pick up the lower half of the texture by default for the 2nd layer.
 	
 * [X] Port eat animation from Infhell
-* [ ] Make corridors in hedge mazes hollow if they overwrite terrain!
+* [X] Make corridors in hedge mazes hollow if they overwrite terrain!
 
 # More
 
@@ -293,7 +293,7 @@ Also
 	* [X] Add a method in Entity that is called right after being spawned in the world for the first time - but only if it's possible to not doing it if we are loading entities.
 
 * [X] Add the stone arches in deserts.
-* [ ] Feature smaller biomes in biomed world theme and hell
+* [X] Feature smaller biomes in biomed world theme and hell
 * [X] Fix pistons in SMP (they work, but need the special Packet for the animation)
 
 # Removing the need to rely on the original minecraft.jar
@@ -378,8 +378,90 @@ Things to do to finish tree refactoring
 * [X] Nerf swarm spiders a bit so they poison less often and less time.
 * [/] Prune world loaded entity list after a blood moon to kill excess entities. NEEDS TESTING
 * [X] Make sure poison witch never dies or despawns.
+* [ ] Make a smaller feature-size fossil so poison islands have bones too and can grow animals.
 
 # When I'm ready to add new stuff
 
 * [ ] Goats and the named entity dynamic.
 * [ ] Backport all the custom command block shit.
+
+# Hedge mazes - again
+
+I want hedge mazes to carve thru rock - only. The way tey work is that hollow is created and then walls are painted, but that won't work for me i.e. for floating islands. I need to understand how mazes are built so I can change the code.
+
+RN the maze generator generates a maze in a 2D array that looks like this:
+
+```
+	000000000000000005000000000000000 
+	010121212121012121212121212101210 
+	020000020002000005000200020200020 
+	010121010101210555550101210121010 
+	020202020200020555550202000002020 
+	012101010121215555555101210121210 
+	000002020200000555550200020000000 
+	012101210101210555550121012121210 
+	020000000202020005000002000000020 
+	012101212101012121210121012101010 
+	000202000000020000000200020202020 
+	012101012121010121210121210121010 
+	020002020002020200020200050000020 
+	012121012101012121012105555501210 
+	020000020202000000000205555502000 
+	010121210101212121210155555551210 
+	020002000200000000020205555502020 
+	512101210101212121210105555501015 
+	000202000202000005000005050002020 
+	012101012101010555550555550121010 
+	020000020002020555550555550200020 
+	010121012101215555555555555101010 
+	020202000200020555550555550202020 
+	010101210121010555550555550121010 
+	020200020002020005000005000000020 
+	012101212121010121212121012121010 
+	000200050000020200000002000202020 
+	012105555501210101210121012101010 
+	020005555502000202020200020002020 
+	010155555551210101010121010101210 
+	020205555500020202000002020200020 
+	012105555501212101212121210121210 
+	000000000000000005000000000000000 
+	·x·x·x·x·x·x·x·x·x·x·x·x·x·x·x·x·
+```
+
+ofc 0 mean walls but I need to understand how this is translated to a real world maze i.e. blocks.
+
+* Note how # of rows and # of columns is always an odd number.
+* Note how even x or even z means WALL.
+
+I believe that even / odd coordinates in the array translate to different sized block coordinates. Which may be the case, 'cause we have two attributes: `evenBias = 1` and `oddBias = 3`. We can think of a maze cell like this portion of the array, measuring 2x2:
+
+```
+	00
+	01
+```
+
+Which should render, in blocks, to:
+
+```
+	 e/o\
+	eWWWW
+	/W···
+	oW···
+	\W···
+```
+
+Where W is a wall block, · is air, `e` is the even row/column of the main array and `o` is the odd row/column of the array.
+
+This is a great initial piece of understanding I can use. Let's look again at the algorithm.
+
+Yay I got it.
+
+## Many level retries are because no valid spawn point is found.
+
+On floating islands this may be 'cause no enough land is being generated. Or 'cause we are not trying hard enough.
+
+I'm sure could fill a list of possible spawn points while creating the level and use one of those a random if normal spawn point search ends.
+
+* [X] Hmmm But also, the algo that finds the spawn point makes a call to `getFirstUncoveredBlock` for the selected random x, z, but that method iterates from y = 63 upwards and assumes lowland is solid. So I need to write a different `canCoordinateBeSpawn` in `WorldProviderSky`. Or better, produce a better `World.getFirstUncoveredBlock`. It will receive a boolean to start looking from a hollow world bottom.
+
+

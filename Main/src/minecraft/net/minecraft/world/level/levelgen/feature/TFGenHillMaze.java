@@ -30,6 +30,7 @@ public class TFGenHillMaze extends TFGenerator {
 		this.rand = rand;
 		int sx = x - 7 - this.hsize * 16;
 		int sz = z - 7 - this.hsize * 16;
+		
 		byte msize = 11;
 		if(this.hsize == 2) {
 			msize = 19;
@@ -44,9 +45,10 @@ public class TFGenHillMaze extends TFGenerator {
 			}
 		}
 		
-		this.fillIfSolid(sx, y - 1, sz, msize * 4, 1, msize * 4, Block.mazeStone.blockID, 1);
+		this.fillIfGround(sx, y - 1, sz, msize * 4, 1, msize * 4, Block.mazeStone.blockID, 1);
 		//this.fill(sx, y, sz, msize * 4, 3, msize * 4, 0, 0);
-		this.fillIfSolid(sx, y + 3, sz, msize * 4, 1, msize * 4, Block.mazeStone.blockID, 2);
+		this.fillIfGround(sx, y + 3, sz, msize * 4, 1, msize * 4, Block.mazeStone.blockID, 2);
+		
 		this.maze = new TFMaze(msize, msize);
 		int nrooms = msize / 3;
 		int[] rcoords = new int[nrooms * 2];
