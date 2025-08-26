@@ -30,8 +30,8 @@ public class WorldProviderSky extends WorldProvider {
 		return 8.0F;
 	}
 
-	public boolean canCoordinateBeSpawn(int i1, int i2) {
-		int i3 = this.worldObj.getFirstUncoveredBlock(i1, i2);
-		return i3 == 0 ? false : Block.blocksList[i3].blockMaterial.getIsSolid();
+	public boolean canCoordinateBeSpawn(int x, int z) {
+		int blockID = this.worldObj.getFirstUncoveredBlock(x, z, true);
+		return blockID == 0 ? false : Block.blocksList[blockID].blockMaterial.getIsSolid();
 	}
 }

@@ -48,7 +48,11 @@ public class GameHints {
 		"A skeleton head on two diamond blocks summons a boss.",
 		"Diamond Skeletons only take damage from bottles of poison.",
 		"Black goo is not useless! Fill a bottle and throw it!",
-		"Right click cauldron with bottle to interact with it."
+		"Right click cauldron with bottle to interact with it.",
+		"Wooden boats will sink in acid!",
+		"Use iron boats to sail lava or acid!",
+		"Never enter the hole in the forest!",
+		"I wouldn't dig around the lightposts in the forest"
 		
 	};
 	

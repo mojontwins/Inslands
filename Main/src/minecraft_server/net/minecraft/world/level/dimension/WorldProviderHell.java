@@ -40,9 +40,9 @@ public class WorldProviderHell extends WorldProvider {
 		return new ChunkProviderHell(this.worldObj, this.worldObj.getRandomSeed());
 	}
 
-	public boolean canCoordinateBeSpawn(int i1, int i2) {
-		int i3 = this.worldObj.getFirstUncoveredBlock(i1, i2);
-		return i3 == Block.bedrock.blockID ? false : (i3 == 0 ? false : Block.opaqueCubeLookup[i3]);
+	public boolean canCoordinateBeSpawn(int x, int z) {
+		int b = this.worldObj.getFirstUncoveredBlock(x, z, false);
+		return b == Block.bedrock.blockID ? false : (b == 0 ? false : Block.opaqueCubeLookup[b]);
 	}
 
 	public float calculateCelestialAngle(long j1, float f3) {

@@ -12,15 +12,21 @@ import net.minecraft.world.level.tile.entity.TileEntityMobSpawner;
 
 public class TFGenHedgeMaze extends TFGenerator {
 	int size;
+	int minY;
 	TFMaze maze;
 	Random rand;
 
 	public TFGenHedgeMaze(int size) {
-		this.size = size;
+		this(size, 64);
 	}
 
+	public TFGenHedgeMaze(int size, int minY) {
+		this.size = size;
+		this.minY = minY;
+	}
+	
 	public boolean generate(World world, Random rand, int x, int y, int z) {
-		if(y < 64) {
+		if(y < this.minY) {
 			System.out.println ("Attempted hedge maze but too low! @" + y);
 			return false;
 		}

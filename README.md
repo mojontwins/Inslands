@@ -246,8 +246,8 @@ Port/adapt from the Indev Modloader example.
 
 Make floating forests work. 
 
-* [ ] Fix maze checks
-* [ ] Make them work XD
+* [X] Fix maze checks
+* [X] Make them work XD
 
 ## TF Mazes
 
@@ -464,4 +464,6 @@ I'm sure could fill a list of possible spawn points while creating the level and
 
 * [X] Hmmm But also, the algo that finds the spawn point makes a call to `getFirstUncoveredBlock` for the selected random x, z, but that method iterates from y = 63 upwards and assumes lowland is solid. So I need to write a different `canCoordinateBeSpawn` in `WorldProviderSky`. Or better, produce a better `World.getFirstUncoveredBlock`. It will receive a boolean to start looking from a hollow world bottom.
 
+* [X] Make iron boats able to sail the acid.
+* [ ] Make sure mazes still work on inslands.
 

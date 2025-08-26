@@ -312,6 +312,7 @@ public class World implements IBlockAccess {
 		this.findingSpawnPoint = LevelThemeGlobalSettings.getTheme().getInitialSpawnLocation(this);
 		
 		int x = 0, y = 0, z = 0;
+		int radius = 8;
 		
 		if (this.findingSpawnPoint) {
 	
@@ -321,13 +322,29 @@ public class World implements IBlockAccess {
 			y = this.getHeightValue(x, z) + 1;
 	
 			// Try really hard
-			int attemptsLeft = 512;
+			int attemptsLeft = 1024;
 	
-			while (attemptsLeft -- > 0 && (!this.worldProvider.canCoordinateBeSpawn(x, y, z) || y > 120)) {
+			poti: while (attemptsLeft -- > 0 && (!this.worldProvider.canCoordinateBeSpawn(x, y, z) || y > 120)) {
+				
+				// Find near...
+				for(int xx = x - radius; xx <= x + radius; xx ++) {
+					for(int zz = z - radius; zz <= z + radius; zz ++) {
+						y = this.getHeightValue(xx, zz);
+						if(this.worldProvider.canCoordinateBeSpawn(x, y, z) && y <= 120) {
+							x = xx;
+							z = zz;
+							y = this.getHeightValue(x, z);
+							break poti;
+						}
+					}
+				}
+				
 				x += this.rand.nextInt(64) - this.rand.nextInt(64);
 				z += this.rand.nextInt(64) - this.rand.nextInt(64);
+				
 				x = x % WorldSize.width;
 				z = z % WorldSize.length;
+				
 				y = this.getHeightValue(x, z) + 1;
 				
 			}
@@ -338,7 +355,7 @@ public class World implements IBlockAccess {
 		}
 		
 		if(!this.findingSpawnPoint) {
-			(new WorldGenIndevHouse(this.getBiomeGenAt(x, z).indevHouseWalls)).generate(this, this.rand, x, y + 1, z);
+			(new WorldGenIndevHouse(this.getBiomeGenAt(x, z).indevHouseWalls)).generate(this, this.rand, this.worldInfo.getSpawnX(), this.worldInfo.getSpawnY() + 1, this.worldInfo.getSpawnZ());
 		}
 	}
 
@@ -362,15 +379,21 @@ public class World implements IBlockAccess {
 		this.worldInfo.setSpawnZ(z);
 	}
 
-	public int getFirstUncoveredBlock(int i1, int i2) {
-		int i3;
-		for(i3 = 63; !this.isAirBlock(i1, i3 + 1, i2); ++i3) {
+	public int getFirstUncoveredBlock(int x, int z, boolean hollowBottom) {
+		int y = 0;
+		if(hollowBottom) {
+			while(this.isAirBlock(x, y, z)) {
+				++ y;
+				if(y >= 127) return 0;
+			}
+		} else {
+			y = 63;
+		}
+		
+		for(; !this.isAirBlock(x, y + 1, z); ++y) {
 		}
 
-		return this.getblockID(i1, i3, i2);
-	}
-
-	public void emptyMethod1() {
+		return this.getblockID(x, y, z);
 	}
 
 	public void spawnPlayerWithLoadedChunks(EntityPlayer entityPlayer1) {
@@ -3438,6 +3461,7 @@ public class World implements IBlockAccess {
 			
 			// Paradise must have at least one bronze dungeon
 			if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.paradise.id) {
+				System.out.println ("No bronze dungeon in paradise -> bad level");
 				if(!GlobalVars.hasBronzeDungeon) return false;
 			}
 			
@@ -3445,11 +3469,15 @@ public class World implements IBlockAccess {
 			if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.forest.id) { 
 				if(this.worldInfo.getTerrainType() != WorldType.SKY) {
 					// a) A minotaur maze which main body is under y = 64, for island terrain.
+					System.out.println ("No sky forest, no minoshroom maze -> bad level");
 					if(!GlobalVars.hasCorrectMinoshroomMaze) return false;
 				} 
 				
 				// b) At least one maze
-				if(GlobalVars.numUnderHillMazes + GlobalVars.numHedgeMazes == 0) return false;
+				if(GlobalVars.numUnderHillMazes + GlobalVars.numHedgeMazes == 0) {
+					System.out.println ("Hill mazes = " + GlobalVars.numUnderHillMazes + ", hedge mazes = " + GlobalVars.numHedgeMazes + " -> bad level.");
+					return false;
+				}
 			}
 		}
 		

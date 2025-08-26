@@ -3,8 +3,8 @@ package net.minecraft.world.level.levelgen;
 import java.util.Random;
 
 import net.minecraft.world.level.World;
-import net.minecraft.world.level.levelgen.feature.trees.TFGenCanopyTree;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.IGroundSubstitute;
 
 public class TFMaze {
 	public int width;
@@ -101,78 +101,54 @@ public class TFMaze {
 		return rawx >= 0 && rawx < this.rawWidth && rawz >= 0 && rawz < this.rawDepth ? this.storage[rawz * this.rawWidth + rawx] : Integer.MIN_VALUE;
 	}
 
-	public void copyToWorld(World world, int dx, int dy, int dz) {
-		this.worldX = dx;
-		this.worldY = dy;
-		this.worldZ = dz;
+	public void copyToWorld(World world, int x0, int y0, int z0) {
+		this.worldX = x0;
+		this.worldY = y0;
+		this.worldZ = z0;
 
 		for(int x = 0; x < this.rawWidth; ++x) {
 			for(int z = 0; z < this.rawDepth; ++z) {
-				int mdx = dx + x / 2 * (this.evenBias + this.oddBias);
-				int mdz = dz + z / 2 * (this.evenBias + this.oddBias);
-				int i, y;
+				int mx0 = x0 + x / 2 * (this.evenBias + this.oddBias); // x0 + x / 2 * 4 = x0 + (x / 2) * 4 = x0 + 4x / 2 = x0 + 2x
+				int mz0 = z0 + z / 2 * (this.evenBias + this.oddBias);
+				int i, j, y;
 				
-				if(this.getRaw(x, z) == 0) {						
-					if(this.isEven(x) && this.isEven(z)) {
-						
-						if(this.type == 4 && this.shouldTree(x, z)) {
-							(new TFGenCanopyTree()).generate(world, this.rand, mdx, dy, mdz);
-						} else 
-						{
-							for(i = 0; i < this.tall; ++i) {
-								this.putWallBlock(world, mdx, dy + i, mdz);
+				// I've rewritten this algorithm. x, z traverse the `storage` array via `this.getRaw`.
+				// If x or z are even, they represent a single block wide row or column in the array.
+				// If x or z are odd, they represent a 3(default) block wide row or column in the array.
+				// If the value read is 0, that means a wall. Otherwise we must carve.
+				
+				// · ···
+				//     
+				// · ···
+				// · ···
+				// · ···
+				
+				int bx = this.isEven(x) ? this.evenBias : this.oddBias;
+				int ox = this.isEven(x) ? 0 : 1;
+				int bz = this.isEven(z) ? this.evenBias : this.oddBias;
+				int oz = this.isEven(z) ? 0 : 1;
+				
+				if(this.getRaw(x, z) == 0) {	
+					// If we got a 0, this means wall. 
+					
+					for(i = 0; i < bx; i ++) {
+						for(j = 0; j < bz; j ++) {
+							for(y = 0; y < this.tall; ++y) {
+								this.putWallBlock(world, mx0 + ox + i, y0 + y, mz0 + oz + j);
 							}
 
-							for(i = 1; i <= this.roots; ++i) {
-								this.putRootBlock(world, mdx, dy - i, mdz);
-							}
-						}
-					} else if(this.isEven(x) && !this.isEven(z)) {
-						for(i = 0; i <= this.oddBias; ++i) {
-							if(i > 0) for(y = 0; y < this.tall; ++y) {
-								this.putWallBlock(world, mdx, dy + y, mdz + i);
-							}
-							
-							for(int j = 1; j <= this.oddBias; j ++) {
-								for(y = 0; y < this.tall; ++y) {
-									world.setBlockWithNotify(mdx + j, dy + y, mdz + i, 0);
-								}
-							}
-
-							if(i > 0) for(y = 1; y <= this.roots; ++y) {
-								this.putRootBlock(world, mdx, dy - y, mdz + i);
-							}
-						}
-					} else if(!this.isEven(x) && this.isEven(z)) {
-						for(i = 0; i <= this.oddBias; ++i) {
-							if(i > 0) for(y = 0; y < this.tall; ++y) {
-								this.putWallBlock(world, mdx + i, dy + y, mdz);
-							}
-							
-							for(int j = 1; j <= this.oddBias; j ++) {
-								for(y = 0; y < this.tall; ++y) {
-									world.setBlockWithNotify(mdx + i, dy + y, mdz + j, 0);
-								}
-							}
-
-							if(i > 0) for(y = 1; y <= this.roots; ++y) {
-								this.putRootBlock(world, mdx + i, dy - y, mdz);
-							}
-						}
-					} else {
-						for(i = 0; i <= this.oddBias; ++i) {
-							for(int j = 0; j <= this.oddBias; j ++) {
-								for(y = 0; y < this.tall; ++y) {
-									world.setBlockWithNotify(mdx + i, dy + y, mdz + j, 0);
-								}
+							for(y = 0; y <= this.roots; ++y) {
+								this.putRootBlock(world, mx0 + ox + i, y0 - y, mz0 + oz + j);
 							}
 						}
 					}
 				} else {
-					for(i = 0; i < this.oddBias; ++i) {
-						for(int j = 0; j < this.oddBias; j ++) {
+					// Otherwise it means carve.
+					
+					for(i = 0; i < bx; i ++) {
+						for(j = 0; j < bz; j ++) {
 							for(y = 0; y < this.tall; ++y) {
-								world.setBlockWithNotify(mdx + i, dy + y, mdz + j, 0);
+								this.carveBlock(world, mx0 + i + ox, y0 + y, mz0 + j + oz);
 							}
 						}
 					}
@@ -230,16 +206,17 @@ public class TFMaze {
 	}
 
 	protected void putWallBlock(World world, int x, int y, int z) {
-		if(this.type == 4 || world.getblockID(x, y, z) != 0)
+		if(this.type == 4 || world.getBlock(x, y, z) instanceof IGroundSubstitute)
 			world.setBlockAndMetadataWithNotify(x, y, z, this.wallblockID, this.wallBlockMeta);
 	}
 
 	protected void carveBlock(World world, int x, int y, int z) {
-		world.setBlockAndMetadataWithNotify(x, y, z, 0, 0);
+		if(this.type == 4 || world.getBlock(x, y, z) instanceof IGroundSubstitute)
+			world.setBlockAndMetadataWithNotify(x, y, z, 0, 0);
 	}
 
 	protected void putRootBlock(World world, int x, int y, int z) {
-		if(this.type == 4 || world.getblockID(x, y, z) != 0)
+		if(this.type == 4 || world.getBlock(x, y, z) instanceof IGroundSubstitute)
 			world.setBlockAndMetadataWithNotify(x, y, z, this.rootblockID, this.rootBlockMeta);
 	}
 

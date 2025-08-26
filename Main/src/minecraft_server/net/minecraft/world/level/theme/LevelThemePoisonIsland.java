@@ -41,17 +41,13 @@ public class LevelThemePoisonIsland extends LevelThemeSettings {
 	@Override
 	public boolean getInitialSpawnLocation(World world) {
 		// Find somewhere low but above sea level, and try VERY hard.
-		int x = WorldSize.width / 2 + world.rand.nextInt(64) - world.rand.nextInt(64);
-		int z = WorldSize.length / 2 + world.rand.nextInt(64) - world.rand.nextInt(64);
-		int y;
+		int x, y, z;
 		
 		int attemptsLeft = 4096;
 		
 		while(attemptsLeft -- > 0) {
-			x += world.rand.nextInt(64) - world.rand.nextInt(64);
-			z += world.rand.nextInt(64) - world.rand.nextInt(64);
-			x = x % WorldSize.width;
-			z = z % WorldSize.length;
+			x = 8 + world.rand.nextInt(WorldSize.width - 16);
+			z = 8 + world.rand.nextInt(WorldSize.length - 16);
 			y = world.getHeightValue(x, z) + 1;
 			
 			if(world.canBlockSeeTheSky(x, y, z) && y <= 70 && y >= 64) {
@@ -81,7 +77,7 @@ public class LevelThemePoisonIsland extends LevelThemeSettings {
 		
 		WorldGenWitchHut hut = new WorldGenWitchHut(false);
 		hut.generate(world, world.rand, x - 3, y, z - 3);
-
+		
 		witch.setLocationAndAngles((double)x, (double)y, (double)z, world.rand.nextFloat() * 360.0F, 0.0F);
 		witch.setHomeArea(x, y, z, 20);
 		

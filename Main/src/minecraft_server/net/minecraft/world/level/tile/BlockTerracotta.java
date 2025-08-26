@@ -7,7 +7,7 @@ import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
 
-public class BlockTerracotta extends Block {
+public class BlockTerracotta extends Block implements IGroundSubstitute {
 	private boolean stained;
 	
 	public static final int terracottaColors[] = {

@@ -1,6 +1,7 @@
 package net.minecraft.world.level.tile;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.EntityBoat;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
 
@@ -28,6 +29,8 @@ public class BlockFluidAcid extends BlockFluid {
 	
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
+		if(entity.ridingEntity instanceof EntityBoat) return;
+		
 		entity.attackEntityFrom((Entity)null, 1);
 	}
 	

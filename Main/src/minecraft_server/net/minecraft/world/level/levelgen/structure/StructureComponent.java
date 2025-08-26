@@ -13,6 +13,7 @@ import net.minecraft.world.level.WeightedRandomChoice;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.IGroundSubstitute;
 import net.minecraft.world.level.tile.entity.TileEntityChest;
 
 public abstract class StructureComponent {
@@ -504,11 +505,16 @@ public abstract class StructureComponent {
 		}
 	}
 
-	protected int getblockIDAtCurrentPosition(World world1, int i2, int i3, int i4, StructureBoundingBox structureBoundingBox5) {
-		int i6 = this.getXWithOffset(i2, i4);
-		int i7 = this.getYWithOffset(i3);
-		int i8 = this.getZWithOffset(i2, i4);
-		return !structureBoundingBox5.isVecInside(i6, i7, i8) ? 0 : world1.getblockID(i6, i7, i8);
+	protected int getblockIDAtCurrentPosition(World world, int x, int y, int z, StructureBoundingBox bb) {
+		int xx = this.getXWithOffset(x, z);
+		int yy = this.getYWithOffset(y);
+		int zz = this.getZWithOffset(x, z);
+		return !bb.isVecInside(xx, yy, zz) ? 0 : world.getblockID(xx, yy, zz);
+	}
+	
+	protected Block getblockAtCurrentPosition(World world, int x, int y, int z, StructureBoundingBox bb) {
+		int id = this.getblockIDAtCurrentPosition(world, x, y, z, bb);
+		return Block.blocksList[id];
 	}
 	
 	protected Material getBlockMaterialAtCurrentPosition(World world1, int i2, int i3, int i4, StructureBoundingBox structureBoundingBox5) {
@@ -537,6 +543,23 @@ public abstract class StructureComponent {
 			for(int x = x1; x <= x2; ++x) {
 				for(int z = z1; z <= z2; ++z) {
 					if(!z11 || this.getblockIDAtCurrentPosition(world, x, y, z, structureBoundingBox) != 0) {
+						if(y != y1 && y != y2 && x != x1 && x != x2 && z != z1 && z != z2) {
+							this.placeBlockAtCurrentPosition(world, blockID2, 0, x, y, z, structureBoundingBox);
+						} else {
+							this.placeBlockAtCurrentPosition(world, blockID1, 0, x, y, z, structureBoundingBox);
+						}
+					}
+				}
+			}
+		}
+
+	}
+	
+	protected void fillGroundWithBlocks(World world, StructureBoundingBox structureBoundingBox, int x1, int y1, int z1, int x2, int y2, int z2, int blockID1, int blockID2) {
+		for(int y = y1; y <= y2; ++y) {
+			for(int x = x1; x <= x2; ++x) {
+				for(int z = z1; z <= z2; ++z) {
+					if(this.getblockAtCurrentPosition(world, x, y, z, structureBoundingBox) instanceof IGroundSubstitute) {
 						if(y != y1 && y != y2 && x != x1 && x != x2 && z != z1 && z != z2) {
 							this.placeBlockAtCurrentPosition(world, blockID2, 0, x, y, z, structureBoundingBox);
 						} else {

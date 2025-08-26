@@ -4,7 +4,7 @@ import java.util.Random;
 
 import net.minecraft.world.level.material.Material;
 
-public class BlockPodzol extends Block {
+public class BlockPodzol extends Block implements IGroundSubstitute {
 
 	public BlockPodzol(int id) {
 		super(id, Material.grass);

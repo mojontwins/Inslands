@@ -355,7 +355,7 @@ public class World implements IBlockAccess {
 		}
 		
 		if(!this.findingSpawnPoint) {
-			(new WorldGenIndevHouse(this.getBiomeGenAt(x, z).indevHouseWalls)).generate(this, this.rand, x, y + 1, z);
+			(new WorldGenIndevHouse(this.getBiomeGenAt(x, z).indevHouseWalls)).generate(this, this.rand, this.worldInfo.getSpawnX(), this.worldInfo.getSpawnY() + 1, this.worldInfo.getSpawnZ());
 		}
 	}
 

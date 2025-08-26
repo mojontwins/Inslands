@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.IGroundSubstitute;
 
 public abstract class TFGenerator extends WorldGenerator {
 	protected World worldObj;
@@ -253,7 +254,19 @@ public abstract class TFGenerator extends WorldGenerator {
 			for(int cy = 0; cy < height; ++cy) {
 				for(int cz = 0; cz < depth; ++cz) {
 					if(this.worldObj.getblockID(dx + cx, dy + cy, dz + cz) != 0)
-					this.worldObj.setBlockAndMetadata(dx + cx, dy + cy, dz + cz, blockID, meta);
+						this.worldObj.setBlockAndMetadata(dx + cx, dy + cy, dz + cz, blockID, meta);
+				}
+			}
+		}
+
+	}
+	
+	protected void fillIfGround(int dx, int dy, int dz, int width, int height, int depth, int blockID, int meta) {
+		for(int cx = 0; cx < width; ++cx) {
+			for(int cy = 0; cy < height; ++cy) {
+				for(int cz = 0; cz < depth; ++cz) {
+					if(this.worldObj.getBlock(dx + cx, dy + cy, dz + cz) instanceof IGroundSubstitute)
+						this.worldObj.setBlockAndMetadata(dx + cx, dy + cy, dz + cz, blockID, meta);
 				}
 			}
 		}

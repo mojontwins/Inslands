@@ -223,34 +223,34 @@ public class WorldInfo {
 		return this.dimension;
 	}
 
-	public void setSpawnX(int i1) {
-		this.spawnX = i1;
+	public void setSpawnX(int x) {
+		this.spawnX = x;
 	}
 
-	public void setSpawnY(int i1) {
-		this.spawnY = i1;
+	public void setSpawnY(int y) {
+		this.spawnY = y;
 	}
 
-	public void setSpawnZ(int i1) {
-		this.spawnZ = i1;
+	public void setSpawnZ(int z) {
+		this.spawnZ = z;
 	}
 
-	public void setWorldTime(long j1) {
-		this.worldTime = j1;
+	public void setWorldTime(long t) {
+		this.worldTime = t;
 	}
 
-	public void setSizeOnDisk(long j1) {
-		this.sizeOnDisk = j1;
+	public void setSizeOnDisk(long d) {
+		this.sizeOnDisk = d;
 	}
 
 	public void setPlayerNBTTagCompound(NBTTagCompound nBTTagCompound1) {
 		this.playerTag = nBTTagCompound1;
 	}
 
-	public void setSpawn(int i1, int i2, int i3) {
-		this.spawnX = i1;
-		this.spawnY = i2;
-		this.spawnZ = i3;
+	public void setSpawn(int x, int y, int z) {
+		this.spawnX = x;
+		this.spawnY = y;
+		this.spawnZ = z;
 	}
 
 	public String getWorldName() {

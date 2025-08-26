@@ -59,7 +59,7 @@ public abstract class WorldProvider {
 	public boolean canCoordinateBeSpawn(int x, int y, int z) {
 		if (x <= 16 || x >= WorldSize.width - 17 || z <= 16 || z >= WorldSize.length - 17) return false;		
 		
-		Block block = Block.blocksList[this.worldObj.getFirstUncoveredBlock(x, z)];
+		Block block = Block.blocksList[this.worldObj.getFirstUncoveredBlock(x, z, false)];
 		return block != null && block.isOpaqueCube() && this.worldObj.canBlockSeeTheSky(x, y, z);
 	}
 
