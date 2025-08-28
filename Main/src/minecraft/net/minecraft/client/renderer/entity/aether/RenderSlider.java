@@ -25,7 +25,7 @@ public class RenderSlider extends RenderLiving {
 		if(i != 0) {
 			return false;
 		} else {
-			if(slider.awake) {
+			if(slider.isAwake()) {
 				if(slider.criticalCondition()) {
 					this.loadTexture("/mob/sliderAwakeGlow_red.png");
 				} else {

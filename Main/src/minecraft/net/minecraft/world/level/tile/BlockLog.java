@@ -125,11 +125,6 @@ public class BlockLog extends Block implements IBlockWithSubtypes {
 	}
 
 	@Override
-	public int getItemblockID() {
-		return this.blockID - 256;
-	}
-
-	@Override
 	public String getNameFromMeta(int meta) {
 		return "log." + EnumTreeType.findTreeTypeFromWood(new BlockState(this, meta)).name;
 	}

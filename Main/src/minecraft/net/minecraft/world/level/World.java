@@ -36,7 +36,6 @@ import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.chunk.storage.IProgressUpdate;
 import net.minecraft.world.level.chunk.storage.ISaveHandler;
 import net.minecraft.world.level.dimension.WorldProvider;
-import net.minecraft.world.level.levelgen.feature.WorldGenIndevHouse;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.PathEntity;
 import net.minecraft.world.level.pathfinder.Pathfinder;
@@ -285,7 +284,8 @@ public class World implements IBlockAccess {
 		this.worldProvider.registerWorld(this);
 		this.chunkProvider = this.getChunkProvider();
 		if(z6) {
-			this.getInitialSpawnLocation();
+			//this.worldProvider.getInitialSpawnLocation(this);
+			//I've moved this elsewhere...
 			this.initializeWeather();
 		}
 		
@@ -306,57 +306,6 @@ public class World implements IBlockAccess {
 	public IChunkProvider getChunkProvider() {
 		IChunkLoader iChunkLoader1 = this.saveHandler.getChunkLoader(this.worldProvider);
 		return new ChunkProvider(this, iChunkLoader1, this.worldProvider.getChunkProvider());
-	}
-
-	protected void getInitialSpawnLocation() {
-		this.findingSpawnPoint = LevelThemeGlobalSettings.getTheme().getInitialSpawnLocation(this);
-		
-		int x = 0, y = 0, z = 0;
-		int radius = 8;
-		
-		if (this.findingSpawnPoint) {
-	
-			// Start @ the center of the map
-			x = WorldSize.width / 2;
-			z = WorldSize.length / 2;
-			y = this.getHeightValue(x, z) + 1;
-	
-			// Try really hard
-			int attemptsLeft = 1024;
-	
-			poti: while (attemptsLeft -- > 0 && (!this.worldProvider.canCoordinateBeSpawn(x, y, z) || y > 120)) {
-				
-				// Find near...
-				for(int xx = x - radius; xx <= x + radius; xx ++) {
-					for(int zz = z - radius; zz <= z + radius; zz ++) {
-						y = this.getHeightValue(xx, zz);
-						if(this.worldProvider.canCoordinateBeSpawn(x, y, z) && y <= 120) {
-							x = xx;
-							z = zz;
-							y = this.getHeightValue(x, z);
-							break poti;
-						}
-					}
-				}
-				
-				x += this.rand.nextInt(64) - this.rand.nextInt(64);
-				z += this.rand.nextInt(64) - this.rand.nextInt(64);
-				
-				x = x % WorldSize.width;
-				z = z % WorldSize.length;
-				
-				y = this.getHeightValue(x, z) + 1;
-				
-			}
-	
-			this.worldInfo.setSpawn(x, y, z);
-			
-			if(attemptsLeft > 0) this.findingSpawnPoint = false;
-		}
-		
-		if(!this.findingSpawnPoint) {
-			(new WorldGenIndevHouse(this.getBiomeGenAt(x, z).indevHouseWalls)).generate(this, this.rand, this.worldInfo.getSpawnX(), this.worldInfo.getSpawnY() + 1, this.worldInfo.getSpawnZ());
-		}
 	}
 
 	public void setSpawnLocation() {
@@ -3453,8 +3402,6 @@ public class World implements IBlockAccess {
 	public boolean levelIsValidUponWorldTheme() {
 		System.out.println ("Running level theme specific inits");
 		LevelThemeGlobalSettings.getTheme().levelThemeSpecificInits(this);
-		
-		System.out.println ("levelIsValidUponWorldTheme, isNewWorld?" + this.isNewWorld + ", do checks?" + LevelThemeGlobalSettings.levelChecks);
 		
 		if(this.isNewWorld && LevelThemeGlobalSettings.levelChecks) {	
 			// World theme based invalidations ahead!

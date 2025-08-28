@@ -202,7 +202,7 @@ public class AetherGenBuildings extends WorldGenerator {
 			}
 		}
 
-		flag = solidCount > (totalCount * 60) / 100;
+		flag = solidCount > (totalCount * 50) / 100;
 		
 		return flag;
 	}

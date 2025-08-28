@@ -153,11 +153,6 @@ public class BlockGrass extends Block implements IBlockWithSubtypes, IGroundSubs
 	}
 
 	@Override
-	public int getItemblockID() {
-		return this.blockID - 256;
-	}
-
-	@Override
 	public String getNameFromMeta(int meta) {
 		return "grass";
 	}

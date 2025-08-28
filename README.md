@@ -465,5 +465,18 @@ I'm sure could fill a list of possible spawn points while creating the level and
 * [X] Hmmm But also, the algo that finds the spawn point makes a call to `getFirstUncoveredBlock` for the selected random x, z, but that method iterates from y = 63 upwards and assumes lowland is solid. So I need to write a different `canCoordinateBeSpawn` in `WorldProviderSky`. Or better, produce a better `World.getFirstUncoveredBlock`. It will receive a boolean to start looking from a hollow world bottom.
 
 * [X] Make iron boats able to sail the acid.
-* [ ] Make sure mazes still work on inslands.
+* [X] Make sure mazes still work on inslands.
+* [X] IDEA if gen fails 'cause no spawn point was found, generate the same seed elsewhere - add an offset for the chunk X Z in the WorldProviderGenerate for this.
 
+Anyways I still have the big "find a spawn location in the sky dimension" failing too much problem.
+
+I'm going to try a different approach: 1st I make an ordered list of (x, z) coordinates, ordered by distance to the center.
+
+* [X] move the spawn finder to the World Provider.
+
+The need to generate a valid dungeon breaks this so much that I'm thinking on making this optional but need to find a way to make this selectable in the main screen. 
+
+ALSO!! (Big changes, methinks).ç
+
+* [ ] Make sure the whole level is generated before finding the spawn point... This will need some actions as spawn point is found in the World constructor :/
+* [ ] Once the above is achieved, attempt to make the paradise theme find a spot for the dungeon after the level is generated. It's so hard to get a proper paradise world :(

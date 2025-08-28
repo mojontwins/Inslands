@@ -826,7 +826,7 @@ public class Block {
 				// Automaticly assign the special ItemBlockWithSubTypes to
 				// blocks that implement the IBlockWithSubtypes interface
 
-				Item.itemsList[id] = new ItemBlockWithSubtypes((IBlockWithSubtypes)blocksList[id]);
+				Item.itemsList[id] = new ItemBlockWithSubtypes((IBlockWithSubtypes)blocksList[id], id);
 				blocksList[id].initializeBlock();
 
 			} else if(blocksList[id] != null) {

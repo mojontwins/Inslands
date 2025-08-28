@@ -14,7 +14,7 @@ public class WorldSize {
 	
 	public static byte chunkUpdateRadius;
 	
-	public static final String sizeNames[] = new String[] { "small", "normal", "big", "huge" };
+	public static final String sizeNames[] = new String[] { "small", "normal", "big", "huge", "long" };
 	
 	public static void setSize(int xChunks, int zChunks) {
 		WorldSize.xChunks = xChunks; 
@@ -106,6 +106,7 @@ public class WorldSize {
 		case 1: setSize(16, 16); break;
 		case 2: setSize(32, 32); break; 	// World is 1 whole region
 		case 3: setSize(64, 64); break; 	// World is 4 whole regions
+		case 4: setSize(16, 128); break; 	// Will this work?
 		}
 		
 		WorldSize.sizeID = sizeId;

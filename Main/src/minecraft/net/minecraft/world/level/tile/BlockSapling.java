@@ -107,11 +107,6 @@ public class BlockSapling extends BlockFlower implements IBlockWithSubtypes {
 			par3List.add(new ItemStack(par1, 1, i<<4));
 		}
 	}
-    
-	@Override
-	public int getItemblockID() {
-		return this.blockID - 256;
-	}
 
 	@Override
 	public String getNameFromMeta(int meta) {

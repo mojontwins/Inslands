@@ -331,11 +331,6 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes {
 	}
 
 	@Override
-	public int getItemblockID() {
-		return this.blockID - 256;
-	}
-
-	@Override
 	public String getNameFromMeta(int meta) {
 		return "leaves." + EnumTreeType.values()[meta >> 4].name;
 	}

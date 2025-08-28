@@ -78,11 +78,6 @@ public class BlockCoral extends Block implements IBlockWithSubtypes {
 	}
 
 	@Override
-	public int getItemblockID() {
-		return this.blockID - 256;
-	}
-
-	@Override
 	public String getNameFromMeta(int meta) {
 		if(meta < 8 || meta > 10) return null;
 		return "coral." + BlockCoral.coralNames [meta - 8];

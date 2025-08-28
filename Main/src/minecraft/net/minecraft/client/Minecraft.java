@@ -101,6 +101,7 @@ import net.minecraft.world.level.dimension.Teleporter;
 import net.minecraft.world.level.dimension.WorldProvider;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockFire;
 import net.minecraft.world.phys.AxisAlignedBB;
 import net.minecraft.world.phys.EnumMovingObjectType;
 import net.minecraft.world.phys.MovingObjectPosition;
@@ -1275,14 +1276,24 @@ public abstract class Minecraft implements Runnable {
 			World world = null;
 			
 			boolean valid = true;
+			String generating = "Generating Level";
 			do {
 				System.gc();
 				
 				GlobalVars.initializeGameFlags();
 				
+				// Originally, vanilla Minecraft finds the spawn point at the end of this constructor:
 				world = new World(saveHandler, worldName, worldSettings);
-				boolean isNew = world.isNewWorld; // System.out.println ("New World? " + isNew);
-				this.preloadWorld(world, "Generating Level", isNew);
+				
+				// But I've removed it from there...
+				boolean isNew = world.isNewWorld;
+				this.preloadWorld(world, generating, isNew);
+				
+				// I need to call it once the whole world has been generated.
+				if(isNew) {
+					this.loadingScreen.displayLoadingString("Finding spawn point");
+					world.worldProvider.getInitialSpawnLocation(world);
+				}
 				
 				if(isNew) {
 					valid = world.levelIsValidUponWorldTheme();
@@ -1302,7 +1313,7 @@ public abstract class Minecraft implements Runnable {
 							worldSettings.isGenerateCities(),
 							worldSettings.getTerrainType());
 					
-						this.loadingScreen.printText("Regenerating Level :(");
+						generating = "Regenerating Level :(";
 					}
 				}
 			} while(world.findingSpawnPoint || !valid);
@@ -1358,6 +1369,7 @@ public abstract class Minecraft implements Runnable {
 			world7 = null;
 			world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(-1));
 			this.preloadWorld(world7, "Entering the Nether", false);
+			if(world7.isNewWorld) world7.worldProvider.getInitialSpawnLocation(world7);
 			this.changeWorld(world7, "Entering the Nether", this.thePlayer);
 		} else {
 			if(WorldSize.xChunks >= 16 && WorldSize.zChunks >= 16) {
@@ -1431,14 +1443,6 @@ public abstract class Minecraft implements Runnable {
 				}
 			}
 
-			// Precalculate all chunks!
-			/*
-			if(!world.isRemote) {
-				this.preloadWorld(caption);
-			}
-			*/
-			// I've moved this to startWorld!
-
 			if(this.thePlayer == null) {
 				System.out.println("(RE)Creating player");
 				this.thePlayer = (EntityPlayerSP)this.playerController.createPlayer(world);
@@ -1483,20 +1487,27 @@ public abstract class Minecraft implements Runnable {
 		this.startWorld(string1, string2, new WorldSettings(0L, 0, true, false, false, WorldType.DEFAULT));
 	}
 
-	private void preloadWorld(World world, String string1, boolean isNew) {
+	private void preloadWorld(World world, String caption, boolean isNew) {
 		System.out.println ("Preload World");
-		this.loadingScreen.printText(string1);
+		this.loadingScreen.printText(caption);
 		this.loadingScreen.displayLoadingString(isNew ? "Building terrain" : "Loading terrain");
 
-		int i3 = 0;
+		int ctr = 0;
 		
 		// Preload ALL world
+		
+		BlockFire.dontSpread = true;
 		for(int x = 0; x < WorldSize.width; x += 16) {
 			for(int z = 0 ; z < WorldSize.length; z += 16) {
-				this.loadingScreen.setLoadingProgress(i3++ * 100 / WorldSize.getTotalChunks());
+				this.loadingScreen.setLoadingProgress(ctr++ * 100 / WorldSize.getTotalChunks());
 				world.getblockID(x, 64, z);
 			}
 		}
+		BlockFire.dontSpread = false;
+		
+		// Here: extra, special post generation.
+		this.loadingScreen.displayLoadingString("Generating special stuff");	
+		if(isNew) LevelThemeGlobalSettings.getTheme().specialPostGeneration(world);
 
 		this.loadingScreen.displayLoadingString("Simulating world for a bit");		
 	}

@@ -11,6 +11,7 @@ public class GlobalVars {
 	public static boolean hasCorrectMinoshroomMaze = false;
 	public static int numUnderHillMazes = 0;
 	public static int numHedgeMazes = 0;
+	public static int numBronzeDungeons = 0;
 	
 	public static FeatureAABB minoshroomMazeBB = null;
 	
@@ -24,6 +25,7 @@ public class GlobalVars {
 		numUnderHillMazes = 0;
 		numHedgeMazes = 0;
 		minoshroomMazeBB = null;
+		numBronzeDungeons = 0;
 	}
 
 }

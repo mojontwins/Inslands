@@ -1,17 +1,20 @@
 package net.minecraft.world.item;
 
+import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.IBlockWithSubtypes;
 
 public class ItemBlockWithSubtypes extends ItemBlock {
 	IBlockWithSubtypes refBlock = null;
 	
 	// Id is set so it substitutes the ItemBlock
-	public ItemBlockWithSubtypes(IBlockWithSubtypes ref) {
-		super(ref.getItemblockID());
+	public ItemBlockWithSubtypes(IBlockWithSubtypes ref, int id) {
+		super(id - 256);
 		this.refBlock = ref;
 		
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
+		System.out.println ("Assigned ItemBlockWithSubtypes to " +
+				Block.blocksList[this.blockID].getBlockName() + " tab = " + this.getCreativeTab() +".");
 	}
 
 	// Placed block metadata as is
@@ -30,4 +33,5 @@ public class ItemBlockWithSubtypes extends ItemBlock {
 	public String getItemNameIS(ItemStack stack) {
 		return "tile." + this.refBlock.getNameFromMeta(stack.getItemDamage());
 	}
+
 }

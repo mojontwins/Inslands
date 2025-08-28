@@ -279,8 +279,8 @@ public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkPro
 
 		double d8 = 684.412D;
 		double densityMapArray0 = 684.412D;
-		double[] densityMapArray2 = this.worldObj.getWorldChunkManager().temperature;
-		double[] densityMapArray3 = this.worldObj.getWorldChunkManager().humidity;
+		//double[] densityMapArray2 = this.worldObj.getWorldChunkManager().temperature;
+		//double[] densityMapArray3 = this.worldObj.getWorldChunkManager().humidity;
 		this.scaleArray = this.scaleNoise.generateNoiseOctaves(this.scaleArray, x, z, xSize, zSize, 1.121D, 1.121D, 0.5D);
 		this.depthArray = this.depthNoise.generateNoiseOctaves(this.depthArray, x, z, xSize, zSize, 200.0D, 200.0D, 0.5D);
 		d8 *= 2.0D; 	// This makes the difference between overworld & sky dimension
@@ -289,21 +289,24 @@ public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkPro
 		this.maxLimitArray = this.maxLimitNoise.generateNoiseOctaves(this.maxLimitArray, (double)x, (double)y, (double)z, xSize, ySize, zSize, d8, densityMapArray0, d8);
 		int i14 = 0;
 		int i15 = 0;
-		int i16 = 16 / xSize;
+		//int i16 = 16 / xSize;
 
 		for(int i17 = 0; i17 < xSize; ++i17) {
-			int i18 = i17 * i16 + i16 / 2;
+			//int i18 = i17 * i16 + i16 / 2;
 
 			for(int i19 = 0; i19 < zSize; ++i19) {
-				int x0 = i19 * i16 + i16 / 2;
+				//int x0 = i19 * i16 + i16 / 2;
+				/*
 				double d21 = densityMapArray2[i18 * 16 + x0];
 				double d23 = densityMapArray3[i18 * 16 + x0] * d21;
 				double d25 = 1.0D - d23;
 				d25 *= d25;
 				d25 *= d25;
 				d25 = 1.0D - d25;
+				*/
 				double d27 = (this.scaleArray[i15] + 256.0D) / 512.0D;
-				d27 *= d25;
+				//d27 *= d25;
+				
 				if(d27 > 1.0D) {
 					d27 = 1.0D;
 				}

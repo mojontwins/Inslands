@@ -40,7 +40,7 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
 		this.replaceAir = true;
 		this.replaceSolid = true;
 		this.n = 0;
-		if(this.isBoxSolid(world, i, j, k, 16, 12, 16) && this.isBoxSolid(world, i + 20, j, k + 2, 12, 12, 12)) {
+		if(this.isBoxSolidRelaxed(world, i, j, k, 16, 12, 16) && this.isBoxSolidRelaxed(world, i + 20, j, k + 2, 12, 12, 12)) {
 			this.setBlocks(this.lockedblockID1, this.lockedblockID2, 20);
 			this.addHollowBox(world, random, i, j, k, 16, 12, 16);
 			this.addHollowBox(world, random, i + 6, j - 2, k + 6, 4, 4, 4);
@@ -51,7 +51,6 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
 			slider.setPosition((double)(i + 8), (double)(j + 2), (double)(k + 8));
 			slider.setDungeon(i, j, k);
 			world.spawnEntityInWorld(slider);
-			
 			
 			int x = i + 7 + random.nextInt(2);
 			int y = j - 1;
@@ -67,6 +66,7 @@ public class AetherGenDungeonBronze extends AetherGenBuildings {
 
 			// Mark as generated
 			GlobalVars.hasBronzeDungeon = true;
+			GlobalVars.numBronzeDungeons ++;
 			
 			x = i + 20;
 			z = k + 2;

@@ -10,6 +10,7 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.AxisAlignedBB;
 
 public class BlockFire extends Block {
+	public static boolean dontSpread = false;
 	private int[] chanceToEncourageFire = new int[256];
 	private int[] abilityToCatchFire = new int[256];
 
@@ -63,6 +64,8 @@ public class BlockFire extends Block {
 
 	// Reinstated old fire spread for b1.5
 	public void updateTick(World world, int x, int y, int z, Random rand) {
+		if(BlockFire.dontSpread ) return;
+			
 		int blockIDBeneath = world.getblockID(x, y - 1, z);
 		boolean superFuelBeneath = blockIDBeneath == Block.bloodStone.blockID || blockIDBeneath == Block.blockCoal.blockID;
 		

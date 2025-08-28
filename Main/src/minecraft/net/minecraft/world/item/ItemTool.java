@@ -11,14 +11,14 @@ public class ItemTool extends Item {
 	private int damageVsEntity;
 	protected EnumToolMaterial toolMaterial;
 
-	protected ItemTool(int id, int attackDmg, EnumToolMaterial enumToolMaterial3, Block[] block4, boolean silkTouch) {
+	protected ItemTool(int id, int attackDmg, EnumToolMaterial toolMaterial, Block[] blocksEffectiveAgainst, boolean silkTouch) {
 		super(id);
-		this.toolMaterial = enumToolMaterial3;
-		this.blocksEffectiveAgainst = block4;
+		this.toolMaterial = toolMaterial;
+		this.blocksEffectiveAgainst = blocksEffectiveAgainst;
 		this.maxStackSize = 1;
-		this.setMaxDamage(enumToolMaterial3.getMaxUses());
-		this.efficiencyOnProperMaterial = enumToolMaterial3.getEfficiencyOnProperMaterial();
-		this.damageVsEntity = attackDmg + enumToolMaterial3.getDamageVsEntity();
+		this.setMaxDamage(toolMaterial.getMaxUses());
+		this.efficiencyOnProperMaterial = toolMaterial.getEfficiencyOnProperMaterial();
+		this.damageVsEntity = attackDmg + toolMaterial.getDamageVsEntity();
 		this.silkTouch = silkTouch;
 		
 		this.displayOnCreativeTab = CreativeTabs.tabTools;

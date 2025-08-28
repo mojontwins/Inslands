@@ -85,9 +85,4 @@ public class BlockLog2 extends BlockLog implements IBlockWithSubtypes {
 		par3List.add(new ItemStack(par1, 1, 0));
 	}
 
-	@Override
-	public int getItemblockID() {
-		return this.blockID - 256;
-	}
-
 }
