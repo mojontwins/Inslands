@@ -483,10 +483,42 @@ ALSO!! (Big changes, methinks).ç
 
 # Now that this works
 
-* [X] Make sure the four corners of the spawn house are above ground in floating islands.
-* [ ] Control the max amount of hill mazes, 1 for small, 2 for normal, 4 for big, 8 for huge.
-* [ ] Control the max amount of bronze dungeons, 1 for small, 2 for normal, 4 for big, 8 for huge.
+* [ ] Add a means to re-fire the after-generation generators if we have deleted the `region` subfolder - If world is not new but there are missing chunks, raise a flag in globals.
+* [ ] Make sure the four corners of the spawn house are above ground in floating islands. FIX - I was checking just the house, but the house has a bigger foundation.
+* [X] Control the max amount of hill mazes, 1 for small, 2 for normal, 4 for big, 8 for huge.
+* [X] Control the max amount of bronze dungeons, 1 for small, 2 for normal, 4 for big, 8 for huge.
 * [ ] Make underhill mazes generate right after generation, just like bronze dungeons.
 
-* [ ] OR BETTER : Make mazes multi chunk structures using my system. How so.
+* [-] OR BETTER : Make mazes multi chunk structures using my system. How so.
+
+## How TF mazes are drawn.
+
+Both hill and hedge mazes call the general TFMaze class to get the basic maze representation (as seen above, in this document) albeit they end up rendering it using different sizes. The basic TFMaze class has the means to carve and draw walls and roots following the data in the calculated structure `storage`.
+
+Both mazes prepare the terrain, then generate the maze, then copy it to the world.
+
+If I were to make this, I'd generate the maze when creating the mutlichunk feature object, and then would carve and copy (i.e. render) the corresponding part using clipping to the world.
+
+Problem is, the generation of the hedge maze depends on the amount of uncovered terrain, and the hill maze depends on the amount of solid blocks to carve... So maybe multichunk features are not the way to go.
+
+## So the approach is...
+
+[X] First make sure I can re-fire the post-generation if I delete the region folder. This has no use for players, but I need this wile developing.
+
+[ ] Then I'll draw the mazes post-generation.
+
+## Minecraft.preloadWorld
+
+`preloadWorld` generates or loads the whole world just iterating thru the chunks and getting a block from them. That causes the provider to retrieve the necessary data, whether generating, loading it, or downloading it.
+
+`getBlockID` calls `getChunkFromChunkCoords` which then calls `ChunkProvider.provideChunk`. In SP, instanstiates an object of `ChunkProvider` with a reference to the `ChunkLoader` object and a reference to the current `ChunkProvider` object.
+
+`provideChunk` in `ChunkProvider` will:
+* If x, z are out of bounds, returns the blank chunk.
+* If chunk is on cache, retrieves and returns it.
+* If not, it calls `prepareChunk`, that
+	* Will attempt to load x, z from disk. If it exists, it will return it.
+	* If it doesn't, it will generate it.
+
+So the easiest way would be raising a flag if we had to generate a chunk.
 

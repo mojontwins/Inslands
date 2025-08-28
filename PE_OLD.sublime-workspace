@@ -4,10 +4,6 @@
 		"selected_items":
 		[
 			[
-				"br",
-				"brightness\tabc"
-			],
-			[
 				"back",
 				"background-color\tproperty"
 			],
@@ -514,44 +510,40 @@
 			[
 				"toa",
 				"total_entries"
+			],
+			[
+				"write",
+				"write_log"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "web/index.html",
-			"settings":
-			{
-				"buffer_size": 8213,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/E/Cosas/b166MP2/main/src/minecraft/net/minecraft/client/gui/LoadingScreenRenderer.java",
-			"settings":
-			{
-				"buffer_size": 4499,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "TextureAtlasSize.h",
-			"settings":
-			{
-				"buffer_size": 18,
-				"line_ending": "Windows",
-				"name": "TextureAtlasSize.h"
-			}
-		},
-		{
 			"file": "README.md",
 			"settings":
 			{
-				"buffer_size": 17769,
+				"buffer_size": 21960,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "\tpublic void moveEntity(double moveX, double moveY, double moveZ) {\n\t\tif(this.noClip) {\n\t\t\tthis.boundingBox.offset(moveX, moveY, moveZ);\n\t\t\tthis.posX = (this.boundingBox.minX + this.boundingBox.maxX) / 2.0D;\n\t\t\tthis.posY = this.boundingBox.minY + (double)this.yOffset - (double)this.ySize;\n\t\t\tthis.posZ = (this.boundingBox.minZ + this.boundingBox.maxZ) / 2.0D;\n\t\t} else {\n\t\t\tthis.ySize *= 0.4F;\n\t\t\tdouble prevPosX = this.posX;\n\t\t\tdouble prevPosZ = this.posZ;\n\n\t\t\t// Slow on webs\n\t\t\tif(this.isInWeb) {\n\t\t\t\tthis.isInWeb = false;\n\t\t\t\tmoveX *= 0.25D;\n\t\t\t\tmoveY *= (double)0.05F;\n\t\t\t\tmoveZ *= 0.25D;\n\t\t\t\tthis.motionX = 0.0D;\n\t\t\t\tthis.motionY = 0.0D;\n\t\t\t\tthis.motionZ = 0.0D;\n\t\t\t}\n\n\t\t\t// Slower traversing snow\n\t\t\tif (this.isInSnow && !this.bootsOfLeather()) {\n\t\t\t\tthis.isInSnow = false;\n\t\t\t\tmoveX *= 0.8D;\n\t\t\t\tmoveZ *= 0.8D;\n\t\t\t\tthis.motionX *= 0.6D;\n\t\t\t\tthis.motionZ *= 0.6D;\n\t\t\t}\n\t\t\t\n\t\t\tdouble prevMoveX = moveX;\n\t\t\tdouble prevMoveY = moveY;\n\t\t\tdouble prevMoveZ = moveZ;\n\t\t\tAxisAlignedBB bbCopy = this.boundingBox.copy();\n\t\t\tboolean preventFalling = this.onGround && this.isSneaking();\n\n\t\t\tif(preventFalling) {\n\t\t\t\tdouble d19;\n\t\t\t\tfor(d19 = 0.05D; moveX != 0.0D && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.getOffsetBoundingBox(moveX, -1.0D, 0.0D)).size() == 0; prevMoveX = moveX) {\n\t\t\t\t\tif(moveX < d19 && moveX >= -d19) {\n\t\t\t\t\t\tmoveX = 0.0D;\n\t\t\t\t\t} else if(moveX > 0.0D) {\n\t\t\t\t\t\tmoveX -= d19;\n\t\t\t\t\t} else {\n\t\t\t\t\t\tmoveX += d19;\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tfor(; moveZ != 0.0D && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.getOffsetBoundingBox(0.0D, -1.0D, moveZ)).size() == 0; prevMoveZ = moveZ) {\n\t\t\t\t\tif(moveZ < d19 && moveZ >= -d19) {\n\t\t\t\t\t\tmoveZ = 0.0D;\n\t\t\t\t\t} else if(moveZ > 0.0D) {\n\t\t\t\t\t\tmoveZ -= d19;\n\t\t\t\t\t} else {\n\t\t\t\t\t\tmoveZ += d19;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tList<AxisAlignedBB> collBBs = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(moveX, moveY, moveZ));\n\n\t\t\tfor(int i = 0; i < collBBs.size(); ++i) {\n\t\t\t\tmoveY = ((AxisAlignedBB)collBBs.get(i)).calculateYOffset(this.boundingBox, moveY);\n\t\t\t}\n\n\t\t\tthis.boundingBox.offset(0.0D, moveY, 0.0D);\n\t\t\tif(!this.booleanTrue && prevMoveY != moveY) {\n\t\t\t\tmoveZ = 0.0D;\n\t\t\t\tmoveY = 0.0D;\n\t\t\t\tmoveX = 0.0D;\n\t\t\t}\n\n\t\t\tboolean z36 = this.onGround || prevMoveY != moveY && prevMoveY < 0.0D;\n\n\t\t\tint i;\n\t\t\tfor(i = 0; i < collBBs.size(); ++i) {\n\t\t\t\tmoveX = ((AxisAlignedBB)collBBs.get(i)).calculateXOffset(this.boundingBox, moveX);\n\t\t\t}\n\n\t\t\tthis.boundingBox.offset(moveX, 0.0D, 0.0D);\n\t\t\tif(!this.booleanTrue && prevMoveX != moveX) {\n\t\t\t\tmoveZ = 0.0D;\n\t\t\t\tmoveY = 0.0D;\n\t\t\t\tmoveX = 0.0D;\n\t\t\t}\n\n\t\t\tfor(i = 0; i < collBBs.size(); ++i) {\n\t\t\t\tmoveZ = ((AxisAlignedBB)collBBs.get(i)).calculateZOffset(this.boundingBox, moveZ);\n\t\t\t}\n\n\t\t\tthis.boundingBox.offset(0.0D, 0.0D, moveZ);\n\t\t\tif(!this.booleanTrue && prevMoveZ != moveZ) {\n\t\t\t\tmoveZ = 0.0D;\n\t\t\t\tmoveY = 0.0D;\n\t\t\t\tmoveX = 0.0D;\n\t\t\t}\n\n\t\t\tdouble d23;\n\t\t\tint i28;\n\t\t\tdouble d37;\n\t\t\tif(this.stepHeight > 0.0F && z36 && (preventFalling || this.ySize < 0.05F) && (prevMoveX != moveX || prevMoveZ != moveZ)) {\n\t\t\t\td37 = moveX;\n\t\t\t\td23 = moveY;\n\t\t\t\tdouble d25 = moveZ;\n\t\t\t\tmoveX = prevMoveX;\n\t\t\t\tmoveY = (double)this.stepHeight;\n\t\t\t\tmoveZ = prevMoveZ;\n\t\t\t\tAxisAlignedBB axisAlignedBB27 = this.boundingBox.copy();\n\t\t\t\tthis.boundingBox.setBB(bbCopy);\n\t\t\t\tcollBBs = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(prevMoveX, moveY, prevMoveZ));\n\n\t\t\t\tfor(i28 = 0; i28 < collBBs.size(); ++i28) {\n\t\t\t\t\tmoveY = ((AxisAlignedBB)collBBs.get(i28)).calculateYOffset(this.boundingBox, moveY);\n\t\t\t\t}\n\n\t\t\t\tthis.boundingBox.offset(0.0D, moveY, 0.0D);\n\t\t\t\tif(!this.booleanTrue && prevMoveY != moveY) {\n\t\t\t\t\tmoveZ = 0.0D;\n\t\t\t\t\tmoveY = 0.0D;\n\t\t\t\t\tmoveX = 0.0D;\n\t\t\t\t}\n\n\t\t\t\tfor(i28 = 0; i28 < collBBs.size(); ++i28) {\n\t\t\t\t\tmoveX = ((AxisAlignedBB)collBBs.get(i28)).calculateXOffset(this.boundingBox, moveX);\n\t\t\t\t}\n\n\t\t\t\tthis.boundingBox.offset(moveX, 0.0D, 0.0D);\n\t\t\t\tif(!this.booleanTrue && prevMoveX != moveX) {\n\t\t\t\t\tmoveZ = 0.0D;\n\t\t\t\t\tmoveY = 0.0D;\n\t\t\t\t\tmoveX = 0.0D;\n\t\t\t\t}\n\n\t\t\t\tfor(i28 = 0; i28 < collBBs.size(); ++i28) {\n\t\t\t\t\tmoveZ = ((AxisAlignedBB)collBBs.get(i28)).calculateZOffset(this.boundingBox, moveZ);\n\t\t\t\t}\n\n\t\t\t\tthis.boundingBox.offset(0.0D, 0.0D, moveZ);\n\t\t\t\tif(!this.booleanTrue && prevMoveZ != moveZ) {\n\t\t\t\t\tmoveZ = 0.0D;\n\t\t\t\t\tmoveY = 0.0D;\n\t\t\t\t\tmoveX = 0.0D;\n\t\t\t\t}\n\n\t\t\t\t/*\n\t\t\t\tif(!this.booleanTrue && prevMoveY != moveY) {\n\t\t\t\t\tmoveZ = 0.0D;\n\t\t\t\t\tmoveY = 0.0D;\n\t\t\t\t\tmoveX = 0.0D;\n\t\t\t\t} else {\n\t\t\t\t\tmoveY = (double)(-this.stepHeight);\n\n\t\t\t\t\tfor(i28 = 0; i28 < collBBs.size(); ++i28) {\n\t\t\t\t\t\tmoveY = ((AxisAlignedBB)collBBs.get(i28)).calculateYOffset(this.boundingBox, moveY);\n\t\t\t\t\t}\n\n\t\t\t\t\tthis.boundingBox.offset(0.0D, moveY, 0.0D);\n\t\t\t\t}\n\t\t\t\t*/\n\n\t\t\t\tif(d37 * d37 + d25 * d25 >= moveX * moveX + moveZ * moveZ) {\n\t\t\t\t\tmoveX = d37;\n\t\t\t\t\tmoveY = d23;\n\t\t\t\t\tmoveZ = d25;\n\t\t\t\t\tthis.boundingBox.setBB(axisAlignedBB27);\n\t\t\t\t} else {\n\t\t\t\t\t/*\n\t\t\t\t\tdouble d41 = this.boundingBox.minY - (double)((int)this.boundingBox.minY);\n\t\t\t\t\tif(d41 > 0.0D) {\n\t\t\t\t\t\tthis.ySize = (float)((double)this.ySize + d41 + 0.01D);\n\t\t\t\t\t}\n\t\t\t\t\t*/\n\t\t\t\t\t\tthis.ySize = (float)((double)this.ySize + 0.5D);\n\t\t\t\t}\n\t\t\t}\t\n\t\t\t\n\t\t\tthis.posX = (this.boundingBox.minX + this.boundingBox.maxX) / 2.0D;\n\t\t\tthis.posY = this.boundingBox.minY + (double)this.yOffset - (double)this.ySize;\n\t\t\tthis.posZ = (this.boundingBox.minZ + this.boundingBox.maxZ) / 2.0D;\n\t\t\t\n\t\t\t// Stop at world boundaries.\n\t\t\tif(this.posX < 0.5D) {\n\t\t\t\tthis.posX = 0; this.motionX = 0; moveX = 0;\n\t\t\t}\n\t\t\tif(this.posZ < 0.5D) {\n\t\t\t\tthis.posZ = 0; this.motionZ = 0; moveZ = 0;\n\t\t\t}\n\t\t\tif(this.posX > (double)WorldSize.width - 0.5D) {\n\t\t\t\tthis.posX = (double)WorldSize.width - 0.5D; this.motionX = 0; moveX = 0;\n\t\t\t}\n\t\t\tif(this.posZ > (double)WorldSize.length - 0.5D) {\n\t\t\t\tthis.posZ = (double)WorldSize.length - 0.5D; this.motionZ = 0; moveZ = 0;\n\t\t\t}\n\n\t\t\tthis.isCollidedHorizontally = prevMoveX != moveX || prevMoveZ != moveZ;\n\t\t\tthis.isCollidedVertically = prevMoveY != moveY;\n\t\t\tthis.onGround = prevMoveY != moveY && prevMoveY < 0.0D;\n\t\t\tthis.isCollided = this.isCollidedHorizontally || this.isCollidedVertically;\n\t\t\t\n\t\t\tboolean rebound = this.hitGround(moveY, this.onGround);\n\t\t\t\n\t\t\tif(prevMoveX != moveX) {\n\t\t\t\tthis.motionX = 0.0D;\n\t\t\t}\n\n\t\t\tif(prevMoveY != moveY && rebound == false) {\n\t\t\t\tthis.motionY = 0.0D;\n\t\t\t}\n\n\t\t\tif(prevMoveZ != moveZ) {\n\t\t\t\tthis.motionZ = 0.0D;\n\t\t\t}\n\n\t\t\td37 = this.posX - prevPosX;\n\t\t\td23 = this.posZ - prevPosZ;\n\t\t\tint i26;\n\t\t\tint i38;\n\t\t\tint i39;\n\t\t\tif(this.canTriggerWalking() && !preventFalling && this.ridingEntity == null) {\n\t\t\t\tthis.distanceWalkedModified = (float)((double)this.distanceWalkedModified + (double)MathHelper.sqrt_double(d37 * d37 + d23 * d23) * 0.6D);\n\t\t\t\ti38 = MathHelper.floor_double(this.posX);\n\t\t\t\ti26 = MathHelper.floor_double(this.posY - (double)0.2F - (double)this.yOffset);\n\t\t\t\ti39 = MathHelper.floor_double(this.posZ);\n\t\t\t\tBlock block = Block.blocksList[this.worldObj.getBlockID(i38, i26, i39)];\n\t\t\t\tif(this.worldObj.getBlockID(i38, i26 - 1, i39) == Block.fence.blockID) {\n\t\t\t\t\tblock = Block.blocksList[this.worldObj.getBlockID(i38, i26 - 1, i39)];\n\t\t\t\t}\n\n\t\t\t\tif(this.distanceWalkedModified > (float)this.nextStepDistance && block != null) {\n\t\t\t\t\t++this.nextStepDistance;\n\t\t\t\t\tStepSound stepSound29 = block.stepSound;\n\t\t\t\t\tif(this.worldObj.getBlockID(i38, i26 + 1, i39) == Block.snow.blockID) {\n\t\t\t\t\t\tstepSound29 = Block.snow.stepSound;\n\t\t\t\t\t\tthis.worldObj.playSoundAtEntity(this, stepSound29.getStepSound(), stepSound29.getVolume() * 0.15F, stepSound29.getPitch());\n\t\t\t\t\t} else if(!block.blockMaterial.getIsLiquid()) {\n\t\t\t\t\t\tthis.worldObj.playSoundAtEntity(this, stepSound29.getStepSound(), stepSound29.getVolume() * 0.15F, stepSound29.getPitch());\n\t\t\t\t\t}\n\n\t\t\t\t\tblock.onEntityWalking(this.worldObj, i38, i26, i39, this);\n\t\t\t\t}\n\t\t\t}\n\n\t\t\t// Call .onEntityCollidedWithBlock for all blocks I am touching\n\t\t\ti38 = MathHelper.floor_double(this.boundingBox.minX + 0.001D);\n\t\t\ti26 = MathHelper.floor_double(this.boundingBox.minY + 0.001D);\n\t\t\ti39 = MathHelper.floor_double(this.boundingBox.minZ + 0.001D);\n\t\t\ti28 = MathHelper.floor_double(this.boundingBox.maxX - 0.001D);\n\t\t\tint i40 = MathHelper.floor_double(this.boundingBox.maxY - 0.001D);\n\t\t\tint i30 = MathHelper.floor_double(this.boundingBox.maxZ - 0.001D);\n\t\t\tif(this.worldObj.checkChunksExist(i38, i26, i39, i28, i40, i30)) {\n\t\t\t\tfor(int i31 = i38; i31 <= i28; ++i31) {\n\t\t\t\t\tfor(int i32 = i26; i32 <= i40; ++i32) {\n\t\t\t\t\t\tfor(int i33 = i39; i33 <= i30; ++i33) {\n\t\t\t\t\t\t\tBlock block = Block.blocksList[this.worldObj.getBlockID(i31, i32, i33)];\n\t\t\t\t\t\t\tif(block != null) {\n\t\t\t\t\t\t\t\tblock.onEntityCollidedWithBlock(this.worldObj, i31, i32, i33, this);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tboolean z42 = this.isWet();\n\t\t\tif(this.worldObj.isBoundingBoxBurning(this.boundingBox.getInsetBoundingBox(0.001D, 0.001D, 0.001D))) {\n\t\t\t\tboolean doFire = true;\n\t\t\t\t\n\t\t\t\tif(this instanceof EntityBoat) {\n\t\t\t\t\tif(((EntityBoat)this).fireResistant) doFire = false;\n\t\t\t\t}\n\t\t\t\tif(this instanceof EntityPlayer) {\n\t\t\t\t\tif(this.ridingEntity != null && this.ridingEntity instanceof EntityBoat) {\n\t\t\t\t\t\tif(((EntityBoat)this.ridingEntity).fireResistant) doFire = false;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tif(doFire) {\n\t\t\t\t\tthis.dealFireDamage(1);\n\t\t\t\t\tif(!z42) {\n\t\t\t\t\t\t++this.fire;\n\t\t\t\t\t\tif(this.fire == 0) {\n\t\t\t\t\t\t\tthis.fire = 300;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t} else if(this.fire <= 0) {\n\t\t\t\tthis.fire = -this.fireResistance;\n\t\t\t}\n\n\t\t\tif(z42 && this.fire > 0) {\n\t\t\t\tthis.worldObj.playSoundAtEntity(this, \"random.fizz\", 0.7F, 1.6F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.4F);\n\t\t\t\tthis.fire = -this.fireResistance;\n\t\t\t}\n\n\t\t}\n\t}",
+			"settings":
+			{
+				"buffer_size": 9581,
+				"line_ending": "Windows",
+				"name": "public void moveEntity(double moveX, double moveY"
+			}
+		},
+		{
+			"contents": "// Call .onEntityCollidedWithBlock for all blocks I am touching\n\t\t\tint x1 = MathHelper.floor_double(this.boundingBox.minX + 0.001D);\n\t\t\tint y1 = MathHelper.floor_double(this.boundingBox.minY + 0.001D);\n\t\t\tint z1 = MathHelper.floor_double(this.boundingBox.minZ + 0.001D);\n\t\t\tint x2 = MathHelper.floor_double(this.boundingBox.maxX - 0.001D);\n\t\t\tint y2 = MathHelper.floor_double(this.boundingBox.maxY - 0.001D);\n\t\t\tint z2 = MathHelper.floor_double(this.boundingBox.maxZ - 0.001D);\n\t\t\tif(this.worldObj.checkChunksExist(x1, y1, z1, x2, y2, z2)) {\n\t\t\t\tfor(int xt = x1; xt <= x2; ++xt) {\n\t\t\t\t\tfor(int yt = y1; yt <= y2; ++yt) {\n\t\t\t\t\t\tfor(int zt = z1; zt <= z2; ++zt) {\n\t\t\t\t\t\t\tBlock block = Block.blocksList[this.worldObj.getBlockID(xt, yt, zt)];\n\t\t\t\t\t\t\tif(block != null) {\n\t\t\t\t\t\t\t\tblock.onEntityCollidedWithBlock(this.worldObj, xt, yt, zt, this);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}",
+			"settings":
+			{
+				"buffer_size": 874,
+				"line_ending": "Windows",
+				"name": "// Call .onEntityCollidedWithBlock for all blocks"
 			}
 		}
 	],
@@ -639,20 +631,14 @@
 	},
 	"expanded_folders":
 	[
-		"/E/Cosas/Inslands",
-		"/E/Cosas/Inslands/web"
+		"/D/Cosas/Inslands"
 	],
 	"file_history":
 	[
-		"/E/Cosas/MP125-src/minecraft/net/minecraft/src/RenderBlocks.java",
-		"/E/Cosas/b166MP2/main/src/minecraft/net/minecraft/network/packet/Packet.java",
-		"/D/Cosas/Inslands/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/RenderBlocks.java",
-		"/E/Cosas/MP125/main/src/minecraft/net/minecraft/src/GuiIngame.java",
-		"/E/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/Version.java",
+		"/C/cosas/Inslands/Main/src/minecraft/terrain.png",
+		"/C/cosas/Inslands/Main/src/minecraft/net/minecraft/src/ItemPiston.java",
+		"/C/cosas/Inslands/Main/src/minecraft/net/minecraft/src/Block.java",
 		"/E/apunters.md",
-		"/E/Cosas/Inslands/Main/src/minecraft/terrain.png",
-		"/E/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/Block.java",
-		"/E/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/ItemPiston.java",
 		"/E/git/LBasic/wip.md",
 		"/E/Cosas/Inslands/README.md",
 		"/D/Cosas/MP125-src/minecraft/com/mojontwins/desertdimension/MapGenDesertCaves.java",
@@ -771,11 +757,16 @@
 		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/EntityCowman.java",
 		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/EntityList.java",
 		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/RenderBlocks.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/BlockLog.java"
+		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/BlockLog.java",
+		"/C/Users/na_th/AppData/Local/Temp/7zOCE2B293F/en_US.lang",
+		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/GuiCrafting.java",
+		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/EntityPlayer.java",
+		"/D/Cosas/InfHell/InfHell/src/minecraft_server/net/minecraft/src/EntityLiving.java",
+		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/CraftingRecipe.java"
 	],
 	"find":
 	{
-		"height": 38.0
+		"height": 54.0
 	},
 	"find_in_files":
 	{
@@ -797,68 +788,27 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"poison",
-			"hud",
-			"entityPlayer5",
-			"z4",
-			"i3",
-			"i2",
-			"chunkX",
-			"entity1",
-			"nBTTagCompound1",
-			"b11",
-			"i13",
-			"i12",
-			"b10",
-			"f9",
-			"i8",
-			"tessellator7",
-			"i6",
-			"i5",
-			"j2",
-			"i1",
-			"f3",
-			"i2",
-			"f7",
-			"f6",
-			"i5",
-			"tessellator4",
-			"i3",
-			"f2",
-			"block1",
-			"x8",
-			"z9",
-			"tessellator8",
-			"x6",
-			"f25",
-			"f22",
-			"f19",
-			"f24",
-			"f21",
-			"f18",
-			"f23",
-			"f20",
-			"f17",
-			"f16",
-			"f15",
-			"f14",
-			"f13",
-			"f12",
-			"f18",
-			"f11",
-			"f10",
-			"f7",
-			"f6",
-			"f5",
-			"i4",
-			"i3",
-			"i2",
-			"block1",
-			"grass",
-			"ininventory",
-			"ininvntory",
-			"getRotatedV\\((\\d+)\\)",
-			"getRotatedU\\((\\d+)\\)",
+			"i33",
+			"i32",
+			"i31",
+			"i30",
+			"i40",
+			"i28",
+			"i39",
+			"i26",
+			"i38",
+			"i21",
+			"z36",
+			"i20",
+			"list35",
+			"z18",
+			"axisAlignedBB17",
+			"d15",
+			"d13",
+			"d11",
+			"d9",
+			"d7",
+			"acid",
 			"itempiston",
 			"piston",
 			"hill maze @",
@@ -924,70 +874,73 @@
 			"d23",
 			"d21",
 			"d19",
-			"d17"
+			"d17",
+			"d15",
+			"d13",
+			"d11",
+			"d50",
+			"d15",
+			"d13",
+			"d11",
+			"d7",
+			"i10",
+			"i9",
+			"i8",
+			"i2",
+			"i9",
+			"i2",
+			"chunkX",
+			"i1",
+			"i6",
+			"i5",
+			"i8",
+			"i27",
+			"b3",
+			"i3",
+			"i2",
+			"i1",
+			"i4",
+			"i3",
+			"i2",
+			"i1",
+			"i5",
+			"i4",
+			"i3",
+			"i2",
+			"i4",
+			"i3",
+			"i2",
+			"i1",
+			"i3",
+			"i2",
+			"i1",
+			"i3",
+			"i2"
 		],
 		"highlight": true,
 		"in_selection": false,
 		"preserve_case": false,
-		"regex": false,
+		"regex": true,
 		"replace_history":
 		[
-			"player",
-			"isPlayer",
-			"chunkZ",
-			"chunkX",
-			"entity",
-			"nbt",
-			"2",
-			"y",
-			"x",
-			"100",
-			"tileSize",
-			"texId",
-			"tes",
-			"h",
-			"w",
-			"currentMillis",
-			"progress",
-			"brightness",
-			"meta",
-			"n2",
-			"n1",
-			"renderType",
-			"tes",
-			"renderType",
-			"brightness",
-			"block",
-			"textureId",
-			"renderedAny",
-			"tes",
-			"blockBrightness",
-			"bNS",
-			"gNS",
-			"rNS",
-			"bEW",
-			"gEW",
-			"rEW",
-			"bBottom",
-			"gBottom",
-			"rBottom",
-			"bTop",
-			"gTop",
-			"rTop",
-			"lmNS",
-			"lmEW",
-			"lmTo",
-			"lmBo",
-			"b",
-			"g",
-			"r",
-			"z",
-			"y",
-			"x",
-			"block",
-			"getRotatedV(\\1, TextureAtlasSize.h)",
-			"getRotatedU(\\1, TextureAtlasSize.w)",
-			"getRotatedU(\\1, TextureAtlasSize.h)",
+			"zt",
+			"yt",
+			"xt",
+			"z2",
+			"y2",
+			"x2",
+			"z1",
+			"y1",
+			"x1",
+			"i",
+			"collBBs",
+			"preventFalling",
+			"bbCopy",
+			"prevMoveZ",
+			"prevMoveY",
+			"prevMoveX",
+			"prevPosZ",
+			"prevPosX",
 			"",
 			"ren \\1 __\\1",
 			"-1",
@@ -1059,6 +1012,41 @@
 			"x",
 			"z",
 			"y",
+			"x",
+			"z",
+			"x",
+			"z",
+			"y",
+			"x",
+			"z",
+			"y",
+			"x",
+			"metadata",
+			"x",
+			"y",
+			"z",
+			"y",
+			"x",
+			"z",
+			"y",
+			"x",
+			"blockID",
+			"metadata",
+			"blockID",
+			"z",
+			"y",
+			"x",
+			"z",
+			"y",
+			"x",
+			"chunk",
+			"hash",
+			"zChunk",
+			"xChunk",
+			"zChunk",
+			"xChunk",
+			"y",
+			"z",
 			"x"
 		],
 		"reverse": false,
@@ -1075,57 +1063,63 @@
 			[
 				{
 					"buffer": 0,
-					"file": "web/index.html",
+					"file": "README.md",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8213,
+						"buffer_size": 21960,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2528,
-								2528
+								11787,
+								11787
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"syntax": "Packages/Markdown/Markdown.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 507.0,
+						"translation.y": 2928.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
-				},
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
 				{
 					"buffer": 1,
-					"file": "/E/Cosas/b166MP2/main/src/minecraft/net/minecraft/client/gui/LoadingScreenRenderer.java",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4499,
+						"buffer_size": 9581,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								620,
-								679
+								0,
+								9581
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Java/Java.sublime-syntax",
+							"auto_name": "public void moveEntity(double moveX, double moveY",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 13.0,
+						"translation.y": 3600.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
@@ -1136,59 +1130,25 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 18,
+						"buffer_size": 874,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								18,
-								18
+								0,
+								874
 							]
 						],
 						"settings":
 						{
-							"auto_name": "TextureAtlasSize.h",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 3,
-					"file": "README.md",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 17769,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								10215,
-								10215
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.sublime-syntax",
+							"auto_name": "// Call .onEntityCollidedWithBlock for all blocks",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3718.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -1199,7 +1159,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 22.0
+		"height": 26.0
 	},
 	"input":
 	{
@@ -1243,7 +1203,7 @@
 	"project": "PE_OLD.sublime-project",
 	"replace":
 	{
-		"height": 40.0
+		"height": 94.0
 	},
 	"save_all_on_build": true,
 	"select_file":

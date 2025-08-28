@@ -12,6 +12,7 @@ public class GlobalVars {
 	public static int numUnderHillMazes = 0;
 	public static int numHedgeMazes = 0;
 	public static int numBronzeDungeons = 0;
+	public static boolean didGenerateChunks = false;
 	
 	public static FeatureAABB minoshroomMazeBB = null;
 	
@@ -26,6 +27,7 @@ public class GlobalVars {
 		numHedgeMazes = 0;
 		minoshroomMazeBB = null;
 		numBronzeDungeons = 0;
+		didGenerateChunks = false;
 	}
 
 }

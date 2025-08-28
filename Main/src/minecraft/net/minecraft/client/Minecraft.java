@@ -1502,9 +1502,15 @@ public abstract class Minecraft implements Runnable {
 		}
 		BlockFire.dontSpread = false;
 		
-		// Here: extra, special post generation.	
-		if(isNew) {
-			this.loadingScreen.displayLoadingString("Generating special stuff");
+		// Here: extra, special post generation.
+		// No matter if the level was or was not new, if chunks had to be generated, 
+		// We have to generate special stuff...
+		if(GlobalVars.didGenerateChunks) {
+			if(isNew) {
+				this.loadingScreen.displayLoadingString("Generating special stuff");
+			} else {
+				this.loadingScreen.displayLoadingString("Regenerating special stuff");
+			}
 			LevelThemeGlobalSettings.getTheme().specialPostGeneration(world);
 		}
 
