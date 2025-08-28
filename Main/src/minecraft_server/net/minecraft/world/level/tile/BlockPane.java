@@ -37,15 +37,15 @@ public class BlockPane extends Block {
 	}
 
 	public boolean shouldSideBeRendered(IBlockAccess iBlockAccess1, int i2, int i3, int i4, int i5) {
-		int i6 = iBlockAccess1.getblockID(i2, i3, i4);
+		int i6 = iBlockAccess1.getBlockID(i2, i3, i4);
 		return i6 == this.blockID ? false : super.shouldSideBeRendered(iBlockAccess1, i2, i3, i4, i5);
 	}
 
 	public void getCollidingBoundingBoxes(World world1, int i2, int i3, int i4, AxisAlignedBB axisAlignedBB5, ArrayList<AxisAlignedBB> arrayList6) {
-		boolean z7 = this.canThisPaneConnectToThisblockID(world1.getblockID(i2, i3, i4 - 1));
-		boolean z8 = this.canThisPaneConnectToThisblockID(world1.getblockID(i2, i3, i4 + 1));
-		boolean z9 = this.canThisPaneConnectToThisblockID(world1.getblockID(i2 - 1, i3, i4));
-		boolean z10 = this.canThisPaneConnectToThisblockID(world1.getblockID(i2 + 1, i3, i4));
+		boolean z7 = this.canThisPaneConnectToThisblockID(world1.getBlockID(i2, i3, i4 - 1));
+		boolean z8 = this.canThisPaneConnectToThisblockID(world1.getBlockID(i2, i3, i4 + 1));
+		boolean z9 = this.canThisPaneConnectToThisblockID(world1.getBlockID(i2 - 1, i3, i4));
+		boolean z10 = this.canThisPaneConnectToThisblockID(world1.getBlockID(i2 + 1, i3, i4));
 		if(z9 && z10 || !z9 && !z10 && !z7 && !z8) {
 			this.setBlockBounds(0.0F, 0.0F, 0.4375F, 1.0F, 1.0F, 0.5625F);
 			super.getCollidingBoundingBoxes(world1, i2, i3, i4, axisAlignedBB5, arrayList6);
@@ -81,10 +81,10 @@ public class BlockPane extends Block {
 		float f6 = 0.5625F;
 		float f7 = 0.4375F;
 		float f8 = 0.5625F;
-		boolean z9 = this.canThisPaneConnectToThisblockID(iBlockAccess1.getblockID(i2, i3, i4 - 1));
-		boolean z10 = this.canThisPaneConnectToThisblockID(iBlockAccess1.getblockID(i2, i3, i4 + 1));
-		boolean z11 = this.canThisPaneConnectToThisblockID(iBlockAccess1.getblockID(i2 - 1, i3, i4));
-		boolean z12 = this.canThisPaneConnectToThisblockID(iBlockAccess1.getblockID(i2 + 1, i3, i4));
+		boolean z9 = this.canThisPaneConnectToThisblockID(iBlockAccess1.getBlockID(i2, i3, i4 - 1));
+		boolean z10 = this.canThisPaneConnectToThisblockID(iBlockAccess1.getBlockID(i2, i3, i4 + 1));
+		boolean z11 = this.canThisPaneConnectToThisblockID(iBlockAccess1.getBlockID(i2 - 1, i3, i4));
+		boolean z12 = this.canThisPaneConnectToThisblockID(iBlockAccess1.getBlockID(i2 + 1, i3, i4));
 		if(z11 && z12 || !z11 && !z12 && !z9 && !z10) {
 			f5 = 0.0F;
 			f6 = 1.0F;

@@ -481,7 +481,7 @@ public class Config {
 					++x;
 				}
 
-				int blockID = blockAccess.getblockID(x, y, z);
+				int blockID = blockAccess.getBlockID(x, y, z);
 				if(blockID != 2) {
 					return 3;
 				}
@@ -510,7 +510,7 @@ public class Config {
 					++x;
 				}
 
-				int blockID = blockAccess.getblockID(x, y, z);
+				int blockID = blockAccess.getBlockID(x, y, z);
 				if(blockID != 78 && blockID != 80) {
 					return 68;
 				}

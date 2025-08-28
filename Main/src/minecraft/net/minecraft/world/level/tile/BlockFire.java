@@ -66,7 +66,7 @@ public class BlockFire extends Block {
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		if(BlockFire.dontSpread ) return;
 			
-		int blockIDBeneath = world.getblockID(x, y - 1, z);
+		int blockIDBeneath = world.getBlockID(x, y - 1, z);
 		boolean superFuelBeneath = blockIDBeneath == Block.bloodStone.blockID || blockIDBeneath == Block.blockCoal.blockID;
 		
 		if(!this.canPlaceBlockAt(world, x, y, z)) {
@@ -145,11 +145,11 @@ public class BlockFire extends Block {
 	}
 
 	private void tryToCatchBlockOnFire(World world, int x, int y, int z, int chance, Random rand, int dist) {
-		int i7 = this.abilityToCatchFire[world.getblockID(x, y, z)];
+		int i7 = this.abilityToCatchFire[world.getBlockID(x, y, z)];
 		if(world.raining() || world.snowing()) i7 >>= 2;
 		if(world.getBiomeGenAt(x, z).isHumid()) i7 >>= 1;
 		if(rand.nextInt(chance) < i7) {
-			boolean z8 = world.getblockID(x, y, z) == Block.tnt.blockID;
+			boolean z8 = world.getBlockID(x, y, z) == Block.tnt.blockID;
 			if(rand.nextInt(2) == 0) {
 				world.setBlockWithNotify(x, y, z, this.blockID);
 			} else {
@@ -166,7 +166,7 @@ public class BlockFire extends Block {
 	// Beta 1.6 code
 	/*
 	public void updateTick(World world1, int i2, int i3, int i4, Random random5) {
-		boolean z6 = world1.getblockID(i2, i3 - 1, i4) == Block.bloodStone.blockID;
+		boolean z6 = world1.getBlockID(i2, i3 - 1, i4) == Block.bloodStone.blockID;
 		if(!this.canPlaceBlockAt(world1, i2, i3, i4)) {
 			world1.setBlockWithNotify(i2, i3, i4, 0);
 		}
@@ -226,9 +226,9 @@ public class BlockFire extends Block {
 	}
 
 	private void tryToCatchBlockOnFire(World world1, int i2, int i3, int i4, int i5, Random random6, int i7) {
-		int i8 = this.abilityToCatchFire[world1.getblockID(i2, i3, i4)];
+		int i8 = this.abilityToCatchFire[world1.getBlockID(i2, i3, i4)];
 		if(random6.nextInt(i5) < i8) {
-			boolean z9 = world1.getblockID(i2, i3, i4) == Block.tnt.blockID;
+			boolean z9 = world1.getBlockID(i2, i3, i4) == Block.tnt.blockID;
 			if(random6.nextInt(i7 + 10) < 5 && !world1.canBlockBeRainedOn(i2, i3, i4)) {
 				int i10 = i7 + random6.nextInt(5) / 4;
 				if(i10 > 15) {
@@ -272,11 +272,11 @@ public class BlockFire extends Block {
 	}
 
 	public boolean canBlockCatchFire(IBlockAccess iBlockAccess1, int i2, int i3, int i4) {
-		return this.chanceToEncourageFire[iBlockAccess1.getblockID(i2, i3, i4)] > 0;
+		return this.chanceToEncourageFire[iBlockAccess1.getBlockID(i2, i3, i4)] > 0;
 	}
 
 	public int getChanceToEncourageFire(World world1, int i2, int i3, int i4, int i5) {
-		int i6 = this.chanceToEncourageFire[world1.getblockID(i2, i3, i4)];
+		int i6 = this.chanceToEncourageFire[world1.getBlockID(i2, i3, i4)];
 		return i6 > i5 ? i6 : i5;
 	}
 
@@ -291,7 +291,7 @@ public class BlockFire extends Block {
 	}
 
 	public void onBlockAdded(World world1, int i2, int i3, int i4) {
-		if(world1.getblockID(i2, i3 - 1, i4) != Block.obsidian.blockID || !Block.portal.tryToCreatePortal(world1, i2, i3, i4)) {
+		if(world1.getBlockID(i2, i3 - 1, i4) != Block.obsidian.blockID || !Block.portal.tryToCreatePortal(world1, i2, i3, i4)) {
 			if(!world1.isBlockNormalCube(i2, i3 - 1, i4) && !this.canNeighborBurn(world1, i2, i3, i4)) {
 				world1.setBlockWithNotify(i2, i3, i4, 0);
 			} else {

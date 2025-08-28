@@ -17,10 +17,10 @@ public class WorldGenShrub extends WorldGenerator {
 	public boolean generate(World world, Random rand, int x, int y, int z) {
 		
 		int blockID;
-		for(; ((blockID = world.getblockID(x, y, z)) == 0 || blockID == Block.leaves.blockID) && y > 0; --y) {
+		for(; ((blockID = world.getBlockID(x, y, z)) == 0 || blockID == Block.leaves.blockID) && y > 0; --y) {
 		}
 
-		blockID = world.getblockID(x, y, z);
+		blockID = world.getBlockID(x, y, z);
 
 		if(blockID == Block.dirt.blockID || blockID == Block.grass.blockID || blockID == Block.sand.blockID || blockID == Block.stone.blockID || blockID == Block.snow.blockID || blockID == Block.terracotta.blockID || blockID == Block.stainedTerracotta.blockID) {
 			++y;
@@ -35,7 +35,7 @@ public class WorldGenShrub extends WorldGenerator {
 
 					for(int zz = z - radius; zz <= z + radius; ++zz) {
 						int dz = zz - z;
-						if((Math.abs(dx) != radius || Math.abs(dz) != radius || rand.nextInt(2) != 0) && !Block.opaqueCubeLookup[world.getblockID(xx, yy, zz)]) {
+						if((Math.abs(dx) != radius || Math.abs(dz) != radius || rand.nextInt(2) != 0) && !Block.opaqueCubeLookup[world.getBlockID(xx, yy, zz)]) {
 							world.setBlockAndMetadata(xx, yy, zz, this.leavesID, this.leavesMeta);
 						}
 					}

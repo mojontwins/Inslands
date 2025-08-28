@@ -22,7 +22,7 @@ public class WorldGenPalmTree extends WorldGenMojon {
 	
 	@Override
 	public boolean validGround(World world, int x, int y, int z) {
-		return world.getblockID(x, y, z) == Block.sand.blockID;
+		return world.getBlockID(x, y, z) == Block.sand.blockID;
 	}
 
 	@Override

@@ -20,7 +20,7 @@ public abstract class TFGenerator extends WorldGenerator {
 		if(priority) {
 			this.worldObj.setBlockAndMetadata(dx, dy, dz, blockValue, metaValue);
 		} else {
-			int whatsThere = this.worldObj.getblockID(dx, dy, dz);
+			int whatsThere = this.worldObj.getBlockID(dx, dy, dz);
 			if(whatsThere != 0) {
 				return false;
 			}
@@ -32,7 +32,7 @@ public abstract class TFGenerator extends WorldGenerator {
 	}
 
 	protected void putBlockAndMetadataIfSolid(int dx, int dy, int dz, int blockValue, int metaValue) {
-		Block block = Block.blocksList[this.worldObj.getblockID(dx, dy, dz)];
+		Block block = Block.blocksList[this.worldObj.getBlockID(dx, dy, dz)];
 		
 		if(block != null && block.isOpaqueCube()) {
 			this.worldObj.setBlockAndMetadataWithNotify(dx, dy, dz, blockValue, metaValue);
@@ -41,7 +41,7 @@ public abstract class TFGenerator extends WorldGenerator {
 	}
 
 	protected void putBlockIfSolid(int dx, int dy, int dz, int blockValue) {
-		Block block = Block.blocksList[this.worldObj.getblockID(dx, dy, dz)];
+		Block block = Block.blocksList[this.worldObj.getBlockID(dx, dy, dz)];
 		
 		if(block != null && block.isOpaqueCube()) {
 			this.worldObj.setBlockWithNotify(dx, dy, dz, blockValue);
@@ -253,7 +253,7 @@ public abstract class TFGenerator extends WorldGenerator {
 		for(int cx = 0; cx < width; ++cx) {
 			for(int cy = 0; cy < height; ++cy) {
 				for(int cz = 0; cz < depth; ++cz) {
-					if(this.worldObj.getblockID(dx + cx, dy + cy, dz + cz) != 0)
+					if(this.worldObj.getBlockID(dx + cx, dy + cy, dz + cz) != 0)
 						this.worldObj.setBlockAndMetadata(dx + cx, dy + cy, dz + cz, blockID, meta);
 				}
 			}
@@ -274,7 +274,7 @@ public abstract class TFGenerator extends WorldGenerator {
 	}
 	
 	protected void fillWithBlocksDownwads(int dx, int dy, int dz, int blockID, int meta) {
-		while((this.worldObj.getblockID(dx, dy, dz) == 0 || this.worldObj.getBlockMaterial(dx, dy, dz) == Material.water) && dy > 1) {
+		while((this.worldObj.getBlockID(dx, dy, dz) == 0 || this.worldObj.getBlockMaterial(dx, dy, dz) == Material.water) && dy > 1) {
 			this.worldObj.setBlockAndMetadata(dx, dy --, dz, blockID, meta);
 		}
 	}

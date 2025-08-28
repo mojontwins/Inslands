@@ -10,7 +10,7 @@ import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.AxisAlignedBB;
 
-public class BlockWoodenSpikes extends Block {
+public class BlockWoodenSpikes extends Block implements INonSolidPlant {
 
 	protected BlockWoodenSpikes(int id, int blockIndexInTexture) {
 		super(id, blockIndexInTexture, Material.wood);

@@ -342,7 +342,7 @@ public class World implements IBlockAccess {
 		for(; !this.isAirBlock(x, y + 1, z); ++y) {
 		}
 
-		return this.getblockID(x, y, z);
+		return this.getBlockID(x, y, z);
 	}
 
 	public void spawnPlayerWithLoadedChunks(EntityPlayer entityPlayer1) {
@@ -393,16 +393,16 @@ public class World implements IBlockAccess {
 		}
 	}
 
-	public int getblockID(int x, int y, int z) {
-		return x >= 0 && z >= 0 && x < WorldSize.width && z < WorldSize.length ? (y < 0 ? 0 : (y >= 128 ? 0 : this.getChunkFromChunkCoords(x >> 4, z >> 4).getblockID(x & 15, y, z & 15))) : 0;
+	public int getBlockID(int x, int y, int z) {
+		return x >= 0 && z >= 0 && x < WorldSize.width && z < WorldSize.length ? (y < 0 ? 0 : (y >= 128 ? 0 : this.getChunkFromChunkCoords(x >> 4, z >> 4).getBlockID(x & 15, y, z & 15))) : 0;
 	}
 	
-	public int getblockID(BlockPos blockPos) {
-		return this.getblockID(blockPos.x, blockPos.y, blockPos.z);
+	public int getBlockID(BlockPos blockPos) {
+		return this.getBlockID(blockPos.x, blockPos.y, blockPos.z);
 	}
 
 	public boolean isAirBlock(int i1, int i2, int i3) {
-		return this.getblockID(i1, i2, i3) == 0;
+		return this.getBlockID(i1, i2, i3) == 0;
 	}
 	
 	public boolean isAirBlock(BlockPos blockPos) {
@@ -410,7 +410,7 @@ public class World implements IBlockAccess {
 	}
 	
 	public boolean isWaterBlock(int i1, int i2, int i3) {
-		Block b = Block.blocksList[this.getblockID(i1, i2, i3)];
+		Block b = Block.blocksList[this.getBlockID(i1, i2, i3)];
 		return (b != null && b instanceof BlockFluid);
 	}
 
@@ -514,7 +514,7 @@ public class World implements IBlockAccess {
 	}
 
 	public Material getBlockMaterial(int i1, int i2, int i3) {
-		int i4 = this.getblockID(i1, i2, i3);
+		int i4 = this.getBlockID(i1, i2, i3);
 		return i4 == 0 ? Material.air : Block.blocksList[i4].blockMaterial;
 	}
 
@@ -545,7 +545,7 @@ public class World implements IBlockAccess {
 	
 	public void setBlockMetadataWithNotify(int i1, int i2, int i3, int i4) {
 		if(this.setBlockMetadata(i1, i2, i3, i4)) {
-			int i5 = this.getblockID(i1, i2, i3);
+			int i5 = this.getBlockID(i1, i2, i3);
 			if(Block.requiresSelfNotify[i5 & 255]) {
 				this.notifyBlockChange(i1, i2, i3, i5);
 			} else {
@@ -656,7 +656,7 @@ public class World implements IBlockAccess {
 
 	private void notifyBlockOfNeighborChange(int i1, int i2, int i3, int i4) {
 		if(!this.editingBlocks && !this.isRemote) {
-			Block block5 = Block.blocksList[this.getblockID(i1, i2, i3)];
+			Block block5 = Block.blocksList[this.getBlockID(i1, i2, i3)];
 			if(block5 != null) {
 				block5.onNeighborBlockChange(this, i1, i2, i3, i4);
 			}
@@ -673,7 +673,7 @@ public class World implements IBlockAccess {
 		x = x & 15; z = z & 15;
 		
 		for(int yy = 127; yy > y; yy --) {
-			int blockID = chunk.getblockID(x, yy, z);
+			int blockID = chunk.getBlockID(x, yy, z);
 			if(Block.opaqueCubeLookup[blockID]) return false;
 		}
 
@@ -699,7 +699,7 @@ public class World implements IBlockAccess {
 	public int getBlockLightValue_do(int x, int y, int z, boolean z4) {
 		if(x >= 0 && z >= 0 && x < WorldSize.width && z < WorldSize.length) {
 			if(z4) {
-				int i5 = this.getblockID(x, y, z);
+				int i5 = this.getBlockID(x, y, z);
 				if(i5 == Block.stairSingle.blockID || i5 == Block.tilledField.blockID || i5 == Block.stairCompactCobblestone.blockID || i5 == Block.stairCompactPlanks.blockID) {
 					int i6 = this.getBlockLightValue_do(x, y + 1, z, false);
 					int i7 = this.getBlockLightValue_do(x + 1, y, z, false);
@@ -819,7 +819,7 @@ public class World implements IBlockAccess {
 		
 		while (y > 8) {
 			y --;
-			if (getblockID (x, y, z) != Block.waterStill.blockID) break;
+			if (getBlockID (x, y, z) != Block.waterStill.blockID) break;
 		}
 		
 		return y;
@@ -840,7 +840,7 @@ public class World implements IBlockAccess {
 				int i6 = i4 >> 4;
 				if(!this.chunkExists(i5, i6)) {
 					return enumSkyBlock1.defaultLightValue;
-				} else if(Block.useNeighborBrightness[this.getblockID(i2, i3, i4)]) {
+				} else if(Block.useNeighborBrightness[this.getBlockID(i2, i3, i4)]) {
 					int i12 = this.getSavedLightValue(enumSkyBlock1, i2, i3 + 1, i4);
 					int i8 = this.getSavedLightValue(enumSkyBlock1, i2 + 1, i3, i4);
 					int i9 = this.getSavedLightValue(enumSkyBlock1, i2 - 1, i3, i4);
@@ -954,7 +954,7 @@ public class World implements IBlockAccess {
 				int i8 = MathHelper.floor_double(vec3D1.xCoord);
 				int i9 = MathHelper.floor_double(vec3D1.yCoord);
 				int i10 = MathHelper.floor_double(vec3D1.zCoord);
-				int i11 = this.getblockID(i8, i9, i10);
+				int i11 = this.getBlockID(i8, i9, i10);
 				int i12 = this.getBlockMetadata(i8, i9, i10);
 				Block block13 = Block.blocksList[i11];
 				if((!z4 || block13 == null || block13.getCollisionBoundingBoxFromPool(this, i8, i9, i10) != null) && i11 > 0 && block13.canCollideCheck(i12, z3)) {
@@ -1075,7 +1075,7 @@ public class World implements IBlockAccess {
 						++vec3D34.zCoord;
 					}
 
-					int i35 = this.getblockID(i8, i9, i10);
+					int i35 = this.getBlockID(i8, i9, i10);
 					int i36 = this.getBlockMetadata(i8, i9, i10);
 					Block block37 = Block.blocksList[i35];
 					if((!z4 || block37 == null || block37.getCollisionBoundingBoxFromPool(this, i8, i9, i10) != null) && i35 > 0 && (block37 == null || block37.canCollideCheck(i36, z3))) {
@@ -1230,7 +1230,7 @@ public class World implements IBlockAccess {
 			for(int i10 = i7; i10 < i8; ++i10) {
 				if(this.blockExists(i9, 64, i10)) {
 					for(int i11 = i5 - 1; i11 < i6; ++i11) {
-						Block block12 = Block.blocksList[this.getblockID(i9, i11, i10)];
+						Block block12 = Block.blocksList[this.getBlockID(i9, i11, i10)];
 						if(block12 != null && !(block12 instanceof BlockFluid)) {
 							block12.getCollidingBoundingBoxes(this, i9, i11, i10, axisAlignedBB2, this.collidingBoundingBoxes, entity1);
 						}
@@ -1255,7 +1255,7 @@ public class World implements IBlockAccess {
 			for(int i10 = i7; i10 < i8; ++i10) {
 				if(this.blockExists(i9, 64, i10)) {
 					for(int i11 = i5 - 1; i11 < i6; ++i11) {
-						Block block12 = Block.blocksList[this.getblockID(i9, i11, i10)];
+						Block block12 = Block.blocksList[this.getBlockID(i9, i11, i10)];
 						if(block12 != null) {
 							block12.getCollidingBoundingBoxes(this, i9, i11, i10, axisAlignedBB2, this.collidingBoundingBoxes, entity1);
 						}
@@ -1480,7 +1480,7 @@ public class World implements IBlockAccess {
 		z &= 15;
 
 		for(; y > 0; --y) {
-			Block block = Block.blocksList[chunk3.getblockID(x, y, z)];
+			Block block = Block.blocksList[chunk3.getBlockID(x, y, z)];
 			if(block == null) continue;
 			if(block.blockMaterial.getIsSolid() || block.blockMaterial.getIsLiquid()) {
 				return y + 1;
@@ -1510,7 +1510,7 @@ public class World implements IBlockAccess {
 		i1 &= 15;
 
 		for(i2 &= 15; i4 > 0; --i4) {
-			int i5 = chunk3.getblockID(i1, i4, i2);
+			int i5 = chunk3.getBlockID(i1, i4, i2);
 			if(i5 != 0 && Block.blocksList[i5].blockMaterial.getIsSolid()) {
 				return i4 + 1;
 			}
@@ -1524,7 +1524,7 @@ public class World implements IBlockAccess {
 		byte b7 = 8;
 		if(this.scheduledUpdatesAreImmediate) {
 			if(this.checkChunksExist(nextTickListEntry6.xCoord - b7, nextTickListEntry6.yCoord - b7, nextTickListEntry6.zCoord - b7, nextTickListEntry6.xCoord + b7, nextTickListEntry6.yCoord + b7, nextTickListEntry6.zCoord + b7)) {
-				int i8 = this.getblockID(nextTickListEntry6.xCoord, nextTickListEntry6.yCoord, nextTickListEntry6.zCoord);
+				int i8 = this.getBlockID(nextTickListEntry6.xCoord, nextTickListEntry6.yCoord, nextTickListEntry6.zCoord);
 				if(i8 == nextTickListEntry6.blockID && i8 > 0) {
 					Block.blocksList[i8].updateTick(this, nextTickListEntry6.xCoord, nextTickListEntry6.yCoord, nextTickListEntry6.zCoord, this.rand);
 				}
@@ -1802,7 +1802,7 @@ public class World implements IBlockAccess {
 		for(int i8 = i2; i8 < i3; ++i8) {
 			for(int i9 = i4; i9 < i5; ++i9) {
 				for(int i10 = i6; i10 < i7; ++i10) {
-					Block block11 = Block.blocksList[this.getblockID(i8, i9, i10)];
+					Block block11 = Block.blocksList[this.getBlockID(i8, i9, i10)];
 					if(block11 != null) {
 						return true;
 					}
@@ -1835,7 +1835,7 @@ public class World implements IBlockAccess {
 		for(int i8 = i2; i8 < i3; ++i8) {
 			for(int i9 = i4; i9 < i5; ++i9) {
 				for(int i10 = i6; i10 < i7; ++i10) {
-					Block block11 = Block.blocksList[this.getblockID(i8, i9, i10)];
+					Block block11 = Block.blocksList[this.getBlockID(i8, i9, i10)];
 					if(block11 != null && block11.blockMaterial.getIsLiquid()) {
 						return true;
 					}
@@ -1868,7 +1868,7 @@ public class World implements IBlockAccess {
 		for(int i8 = i2; i8 < i3; ++i8) {
 			for(int i9 = i4; i9 < i5; ++i9) {
 				for(int i10 = i6; i10 < i7; ++i10) {
-					if(blockID == this.getblockID(i8, i9, i10)) {
+					if(blockID == this.getBlockID(i8, i9, i10)) {
 						return true;
 					}
 				}
@@ -1889,7 +1889,7 @@ public class World implements IBlockAccess {
 			for(int i8 = i2; i8 < i3; ++i8) {
 				for(int i9 = i4; i9 < i5; ++i9) {
 					for(int i10 = i6; i10 < i7; ++i10) {
-						int i11 = this.getblockID(i8, i9, i10);
+						int i11 = this.getBlockID(i8, i9, i10);
 						if(i11 == Block.fire.blockID || i11 == Block.lavaMoving.blockID || i11 == Block.lavaStill.blockID) {
 							return true;
 						}
@@ -1917,7 +1917,7 @@ public class World implements IBlockAccess {
 			for(int i12 = i4; i12 < i5; ++i12) {
 				for(int i13 = i6; i13 < i7; ++i13) {
 					for(int i14 = i8; i14 < i9; ++i14) {
-						Block block15 = Block.blocksList[this.getblockID(i12, i13, i14)];
+						Block block15 = Block.blocksList[this.getBlockID(i12, i13, i14)];
 						if(block15 != null && block15.blockMaterial == material2) {
 							double d16 = (double)((float)(i13 + 1) - BlockFluid.getFluidHeightPercent(this.getBlockMetadata(i12, i13, i14)));
 							if((double)i7 >= d16) {
@@ -1952,7 +1952,7 @@ public class World implements IBlockAccess {
 		for(int i9 = i3; i9 < i4; ++i9) {
 			for(int i10 = i5; i10 < i6; ++i10) {
 				for(int i11 = i7; i11 < i8; ++i11) {
-					Block block12 = Block.blocksList[this.getblockID(i9, i10, i11)];
+					Block block12 = Block.blocksList[this.getBlockID(i9, i10, i11)];
 					if(block12 != null && block12.blockMaterial == material2) {
 						return true;
 					}
@@ -1974,7 +1974,7 @@ public class World implements IBlockAccess {
 		for(int i9 = i3; i9 < i4; ++i9) {
 			for(int i10 = i5; i10 < i6; ++i10) {
 				for(int i11 = i7; i11 < i8; ++i11) {
-					Block block12 = Block.blocksList[this.getblockID(i9, i10, i11)];
+					Block block12 = Block.blocksList[this.getBlockID(i9, i10, i11)];
 					if(block12 != null && block12.blockMaterial == material2) {
 						int i13 = this.getBlockMetadata(i9, i10, i11);
 						double d14 = (double)(i10 + 1);
@@ -2067,7 +2067,7 @@ public class World implements IBlockAccess {
 			++i2;
 		}
 
-		if(this.getblockID(i2, i3, i4) == Block.fire.blockID) {
+		if(this.getBlockID(i2, i3, i4) == Block.fire.blockID) {
 			this.playAuxSFXAtEntity(entityPlayer1, 1004, i2, i3, i4, 0);
 			this.setBlockWithNotify(i2, i3, i4, 0);
 			return true;
@@ -2154,12 +2154,12 @@ public class World implements IBlockAccess {
 	}
 	
 	public boolean isBlockOpaqueCube(int i1, int i2, int i3) {
-		Block block4 = Block.blocksList[this.getblockID(i1, i2, i3)];
+		Block block4 = Block.blocksList[this.getBlockID(i1, i2, i3)];
 		return block4 == null ? false : block4.isOpaqueCube();
 	}
 
 	public boolean isBlockNormalCube(int i1, int i2, int i3) {
-		Block block4 = Block.blocksList[this.getblockID(i1, i2, i3)];
+		Block block4 = Block.blocksList[this.getBlockID(i1, i2, i3)];
 		return block4 == null ? false : block4.blockMaterial.getIsTranslucent() && block4.renderAsNormalBlock();
 	}
 
@@ -2537,7 +2537,7 @@ public class World implements IBlockAccess {
 				x = tIndex & 15;
 				z = tIndex >> 8 & 15;
 				y = tIndex >> 16 & 127;
-				blockID = chunk.getblockID(x, y, z);
+				blockID = chunk.getBlockID(x, y, z);
 				x += x0;
 				z += z0;
 				if (blockID == 0 && this.getFullBlockLightValue(x, y, z) <= this.rand.nextInt(8)
@@ -2569,7 +2569,7 @@ public class World implements IBlockAccess {
 					for (int zz = z - rodRadius; zz <= z + rodRadius; zz++) {
 						int yy = this.findTopSolidBlockUsingBlockMaterial(xx, zz);
 						if (yy > y) {
-							if (this.getblockID(xx, yy, zz) == Block.blockSteel.blockID) {
+							if (this.getBlockID(xx, yy, zz) == Block.blockSteel.blockID) {
 								x = xx;
 								y = yy;
 								z = zz;
@@ -2607,10 +2607,10 @@ public class World implements IBlockAccess {
 						y = this.findTopSolidBlockUsingBlockMaterial(x + x0, z + z0);
 
 						if (y > 0) {
-							int thisblockID = chunk.getblockID(x, y, z);
+							int thisblockID = chunk.getBlockID(x, y, z);
 							Block thisBlock = Block.blocksList[thisblockID];
 
-							blockID = chunk.getblockID(x, y - 1, z);
+							blockID = chunk.getBlockID(x, y - 1, z);
 
 							if (particleType == Weather.SNOW) {
 								// Freeze / drop snow
@@ -2676,7 +2676,7 @@ public class World implements IBlockAccess {
 				this.scheduledTickSet.remove(nextTickListEntry4);
 				byte b5 = 8;
 				if(this.checkChunksExist(nextTickListEntry4.xCoord - b5, nextTickListEntry4.yCoord - b5, nextTickListEntry4.zCoord - b5, nextTickListEntry4.xCoord + b5, nextTickListEntry4.yCoord + b5, nextTickListEntry4.zCoord + b5)) {
-					int i6 = this.getblockID(nextTickListEntry4.xCoord, nextTickListEntry4.yCoord, nextTickListEntry4.zCoord);
+					int i6 = this.getBlockID(nextTickListEntry4.xCoord, nextTickListEntry4.yCoord, nextTickListEntry4.zCoord);
 					if(i6 == nextTickListEntry4.blockID && i6 > 0) {
 						Block.blocksList[i6].updateTick(this, nextTickListEntry4.xCoord, nextTickListEntry4.yCoord, nextTickListEntry4.zCoord, this.rand);
 					}
@@ -2695,7 +2695,7 @@ public class World implements IBlockAccess {
 			int i7 = i1 + this.rand.nextInt(b4) - this.rand.nextInt(b4);
 			int i8 = i2 + this.rand.nextInt(b4) - this.rand.nextInt(b4);
 			int i9 = i3 + this.rand.nextInt(b4) - this.rand.nextInt(b4);
-			int i10 = this.getblockID(i7, i8, i9);
+			int i10 = this.getBlockID(i7, i8, i9);
 			Block block = Block.blocksList[i10];
 			if(block != null) {
 				block.randomDisplayTick(this, i7, i8, i9, random5);
@@ -2808,7 +2808,7 @@ public class World implements IBlockAccess {
 	}
 
 	public boolean canBlockBePlacedAt(int i1, int i2, int i3, int i4, boolean z5, int i6) {
-		int i7 = this.getblockID(i2, i3, i4);
+		int i7 = this.getBlockID(i2, i3, i4);
 		Block block8 = Block.blocksList[i7];
 		Block block9 = Block.blocksList[i1];
 		AxisAlignedBB axisAlignedBB10 = block9.getCollisionBoundingBoxFromPool(this, i2, i3, i4);
@@ -2890,7 +2890,7 @@ public class World implements IBlockAccess {
 	}
 
 	public boolean isBlockProvidingPowerTo(int i1, int i2, int i3, int i4) {
-		int i5 = this.getblockID(i1, i2, i3);
+		int i5 = this.getBlockID(i1, i2, i3);
 		return i5 == 0 ? false : Block.blocksList[i5].isIndirectlyPoweringTo(this, i1, i2, i3, i4);
 	}
 
@@ -2902,7 +2902,7 @@ public class World implements IBlockAccess {
 		if(this.isBlockNormalCube(i1, i2, i3)) {
 			return this.isBlockGettingPowered(i1, i2, i3);
 		} else {
-			int i5 = this.getblockID(i1, i2, i3);
+			int i5 = this.getBlockID(i1, i2, i3);
 			Block block = Block.blocksList[i5];
 			return block == null ? false : block.isPoweringTo(this, i1, i2, i3, i4);
 		}
@@ -3206,7 +3206,7 @@ public class World implements IBlockAccess {
 	}
 
 	public void playNoteAt(int i1, int i2, int i3, int i4, int i5) {
-		int i6 = this.getblockID(i1, i2, i3);
+		int i6 = this.getBlockID(i1, i2, i3);
 		if(i6 > 0) {
 			Block.blocksList[i6].playBlock(this, i1, i2, i3, i4, i5);
 		}
@@ -3381,18 +3381,18 @@ public class World implements IBlockAccess {
 
 	public boolean isUnderLeaves(int x, int y, int z) {
 		for(int i = 0; i < 16 && y < 128; i ++) {
-			if(this.getblockID(x, y, z) == Block.leaves.blockID && this.getBlockMetadata(x, y, z) == 7) return true;
+			if(this.getBlockID(x, y, z) == Block.leaves.blockID && this.getBlockMetadata(x, y, z) == 7) return true;
 			y ++;
 		}
 		return false;
 	}
 
 	public BlockState getBlockStateAt(int x0, int y0, int z0) {
-		return new BlockState(this.getblockID(x0, y0, z0), this.getBlockMetadata(x0, y0, z0), x0, y0, z0);
+		return new BlockState(this.getBlockID(x0, y0, z0), this.getBlockMetadata(x0, y0, z0), x0, y0, z0);
 	}
 
 	public Block getBlock(int x, int y, int z) {
-		return Block.blocksList[this.getblockID(x, y, z)];
+		return Block.blocksList[this.getBlockID(x, y, z)];
 	}
 
 	public void setBlockAndMetadata(int x, int y, int z, BlockState blockState) {
@@ -3408,8 +3408,10 @@ public class World implements IBlockAccess {
 			
 			// Paradise must have at least one bronze dungeon
 			if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.paradise.id) {
-				System.out.println ("No bronze dungeon in paradise -> bad level");
-				if(!GlobalVars.hasBronzeDungeon) return false;
+				if(!GlobalVars.hasBronzeDungeon) {
+					System.out.println ("No bronze dungeon in paradise -> bad level");
+					return false;
+				}
 			}
 			
 			// Forest must have 

@@ -21,7 +21,7 @@ public class BlockLilypad extends Block {
 	}
 
     public final boolean canPlaceBlockAt(World world, int x, int y, int z) {
-        return this.canThisPlantGrowOnThisblockID(world.getblockID(x, y - 1, z));
+        return this.canThisPlantGrowOnThisblockID(world.getBlockID(x, y - 1, z));
     }
 
     protected boolean canThisPlantGrowOnThisblockID(int blockID) {
@@ -47,7 +47,7 @@ public class BlockLilypad extends Block {
     }
 
     public boolean canBlockStay(World world, int x, int y, int z) {
-        return this.canThisPlantGrowOnThisblockID(world.getblockID(x, y - 1, z));
+        return this.canThisPlantGrowOnThisblockID(world.getBlockID(x, y - 1, z));
     }
 
     public final boolean isOpaqueCube() {

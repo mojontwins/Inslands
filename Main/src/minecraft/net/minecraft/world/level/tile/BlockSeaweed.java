@@ -22,9 +22,9 @@ public class BlockSeaweed extends Block {
 	// - a water block on top
 	// - a valid block beneath
     public boolean canPlaceBlockAt(World world, int x, int y, int z) {
-        return world.getblockID(x, y, z) == Block.waterStill.blockID 
-        		&& world.getblockID(x, y + 1, z) == Block.waterStill.blockID 
-        		&& canThisPlantGrowOnThisblockID(world.getblockID(x, y - 1, z));
+        return world.getBlockID(x, y, z) == Block.waterStill.blockID 
+        		&& world.getBlockID(x, y + 1, z) == Block.waterStill.blockID 
+        		&& canThisPlantGrowOnThisblockID(world.getBlockID(x, y - 1, z));
     }
     
     protected boolean canThisPlantGrowOnThisblockID(int par1) {
@@ -42,7 +42,7 @@ public class BlockSeaweed extends Block {
     
     public void updateTick(World world, int x, int y, int z, Random rand) {
     	if (rand.nextInt (32) == 0) {
-	    	if (world.getblockID(x, y + 1, z) == Block.waterStill.blockID && world.getblockID(x, y + 2, z) == Block.waterStill.blockID ) {
+	    	if (world.getBlockID(x, y + 1, z) == Block.waterStill.blockID && world.getBlockID(x, y + 2, z) == Block.waterStill.blockID ) {
 	    		world.setBlockWithNotify(x, y + 1, z, blockID);
 	    	}
     	}
@@ -52,9 +52,9 @@ public class BlockSeaweed extends Block {
     	// This block can stay if
     	// - there's water or same on top
     	// - there's valid beneath
-    	int blockOnTop = world.getblockID(x, y + 1, z);
+    	int blockOnTop = world.getBlockID(x, y + 1, z);
     	if(! (blockOnTop == this.blockID || blockOnTop == Block.waterStill.blockID || blockOnTop == Block.waterMoving.blockID)) return false;
-    	return canThisPlantGrowOnThisblockID(world.getblockID(x, y - 1, z));
+    	return canThisPlantGrowOnThisblockID(world.getBlockID(x, y - 1, z));
     }
     
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int i) {

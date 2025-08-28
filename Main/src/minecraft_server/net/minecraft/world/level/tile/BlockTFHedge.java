@@ -105,7 +105,7 @@ public class BlockTFHedge extends Block implements IBlockWithSubtypes {
 			EntityPlayer player = (EntityPlayer)i$.next();
 			if(player.isSwinging) {
 				MovingObjectPosition mop = this.getPlayerPointVec(world, player, range);
-				if(mop != null && world.getblockID(mop.blockX, mop.blockY, mop.blockZ) == this.blockID) {
+				if(mop != null && world.getBlockID(mop.blockX, mop.blockY, mop.blockZ) == this.blockID) {
 					player.attackEntityFrom(null, this.damageDone);
 					world.scheduleBlockUpdate(x, y, z, this.blockID, 10);
 				}
@@ -129,11 +129,6 @@ public class BlockTFHedge extends Block implements IBlockWithSubtypes {
 		par3List.add(new ItemStack(par1, 1, 0));
 		par3List.add(new ItemStack(par1, 1, 1));
 
-	}
-
-	@Override
-	public int getItemblockID() {
-		return this.blockID - 256;
 	}
 
 	@Override

@@ -42,7 +42,8 @@ public class ItemPickaxe extends ItemTool {
 		Block.oreEmerald,
 		Block.stairsBrick,
 		Block.stairsSandStone,
-		Block.stairsStoneBrickSmooth
+		Block.stairsStoneBrickSmooth,
+		Block.cryingObsidian
 	};
 
 	protected ItemPickaxe(int i1, EnumToolMaterial enumToolMaterial2, boolean silkTouch) {

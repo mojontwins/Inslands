@@ -22,7 +22,6 @@ public class EntitySlider extends EntityFlying implements IAetherBoss {
 	public int rennis;
 	public int chatTime;
 	public Entity target;
-	public boolean awake;
 	public boolean gotMovement;
 	public boolean crushed;
 	public float speedy;
@@ -50,6 +49,10 @@ public class EntitySlider extends EntityFlying implements IAetherBoss {
 		this.posX = Math.floor(this.posX + 0.5D);
 		this.posY = Math.floor(this.posY + 0.5D);
 		this.posZ = Math.floor(this.posZ + 0.5D);
+		
+		// Will store the `awake` status so this is
+		// consistent in SMP.
+		this.dataWatcher.addObject(16, (byte)0);
 	}
 
 	public boolean canDespawn() {
@@ -74,7 +77,7 @@ public class EntitySlider extends EntityFlying implements IAetherBoss {
 		nbttagcompound.setShort("MoveTimer", (short)this.moveTimer);
 		nbttagcompound.setShort("Direction", (short)this.direction);
 		nbttagcompound.setBoolean("GotMovement", this.gotMovement);
-		nbttagcompound.setBoolean("Awake", this.awake);
+		nbttagcompound.setBoolean("Awake", this.isAwake());
 		nbttagcompound.setInteger("DungeonX", this.dungeonX);
 		nbttagcompound.setInteger("DungeonY", this.dungeonY);
 		nbttagcompound.setInteger("DungeonZ", this.dungeonZ);
@@ -88,7 +91,7 @@ public class EntitySlider extends EntityFlying implements IAetherBoss {
 		this.moveTimer = nbttagcompound.getShort("MoveTimer");
 		this.direction = nbttagcompound.getShort("Direction");
 		this.gotMovement = nbttagcompound.getBoolean("GotMovement");
-		this.awake = nbttagcompound.getBoolean("Awake");
+		this.setAwake(nbttagcompound.getBoolean("Awake"));
 		this.dungeonX = nbttagcompound.getInteger("DungeonX");
 		this.dungeonY = nbttagcompound.getInteger("DungeonY");
 		this.dungeonZ = nbttagcompound.getInteger("DungeonZ");
@@ -97,7 +100,7 @@ public class EntitySlider extends EntityFlying implements IAetherBoss {
 		}
 
 		this.bossName = nbttagcompound.getString("BossName");
-		if(this.awake) {
+		if(this.isAwake()) {
 			if(this.criticalCondition()) {
 				this.texture = "/mob/sliderAwake_red.png";
 			} else {
@@ -114,11 +117,11 @@ public class EntitySlider extends EntityFlying implements IAetherBoss {
 	public void onUpdate() {
 		super.onUpdate();
 		this.renderYawOffset = this.rotationPitch = this.rotationYaw = 0.0F;
-		if(this.awake) {
+		if(this.isAwake()) {
 			if(this.target != null && this.target instanceof EntityLiving) {
 				EntityLiving a = (EntityLiving)this.target;
 				if(a.health <= 0) {
-					this.awake = false;
+					this.setAwake(false);
 					GlobalVars.currentBoss = null;
 					this.target = null;
 					this.texture = "/mob/sliderSleep.png";
@@ -129,7 +132,7 @@ public class EntitySlider extends EntityFlying implements IAetherBoss {
 				}
 			} else {
 				if(this.target != null && this.target.isDead) {
-					this.awake = false;
+					this.setAwake(false);
 					GlobalVars.currentBoss = null;
 					this.target = null;
 					this.texture = "/mob/sliderSleep.png";
@@ -142,7 +145,7 @@ public class EntitySlider extends EntityFlying implements IAetherBoss {
 				if(this.target == null) {
 					this.target = this.worldObj.getClosestPlayerToEntity(this, -1.0D);
 					if(this.target == null) {
-						this.awake = false;
+						this.setAwake(false);
 						GlobalVars.currentBoss = null;
 						this.target = null;
 						this.texture = "/mob/sliderSleep.png";
@@ -317,7 +320,7 @@ public class EntitySlider extends EntityFlying implements IAetherBoss {
 	}
 
 	public void applyEntityCollision(Entity entity) {
-		if(this.awake && this.gotMovement) {
+		if(this.isAwake() && this.gotMovement) {
 			boolean flag = entity.attackEntityFrom(this, 6);
 			if(flag && entity instanceof EntityLiving) {
 				this.worldObj.playSoundAtEntity(this, "aether.sound.bosses.slider.sliderCollide", 2.5F, 1.0F / (this.rand.nextFloat() * 0.2F + 0.9F));
@@ -346,7 +349,7 @@ public class EntitySlider extends EntityFlying implements IAetherBoss {
 		int i = MathHelper.floor_double(this.posX);
 		int j = MathHelper.floor_double(this.boundingBox.minY);
 		int k = MathHelper.floor_double(this.posZ);
-		return this.worldObj.getblockID(i, j - 1, k) == Block.grass.blockID && this.worldObj.getFullBlockLightValue(i, j, k) > 8 && super.getCanSpawnHere();
+		return this.worldObj.getBlockID(i, j - 1, k) == Block.grass.blockID && this.worldObj.getFullBlockLightValue(i, j, k) > 8 && super.getCanSpawnHere();
 	}
 
 	public void stop() {
@@ -359,14 +362,6 @@ public class EntitySlider extends EntityFlying implements IAetherBoss {
 		this.motionZ = 0.0D;
 	}
 
-	private void chatItUp(String s) {
-		if(this.chatTime <= 0) {
-			//TODO
-			this.chatTime = 60;
-		}
-
-	}
-
 	public boolean attackEntityFrom(Entity e1, int i) {
 		if(e1 != null && e1 instanceof EntityPlayer) {
 			EntityPlayer p1 = (EntityPlayer)e1;
@@ -375,7 +370,8 @@ public class EntitySlider extends EntityFlying implements IAetherBoss {
 				if(stack.getItem() instanceof ItemTool) {
 					ItemTool flag = (ItemTool)stack.getItem();
 					if(!flag.canHarvestBlock(Block.stone)) {
-						this.chatItUp("Hmm. Perhaps I need to attack it with a Pickaxe?");
+						//this.chatItUp("Hmm. Perhaps I need to attack it with a Pickaxe?");
+						p1.addChatMessage("Hmm. Perhaps I need to attack it with a Pickaxe?");
 						return false;
 					} else {
 						boolean z13 = super.attackEntityFrom(e1, Math.max(0, i));
@@ -400,13 +396,13 @@ public class EntitySlider extends EntityFlying implements IAetherBoss {
 								this.worldObj.setBlockAndMetadata(this.dungeonX + 8, this.dungeonY + 1, this.dungeonZ + 8, Block.trapdoor.blockID, 2);
 								((EntityPlayer)e1).triggerAchievement(AchievementList.defeatBronze);
 								GlobalVars.currentBoss = null;
-							} else if(this.awake) {
+							} else if(this.isAwake()) {
 								if(this.gotMovement) {
 									this.speedy *= 0.75F;
 								}
 							} else {
 								this.worldObj.playSoundAtEntity(this, "aether.sound.bosses.slider.sliderAwaken", 2.5F, 1.0F / (this.rand.nextFloat() * 0.2F + 0.9F));
-								this.awake = true;
+								this.setAwake(true);
 								this.target = e1;
 								this.texture = "/mob/sliderAwake.png";
 								a = this.dungeonX + 15;
@@ -453,7 +449,8 @@ public class EntitySlider extends EntityFlying implements IAetherBoss {
 						return z13;
 					}
 				} else {
-					this.chatItUp("Hmm. Perhaps I need to attack it with a Pickaxe?");
+					//this.chatItUp("Hmm. Perhaps I need to attack it with a Pickaxe?");
+					p1.addChatMessage("Hmm. Perhaps I need to attack it with a Pickaxe?");
 					return false;
 				}
 			} else {
@@ -465,7 +462,7 @@ public class EntitySlider extends EntityFlying implements IAetherBoss {
 	}
 
 	private void unlockBlock(int i, int j, int k) {
-		int id = this.worldObj.getblockID(i, j, k);
+		int id = this.worldObj.getBlockID(i, j, k);
 		if(id == Block.lockedDungeonStone.blockID) {
 			this.worldObj.setBlockAndMetadata(i, j, k, Block.dungeonStone.blockID, this.worldObj.getBlockMetadata(i, j, k));
 			this.unlockBlock(i + 1, j, k);
@@ -495,7 +492,7 @@ public class EntitySlider extends EntityFlying implements IAetherBoss {
 	}
 
 	public void blockCrush(int x, int y, int z) {
-		int a = this.worldObj.getblockID(x, y, z);
+		int a = this.worldObj.getBlockID(x, y, z);
 		int b = this.worldObj.getBlockMetadata(x, y, z);
 		if(a != 0 && a != Block.lockedDungeonStone.blockID && a != Block.lockedLightDungeonStone.blockID) {
 			this.addCrackedPebbles(x, y, z);
@@ -547,5 +544,18 @@ public class EntitySlider extends EntityFlying implements IAetherBoss {
 
 	public String getBossTitle() {
 		return this.bossName + ", the Slider";
+	}
+
+	public boolean isAwake() {
+		return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
+	}
+
+	public void setAwake(boolean awake) {
+		byte b2 = this.dataWatcher.getWatchableObjectByte(16);
+		if(awake) {
+			this.dataWatcher.updateObject(16, (byte)(b2 | 1));
+		} else {
+			this.dataWatcher.updateObject(16, (byte)(b2 & -2));
+		}
 	}
 }

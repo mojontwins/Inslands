@@ -1,0 +1,4 @@
+package net.minecraft.world.level.tile;
+
+public interface INonSolidPlant {
+}

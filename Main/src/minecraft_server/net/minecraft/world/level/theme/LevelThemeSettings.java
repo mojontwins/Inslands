@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import net.minecraft.world.level.Seasons;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.WorldType;
 import net.minecraft.world.level.biome.BiomeGenBase;
@@ -71,20 +70,7 @@ public class LevelThemeSettings {
 			.withDynamicSnow(true)
 			.setOverlay(-1);
 	
-	public static LevelThemeSettings paradise = new LevelThemeSettings(3)
-			.setName("Paradise")
-			.setLightMultiplier(1.0F)
-			.setDayCycle(false)
-			.setLevelThemeMainBiome(BiomeGenBase.themeParadise)
-			.withPreferredWorldType(WorldType.SKY.id)
-			.withFixedCelestialAngle(1.0F)
-			.setTemperature(0.6D)
-			.setHumidity(0.6D)
-			.setPermaSeason(Seasons.SUMMER)
-			.setOverlay(0x20F9FFA0)
-			.setCanRain(false)
-			.setCanSnow(false)
-			.setCanThunder(false);
+	public static LevelThemeSettings paradise = new LevelThemeParadise(3);
 	
 	public static LevelThemeSettings biomes = new LevelThemeSettings(4)
 			.setName("Biomes")
@@ -227,5 +213,8 @@ public class LevelThemeSettings {
 	}
 
 	public void levelThemeSpecificInits(World world) {
+	}
+
+	public void specialPostGeneration(World world) {
 	}
 }

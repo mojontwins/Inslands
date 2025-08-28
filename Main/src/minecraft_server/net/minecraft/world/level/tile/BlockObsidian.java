@@ -5,10 +5,11 @@ import java.util.Random;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.creative.CreativeTabs;
+import net.minecraft.world.level.material.Material;
 
-public class BlockObsidian extends BlockStone {
+public class BlockObsidian extends Block {
 	public BlockObsidian(int i1, int i2) {
-		super(i1, i2);
+		super(i1, i2, Material.rock);
 		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 

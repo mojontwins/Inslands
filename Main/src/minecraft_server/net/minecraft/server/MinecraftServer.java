@@ -136,9 +136,10 @@ public class MinecraftServer implements Runnable, ICommandListener {
 		return true;
 	}
 	
-	private void preloadWorld(WorldServer world) {
+	private void preloadWorld(WorldServer world, boolean isNew) {
 		int chunksLoaded = 0;
 		long prevTime = System.currentTimeMillis();
+		
 		for(int x = 0; x < WorldSize.xChunks; x ++) { 
 			for(int z = 0 ; z < WorldSize.zChunks; z ++) {
 				long curTime = System.currentTimeMillis();
@@ -147,9 +148,15 @@ public class MinecraftServer implements Runnable, ICommandListener {
 					this.outputPercentRemaining("Preparing spawn area", chunksLoaded * 100 / WorldSize.getTotalChunks());
 				}
 				chunksLoaded++;
-				world.getblockID(x, 64, z);
+				world.getBlockID(x, 64, z);
 				world.chunkProviderServer.prepareChunk(x, z);
 			}
+		}
+		
+		// Here: extra, special post generation.	
+		if(isNew) {
+			LevelThemeGlobalSettings.getTheme().specialPostGeneration(world);
+			world.worldProvider.getInitialSpawnLocation(world);
 		}
 	}
 
@@ -197,7 +204,7 @@ public class MinecraftServer implements Runnable, ICommandListener {
 				}
 
 				// Pregenerate/preload all level
-				this.preloadWorld(worldMngr);
+				this.preloadWorld(worldMngr, newWorld);
 
 				if(newWorld && i == 0) {
 					if(worldMngr.findingSpawnPoint) {

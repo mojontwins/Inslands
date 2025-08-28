@@ -634,7 +634,7 @@ public class Block {
 	}
 
 	public boolean canPlaceBlockAt(World world1, int i2, int i3, int i4) {
-		int i5 = world1.getblockID(i2, i3, i4);
+		int i5 = world1.getBlockID(i2, i3, i4);
 		return i5 == 0 || blocksList[i5].blockMaterial.getIsGroundCover() || (blocksList[i5] instanceof BlockFlower);
 	}
 
@@ -681,7 +681,7 @@ public class Block {
 		return false;
 	}
 
-	public void onEntityCollidedWithBlock(World world1, int i2, int i3, int i4, Entity entity5) {
+	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
 	}
 
 	public boolean isIndirectlyPoweringTo(World world1, int i2, int i3, int i4, int i5) {
@@ -826,7 +826,7 @@ public class Block {
 				// Automaticly assign the special ItemBlockWithSubTypes to
 				// blocks that implement the IBlockWithSubtypes interface
 
-				Item.itemsList[id] = new ItemBlockWithSubtypes((IBlockWithSubtypes)blocksList[id]);
+				Item.itemsList[id] = new ItemBlockWithSubtypes((IBlockWithSubtypes)blocksList[id], id);
 				blocksList[id].initializeBlock();
 
 			} else if(blocksList[id] != null) {

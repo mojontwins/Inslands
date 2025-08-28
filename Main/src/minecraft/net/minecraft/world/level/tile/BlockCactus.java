@@ -8,7 +8,7 @@ import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.AxisAlignedBB;
 
-public class BlockCactus extends Block {
+public class BlockCactus extends Block implements INonSolidPlant {
 	protected BlockCactus(int i1, int i2) {
 		super(i1, i2, Material.cactus);
 		this.setTickOnLoad(true);
@@ -18,7 +18,7 @@ public class BlockCactus extends Block {
 	public void updateTick(World world1, int i2, int i3, int i4, Random random5) {
 		if(world1.isAirBlock(i2, i3 + 1, i4)) {
 			int i6;
-			for(i6 = 1; world1.getblockID(i2, i3 - i6, i4) == this.blockID; ++i6) {
+			for(i6 = 1; world1.getBlockID(i2, i3 - i6, i4) == this.blockID; ++i6) {
 			}
 
 			if(i6 < 3) {
@@ -85,7 +85,7 @@ public class BlockCactus extends Block {
 		} else if(world1.getBlockMaterial(i2, i3, i4 + 1).isSolid()) {
 			return false;
 		} else {
-			int i5 = world1.getblockID(i2, i3 - 1, i4);
+			int i5 = world1.getBlockID(i2, i3 - 1, i4);
 			return i5 == Block.cactus.blockID || i5 == Block.sand.blockID || i5 == Block.terracotta.blockID;
 		}
 	}

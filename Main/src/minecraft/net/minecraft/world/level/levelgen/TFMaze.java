@@ -233,7 +233,7 @@ public class TFMaze {
 					int mdx = this.worldX + x / 2 * (this.evenBias + this.oddBias);
 					int mdy = this.worldY + torchHeight;
 					int mdz = this.worldZ + z / 2 * (this.evenBias + this.oddBias);
-					if(this.isEven(x) && this.isEven(z) && this.shouldTorch(x, z) && world.getblockID(mdx, mdy, mdz) == this.wallblockID) {
+					if(this.isEven(x) && this.isEven(z) && this.shouldTorch(x, z) && world.getBlockID(mdx, mdy, mdz) == this.wallblockID) {
 						world.setBlockAndMetadataWithNotify(mdx, mdy, mdz, this.torchblockID, this.torchBlockMeta);
 					}
 				}

@@ -5,7 +5,7 @@ import java.util.Random;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.World;
 
-public class BlockAcorn extends BlockFlower {
+public class BlockAcorn extends BlockFlower implements INonSolidPlant {
 
 	protected BlockAcorn(int i1, int i2) {
 		super(i1, i2);
@@ -38,21 +38,21 @@ public class BlockAcorn extends BlockFlower {
 
 	private float getGrowthRate(World world, int x, int y, int z) {
 		float f5 = 1.0F;
-		int i6 = world.getblockID(x, y, z - 1);
-		int i7 = world.getblockID(x, y, z + 1);
-		int i8 = world.getblockID(x - 1, y, z);
-		int i9 = world.getblockID(x + 1, y, z);
-		int i10 = world.getblockID(x - 1, y, z - 1);
-		int i11 = world.getblockID(x + 1, y, z - 1);
-		int i12 = world.getblockID(x + 1, y, z + 1);
-		int i13 = world.getblockID(x - 1, y, z + 1);
+		int i6 = world.getBlockID(x, y, z - 1);
+		int i7 = world.getBlockID(x, y, z + 1);
+		int i8 = world.getBlockID(x - 1, y, z);
+		int i9 = world.getBlockID(x + 1, y, z);
+		int i10 = world.getBlockID(x - 1, y, z - 1);
+		int i11 = world.getBlockID(x + 1, y, z - 1);
+		int i12 = world.getBlockID(x + 1, y, z + 1);
+		int i13 = world.getBlockID(x - 1, y, z + 1);
 		boolean z14 = i8 == this.blockID || i9 == this.blockID;
 		boolean z15 = i6 == this.blockID || i7 == this.blockID;
 		boolean z16 = i10 == this.blockID || i11 == this.blockID || i12 == this.blockID || i13 == this.blockID;
 
 		for(int i17 = x - 1; i17 <= x + 1; ++i17) {
 			for(int i18 = z - 1; i18 <= z + 1; ++i18) {
-				int i19 = world.getblockID(i17, y - 1, i18);
+				int i19 = world.getBlockID(i17, y - 1, i18);
 				float f20 = 0.0F;
 				if(i19 == Block.tilledField.blockID) {
 					f20 = 1.0F;

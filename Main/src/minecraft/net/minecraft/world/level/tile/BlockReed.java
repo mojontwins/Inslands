@@ -8,7 +8,7 @@ import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.AxisAlignedBB;
 
-public class BlockReed extends Block {
+public class BlockReed extends Block implements INonSolidPlant {
 	protected BlockReed(int id, int blockIndex) {
 		super(id, Material.plants);
 		this.blockIndexInTexture = blockIndex;
@@ -20,9 +20,9 @@ public class BlockReed extends Block {
 	}
 
 	public void updateTick(World world, int x, int y, int z, Random rand) {
-		if(world.getblockID(x, y + 1, z) == 0) {
+		if(world.getBlockID(x, y + 1, z) == 0) {
 			int i6;
-			for(i6 = 1; world.getblockID(x, y - i6, z) == this.blockID; ++i6) {
+			for(i6 = 1; world.getBlockID(x, y - i6, z) == this.blockID; ++i6) {
 			}
 
 			if(i6 < 3) {
@@ -39,7 +39,7 @@ public class BlockReed extends Block {
 	}
 
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
-		int i5 = world.getblockID(x, y - 1, z);
+		int i5 = world.getBlockID(x, y - 1, z);
 		return i5 == this.blockID ? true : (i5 != Block.grass.blockID && i5 != Block.dirt.blockID ? false : (world.getBlockMaterial(x - 1, y - 1, z) == Material.water ? true : (world.getBlockMaterial(x + 1, y - 1, z) == Material.water ? true : (world.getBlockMaterial(x, y - 1, z - 1) == Material.water ? true : world.getBlockMaterial(x, y - 1, z + 1) == Material.water))));
 	}
 

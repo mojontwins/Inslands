@@ -57,9 +57,20 @@ public class WorldProviderSky extends WorldProvider {
 				int y = world.getLandSurfaceHeightValue(coord.x, coord.z);
 
 				if(y > 8 && y < 120) {
-					world.worldInfo.setSpawn(coord.x, y, coord.z);
-					world.findingSpawnPoint = false;
-					break;
+					// Make sure the indev house will spawn on ground
+					
+					boolean valid = true;
+					for(int x = coord.x - 3; x <= coord.x + 3 && valid; x ++) {
+						for(int z = coord.z - 3; z <= coord.z + 3 && valid; z ++) {
+							if(world.getLandSurfaceHeightValue(x, z) < 8) valid = false;
+						}
+					}
+					
+					if(valid) {
+						world.worldInfo.setSpawn(coord.x, y, coord.z);
+						world.findingSpawnPoint = false;
+						break;
+					}
 				}
 			}
 			

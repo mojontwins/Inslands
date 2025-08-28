@@ -12,7 +12,7 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.AxisAlignedBB;
 import net.minecraft.world.stats.StatList;
 
-public class BlockFlower extends Block {
+public class BlockFlower extends Block implements INonSolidPlant {
 	protected BlockFlower(int i1, int i2) {
 		super(i1, Material.plants);
 		this.blockIndexInTexture = i2;
@@ -28,7 +28,7 @@ public class BlockFlower extends Block {
 	}
 	
 	public boolean canPlaceBlockAt(World world1, int i2, int i3, int i4) {
-		return super.canPlaceBlockAt(world1, i2, i3, i4) && this.canThisPlantGrowOnThisblockID(world1.getblockID(i2, i3 - 1, i4));
+		return super.canPlaceBlockAt(world1, i2, i3, i4) && this.canThisPlantGrowOnThisblockID(world1.getBlockID(i2, i3 - 1, i4));
 	}
 
 	protected boolean canThisPlantGrowOnThisblockID(int i1) {
@@ -54,7 +54,7 @@ public class BlockFlower extends Block {
     }
 	
 	public boolean canBlockStay(World world1, int i2, int i3, int i4) {
-		return (world1.getFullBlockLightValue(i2, i3, i4) >= 8 || world1.canBlockSeeTheSky(i2, i3, i4)) && this.canThisPlantGrowOnThisblockID(world1.getblockID(i2, i3 - 1, i4));
+		return (world1.getFullBlockLightValue(i2, i3, i4) >= 8 || world1.canBlockSeeTheSky(i2, i3, i4)) && this.canThisPlantGrowOnThisblockID(world1.getBlockID(i2, i3 - 1, i4));
 	}
 
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world1, int i2, int i3, int i4) {

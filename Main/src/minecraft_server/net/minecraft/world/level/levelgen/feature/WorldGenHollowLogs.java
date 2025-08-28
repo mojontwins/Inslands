@@ -17,8 +17,8 @@ public class WorldGenHollowLogs extends WorldGenerator {
 			int xx = axisX ? x + i : x;
 			int zz = axisX ? z : z + i;
 			
-			Block block = Block.blocksList[world.getblockID(xx, y, zz)];
-			Block blockBeneath = Block.blocksList[world.getblockID(xx, y - 1, zz)];
+			Block block = Block.blocksList[world.getBlockID(xx, y, zz)];
+			Block blockBeneath = Block.blocksList[world.getBlockID(xx, y - 1, zz)];
 			
 			if((block == null || !block.isOpaqueCube()) && blockBeneath != null && blockBeneath.isOpaqueCube() && blockBeneath != Block.leaves) {
 				world.setBlockAndMetadata(xx, y, zz, Block.hollowLog.blockID, axisX ? 4 : 2);

@@ -4,6 +4,8 @@ import java.util.Random;
 
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.IGroundSubstitute;
+import net.minecraft.world.level.tile.INonSolidPlant;
 
 public class WorldGenIndevHouse extends WorldGenerator {
 	int wallID = Block.planks.blockID;
@@ -38,10 +40,19 @@ public class WorldGenIndevHouse extends WorldGenerator {
 		world.setBlock(x0, y0 - 1, z0 - 3, 0);
 		
 		// Make room in front
+		Block b;
 		for(int x = x0 - 3; x <= x0 + 3; ++x) {
 			for(int y = y0 - 2; y <= y0 + 2; ++y) {
 				for(int z = z0 - 6; z <= z0 - 4; ++z) {
-					world.setBlock(x, y, z, (y == y0 - 2) ? (rand.nextBoolean() ? Block.cobblestoneMossy.blockID : Block.stone.blockID) : 0);
+					if(y == y0 - 2) {
+						world.setBlock(x, y, z, rand.nextBoolean() ? Block.cobblestoneMossy.blockID : Block.stone.blockID);
+					} else {
+						b = world.getBlock(x, y, z);
+						if ((b instanceof IGroundSubstitute) || (b instanceof INonSolidPlant)) {
+			
+							world.setBlock(x, y, z, 0);
+						}
+					}
 				}
 			}
 		}
@@ -50,7 +61,7 @@ public class WorldGenIndevHouse extends WorldGenerator {
 		for(int x = x0 - 3; x <= x0 + 3; ++x) {
 			for(int z = z0 - 6; z <= z0 + 3; ++z) {
 				int y = y0 - 3;
-				while (y > 0 && notGroundOrStone(world.getblockID(x, y, z))) {
+				while (y > 0 && notGroundOrStone(world.getBlockID(x, y, z))) {
 					world.setBlock(x, y, z, Block.cobblestone.blockID);
 					y --;
 				}

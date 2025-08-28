@@ -36,7 +36,7 @@ public class ItemAxe extends ItemTool {
 	}
 	
 	public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side) {
-		int blockID = world.getblockID(x, y, z);
+		int blockID = world.getBlockID(x, y, z);
 		
 		if(blockID == Block.wood.blockID) {
 			Block blockChippedLog = Block.chippedWood;

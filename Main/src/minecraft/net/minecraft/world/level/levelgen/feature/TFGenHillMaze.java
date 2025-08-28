@@ -299,7 +299,7 @@ public class TFGenHillMaze extends TFGenerator {
 				this.worldObj.spawnEntityInWorld(painting);
 			}
 		} else {
-			System.out.println("Painting fail!! " + painting.art.title + " at " + painting.xPosition + " , " + painting.yPosition + ", " + painting.zPosition + " : " + painting.direction);
+			//System.out.println("Painting fail!! " + painting.art.title + " at " + painting.xPosition + " , " + painting.yPosition + ", " + painting.zPosition + " : " + painting.direction);
 		}
 
 	}
@@ -578,7 +578,7 @@ public class TFGenHillMaze extends TFGenerator {
 	private boolean roomTreasure(int dx, int dy, int dz, int diameter) {
 		int rx = this.rand.nextInt(diameter) + dx - diameter / 2;
 		int rz = this.rand.nextInt(diameter) + dz - diameter / 2;
-		return this.worldObj.getblockID(rx, dy, rz) != 0 ? false : TFTreasure.underhill_room.generate(this.worldObj, this.rand, rx, dy, rz);
+		return this.worldObj.getBlockID(rx, dy, rz) != 0 ? false : TFTreasure.underhill_room.generate(this.worldObj, this.rand, rx, dy, rz);
 	}
 
 	private boolean roomSpiderwebs(int dx, int dy, int dz, int diameter) {
@@ -609,7 +609,7 @@ public class TFGenHillMaze extends TFGenerator {
 	private boolean roomSpiderweb(int dx, int dy, int dz, int diameter) {
 		int rx = this.rand.nextInt(diameter) + dx - diameter / 2;
 		int rz = this.rand.nextInt(diameter) + dz - diameter / 2;
-		if(this.worldObj.getblockID(rx, dy + 2, rz) != 0) {
+		if(this.worldObj.getBlockID(rx, dy + 2, rz) != 0) {
 			return false;
 		} else {
 			this.worldObj.setBlockWithNotify(rx, dy + 2, rz, Block.web.blockID);

@@ -8,8 +8,8 @@ import net.minecraft.world.level.tile.Block;
 public class WorldGenCaveVines extends WorldGenerator {
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z) {
-		if(world.getblockID(x, y, z) != Block.stone.blockID &&
-				world.getblockID(x, y, z) != Block.bloodStone.blockID) return false;
+		if(world.getBlockID(x, y, z) != Block.stone.blockID &&
+				world.getBlockID(x, y, z) != Block.bloodStone.blockID) return false;
 		
 		while(!world.isAirBlock(x, y, z) && y > 2) {
 			y --;

@@ -31,7 +31,7 @@ public class BlockLog2 extends BlockLog implements IBlockWithSubtypes {
 			for(int i7 = -b5; i7 <= b5; ++i7) {
 				for(int i8 = -b5; i8 <= b5; ++i8) {
 					for(int i9 = -b5; i9 <= b5; ++i9) {
-						int i10 = world1.getblockID(i2 + i7, i3 + i8, i4 + i9);
+						int i10 = world1.getBlockID(i2 + i7, i3 + i8, i4 + i9);
 						if(i10 == Block.leaves2.blockID) {
 							int i11 = world1.getBlockMetadata(i2 + i7, i3 + i8, i4 + i9);
 							if((i11 & 8) == 0) {

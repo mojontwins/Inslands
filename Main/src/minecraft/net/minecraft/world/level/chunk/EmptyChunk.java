@@ -38,7 +38,7 @@ public class EmptyChunk extends Chunk {
 	public void doesNothing() {
 	}
 
-	public int getblockID(int i1, int i2, int i3) {
+	public int getBlockID(int i1, int i2, int i3) {
 		return 0;
 	}
 

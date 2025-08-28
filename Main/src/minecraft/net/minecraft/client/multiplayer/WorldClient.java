@@ -176,7 +176,7 @@ public class WorldClient extends World {
 	}
 
 	public boolean setBlockMetadata(int i1, int i2, int i3, int i4) {
-		int i5 = this.getblockID(i1, i2, i3);
+		int i5 = this.getBlockID(i1, i2, i3);
 		int i6 = this.getBlockMetadata(i1, i2, i3);
 		if(super.setBlockMetadata(i1, i2, i3, i4)) {
 			this.blocksToReceive.add(new WorldBlockPositionType(this, i1, i2, i3, i5, i6));
@@ -187,7 +187,7 @@ public class WorldClient extends World {
 	}
 
 	public boolean setBlockAndMetadata(int i1, int i2, int i3, int i4, int i5) {
-		int i6 = this.getblockID(i1, i2, i3);
+		int i6 = this.getBlockID(i1, i2, i3);
 		int i7 = this.getBlockMetadata(i1, i2, i3);
 		if(super.setBlockAndMetadata(i1, i2, i3, i4, i5)) {
 			this.blocksToReceive.add(new WorldBlockPositionType(this, i1, i2, i3, i6, i7));
@@ -198,7 +198,7 @@ public class WorldClient extends World {
 	}
 
 	public boolean setBlock(int i1, int i2, int i3, int i4) {
-		int i5 = this.getblockID(i1, i2, i3);
+		int i5 = this.getBlockID(i1, i2, i3);
 		int i6 = this.getBlockMetadata(i1, i2, i3);
 		if(super.setBlock(i1, i2, i3, i4)) {
 			this.blocksToReceive.add(new WorldBlockPositionType(this, i1, i2, i3, i5, i6));

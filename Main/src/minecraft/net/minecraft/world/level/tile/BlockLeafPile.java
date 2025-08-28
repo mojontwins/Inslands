@@ -5,7 +5,7 @@ import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.AxisAlignedBB;
 
-public class BlockLeafPile extends Block {
+public class BlockLeafPile extends Block implements INonSolidPlant {
 
 	public BlockLeafPile(int i1) {
 		super(i1, 13 * 16 + 2, Material.leaves);
@@ -36,7 +36,7 @@ public class BlockLeafPile extends Block {
 	
 	@Override
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
-		Block block = Block.blocksList[world.getblockID(x, y - 1, z)];
+		Block block = Block.blocksList[world.getBlockID(x, y - 1, z)];
 		if(block == null) return false;
 		if(!block.isOpaqueCube()) return false;
 		if(block == Block.sand ) return false;

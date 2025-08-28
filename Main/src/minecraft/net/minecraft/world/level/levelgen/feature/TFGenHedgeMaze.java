@@ -160,7 +160,7 @@ public class TFGenHedgeMaze extends TFGenerator {
 	private boolean roomTreasure(int dx, int dy, int dz, int diameter) {
 		int rx = this.rand.nextInt(diameter) + dx - diameter / 2;
 		int rz = this.rand.nextInt(diameter) + dz - diameter / 2;
-		return this.worldObj.getblockID(rx, dy, rz) != 0 ? false : TFTreasure.hedgemaze.generate(this.worldObj, this.rand, rx, dy, rz);
+		return this.worldObj.getBlockID(rx, dy, rz) != 0 ? false : TFTreasure.hedgemaze.generate(this.worldObj, this.rand, rx, dy, rz);
 	}
 
 	protected boolean placeMobSpawner(int dx, int dy, int dz, String mobID) {
@@ -177,7 +177,7 @@ public class TFGenHedgeMaze extends TFGenerator {
 	private boolean roomJackO(int dx, int dy, int dz, int diameter) {
 		int rx = this.rand.nextInt(diameter) + dx - diameter / 2;
 		int rz = this.rand.nextInt(diameter) + dz - diameter / 2;
-		if(this.worldObj.getblockID(rx, dy, rz) != 0) {
+		if(this.worldObj.getBlockID(rx, dy, rz) != 0) {
 			return false;
 		} else {
 			this.worldObj.setBlockAndMetadataWithNotify(rx, dy, rz, Block.pumpkinLantern.blockID, this.rand.nextInt(4));

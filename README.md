@@ -478,5 +478,15 @@ The need to generate a valid dungeon breaks this so much that I'm thinking on ma
 
 ALSO!! (Big changes, methinks).ç
 
-* [ ] Make sure the whole level is generated before finding the spawn point... This will need some actions as spawn point is found in the World constructor :/
-* [ ] Once the above is achieved, attempt to make the paradise theme find a spot for the dungeon after the level is generated. It's so hard to get a proper paradise world :(
+* [X] Make sure the whole level is generated before finding the spawn point... This will need some actions as spawn point is found in the World constructor :/
+* [X] Once the above is achieved, attempt to make the paradise theme find a spot for the dungeon after the level is generated. It's so hard to get a proper paradise world :(
+
+# Now that this works
+
+* [X] Make sure the four corners of the spawn house are above ground in floating islands.
+* [ ] Control the max amount of hill mazes, 1 for small, 2 for normal, 4 for big, 8 for huge.
+* [ ] Control the max amount of bronze dungeons, 1 for small, 2 for normal, 4 for big, 8 for huge.
+* [ ] Make underhill mazes generate right after generation, just like bronze dungeons.
+
+* [ ] OR BETTER : Make mazes multi chunk structures using my system. How so.
+

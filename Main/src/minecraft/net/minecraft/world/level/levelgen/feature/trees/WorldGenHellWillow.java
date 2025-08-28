@@ -27,16 +27,16 @@ public class WorldGenHellWillow extends WorldGenerator {
 	}
 	
 	public void setBlockIfEmpty (World world, int x, int y, int z, int blockID) {
-		if (0 == world.getblockID(x, y, z)) world.setBlock(x, y, z, blockID);
+		if (0 == world.getBlockID(x, y, z)) world.setBlock(x, y, z, blockID);
 	}
 	
 	public void setBlockAndMetadataIfEmpty (World world, int x, int y, int z, int blockID, int meta) {
-		if (0 == world.getblockID(x, y, z)) world.setBlockAndMetadata(x, y, z, blockID, meta);
+		if (0 == world.getBlockID(x, y, z)) world.setBlockAndMetadata(x, y, z, blockID, meta);
 	}
 	
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z) {
-		int soilblockID = world.getblockID(x, y - 1, z);
+		int soilblockID = world.getBlockID(x, y - 1, z);
 
 		//if(!Block.opaqueCubeLookup[soilblockID]) return false;
 		if(soilblockID != Block.bloodStone.blockID) return false;

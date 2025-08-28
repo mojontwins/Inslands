@@ -9,6 +9,7 @@ import net.minecraft.world.level.WorldChunkManager;
 import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.chunk.IChunkProvider;
+import net.minecraft.world.level.levelgen.feature.WorldGenIndevHouse;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 import net.minecraft.world.level.theme.LevelThemeSettings;
@@ -46,13 +47,6 @@ public abstract class WorldProvider {
 	}
 
 	public IChunkProvider getChunkProvider() {
-		/*
-		if(this.worldObj.worldInfo.getTerrainType() == WorldType.SKY) {
-			return new ChunkProviderSky(this.worldObj, this.worldObj.getRandomSeed());
-		} else {
-			return new ChunkProviderGenerate(this.worldObj, this.worldObj.getRandomSeed());
-		}
-		*/
 		return this.worldObj.worldInfo.getTerrainType().getChunkGenerator(worldObj);
 	}
 
@@ -63,24 +57,58 @@ public abstract class WorldProvider {
 		return block != null && block.isOpaqueCube() && this.worldObj.canBlockSeeTheSky(x, y, z);
 	}
 
-	/*
-	public float calculateCelestialAngle(long j1, float f3) {
-		int i4 = (int)(j1 % 24000L);
-		float f5 = ((float)i4 + f3) / 24000.0F - 0.25F;
-		if(f5 < 0.0F) {
-			++f5;
+	public void getInitialSpawnLocation(World world) {
+		world.findingSpawnPoint = LevelThemeGlobalSettings.getTheme().getInitialSpawnLocation(world);
+		
+		if (world.findingSpawnPoint) {
+			int radius = 8;
+			
+			// Start @ the center of the map
+			int x = WorldSize.width / 2;
+			int z = WorldSize.length / 2;
+			int y = world.getLandSurfaceHeightValue(x, z) + 1;
+	
+			// Try really hard
+			int attemptsLeft = 1024;
+	
+			poti: while (attemptsLeft -- > 0 && (!this.canCoordinateBeSpawn(x, y, z) || y > 120)) {
+				
+				// Find near...
+				for(int xx = x - radius; xx <= x + radius; xx ++) {
+					for(int zz = z - radius; zz <= z + radius; zz ++) {
+						y = world.getLandSurfaceHeightValue(xx, zz);
+						if(this.canCoordinateBeSpawn(x, y, z) && y <= 120) {
+							x = xx;
+							z = zz;
+							y = world.getHeightValue(x, z);
+							break poti;
+						}
+					}
+				}
+				
+				x += world.rand.nextInt(64) - world.rand.nextInt(64);
+				z += world.rand.nextInt(64) - world.rand.nextInt(64);
+				
+				x = x % WorldSize.width;
+				z = z % WorldSize.length;
+				
+				y = world.getLandSurfaceHeightValue(x, z) + 1;
+				
+			}
+	
+			world.worldInfo.setSpawn(x, y, z);
+			
+			if(attemptsLeft > 0) world.findingSpawnPoint = false;
 		}
-
-		if(f5 > 1.0F) {
-			--f5;
+		
+		if(!world.findingSpawnPoint) {
+			int x = world.worldInfo.getSpawnX();
+			int y = world.worldInfo.getSpawnY();
+			int z = world.worldInfo.getSpawnZ();
+			(new WorldGenIndevHouse(world.getBiomeGenAt(x, z).indevHouseWalls))
+			.generate(world, world.rand, x, y + 1, z);
 		}
-
-		float f6 = f5;
-		f5 = 1.0F - (float)((Math.cos((double)f5 * Math.PI) + 1.0D) / 2.0D);
-		f5 = f6 + (f5 - f6) / 3.0F;
-		return f5;
 	}
-	*/
 	
 	public float calculateCelestialAngle(long worldTime, float renderPartialTick) {
 		// Thanks for the pointers jonk!

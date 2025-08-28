@@ -135,7 +135,7 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 	
 	public void prePopulate(World world, Random rand, int x0, int z0) {
 		super.prePopulate(world, rand, x0, z0);
-		
+
 		int mazeSize = 1, mazeMinY = 64;
 		if(world.worldProvider instanceof WorldProviderSky) {
 			mazeSize = 2; mazeMinY = 8;
@@ -150,52 +150,54 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 		int cz = z0 >> 4;
 		
 		// Attempt a hedge maze
-		byte border = 6;
-		if(cx >= border && cz >= border && cx < WorldSize.xChunks && cz < WorldSize.zChunks && rand.nextInt(WorldSize.xChunks * WorldSize.zChunks / 32) == 0) {
-			x = x0 + 8;
-			z = z0 + 8;
-			
-			// Mazes cover from x - 7 - 48 to (x - 7 - 48 + 48) = x - 7?!
-			int x1 = x - 7 - 48;
-			int x2 = x1 + 47;
-			int z1 = z - 7 - 48;
-			int z2 = z1 + 47;
-			
-			// Get land surface height for corners
-			int h1 = world.getLandSurfaceHeightValue(x1, z1);
-			int h2 = world.getLandSurfaceHeightValue(x1, z2);
-			int h3 = world.getLandSurfaceHeightValue(x2, z1);
-			int h4 = world.getLandSurfaceHeightValue(x2, z2);
-			
-			// Get min
-			y = h1;
-			if(h2 < y) y = h2;
-			if(h3 < y) y = h3;
-			if(h4 < y) y = h4;
-			
-			if(y > mazeMinY) {
-				if(this.hedgeMaze.generate(world, rand, x, y+1, z)) {
-				GlobalVars.numHedgeMazes ++;
+		if(GlobalVars.numHedgeMazes < WorldSize.xChunks / 8) {
+			byte border = 6;
+			if(cx >= border && cz >= border && cx < WorldSize.xChunks && cz < WorldSize.zChunks && rand.nextInt(WorldSize.xChunks * WorldSize.zChunks / 64) == 0) {
+				x = x0 + 8;
+				z = z0 + 8;
+				
+				// Mazes cover from x - 7 - 48 to (x - 7 - 48 + 48) = x - 7?!
+				int x1 = x - 7 - 48;
+				int x2 = x1 + 47;
+				int z1 = z - 7 - 48;
+				int z2 = z1 + 47;
+				
+				// Get land surface height for corners
+				int h1 = world.getLandSurfaceHeightValue(x1, z1);
+				int h2 = world.getLandSurfaceHeightValue(x1, z2);
+				int h3 = world.getLandSurfaceHeightValue(x2, z1);
+				int h4 = world.getLandSurfaceHeightValue(x2, z2);
+				
+				// Get min
+				y = h1;
+				if(h2 < y) y = h2;
+				if(h3 < y) y = h3;
+				if(h4 < y) y = h4;
+				
+				if(y > mazeMinY) {
+					if(this.hedgeMaze.generate(world, rand, x, y+1, z)) {
+						GlobalVars.numHedgeMazes ++;
+					}
+				}
 			}
-		}
-		}
-		
-		if(rand.nextInt(3) == 0) {
-			x = x0 + rand.nextInt(16) + 8;
-			z = z0 + rand.nextInt(16) + 8;
-			y = world.getLandSurfaceHeightValue(x, z) + 1;
-			TFGenerator tFGenerator22 = this.randomFeature(rand);
-			if(tFGenerator22.generate(world, rand, x, y, z)) {
-				//System.out.println(tFGenerator22 + " success at " + x + ", " + y + ", " + z);
-			}
-		}
-		
-		if(world.getWorldChunkManager().isAltChunk(x0 >> 4, z0 >> 4, 0.0D)) {
-			for(i = 0; i < this.myceliumPerChunk ; ++i) {
+			
+			if(rand.nextInt(3) == 0) {
 				x = x0 + rand.nextInt(16) + 8;
 				z = z0 + rand.nextInt(16) + 8;
-				y = world.getHeightValue(x, z);
-				this.myceliumBlobGen.generate(world, rand, x, y, z);
+				y = world.getLandSurfaceHeightValue(x, z) + 1;
+				TFGenerator tFGenerator22 = this.randomFeature(rand);
+				if(tFGenerator22.generate(world, rand, x, y, z)) {
+					//System.out.println(tFGenerator22 + " success at " + x + ", " + y + ", " + z);
+				}
+			}
+			
+			if(world.getWorldChunkManager().isAltChunk(x0 >> 4, z0 >> 4, 0.0D)) {
+				for(i = 0; i < this.myceliumPerChunk ; ++i) {
+					x = x0 + rand.nextInt(16) + 8;
+					z = z0 + rand.nextInt(16) + 8;
+					y = world.getHeightValue(x, z);
+					this.myceliumBlobGen.generate(world, rand, x, y, z);
+				}
 			}
 		}
 	}
@@ -218,7 +220,7 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 			x = chunkX + rand.nextInt(16) + 8;
 			z = chunkZ + rand.nextInt(16) + 8;
 			
-			for(y = rand.nextInt(128); y > 0 && world.getblockID(x, y - 1, z) == 0; y --) {}
+			for(y = rand.nextInt(128); y > 0 && world.getBlockID(x, y - 1, z) == 0; y --) {}
 			
 			(new WorldGenLilypad()).generate(world, rand, x, y, z);
 		}
@@ -240,32 +242,34 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 		}
 		
 		// Maze
-		int cx = chunkX >> 4; 
-		int cz = chunkZ >> 4;
-		if(cx > 3 && cz > 3 && cx < WorldSize.xChunks - 3 && cz < WorldSize.zChunks - 3) {
-			if(world.worldProvider instanceof WorldProviderSky) {
-				if(rand.nextInt(WorldSize.xChunks * WorldSize.zChunks / 16) == 0) {
-					boolean generated = false;
-					int attempts = 10;
-					while(attempts -- > 0 && !generated) {
-					x = chunkX + 7;
-						y = rand.nextInt(96) + 16;
-					z = chunkZ + 7;
-						if ((new TFGenHillMaze(2, true, 15)).generate(world, rand, x, y, z)) {
-						(new WorldGenMazeMarker(true)).generate(world, rand, x, y + 4, z);
-						GlobalVars.numUnderHillMazes ++;
-							generated = true;
-					};
-				}
-				}
-			} else {
-				if(rand.nextInt(WorldSize.xChunks * WorldSize.zChunks / 32) == 0) {
-					x = chunkX + rand.nextInt(16) + 8;
-					y = rand.nextInt(32) + 16;
-					z = chunkZ + rand.nextInt(16) + 8;
-					if ((new TFGenHillMaze(3, true, 70)).generate(world, rand, x, y, z)) {
-						(new WorldGenMazeMarker(false)).generate(world, rand, x, world.getLandSurfaceHeightValue(x, z), z);
-						GlobalVars.numUnderHillMazes ++;
+		if(GlobalVars.numUnderHillMazes < WorldSize.xChunks / 8) {
+			int cx = chunkX >> 4; 
+			int cz = chunkZ >> 4;
+			if(cx > 3 && cz > 3 && cx < WorldSize.xChunks - 3 && cz < WorldSize.zChunks - 3) {
+				if(world.worldProvider instanceof WorldProviderSky) {
+					if(rand.nextInt(WorldSize.xChunks * WorldSize.zChunks / 16) == 0) {
+						boolean generated = false;
+						int attempts = 10;
+						while(attempts -- > 0 && !generated) {
+							x = chunkX + 7;
+							y = rand.nextInt(96) + 16;
+							z = chunkZ + 7;
+							if ((new TFGenHillMaze(2, true, 15)).generate(world, rand, x, y, z)) {
+								(new WorldGenMazeMarker(true)).generate(world, rand, x, y + 4, z);
+								GlobalVars.numUnderHillMazes ++;
+								generated = true;
+							};
+						}
+					}
+				} else {
+					if(rand.nextInt(WorldSize.xChunks * WorldSize.zChunks / 64) == 0) {
+						x = chunkX + rand.nextInt(16) + 8;
+						y = rand.nextInt(32) + 16;
+						z = chunkZ + rand.nextInt(16) + 8;
+						if ((new TFGenHillMaze(3, true, 70)).generate(world, rand, x, y, z)) {
+							(new WorldGenMazeMarker(false)).generate(world, rand, x, world.getLandSurfaceHeightValue(x, z), z);
+							GlobalVars.numUnderHillMazes ++;
+						}
 					}
 				}
 			}

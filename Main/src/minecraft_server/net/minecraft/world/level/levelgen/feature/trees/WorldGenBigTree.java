@@ -245,13 +245,13 @@ public class WorldGenBigTree extends WorldGenerator {
 	}
 
 	void generateLeaves() {
-		int i1 = 0;
+		int l = this.leafNodes.length;
 
-		for(int i2 = this.leafNodes.length; i1 < i2; ++i1) {
-			int i3 = this.leafNodes[i1][0];
-			int i4 = this.leafNodes[i1][1];
-			int i5 = this.leafNodes[i1][2];
-			this.generateLeafNode(i3, i4, i5);
+		for(int i = 0; i < l; i ++) {
+			int x = this.leafNodes[i][0];
+			int y = this.leafNodes[i][1];
+			int z = this.leafNodes[i][2];
+			this.generateLeafNode(x, y, z);
 		}
 
 	}
@@ -361,7 +361,7 @@ public class WorldGenBigTree extends WorldGenerator {
 	}
 
 	boolean validTreeLocation() {
-		int i3 = this.world.getblockID(this.basePos[0], this.basePos[1] - 1, this.basePos[2]);
+		int i3 = this.world.getBlockID(this.basePos[0], this.basePos[1] - 1, this.basePos[2]);
 		Block block = Block.blocksList[i3];
 		
 		if(!(block != null && block.canGrowPlants())) return false;

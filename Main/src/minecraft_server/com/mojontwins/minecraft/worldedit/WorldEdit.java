@@ -75,7 +75,7 @@ public class WorldEdit {
 		for(int x = from.x; x <= to.x; x ++) {
 			for(int z = from.z; z <= to.z; z ++) {
 				for(int y = from.y; y <= to.y; y ++) {
-					buffer[x-from.x][z-from.z][y-from.y] = world.getblockID(x, y, z) | world.getBlockMetadata(x, y, z) << 16;
+					buffer[x-from.x][z-from.z][y-from.y] = world.getBlockID(x, y, z) | world.getBlockMetadata(x, y, z) << 16;
 				}
 			}
 		}
@@ -156,7 +156,7 @@ public class WorldEdit {
 		for(int x = from.x; x <= to.x; x ++) {
 			for(int z = from.z; z <= to.z; z ++) {
 				for(int y = from.y; y <= to.y; y ++) {
-					int worldblockID = world.getblockID(x, y, z);
+					int worldblockID = world.getBlockID(x, y, z);
 					int worldMeta = world.getBlockMetadata(x, y, z);
 					if(worldblockID == existingblockID && (existingMeta == -1 || worldMeta == existingMeta)) world.setBlockAndMetadataWithNotify(x, y, z, blockID, meta);
 					cleared ++;

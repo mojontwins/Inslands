@@ -3,6 +3,7 @@ package net.minecraft.world.level.levelgen.feature;
 import java.util.Random;
 
 import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.IGroundSubstitute;
 
 public class AetherGenBuildings extends WorldGenerator {
 	public int blockID1;
@@ -34,7 +35,7 @@ public class AetherGenBuildings extends WorldGenerator {
 
 	public void addLineX(World world, Random random, int i, int j, int k, int length) {
 		for(int x = i; x < i + length; ++x) {
-			if((this.replaceAir || world.getblockID(x, j, k) != 0) && (this.replaceSolid || world.getblockID(x, j, k) == 0)) {
+			if((this.replaceAir || (world.getBlock(x, j, k) instanceof IGroundSubstitute)) && (this.replaceSolid || world.getBlockID(x, j, k) == 0)) {
 				if(random.nextInt(this.chance) == 0) {
 					world.setBlockAndMetadata(x, j, k, this.blockID2, this.meta2);
 				} else {
@@ -47,7 +48,7 @@ public class AetherGenBuildings extends WorldGenerator {
 
 	public void addLineY(World world, Random random, int i, int j, int k, int length) {
 		for(int y = j; y < j + length; ++y) {
-			if((this.replaceAir || world.getblockID(i, y, k) != 0) && (this.replaceSolid || world.getblockID(i, y, k) == 0)) {
+			if((this.replaceAir || (world.getBlock(i, y, k) instanceof IGroundSubstitute)) && (this.replaceSolid || world.getBlockID(i, y, k) == 0)) {
 				if(random.nextInt(this.chance) == 0) {
 					world.setBlockAndMetadata(i, y, k, this.blockID2, this.meta2);
 				} else {
@@ -60,7 +61,7 @@ public class AetherGenBuildings extends WorldGenerator {
 
 	public void addLineZ(World world, Random random, int i, int j, int k, int length) {
 		for(int z = k; z < k + length; ++z) {
-			if((this.replaceAir || world.getblockID(i, j, z) != 0) && (this.replaceSolid || world.getblockID(i, j, z) == 0)) {
+			if((this.replaceAir || (world.getBlock(i, j, z) instanceof IGroundSubstitute)) && (this.replaceSolid || world.getBlockID(i, j, z) == 0)) {
 				if(random.nextInt(this.chance) == 0) {
 					world.setBlockAndMetadata(i, j, z, this.blockID2, this.meta2);
 				} else {
@@ -74,7 +75,7 @@ public class AetherGenBuildings extends WorldGenerator {
 	public void addPlaneX(World world, Random random, int i, int j, int k, int dj, int dk) {
 		for(int y = j; y < j + dj; ++y) {
 			for(int z = k; z < k + dk; ++z) {
-				if((this.replaceAir || world.getblockID(i, y, z) != 0) && (this.replaceSolid || world.getblockID(i, y, z) == 0)) {
+				if((this.replaceAir || (world.getBlock(i, y, z) instanceof IGroundSubstitute)) && (this.replaceSolid || world.getBlockID(i, y, z) == 0)) {
 					if(random.nextInt(this.chance) == 0) {
 						world.setBlockAndMetadata(i, y, z, this.blockID2, this.meta2);
 					} else {
@@ -89,7 +90,7 @@ public class AetherGenBuildings extends WorldGenerator {
 	public void addPlaneY(World world, Random random, int i, int j, int k, int di, int dk) {
 		for(int x = i; x < i + di; ++x) {
 			for(int z = k; z < k + dk; ++z) {
-				if((this.replaceAir || world.getblockID(x, j, z) != 0) && (this.replaceSolid || world.getblockID(x, j, z) == 0)) {
+				if((this.replaceAir || (world.getBlock(x, j, z) instanceof IGroundSubstitute)) && (this.replaceSolid || world.getBlockID(x, j, z) == 0)) {
 					if(random.nextInt(this.chance) == 0) {
 						world.setBlockAndMetadata(x, j, z, this.blockID2, this.meta2);
 					} else {
@@ -104,7 +105,7 @@ public class AetherGenBuildings extends WorldGenerator {
 	public void addPlaneZ(World world, Random random, int i, int j, int k, int di, int dj) {
 		for(int x = i; x < i + di; ++x) {
 			for(int y = j; y < j + dj; ++y) {
-				if((this.replaceAir || world.getblockID(x, y, k) != 0) && (this.replaceSolid || world.getblockID(x, y, k) == 0)) {
+				if((this.replaceAir || (world.getBlock(x, y, k) instanceof IGroundSubstitute)) && (this.replaceSolid || world.getBlockID(x, y, k) == 0)) {
 					if(random.nextInt(this.chance) == 0) {
 						world.setBlockAndMetadata(x, y, k, this.blockID2, this.meta2);
 					} else {
@@ -157,7 +158,7 @@ public class AetherGenBuildings extends WorldGenerator {
 		for(int x = i; x < i + di; ++x) {
 			for(int y = j; y < j + dj; ++y) {
 				for(int z = k; z < k + dk; ++z) {
-					if((this.replaceAir || world.getblockID(x, y, z) != 0) && (this.replaceSolid || world.getblockID(x, y, z) == 0)) {
+					if((this.replaceAir || (world.getBlock(x, y, z) instanceof IGroundSubstitute)) && (this.replaceSolid || world.getBlockID(x, y, z) == 0)) {
 						if(random.nextInt(this.chance) == 0) {
 							world.setBlockAndMetadata(x, y, z, this.blockID2, this.meta2);
 						} else {
@@ -176,7 +177,7 @@ public class AetherGenBuildings extends WorldGenerator {
 		for(int x = i; x < i + di; ++x) {
 			for(int y = j; y < j + dj; ++y) {
 				for(int z = k; z < k + dk; ++z) {
-					if(world.getblockID(x, y, z) == 0) {
+					if(world.getBlockID(x, y, z) == 0) {
 						flag = false;
 					}				}
 			}
@@ -194,7 +195,7 @@ public class AetherGenBuildings extends WorldGenerator {
 		for(int x = i; x < i + di; ++x) {
 			for(int y = j; y < j + dj; ++y) {
 				for(int z = k; z < k + dk; ++z) {
-					if(world.getblockID(x, y, z) != 0) {
+					if(world.getBlockID(x, y, z) != 0) {
 						++solidCount;
 					}
 					++totalCount;
@@ -202,8 +203,7 @@ public class AetherGenBuildings extends WorldGenerator {
 			}
 		}
 
-		flag = solidCount > (totalCount * 60) / 100;
-		
+		flag = solidCount > (totalCount * 50) / 100;
 		return flag;
 	}
 
@@ -213,7 +213,7 @@ public class AetherGenBuildings extends WorldGenerator {
 		for(int x = i; x < i + di; ++x) {
 			for(int y = j; y < j + dj; ++y) {
 				for(int z = k; z < k + dk; ++z) {
-					if(world.getblockID(x, y, z) != 0) {
+					if(world.getBlockID(x, y, z) != 0) {
 						flag = false;
 					}
 				}

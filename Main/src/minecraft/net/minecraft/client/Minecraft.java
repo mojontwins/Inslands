@@ -965,7 +965,7 @@ public abstract class Minecraft implements Runnable {
 
 	private void clickMiddleMouseButton() {
 		if(this.objectMouseOver != null) {
-			int i1 = this.theWorld.getblockID(this.objectMouseOver.blockX, this.objectMouseOver.blockY, this.objectMouseOver.blockZ);
+			int i1 = this.theWorld.getBlockID(this.objectMouseOver.blockX, this.objectMouseOver.blockY, this.objectMouseOver.blockZ);
 			if(i1 == Block.grass.blockID) {
 				i1 = Block.dirt.blockID;
 			}
@@ -1293,9 +1293,7 @@ public abstract class Minecraft implements Runnable {
 				if(isNew) {
 					this.loadingScreen.displayLoadingString("Finding spawn point");
 					world.worldProvider.getInitialSpawnLocation(world);
-				}
 				
-				if(isNew) {
 					valid = world.levelIsValidUponWorldTheme();
 					if(world.findingSpawnPoint || !valid) {
 					
@@ -1494,20 +1492,21 @@ public abstract class Minecraft implements Runnable {
 
 		int ctr = 0;
 		
-		// Preload ALL world
-		
+		// Preload ALL world		
 		BlockFire.dontSpread = true;
 		for(int x = 0; x < WorldSize.width; x += 16) {
 			for(int z = 0 ; z < WorldSize.length; z += 16) {
 				this.loadingScreen.setLoadingProgress(ctr++ * 100 / WorldSize.getTotalChunks());
-				world.getblockID(x, 64, z);
+				world.getBlockID(x, 64, z);
 			}
 		}
 		BlockFire.dontSpread = false;
 		
-		// Here: extra, special post generation.
-		this.loadingScreen.displayLoadingString("Generating special stuff");	
-		if(isNew) LevelThemeGlobalSettings.getTheme().specialPostGeneration(world);
+		// Here: extra, special post generation.	
+		if(isNew) {
+			this.loadingScreen.displayLoadingString("Generating special stuff");
+			LevelThemeGlobalSettings.getTheme().specialPostGeneration(world);
+		}
 
 		this.loadingScreen.displayLoadingString("Simulating world for a bit");		
 	}

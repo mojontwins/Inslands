@@ -173,12 +173,12 @@ public abstract class FeatureBuilding {
 			z += this.xAbsolute - this.x1;
 			x += this.zAbsolute - this.z1;
 			if(x < 0 || z < 0 || x > 15 || z > 15) return true; 
-			blockID = this.chunk.getblockID(z, y, x);
+			blockID = this.chunk.getBlockID(z, y, x);
 		} else {
 			x += this.xAbsolute - this.x1;
 			z += this.zAbsolute - this.z1;
 			if(x < 0 || z < 0 || x > 15 || z > 15) return true; 
-			blockID = this.chunk.getblockID(x, y, z);
+			blockID = this.chunk.getBlockID(x, y, z);
 		}
 		
 		return Block.opaqueCubeLookup[blockID];
@@ -213,12 +213,12 @@ public abstract class FeatureBuilding {
 			z += this.xAbsolute - this.x1;
 			x += this.zAbsolute - this.z1;
 			if(x < 0 || z < 0 || x > 15 || z > 15) return -1; 
-			return this.chunk.getblockID(z, y, x);
+			return this.chunk.getBlockID(z, y, x);
 		} else {
 			x += this.xAbsolute - this.x1;
 			z += this.zAbsolute - this.z1;
 			if(x < 0 || z < 0 || x > 15 || z > 15) return -1; 
-			return this.chunk.getblockID(x, y, z);
+			return this.chunk.getBlockID(x, y, z);
 		}
 	}
 	
@@ -329,7 +329,7 @@ public abstract class FeatureBuilding {
 			for(int x = x1; x <= x2; x ++) {
 				for(int z = z1; z <= z2; z ++) {
 					for(int y = y1; y <= y2; y ++) {					
-						Block block = Block.blocksList[this.chunk.getblockID(z, y, x)];
+						Block block = Block.blocksList[this.chunk.getBlockID(z, y, x)];
 						if(block != null && block.isOpaqueCube()) {
 							this.chunk.setblockIDWithMetadata(z, y, x, id, meta);
 						}
@@ -355,7 +355,7 @@ public abstract class FeatureBuilding {
 			for(int x = x1; x <= x2; x ++) {
 				for(int z = z1; z <= z2; z ++) {
 					for(int y = y1; y <= y2; y ++) {
-						Block block = Block.blocksList[this.chunk.getblockID(x, y, z)];
+						Block block = Block.blocksList[this.chunk.getBlockID(x, y, z)];
 						if(block != null && block.isOpaqueCube()) {
 							this.chunk.setblockIDWithMetadata(x, y, z, id, meta);
 						}
@@ -392,7 +392,7 @@ public abstract class FeatureBuilding {
 			for(int x = x1; x <= x2; x ++) {
 				for(int z = z1; z <= z2; z ++) {
 					for(int y = y1; y <= y2; y ++) {					
-						Block block = Block.blocksList[this.chunk.getblockID(z, y, x)];
+						Block block = Block.blocksList[this.chunk.getBlockID(z, y, x)];
 						if(block != null && block.isOpaqueCube()) {
 							this.chunk.setblockIDWithMetadata(z, y, x, this.world.rand.nextInt(chance) == 0 ? id : id2, meta);
 						}
@@ -418,7 +418,7 @@ public abstract class FeatureBuilding {
 			for(int x = x1; x <= x2; x ++) {
 				for(int z = z1; z <= z2; z ++) {
 					for(int y = y1; y <= y2; y ++) {
-						Block block = Block.blocksList[this.chunk.getblockID(x, y, z)];
+						Block block = Block.blocksList[this.chunk.getBlockID(x, y, z)];
 						if(block != null && block.isOpaqueCube()) {
 							this.chunk.setblockIDWithMetadata(x, y, z, this.world.rand.nextInt(chance) == 0 ? id : id2, meta);
 						}

@@ -18,7 +18,7 @@ public class BlockSapling2 extends BlockSapling {
 
 	@Override
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
-		return this.canThisPlantGrowOnThisblockID(world.getblockID(x, y + 1, z));
+		return this.canThisPlantGrowOnThisblockID(world.getBlockID(x, y + 1, z));
 	}
 	
 	@Override
@@ -28,7 +28,7 @@ public class BlockSapling2 extends BlockSapling {
 	
 	@Override
 	public boolean canBlockStay(World world, int x, int y, int z) {
-		return this.canThisPlantGrowOnThisblockID(world.getblockID(x, y + 1, z));
+		return this.canThisPlantGrowOnThisblockID(world.getBlockID(x, y + 1, z));
 	}
 	
 	@Override

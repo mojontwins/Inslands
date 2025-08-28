@@ -9,7 +9,7 @@ import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
 
-public class BlockRedstoneOre extends Block {
+public class BlockRedstoneOre extends Block implements IGroundSubstitute {
 	private boolean glowing;
 	private int type;
 

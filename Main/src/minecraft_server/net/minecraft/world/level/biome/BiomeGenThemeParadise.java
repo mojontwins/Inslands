@@ -15,7 +15,6 @@ import net.minecraft.world.level.SpawnListEntry;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.dimension.WorldProviderSky;
 import net.minecraft.world.level.levelgen.feature.AetherGenClouds;
-import net.minecraft.world.level.levelgen.feature.AetherGenDungeonBronze;
 import net.minecraft.world.level.levelgen.feature.WorldGenFlowers;
 import net.minecraft.world.level.levelgen.feature.WorldGenLilypad;
 import net.minecraft.world.level.levelgen.feature.WorldGenSeaweed;
@@ -87,7 +86,7 @@ public class BiomeGenThemeParadise extends BiomeGenBase {
 			x = chunkX + rand.nextInt(16) + 8;
 			z = chunkZ + rand.nextInt(16) + 8;
 			
-			for(y = rand.nextInt(128); y > 0 && world.getblockID(x, y - 1, z) == 0; y --) {}
+			for(y = rand.nextInt(128); y > 0 && world.getBlockID(x, y - 1, z) == 0; y --) {}
 			
 			(new WorldGenLilypad()).generate(world, rand, x, y, z);
 		}
@@ -163,19 +162,35 @@ public class BiomeGenThemeParadise extends BiomeGenBase {
 			}
 		}
 		
-		if(rand.nextInt(4) == 0) {
-			x = chunkX + rand.nextInt(16);
+		/*
+		if(GlobalVars.numBronzeDungeons < 2 
+				&& chunkX > 4 && chunkX < WorldSize.xChunks - 4
+				&& chunkZ > 4 && chunkZ < WorldSize.zChunks - 4) {
+			boolean generated = false;
+			// Try hard.
 			y = 32 + rand.nextInt(64);
-			z = chunkZ + rand.nextInt(16);
-			(new AetherGenDungeonBronze(
-					Block.lockedDungeonStone.blockID, 
-					Block.lockedLightDungeonStone.blockID, 
-					Block.dungeonStone.blockID, 
-					Block.lightDungeonStone.blockID, 
-					Block.cobblestoneMossy.blockID, 0, 
-					Block.cobblestone.blockID, 0, 
-					16, true)).generate(world, rand, x, y, z);
+			for(int i = 0; i < 8 && !generated; i ++) {
+				for(int yy = -8; yy < 8 && !generated; yy++) {
+					x = chunkX + rand.nextInt(16);
+					z = chunkZ + rand.nextInt(16);
+					if((new AetherGenDungeonBronze(
+							Block.lockedDungeonStone.blockID, 
+							Block.lockedLightDungeonStone.blockID, 
+							Block.dungeonStone.blockID, 
+							Block.lightDungeonStone.blockID, 
+							Block.cobblestoneMossy.blockID, 0, 
+							Block.cobblestone.blockID, 0, 
+							16, true)).generate(world, rand, x, y, z)) {
+					
+						// Mark as generated
+						generated = true;
+					}
+				}
+				
+				y = (y + 89) % 128;
+			}
 		}
+		*/
 
 	}
 }

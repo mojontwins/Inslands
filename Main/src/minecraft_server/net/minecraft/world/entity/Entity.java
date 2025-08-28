@@ -284,9 +284,10 @@ public abstract class Entity {
 			this.posZ = (this.boundingBox.minZ + this.boundingBox.maxZ) / 2.0D;
 		} else {
 			this.ySize *= 0.4F;
-			double d7 = this.posX;
-			double d9 = this.posZ;
+			double prevPosX = this.posX;
+			double prevPosZ = this.posZ;
 
+			// Slow on webs
 			if(this.isInWeb) {
 				this.isInWeb = false;
 				moveX *= 0.25D;
@@ -297,24 +298,24 @@ public abstract class Entity {
 				this.motionZ = 0.0D;
 			}
 
+			// Slower traversing snow
 			if (this.isInSnow && !this.bootsOfLeather()) {
 				this.isInSnow = false;
 				moveX *= 0.8D;
-				//moveY *= 0.6D;
 				moveZ *= 0.8D;
 				this.motionX *= 0.6D;
-				//this.motionY *= 0.3D;
 				this.motionZ *= 0.6D;
 			}
 			
-			double d11 = moveX;
-			double d13 = moveY;
-			double d15 = moveZ;
-			AxisAlignedBB axisAlignedBB17 = this.boundingBox.copy();
-			boolean z18 = this.onGround && this.isSneaking();
-			if(z18) {
+			double prevMoveX = moveX;
+			double prevMoveY = moveY;
+			double prevMoveZ = moveZ;
+			AxisAlignedBB bbCopy = this.boundingBox.copy();
+			boolean preventFalling = this.onGround && this.isSneaking();
+
+			if(preventFalling) {
 				double d19;
-				for(d19 = 0.05D; moveX != 0.0D && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.getOffsetBoundingBox(moveX, -1.0D, 0.0D)).size() == 0; d11 = moveX) {
+				for(d19 = 0.05D; moveX != 0.0D && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.getOffsetBoundingBox(moveX, -1.0D, 0.0D)).size() == 0; prevMoveX = moveX) {
 					if(moveX < d19 && moveX >= -d19) {
 						moveX = 0.0D;
 					} else if(moveX > 0.0D) {
@@ -324,7 +325,7 @@ public abstract class Entity {
 					}
 				}
 
-				for(; moveZ != 0.0D && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.getOffsetBoundingBox(0.0D, -1.0D, moveZ)).size() == 0; d15 = moveZ) {
+				for(; moveZ != 0.0D && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.getOffsetBoundingBox(0.0D, -1.0D, moveZ)).size() == 0; prevMoveZ = moveZ) {
 					if(moveZ < d19 && moveZ >= -d19) {
 						moveZ = 0.0D;
 					} else if(moveZ > 0.0D) {
@@ -335,39 +336,39 @@ public abstract class Entity {
 				}
 			}
 
-			List<AxisAlignedBB> list35 = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(moveX, moveY, moveZ));
+			List<AxisAlignedBB> collBBs = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(moveX, moveY, moveZ));
 
-			for(int i20 = 0; i20 < list35.size(); ++i20) {
-				moveY = ((AxisAlignedBB)list35.get(i20)).calculateYOffset(this.boundingBox, moveY);
+			for(int i = 0; i < collBBs.size(); ++i) {
+				moveY = ((AxisAlignedBB)collBBs.get(i)).calculateYOffset(this.boundingBox, moveY);
 			}
 
 			this.boundingBox.offset(0.0D, moveY, 0.0D);
-			if(!this.booleanTrue && d13 != moveY) {
+			if(!this.booleanTrue && prevMoveY != moveY) {
 				moveZ = 0.0D;
 				moveY = 0.0D;
 				moveX = 0.0D;
 			}
 
-			boolean z36 = this.onGround || d13 != moveY && d13 < 0.0D;
+			boolean z36 = this.onGround || prevMoveY != moveY && prevMoveY < 0.0D;
 
-			int i21;
-			for(i21 = 0; i21 < list35.size(); ++i21) {
-				moveX = ((AxisAlignedBB)list35.get(i21)).calculateXOffset(this.boundingBox, moveX);
+			int i;
+			for(i = 0; i < collBBs.size(); ++i) {
+				moveX = ((AxisAlignedBB)collBBs.get(i)).calculateXOffset(this.boundingBox, moveX);
 			}
 
 			this.boundingBox.offset(moveX, 0.0D, 0.0D);
-			if(!this.booleanTrue && d11 != moveX) {
+			if(!this.booleanTrue && prevMoveX != moveX) {
 				moveZ = 0.0D;
 				moveY = 0.0D;
 				moveX = 0.0D;
 			}
 
-			for(i21 = 0; i21 < list35.size(); ++i21) {
-				moveZ = ((AxisAlignedBB)list35.get(i21)).calculateZOffset(this.boundingBox, moveZ);
+			for(i = 0; i < collBBs.size(); ++i) {
+				moveZ = ((AxisAlignedBB)collBBs.get(i)).calculateZOffset(this.boundingBox, moveZ);
 			}
 
 			this.boundingBox.offset(0.0D, 0.0D, moveZ);
-			if(!this.booleanTrue && d15 != moveZ) {
+			if(!this.booleanTrue && prevMoveZ != moveZ) {
 				moveZ = 0.0D;
 				moveY = 0.0D;
 				moveX = 0.0D;
@@ -376,65 +377,65 @@ public abstract class Entity {
 			double d23;
 			int i28;
 			double d37;
-			if(this.stepHeight > 0.0F && z36 && (z18 || this.ySize < 0.05F) && (d11 != moveX || d15 != moveZ)) {
+			if(this.stepHeight > 0.0F && z36 && (preventFalling || this.ySize < 0.05F) && (prevMoveX != moveX || prevMoveZ != moveZ)) {
 				d37 = moveX;
 				d23 = moveY;
 				double d25 = moveZ;
-				moveX = d11;
+				moveX = prevMoveX;
 				moveY = (double)this.stepHeight;
-				moveZ = d15;
+				moveZ = prevMoveZ;
 				AxisAlignedBB axisAlignedBB27 = this.boundingBox.copy();
-				this.boundingBox.setBB(axisAlignedBB17);
-				list35 = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(d11, moveY, d15));
+				this.boundingBox.setBB(bbCopy);
+				collBBs = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(prevMoveX, moveY, prevMoveZ));
 
-				for(i28 = 0; i28 < list35.size(); ++i28) {
-					moveY = ((AxisAlignedBB)list35.get(i28)).calculateYOffset(this.boundingBox, moveY);
+				for(i28 = 0; i28 < collBBs.size(); ++i28) {
+					moveY = ((AxisAlignedBB)collBBs.get(i28)).calculateYOffset(this.boundingBox, moveY);
 				}
 
 				this.boundingBox.offset(0.0D, moveY, 0.0D);
-				if(!this.booleanTrue && d13 != moveY) {
+				if(!this.booleanTrue && prevMoveY != moveY) {
 					moveZ = 0.0D;
 					moveY = 0.0D;
 					moveX = 0.0D;
 				}
 
-				for(i28 = 0; i28 < list35.size(); ++i28) {
-					moveX = ((AxisAlignedBB)list35.get(i28)).calculateXOffset(this.boundingBox, moveX);
+				for(i28 = 0; i28 < collBBs.size(); ++i28) {
+					moveX = ((AxisAlignedBB)collBBs.get(i28)).calculateXOffset(this.boundingBox, moveX);
 				}
 
 				this.boundingBox.offset(moveX, 0.0D, 0.0D);
-				if(!this.booleanTrue && d11 != moveX) {
+				if(!this.booleanTrue && prevMoveX != moveX) {
 					moveZ = 0.0D;
 					moveY = 0.0D;
 					moveX = 0.0D;
 				}
 
-				for(i28 = 0; i28 < list35.size(); ++i28) {
-					moveZ = ((AxisAlignedBB)list35.get(i28)).calculateZOffset(this.boundingBox, moveZ);
+				for(i28 = 0; i28 < collBBs.size(); ++i28) {
+					moveZ = ((AxisAlignedBB)collBBs.get(i28)).calculateZOffset(this.boundingBox, moveZ);
 				}
 
 				this.boundingBox.offset(0.0D, 0.0D, moveZ);
-				if(!this.booleanTrue && d15 != moveZ) {
+				if(!this.booleanTrue && prevMoveZ != moveZ) {
 					moveZ = 0.0D;
 					moveY = 0.0D;
 					moveX = 0.0D;
 				}
 
 				/*
-				if(!this.booleanTrue && d13 != moveY) {
+				if(!this.booleanTrue && prevMoveY != moveY) {
 					moveZ = 0.0D;
 					moveY = 0.0D;
 					moveX = 0.0D;
 				} else {
 					moveY = (double)(-this.stepHeight);
 
-					for(i28 = 0; i28 < list35.size(); ++i28) {
-						moveY = ((AxisAlignedBB)list35.get(i28)).calculateYOffset(this.boundingBox, moveY);
+					for(i28 = 0; i28 < collBBs.size(); ++i28) {
+						moveY = ((AxisAlignedBB)collBBs.get(i28)).calculateYOffset(this.boundingBox, moveY);
 					}
 
 					this.boundingBox.offset(0.0D, moveY, 0.0D);
 				}
-				 */
+				*/
 
 				if(d37 * d37 + d25 * d25 >= moveX * moveX + moveZ * moveZ) {
 					moveX = d37;
@@ -456,6 +457,7 @@ public abstract class Entity {
 			this.posY = this.boundingBox.minY + (double)this.yOffset - (double)this.ySize;
 			this.posZ = (this.boundingBox.minZ + this.boundingBox.maxZ) / 2.0D;
 			
+			// Stop at world boundaries.
 			if(this.posX < 0.5D) {
 				this.posX = 0; this.motionX = 0; moveX = 0;
 			}
@@ -469,44 +471,44 @@ public abstract class Entity {
 				this.posZ = (double)WorldSize.length - 0.5D; this.motionZ = 0; moveZ = 0;
 			}
 
-			this.isCollidedHorizontally = d11 != moveX || d15 != moveZ;
-			this.isCollidedVertically = d13 != moveY;
-			this.onGround = d13 != moveY && d13 < 0.0D;
+			this.isCollidedHorizontally = prevMoveX != moveX || prevMoveZ != moveZ;
+			this.isCollidedVertically = prevMoveY != moveY;
+			this.onGround = prevMoveY != moveY && prevMoveY < 0.0D;
 			this.isCollided = this.isCollidedHorizontally || this.isCollidedVertically;
 			
 			boolean rebound = this.hitGround(moveY, this.onGround);
 			
-			if(d11 != moveX) {
+			if(prevMoveX != moveX) {
 				this.motionX = 0.0D;
 			}
 
-			if(d13 != moveY && rebound == false) {
+			if(prevMoveY != moveY && rebound == false) {
 				this.motionY = 0.0D;
 			}
 
-			if(d15 != moveZ) {
+			if(prevMoveZ != moveZ) {
 				this.motionZ = 0.0D;
 			}
 
-			d37 = this.posX - d7;
-			d23 = this.posZ - d9;
+			d37 = this.posX - prevPosX;
+			d23 = this.posZ - prevPosZ;
 			int i26;
 			int i38;
 			int i39;
-			if(this.canTriggerWalking() && !z18 && this.ridingEntity == null) {
+			if(this.canTriggerWalking() && !preventFalling && this.ridingEntity == null) {
 				this.distanceWalkedModified = (float)((double)this.distanceWalkedModified + (double)MathHelper.sqrt_double(d37 * d37 + d23 * d23) * 0.6D);
 				i38 = MathHelper.floor_double(this.posX);
 				i26 = MathHelper.floor_double(this.posY - (double)0.2F - (double)this.yOffset);
 				i39 = MathHelper.floor_double(this.posZ);
-				Block block = Block.blocksList[this.worldObj.getblockID(i38, i26, i39)];
-				if(this.worldObj.getblockID(i38, i26 - 1, i39) == Block.fence.blockID) {
-					block = Block.blocksList[this.worldObj.getblockID(i38, i26 - 1, i39)];
+				Block block = Block.blocksList[this.worldObj.getBlockID(i38, i26, i39)];
+				if(this.worldObj.getBlockID(i38, i26 - 1, i39) == Block.fence.blockID) {
+					block = Block.blocksList[this.worldObj.getBlockID(i38, i26 - 1, i39)];
 				}
 
 				if(this.distanceWalkedModified > (float)this.nextStepDistance && block != null) {
 					++this.nextStepDistance;
 					StepSound stepSound29 = block.stepSound;
-					if(this.worldObj.getblockID(i38, i26 + 1, i39) == Block.snow.blockID) {
+					if(this.worldObj.getBlockID(i38, i26 + 1, i39) == Block.snow.blockID) {
 						stepSound29 = Block.snow.stepSound;
 						this.worldObj.playSoundAtEntity(this, stepSound29.getStepSound(), stepSound29.getVolume() * 0.15F, stepSound29.getPitch());
 					} else if(!block.blockMaterial.getIsLiquid()) {
@@ -517,25 +519,27 @@ public abstract class Entity {
 				}
 			}
 
-			i38 = MathHelper.floor_double(this.boundingBox.minX + 0.001D);
-			i26 = MathHelper.floor_double(this.boundingBox.minY + 0.001D);
-			i39 = MathHelper.floor_double(this.boundingBox.minZ + 0.001D);
-			i28 = MathHelper.floor_double(this.boundingBox.maxX - 0.001D);
-			int i40 = MathHelper.floor_double(this.boundingBox.maxY - 0.001D);
-			int i30 = MathHelper.floor_double(this.boundingBox.maxZ - 0.001D);
-			if(this.worldObj.checkChunksExist(i38, i26, i39, i28, i40, i30)) {
-				for(int i31 = i38; i31 <= i28; ++i31) {
-					for(int i32 = i26; i32 <= i40; ++i32) {
-						for(int i33 = i39; i33 <= i30; ++i33) {
-							Block block = Block.blocksList[this.worldObj.getblockID(i31, i32, i33)];
+			// Call .onEntityCollidedWithBlock for all blocks I am touching
+			int x1 = MathHelper.floor_double(this.boundingBox.minX + 0.001D);
+			int y1 = MathHelper.floor_double(this.boundingBox.minY + 0.001D);
+			int z1 = MathHelper.floor_double(this.boundingBox.minZ + 0.001D);
+			int x2 = MathHelper.floor_double(this.boundingBox.maxX - 0.001D);
+			int y2 = MathHelper.floor_double(this.boundingBox.maxY - 0.001D);
+			int z2 = MathHelper.floor_double(this.boundingBox.maxZ - 0.001D);
+
+			if(this.worldObj.checkChunksExist(x1, y1, z1, x2, y2, z2)) {
+				for(int xt = x1; xt <= x2; ++xt) {
+					for(int yt = y1; yt <= y2; ++yt) {
+						for(int zt = z1; zt <= z2; ++zt) {
+							Block block = Block.blocksList[this.worldObj.getBlockID(xt, yt, zt)];
 							if(block != null) {
-								block.onEntityCollidedWithBlock(this.worldObj, i31, i32, i33, this);
+								block.onEntityCollidedWithBlock(this.worldObj, xt, yt, zt, this);
 							}
 						}
 					}
 				}
 			}
-
+			
 			boolean z42 = this.isWet();
 			if(this.worldObj.isBoundingBoxBurning(this.boundingBox.getInsetBoundingBox(0.001D, 0.001D, 0.001D))) {
 				boolean doFire = true;
@@ -631,7 +635,7 @@ public abstract class Entity {
 		int i4 = MathHelper.floor_double(this.posX);
 		int i5 = MathHelper.floor_float((float)MathHelper.floor_double(d2));
 		int i6 = MathHelper.floor_double(this.posZ);
-		int i7 = this.worldObj.getblockID(i4, i5, i6);
+		int i7 = this.worldObj.getBlockID(i4, i5, i6);
 		Block block = Block.blocksList[i7];
 		if(block != null && block.blockMaterial == material1) {
 			float f8 = BlockFluid.getFluidHeightPercent(this.worldObj.getBlockMetadata(i4, i5, i6)) - 0.11111111F;

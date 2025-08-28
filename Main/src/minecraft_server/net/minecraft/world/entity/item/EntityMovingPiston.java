@@ -148,7 +148,7 @@ public class EntityMovingPiston extends Entity {
 				i6 += i9;
 				i7 += i10;
 				i8 += i11;
-				int i12 = movingPiston0.worldObj.getblockID(i6, i7, i8);
+				int i12 = movingPiston0.worldObj.getBlockID(i6, i7, i8);
 				if(i12 != 0 && !tryBreak(movingPiston0.worldObj, i6, i7, i8, Block.blocksList[i12])) {
 					if(i12 != Block.bedrock.blockID && i12 != Block.obsidian.blockID && i12 != Block.classicPiston.blockID && i12 != Block.classicStickyPiston.blockID && i13 < 16) {
 						if(i12 == Block.classicPistonBase.blockID || i12 == Block.classicStickyPistonBase.blockID) {
@@ -250,7 +250,7 @@ public class EntityMovingPiston extends Entity {
 			i2 -= i10;
 			i3 -= i11;
 			z8 = false;
-			int i13 = world0.getblockID(i1, i2, i3);
+			int i13 = world0.getBlockID(i1, i2, i3);
 			if(i13 == 0) {
 				return;
 			}
@@ -347,7 +347,7 @@ public class EntityMovingPiston extends Entity {
 	}
 
 	private void end(int i1, int i2, int i3, boolean z4) {
-		int i5 = this.worldObj.getblockID(i1, i2, i3);
+		int i5 = this.worldObj.getBlockID(i1, i2, i3);
 		boolean z6 = Block.blocksList[i5] == null ? false : isNormalBlock(Block.blocksList[i5]);
 		if(z6) {
 			if(z4) {

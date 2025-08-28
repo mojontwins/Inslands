@@ -66,7 +66,7 @@ public abstract class WorldProvider {
 			// Start @ the center of the map
 			int x = WorldSize.width / 2;
 			int z = WorldSize.length / 2;
-			int y = world.getHeightValue(x, z) + 1;
+			int y = world.getLandSurfaceHeightValue(x, z) + 1;
 	
 			// Try really hard
 			int attemptsLeft = 1024;
@@ -76,7 +76,7 @@ public abstract class WorldProvider {
 				// Find near...
 				for(int xx = x - radius; xx <= x + radius; xx ++) {
 					for(int zz = z - radius; zz <= z + radius; zz ++) {
-						y = world.getHeightValue(xx, zz);
+						y = world.getLandSurfaceHeightValue(xx, zz);
 						if(this.canCoordinateBeSpawn(x, y, z) && y <= 120) {
 							x = xx;
 							z = zz;
@@ -92,7 +92,7 @@ public abstract class WorldProvider {
 				x = x % WorldSize.width;
 				z = z % WorldSize.length;
 				
-				y = world.getHeightValue(x, z) + 1;
+				y = world.getLandSurfaceHeightValue(x, z) + 1;
 				
 			}
 	

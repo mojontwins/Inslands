@@ -23,8 +23,8 @@ public class WorldGenDesertFlowers extends WorldGenerator {
 			int i8 = y + rand.nextInt(4) - rand.nextInt(4);
 			int i9 = z + rand.nextInt(8) - rand.nextInt(8);
 			
-			int blockIDThis = world.getblockID(i7, i8, i9);
-			int blockIDBeneath = world.getblockID(i7, i8 - 1, i9);
+			int blockIDThis = world.getBlockID(i7, i8, i9);
+			int blockIDBeneath = world.getBlockID(i7, i8 - 1, i9);
 			
 			if(blockIDThis == 0 || blockIDThis == Block.layeredSand.blockID) {
 				

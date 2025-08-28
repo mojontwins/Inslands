@@ -4,7 +4,7 @@ import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
 
-public class BlockChain extends Block {
+public class BlockChain extends Block implements INonSolidPlant {
 	public BlockChain(int i1, int i2, Material material3) {
 		super(i1, i2, material3);
 		float f3 = 0.2F;
@@ -21,7 +21,7 @@ public class BlockChain extends Block {
 
 	@Override
 	public boolean canBlockStay(World world, int x, int y, int z) {
-		Block above = Block.blocksList[world.getblockID(x, y + 1, z)];
+		Block above = Block.blocksList[world.getBlockID(x, y + 1, z)];
 		return above != null && (above.isOpaqueCube() || above.blockID == Block.chain.blockID || (above instanceof BlockFence));
 	}
 	

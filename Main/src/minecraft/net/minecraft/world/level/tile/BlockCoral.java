@@ -24,9 +24,9 @@ public class BlockCoral extends Block implements IBlockWithSubtypes {
 	}
 	
     public boolean canPlaceBlockAt(World world, int x, int y, int z) {
-        return world.getblockID(x, y, z) == Block.waterStill.blockID 
-        		&& world.getblockID(x, y + 1, z) == Block.waterStill.blockID 
-        		&& canThisPlantGrowOnThisblockID(world.getblockID(x, y - 1, z));
+        return world.getBlockID(x, y, z) == Block.waterStill.blockID 
+        		&& world.getBlockID(x, y + 1, z) == Block.waterStill.blockID 
+        		&& canThisPlantGrowOnThisblockID(world.getBlockID(x, y - 1, z));
     }
     
     protected boolean canThisPlantGrowOnThisblockID(int par1) {
@@ -41,9 +41,9 @@ public class BlockCoral extends Block implements IBlockWithSubtypes {
     }
     
     public boolean canBlockStay(World world, int x, int y, int z) {
-    	int blockOnTop = world.getblockID(x, y + 1, z);
+    	int blockOnTop = world.getBlockID(x, y + 1, z);
     	if(! (blockOnTop == Block.waterStill.blockID || blockOnTop == Block.waterMoving.blockID)) return false;
-    	return canThisPlantGrowOnThisblockID(world.getblockID(x, y - 1, z));
+    	return canThisPlantGrowOnThisblockID(world.getBlockID(x, y - 1, z));
     }
     
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int i) {

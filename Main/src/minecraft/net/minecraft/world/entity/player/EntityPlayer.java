@@ -973,7 +973,7 @@ public abstract class EntityPlayer extends EntityLiving {
 		this.resetHeight();
 		ChunkCoordinates chunkCoordinates4 = this.bedChunkCoordinates;
 		ChunkCoordinates chunkCoordinates5 = this.bedChunkCoordinates;
-		if(chunkCoordinates4 != null && this.worldObj.getblockID(chunkCoordinates4.posX, chunkCoordinates4.posY, chunkCoordinates4.posZ) == Block.blockBed.blockID) {
+		if(chunkCoordinates4 != null && this.worldObj.getBlockID(chunkCoordinates4.posX, chunkCoordinates4.posY, chunkCoordinates4.posZ) == Block.blockBed.blockID) {
 			BlockBed.setBedOccupied(this.worldObj, chunkCoordinates4.posX, chunkCoordinates4.posY, chunkCoordinates4.posZ, false);
 			chunkCoordinates5 = BlockBed.getNearestEmptyChunkCoordinates(this.worldObj, chunkCoordinates4.posX, chunkCoordinates4.posY, chunkCoordinates4.posZ, 0);
 			if(chunkCoordinates5 == null) {
@@ -1002,7 +1002,7 @@ public abstract class EntityPlayer extends EntityLiving {
 	}
 
 	private boolean isInBed() {
-		return this.worldObj.getblockID(this.bedChunkCoordinates.posX, this.bedChunkCoordinates.posY, this.bedChunkCoordinates.posZ) == Block.blockBed.blockID;
+		return this.worldObj.getBlockID(this.bedChunkCoordinates.posX, this.bedChunkCoordinates.posY, this.bedChunkCoordinates.posZ) == Block.blockBed.blockID;
 	}
 
 	public static ChunkCoordinates verifyRespawnCoordinates(World world0, ChunkCoordinates chunkCoordinates1) {
@@ -1011,7 +1011,7 @@ public abstract class EntityPlayer extends EntityLiving {
 		iChunkProvider2.prepareChunk(chunkCoordinates1.posX + 3 >> 4, chunkCoordinates1.posZ - 3 >> 4);
 		iChunkProvider2.prepareChunk(chunkCoordinates1.posX - 3 >> 4, chunkCoordinates1.posZ + 3 >> 4);
 		iChunkProvider2.prepareChunk(chunkCoordinates1.posX + 3 >> 4, chunkCoordinates1.posZ + 3 >> 4);
-		/*int blockID = world0.getblockID(chunkCoordinates1.posX, chunkCoordinates1.posY, chunkCoordinates1.posZ);
+		/*int blockID = world0.getBlockID(chunkCoordinates1.posX, chunkCoordinates1.posY, chunkCoordinates1.posZ);
 		if(blockID != Block.blockBed.blockID) {
 			return null;
 		} else*/ {

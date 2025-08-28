@@ -64,11 +64,6 @@ public class BlockBigFlower extends Block implements IBlockWithSubtypes {
 	}
 
 	@Override
-	public int getItemblockID() {
-		return this.blockID - 256;
-	}
-
-	@Override
 	public String getNameFromMeta(int meta) {
 		return BlockBigFlower.bigFlowerParts  [meta];
 	}

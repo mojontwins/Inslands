@@ -348,7 +348,7 @@ public class TFMazeNew extends TFMaze {
 					var12 = var5 + var9 / 2 * (this.evenBias + this.oddBias);
 
 					if (this.isEven(var8) && this.isEven(var9) && this.shouldTorch(var8, var9)
-							&& var6.getblockIDAtCurrentPosition(var1, var10, var11, var12, var7) == this.wallblockID) {
+							&& var6.getBlockIDAtCurrentPosition(var1, var10, var11, var12, var7) == this.wallblockID) {
 						var6.placeBlockAtCurrentPosition(var1, this.torchblockID, this.torchBlockMeta, var10, var11,
 								var12, var7);
 					}
@@ -419,7 +419,7 @@ public class TFMazeNew extends TFMaze {
 					int var7 = this.worldZ + var4 / 2 * (this.evenBias + this.oddBias);
 
 					if (this.isEven(var3) && this.isEven(var4) && this.shouldTorch(var3, var4)
-							&& var1.getblockID(var5, var6, var7) == this.wallblockID) {
+							&& var1.getBlockID(var5, var6, var7) == this.wallblockID) {
 						var1.setBlockAndMetadataWithNotify(var5, var6, var7, this.torchblockID, this.torchBlockMeta);
 					}
 				}

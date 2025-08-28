@@ -49,7 +49,7 @@ public class WorldGenBigMushroom extends WorldGenerator {
             for (int xx = x - byte0; xx <= x + byte0; xx++) {
                 for (int zz = z - byte0; zz <= z + byte0; zz++) {
                     if (yy >= 0 && yy < 127) {
-                        int blockID = world.getblockID(xx, yy, zz);
+                        int blockID = world.getBlockID(xx, yy, zz);
 
                         if (blockID != 0 && blockID != Block.leaves.blockID) {
                             return false;
@@ -62,7 +62,7 @@ public class WorldGenBigMushroom extends WorldGenerator {
         }
 
         // Dirt, grass or podzol below?
-        int blockIDbelow = world.getblockID(x, y - 1, z);
+        int blockIDbelow = world.getBlockID(x, y - 1, z);
         if (blockIDbelow == 0) return false;
         
         Block block = Block.blocksList[blockIDbelow];
@@ -137,7 +137,7 @@ public class WorldGenBigMushroom extends WorldGenerator {
                         k3 = 0;
                     }
 
-                    if ((k3 != 0 || y >= (y + j) - 1) && !Block.opaqueCubeLookup[world.getblockID(i3, k1, j3)]) {
+                    if ((k3 != 0 || y >= (y + j) - 1) && !Block.opaqueCubeLookup[world.getBlockID(i3, k1, j3)]) {
                         world.setBlockWithNotify(i3, k1, j3, mushroomblockID);
                         world.setBlockMetadata(i3, k1, j3, k3);
                     }
@@ -147,7 +147,7 @@ public class WorldGenBigMushroom extends WorldGenerator {
 
         // Trunk
         for (int l1 = 0; l1 < j; l1++) {
-            int k2 = world.getblockID(x, y + l1, z);
+            int k2 = world.getBlockID(x, y + l1, z);
 
             if (!Block.opaqueCubeLookup[k2]) {
                 world.setBlockWithNotify(x, y + l1, z, mushroomblockID);

@@ -13,27 +13,27 @@ public class WorldGenLiquids extends WorldGenerator {
 	}
 
 	public boolean generate(World world, Random rand, int x, int y, int z) {
-		if(world.getblockID(x, y + 1, z) != Block.stone.blockID) {
+		if(world.getBlockID(x, y + 1, z) != Block.stone.blockID) {
 			return false;
-		} else if(world.getblockID(x, y - 1, z) != Block.stone.blockID) {
+		} else if(world.getBlockID(x, y - 1, z) != Block.stone.blockID) {
 			return false;
-		} else if(world.getblockID(x, y, z) != 0 && world.getblockID(x, y, z) != Block.stone.blockID) {
+		} else if(world.getBlockID(x, y, z) != 0 && world.getBlockID(x, y, z) != Block.stone.blockID) {
 			return false;
 		} else {
 			int i6 = 0;
-			if(world.getblockID(x - 1, y, z) == Block.stone.blockID) {
+			if(world.getBlockID(x - 1, y, z) == Block.stone.blockID) {
 				++i6;
 			}
 
-			if(world.getblockID(x + 1, y, z) == Block.stone.blockID) {
+			if(world.getBlockID(x + 1, y, z) == Block.stone.blockID) {
 				++i6;
 			}
 
-			if(world.getblockID(x, y, z - 1) == Block.stone.blockID) {
+			if(world.getBlockID(x, y, z - 1) == Block.stone.blockID) {
 				++i6;
 			}
 
-			if(world.getblockID(x, y, z + 1) == Block.stone.blockID) {
+			if(world.getBlockID(x, y, z + 1) == Block.stone.blockID) {
 				++i6;
 			}
 
