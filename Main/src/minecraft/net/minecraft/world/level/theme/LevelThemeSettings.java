@@ -55,20 +55,7 @@ public class LevelThemeSettings {
 			.setCanSnow(false)
 			.setOverlay(-1);
 	
-	public static LevelThemeSettings forest = new LevelThemeSettings(2)
-			.setName("Forest")
-			.setLightMultiplier(0.8F)
-			.setDayCycle(true)
-			.setLevelThemeMainBiome(BiomeGenBase.themeForest)
-			.setLevelThemeNetherBiome(BiomeGenBase.themeForestHell)
-			.withPreferredWorldType(WorldType.INFDEV.id)
-			.withFixedCelestialAngle(0.24F)
-			.withSunriseSunsetColors(true)
-			.withColourfulFlock(true)
-			.setTemperature(0.4D)
-			.setHumidity(0.9D)
-			.withDynamicSnow(true)
-			.setOverlay(-1);
+	public static LevelThemeSettings forest = new LevelThemeForest(2);
 	
 	public static LevelThemeSettings paradise = new LevelThemeParadise(3);
 	
@@ -88,22 +75,22 @@ public class LevelThemeSettings {
 		allThemeSettings.add(id, this);
 	}
 
-	private LevelThemeSettings withDynamicSnow(boolean b) {
+	protected LevelThemeSettings withDynamicSnow(boolean b) {
 		this.dynamicSnow = true;
 		return this;
 	}
 
-	private LevelThemeSettings withColorizedPlants(boolean b) {
+	protected LevelThemeSettings withColorizedPlants(boolean b) {
 		this.colorizedPlants = b;
 		return this;
 	}
 
-	private LevelThemeSettings withPreferredWorldType(int id2) {
+	protected LevelThemeSettings withPreferredWorldType(int id2) {
 		this.preferredWorldType = id2;
 		return this;
 	}
 
-	private LevelThemeSettings withColourfulFlock(boolean b) {
+	protected LevelThemeSettings withColourfulFlock(boolean b) {
 		this.colourfulFlock = b;
 		return this;
 	}

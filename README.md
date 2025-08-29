@@ -504,7 +504,6 @@ Problem is, the generation of the hedge maze depends on the amount of uncovered 
 ## So the approach is...
 
 [X] First make sure I can re-fire the post-generation if I delete the region folder. This has no use for players, but I need this wile developing.
-
 [ ] Then I'll draw the mazes post-generation.
 
 ## Minecraft.preloadWorld
@@ -522,3 +521,24 @@ Problem is, the generation of the hedge maze depends on the amount of uncovered 
 
 So the easiest way would be raising a flag if we had to generate a chunk.
 
+# Doing this
+
+[ ] Remember what were the condition for a hedge maze to spawn, and rethink/redo it.
+
+The problem would be with existing canopy. If there are trees and the hedge maze carves the ground, trees could remain "floating".
+
+We have two possible solutions:
+
+- remove all trees above the hedge maze. That would need to write a tree capitator algorithm that follows the trunk and the branches to the leaves. I could do this but it's so complicated. It would produce clearings in the forest that would be easy to spot from afar, too, which I don't like.
+
+- Detect all hanging trunks after carving the space and extend them downwards prior to drawing the maze.
+
+A condition to draw a maze would be that the difference between the lowest and highest spots doesn't surpass 4 or 5. As the whole world is generated and we have a land surface heightmap stored, this will take no time to calculate.
+
+After the calculation, we would carve from the lowest point upwards, counting with a border. We could try and make the squares bigger each iteration so a stairway of sorts is generated.
+
+Then the maze is drawn, and the top layer of the maze scanned for trees to be extended downwards.
+
+This would be completely impossible in the vanilla game lol.
+
+[ ] Convert mazes to post-generation special shit.
