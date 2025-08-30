@@ -11,7 +11,7 @@ import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.levelgen.feature.trees.EnumTreeType;
 import net.minecraft.world.level.material.Material;
 
-public class BlockLog extends Block implements IBlockWithSubtypes {
+public class BlockLog extends Block implements IBlockWithSubtypes, IBigPlants {
 	// New version
 	// Wood meta >> 4 means wood type.
 	// Logs will use 288+type for bark and 304+type for ends.

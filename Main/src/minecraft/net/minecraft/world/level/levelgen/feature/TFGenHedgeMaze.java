@@ -8,8 +8,8 @@ import net.minecraft.world.level.levelgen.TFMaze;
 import net.minecraft.world.level.levelgen.TFTreasure;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.BlockBigMushroom;
-import net.minecraft.world.level.tile.BlockLeaves;
 import net.minecraft.world.level.tile.BlockLog;
+import net.minecraft.world.level.tile.IBigPlants;
 import net.minecraft.world.level.tile.entity.TileEntityMobSpawner;
 
 public class TFGenHedgeMaze extends TFGenerator {
@@ -102,27 +102,34 @@ public class TFGenHedgeMaze extends TFGenerator {
 
 		// Carve
 		
+		// The space ocuppied by the actual labyrinth must be blank
 		for(int i = 1; i < 4; i ++) {
 			for(int xx = sx - i; xx < sx + sizeBlocks + i; xx ++) {
 				for(int zz = sz - i; zz < sz + sizeBlocks + i; zz ++) {
 					world.setBlock(xx, y + i - 1, zz, 0);
-					
 				}
 			}
 		}
 		
 		// Carve up to delete everything but trunks, leaves and mushrooms
+ 		// And extend vertical logs down in case we overwrote a hill  
 		for(int i = y + 3; i <= maxH; i ++) {
 			for(int xx = sx - 3; xx < sx + sizeBlocks + 3; xx ++) {
 				for(int zz = sz - 3; zz < sz + sizeBlocks + 3; zz ++) {
+					// Replace with air or with potential vertical log above if not plant
 					Block b = world.getBlock(xx, i, zz);
-					if(!(
-							b instanceof BlockLog || 
-							b instanceof BlockLeaves || 
-							b instanceof BlockBigMushroom
-					)) {
-						world.setBlock(xx, i, zz, 0);
+					if(!(b instanceof IBigPlants)) {
+						BlockState bsUp = world.getBlockStateAt(xx, i + 1, zz);
+						if(this.verticalBranch(bsUp)) {
+							for(int j = i; j >= y + 3; j --) {
+								world.setBlockState(xx, j, zz, bsUp);
+							}
+						} else {
+							world.setBlock(xx, i, zz, 0);
+						}
 					}
+					
+
 				}
 			}
 		}
@@ -176,13 +183,10 @@ public class TFGenHedgeMaze extends TFGenerator {
 		
 		for(int xx = sx - 3; xx < sx + sizeBlocks + 3; xx ++) {
 			for(int zz = sz - 3; zz < sz + sizeBlocks + 3; zz ++) {
-				BlockState bs = world.getBlockStateAt(xx, y + 4, zz);
-				Block block = bs.getBlock();
-				if(
-						block instanceof BlockLog ||
-						(block instanceof BlockBigMushroom && bs.getMetadata() == 15)
-				) {
-					int yy = y + 3;
+				BlockState bs = world.getBlockStateAt(xx, y + 3, zz);
+				
+				if(this.verticalBranch(bs)) {
+					int yy = y + 2;
 					while(world.isAirBlock(xx, yy, zz)) {
 						world.setBlockState(xx, yy, zz, bs);
 						yy --;
@@ -193,6 +197,16 @@ public class TFGenHedgeMaze extends TFGenerator {
 		}
 		
 		return true;
+	}
+
+	private boolean verticalBranch(BlockState bs) {
+		Block b = bs.getBlock();
+		int m = bs.getMetadata();
+
+		return (
+				(b instanceof BlockLog && (m & 4) == 0) || 
+				(b instanceof BlockBigMushroom && m == 15)
+		);
 	}
 
 	protected boolean isNearRoom(int dx, int dz, int[] rcoords) {

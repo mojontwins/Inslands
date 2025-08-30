@@ -7,7 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
 
-public class BlockBigMushroom extends Block {
+public class BlockBigMushroom extends Block implements IBigPlants {
 	public int mushroomType;
 	
 	public int textureStem = 8*16+13;

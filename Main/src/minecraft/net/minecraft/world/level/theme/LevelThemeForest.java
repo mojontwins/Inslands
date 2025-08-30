@@ -109,7 +109,7 @@ public class LevelThemeForest extends LevelThemeSettings {
 				
 				if(!validCoord) break;
 				
-				valid = dungeonGen.generate(world, this.rand, x, minY, z);
+				valid = dungeonGen.generate(world, world.rand, x, minY, z);
 				if(valid) {
 					GlobalVars.numHedgeMazes ++;
 					dungeonCenters.add(new CoordXZ(x, z));

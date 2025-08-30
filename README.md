@@ -523,7 +523,7 @@ So the easiest way would be raising a flag if we had to generate a chunk.
 
 # Doing this
 
-[ ] Remember what were the condition for a hedge maze to spawn, and rethink/redo it.
+[X] Remember what were the condition for a hedge maze to spawn, and rethink/redo it.
 
 The problem would be with existing canopy. If there are trees and the hedge maze carves the ground, trees could remain "floating".
 
@@ -542,3 +542,10 @@ Then the maze is drawn, and the top layer of the maze scanned for trees to be ex
 This would be completely impossible in the vanilla game lol.
 
 [ ] Convert mazes to post-generation special shit.
+	[X] Hedges
+	[ ] Underhills
+[ ] new block pressureplatetrap or whatever is not firing when I step on to it.
+
+# A bit low on block IDs... 
+
+[ ] This uses 8 bit IDs for simplicity / speed. And I'm running out of IDs. I think I'll have, at some point, to rehash some decorative blocks as blocks + meta or combine simmilar blocks making use of the extended 8 bits meta to free up some slots.

@@ -14,7 +14,7 @@ import net.minecraft.world.level.levelgen.feature.trees.EnumTreeType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 
-public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes {
+public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, IBigPlants {
 	// New version.
 	// Leaves meta >> 4 is leaves type. It's transferred directly to sapling type (meta) when dropping.
 	// Leaves will be rendered using 256+type for fancy, 272+type for fast.
