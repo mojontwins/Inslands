@@ -12,6 +12,8 @@ import net.minecraft.world.level.levelgen.feature.trees.EnumTreeType;
 import net.minecraft.world.level.material.Material;
 
 public class BlockLog extends Block implements IBlockWithSubtypes, IBigPlants {
+	public static boolean lockTextures = false;	// If true, meta 0 (default alpha) textures are used.
+	
 	// New version
 	// Wood meta >> 4 means wood type.
 	// Logs will use 288+type for bark and 304+type for ends.
@@ -57,6 +59,8 @@ public class BlockLog extends Block implements IBlockWithSubtypes, IBigPlants {
 
 	public int getBlockTextureFromSideAndMetadata(int side, int meta) {
 		int woodType = meta >> 4;
+		if(lockTextures) woodType = 0;			
+					
 		boolean horizontal = (meta & 4) != 0;
 
 		int outTextureIndex = 288 + woodType;

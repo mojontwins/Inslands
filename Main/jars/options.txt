@@ -68,3 +68,4 @@ ofChunkUpdatesDynamic:true
 ofFarView:false
 ofTime:0
 ofClearWater:false
+alphaTrees:false

@@ -63,7 +63,8 @@ public enum EnumOptions {
 	MELTBUILD("MELTBUILD", 58, "options.meltBuild", false, true), 
 	HAND("HAND", 59, "options.hand", false, true),
 	THREADED_LIGHT("THREADED_LIGHT", 60, "options.threaded_light", false, true), 
-	ANIMATED_TEXTURES("ANIMATED_TEXTURES", 61, "Animated Textures", false, false)
+	ANIMATED_TEXTURES("ANIMATED_TEXTURES", 61, "Animated Textures", false, false), 
+	ALPHA_TREES("ALPHA_TREES", 62, "Alpha trees", false, true)
 	;
 
 	private final boolean enumFloat;

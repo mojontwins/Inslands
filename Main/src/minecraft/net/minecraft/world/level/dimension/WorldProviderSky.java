@@ -61,7 +61,7 @@ public class WorldProviderSky extends WorldProvider {
 					
 					boolean valid = true;
 					for(int x = coord.x - 3; x <= coord.x + 3 && valid; x ++) {
-						for(int z = coord.z - 3; z <= coord.z + 3 && valid; z ++) {
+						for(int z = coord.z - 6; z <= coord.z + 3 && valid; z ++) {
 							if(world.getLandSurfaceHeightValue(x, z) < 8) valid = false;
 						}
 					}

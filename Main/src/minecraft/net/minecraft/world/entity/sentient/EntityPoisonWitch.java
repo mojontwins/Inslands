@@ -83,9 +83,9 @@ public class EntityPoisonWitch extends EntityMob implements IMob {
 	protected boolean canDespawn() {
 		return false;
 	}
-	
+
 	@Override
-	protected void despawnEntity() {		
+	protected void despawnEntity() {
 	}
 	
 	@Override
@@ -112,7 +112,7 @@ public class EntityPoisonWitch extends EntityMob implements IMob {
 	@Override
 	protected String getDeathSound() {
 		return "mob.zombiedeath";
-	}	
+	}
 
 	@Override
 	protected int getDropItemId() {

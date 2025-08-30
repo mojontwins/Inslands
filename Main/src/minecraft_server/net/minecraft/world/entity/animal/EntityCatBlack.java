@@ -4,7 +4,7 @@ import net.minecraft.world.level.World;
 
 public class EntityCatBlack extends EntityBetaOcelot {
 	private boolean witchCat = false;
-	
+
 	public EntityCatBlack(World world1) {
 		super(world1);
 		this.texture = "/mob/cat_black.png";

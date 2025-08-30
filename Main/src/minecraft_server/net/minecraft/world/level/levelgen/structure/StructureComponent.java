@@ -514,6 +514,7 @@ public abstract class StructureComponent {
 	
 	protected Block getblockAtCurrentPosition(World world, int x, int y, int z, StructureBoundingBox bb) {
 		int id = this.getBlockIDAtCurrentPosition(world, x, y, z, bb);
+		if(id < 0) return null;
 		return Block.blocksList[id];
 	}
 	
@@ -522,6 +523,12 @@ public abstract class StructureComponent {
 		int i7 = this.getYWithOffset(i3);
 		int i8 = this.getZWithOffset(i2, i4);
 		return !structureBoundingBox5.isVecInside(i6, i7, i8) ? Material.air : world1.getBlockMaterial(i6, i7, i8);
+	}
+	
+	protected Block getblockAtCurrentPositionNoVertClip(World world, int x, int y, int z, StructureBoundingBox bb) {
+		int id = this.getBlockIDAtCurrentPositionNoVertClip(world, x, y, z, bb);
+		if(id < 0) return null;
+		return Block.blocksList[id];
 	}
 	
 	protected int getBlockIDAtCurrentPositionNoVertClip(World world1, int i2, int i3, int i4, StructureBoundingBox structureBoundingBox5) {
@@ -559,11 +566,12 @@ public abstract class StructureComponent {
 		for(int y = y1; y <= y2; ++y) {
 			for(int x = x1; x <= x2; ++x) {
 				for(int z = z1; z <= z2; ++z) {
-					if(this.getblockAtCurrentPosition(world, x, y, z, structureBoundingBox) instanceof IGroundSubstitute) {
+					Block b = this.getblockAtCurrentPositionNoVertClip(world, x, y, z, structureBoundingBox);
+					if(b instanceof IGroundSubstitute || (b != null && b.blockMaterial == Material.water)) {
 						if(y != y1 && y != y2 && x != x1 && x != x2 && z != z1 && z != z2) {
-							this.placeBlockAtCurrentPosition(world, blockID2, 0, x, y, z, structureBoundingBox);
+							this.placeBlockAtCurrentPositionNoVertClip(world, blockID2, 0, x, y, z, structureBoundingBox);
 						} else {
-							this.placeBlockAtCurrentPosition(world, blockID1, 0, x, y, z, structureBoundingBox);
+							this.placeBlockAtCurrentPositionNoVertClip(world, blockID1, 0, x, y, z, structureBoundingBox);
 						}
 					}
 				}

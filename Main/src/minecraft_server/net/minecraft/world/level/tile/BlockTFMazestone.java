@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemTool;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
 
-public class BlockTFMazestone extends Block {
+public class BlockTFMazestone extends Block implements IGroundSubstitute {
 	static int[] mimicIDs = new int[]{Block.stoneBricks.blockID, Block.cobblestone.blockID, Block.cobblestoneMossy.blockID};
 
 	public BlockTFMazestone(int id, int texture) {

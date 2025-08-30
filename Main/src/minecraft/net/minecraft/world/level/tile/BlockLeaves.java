@@ -15,6 +15,8 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 
 public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, IBigPlants {
+	public static boolean lockTextures = false;	// If true, meta 0 (default alpha) textures are used.
+	
 	// New version.
 	// Leaves meta >> 4 is leaves type. It's transferred directly to sapling type (meta) when dropping.
 	// Leaves will be rendered using 256+type for fancy, 272+type for fast.
@@ -320,6 +322,7 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, 
 	
 	@Override
 	public int getBlockTextureFromSideAndMetadata(int side, int meta) {
+		if(lockTextures) meta = 0;
 		return this.leafTexOffset + (meta >> 4);
 	}
 

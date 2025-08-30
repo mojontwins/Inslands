@@ -109,7 +109,7 @@ public class EntityMovingPiston extends Entity {
 		} catch(Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
 
 		return tileEntity4;
 	}

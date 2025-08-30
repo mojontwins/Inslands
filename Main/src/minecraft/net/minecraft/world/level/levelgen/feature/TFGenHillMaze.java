@@ -16,6 +16,7 @@ public class TFGenHillMaze extends TFGenerator {
 	Random rand;
 	boolean checkSolid;
 	int solidPercent = 60;
+	boolean debug = false;
 
 	public TFGenHillMaze(int size, boolean checksolid, int solidPercent) {
 		this.hsize = size;
@@ -24,7 +25,7 @@ public class TFGenHillMaze extends TFGenerator {
 	}
 
 	public boolean generate(World world, Random rand, int x, int y, int z) {
-		System.out.println ("Attempting hill maze @ " + x + " " + y + " " + z);
+		if(this.debug) System.out.println ("Attempting hill maze @ " + x + " " + y + " " + z);
 		
 		this.worldObj = world;
 		this.rand = rand;
@@ -40,7 +41,7 @@ public class TFGenHillMaze extends TFGenerator {
 
 		if (this.checkSolid) {
 			if (!this.checkMostlySolid(sx, y - 1, sz, msize * 4, 5, msize * 4, this.solidPercent)) {
-				System.out.println ("Hill maze failed, not " + this.solidPercent + " solid.");
+				if(this.debug) System.out.println ("Hill maze failed, not " + this.solidPercent + " solid.");
 				return false;
 			}
 		}
@@ -198,41 +199,45 @@ public class TFGenHillMaze extends TFGenerator {
 		
 		if (!this.mostFloor(dx, dy - 1, dz)) return;
 		
-		
 		if(f == 0) {
-			this.worldObj.setBlockWithNotify(dx + 1, dy + 0, dz + 1, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 0, dy + 1, dz + 1, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 2, dy + 1, dz + 1, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 1, dy + 2, dz + 1, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 0, dy + 0, dz + 2, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 2, dy + 0, dz + 2, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 1, dy + 1, dz + 2, Block.web.blockID);
+			this.setWeb(this.worldObj, dx + 1, dy + 0, dz + 1);
+			this.setWeb(this.worldObj, dx + 0, dy + 1, dz + 1);
+			this.setWeb(this.worldObj, dx + 2, dy + 1, dz + 1);
+			this.setWeb(this.worldObj, dx + 1, dy + 2, dz + 1);
+			this.setWeb(this.worldObj, dx + 0, dy + 0, dz + 2);
+			this.setWeb(this.worldObj, dx + 2, dy + 0, dz + 2);
+			this.setWeb(this.worldObj, dx + 1, dy + 1, dz + 2);
 		} else if(f == 1) {
-			this.worldObj.setBlockWithNotify(dx + 1, dy + 0, dz + 1, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 1, dy + 1, dz + 0, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 1, dy + 1, dz + 2, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 1, dy + 2, dz + 1, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 0, dy + 0, dz + 0, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 0, dy + 0, dz + 2, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 0, dy + 1, dz + 1, Block.web.blockID);
+			this.setWeb(this.worldObj, dx + 1, dy + 0, dz + 1);
+			this.setWeb(this.worldObj, dx + 1, dy + 1, dz + 0);
+			this.setWeb(this.worldObj, dx + 1, dy + 1, dz + 2);
+			this.setWeb(this.worldObj, dx + 1, dy + 2, dz + 1);
+			this.setWeb(this.worldObj, dx + 0, dy + 0, dz + 0);
+			this.setWeb(this.worldObj, dx + 0, dy + 0, dz + 2);
+			this.setWeb(this.worldObj, dx + 0, dy + 1, dz + 1);
 		} else if(f == 2) {
-			this.worldObj.setBlockWithNotify(dx + 1, dy + 0, dz + 1, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 0, dy + 1, dz + 1, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 2, dy + 1, dz + 1, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 1, dy + 2, dz + 1, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 0, dy + 0, dz + 0, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 2, dy + 0, dz + 0, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 1, dy + 1, dz + 0, Block.web.blockID);
+			this.setWeb(this.worldObj, dx + 1, dy + 0, dz + 1);
+			this.setWeb(this.worldObj, dx + 0, dy + 1, dz + 1);
+			this.setWeb(this.worldObj, dx + 2, dy + 1, dz + 1);
+			this.setWeb(this.worldObj, dx + 1, dy + 2, dz + 1);
+			this.setWeb(this.worldObj, dx + 0, dy + 0, dz + 0);
+			this.setWeb(this.worldObj, dx + 2, dy + 0, dz + 0);
+			this.setWeb(this.worldObj, dx + 1, dy + 1, dz + 0);
 		} else if(f == 3) {
-			this.worldObj.setBlockWithNotify(dx + 1, dy + 0, dz + 1, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 1, dy + 1, dz + 0, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 1, dy + 1, dz + 2, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 1, dy + 2, dz + 1, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 2, dy + 0, dz + 0, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 2, dy + 0, dz + 2, Block.web.blockID);
-			this.worldObj.setBlockWithNotify(dx + 2, dy + 1, dz + 1, Block.web.blockID);
+			this.setWeb(this.worldObj, dx + 1, dy + 0, dz + 1);
+			this.setWeb(this.worldObj, dx + 1, dy + 1, dz + 0);
+			this.setWeb(this.worldObj, dx + 1, dy + 1, dz + 2);
+			this.setWeb(this.worldObj, dx + 1, dy + 2, dz + 1);
+			this.setWeb(this.worldObj, dx + 2, dy + 0, dz + 0);
+			this.setWeb(this.worldObj, dx + 2, dy + 0, dz + 2);
+			this.setWeb(this.worldObj, dx + 2, dy + 1, dz + 1);
 		}
-
+	}
+	
+	void setWeb(World world, int x, int y, int z) {
+		if(!world.canBlockSeeTheSkyThruCanopy(x, y, z)) {
+			world.setBlockWithNotify(x, y, z, Block.web.blockID);
+		}
 	}
 
 	void deadEndTreasure(int x, int z, int f) {
@@ -609,7 +614,7 @@ public class TFGenHillMaze extends TFGenerator {
 	private boolean roomSpiderweb(int dx, int dy, int dz, int diameter) {
 		int rx = this.rand.nextInt(diameter) + dx - diameter / 2;
 		int rz = this.rand.nextInt(diameter) + dz - diameter / 2;
-		if(this.worldObj.getBlockID(rx, dy + 2, rz) != 0) {
+		if(this.worldObj.getBlockID(rx, dy + 2, rz) != 0 || this.worldObj.canBlockSeeTheSky(rx, dy + 2, rz)) {
 			return false;
 		} else {
 			this.worldObj.setBlockWithNotify(rx, dy + 2, rz, Block.web.blockID);

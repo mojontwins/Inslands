@@ -1,6 +1,7 @@
 package net.minecraft.world.level.theme;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.util.CoordXZ;
 import net.minecraft.util.CoordXZUtils;
@@ -15,6 +16,7 @@ import net.minecraft.world.level.levelgen.feature.WorldGenerator;
 import net.minecraft.world.level.tile.Block;
 
 public class LevelThemeParadise extends LevelThemeSettings {
+	Random rand;
 
 	WorldGenerator dungeon = new AetherGenDungeonBronze(
 			Block.lockedDungeonStone.blockID, 
@@ -47,11 +49,16 @@ public class LevelThemeParadise extends LevelThemeSettings {
 
 	@Override
 	public void specialPostGeneration(World world) {
+		// Seed properly
+		this.rand = new Random(world.getRandomSeed());
+				
 		// When this runs, the whole world is generated and
 		// we can perform special stuff and detections
 		
-		// In paradise, we use this to generate 1 or 2 bronze 
+		// In paradise, we use this to generate a number of bronze 
 		// dungeons.
+		
+		int maxDungeons = WorldSize.zChunks / 8;
 		
 		// Start from the center and advance outwards.
 		System.out.println ("Paradise post generation");
@@ -62,7 +69,7 @@ public class LevelThemeParadise extends LevelThemeSettings {
 		for(CoordXZ coord : coords) {
 			boolean generated = false;
 			
-			if(GlobalVars.numBronzeDungeons >= 2) break;
+			if(GlobalVars.numBronzeDungeons > maxDungeons) break;
 			if(latestXZ != null && latestXZ.distSqFrom(coord) < 4096) continue;
 			
 			int y = world.getLandSurfaceHeightValue(coord.x, coord.z);

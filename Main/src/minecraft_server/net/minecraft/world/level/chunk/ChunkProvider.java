@@ -2,6 +2,7 @@ package net.minecraft.world.level.chunk;
 
 import java.io.IOException;
 
+import net.minecraft.world.GlobalVars;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.chunk.storage.IProgressUpdate;
@@ -63,6 +64,7 @@ public class ChunkProvider implements IChunkProvider {
 						if(this.debug) System.out.println ("PROVIDING " + xChunk + " " + zChunk);
 						chunk = this.chunkProvider.provideChunk(xChunk, zChunk);
 						generated = true;
+						GlobalVars.didGenerateChunks = true;
 					}
 				} else if(this.debug) System.out.println ("LOADED " + xChunk + " " + zChunk);
 	

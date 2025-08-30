@@ -189,41 +189,6 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 			(new WorldGenFlowers(Block.blueFlower.blockID)).generate(world, rand, x, y, z);
 		}
 		
-		// Maze
-		/*
-		if(GlobalVars.numUnderHillMazes < WorldSize.xChunks / 8) {
-			int cx = chunkX >> 4; 
-			int cz = chunkZ >> 4;
-			if(cx > 3 && cz > 3 && cx < WorldSize.xChunks - 3 && cz < WorldSize.zChunks - 3) {
-				if(world.worldProvider instanceof WorldProviderSky) {
-					if(rand.nextInt(WorldSize.xChunks * WorldSize.zChunks / 16) == 0) {
-						boolean generated = false;
-						int attempts = 10;
-						while(attempts -- > 0 && !generated) {
-							x = chunkX + 7;
-							y = rand.nextInt(96) + 16;
-							z = chunkZ + 7;
-							if ((new TFGenHillMaze(2, true, 15)).generate(world, rand, x, y, z)) {
-								(new WorldGenMazeMarker(true)).generate(world, rand, x, y + 4, z);
-								GlobalVars.numUnderHillMazes ++;
-								generated = true;
-							};
-						}
-					}
-				} else {
-					if(rand.nextInt(WorldSize.xChunks * WorldSize.zChunks / 64) == 0) {
-						x = chunkX + rand.nextInt(16) + 8;
-						y = rand.nextInt(32) + 16;
-						z = chunkZ + rand.nextInt(16) + 8;
-						if ((new TFGenHillMaze(3, true, 70)).generate(world, rand, x, y, z)) {
-							(new WorldGenMazeMarker(false)).generate(world, rand, x, world.getLandSurfaceHeightValue(x, z), z);
-							GlobalVars.numUnderHillMazes ++;
-						}
-					}
-				}
-			}
-		}
-		*/
 	}
 	
 	@Override

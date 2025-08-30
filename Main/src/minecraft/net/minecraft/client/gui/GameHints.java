@@ -52,7 +52,8 @@ public class GameHints {
 		"Wooden boats will sink in acid!",
 		"Use iron boats to sail lava or acid!",
 		"Never enter the hole in the forest!",
-		"I wouldn't dig around the lightposts in the forest"
+		"I wouldn't dig around the lightposts in the forest",
+		"Different tree textures can be turned off in video options"
 		
 	};
 	

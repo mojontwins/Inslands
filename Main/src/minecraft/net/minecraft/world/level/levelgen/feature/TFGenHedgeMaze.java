@@ -18,7 +18,7 @@ public class TFGenHedgeMaze extends TFGenerator {
 	TFMaze maze;
 	Random rand;
 	
-	boolean debug = true;
+	boolean debug = false;
 
 	public TFGenHedgeMaze(int size) {
 		this(size, 64);
@@ -195,6 +195,8 @@ public class TFGenHedgeMaze extends TFGenerator {
 				}
 			}
 		}
+		
+		System.out.println("Hedge maze @ " + x + " " + z);
 		
 		return true;
 	}

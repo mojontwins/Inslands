@@ -157,6 +157,7 @@ options.gamma=Gamma Correction
 options.meltBuild=Dynamic ice/snow
 options.hand=Delayed arm
 options.threaded_light=Threaded lighting
+options.alpha_trees=Alpha trees
 
 performance.max=Max FPS
 performance.balanced=Balanced

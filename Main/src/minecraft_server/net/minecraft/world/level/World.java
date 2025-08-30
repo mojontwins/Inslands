@@ -3390,6 +3390,10 @@ public class World implements IBlockAccess {
 	public BlockState getBlockStateAt(int x0, int y0, int z0) {
 		return new BlockState(this.getBlockID(x0, y0, z0), this.getBlockMetadata(x0, y0, z0), x0, y0, z0);
 	}
+	
+	public void setBlockState(int x, int y, int z, BlockState bs) {
+		this.setBlockAndMetadata(x, y, z, bs.getBlock().blockID, bs.getMetadata());
+	}
 
 	public Block getBlock(int x, int y, int z) {
 		return Block.blocksList[this.getBlockID(x, y, z)];
@@ -3418,7 +3422,7 @@ public class World implements IBlockAccess {
 			if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.forest.id) { 
 				if(this.worldInfo.getTerrainType() != WorldType.SKY) {
 					// a) A minotaur maze which main body is under y = 64, for island terrain.
-					System.out.println ("No sky forest, no minoshroom maze -> bad level");
+					System.out.println ("No minoshroom maze -> bad level");
 					if(!GlobalVars.hasCorrectMinoshroomMaze) return false;
 				} 
 				

@@ -361,12 +361,12 @@ line 19: sapling
 Things to do to finish tree refactoring
 
 * [X] Convert all trees to use the new enum for resources.
-* [ ] Finish the ItemMulti shit and give proper names to all new blocks via the item.
-* [ ] Think on a clever way to make this work in vanilla metas so I can reuse this in the b1666 mod.
+* [X] Finish the ItemMulti shit and give proper names to all new blocks via the item.
+* [X] Think on a clever way to make this work in vanilla metas so I can reuse this in the b1666 mod.
 
 **Added blockStateDropped to Block**. By default, this will call idDropped and damageDropped.
 
-* [ ] Revise all themes again
+* [X] Revise all themes again
 * [X] grass as item is colourised ALL FACES but shouldn't
 * [X] Coral wrong texture on inventory,
 * [X] Sign twince on inventory; should show item not block tex.
@@ -374,6 +374,11 @@ Things to do to finish tree refactoring
 * [X] Change block of iron, gold, diamond textures for alpha's
 * [X] Add lapis lazuli block.
 * [ ] Option to turn layered sand off when creating new world.
+* [X] Option to turn special tree texture off when creating new world.
+	[X] Game should be able to render all BlockLeaves / BlockLog metas
+		Using meta 0 textures. Like the fancy graphics flag, I could just add static booleans to BlockLog and BlockLeaves to achieve this and use them in getBlockTextureFromSideAndMetadata. Buuuut this is not a game rule or game config, this should be in options as it is purely visual.
+	[ ] The amount of "game rules" is big enough at this morning to
+		stop adding booleans to the constructors and think of something else.
 * [X] Add smooth stone block, smelted from stone.
 * [X] Nerf swarm spiders a bit so they poison less often and less time.
 * [/] Prune world loaded entity list after a blood moon to kill excess entities. NEEDS TESTING
@@ -483,11 +488,11 @@ ALSO!! (Big changes, methinks).ç
 
 # Now that this works
 
-* [ ] Add a means to re-fire the after-generation generators if we have deleted the `region` subfolder - If world is not new but there are missing chunks, raise a flag in globals.
-* [ ] Make sure the four corners of the spawn house are above ground in floating islands. FIX - I was checking just the house, but the house has a bigger foundation.
+* [X] Add a means to re-fire the after-generation generators if we have deleted the `region` subfolder - If world is not new but there are missing chunks, raise a flag in globals.
+* [X] Make sure the four corners of the spawn house are above ground in floating islands. FIX - I was checking just the house, but the house has a bigger foundation.
 * [X] Control the max amount of hill mazes, 1 for small, 2 for normal, 4 for big, 8 for huge.
 * [X] Control the max amount of bronze dungeons, 1 for small, 2 for normal, 4 for big, 8 for huge.
-* [ ] Make underhill mazes generate right after generation, just like bronze dungeons.
+* [X] Make underhill mazes generate right after generation, just like bronze dungeons.
 
 * [-] OR BETTER : Make mazes multi chunk structures using my system. How so.
 
@@ -504,7 +509,7 @@ Problem is, the generation of the hedge maze depends on the amount of uncovered 
 ## So the approach is...
 
 [X] First make sure I can re-fire the post-generation if I delete the region folder. This has no use for players, but I need this wile developing.
-[ ] Then I'll draw the mazes post-generation.
+[X] Then I'll draw the mazes post-generation.
 
 ## Minecraft.preloadWorld
 
@@ -541,9 +546,9 @@ Then the maze is drawn, and the top layer of the maze scanned for trees to be ex
 
 This would be completely impossible in the vanilla game lol.
 
-[ ] Convert mazes to post-generation special shit.
+[X] Convert mazes to post-generation special shit.
 	[X] Hedges
-	[ ] Underhills
+	[X] Underhills
 [X] new block pressureplatetrap or whatever is not firing when I step on to it.
 	[X] It works but it seems that if you place a pressure plate next to a TNT and activate it, it drops the TNT? Is this a beta behavior?
 

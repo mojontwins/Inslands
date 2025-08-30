@@ -143,11 +143,11 @@ public class WorldGenWitchHut extends WorldGenerator {
 		
 		if(this.doNormalSpawners) {
 			TileEntityMobSpawnerOneshot tileEntityMobSpawnerOneshot = null;
-			
+		
 			world.setBlockWithNotify(x + 3, y + 3, z + 3, Block.mobSpawnerOneshot.blockID);
 			tileEntityMobSpawnerOneshot = (TileEntityMobSpawnerOneshot)world.getBlockTileEntity(x + 3, y + 3, z + 3);
 			tileEntityMobSpawnerOneshot.setMobID ("AlphaWitch");
-			
+		
 			world.setBlockWithNotify(x + 3, y + 3, z + 2, Block.mobSpawnerOneshot.blockID);
 			tileEntityMobSpawnerOneshot = (TileEntityMobSpawnerOneshot)world.getBlockTileEntity(x + 3, y + 3, z + 2);
 			tileEntityMobSpawnerOneshot.setMobID ("BlackCat");
