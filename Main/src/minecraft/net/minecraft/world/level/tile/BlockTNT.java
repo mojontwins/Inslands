@@ -31,7 +31,7 @@ public class BlockTNT extends Block {
 
 	public void onNeighborBlockChange(World world, int x, int y, int z, int id) {
 		if(id > 0 && Block.blocksList[id].canProvidePower() && world.isBlockIndirectlyGettingPowered(x, y, z)) {
-			this.onBlockDestroyedByPlayer(world, x, y, z, 0);
+			this.onBlockDestroyedByPlayer(world, x, y, z, 1);
 			world.setBlockWithNotify(x, y, z, 0);
 		}
 

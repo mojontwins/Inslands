@@ -17,72 +17,23 @@ public class ComponentTFMazeDeadEndTrappedChest extends ComponentTFMazeDeadEndCh
 	 */
 	public boolean addComponentParts(World var1, Random var2, StructureBoundingBox var3, boolean mostlySolid) {
 		super.addComponentParts(var1, var2, var3, mostlySolid);
-		/*
-		this.placeBlockAtCurrentPosition(var1, Block.presurePlateStone.blockID, this.getHookMeta(3), 1, 1, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.presurePlateStone.blockID, this.getHookMeta(1), 4, 1, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.presurePlateStone.blockID, this.getHookMeta(3), 1, 2, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.presurePlateStone.blockID, this.getHookMeta(1), 4, 2, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.presurePlateStone.blockID, this.getHookMeta(3), 1, 3, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.presurePlateStone.blockID, this.getHookMeta(1), 4, 3, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 2, 1, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 3, 1, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 2, 2, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 3, 2, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 2, 3, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 3, 3, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 4, 1, 3, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 4, 1, 4, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 1, 1, 3, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 1, 1, 4, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 4, 2, 3, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 4, 2, 4, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 1, 2, 3, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 1, 2, 4, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 2, 2, 3, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 3, 2, 3, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 4, 3, 3, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 4, 3, 4, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 1, 3, 3, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 1, 3, 4, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 2, 3, 3, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 3, 3, 3, var3);
-		*/
+
 		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 1, 1, 2, var3);
 		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 4, 1, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 1, 2, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 4, 2, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 1, 3, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 4, 3, 2, var3);
 		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 2, 1, 2, var3);
 		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 3, 1, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 2, 2, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 3, 2, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 2, 3, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 3, 3, 2, var3);
 		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 4, 1, 3, var3);
 		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 4, 1, 4, var3);
 		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 1, 1, 3, var3);
 		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 1, 1, 4, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 4, 2, 3, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 4, 2, 4, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 1, 2, 3, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 1, 2, 4, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 2, 2, 3, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 3, 2, 3, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 4, 3, 3, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 4, 3, 4, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 1, 3, 3, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 1, 3, 4, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 2, 3, 3, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.pressurePlateTrap.blockID, 0, 3, 3, 3, var3);
 		
-		this.placeBlockAtCurrentPosition(var1, Block.tnt.blockID, 0, 0, 0, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, 0, 0, 0, -1, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, 0, 0, 1, -1, 2, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.tnt.blockID, 0, 2, 0, 4, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.tnt.blockID, 0, 3, 0, 4, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.tnt.blockID, 0, 2, 0, 3, var3);
-		this.placeBlockAtCurrentPosition(var1, Block.tnt.blockID, 0, 3, 0, 3, var3);
+		this.placeBlockAtCurrentPosition(var1, Block.tnt.blockID, 0, 0,  0, 2, var3);
+		this.placeBlockAtCurrentPosition(var1, 0, 0,                 0, -1, 2, var3);
+		this.placeBlockAtCurrentPosition(var1, 0, 0,                 1, -1, 2, var3);
+		this.placeBlockAtCurrentPosition(var1, Block.tnt.blockID, 0, 2,  0, 4, var3);
+		this.placeBlockAtCurrentPosition(var1, Block.tnt.blockID, 0, 3,  0, 4, var3);
+		this.placeBlockAtCurrentPosition(var1, Block.tnt.blockID, 0, 2,  0, 3, var3);
+		this.placeBlockAtCurrentPosition(var1, Block.tnt.blockID, 0, 3,  0, 3, var3);
 		return true;
 	}
 

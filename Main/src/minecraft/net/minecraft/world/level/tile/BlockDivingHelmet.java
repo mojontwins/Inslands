@@ -6,8 +6,8 @@ import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
 
 public class BlockDivingHelmet extends Block {
-	public static int HELMET_TOP_BACK = 11*16+4;
-	public static int HELMET_BOTTOM = 11*16+5;
+	public static int HELMET_TOP_BACK = 8*16+6;
+	public static int HELMET_BOTTOM = 8*16+7;
 	public static int HELMET_SIDES = 11*16+6;
 	public static int HELMET_FRONT = 11*16+7;
 

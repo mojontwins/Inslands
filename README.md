@@ -544,7 +544,8 @@ This would be completely impossible in the vanilla game lol.
 [ ] Convert mazes to post-generation special shit.
 	[X] Hedges
 	[ ] Underhills
-[ ] new block pressureplatetrap or whatever is not firing when I step on to it.
+[X] new block pressureplatetrap or whatever is not firing when I step on to it.
+	[X] It works but it seems that if you place a pressure plate next to a TNT and activate it, it drops the TNT? Is this a beta behavior?
 
 # A bit low on block IDs... 
 
