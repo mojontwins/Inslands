@@ -74,6 +74,8 @@ public class Chunk {
 
 	public int[] grassColorCache;
 	public int[] foliageColorCache;
+	
+	public boolean isFakeChunk = false;
 
 	@SuppressWarnings("unchecked")
 	public Chunk(World world, int chunkX, int chunkZ) {
@@ -442,6 +444,8 @@ public class Chunk {
 	}
 
 	public void addEntity(Entity entity1) {
+		if(this.isFakeChunk) return;
+		
 		this.hasEntities = true;
 		int i2 = MathHelper.floor_double(entity1.posX / 16.0D);
 		int i3 = MathHelper.floor_double(entity1.posZ / 16.0D);
@@ -561,6 +565,8 @@ public class Chunk {
 	}
 	
 	public void addSpecialEntity(EntityBlockEntity entity) {
+		if(this.isFakeChunk) return;
+		
 		int x = entity.xTile - (this.xPosition << 4);
 		int y = entity.yTile;
 		int z = entity.zTile - (this.zPosition << 4);

@@ -9,7 +9,6 @@ import java.util.Map;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.chunk.ChunkCoordIntPair;
-import net.minecraft.world.level.chunk.ChunkProvider;
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.chunk.storage.IProgressUpdate;
 
@@ -26,6 +25,7 @@ public class ChunkProviderClient implements IChunkProvider {
 		
 		IChunkProvider provider = world.getWorldInfo().getTerrainType().getChunkGenerator(world);
 		this.blankChunk = provider.makeBlank(world);
+		this.blankChunk.isFakeChunk = true;
 		this.worldObj = world;
 	}
 	
@@ -53,22 +53,23 @@ public class ChunkProviderClient implements IChunkProvider {
 		this.chunkListing.remove(chunk3);
 	}
 
-	public Chunk prepareChunk(int i1, int i2) {
-		ChunkCoordIntPair chunkCoordIntPair3 = new ChunkCoordIntPair(i1, i2);
-		byte[] b4 = new byte[32768];
-		byte[] b5 = new byte[32768];
+	public Chunk prepareChunk(int chunkX, int chunkZ) {
+		ChunkCoordIntPair coords = new ChunkCoordIntPair(chunkX, chunkZ);
+		byte[] blocks = new byte[32768];
+		byte[] meta = new byte[32768];
 		
-		Chunk chunk5 = new Chunk(this.worldObj, b4, b5, i1, i2);
-		Arrays.fill(chunk5.skylightMap.data, (byte)-1);
-		this.chunkMapping.put(chunkCoordIntPair3, chunk5);
-		chunk5.isChunkLoaded = true;
-		return chunk5;
+		Chunk chunk = new Chunk(this.worldObj, blocks, meta, chunkX, chunkZ);
+		Arrays.fill(chunk.skylightMap.data, (byte)-1);
+		this.chunkMapping.put(coords, chunk);
+		chunk.isChunkLoaded = true;
+		return chunk;
 	}
 
-	public Chunk provideChunk(int i1, int i2) {
-		ChunkCoordIntPair chunkCoordIntPair3 = new ChunkCoordIntPair(i1, i2);
-		Chunk chunk4 = (Chunk)this.chunkMapping.get(chunkCoordIntPair3);
-		return chunk4 == null ? this.blankChunk : chunk4;
+	public Chunk provideChunk(int chunkX, int chunkZ) {
+		ChunkCoordIntPair chunkCoordIntPair3 = new ChunkCoordIntPair(chunkX, chunkZ);
+		Chunk chunk = (Chunk)this.chunkMapping.get(chunkCoordIntPair3);
+
+		return chunk == null ? this.blankChunk : chunk;
 	}
 	
 	public Chunk justGenerateForHeight(int chunkX, int chunkZ) {

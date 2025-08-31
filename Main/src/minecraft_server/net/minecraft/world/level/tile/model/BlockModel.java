@@ -41,7 +41,7 @@ public class BlockModel {
 			this.setBlockElements(this.parseElements());
 		} catch (Exception e) {
 			System.out.println("There was shittery parsing json!");
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 
