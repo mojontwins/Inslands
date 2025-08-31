@@ -35,8 +35,6 @@ public class NetworkManager {
 	private Object[] aObj;
 	private int timeSinceLastRead = 0;
 	private int sendQueueByteLength = 0;
-	public static int[] field_28145_d = new int[256];
-	public static int[] field_28144_e = new int[256];
 	public int chunkDataSendCounter = 0;
 	private int field_20100_w = 50;
 
@@ -80,45 +78,34 @@ public class NetworkManager {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	private boolean sendPacket() {
-		boolean z1 = false;
+		boolean flag = false;
 
 		try {
-			int[] i10000;
-			int i10001;
-			Packet packet2;
-			Object object3;
+			Packet packet;
+
 			if(!this.dataPackets.isEmpty() && (this.chunkDataSendCounter == 0 || System.currentTimeMillis() - ((Packet)this.dataPackets.get(0)).creationTimeMillis >= (long)this.chunkDataSendCounter)) {
-				object3 = this.sendQueueLock;
 				synchronized(this.sendQueueLock) {
-					packet2 = (Packet)this.dataPackets.remove(0);
-					this.sendQueueByteLength -= packet2.getPacketSize() + 1;
+					packet = (Packet)this.dataPackets.remove(0);
+					this.sendQueueByteLength -= packet.getPacketSize() + 1;
 				}
 
-				Packet.writePacket(packet2, this.socketOutputStream);
-				i10000 = field_28144_e;
-				i10001 = packet2.getPacketId();
-				i10000[i10001] += packet2.getPacketSize() + 1;
-				z1 = true;
+				Packet.writePacket(packet, this.socketOutputStream);
+				flag = true;
 			}
 
 			if(this.field_20100_w-- <= 0 && !this.chunkDataPackets.isEmpty() && (this.chunkDataSendCounter == 0 || System.currentTimeMillis() - ((Packet)this.chunkDataPackets.get(0)).creationTimeMillis >= (long)this.chunkDataSendCounter)) {
-				object3 = this.sendQueueLock;
 				synchronized(this.sendQueueLock) {
-					packet2 = (Packet)this.chunkDataPackets.remove(0);
-					this.sendQueueByteLength -= packet2.getPacketSize() + 1;
+					packet = (Packet)this.chunkDataPackets.remove(0);
+					this.sendQueueByteLength -= packet.getPacketSize() + 1;
 				}
 
-				Packet.writePacket(packet2, this.socketOutputStream);
-				i10000 = field_28144_e;
-				i10001 = packet2.getPacketId();
-				i10000[i10001] += packet2.getPacketSize() + 1;
+				Packet.writePacket(packet, this.socketOutputStream);
 				this.field_20100_w = 0;
-				z1 = true;
+				flag = true;
 			}
 
-			return z1;
+			return flag;
 		} catch (Exception exception8) {
 			if(!this.isTerminating) {
 				this.onNetworkError(exception8);
@@ -134,21 +121,18 @@ public class NetworkManager {
 	}
 
 	private boolean readPacket() {
-		boolean z1 = false;
+		boolean flag = false;
 
 		try {
-			Packet packet2 = Packet.readPacket(this.socketInputStream, this.netHandler.isServerHandler());
-			if(packet2 != null) {
-				int[] i10000 = field_28145_d;
-				int i10001 = packet2.getPacketId();
-				i10000[i10001] += packet2.getPacketSize() + 1;
-				this.readPackets.add(packet2);
-				z1 = true;
+			Packet packet = Packet.readPacket(this.socketInputStream, this.netHandler.isServerHandler());
+			if(packet != null) {
+				this.readPackets.add(packet);
+				flag = true;
 			} else {
 				this.networkShutdown("disconnect.endOfStream", new Object[0]);
 			}
 
-			return z1;
+			return flag;
 		} catch (Exception exception3) {
 			if(!this.isTerminating) {
 				this.onNetworkError(exception3);
@@ -208,8 +192,8 @@ public class NetworkManager {
 		int i1 = 100;
 
 		while(!this.readPackets.isEmpty() && i1-- >= 0) {
-			Packet packet2 = (Packet)this.readPackets.remove(0);
-			packet2.processPacket(this.netHandler);
+			Packet packet = (Packet)this.readPackets.remove(0);
+			packet.processPacket(this.netHandler);
 		}
 
 		this.wakeThreads();

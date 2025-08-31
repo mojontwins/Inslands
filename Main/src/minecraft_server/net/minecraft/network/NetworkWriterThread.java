@@ -5,9 +5,9 @@ import java.io.IOException;
 class NetworkWriterThread extends Thread {
 	final NetworkManager netManager;
 
-	NetworkWriterThread(NetworkManager networkManager1, String string2) {
-		super(string2);
-		this.netManager = networkManager1;
+	NetworkWriterThread(NetworkManager networkManager, String s) {
+		super(s);
+		this.netManager = networkManager;
 	}
 
 	@SuppressWarnings("unused")
@@ -16,19 +16,16 @@ class NetworkWriterThread extends Thread {
 			++NetworkManager.numWriteThreads;
 		}
 
-		while(true) {
-			boolean z13 = false;
-
-			try {
-				z13 = true;
-				if(!NetworkManager.isRunning(this.netManager)) {
-					z13 = false;
-					break;
-				}
-
+		try {
+			while(NetworkManager.isRunning(this.netManager)) {
 				while(NetworkManager.sendNetworkPacket(this.netManager)) {
 				}
-
+				
+				try {
+					sleep(2L); // Vanilla was: 100L
+				} catch (InterruptedException interruptedException16) {
+				}
+				
 				try {
 					if(NetworkManager.getSocketOutputStream(this.netManager) != null) {
 						NetworkManager.getSocketOutputStream(this.netManager).flush();
@@ -40,23 +37,13 @@ class NetworkWriterThread extends Thread {
 
 					iOException18.printStackTrace();
 				}
-				
-				try {
-					sleep(2L); // Vanilla was: 100L
-				} catch (InterruptedException interruptedException16) {
-				}
-				
-			} finally {
-				if(z13) {
-					synchronized(NetworkManager.threadSyncObject) {
-						--NetworkManager.numWriteThreads;
-					}
-				}
 			}
 		}
-
-		synchronized(NetworkManager.threadSyncObject) {
-			--NetworkManager.numWriteThreads;
+		finally {
+			synchronized(NetworkManager.threadSyncObject) {
+				--NetworkManager.numWriteThreads;
+			}
 		}
+		
 	}
 }
