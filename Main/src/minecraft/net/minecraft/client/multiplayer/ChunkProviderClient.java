@@ -9,7 +9,7 @@ import java.util.Map;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.chunk.ChunkCoordIntPair;
-import net.minecraft.world.level.chunk.EmptyChunk;
+import net.minecraft.world.level.chunk.ChunkProvider;
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.chunk.storage.IProgressUpdate;
 
@@ -19,9 +19,14 @@ public class ChunkProviderClient implements IChunkProvider {
 	private List<Chunk> chunkListing = new ArrayList<Chunk>();
 	private World worldObj;
 
-	public ChunkProviderClient(World world1) {
-		this.blankChunk = new EmptyChunk(world1, new byte[32768], new byte[32768], 0, 0);
-		this.worldObj = world1;
+	public ChunkProviderClient(World world) {
+		// this.blankChunk = new EmptyChunk(world1, new byte[32768], new byte[32768], 0, 0);
+		// Todo: get the proper ChunkProviderGenerate somehow and call `getBlankChunk`.
+		// If we have a worldType, we can call worldType.getChunkGenerator.
+		
+		IChunkProvider provider = world.getWorldInfo().getTerrainType().getChunkGenerator(world);
+		this.blankChunk = provider.makeBlank(world);
+		this.worldObj = world;
 	}
 	
 	public IChunkProvider getChunkProviderGenerate() {
@@ -52,6 +57,7 @@ public class ChunkProviderClient implements IChunkProvider {
 		ChunkCoordIntPair chunkCoordIntPair3 = new ChunkCoordIntPair(i1, i2);
 		byte[] b4 = new byte[32768];
 		byte[] b5 = new byte[32768];
+		
 		Chunk chunk5 = new Chunk(this.worldObj, b4, b5, i1, i2);
 		Arrays.fill(chunk5.skylightMap.data, (byte)-1);
 		this.chunkMapping.put(chunkCoordIntPair3, chunk5);

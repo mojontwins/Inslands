@@ -147,7 +147,7 @@ public class NetClientHandler extends NetHandler {
 	public void handleLogin(Packet1Login packet1Login1) {
 		this.mc.playerController = new PlayerControllerMP(this.mc, this);
 		this.mc.statFileWriter.readStat(StatList.joinMultiplayerStat, 1);
-		this.worldClient = new WorldClient(this, new WorldSettings(0L, 0, false, false, false, WorldType.DEFAULT),
+		this.worldClient = new WorldClient(this, new WorldSettings(0L, 0, false, false, false, false, WorldType.DEFAULT),
 				packet1Login1.dimension, this.mc.gameSettings);
 		this.worldClient.isRemote = true;
 		this.mc.changeWorld(this.worldClient);
@@ -693,7 +693,7 @@ public class NetClientHandler extends NetHandler {
 	public void handleRespawnPacket(Packet9Respawn packet9Respawn1) {
 		if (packet9Respawn1.dimension != this.mc.thePlayer.dimension) {
 			this.field_1210_g = false;
-			this.worldClient = new WorldClient(this, new WorldSettings(0L, 0, false, false, false, WorldType.DEFAULT),
+			this.worldClient = new WorldClient(this, new WorldSettings(0L, 0, false, false, false, false, WorldType.DEFAULT),
 					packet9Respawn1.dimension, this.mc.gameSettings);
 			this.worldClient.isRemote = true;
 			this.mc.changeWorld(this.worldClient);

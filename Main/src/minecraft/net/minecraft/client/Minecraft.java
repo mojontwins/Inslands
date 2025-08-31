@@ -1309,6 +1309,7 @@ public abstract class Minecraft implements Runnable {
 							worldSettings.isMapFeaturesEnabled(), 
 							worldSettings.getHardcoreEnabled(), 
 							worldSettings.isGenerateCities(),
+							worldSettings.isLayeredSand(),
 							worldSettings.getTerrainType());
 					
 						generating = "Regenerating Level :(";
@@ -1482,7 +1483,7 @@ public abstract class Minecraft implements Runnable {
 		this.loadingScreen.printText("Converting World to " + this.saveLoader.getFormatName());
 		this.loadingScreen.displayLoadingString("This may take a while :)");
 		this.saveLoader.converMapToMCRegion(string1, this.loadingScreen);
-		this.startWorld(string1, string2, new WorldSettings(0L, 0, true, false, false, WorldType.DEFAULT));
+		this.startWorld(string1, string2, new WorldSettings(0L, 0, true, false, false, true, WorldType.DEFAULT));
 	}
 
 	private void preloadWorld(World world, String caption, boolean isNew) {

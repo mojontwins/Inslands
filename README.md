@@ -198,18 +198,16 @@ Yay! fps boosted on shitty systems!
 		* [ ] Hell's nether is fleshy. I need vine-like hanging guts, a meta block, eyes and shit. Look for eye-themed mobs in old mods.
 		* [ ] Forest's nether should be full of trees, mushrooms and vines.
 
-* [ ] Think about gameplay items for a desert and a glacier based theme (for the future).
-	* [ ] both lack trees, dirt and saplings must be obtained. Make sure skeletons still drop acorns.
-	* [ ] cold mechanics. Need to reactivate code for freeze
-	* [ ] The ice palace in glacier.
 
 # Server
 
 * [ ] {SMP} Add TP to SMP
 * [ ] {SMP} Still no border chunks.
+	* SP calls `makeBlank` in the associated `ChunkProviderGenerate`. So we need that. Also,
+	* For this to work we need `LevelThemeGlobalSettings.levelThemeMainBiome`, and `LevelThemeGlobalSettings.worldTypeID` to be correctly set. 
 * [X] {SMP} TileEntityMobSpawnerOneShot not working.
 * [ ] {SMP} Calculate spawn point properly.
-* [ ] {SMP} Client is no aware of effects from the Server.
+* [ ] {SMP} Client is no aware of (status) effects from the Server.
 * [X] {SMP} Packet52 stuff (multiblock change) not 8bit metadata aware!
 
 # Poison Island
@@ -373,12 +371,10 @@ Things to do to finish tree refactoring
 * [X] Gui gets the brightness of the entity the cross is pointing to !? Didn't this happen before in either this or infhell? - Added `GL11.glDisable(GL11.GL_BLEND);` before drawing GUI
 * [X] Change block of iron, gold, diamond textures for alpha's
 * [X] Add lapis lazuli block.
-* [ ] Option to turn layered sand off when creating new world.
+* [X] Option to turn layered sand off when creating new world.
 * [X] Option to turn special tree texture off when creating new world.
 	[X] Game should be able to render all BlockLeaves / BlockLog metas
 		Using meta 0 textures. Like the fancy graphics flag, I could just add static booleans to BlockLog and BlockLeaves to achieve this and use them in getBlockTextureFromSideAndMetadata. Buuuut this is not a game rule or game config, this should be in options as it is purely visual.
-	[ ] The amount of "game rules" is big enough at this morning to
-		stop adding booleans to the constructors and think of something else.
 * [X] Add smooth stone block, smelted from stone.
 * [X] Nerf swarm spiders a bit so they poison less often and less time.
 * [/] Prune world loaded entity list after a blood moon to kill excess entities. NEEDS TESTING
@@ -388,7 +384,15 @@ Things to do to finish tree refactoring
 # When I'm ready to add new stuff
 
 * [ ] Goats and the named entity dynamic.
+	* [ ] Item Tag
+	* [ ] save entity name, GUI, etc.
+	* [ ] Add tags to loot.
+	* [ ] Add goats.
 * [ ] Backport all the custom command block shit.
+* [ ] Think about gameplay items for a desert and a glacier based theme (for the future).
+	* [ ] both lack trees, dirt and saplings must be obtained. Make sure skeletons still drop acorns.
+	* [ ] cold mechanics. Need to reactivate code for freeze
+	* [ ] The ice palace in glacier.
 
 # Hedge mazes - again
 

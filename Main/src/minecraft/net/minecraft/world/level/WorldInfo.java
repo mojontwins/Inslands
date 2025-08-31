@@ -33,64 +33,71 @@ public class WorldInfo {
 	
 	private boolean mapFeaturesEnabled;
 	private boolean generateCities;
+	private boolean layeredSand;
 	
 	private int themeId;
 	private boolean bloodMoon;
 	private boolean meltBuild;
 		
-	public WorldInfo(NBTTagCompound nBTTagCompound1) {
-		this.randomSeed = nBTTagCompound1.getLong("RandomSeed");
+	public WorldInfo(NBTTagCompound nbt) {
+		this.randomSeed = nbt.getLong("RandomSeed");
 		
 		String generatorName = "";
-		if(nBTTagCompound1.hasKey("generatorName")) {
-			generatorName = nBTTagCompound1.getString("generatorName");
+		if(nbt.hasKey("generatorName")) {
+			generatorName = nbt.getString("generatorName");
 			this.terrainType = WorldType.parseWorldType(generatorName);
 			if(this.terrainType == null) {
 				this.terrainType = WorldType.DEFAULT;
 			} 
 		}
 
-		if(nBTTagCompound1.hasKey("MapFeatures")) {
-			this.mapFeaturesEnabled = nBTTagCompound1.getBoolean("MapFeatures");
+		if(nbt.hasKey("MapFeatures")) {
+			this.mapFeaturesEnabled = nbt.getBoolean("MapFeatures");
 		} else {
 			this.mapFeaturesEnabled = true;
 		}
 
-		if(nBTTagCompound1.hasKey("GenerateCities")) {
-			this.generateCities = nBTTagCompound1.getBoolean("GenerateCities");
+		if(nbt.hasKey("GenerateCities")) {
+			this.generateCities = nbt.getBoolean("GenerateCities");
 		} else {
 			this.generateCities = true;
 		}
+		
+		if(nbt.hasKey("layeredSand")) {
+			this.layeredSand = nbt.getBoolean("layeredSand");
+		} else {
+			this.layeredSand = true;
+		}
 
-		this.spawnX = nBTTagCompound1.getInteger("SpawnX");
-		this.spawnY = nBTTagCompound1.getInteger("SpawnY");
-		this.spawnZ = nBTTagCompound1.getInteger("SpawnZ");
-		this.worldTime = nBTTagCompound1.getLong("Time");
-		this.lastTimePlayed = nBTTagCompound1.getLong("LastPlayed");
-		this.sizeOnDisk = nBTTagCompound1.getLong("SizeOnDisk");
-		this.levelName = nBTTagCompound1.getString("LevelName");
-		this.saveVersion = nBTTagCompound1.getInteger("version");
-		this.rainTime = nBTTagCompound1.getInteger("rainTime");
-		this.raining = nBTTagCompound1.getBoolean("raining");
-		this.thunderTime = nBTTagCompound1.getInteger("thunderTime");
-		this.thundering = nBTTagCompound1.getBoolean("thundering");
-		this.snowingTime = nBTTagCompound1.getInteger("snowingTime");
-		this.snowing = nBTTagCompound1.getBoolean("snowing");
-		this.bloodMoon = nBTTagCompound1.getBoolean("BloodMoon");
-		Seasons.dayOfTheYear = nBTTagCompound1.getInteger("DayOfTheYear");
-		if(nBTTagCompound1.hasKey("Player")) {
-			this.playerTag = nBTTagCompound1.getCompoundTag("Player");
+		this.spawnX = nbt.getInteger("SpawnX");
+		this.spawnY = nbt.getInteger("SpawnY");
+		this.spawnZ = nbt.getInteger("SpawnZ");
+		this.worldTime = nbt.getLong("Time");
+		this.lastTimePlayed = nbt.getLong("LastPlayed");
+		this.sizeOnDisk = nbt.getLong("SizeOnDisk");
+		this.levelName = nbt.getString("LevelName");
+		this.saveVersion = nbt.getInteger("version");
+		this.rainTime = nbt.getInteger("rainTime");
+		this.raining = nbt.getBoolean("raining");
+		this.thunderTime = nbt.getInteger("thunderTime");
+		this.thundering = nbt.getBoolean("thundering");
+		this.snowingTime = nbt.getInteger("snowingTime");
+		this.snowing = nbt.getBoolean("snowing");
+		this.bloodMoon = nbt.getBoolean("BloodMoon");
+		Seasons.dayOfTheYear = nbt.getInteger("DayOfTheYear");
+		if(nbt.hasKey("Player")) {
+			this.playerTag = nbt.getCompoundTag("Player");
 			this.dimension = this.playerTag.getInteger("Dimension");
 		}
 
-		this.themeId = nBTTagCompound1.getInteger("ThemeId");
+		this.themeId = nbt.getInteger("ThemeId");
 		LevelThemeGlobalSettings.loadThemeById(this.themeId);
 		LevelThemeGlobalSettings.worldTypeID = WorldType.getIdByName(generatorName);
 	
 		//System.out.println ("Generator name = " + generatorName + ", worldTypeID = " + LevelThemeGlobalSettings.worldTypeID);
 		
-		int xChunks = nBTTagCompound1.getInteger("WidthInChunks");
-		int zChunks = nBTTagCompound1.getInteger("LengthInChunks");
+		int xChunks = nbt.getInteger("WidthInChunks");
+		int zChunks = nbt.getInteger("LengthInChunks");
 		
 		if(xChunks == 0 || zChunks == 0) {
 			System.out.println ("Zero dimensions read. setting 8x8");
@@ -99,46 +106,48 @@ public class WorldInfo {
 	
 		WorldSize.setSize(xChunks, zChunks);
 		
-		GlobalVars.noiseOffsetX = nBTTagCompound1.getInteger("noiseOffsetX");
-		GlobalVars.noiseOffsetZ = nBTTagCompound1.getInteger("noiseOffsetZ");
+		GlobalVars.noiseOffsetX = nbt.getInteger("noiseOffsetX");
+		GlobalVars.noiseOffsetZ = nbt.getInteger("noiseOffsetZ");
 	}
 
-	public WorldInfo(WorldSettings worldSettings1, String string2) {
-		this.randomSeed = worldSettings1.getSeed();
-		this.mapFeaturesEnabled = worldSettings1.isMapFeaturesEnabled();
-		this.generateCities = worldSettings1.isGenerateCities();
+	public WorldInfo(WorldSettings settings, String string2) {
+		this.randomSeed = settings.getSeed();
+		this.mapFeaturesEnabled = settings.isMapFeaturesEnabled();
+		this.layeredSand = settings.isLayeredSand();
+		this.generateCities = settings.isGenerateCities();
 		this.levelName = string2;
-		this.terrainType = worldSettings1.getTerrainType();
+		this.terrainType = settings.getTerrainType();
 		if(this.terrainType == WorldType.SKY) this.dimension = 1;
 	}
 
-	public WorldInfo(WorldInfo worldInfo1) {
-		this.randomSeed = worldInfo1.randomSeed;
-		this.mapFeaturesEnabled = worldInfo1.mapFeaturesEnabled;
-		this.generateCities = worldInfo1.generateCities;
-		this.spawnX = worldInfo1.spawnX;
-		this.spawnY = worldInfo1.spawnY;
-		this.spawnZ = worldInfo1.spawnZ;
-		this.worldTime = worldInfo1.worldTime;
-		this.lastTimePlayed = worldInfo1.lastTimePlayed;
-		this.sizeOnDisk = worldInfo1.sizeOnDisk;
-		this.playerTag = worldInfo1.playerTag;
-		this.dimension = worldInfo1.dimension;
-		this.levelName = worldInfo1.levelName;
-		this.saveVersion = worldInfo1.saveVersion;
-		this.rainTime = worldInfo1.rainTime;
-		this.raining = worldInfo1.raining;
-		this.thunderTime = worldInfo1.thunderTime;
-		this.thundering = worldInfo1.thundering;
-		this.snowingTime = worldInfo1.snowingTime;
-		this.snowing = worldInfo1.snowing;
-		this.bloodMoon = worldInfo1.bloodMoon;
+	public WorldInfo(WorldInfo info) {
+		this.randomSeed = info.randomSeed;
+		this.mapFeaturesEnabled = info.mapFeaturesEnabled;
+		this.generateCities = info.generateCities;
+		this.spawnX = info.spawnX;
+		this.spawnY = info.spawnY;
+		this.spawnZ = info.spawnZ;
+		this.worldTime = info.worldTime;
+		this.lastTimePlayed = info.lastTimePlayed;
+		this.sizeOnDisk = info.sizeOnDisk;
+		this.playerTag = info.playerTag;
+		this.dimension = info.dimension;
+		this.levelName = info.levelName;
+		this.saveVersion = info.saveVersion;
+		this.rainTime = info.rainTime;
+		this.raining = info.raining;
+		this.thunderTime = info.thunderTime;
+		this.thundering = info.thundering;
+		this.snowingTime = info.snowingTime;
+		this.snowing = info.snowing;
+		this.bloodMoon = info.bloodMoon;
+		this.layeredSand = info.layeredSand;
 	}
 
 	public NBTTagCompound getNBTTagCompound() {
-		NBTTagCompound nBTTagCompound1 = new NBTTagCompound();
-		this.updateTagCompound(nBTTagCompound1, this.playerTag);
-		return nBTTagCompound1;
+		NBTTagCompound nbt = new NBTTagCompound();
+		this.updateTagCompound(nbt, this.playerTag);
+		return nbt;
 	}
 
 	public NBTTagCompound getNBTTagCompoundWithPlayer(List<EntityPlayer> list1) {
@@ -158,36 +167,37 @@ public class WorldInfo {
 		return nBTTagCompound2;
 	}
 
-	private void updateTagCompound(NBTTagCompound nBTTagCompound1, NBTTagCompound nBTTagCompound2) {
-		nBTTagCompound1.setLong("RandomSeed", this.randomSeed);
-		nBTTagCompound1.setString("generatorName", this.terrainType.getWorldType());
-		nBTTagCompound1.setInteger("generatorVersion", this.terrainType.getGeneratorVersion());
-		nBTTagCompound1.setBoolean("MapFeatures", this.mapFeaturesEnabled);
-		nBTTagCompound1.setBoolean("GenerateCities", this.generateCities);
-		nBTTagCompound1.setInteger("SpawnX", this.spawnX);
-		nBTTagCompound1.setInteger("SpawnY", this.spawnY);
-		nBTTagCompound1.setInteger("SpawnZ", this.spawnZ);
-		nBTTagCompound1.setLong("Time", this.worldTime);
-		nBTTagCompound1.setLong("SizeOnDisk", this.sizeOnDisk);
-		nBTTagCompound1.setLong("LastPlayed", System.currentTimeMillis());
-		nBTTagCompound1.setString("LevelName", this.levelName);
-		nBTTagCompound1.setInteger("version", this.saveVersion);
-		nBTTagCompound1.setInteger("rainTime", this.rainTime);
-		nBTTagCompound1.setBoolean("raining", this.raining);
-		nBTTagCompound1.setInteger("thunderTime", this.thunderTime);
-		nBTTagCompound1.setBoolean("thundering", this.thundering);
-		nBTTagCompound1.setInteger("snowingTime", this.snowingTime);
-		nBTTagCompound1.setBoolean("snowing", this.snowing);
-		nBTTagCompound1.setBoolean("BloodMoon", this.bloodMoon);
-		nBTTagCompound1.setInteger("DayOfTheYear", Seasons.dayOfTheYear);
+	private void updateTagCompound(NBTTagCompound nbt, NBTTagCompound nBTTagCompound2) {
+		nbt.setLong("RandomSeed", this.randomSeed);
+		nbt.setString("generatorName", this.terrainType.getWorldType());
+		nbt.setInteger("generatorVersion", this.terrainType.getGeneratorVersion());
+		nbt.setBoolean("MapFeatures", this.mapFeaturesEnabled);
+		nbt.setBoolean("GenerateCities", this.generateCities);
+		nbt.setBoolean("layeredSand", this.layeredSand);
+		nbt.setInteger("SpawnX", this.spawnX);
+		nbt.setInteger("SpawnY", this.spawnY);
+		nbt.setInteger("SpawnZ", this.spawnZ);
+		nbt.setLong("Time", this.worldTime);
+		nbt.setLong("SizeOnDisk", this.sizeOnDisk);
+		nbt.setLong("LastPlayed", System.currentTimeMillis());
+		nbt.setString("LevelName", this.levelName);
+		nbt.setInteger("version", this.saveVersion);
+		nbt.setInteger("rainTime", this.rainTime);
+		nbt.setBoolean("raining", this.raining);
+		nbt.setInteger("thunderTime", this.thunderTime);
+		nbt.setBoolean("thundering", this.thundering);
+		nbt.setInteger("snowingTime", this.snowingTime);
+		nbt.setBoolean("snowing", this.snowing);
+		nbt.setBoolean("BloodMoon", this.bloodMoon);
+		nbt.setInteger("DayOfTheYear", Seasons.dayOfTheYear);
 		if(nBTTagCompound2 != null) {
-			nBTTagCompound1.setCompoundTag("Player", nBTTagCompound2);
+			nbt.setCompoundTag("Player", nBTTagCompound2);
 		}
-		nBTTagCompound1.setInteger("ThemeId", LevelThemeGlobalSettings.themeID);
-		nBTTagCompound1.setInteger("WidthInChunks", WorldSize.xChunks);
-		nBTTagCompound1.setInteger("LengthInChunks", WorldSize.zChunks);
-		nBTTagCompound1.setInteger("noiseOffsetX", GlobalVars.noiseOffsetX);
-		nBTTagCompound1.setInteger("noiseOffsetZ", GlobalVars.noiseOffsetZ);
+		nbt.setInteger("ThemeId", LevelThemeGlobalSettings.themeID);
+		nbt.setInteger("WidthInChunks", WorldSize.xChunks);
+		nbt.setInteger("LengthInChunks", WorldSize.zChunks);
+		nbt.setInteger("noiseOffsetX", GlobalVars.noiseOffsetX);
+		nbt.setInteger("noiseOffsetZ", GlobalVars.noiseOffsetZ);
 
 	}
 
@@ -243,8 +253,8 @@ public class WorldInfo {
 		this.sizeOnDisk = d;
 	}
 
-	public void setPlayerNBTTagCompound(NBTTagCompound nBTTagCompound1) {
-		this.playerTag = nBTTagCompound1;
+	public void setPlayerNBTTagCompound(NBTTagCompound nbt) {
+		this.playerTag = nbt;
 	}
 
 	public void setSpawn(int x, int y, int z) {
@@ -355,5 +365,9 @@ public class WorldInfo {
 
 	public void setMeltBuild(boolean meltBuild) {
 		this.meltBuild = meltBuild;
+	}
+
+	public boolean isLayeredSand() {
+		return this.layeredSand;
 	}
 }

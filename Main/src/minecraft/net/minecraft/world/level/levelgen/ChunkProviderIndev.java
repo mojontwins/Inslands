@@ -17,11 +17,11 @@ public class ChunkProviderIndev extends ChunkProviderGenerate {
 	private NoiseGeneratorOctavesIndev noise6;
 	
 	public ChunkProviderIndev(World world, long seed) {
-		this(world, seed, true);
+		this(world, seed, true, true);
 	}
 	
-	public ChunkProviderIndev(World world, long seed, boolean b) {
-		super(world, seed, b);
+	public ChunkProviderIndev(World world, long seed, boolean b, boolean s) {
+		super(world, seed, b, s);
 
 		this.noise1 = new NoiseGeneratorOctavesIndev(this.rand, 16);
 		this.noise2 = new NoiseGeneratorOctavesIndev(this.rand, 16);

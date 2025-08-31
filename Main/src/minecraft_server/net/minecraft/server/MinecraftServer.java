@@ -170,22 +170,23 @@ public class MinecraftServer implements Runnable, ICommandListener {
 
 		this.worldMngr = new WorldServer[2];
 		boolean generateStructures = this.propertyManagerObj.getBooleanProperty("generate-structures", true);
+		boolean layeredSand = this.propertyManagerObj.getBooleanProperty("layered-sand", true);
 		
 		SaveOldDir saveOldDir = new SaveOldDir(new File("."), folderName, true);
 
 		boolean levelsAreOk;
 		do {
 			levelsAreOk = true;
-			WorldSettings worldSettings8 = new WorldSettings(seed, 0, generateStructures, false, false, worldType);
+			WorldSettings settings = new WorldSettings(seed, 0, generateStructures, false, false, layeredSand, worldType);
 			
 			for(int i = 0; i < this.worldMngr.length; ++i) {
 				logger.info("** DIM " + ( i == 0 ? 0 : -1));
 				GlobalVars.initializeGameFlags();
 				
 				if(i == 0) {
-					this.worldMngr[i] = new WorldServer(this, saveOldDir, folderName, i == 0 ? 0 : -1, worldSettings8);
+					this.worldMngr[i] = new WorldServer(this, saveOldDir, folderName, i == 0 ? 0 : -1, settings);
 				} else {
-					this.worldMngr[i] = new WorldServerMulti(this, saveOldDir, folderName, i == 0 ? 0 : -1, worldSettings8, this.worldMngr[0]);
+					this.worldMngr[i] = new WorldServerMulti(this, saveOldDir, folderName, i == 0 ? 0 : -1, settings, this.worldMngr[0]);
 				}
 				
 				WorldServer worldMngr = this.worldMngr[i];				

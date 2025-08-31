@@ -523,7 +523,7 @@
 			"file": "README.md",
 			"settings":
 			{
-				"buffer_size": 21960,
+				"buffer_size": 26695,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -538,12 +538,29 @@
 			}
 		},
 		{
-			"contents": "// Call .onEntityCollidedWithBlock for all blocks I am touching\n\t\t\tint x1 = MathHelper.floor_double(this.boundingBox.minX + 0.001D);\n\t\t\tint y1 = MathHelper.floor_double(this.boundingBox.minY + 0.001D);\n\t\t\tint z1 = MathHelper.floor_double(this.boundingBox.minZ + 0.001D);\n\t\t\tint x2 = MathHelper.floor_double(this.boundingBox.maxX - 0.001D);\n\t\t\tint y2 = MathHelper.floor_double(this.boundingBox.maxY - 0.001D);\n\t\t\tint z2 = MathHelper.floor_double(this.boundingBox.maxZ - 0.001D);\n\t\t\tif(this.worldObj.checkChunksExist(x1, y1, z1, x2, y2, z2)) {\n\t\t\t\tfor(int xt = x1; xt <= x2; ++xt) {\n\t\t\t\t\tfor(int yt = y1; yt <= y2; ++yt) {\n\t\t\t\t\t\tfor(int zt = z1; zt <= z2; ++zt) {\n\t\t\t\t\t\t\tBlock block = Block.blocksList[this.worldObj.getBlockID(xt, yt, zt)];\n\t\t\t\t\t\t\tif(block != null) {\n\t\t\t\t\t\t\t\tblock.onEntityCollidedWithBlock(this.worldObj, xt, yt, zt, this);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}",
+			"contents": "\tpublic boolean renderBlockRedstoneWire(Block block1, int i2, int i3, int i4) {\n\t\tTessellator tessellator5 = Tessellator.instance;\n\t\tint i6 = this.blockAccess.getBlockMetadata(i2, i3, i4);\n\t\t\n\t\tint i7 = block1.getBlockTextureFromSideAndMetadata(1, i6);\n\t\tif(this.overrideBlockTexture >= 0) {\n\t\t\ti7 = this.overrideBlockTexture;\n\t\t}\n\n\t\ttessellator5.setBrightness(block1.getMixedBrightnessForBlock(this.blockAccess, i2, i3, i4));\n\t\tfloat f8 = 1.0F;\n\t\tfloat f9 = (float)i6 / 15.0F;\n\t\tfloat f10 = f9 * 0.6F + 0.4F;\n\t\tif(i6 == 0) {\n\t\t\tf10 = 0.3F;\n\t\t}\n\n\t\tfloat f11 = f9 * f9 * 0.7F - 0.5F;\n\t\tfloat f12 = f9 * f9 * 0.6F - 0.7F;\n\t\tif(f11 < 0.0F) {\n\t\t\tf11 = 0.0F;\n\t\t}\n\n\t\tif(f12 < 0.0F) {\n\t\t\tf12 = 0.0F;\n\t\t}\n\n\t\ttessellator5.setColorOpaque_F(f10, f11, f12);\n\t\t/*\n\t\tint i13 = (i7 & 15) << 4;\n\t\tint i14 = i7 & 0xff0;\n\t\tdouble u1 = (double)((float)i13 / TextureAtlasSize.w);\n\t\tdouble u2 = (double)(((float)i13 + 15.99F) / TextureAtlasSize.w);\n\t\tdouble v1 = (double)((float)i14 / TextureAtlasSize.h);\n\t\tdouble v2 = (double)(((float)i14 + 15.99F) / TextureAtlasSize.h);\n\t\t*/\n\t\tIdx2uvF.calc(i7);\n\n\t\tdouble u1 = (double)Idx2uvF.u1;\n\t\tdouble u2 = (double)Idx2uvF.u2;\n\t\tdouble v1 = (double)Idx2uvF.v1;\n\t\tdouble v2 = (double)Idx2uvF.v2;\n\t\t\n\t\tdouble u10 = u1; \n\t\tdouble u20 = u2;\t\n\t\t\n\t\tboolean z29 = BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2 - 1, i3, i4, 1) || !this.blockAccess.isBlockNormalCube(i2 - 1, i3, i4) && BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2 - 1, i3 - 1, i4, -1);\n\t\tboolean z30 = BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2 + 1, i3, i4, 3) || !this.blockAccess.isBlockNormalCube(i2 + 1, i3, i4) && BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2 + 1, i3 - 1, i4, -1);\n\t\tboolean z31 = BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2, i3, i4 - 1, 2) || !this.blockAccess.isBlockNormalCube(i2, i3, i4 - 1) && BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2, i3 - 1, i4 - 1, -1);\n\t\tboolean z32 = BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2, i3, i4 + 1, 0) || !this.blockAccess.isBlockNormalCube(i2, i3, i4 + 1) && BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2, i3 - 1, i4 + 1, -1);\n\t\tif(!this.blockAccess.isBlockNormalCube(i2, i3 + 1, i4)) {\n\t\t\tif(this.blockAccess.isBlockNormalCube(i2 - 1, i3, i4) && BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2 - 1, i3 + 1, i4, -1)) {\n\t\t\t\tz29 = true;\n\t\t\t}\n\n\t\t\tif(this.blockAccess.isBlockNormalCube(i2 + 1, i3, i4) && BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2 + 1, i3 + 1, i4, -1)) {\n\t\t\t\tz30 = true;\n\t\t\t}\n\n\t\t\tif(this.blockAccess.isBlockNormalCube(i2, i3, i4 - 1) && BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2, i3 + 1, i4 - 1, -1)) {\n\t\t\t\tz31 = true;\n\t\t\t}\n\n\t\t\tif(this.blockAccess.isBlockNormalCube(i2, i3, i4 + 1) && BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2, i3 + 1, i4 + 1, -1)) {\n\t\t\t\tz32 = true;\n\t\t\t}\n\t\t}\n\n\t\tfloat f34 = (float)(i2 + 0);\n\t\tfloat f35 = (float)(i2 + 1);\n\t\tfloat f36 = (float)(i4 + 0);\n\t\tfloat f37 = (float)(i4 + 1);\n\t\tbyte b38 = 0;\n\t\tif((z29 || z30) && !z31 && !z32) {\n\t\t\tb38 = 1;\n\t\t}\n\n\t\tif((z31 || z32) && !z30 && !z29) {\n\t\t\tb38 = 2;\n\t\t}\n\n\t\tif(b38 != 0) {\n\t\t\tu1 = u10 + Texels.texelsU(16.0F);\n\t\t\tu2 = u20 + Texels.texelsU(16.0F);\n\t\t}\n\n\t\tif(b38 == 0) {\n\t\t\tif(!z29) {\n\t\t\t\tf34 += 0.3125F;\n\t\t\t\t}\n\n\t\t\tif(!z29) {\n\t\t\t\tu1 += Texels.texelsU(5); // 0.01953125D;\n\t\t\t\t}\n\n\t\t\tif(!z30) {\n\t\t\t\tf35 -= 0.3125F;\n\t\t\t\t}\n\n\t\t\tif(!z30) {\n\t\t\t\tu2 -= Texels.texelsU(5); // 0.01953125D;\n\t\t\t\t}\n\n\t\t\tif(!z31) {\n\t\t\t\tf36 += 0.3125F;\n\t\t\t\t}\n\n\t\t\tif(!z31) {\n\t\t\t\tv1 += Texels.texelsV(5); // 0.01953125D;\n\t\t\t\t}\n\n\t\t\tif(!z32) {\n\t\t\t\tf37 -= 0.3125F;\n\t\t\t\t}\n\n\t\t\tif(!z32) {\n\t\t\t\tv2 -= Texels.texelsV(5); // 0.01953125D;\n\t\t\t}\n\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f37, u2, v2);\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f36, u2, v1);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f36, u1, v1);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f37, u1, v2);\n\t\t\ttessellator5.setColorOpaque_F(f8, f8, f8);\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f37, u2, v2);\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f36, u2, v1);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f36, u1, v1);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f37, u1, v2);\n\t\t} else if(b38 == 1) {\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f37, u2, v2);\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f36, u2, v1);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f36, u1, v1);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f37, u1, v2);\n\t\t\ttessellator5.setColorOpaque_F(f8, f8, f8);\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f37, u2, v2);\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f36, u2, v1);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f36, u1, v1);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f37, u1, v2);\n\t\t} else if(b38 == 2) {\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f37, u2, v2);\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f36, u1, v2);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f36, u1, v1);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f37, u2, v1);\n\t\t\ttessellator5.setColorOpaque_F(f8, f8, f8);\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f37, u2, v2);\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f36, u1, v2);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f36, u1, v1);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f37, u2, v1);\n\t\t}\n\n\t\tif(!this.blockAccess.isBlockNormalCube(i2, i3 + 1, i4)) {\n\t\t\tu1 = u10 + Texels.texelsU(16.0F);\n\t\t\tu2 = u20 + Texels.texelsU(16.0F);\n\t\t\t\n\t\t\tif(this.blockAccess.isBlockNormalCube(i2 - 1, i3, i4) && this.blockAccess.getBlockID(i2 - 1, i3 + 1, i4) == Block.redstoneWire.blockID) {\n\t\t\t\ttessellator5.setColorOpaque_F(f8 * f10, f8 * f11, f8 * f12);\n\t\t\t\ttessellator5.addVertexWithUV((double)i2 + 0.015625D, (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 1), u2, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)i2 + 0.015625D, (double)(i3 + 0), (double)(i4 + 1), u1, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)i2 + 0.015625D, (double)(i3 + 0), (double)(i4 + 0), u1, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)i2 + 0.015625D, (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 0), u2, v2);\n\t\t\t\ttessellator5.setColorOpaque_F(f8, f8, f8);\n\t\t\t\ttessellator5.addVertexWithUV((double)i2 + 0.015625D, (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 1), u2, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)i2 + 0.015625D, (double)(i3 + 0), (double)(i4 + 1), u1, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)i2 + 0.015625D, (double)(i3 + 0), (double)(i4 + 0), u1, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)i2 + 0.015625D, (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 0), u2, v2);\n\t\t\t}\n\n\t\t\tif(this.blockAccess.isBlockNormalCube(i2 + 1, i3, i4) && this.blockAccess.getBlockID(i2 + 1, i3 + 1, i4) == Block.redstoneWire.blockID) {\n\t\t\t\ttessellator5.setColorOpaque_F(f8 * f10, f8 * f11, f8 * f12);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1) - 0.015625D, (double)(i3 + 0), (double)(i4 + 1), u1, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1) - 0.015625D, (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 1), u2, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1) - 0.015625D, (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 0), u2, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1) - 0.015625D, (double)(i3 + 0), (double)(i4 + 0), u1, v1);\n\t\t\t\ttessellator5.setColorOpaque_F(f8, f8, f8);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1) - 0.015625D, (double)(i3 + 0), (double)(i4 + 1), u1, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1) - 0.015625D, (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 1), u2, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1) - 0.015625D, (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 0), u2, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1) - 0.015625D, (double)(i3 + 0), (double)(i4 + 0), u1, v1);\n\t\t\t}\n\n\t\t\tif(this.blockAccess.isBlockNormalCube(i2, i3, i4 - 1) && this.blockAccess.getBlockID(i2, i3 + 1, i4 - 1) == Block.redstoneWire.blockID) {\n\t\t\t\ttessellator5.setColorOpaque_F(f8 * f10, f8 * f11, f8 * f12);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1), (double)(i3 + 0), (double)i4 + 0.015625D, u1, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1), (double)((float)(i3 + 1) + 0.021875F), (double)i4 + 0.015625D, u2, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 0), (double)((float)(i3 + 1) + 0.021875F), (double)i4 + 0.015625D, u2, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 0), (double)(i3 + 0), (double)i4 + 0.015625D, u1, v1);\n\t\t\t\ttessellator5.setColorOpaque_F(f8, f8, f8);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1), (double)(i3 + 0), (double)i4 + 0.015625D, u1, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1), (double)((float)(i3 + 1) + 0.021875F), (double)i4 + 0.015625D, u2, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 0), (double)((float)(i3 + 1) + 0.021875F), (double)i4 + 0.015625D, u2, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 0), (double)(i3 + 0), (double)i4 + 0.015625D, u1, v1);\n\t\t\t}\n\n\t\t\tif(this.blockAccess.isBlockNormalCube(i2, i3, i4 + 1) && this.blockAccess.getBlockID(i2, i3 + 1, i4 + 1) == Block.redstoneWire.blockID) {\n\t\t\t\ttessellator5.setColorOpaque_F(f8 * f10, f8 * f11, f8 * f12);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1), (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 1) - 0.015625D, u2, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1), (double)(i3 + 0), (double)(i4 + 1) - 0.015625D, u1, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 0), (double)(i3 + 0), (double)(i4 + 1) - 0.015625D, u1, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 0), (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 1) - 0.015625D, u2, v2);\n\t\t\t\ttessellator5.setColorOpaque_F(f8, f8, f8);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1), (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 1) - 0.015625D, u2, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1), (double)(i3 + 0), (double)(i4 + 1) - 0.015625D, u1, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 0), (double)(i3 + 0), (double)(i4 + 1) - 0.015625D, u1, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 0), (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 1) - 0.015625D, u2, v2);\n\t\t\t}\n\t\t}\n\n\t\treturn true;\n\t}\n",
 			"settings":
 			{
-				"buffer_size": 874,
+				"buffer_size": 10984,
 				"line_ending": "Windows",
-				"name": "// Call .onEntityCollidedWithBlock for all blocks"
+				"name": "public boolean renderBlockRedstoneWire(Block bloc"
+			}
+		},
+		{
+			"file": "/D/cosas/InfHell/infhell2/src/minecraft/net/minecraft/src/RenderBlocks.java",
+			"settings":
+			{
+				"buffer_size": 219056,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "\tprivate void updateCaptions() {\n\t\tStringTranslate translator = StringTranslate.getInstance();\n\t\tthis.gameModeButton.displayString = translator.translateKey(\"selectWorld.gameMode\") + \" \" + translator.translateKey(\"selectWorld.gameMode.\" + this.gameMode);\n\t\t\n\t\t/*\n\t\tthis.gameModeDescriptionLine1 = translator.translateKey(\"selectWorld.gameMode.\" + this.gameMode + \".line1\");\n\t\tthis.gameModeDescriptionLine2 = translator.translateKey(\"selectWorld.gameMode.\" + this.gameMode + \".line2\");\n\t\t*/\n\t\t\n\t\tthis.levelThemeButton.displayString = translator.translateKey(\"selectWorld.levelTheme\") + \": \" + translator.translateKey(\"theme.\" + LevelThemeSettings.findThemeById(this.themeId).name);\n\t\tthis.levelSizeButton.displayString = translator.translateKey(\"selectWorld.levelSize\") + \": \" + translator.translateKey(\"size.\" + sizeStrings[this.sizeId]);\n\t\t\n\t\tthis.generateStructuresButton.displayString = translator.translateKey(\"selectWorld.mapFeatures\") + \": \" + (this.generateStructures ? translator.translateKey(\"options.on\") : translator.translateKey(\"options.off\"));\n\t\tthis.enableCheatsButton.displayString = translator.translateKey(\"selectWorld.enableCheats\") + \": \" + (this.enableCheats ? translator.translateKey(\"options.on\") : translator.translateKey(\"options.off\"));\n\t\tthis.craftingGuideButton.displayString = translator.translateKey(\"selectWorld.craftingGuide\") + \": \" + (this.craftGuide ? translator.translateKey(\"options.on\") : translator.translateKey(\"options.off\"));\n\t\tthis.levelChecksButton.displayString = \"Level checks: \" + (this.levelChecks ? translator.translateKey(\"options.on\") : translator.translateKey(\"options.off\")); \n\t\tthis.layeredSandButton = \"Layered sand: \" + (this.layeredSand ?  translator.translateKey(\"options.on\") : translator.translateKey(\"options.off\"));\n\t\t\n\t\tint i = this.worldType; if(i == -1) i = 0;\n\t\tthis.worldTypeButton.displayString = translator.translateKey(\"selectWorld.mapType\") + \": \" + translator.translateKey(WorldType.worldTypes[i].getTranslateName());\n\t}",
+			"settings":
+			{
+				"buffer_size": 1992,
+				"line_ending": "Windows",
+				"name": "private void updateCaptions() {"
 			}
 		}
 	],
@@ -631,7 +648,7 @@
 	},
 	"expanded_folders":
 	[
-		"/D/Cosas/Inslands"
+		"/D/cosas/Inslands"
 	],
 	"file_history":
 	[
@@ -766,7 +783,7 @@
 	],
 	"find":
 	{
-		"height": 54.0
+		"height": 38.4
 	},
 	"find_in_files":
 	{
@@ -788,6 +805,17 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"var1",
+			"(world,",
+			", Block.web.blockID)",
+			"this.worldObj.setBlockWithNotify(",
+			"\"}",
+			"new String",
+			"\\s+} else {\n\\s+if",
+			"} else {\n\tif",
+			"(btnName",
+			"redstonewire",
+			" + Texels.texH)",
 			"i33",
 			"i32",
 			"i31",
@@ -904,25 +932,25 @@
 			"i2",
 			"i1",
 			"i5",
-			"i4",
-			"i3",
-			"i2",
-			"i4",
-			"i3",
-			"i2",
-			"i1",
-			"i3",
-			"i2",
-			"i1",
-			"i3",
-			"i2"
+			"i4"
 		],
 		"highlight": true,
 		"in_selection": false,
 		"preserve_case": false,
-		"regex": true,
+		"regex": false,
 		"replace_history":
 		[
+			"translator",
+			"(this.worldObj,",
+			")",
+			"this.setWeb(world, ",
+			"this.setWeb(",
+			"\"};",
+			"\\treturn new String",
+			"\\n} else if",
+			"} else if",
+			"btnName",
+			")",
 			"zt",
 			"yt",
 			"xt",
@@ -1039,15 +1067,7 @@
 			"z",
 			"y",
 			"x",
-			"chunk",
-			"hash",
-			"zChunk",
-			"xChunk",
-			"zChunk",
-			"xChunk",
-			"y",
-			"z",
-			"x"
+			"chunk"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -1067,15 +1087,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 21960,
+						"buffer_size": 26695,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								11787,
-								11787
+								10619,
+								10619
 							]
 						],
 						"settings":
@@ -1084,7 +1104,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2928.0,
+						"translation.y": 3352.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -1093,7 +1113,7 @@
 			]
 		},
 		{
-			"selected": 1,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -1122,7 +1142,7 @@
 						"translation.y": 3600.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -1130,7 +1150,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 874,
+						"buffer_size": 10984,
 						"regions":
 						{
 						},
@@ -1138,12 +1158,70 @@
 						[
 							[
 								0,
-								874
+								10984
 							]
 						],
 						"settings":
 						{
-							"auto_name": "// Call .onEntityCollidedWithBlock for all blocks",
+							"auto_name": "public boolean renderBlockRedstoneWire(Block bloc",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 3538.4,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/D/cosas/InfHell/infhell2/src/minecraft/net/minecraft/src/RenderBlocks.java",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 219056,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								51502,
+								51502
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 16770.4,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1992,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								1992
+							]
+						],
+						"settings":
+						{
+							"auto_name": "private void updateCaptions() {",
 							"syntax": "Packages/Text/Plain text.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
@@ -1203,7 +1281,7 @@
 	"project": "PE_OLD.sublime-project",
 	"replace":
 	{
-		"height": 94.0
+		"height": 72.0
 	},
 	"save_all_on_build": true,
 	"select_file":

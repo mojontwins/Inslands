@@ -37,6 +37,7 @@ public class GuiCreateWorld extends GuiScreen {
 	private GuiButton enableCheatsButton;
 	private GuiButton craftingGuideButton;
 	private GuiButton levelChecksButton;
+	private GuiButton layeredSandButton;
 	private String seed;
 	private String localizedNewWorldText;
 	private int worldType = -1;
@@ -45,6 +46,7 @@ public class GuiCreateWorld extends GuiScreen {
 	
 	private final String sizeStrings[] = WorldSize.sizeNames;
 	private boolean generateCities = true;
+	private boolean layeredSand = true;
 	private boolean levelChecks = true;
 
 	public GuiCreateWorld(GuiScreen par1GuiScreen) {
@@ -76,10 +78,12 @@ public class GuiCreateWorld extends GuiScreen {
 		this.generateStructuresButton.drawButton = false;
 		this.controlList.add(this.levelChecksButton = new GuiButton(10, this.width / 2 + 5, 100, 150, 20, "Level checks"));
 		this.levelChecksButton.drawButton = false;
-		this.controlList.add(this.enableCheatsButton = new GuiButton(6, this.width / 2 - 155, 140, 150, 20, var1.translateKey("selectWorld.enableCheats")));
+		this.controlList.add(this.enableCheatsButton = new GuiButton(6, this.width / 2 - 155, 122, 150, 20, var1.translateKey("selectWorld.enableCheats")));
 		this.enableCheatsButton.drawButton = false;
-		this.controlList.add(this.craftingGuideButton = new GuiButton(7, this.width / 2 + 5, 140, 150, 20, var1.translateKey("selectWorld.craftingGuide")));
+		this.controlList.add(this.craftingGuideButton = new GuiButton(7, this.width / 2 + 5, 122, 150, 20, var1.translateKey("selectWorld.craftingGuide")));
 		this.craftingGuideButton.drawButton = false;
+		this.controlList.add(this.layeredSandButton = new GuiButton(11, this.width / 2 - 155, 144, 150, 20, var1.translateKey("selectWorld.layeredSand")));
+		this.layeredSandButton.drawButton = false;
 		
 		this.textboxWorldName = new GuiTextField(this, this.fontRenderer, this.width / 2 - 100, 50, 200, 20, var1.translateKey("selectWorld.newWorld"));
 		this.textboxWorldName.isFocused = true;
@@ -108,24 +112,20 @@ public class GuiCreateWorld extends GuiScreen {
 	}
 
 	private void updateCaptions() {
-		StringTranslate var1 = StringTranslate.getInstance();
-		this.gameModeButton.displayString = var1.translateKey("selectWorld.gameMode") + " " + var1.translateKey("selectWorld.gameMode." + this.gameMode);
+		StringTranslate translator = StringTranslate.getInstance();
+		this.gameModeButton.displayString = translator.translateKey("selectWorld.gameMode") + " " + translator.translateKey("selectWorld.gameMode." + this.gameMode);
 		
-		/*
-		this.gameModeDescriptionLine1 = var1.translateKey("selectWorld.gameMode." + this.gameMode + ".line1");
-		this.gameModeDescriptionLine2 = var1.translateKey("selectWorld.gameMode." + this.gameMode + ".line2");
-		*/
+		this.levelThemeButton.displayString = translator.translateKey("selectWorld.levelTheme") + ": " + translator.translateKey("theme." + LevelThemeSettings.findThemeById(this.themeId).name);
+		this.levelSizeButton.displayString = translator.translateKey("selectWorld.levelSize") + ": " + translator.translateKey("size." + sizeStrings[this.sizeId]);
 		
-		this.levelThemeButton.displayString = var1.translateKey("selectWorld.levelTheme") + ": " + var1.translateKey("theme." + LevelThemeSettings.findThemeById(this.themeId).name);
-		this.levelSizeButton.displayString = var1.translateKey("selectWorld.levelSize") + ": " + var1.translateKey("size." + sizeStrings[this.sizeId]);
-		
-		this.generateStructuresButton.displayString = var1.translateKey("selectWorld.mapFeatures") + ": " + (this.generateStructures ? var1.translateKey("options.on") : var1.translateKey("options.off"));
-		this.enableCheatsButton.displayString = var1.translateKey("selectWorld.enableCheats") + ": " + (this.enableCheats ? var1.translateKey("options.on") : var1.translateKey("options.off"));
-		this.craftingGuideButton.displayString = var1.translateKey("selectWorld.craftingGuide") + ": " + (this.craftGuide ? var1.translateKey("options.on") : var1.translateKey("options.off"));
-		this.levelChecksButton.displayString = "Level checks: " + (this.levelChecks ? var1.translateKey("options.on") : var1.translateKey("options.off")); 
+		this.generateStructuresButton.displayString = translator.translateKey("selectWorld.mapFeatures") + ": " + (this.generateStructures ? translator.translateKey("options.on") : translator.translateKey("options.off"));
+		this.enableCheatsButton.displayString = translator.translateKey("selectWorld.enableCheats") + ": " + (this.enableCheats ? translator.translateKey("options.on") : translator.translateKey("options.off"));
+		this.craftingGuideButton.displayString = translator.translateKey("selectWorld.craftingGuide") + ": " + (this.craftGuide ? translator.translateKey("options.on") : translator.translateKey("options.off"));
+		this.levelChecksButton.displayString = "Level checks: " + (this.levelChecks ? translator.translateKey("options.on") : translator.translateKey("options.off")); 
+		this.layeredSandButton.displayString = "Layered sand: " + (this.layeredSand ?  translator.translateKey("options.on") : translator.translateKey("options.off"));
 		
 		int i = this.worldType; if(i == -1) i = 0;
-		this.worldTypeButton.displayString = var1.translateKey("selectWorld.mapType") + ": " + var1.translateKey(WorldType.worldTypes[i].getTranslateName());
+		this.worldTypeButton.displayString = translator.translateKey("selectWorld.mapType") + ": " + translator.translateKey(WorldType.worldTypes[i].getTranslateName());
 	}
 
 	public static String func_25097_a(ISaveFormat par0ISaveFormat, String par1Str) {
@@ -139,11 +139,11 @@ public class GuiCreateWorld extends GuiScreen {
 		Keyboard.enableRepeatEvents(false);
 	}
 
-	protected void actionPerformed(GuiButton par1GuiButton) {
-		if(par1GuiButton.enabled && par1GuiButton.drawButton) {
-			if(par1GuiButton.id == 1) {
+	protected void actionPerformed(GuiButton button) {
+		if(button.enabled && button.drawButton) {
+			if(button.id == 1) {
 				this.mc.displayGuiScreen(this.parentGuiScreen);
-			} else if(par1GuiButton.id == 0) {
+			} else if(button.id == 0) {
 				this.mc.displayGuiScreen((GuiScreen)null);
 				if(this.createClicked) {
 					return;
@@ -164,7 +164,7 @@ public class GuiCreateWorld extends GuiScreen {
 				}
 				
 				this.mc.gameSettings.isCreative = this.gameMode.equals("creative");
-				this.mc.gameSettings.enableCheats = this.enableCheats;
+				this.mc.gameSettings.enableCheats = this.mc.gameSettings.isCreative ? true : this.enableCheats;
 				this.mc.gameSettings.craftGuide = this.craftGuide;
 				
 				if(this.worldType == -1) this.worldType = WorldType.INFDEV.id;
@@ -190,11 +190,12 @@ public class GuiCreateWorld extends GuiScreen {
 						this.generateStructures, 
 						false, 
 						this.generateCities,
+						this.layeredSand,
 						WorldType.worldTypes[this.worldType])
 				);
 				this.mc.displayGuiScreen((GuiScreen)null);
 				
-			} else if(par1GuiButton.id == 3) {
+			} else if(button.id == 3) {
 				this.moreOptions = !this.moreOptions;
 				this.gameModeButton.drawButton = !this.moreOptions;
 				this.levelSizeButton.drawButton = !this.moreOptions;
@@ -204,15 +205,17 @@ public class GuiCreateWorld extends GuiScreen {
 				this.enableCheatsButton.drawButton = this.moreOptions;
 				this.craftingGuideButton.drawButton = this.moreOptions;
 				this.levelChecksButton.drawButton = this.moreOptions;
-				StringTranslate stringTranslate8;
+				this.layeredSandButton.drawButton = this.moreOptions;
+				
+				StringTranslate translator;
 				if(this.moreOptions) {
-					stringTranslate8 = StringTranslate.getInstance();
-					this.moreWorldOptions.displayString = stringTranslate8.translateKey("gui.done");
+					translator = StringTranslate.getInstance();
+					this.moreWorldOptions.displayString = translator.translateKey("gui.done");
 				} else {
-					stringTranslate8 = StringTranslate.getInstance();
-					this.moreWorldOptions.displayString = stringTranslate8.translateKey("selectWorld.moreWorldOptions");
+					translator = StringTranslate.getInstance();
+					this.moreWorldOptions.displayString = translator.translateKey("selectWorld.moreWorldOptions");
 				}
-			} else if(par1GuiButton.id == 2) {
+			} else if(button.id == 2) {
 				if(this.gameMode.equals("survival")) {
 					this.gameMode = "creative";
 					this.updateCaptions();
@@ -222,10 +225,10 @@ public class GuiCreateWorld extends GuiScreen {
 				}
 
 				this.updateCaptions();
-			} else if(par1GuiButton.id == 4) {
+			} else if(button.id == 4) {
 				this.generateStructures = !this.generateStructures;
 				this.updateCaptions();
-			} else if(par1GuiButton.id == 5) {
+			} else if(button.id == 5) {
 				
 				if(!LevelThemeSettings.findThemeById(this.themeId).forcedWorldType) {
 					
@@ -243,16 +246,16 @@ public class GuiCreateWorld extends GuiScreen {
 	 
 					this.updateCaptions();
 				}
-			} else if(par1GuiButton.id == 6) {
+			} else if(button.id == 6) {
 				this.enableCheats = !this.enableCheats;
 				this.updateCaptions(); 
-			} else if(par1GuiButton.id == 7) {
+			} else if(button.id == 7) {
 				this.craftGuide = !this.craftGuide;
 				this.updateCaptions();
-			} else if(par1GuiButton.id == 10) {
+			} else if(button.id == 10) {
 				this.levelChecks = !this.levelChecks;
 				this.updateCaptions();
-			} else if(par1GuiButton.id == 8) {
+			} else if(button.id == 8) {
 				this.themeId ++;
 				if(this.themeId == LevelThemeSettings.allThemeSettings.size()) {
 					this.themeId = 0;
@@ -266,9 +269,12 @@ public class GuiCreateWorld extends GuiScreen {
 				if(tentativeWorldType >= 0) this.worldType = tentativeWorldType;
 				
 				this.updateCaptions();
-			} else if(par1GuiButton.id == 9) {
+			} else if(button.id == 9) {
 				this.sizeId ++;
 				if(this.sizeId == this.sizeStrings.length) this.sizeId = 0;
+				this.updateCaptions();
+			} else if(button.id == 11) {
+				this.layeredSand = !this.layeredSand;
 				this.updateCaptions();
 			}
 		}
@@ -298,7 +304,7 @@ public class GuiCreateWorld extends GuiScreen {
 			this.textboxWorldName.mouseClicked(par1, par2, par3);
 		} else {
 			this.textboxSeed.mouseClicked(par1, par2, par3);
-	}
+		}
 
 	}
 
@@ -306,18 +312,18 @@ public class GuiCreateWorld extends GuiScreen {
 		StringTranslate var4 = StringTranslate.getInstance();
 		this.drawDefaultBackground();
 		this.drawCenteredString(this.fontRenderer, var4.translateKey("selectWorld.create"), this.width / 2, 20, 0xFFFFFF);
+		
 		if(!this.moreOptions) {
 			this.drawString(this.fontRenderer, var4.translateKey("selectWorld.enterName"), this.width / 2 - 100, 37, 10526880);
-			//this.drawString(this.fontRenderer, var4.translateKey("selectWorld.resultFolder") + " " + this.folderName, this.width / 2 - 100, 85, 10526880);
 			this.textboxWorldName.drawTextBox();
-			//this.drawString(this.fontRenderer, this.gameModeDescriptionLine1, this.width / 2 - 100, 122, 10526880);
-			//this.drawString(this.fontRenderer, this.gameModeDescriptionLine2, this.width / 2 - 100, 134, 10526880);
+
 		} else {
 			this.drawString(this.fontRenderer, var4.translateKey("selectWorld.enterSeed"), this.width / 2 - 100, 47, 10526880);
 			this.drawString(this.fontRenderer, var4.translateKey("selectWorld.seedInfo"), this.width / 2 - 100, 85, 10526880);
-			this.drawString(this.fontRenderer, var4.translateKey("selectWorld.mapFeatures.info"), this.width / 2 - 150, 122, 10526880);
-			this.drawString(this.fontRenderer, var4.translateKey("Retry gen. if not correct"), this.width / 2 + 5, 122, 10526880);
+			//this.drawString(this.fontRenderer, var4.translateKey("selectWorld.mapFeatures.info"), this.width / 2 - 150, 122, 10526880);
+			//this.drawString(this.fontRenderer, var4.translateKey("Retry gen. if not correct"), this.width / 2 + 5, 122, 10526880);
 			this.textboxSeed.drawTextBox();
+			
 		}
 
 		super.drawScreen(par1, par2, par3);

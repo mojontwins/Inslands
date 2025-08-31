@@ -4235,3 +4235,106 @@ java.lang.ArithmeticException: / by zero
 2025-08-28 11:27:36 [INFO] Stopping server
 2025-08-28 11:27:36 [INFO] Saving chunks
 2025-08-28 11:27:36 [INFO] Saving chunks
+2025-08-31 10:38:09 [INFO] Starting minecraft server InSlands v250824
+2025-08-31 10:38:10 [INFO] Loading properties
+2025-08-31 10:38:10 [INFO] Starting Minecraft server on *:25565
+2025-08-31 10:38:10 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2025-08-31 10:38:10 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2025-08-31 10:38:10 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2025-08-31 10:38:10 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2025-08-31 10:38:10 [INFO] Preparing level "world"
+2025-08-31 10:38:10 [INFO] ** DIM 0
+2025-08-31 10:38:10 [INFO] Loading existing world
+2025-08-31 10:38:12 [INFO] Preparing spawn area: 31%
+2025-08-31 10:38:13 [INFO] ** DIM -1
+2025-08-31 10:38:13 [INFO] Loading existing world
+2025-08-31 10:38:14 [INFO] Preparing spawn area: 95%
+2025-08-31 10:38:14 [INFO] Done (3592036200ns)! For help, type "help" or "?"
+2025-08-31 10:38:35 [INFO] Popoch [/127.0.0.1:55117] logged in with entity id 381 at (124.1453588119079, 65.0, 145.62281744618048)
+2025-08-31 10:38:41 [INFO] Disconnecting Popoch [/127.0.0.1:55117]: Internal server error
+2025-08-31 10:38:41 [WARNING] Failed to handle packet: java.lang.NullPointerException
+java.lang.NullPointerException
+	at net.minecraft.world.level.levelgen.ChunkProviderInfdev.generateTerrain(ChunkProviderInfdev.java:68)
+	at net.minecraft.world.level.levelgen.ChunkProviderGenerate.justGenerateForHeight(ChunkProviderGenerate.java:364)
+	at net.minecraft.server.ChunkProviderServer.justGenerateForHeight(ChunkProviderServer.java:236)
+	at net.minecraft.world.level.World.getLandSurfaceHeightValue(World.java:783)
+	at net.minecraft.world.level.biome.BiomeGenThemeForest.prePopulate(BiomeGenThemeForest.java:136)
+	at net.minecraft.world.level.levelgen.ChunkProviderGenerate.populate(ChunkProviderGenerate.java:711)
+	at net.minecraft.server.ChunkProviderServer.populate(ChunkProviderServer.java:166)
+	at net.minecraft.server.ChunkProviderServer.prepareChunk(ChunkProviderServer.java:101)
+	at net.minecraft.server.PlayerInstance.<init>(PlayerInstance.java:38)
+	at net.minecraft.server.PlayerManager.getPlayerInstance(PlayerManager.java:53)
+	at net.minecraft.server.PlayerManager.addPlayer(PlayerManager.java:89)
+	at net.minecraft.server.ServerConfigurationManager.playerLoggedIn(ServerConfigurationManager.java:98)
+	at net.minecraft.server.NetLoginHandler.doLogin(NetLoginHandler.java:114)
+	at net.minecraft.server.NetLoginHandler.handleLogin(NetLoginHandler.java:89)
+	at net.minecraft.network.packet.Packet1Login.processPacket(Packet1Login.java:45)
+	at net.minecraft.network.NetworkManager.processReadPackets(NetworkManager.java:212)
+	at net.minecraft.server.NetLoginHandler.tryLogin(NetLoginHandler.java:51)
+	at net.minecraft.server.NetworkListenThread.handleNetworkListenThread(NetworkListenThread.java:47)
+	at net.minecraft.server.MinecraftServer.doTick(MinecraftServer.java:384)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:302)
+	at net.minecraft.server.ThreadServerApplication.run(ThreadServerApplication.java:12)
+2025-08-31 10:38:41 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-08-31 10:38:49 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-08-31 10:38:52 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-08-31 10:38:57 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-08-31 10:38:59 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-08-31 10:39:02 [INFO] Stopping server
+2025-08-31 10:39:02 [INFO] Saving chunks
+2025-08-31 10:39:03 [INFO] Saving chunks
+2025-08-31 10:41:29 [INFO] Starting minecraft server InSlands v250824
+2025-08-31 10:41:29 [INFO] Loading properties
+2025-08-31 10:41:31 [INFO] Starting Minecraft server on *:25565
+2025-08-31 10:41:31 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2025-08-31 10:41:31 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2025-08-31 10:41:31 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2025-08-31 10:41:31 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2025-08-31 10:41:31 [INFO] Preparing level "world"
+2025-08-31 10:41:31 [INFO] ** DIM 0
+2025-08-31 10:41:32 [INFO] Loading existing world
+2025-08-31 10:41:33 [INFO] Preparing spawn area: 44%
+2025-08-31 10:41:34 [INFO] Preparing spawn area: 87%
+2025-08-31 10:41:35 [INFO] ** DIM -1
+2025-08-31 10:41:36 [INFO] Loading existing world
+2025-08-31 10:41:37 [INFO] Preparing spawn area: 35%
+2025-08-31 10:41:38 [INFO] Preparing spawn area: 78%
+2025-08-31 10:41:38 [INFO] Done (6943792100ns)! For help, type "help" or "?"
+2025-08-31 10:41:40 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-08-31 10:41:47 [INFO] Popoch [/127.0.0.1:55209] logged in with entity id 1254 at (124.1453588119079, 65.0, 145.62281744618048)
+2025-08-31 10:43:11 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-08-31 10:43:24 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-08-31 10:43:33 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-08-31 10:43:42 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-08-31 10:43:51 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-08-31 10:43:59 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-08-31 10:43:59 [INFO] Popoch lost connection: disconnect.genericReason
+2025-08-31 10:44:03 [INFO] Stopping server
+2025-08-31 10:44:03 [INFO] Saving chunks
+2025-08-31 10:44:05 [INFO] Saving chunks
+2025-08-31 10:52:20 [INFO] Starting minecraft server InSlands v250824
+2025-08-31 10:52:20 [INFO] Loading properties
+2025-08-31 10:52:20 [INFO] Starting Minecraft server on *:25565
+2025-08-31 10:52:20 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2025-08-31 10:52:20 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2025-08-31 10:52:20 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2025-08-31 10:52:20 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2025-08-31 10:52:20 [INFO] Preparing level "world"
+2025-08-31 10:52:20 [INFO] ** DIM 0
+2025-08-31 10:52:21 [INFO] Loading existing world
+2025-08-31 10:52:22 [INFO] Preparing spawn area: 66%
+2025-08-31 10:52:22 [INFO] ** DIM -1
+2025-08-31 10:52:22 [INFO] Loading existing world
+2025-08-31 10:52:22 [INFO] Done (2047041900ns)! For help, type "help" or "?"
+2025-08-31 10:52:27 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-08-31 10:52:37 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-08-31 10:52:44 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-08-31 10:52:49 [INFO] Popoch [/127.0.0.1:55641] logged in with entity id 1532 at (101.28113607028813, 65.0, 255.3357425631758)
+2025-08-31 10:53:09 [INFO] Popoch lost connection: disconnect.genericReason
+2025-08-31 10:53:09 [INFO] Popoch lost connection: disconnect.genericReason
+2025-08-31 10:53:15 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-08-31 10:53:21 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-08-31 10:53:27 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-08-31 10:53:33 [INFO] Stopping server
+2025-08-31 10:53:33 [INFO] Saving chunks
+2025-08-31 10:53:34 [INFO] Saving chunks

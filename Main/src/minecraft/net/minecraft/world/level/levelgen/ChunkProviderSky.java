@@ -13,11 +13,11 @@ import net.minecraft.world.level.tile.Block;
 public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkProvider {
 	
 	public ChunkProviderSky(World world1, long j2) {
-		this(world1, j2, true);
+		this(world1, j2, true, true);
 	}
 	
-	public ChunkProviderSky(World world1, long j2, boolean b) {
-		super(world1, j2, b);
+	public ChunkProviderSky(World world1, long j2, boolean b, boolean s) {
+		super(world1, j2, b, s);
 	}
 
 	public void generateTerrain(int chunkX, int chunkZ, byte[] blocks) {

@@ -7,14 +7,16 @@ public final class WorldSettings {
 	private final boolean generateCities;
 	private final boolean hardcoreEnabled;
 	private final WorldType terrainType;
+	private final boolean layeredSand;
 
-	public WorldSettings(long seed, int gameType, boolean mapFeaturesEnabled, boolean hardcoreEnabled, boolean generateCities, WorldType worldType6) {
+	public WorldSettings(long seed, int gameType, boolean mapFeaturesEnabled, boolean hardcoreEnabled, boolean generateCities, boolean layeredSand, WorldType worldType6) {
 		this.seed = seed;
 		this.gameType = gameType;
 		this.mapFeaturesEnabled = mapFeaturesEnabled;
 		this.hardcoreEnabled = hardcoreEnabled;
 		this.generateCities = generateCities;
 		this.terrainType = worldType6;
+		this.layeredSand = layeredSand;
 	}
 
 	public long getSeed() {
@@ -49,6 +51,10 @@ public final class WorldSettings {
 		default:
 			return 0;
 		}
+	}
+
+	public boolean isLayeredSand() {
+		return this.layeredSand;
 	}
 
 }

@@ -46,6 +46,7 @@ public class ChunkProviderGenerate implements IChunkProvider {
 	public NoiseGeneratorOctavesIndev noiseIslandGen;
 	protected World worldObj;
 	public final boolean mapFeaturesEnabled;
+	public final boolean layeredSand;
 	protected double[] terrainNoise;
 	protected double[] sandNoise = new double[256];
 	protected double[] gravelNoise = new double[256];
@@ -74,12 +75,12 @@ public class ChunkProviderGenerate implements IChunkProvider {
 	public FeatureProvider featureProvider;
 
 	public ChunkProviderGenerate(World world1, long j2) {
-		this(world1, j2, true);
+		this(world1, j2, true, true);
 	}
 
-	public ChunkProviderGenerate(World world, long j2, boolean z4) {
+	public ChunkProviderGenerate(World world, long seed, boolean mapFeaturesEnabled, boolean layeredSand) {
 		this.worldObj = world;
-		this.rand = new Random(j2);
+		this.rand = new Random(seed);
 		this.minLimitNoise = new NoiseGeneratorOctaves(this.rand, 16);
 		this.maxLimitNoise = new NoiseGeneratorOctaves(this.rand, 16);
 		this.mainNoise = new NoiseGeneratorOctaves(this.rand, 8);
@@ -91,7 +92,8 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		this.noiseIslandGen = new NoiseGeneratorOctavesIndev(this.rand, 2);
 
 		this.featureProvider = new FeatureProvider(worldObj, this);
-		this.mapFeaturesEnabled = z4;
+		this.mapFeaturesEnabled = mapFeaturesEnabled;
+		this.layeredSand = layeredSand;
 
 		this.caveGenerator = this.getCaveGenerator();
 		this.mineshaftGenerator = new MapGenMineshaft(world);
@@ -870,44 +872,46 @@ public class ChunkProviderGenerate implements IChunkProvider {
 
 		// Layered sand
 		// 1st step = build float "blurred" height map
-		float[][] floatHeightMap = new float[18][18];
-		for (x = -1; x < 17; x ++) {
-			for (z = -1; z < 17; z ++) {
-				floatHeightMap[x + 1][z + 1] = (float)this.worldObj.getHeightValue(x0 + x, z0 + z);
-			}
-		}
-		
-		float[][] blurredHeightMap = new float[16][16];
-		for (x = 0; x < 16; x ++) {
-			for (z = 0; z < 16; z ++) {
-				int xx0 = x + 1; 
-				int zz0 = z + 1;
-				float sum = 0.0F;
-				for (int xx = xx0 - 1; xx <= xx0 + 1; xx ++) {
-					for (int zz = zz0 - 1; zz <= zz0 + 1; zz ++) {
-						sum += floatHeightMap[xx][zz];
-					}
-				}
-				blurredHeightMap[x][z] = sum / 9.0F;
-			}
-		}
-
-		// Now fill "decimal" part of height value over sand blocks with layered sand
-		for (x = 0; x < 16; x ++) {
-			for (z = 0; z < 16; z ++) {
-				float f = blurredHeightMap[x][z];
-				y = (int)f - 1;
-				if(y >= 63 && this.worldObj.getBlockID(x0 + x, y, z0 + z) == Block.sand.blockID) {
-					int yy = (int)f;
-					int meta = (int)(16.0F * (f - Math.floor(f))) - 1 + (this.rand.nextInt(2) << 1) - 1;
-					if(meta < 0) meta = 0;
-					if(meta > 15) meta = 15;
-					if (this.worldObj.getBlockID(x0 + x, yy + 1, z0 + z) == 0 && meta > 0) {
-						this.worldObj.setBlockAndMetadata(x0 + x, yy , z0 + z, Block.layeredSand.blockID, meta);
-					}
+		if(this.layeredSand) {
+			float[][] floatHeightMap = new float[18][18];
+			for (x = -1; x < 17; x ++) {
+				for (z = -1; z < 17; z ++) {
+					floatHeightMap[x + 1][z + 1] = (float)this.worldObj.getHeightValue(x0 + x, z0 + z);
 				}
 			}
-		}		
+			
+			float[][] blurredHeightMap = new float[16][16];
+			for (x = 0; x < 16; x ++) {
+				for (z = 0; z < 16; z ++) {
+					int xx0 = x + 1; 
+					int zz0 = z + 1;
+					float sum = 0.0F;
+					for (int xx = xx0 - 1; xx <= xx0 + 1; xx ++) {
+						for (int zz = zz0 - 1; zz <= zz0 + 1; zz ++) {
+							sum += floatHeightMap[xx][zz];
+						}
+					}
+					blurredHeightMap[x][z] = sum / 9.0F;
+				}
+			}
+	
+			// Now fill "decimal" part of height value over sand blocks with layered sand
+			for (x = 0; x < 16; x ++) {
+				for (z = 0; z < 16; z ++) {
+					float f = blurredHeightMap[x][z];
+					y = (int)f - 1;
+					if(y >= 63 && this.worldObj.getBlockID(x0 + x, y, z0 + z) == Block.sand.blockID) {
+						int yy = (int)f;
+						int meta = (int)(16.0F * (f - Math.floor(f))) - 1 + (this.rand.nextInt(2) << 1) - 1;
+						if(meta < 0) meta = 0;
+						if(meta > 15) meta = 15;
+						if (this.worldObj.getBlockID(x0 + x, yy + 1, z0 + z) == 0 && meta > 0) {
+							this.worldObj.setBlockAndMetadata(x0 + x, yy , z0 + z, Block.layeredSand.blockID, meta);
+						}
+					}
+				}
+			}		
+		}
 
 		// Biome based population
 		biomeGen.populate(this.worldObj, this.rand, x0, z0);
