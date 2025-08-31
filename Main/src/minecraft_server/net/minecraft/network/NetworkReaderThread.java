@@ -10,7 +10,6 @@ class NetworkReaderThread extends Thread {
 
 	@SuppressWarnings("unused")
 	public void run() {
-		Object object1 = NetworkManager.threadSyncObject;
 		synchronized(NetworkManager.threadSyncObject) {
 			++NetworkManager.numReadThreads;
 		}
@@ -39,7 +38,6 @@ class NetworkReaderThread extends Thread {
 				}
 			} finally {
 				if(z12) {
-					Object object5 = NetworkManager.threadSyncObject;
 					synchronized(NetworkManager.threadSyncObject) {
 						--NetworkManager.numReadThreads;
 					}
@@ -47,7 +45,6 @@ class NetworkReaderThread extends Thread {
 			}
 		}
 
-		object1 = NetworkManager.threadSyncObject;
 		synchronized(NetworkManager.threadSyncObject) {
 			--NetworkManager.numReadThreads;
 		}

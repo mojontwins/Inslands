@@ -12,7 +12,6 @@ class NetworkWriterThread extends Thread {
 
 	@SuppressWarnings("unused")
 	public void run() {
-		Object object1 = NetworkManager.threadSyncObject;
 		synchronized(NetworkManager.threadSyncObject) {
 			++NetworkManager.numWriteThreads;
 		}
@@ -31,11 +30,6 @@ class NetworkWriterThread extends Thread {
 				}
 
 				try {
-					sleep(2L); // Vanilla was: 100L
-				} catch (InterruptedException interruptedException16) {
-				}
-
-				try {
 					if(NetworkManager.getSocketOutputStream(this.netManager) != null) {
 						NetworkManager.getSocketOutputStream(this.netManager).flush();
 					}
@@ -46,9 +40,14 @@ class NetworkWriterThread extends Thread {
 
 					iOException18.printStackTrace();
 				}
+				
+				try {
+					sleep(2L); // Vanilla was: 100L
+				} catch (InterruptedException interruptedException16) {
+				}
+				
 			} finally {
 				if(z13) {
-					Object object5 = NetworkManager.threadSyncObject;
 					synchronized(NetworkManager.threadSyncObject) {
 						--NetworkManager.numWriteThreads;
 					}
@@ -56,7 +55,6 @@ class NetworkWriterThread extends Thread {
 			}
 		}
 
-		object1 = NetworkManager.threadSyncObject;
 		synchronized(NetworkManager.threadSyncObject) {
 			--NetworkManager.numWriteThreads;
 		}
