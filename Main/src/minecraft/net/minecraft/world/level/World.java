@@ -3493,6 +3493,7 @@ public class World implements IBlockAccess {
 			if(creatureType.getCreatureClass().isAssignableFrom(entity.getClass())) {
 				numEntitiesOfThisType ++;
 				if(numEntitiesOfThisType >= maxEntitiesOfThisType) {
+					System.out.println ("Type " + creatureType.name() + ", max=" + maxEntitiesOfThisType + ", number=" + numEntitiesOfThisType);
 					if(entity instanceof EntityLiving) {
 						((EntityLiving) entity).health = 0;
 					} else {

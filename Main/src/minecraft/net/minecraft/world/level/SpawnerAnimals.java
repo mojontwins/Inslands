@@ -117,7 +117,7 @@ public final class SpawnerAnimals {
 				// System.out.println ("Chunks: " + eligibleChunksForSpawning.size() + ", TYPE: " + creatureType + " #" + activeEntitiesOfThisType + " of " + maxEntitiesOfThisType);
 								
 				if(activeEntitiesOfThisType > maxEntitiesOfThisType) {
-					world.pruneEntitiesToCap(creatureType, maxEntitiesOfThisType);
+					//world.pruneEntitiesToCap(creatureType, maxEntitiesOfThisType);
 				}
 				
 				if(
