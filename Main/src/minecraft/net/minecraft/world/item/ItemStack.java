@@ -182,10 +182,10 @@ public final class ItemStack {
 
 	}
 
-	public void onDestroyBlock(int i1, int i2, int i3, int i4, EntityPlayer entityPlayer5) {
-		boolean z6 = Item.itemsList[this.itemID].onBlockDestroyed(this, i1, i2, i3, i4, entityPlayer5);
+	public void onDestroyBlock(int blockID, int x, int y, int z, EntityPlayer entityPlayer) {
+		boolean z6 = Item.itemsList[this.itemID].onBlockDestroyed(this, blockID, x, y, z, entityPlayer);
 		if(z6) {
-			entityPlayer5.addStat(StatList.objectUseStats[this.itemID], 1);
+			entityPlayer.addStat(StatList.objectUseStats[this.itemID], 1);
 		}
 
 	}

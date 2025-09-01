@@ -163,9 +163,15 @@ public class ItemDye extends Item {
 							if(rand.nextInt(10) != 0) {
 								world.setBlockWithNotify(xx, yy, zz, Block.tallGrass.blockID);
 							} else if(rand.nextInt(3) != 0) {
-								world.setBlockWithNotify(xx, yy, zz, Block.plantYellow.blockID);
+								world.setBlockWithNotify(xx, yy, zz, Block.plantYellow);
 							} else {
-								world.setBlockWithNotify(xx, yy, zz, Block.plantRed.blockID);
+								if(rand.nextInt(3) != 0) {
+									world.setBlockWithNotify(xx, yy, zz, Block.plantRed);
+								} else if(rand.nextBoolean()) {
+									world.setBlockWithNotify(xx, yy, zz, Block.paeonia);
+								} else {
+									world.setBlockWithNotify(xx, yy, zz, Block.blueFlower);
+								}
 							}
 							this.particles(world, "glowdust", xx, yy, zz);
 						}

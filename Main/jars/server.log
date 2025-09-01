@@ -4550,3 +4550,46 @@ java.lang.NullPointerException
 2025-08-31 16:00:55 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
 2025-08-31 16:00:57 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
 2025-08-31 16:00:59 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-09-01 08:11:46 [INFO] Starting minecraft server InSlands v250824
+2025-09-01 08:11:46 [INFO] Loading properties
+2025-09-01 08:11:46 [INFO] Starting Minecraft server on *:25565
+2025-09-01 08:11:46 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2025-09-01 08:11:46 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2025-09-01 08:11:46 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2025-09-01 08:11:46 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2025-09-01 08:11:46 [INFO] Preparing level "world"
+2025-09-01 08:11:46 [INFO] ** DIM 0
+2025-09-01 08:11:47 [INFO] Loading existing world
+2025-09-01 08:11:47 [INFO] ** DIM -1
+2025-09-01 08:11:47 [INFO] Loading existing world
+2025-09-01 08:11:47 [INFO] Done (526618900ns)! For help, type "help" or "?"
+2025-09-01 08:12:03 [INFO] Popoch [/127.0.0.1:53628] logged in with entity id 294 at (221.8125, 64.0, 26.25)
+2025-09-01 08:12:10 [INFO] Popoch lost connection: disconnect.genericReason
+2025-09-01 08:12:11 [INFO] Stopping server
+2025-09-01 08:12:11 [INFO] Saving chunks
+2025-09-01 08:12:11 [INFO] Saving chunks
+2025-09-01 08:20:16 [INFO] Starting minecraft server InSlands v250824
+2025-09-01 08:20:16 [INFO] Loading properties
+2025-09-01 08:20:16 [INFO] Starting Minecraft server on *:25565
+2025-09-01 08:20:16 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2025-09-01 08:20:16 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2025-09-01 08:20:16 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2025-09-01 08:20:16 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2025-09-01 08:20:16 [INFO] Preparing level "world"
+2025-09-01 08:20:16 [INFO] ** DIM 0
+2025-09-01 08:20:16 [INFO] Generating new world
+2025-09-01 08:20:17 [INFO] Preparing spawn area: 21%
+2025-09-01 08:20:18 [INFO] Preparing spawn area: 40%
+2025-09-01 08:20:19 [INFO] Preparing spawn area: 64%
+2025-09-01 08:20:20 [INFO] Preparing spawn area: 89%
+2025-09-01 08:20:21 [INFO] ** DIM -1
+2025-09-01 08:20:21 [INFO] Generating new world
+2025-09-01 08:20:22 [INFO] Preparing spawn area: 58%
+2025-09-01 08:20:23 [INFO] Done (6809787700ns)! For help, type "help" or "?"
+2025-09-01 08:20:24 [WARNING] Failed to load player data for Popoch
+2025-09-01 08:20:24 [INFO] Popoch [/127.0.0.1:53922] logged in with entity id 1038 at (70.5, 68.62000000476837, 105.5)
+2025-09-01 08:20:28 [WARNING] Can't keep up! Did the system time change, or is the server overloaded?
+2025-09-01 08:21:30 [INFO] Popoch lost connection: disconnect.genericReason
+2025-09-01 08:21:36 [INFO] Stopping server
+2025-09-01 08:21:36 [INFO] Saving chunks
+2025-09-01 08:21:37 [INFO] Saving chunks

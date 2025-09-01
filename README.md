@@ -381,19 +381,6 @@ Things to do to finish tree refactoring
 * [X] Make sure poison witch never dies or despawns.
 * [ ] Make a smaller feature-size fossil so poison islands have bones too and can grow animals.
 
-# When I'm ready to add new stuff
-
-* [ ] Goats and the named entity dynamic.
-	* [ ] Item Tag
-	* [ ] save entity name, GUI, etc.
-	* [ ] Add tags to loot.
-	* [ ] Add goats.
-* [ ] Backport all the custom command block shit.
-* [ ] Think about gameplay items for a desert and a glacier based theme (for the future).
-	* [ ] both lack trees, dirt and saplings must be obtained. Make sure skeletons still drop acorns.
-	* [ ] cold mechanics. Need to reactivate code for freeze
-	* [ ] The ice palace in glacier.
-
 # Hedge mazes - again
 
 I want hedge mazes to carve thru rock - only. The way tey work is that hollow is created and then walls are painted, but that won't work for me i.e. for floating islands. I need to understand how mazes are built so I can change the code.
@@ -558,4 +545,18 @@ This would be completely impossible in the vanilla game lol.
 
 # A bit low on block IDs... 
 
-[ ] This uses 8 bit IDs for simplicity / speed. And I'm running out of IDs. I think I'll have, at some point, to rehash some decorative blocks as blocks + meta or combine simmilar blocks making use of the extended 8 bits meta to free up some slots.
+* [ ] This uses 8 bit IDs for simplicity / speed. And I'm running out of IDs. I think I'll have, at some point, to rehash some decorative blocks as blocks + meta or combine simmilar blocks making use of the extended 8 bits meta to free up some slots.
+	* Blocks
+		* All flowers in the yellow flower id with meta?
+# When I'm ready to add new stuff
+
+* [ ] Goats and the named entity dynamic.
+	* [ ] Item Tag
+	* [ ] save entity name, GUI, etc.
+	* [ ] Add tags to loot.
+	* [ ] Add goats.
+* [ ] Backport all the custom command block shit.
+* [ ] Think about gameplay items for a desert and a glacier based theme (for the future).
+	* [ ] both lack trees, dirt and saplings must be obtained. Make sure skeletons still drop acorns.
+	* [ ] cold mechanics. Need to reactivate code for freeze
+	* [ ] The ice palace in glacier.

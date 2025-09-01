@@ -12,11 +12,11 @@ public class Packet50PreChunk extends Packet {
 	public boolean mode;
 
 	public Packet50PreChunk() {
-		this.isChunkDataPacket = false;
+		this.shouldDelay = false;
 	}
 
 	public Packet50PreChunk(int i1, int i2, boolean z3) {
-		this.isChunkDataPacket = false;
+		this.shouldDelay = false;
 		this.xPosition = i1;
 		this.yPosition = i2;
 		this.mode = z3;

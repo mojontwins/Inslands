@@ -13,9 +13,9 @@ import net.minecraft.world.phys.AxisAlignedBB;
 import net.minecraft.world.stats.StatList;
 
 public class BlockFlower extends Block implements INonSolidPlant {
-	protected BlockFlower(int i1, int i2) {
-		super(i1, Material.plants);
-		this.blockIndexInTexture = i2;
+	protected BlockFlower(int id, int tex) {
+		super(id, Material.plants);
+		this.blockIndexInTexture = tex;
 		this.setTickOnLoad(true);
 		this.setMyBlockBounds();
 	

@@ -16,12 +16,12 @@ public class Packet52MultiBlockChange extends Packet {
 	public int size;
 
 	public Packet52MultiBlockChange() {
-		this.isChunkDataPacket = true;
+		this.shouldDelay = true;
 	}
 
 	// This had to be adapted to encode 8 bit block ID and 8 bit metadata
 	public Packet52MultiBlockChange(int xPos, int zPos, short[] encodedData, int numBlocksToUpdate, World world) {
-		this.isChunkDataPacket = true;
+		this.shouldDelay = true;
 		this.xPosition = xPos;
 		this.zPosition = zPos;
 		this.size = numBlocksToUpdate;

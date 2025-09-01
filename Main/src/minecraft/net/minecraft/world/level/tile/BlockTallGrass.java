@@ -3,6 +3,7 @@ package net.minecraft.world.level.tile;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.IBlockAccess;
@@ -17,15 +18,15 @@ public class BlockTallGrass extends BlockFlower {
 		0xA76E1F
 	};
 	
-	protected BlockTallGrass(int var1, int var2) {
-		super(var1, var2);
+	protected BlockTallGrass(int id, int texId) {
+		super(id, texId);
 		this.setMyBlockBounds();
 	}
 
 	@Override 
 	public void setMyBlockBounds() {
-		float var3 = 0.4F;
-		this.setBlockBounds(0.5F - var3, 0.0F, 0.5F - var3, 0.5F + var3, 0.8F, 0.5F + var3);
+		float f = 0.4F;
+		this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.8F, 0.5F + f);
 	}
 
 	@Override
@@ -103,5 +104,15 @@ public class BlockTallGrass extends BlockFlower {
 		for(int i = 0; i < 2; i ++) {
 			par3List.add(new ItemStack(par1, 1, (i & 8) << 4));
 		}
+	}
+    
+    @Override
+	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
+		if(!world.isRemote && player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().itemID == Item.shears.shiftedIndex) {
+			this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Block.tallGrass, 1, meta));
+		} else {
+			super.harvestBlock(world, player, x, y, z, meta);
+		}
+
 	}
 }

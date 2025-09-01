@@ -534,11 +534,11 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 	}
 
 	public void handleKickDisconnect(Packet255KickDisconnect packet255KickDisconnect1) {
-		this.netManager.networkShutdown("disconnect.quitting", new Object[0]);
+		this.netManager.close("disconnect.quitting", new Object[0]);
 	}
 
-	public int getNumChunkDataPackets() {
-		return this.netManager.getNumChunkDataPackets();
+	public int countDelayedPackets() {
+		return this.netManager.countDelayedPackets();
 	}
 
 	public void log(String string1) {

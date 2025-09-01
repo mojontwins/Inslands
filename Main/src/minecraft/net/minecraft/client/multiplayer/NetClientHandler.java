@@ -487,7 +487,7 @@ public class NetClientHandler extends NetHandler {
 	}
 
 	public void handleKickDisconnect(Packet255KickDisconnect packet255KickDisconnect1) {
-		this.netManager.networkShutdown("disconnect.kicked", new Object[0]);
+		this.netManager.close("disconnect.kicked", new Object[0]);
 		this.disconnected = true;
 		this.mc.changeWorld((World) null);
 		this.mc.displayGuiScreen(new GuiConnectFailed("disconnect.disconnected", "disconnect.genericReason",
@@ -580,11 +580,11 @@ public class NetClientHandler extends NetHandler {
 				if (string4.equalsIgnoreCase("ok")) {
 					this.addToSendQueue(new Packet1Login(this.mc.session.username, 14));
 				} else {
-					this.netManager.networkShutdown("disconnect.loginFailedInfo", new Object[] { string4 });
+					this.netManager.close("disconnect.loginFailedInfo", new Object[] { string4 });
 				}
 			} catch (Exception exception5) {
 				exception5.printStackTrace();
-				this.netManager.networkShutdown("disconnect.genericReason",
+				this.netManager.close("disconnect.genericReason",
 						new Object[] { "Internal client error: " + exception5.toString() });
 			}
 		}
@@ -594,7 +594,7 @@ public class NetClientHandler extends NetHandler {
 	public void disconnect() {
 		this.disconnected = true;
 		this.netManager.wakeThreads();
-		this.netManager.networkShutdown("disconnect.closed", new Object[0]);
+		this.netManager.close("disconnect.closed", new Object[0]);
 	}
 
 	public void handleMobSpawn(Packet24MobSpawn packet) {

@@ -162,7 +162,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 
 		for(int i2 = 0; i2 < this.inventory.getSizeInventory(); ++i2) {
 			ItemStack itemStack3 = this.inventory.getStackInSlot(i2);
-			if(itemStack3 != null && Item.itemsList[itemStack3.itemID].hasContents() && this.playerNetServerHandler.getNumChunkDataPackets() <= 2) {
+			if(itemStack3 != null && Item.itemsList[itemStack3.itemID].hasContents() && this.playerNetServerHandler.countDelayedPackets() <= 2) {
 				Packet packet4 = ((ItemMapBase)Item.itemsList[itemStack3.itemID]).s_func_28022_b(itemStack3, this.worldObj, this);
 				if(packet4 != null) {
 					this.playerNetServerHandler.sendPacket(packet4);
@@ -174,7 +174,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 			ChunkCoordIntPair chunkCoordIntPair7 = (ChunkCoordIntPair)this.loadedChunks.get(0);
 			if(chunkCoordIntPair7 != null) {
 				boolean z8 = false;
-				if(this.playerNetServerHandler.getNumChunkDataPackets() < 4) {
+				if(this.playerNetServerHandler.countDelayedPackets() < 4) {
 					z8 = true;
 				}
 

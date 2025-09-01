@@ -12,7 +12,7 @@ public class ThreadMonitorConnection extends Thread {
 			Thread.sleep(2000L);
 			if(NetworkManager.isRunning(this.netManager)) {
 				NetworkManager.getWriteThread(this.netManager).interrupt();
-				this.netManager.networkShutdown("disconnect.closed", new Object[0]);
+				this.netManager.close("disconnect.closed", new Object[0]);
 			}
 		} catch (Exception exception2) {
 			exception2.printStackTrace();

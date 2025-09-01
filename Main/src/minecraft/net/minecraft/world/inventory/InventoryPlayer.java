@@ -296,8 +296,8 @@ public class InventoryPlayer implements IInventory {
 		if(material.getIsHarvestable()) {
 			return true;
 		} else {
-			ItemStack itemStack2 = this.getStackInSlot(this.currentItem);
-			return itemStack2 != null ? itemStack2.canHarvestBlock(block) : false;
+			ItemStack stack = this.getStackInSlot(this.currentItem);
+			return stack != null ? stack.canHarvestBlock(block) : false;
 		}
 	}
 

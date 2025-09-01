@@ -36,7 +36,6 @@ public class NetLoginHandler extends NetHandler {
 	public NetLoginHandler(MinecraftServer minecraftServer1, Socket socket2, String string3) throws IOException {
 		this.mcServer = minecraftServer1;
 		this.netManager = new NetworkManager(socket2, string3, this);
-		this.netManager.chunkDataSendCounter = 0;
 	}
 
 	public void tryLogin() {

@@ -3,29 +3,43 @@ package net.minecraft.world.item;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockLeaves;
+import net.minecraft.world.level.tile.BlockTallGrass;
 
 public class ItemShears extends Item {
-	public ItemShears(int i1) {
-		super(i1);
+	public ItemShears(int id) {
+		super(id);
 		this.setMaxStackSize(1);
 		this.setMaxDamage(238);
 		
 		this.displayOnCreativeTab = CreativeTabs.tabTools;
 	}
 
-	public boolean onBlockDestroyed(ItemStack itemStack1, int i2, int i3, int i4, int i5, EntityLiving entityLiving6) {
-		if(i2 == Block.leaves.blockID || i2 == Block.web.blockID) {
-			itemStack1.damageItem(1, entityLiving6);
+	public boolean onBlockDestroyed(ItemStack stack, int blockID, int x, int y, int z, EntityLiving entity) {
+		Block block = Block.blocksList[blockID];
+		
+		if(
+				blockID == Block.web.blockID || 
+				block instanceof BlockLeaves ||
+				block instanceof BlockTallGrass || 
+				blockID == Block.vine.blockID
+		) {
+			stack.damageItem(1, entity);
+			return true;
 		}
 
-		return super.onBlockDestroyed(itemStack1, i2, i3, i4, i5, entityLiving6);
+		return super.onBlockDestroyed(stack, blockID, x, y, z, entity);
 	}
 
-	public boolean canHarvestBlock(Block block1) {
-		return block1.blockID == Block.web.blockID;
+	public boolean canHarvestBlock(Block block) {
+		return block.blockID == Block.web.blockID || 
+				block instanceof BlockLeaves || 
+				block instanceof BlockTallGrass|| 
+				block.blockID == Block.vine.blockID;
 	}
 
-	public float getStrVsBlock(ItemStack itemStack1, Block block2) {
-		return block2.blockID != Block.web.blockID && block2.blockID != Block.leaves.blockID ? (block2.blockID == Block.cloth.blockID ? 5.0F : super.getStrVsBlock(itemStack1, block2)) : 15.0F;
+	public float getStrVsBlock(ItemStack stack, Block block) {
+		return block.blockID != Block.web.blockID && 
+				block.blockID != Block.leaves.blockID ? (block.blockID == Block.cloth.blockID ? 5.0F : super.getStrVsBlock(stack, block)) : 15.0F;
 	}
 }

@@ -13,11 +13,11 @@ public class Packet130UpdateSign extends Packet {
 	public String[] signLines;
 
 	public Packet130UpdateSign() {
-		this.isChunkDataPacket = true;
+		this.shouldDelay = true;
 	}
 
 	public Packet130UpdateSign(int i1, int i2, int i3, String[] string4) {
-		this.isChunkDataPacket = true;
+		this.shouldDelay = true;
 		this.xPosition = i1;
 		this.yPosition = i2;
 		this.zPosition = i3;

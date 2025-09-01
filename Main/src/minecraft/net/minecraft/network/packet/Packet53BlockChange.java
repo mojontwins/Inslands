@@ -15,11 +15,11 @@ public class Packet53BlockChange extends Packet {
 	public int metadata;
 
 	public Packet53BlockChange() {
-		this.isChunkDataPacket = true;
+		this.shouldDelay = true;
 	}
 
 	public Packet53BlockChange(int i1, int i2, int i3, World world4) {
-		this.isChunkDataPacket = true;
+		this.shouldDelay = true;
 		this.xPosition = i1;
 		this.yPosition = i2;
 		this.zPosition = i3;

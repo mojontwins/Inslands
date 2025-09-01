@@ -18,7 +18,7 @@ public abstract class Packet {
 	private static Set<Integer> clientPacketIdList = new HashSet<Integer>();
 	private static Set<Integer> serverPacketIdList = new HashSet<Integer>();
 	public final long creationTimeMillis = System.currentTimeMillis();
-	public boolean isChunkDataPacket = false;
+	public boolean shouldDelay = false;
 	private static HashMap<Integer,PacketCounter> packetStats;
 	private static int totalPacketsCount;
 

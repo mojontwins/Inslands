@@ -11,6 +11,6 @@ final class CreativeTabDeco extends CreativeTabs {
 	 * the itemID for the item to be displayed on the tab
 	 */
 	public int getTabIconItemIndex() {
-		return Block.blueFlower.blockID;
+		return Block.flowers.blockID;
 	}
 }

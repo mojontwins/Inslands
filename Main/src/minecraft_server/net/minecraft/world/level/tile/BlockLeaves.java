@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockState;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
+import net.minecraft.world.level.colorizer.ColorizerFoliage;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.levelgen.feature.trees.EnumTreeType;
 import net.minecraft.world.level.material.Material;
@@ -311,9 +313,14 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, 
 	// Not as complex as a colorizer, but allows for some freedom!
 	@Override
 	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
-		if((world.getBlockMetadata(x, y, z) & 0xf0) == 0) {
+		return getRenderColor(world.getBlockMetadata(x, y, z));
+	}
+	
+	@Override
+	public int getRenderColor(int meta) {
+		if((meta & 0xf0) == 0) {
 			if(LevelThemeGlobalSettings.colorizedPlants) {
-				return world.getFoliageColorFromCache(x, z);
+				return ColorizerFoliage.getFoliageColorBasic();
 			} else {
 				return 0x5BFB3B;
 			}
@@ -341,5 +348,17 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, 
 	@Override
 	public int getIndexInTextureFromMeta(int meta) {
 		return 2;
+	}
+	
+    @Override
+	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
+    	if(lockTextures) meta = 0;
+    	meta &= 0xf0;
+		if(!world.isRemote && player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().itemID == Item.shears.shiftedIndex) {
+			this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Block.leaves, 1, meta));
+		} else {
+			super.harvestBlock(world, player, x, y, z, meta);
+		}
+
 	}
 }

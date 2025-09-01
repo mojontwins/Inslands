@@ -465,8 +465,8 @@ public class World implements IBlockAccess {
 		return this.getChunkFromChunkCoords(i1 >> 4, i2 >> 4);
 	}
 
-	public Chunk getChunkFromChunkCoords(int i1, int i2) {
-		return this.chunkProvider.provideChunk(i1, i2);
+	public Chunk getChunkFromChunkCoords(int chunkX, int chunkZ) {
+		return this.chunkProvider.provideChunk(chunkX, chunkZ);
 	}
 
 	public boolean setBlockAndMetadata(int x, int y, int z, int blockID, int metadata) {
@@ -3501,5 +3501,9 @@ public class World implements IBlockAccess {
 				}
 			}
 		}
+	}
+
+	public void setBlockWithNotify(int x, int y, int z, BlockState bs) {
+		this.setBlockAndMetadataWithNotify(x, y, z, bs.getBlock().blockID, bs.getMetadata());
 	}
 }

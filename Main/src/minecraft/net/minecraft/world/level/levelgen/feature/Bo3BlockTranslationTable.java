@@ -24,8 +24,8 @@ public class Bo3BlockTranslationTable {
 			this.put("GRAVEL", Block.gravel.blockID);
 			this.put("LONG_GRASS", Block.tallGrass.blockID);
 			this.put("DEAD_BUSH", Block.deadBush.blockID);
-			this.put("YELLOW_FLOWER", Block.plantYellow.blockID);
-			this.put("RED_ROSE",Block.plantRed.blockID);
+			//this.put("YELLOW_FLOWER", Block.plantYellow.blockID);
+			//this.put("RED_ROSE",Block.plantRed.blockID);
 			this.put("BROWN_MUSHROOM", Block.mushroomBrown.blockID);
 			this.put("RED_MUSHROOM", Block.mushroomRed.blockID);
 			this.put("LOG", Block.wood.blockID);

@@ -360,7 +360,8 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		byte[] blockArray = new byte[32768];
 		byte[] metadata = new byte[32768];
 		Chunk chunk = new Chunk(this.worldObj, blockArray, metadata, chunkX, chunkZ);
-		
+		this.biomesForGeneration = this.worldObj.getWorldChunkManager().loadBlockGeneratorData(this.biomesForGeneration, chunkX * 16, chunkZ * 16, 16, 16);
+		chunk.biomeGenCache = this.biomesForGeneration.clone();
 		this.generateTerrain(chunkX, chunkZ, blockArray);
 		chunk.generateLandSurfaceHeightMap();
 		this.terraform(chunkX, chunkZ, chunk, this.biomesForGeneration);
@@ -787,14 +788,14 @@ public class ChunkProviderGenerate implements IChunkProvider {
 			x = x0 + this.rand.nextInt(16) + 8;
 			y = this.rand.nextInt(128);
 			z = z0 + this.rand.nextInt(16) + 8;
-			(new WorldGenFlowers(Block.plantYellow.blockID)).generate(this.worldObj, this.rand, x, y, z);
+			(new WorldGenFlowers(Block.plantYellow)).generate(this.worldObj, this.rand, x, y, z);
 		}
 
 		for(i = 0; i < biomeGen.redFlowersAttempts; ++i) {
 			x = x0 + this.rand.nextInt(16) + 8;
 			y = this.rand.nextInt(128);
 			z = z0 + this.rand.nextInt(16) + 8;
-			(new WorldGenFlowers(Block.plantRed.blockID)).generate(this.worldObj, this.rand, x, y, z);
+			(new WorldGenFlowers(Block.plantRed)).generate(this.worldObj, this.rand, x, y, z);
 		}
 
 		if(this.rand.nextInt(biomeGen.mushroomBrownChance) == 0) {

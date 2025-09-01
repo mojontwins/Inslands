@@ -3502,4 +3502,8 @@ public class World implements IBlockAccess {
 			}
 		}
 	}
+
+	public void setBlockWithNotify(int x, int y, int z, BlockState bs) {
+		this.setBlockAndMetadataWithNotify(x, y, z, bs.getBlock().blockID, bs.getMetadata());
+	}
 }

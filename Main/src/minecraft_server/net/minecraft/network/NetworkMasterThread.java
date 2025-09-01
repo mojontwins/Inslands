@@ -14,18 +14,18 @@ class NetworkMasterThread extends Thread {
 			if(NetworkManager.getReadThread(this.netManager).isAlive()) {
 				try {
 					NetworkManager.getReadThread(this.netManager).stop();
-				} catch (Throwable throwable3) {
+				} catch (Throwable t) {
 				}
 			}
 
 			if(NetworkManager.getWriteThread(this.netManager).isAlive()) {
 				try {
 					NetworkManager.getWriteThread(this.netManager).stop();
-				} catch (Throwable throwable2) {
+				} catch (Throwable t) {
 				}
 			}
-		} catch (InterruptedException interruptedException4) {
-			interruptedException4.printStackTrace();
+		} catch (InterruptedException ex) {
+			ex.printStackTrace();
 		}
 
 	}

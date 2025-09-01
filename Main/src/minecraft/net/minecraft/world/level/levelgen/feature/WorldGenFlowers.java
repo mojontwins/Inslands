@@ -2,6 +2,7 @@ package net.minecraft.world.level.levelgen.feature;
 
 import java.util.Random;
 
+import net.minecraft.world.level.BlockState;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.BlockFlower;
@@ -14,6 +15,10 @@ public class WorldGenFlowers extends WorldGenerator {
 
 	public WorldGenFlowers(int blockID) {
 		this(blockID, 0);
+	}
+	
+	public WorldGenFlowers(BlockState flower) {
+		this(flower.getBlock().blockID, flower.getMetadata());
 	}
 	
 	public WorldGenFlowers(int blockID, int meta) {

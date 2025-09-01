@@ -92,8 +92,8 @@ public class TFTreasure {
 	}
 
 	protected void fill(int i) {
-		this.useless.add((Block)Block.plantRed, 4);
-		this.useless.add((Block)Block.plantYellow, 4);
+		this.useless.add((Block)Block.mushroomBrown, 4);
+		this.useless.add((Block)Block.glowshroom, 4);
 		this.useless.add((Item)Item.feather, 3);
 		this.useless.add((Item)Item.seeds, 2);
 		this.useless.add((Item)Item.flint, 2);

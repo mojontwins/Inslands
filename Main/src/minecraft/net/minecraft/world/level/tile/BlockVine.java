@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.world.Direction;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemShears;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemSword;
 import net.minecraft.world.level.IBlockAccess;
@@ -347,7 +348,7 @@ public class BlockVine extends Block implements INonSolidPlant {
     	ItemStack itemStack = par2EntityPlayer.getCurrentEquippedItem();
     	if (itemStack != null) {
     		Item item = itemStack.getItem();
-	        if (!par1World.isRemote && item != null && item instanceof ItemSword) {
+	        if (!par1World.isRemote && item != null && ((item instanceof ItemSword) || (item instanceof ItemShears))) {
 	            dropBlockAsItem_do(par1World, par3, par4, par5, new ItemStack(this.blockID, 1, 0));
 	            return;
 	        }

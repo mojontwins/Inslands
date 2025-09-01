@@ -178,7 +178,7 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 			x = chunkX + rand.nextInt(16) + 8;
 			y = rand.nextInt(128);
 			z = chunkZ + rand.nextInt(16) + 8;
-			(new WorldGenFlowers(Block.paeonia.blockID)).generate(world, rand, x, y, z);
+			(new WorldGenFlowers(Block.paeonia)).generate(world, rand, x, y, z);
 		}
 		
 		// Blue Flowers
@@ -186,7 +186,7 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 			x = chunkX + rand.nextInt(16) + 8;
 			y = rand.nextInt(128);
 			z = chunkZ + rand.nextInt(16) + 8;
-			(new WorldGenFlowers(Block.blueFlower.blockID)).generate(world, rand, x, y, z);
+			(new WorldGenFlowers(Block.blueFlower)).generate(world, rand, x, y, z);
 		}
 		
 	}

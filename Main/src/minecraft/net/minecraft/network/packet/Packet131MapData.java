@@ -12,11 +12,11 @@ public class Packet131MapData extends Packet {
 	public byte[] itemData;
 
 	public Packet131MapData() {
-		this.isChunkDataPacket = true;
+		this.shouldDelay = true;
 	}
 
 	public Packet131MapData(short s1, short s2, byte[] b3) {
-		this.isChunkDataPacket = true;
+		this.shouldDelay = true;
 		this.itemID = s1;
 		this.uniqueID = s2;
 		this.itemData = b3;

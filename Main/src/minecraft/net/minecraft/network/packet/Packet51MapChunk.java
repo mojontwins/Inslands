@@ -21,11 +21,11 @@ public class Packet51MapChunk extends Packet {
 	private int chunkSize;
 
 	public Packet51MapChunk() {
-		this.isChunkDataPacket = true;
+		this.shouldDelay = true;
 	}
 
 	public Packet51MapChunk(int i1, int i2, int i3, int i4, int i5, int i6, World world7) {
-		this.isChunkDataPacket = true;
+		this.shouldDelay = true;
 		this.xPosition = i1;
 		this.yPosition = i2;
 		this.zPosition = i3;

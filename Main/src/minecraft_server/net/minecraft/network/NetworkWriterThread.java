@@ -10,15 +10,14 @@ class NetworkWriterThread extends Thread {
 		this.netManager = networkManager;
 	}
 
-	@SuppressWarnings("unused")
 	public void run() {
-		synchronized(NetworkManager.threadSyncObject) {
+		synchronized(NetworkManager.threadCounterLock) {
 			++NetworkManager.numWriteThreads;
 		}
 
 		try {
 			while(NetworkManager.isRunning(this.netManager)) {
-				while(NetworkManager.sendNetworkPacket(this.netManager)) {
+				while(NetworkManager.writeTick(this.netManager)) {
 				}
 				
 				try {
@@ -30,17 +29,17 @@ class NetworkWriterThread extends Thread {
 					if(NetworkManager.getSocketOutputStream(this.netManager) != null) {
 						NetworkManager.getSocketOutputStream(this.netManager).flush();
 					}
-				} catch (IOException iOException18) {
+				} catch (IOException e) {
 					if(!NetworkManager.isTerminating(this.netManager)) {
-						NetworkManager.onNetworkError(this.netManager, iOException18);
+						NetworkManager.handleException(this.netManager, e);
 					}
 
-					iOException18.printStackTrace();
+					e.printStackTrace();
 				}
 			}
 		}
 		finally {
-			synchronized(NetworkManager.threadSyncObject) {
+			synchronized(NetworkManager.threadCounterLock) {
 				--NetworkManager.numWriteThreads;
 			}
 		}

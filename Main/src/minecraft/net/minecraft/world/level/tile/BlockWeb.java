@@ -3,7 +3,9 @@ package net.minecraft.world.level.tile;
 import java.util.Random;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
@@ -37,5 +39,15 @@ public class BlockWeb extends Block {
 
 	public int idDropped(int i1, Random random2) {
 		return Item.silk.shiftedIndex;
+	}
+	
+    @Override
+	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
+		if(!world.isRemote && player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().itemID == Item.shears.shiftedIndex) {
+			this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Block.web, 1, meta));
+		} else {
+			super.harvestBlock(world, player, x, y, z, meta);
+		}
+
 	}
 }

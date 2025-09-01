@@ -788,14 +788,14 @@ public class ChunkProviderGenerate implements IChunkProvider {
 			x = x0 + this.rand.nextInt(16) + 8;
 			y = this.rand.nextInt(128);
 			z = z0 + this.rand.nextInt(16) + 8;
-			(new WorldGenFlowers(Block.plantYellow.blockID)).generate(this.worldObj, this.rand, x, y, z);
+			(new WorldGenFlowers(Block.plantYellow)).generate(this.worldObj, this.rand, x, y, z);
 		}
 
 		for(i = 0; i < biomeGen.redFlowersAttempts; ++i) {
 			x = x0 + this.rand.nextInt(16) + 8;
 			y = this.rand.nextInt(128);
 			z = z0 + this.rand.nextInt(16) + 8;
-			(new WorldGenFlowers(Block.plantRed.blockID)).generate(this.worldObj, this.rand, x, y, z);
+			(new WorldGenFlowers(Block.plantRed)).generate(this.worldObj, this.rand, x, y, z);
 		}
 
 		if(this.rand.nextInt(biomeGen.mushroomBrownChance) == 0) {

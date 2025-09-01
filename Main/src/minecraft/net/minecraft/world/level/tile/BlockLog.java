@@ -87,6 +87,7 @@ public class BlockLog extends Block implements IBlockWithSubtypes, IBigPlants {
 	}
 
 	protected int damageDropped(int i1) {
+		if(lockTextures) return 0;
 		return i1 & 0xf0;
 	}
 	

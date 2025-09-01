@@ -122,7 +122,7 @@ public class BiomeGenMangrove extends BiomeGenBase {
 			x = x0 + rand.nextInt(16) + 8;
 			y = rand.nextInt(128);
 			z = z0 + rand.nextInt(16) + 8;
-			(new WorldGenFlowers(Block.blueFlower.blockID)).generate(world, rand, x, y, z);
+			(new WorldGenFlowers(Block.blueFlower)).generate(world, rand, x, y, z);
 		}
 		
 		// Glowshrooms
