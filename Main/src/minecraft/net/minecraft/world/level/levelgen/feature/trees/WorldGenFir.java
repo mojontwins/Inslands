@@ -84,10 +84,10 @@ public class WorldGenFir extends WorldGenMojon {
 			// Trunk
 			
 			for(int y = y0; y < trunkTop + 18; y ++) {
-				this.setBlockWithMetadata(world, x0, y, z0, trunkID, trunkMeta);
-				this.setBlockWithMetadata(world, x0, y, z0 + 1, trunkID, trunkMeta);
-				this.setBlockWithMetadata(world, x0 + 1, y, z0, trunkID, trunkMeta);
-				this.setBlockWithMetadata(world, x0 + 1, y, z0 + 1, trunkID, trunkMeta);
+				this.setBlockAndMetadata(world, x0, y, z0, trunkID, trunkMeta);
+				this.setBlockAndMetadata(world, x0, y, z0 + 1, trunkID, trunkMeta);
+				this.setBlockAndMetadata(world, x0 + 1, y, z0, trunkID, trunkMeta);
+				this.setBlockAndMetadata(world, x0 + 1, y, z0 + 1, trunkID, trunkMeta);
 			}
 			
 			return true;
@@ -136,7 +136,7 @@ public class WorldGenFir extends WorldGenMojon {
 			
 			// Trunk
 			for(int y = y0; y < y0 + this.height + 5; y ++) {
-				this.setBlockWithMetadata(world, x0, y, z0, trunkID, trunkMeta);
+				this.setBlockAndMetadata(world, x0, y, z0, trunkID, trunkMeta);
 			}
 			
 			return true;

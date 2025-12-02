@@ -79,7 +79,7 @@ public class WorldGenMangrove extends WorldGenMojon {
 		while(dst.y > 8) {
 			if(world.getBlockMaterial(dst) != Material.water) break;
 			dst.move(Direction.DOWN);
-			this.setBlockWithMetadata(world, dst, trunkID, trunkMeta);
+			this.setBlockAndMetadata(world, dst, trunkID, trunkMeta);
 		}
 	}
 
@@ -90,7 +90,7 @@ public class WorldGenMangrove extends WorldGenMojon {
 		this.bresenham(world, src, dst, trunkID, trunkMeta);
 		
 		for(int direction : Direction.HORZ_PLANE) {
-			this.setBlockWithMetadata(world, dst.copy().move(direction), trunkID, trunkMeta);
+			this.setBlockAndMetadata(world, dst.copy().move(direction), trunkID, trunkMeta);
 		}
 		
 		int canopy = 2 + rand.nextInt(3);

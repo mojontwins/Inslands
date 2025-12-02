@@ -119,7 +119,18 @@ public enum EnumTreeType {
 		public WorldGenerator getGen(Random rand) {
 			return new WorldGenBloodTree();
 		}
+	}, 
+	
+	ALDER("Alder", new BlockState(Block.leaves2, 0x10), new BlockState(Block.wood2, 0x10), new BlockState(Block.sapling2, 0x10)){
+		
 	},
+	
+	ASPEN("Aspen", new BlockState(Block.leaves2, 0x20), new BlockState(Block.wood2, 0x20), new BlockState(Block.sapling2, 0x20)){
+		
+	}, 
+	
+	EUCALYPTUS("Eucalyptus", new BlockState(Block.leaves2, 0x30), new BlockState(Block.wood2, 0x30), new BlockState(Block.sapling2, 0x30)) {
+	}
 	;
 	
 	public final BlockState leaves;

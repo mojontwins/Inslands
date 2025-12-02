@@ -36,7 +36,7 @@ public class WorldGenPopsicleshroom extends WorldGenMojon {
 		
 		// trunk
 		for(int y = y0; y < y0 + radius * 2 + height; y ++ ) {
-			this.setBlockWithMetadata(world, x0, y, z0, Block.mushroomCapBrown.blockID, 10);
+			this.setBlockAndMetadata(world, x0, y, z0, Block.mushroomCapBrown.blockID, 10);
 		}
 		
 		// Blob

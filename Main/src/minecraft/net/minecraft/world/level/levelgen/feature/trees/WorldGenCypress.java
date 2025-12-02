@@ -42,7 +42,7 @@ public class WorldGenCypress extends WorldGenMojon {
 		// Trunk
 	
 		for(int y = y0; y < y0 + 3 + (this.height << 1); y ++) {
-			this.setBlockWithMetadata(world, x0, y, z0, trunkID, trunkMeta);
+			this.setBlockAndMetadata(world, x0, y, z0, trunkID, trunkMeta);
 		}
 		
 		// Canopy
