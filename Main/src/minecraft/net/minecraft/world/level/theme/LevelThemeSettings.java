@@ -69,6 +69,8 @@ public class LevelThemeSettings {
 			.withDynamicSnow(true);
 	
 	public static LevelThemeSettings poison = new LevelThemePoisonIsland(5).setOverlay(-1);
+	
+	public static LevelThemeSettings white = new LevelThemeWhiteForest(6);
 
 	public LevelThemeSettings(int id) {
 		this.id = id;
