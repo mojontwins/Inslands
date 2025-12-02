@@ -12,8 +12,12 @@ Main/workspace/.metadata/.plugins/*
 !Main/workspace/.metadata/.plugins/org.eclipse.core.resources
 Main/workspace/.metadata/.plugins/org.eclipse.core.resources/*
 !Main/workspace/.metadata/.plugins/org.eclipse.core.resources/.projects
+!Main/workspace/.metadata/.plugins/org.eclipse.core.resources/.projects/*
 !Main/workspace/.metadata/.plugins/org.eclipse.core.resources/.root
+!Main/workspace/.metadata/.plugins/org.eclipse.core.resources/.root/*
 !Main/workspace/.metadata/.plugins/org.eclipse.core.resources/.debug.core
+!Main/workspace/.metadata/.plugins/org.eclipse.core.resources/.debug.core/*
 !Main/workspace/.metadata/.plugins/org.eclipse.core.resources/.debug.root
+!Main/workspace/.metadata/.plugins/org.eclipse.core.resources/.debug.root/*
 Main/workspace/.metadata/.log
 Main/workspace/.metadata/version.ini
