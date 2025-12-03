@@ -29,10 +29,13 @@ public class WorldGenAlder extends WorldGenMojon {
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z) {
 		if(!this.validGround(world, x, y - 1, z)) return false;
+		if(y + this.height > 127) return false;
 		
-		for(int i = 0; i < span; i++) {
-			for(int k = -span; k < span + 1; k++) {
-				for(int j = -span; j < span + 1; j++) {
+		int spanCheck = this.relaxedBoundaries ? 2 : span;
+		int spanCheckV = this.relaxedBoundaries ? 1 : span;
+		for(int i = 0; i < spanCheckV; i++) {
+			for(int k = -spanCheck; k < spanCheck + 1; k++) {
+				for(int j = -spanCheck; j < spanCheck + 1; j++) {
 					if(!world.isAirBlock(x + k, y + height + i, z + j)) {
 						return false;
 					}

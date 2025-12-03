@@ -3,6 +3,7 @@ package net.minecraft.world.level.biome;
 import java.util.Random;
 
 import net.minecraft.world.level.World;
+import net.minecraft.world.level.levelgen.feature.WorldGenRuinedHouse;
 import net.minecraft.world.level.levelgen.feature.WorldGenerator;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenAlder;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenAspen;
@@ -26,21 +27,28 @@ public class BiomeGenTheneWhiteForest extends BiomeGenBase {
 		this.waterFallAttempts = 100;
 	}
 	
-	// Todo - add white trees here.
+	@Override
+	public void prePopulate(World world, Random rand, int x0, int z0) {
+		if(rand.nextInt(8) == 0) {
+			(new WorldGenRuinedHouse()).generate(world, rand, x0 + rand.nextInt(16), 64, z0 + rand.nextInt(16));
+		}
+	}
 	
+	@Override
 	public WorldGenerator getTreeGen(World world, Random rand, int chunkX, int chunkZ) {
 		switch(rand.nextInt(4)) {
-		case 0:	return new WorldGenAlder(3 + rand.nextInt(3), 4, 3);
-		case 1: return new WorldGenAspen(3 + rand.nextInt(3));
-		default: return new WorldGenForest();
+		case 0:	return new WorldGenAlder(3 + rand.nextInt(3), 4, 3).setRelaxedBoundaries();
+		case 1: return new WorldGenAspen(3 + rand.nextInt(3)).setRelaxedBoundaries();
+		default: return new WorldGenForest().setRelaxedBoundaries();
 		}
 	};
 	
+	@Override
 	public WorldGenerator getBigTreeGen(World world, Random rand, int chunkX, int chunkZ) {
 		switch(rand.nextInt(3)) {
-		case 0:	return new WorldGenAlder(6 + rand.nextInt(3), 5, 4);
-		case 1: return new WorldGenAspen(8 + rand.nextInt(4));
-		default: return new WorldGenEucalyptusBig(true);
+		case 0:	return new WorldGenAlder(6 + rand.nextInt(3), 5, 4).setRelaxedBoundaries();
+		case 1: return new WorldGenAspen(8 + rand.nextInt(4)).setRelaxedBoundaries();
+		default: return new WorldGenEucalyptusBig(true).setRelaxedBoundaries();
 		}
 	};
 	

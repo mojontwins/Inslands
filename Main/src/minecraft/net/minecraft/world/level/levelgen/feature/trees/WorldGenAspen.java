@@ -26,6 +26,7 @@ public class WorldGenAspen extends WorldGenMojon {
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z) {
 		if(!this.validGround(world, x, y - 1, z)) return false;
+		if(y + this.height > 127) return false;
 
 		for(int i = 0; i < this.height; i++) {
 			if(!world.isAirBlock(x, y + i, z)) return false;

@@ -33,7 +33,7 @@ public class WorldGenForest extends WorldGenerator {
 		
 		for(int y = y0; y <= y0 + 1 + height; ++y) {
 
-			byte radius = (byte) (y == y0 ? 0 : (y >= y0 + 1 + height - 2 ? 2 : 1));
+			byte radius = (byte) (this.relaxedBoundaries ? 1 : (y == y0 ? 0 : (y >= y0 + 1 + height - 2 ? 2 : 1)));
 
 			for(int x = x0 - radius; x <= x0 + radius; ++x) {
 				for(int z = z0 - radius; z <= z0 + radius; ++z) {

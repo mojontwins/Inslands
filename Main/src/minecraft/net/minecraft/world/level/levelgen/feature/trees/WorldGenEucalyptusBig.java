@@ -81,6 +81,9 @@ public class WorldGenEucalyptusBig extends WorldGenMojon {
 		if (!this.check2x2Trunk(x, y, z, (int) (height * TRUNK_HEIGHT_PERCENT), this.trunk, world, false))
 			return false;
 
+		// Gotten to this point...
+		if (this.relaxedBoundaries) return true;
+		
 		// Generate the branches
 		if (!this.checkBranches(world, rand, x, y, z, height, width))
 			return false;
