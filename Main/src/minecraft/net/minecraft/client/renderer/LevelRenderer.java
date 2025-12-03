@@ -40,6 +40,7 @@ import net.minecraft.world.level.IWorldAccess;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockLeavesBase;
 import net.minecraft.world.level.tile.entity.TileEntity;
 import net.minecraft.world.phys.AxisAlignedBB;
 import net.minecraft.world.phys.EnumMovingObjectType;
@@ -231,7 +232,8 @@ public class LevelRenderer implements IWorldAccess {
 
 	public void loadRenderers() {
 		if(this.worldObj != null) {
-			Block.leaves.setGraphicsLevel(Config.isTreesFancy());
+			BlockLeavesBase.setGraphicsLevel(Config.isTreesFancy());
+			
 			this.renderDistance = this.mc.gameSettings.renderDistance;
 			int numBlocks;
 			if(this.worldRenderers != null) {

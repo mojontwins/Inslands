@@ -24,7 +24,6 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, 
 	// Leaves will be rendered using 256+type for fancy, 272+type for fast.
 	// Colourizer will only be used for meta 0.
 	
-	private int leafTexOffset = 256;
 	public static byte canopyDiameter = 32;
 	public static int canopyRadius = canopyDiameter / 2;
 
@@ -40,8 +39,8 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, 
 	public void onNeighborBlockChange(World world, int x, int y, int z, int blockID) {
 		// Small optimization: When replaced with leaves or wood, surrounding leaves are
 		// NOT affected
-		if (blockID == Block.wood.blockID || blockID == Block.leaves.blockID)
-			return;
+		Block block = Block.blocksList[blockID];
+		if((block instanceof BlockLog) || (block instanceof BlockLeaves)) return;
 		
 		this.onBlockRemovalDo(world, x, y, z);
 	}
@@ -67,11 +66,6 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, 
 	
 	public boolean isOpaqueCube() {
 		return false;
-	}
-
-	public void setGraphicsLevel(boolean flag) {
-		this.graphicsLevel = flag;
-		this.leafTexOffset = flag ? 256 : 272;
 	}
 
 	public void onEntityWalking(World world, int i, int j, int k, Entity entity) {
@@ -330,7 +324,7 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, 
 	@Override
 	public int getBlockTextureFromSideAndMetadata(int side, int meta) {
 		if(lockTextures) meta = 0;
-		return this.leafTexOffset + (meta >> 4);
+		return (BlockLeavesBase.graphicsLevel ? 256 : 272) + (meta >> 4);
 	}
 
     @Override
@@ -355,7 +349,7 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, 
     	if(lockTextures) meta = 0;
     	meta &= 0xf0;
 		if(!world.isRemote && player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().itemID == Item.shears.shiftedIndex) {
-			this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Block.leaves, 1, meta));
+			this.dropBlockAsItem_do(world, x, y, z, new ItemStack(this, 1, meta));
 		} else {
 			super.harvestBlock(world, player, x, y, z, meta);
 		}

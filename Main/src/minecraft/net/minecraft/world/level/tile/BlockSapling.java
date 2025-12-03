@@ -25,6 +25,7 @@ public class BlockSapling extends BlockFlower implements IBlockWithSubtypes {
 		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 	
+	@Override
 	public void updateTick(World world, int i2, int i3, int i4, Random random5) {
 		if(!world.isRemote) {
 			super.updateTick(world, i2, i3, i4, random5);
@@ -48,7 +49,7 @@ public class BlockSapling extends BlockFlower implements IBlockWithSubtypes {
 	public void growTree(World world, int x, int y, int z, Random rand) {
 		int meta = world.getBlockMetadata(x, y, z) & 0xf0;
 		
-		EnumTreeType tree = EnumTreeType.findTreeTypeFromSapling(new BlockState(Block.sapling, meta));
+		EnumTreeType tree = EnumTreeType.findTreeTypeFromSapling(new BlockState(this.blockID, meta));
 		WorldGenerator worldGen = tree.getGen(rand);
 		
 		if (tree.needsFourSaplings) {

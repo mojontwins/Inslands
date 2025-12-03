@@ -8,8 +8,8 @@ import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;
 
 public class BlockLog2 extends BlockLog implements IBlockWithSubtypes {
-	public int textureBark[] = new int[] { 7 * 16 + 5, 0, 0, 0 };
-	public int textureHeart[] = new int [] { 166, 0, 0, 0 };
+	public int textureBark[] = new int[] { 7 * 16 + 5, 23*16, 23*16+1, 23*16+2 };
+	public int textureHeart[] = new int [] { 166, 24*16, 24*16+1, 24*16+2 };
 
 	// Meta = 15 is full bark
 	

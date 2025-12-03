@@ -6,4 +6,4 @@ launch-method-link:
 proxy-args:-Dhttp.proxyHost=betacraft.uk -Dhttp.proxyPort=11705
 other-name:inslands--latest
 file-ver:1
-protocolVersion:beta_14
+protocolVersion:beta_14 

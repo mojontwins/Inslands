@@ -317,8 +317,11 @@ public class Block {
 	// Trap
 	public static final Block pressurePlateTrap = (new BlockPressurePlate(225, stone.blockIndexInTexture, EnumMobType.players, Material.wood)).setHardness(0.5F).setStepSound(soundWoodFootstep).setBlockName("pressurePlate").setRequiresSelfNotify();	
 	
-	// 226
-	// 227
+	// More trees
+	public static final Block wood3 = (new BlockLog3(226)).setHardness(2.0F).setResistance(10.0F).setStepSound(soundWoodFootstep).setBlockName("log").setRequiresSelfNotify().setCreativeTab(CreativeTabs.tabBlock);
+	public static final Block leaves3 = (new BlockLeaves3(227)).setHardness(0.2F).setLightOpacity(3).setStepSound(soundGrassFootstep).setBlockName("leaves").disableStats().setRequiresSelfNotify().setLightValue(0.875F).setCreativeTab(CreativeTabs.tabBlock);
+	public static final Block sapling3 = (new BlockSapling3(228)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("sapling").setRequiresSelfNotify().setCreativeTab(CreativeTabs.tabDeco);
+	
 	// 228
 	// 229
 	// 230
