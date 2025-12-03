@@ -40,7 +40,7 @@ public class BiomeGenBase {
 	public static final BiomeGenBase themeForestHell = new BiomeGenThemeForestHell().setBiomeName("Forest Hell").setDisableRain();
 	public static final BiomeGenBase themeHellHell = new BiomeGenThemeHellHell().setBiomeName("Hell Hell").setDisableRain();
 	public static final BiomeGenBase themePoison = new BiomeGenThemePoisonIsland().setBiomeName("Poison Island");
-	public static final BiomeGenBase themeWhiteForest = new BiomeGenTheneWhiteForest().setBiomeName("White Jungle");;
+	public static final BiomeGenBase themeWhiteForest = new BiomeGenThemeWhiteForest().setBiomeName("White Jungle");;
 	
 	// Leave these for compatibility
 	public static final BiomeGenBase hell = (new BiomeGenHell()).setColor(16711680).setBiomeName("Hell").setDisableRain();

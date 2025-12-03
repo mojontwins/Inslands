@@ -10,8 +10,8 @@ import net.minecraft.world.level.levelgen.feature.trees.WorldGenAspen;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenEucalyptusBig;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenForest;
 
-public class BiomeGenTheneWhiteForest extends BiomeGenBase {
-	public BiomeGenTheneWhiteForest() {
+public class BiomeGenThemeWhiteForest extends BiomeGenBase {
+	public BiomeGenThemeWhiteForest() {
 		super();
 		this.overrideSkyColor = 0xCCCCCC;
 		this.overrideFogColor = 0xEEEEEE;
@@ -29,7 +29,7 @@ public class BiomeGenTheneWhiteForest extends BiomeGenBase {
 	
 	@Override
 	public void prePopulate(World world, Random rand, int x0, int z0) {
-		if(rand.nextInt(8) == 0) {
+		if(rand.nextInt(4) == 0) {
 			(new WorldGenRuinedHouse()).generate(world, rand, x0 + rand.nextInt(16), 64, z0 + rand.nextInt(16));
 		}
 	}

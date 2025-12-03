@@ -12,6 +12,8 @@ public class WorldGenRuinedHouse extends WorldGenerator {
 		int width = 5 + rand.nextInt(5); if ((width & 1) == 0) width ++;
 		int length = 5 + rand.nextInt(5); if ((length & 1) == 0) length ++;
 		
+		System.out.println ("Attempt ruin @ " + x0 + " " + z0);
+		
 		// Base height
 		int h = 0;
 		int min = 128; int max = 0;
@@ -105,7 +107,7 @@ public class WorldGenRuinedHouse extends WorldGenerator {
 		world.setBlock(x, h + 1, z, 0);
 		world.setBlock(x, h + 2, z, 0);
 		
-		System.out.print("Ruin success @ " + x + " " + h + " " + z);
+		System.out.println("Ruin success @ " + x + " " + h + " " + z);
 		
 		return true;
 	}
