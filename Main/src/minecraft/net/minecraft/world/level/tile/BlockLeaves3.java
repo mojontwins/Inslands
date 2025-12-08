@@ -3,6 +3,7 @@ package net.minecraft.world.level.tile;
 import java.util.List;
 
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.colorizer.ColorizerFoliage;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
@@ -11,6 +12,14 @@ public class BlockLeaves3 extends BlockLeaves {
 
 	public BlockLeaves3(int id) {
 		super(id, 0);
+	}
+	
+	@Override
+	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
+		int meta = world.getBlockMetadata(x, y, z);
+		if(LevelThemeGlobalSettings.colorizedPlants && (meta & 0xf0) < 0x30) {
+			return world.getFoliageColorFromCache(x, z);
+		} else return getRenderColor(meta);
 	}
 
 	@Override

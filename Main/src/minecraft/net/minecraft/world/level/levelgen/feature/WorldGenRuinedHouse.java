@@ -64,7 +64,7 @@ public class WorldGenRuinedHouse extends WorldGenerator {
 		// Windows
 		for(int x = x0 + 1; x < x0 + width - 1; x ++) {
 			if(((x - x0) & 1) == 1) {
-				for(int z = z0; z <= z + length - 1; z += (length - 1)) {
+				for(int z = z0; z <= z0 + length - 1; z += (length - 1)) {
 					if(world.isAirBlock(x, h + 3, z) ||
 							!world.isAirBlock(x - 1, h + 3, z) ||
 							!world.isAirBlock(x + 1, h + 3, z)
@@ -77,7 +77,7 @@ public class WorldGenRuinedHouse extends WorldGenerator {
 		
 		for(int z = z0 + 1; z < z0 + length - 1; z ++) {
 			if(((z - z0) & 1) == 1) {
-				for(int x = x0; x <= x + width - 1; x += (width - 1)) {
+				for(int x = x0; x <= x0 + width - 1; x += (width - 1)) {
 					if(world.isAirBlock(x, h + 3, z) ||
 							!world.isAirBlock(x, h + 3, z - 1) ||
 							!world.isAirBlock(x, h + 3, z + 1)

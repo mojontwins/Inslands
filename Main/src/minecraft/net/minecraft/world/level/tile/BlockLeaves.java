@@ -304,10 +304,12 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, 
 		world.setBlockWithNotify(i, j, k, 0);
 	}
 
-	// Not as complex as a colorizer, but allows for some freedom!
 	@Override
 	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
-		return getRenderColor(world.getBlockMetadata(x, y, z));
+		int meta = world.getBlockMetadata(x, y, z);
+		if(LevelThemeGlobalSettings.colorizedPlants && (meta & 0xf0) == 0) {
+			return world.getFoliageColorFromCache(x, z);
+		} else return getRenderColor(meta);
 	}
 	
 	@Override

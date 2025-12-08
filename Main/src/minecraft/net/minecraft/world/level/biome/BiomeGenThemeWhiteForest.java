@@ -3,6 +3,7 @@ package net.minecraft.world.level.biome;
 import java.util.Random;
 
 import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.levelgen.feature.WorldGenRuinedHouse;
 import net.minecraft.world.level.levelgen.feature.WorldGenerator;
 import net.minecraft.world.level.levelgen.feature.trees.WorldGenAlder;
@@ -29,8 +30,10 @@ public class BiomeGenThemeWhiteForest extends BiomeGenBase {
 	
 	@Override
 	public void prePopulate(World world, Random rand, int x0, int z0) {
-		if(rand.nextInt(4) == 0) {
-			(new WorldGenRuinedHouse()).generate(world, rand, x0 + rand.nextInt(16), 64, z0 + rand.nextInt(16));
+		if(x0 > 0 && x0 < WorldSize.width-16 && z0 > 0 && z0 < WorldSize.length - 16) {
+			if(rand.nextInt(16) == 0) {
+				(new WorldGenRuinedHouse()).generate(world, rand, x0 + rand.nextInt(16), 64, z0 + rand.nextInt(16));
+			}
 		}
 	}
 	
