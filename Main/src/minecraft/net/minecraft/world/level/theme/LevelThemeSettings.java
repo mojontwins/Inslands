@@ -31,6 +31,7 @@ public class LevelThemeSettings {
 	public boolean colorizedPlants = false;
 	public boolean dynamicSnow = false;
 	public boolean forcedWorldType = false;
+	public boolean creepy = false;
 
 	public static List<LevelThemeSettings> allThemeSettings = new ArrayList<LevelThemeSettings> ();
 
