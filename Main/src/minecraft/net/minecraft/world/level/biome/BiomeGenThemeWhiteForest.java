@@ -2,6 +2,13 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
+import net.minecraft.world.entity.animal.EntityColdCow;
+import net.minecraft.world.entity.animal.EntityTwilightBoar;
+import net.minecraft.world.entity.animal.EntityWolf;
+import net.minecraft.world.entity.monster.EntityGhoul;
+import net.minecraft.world.entity.monster.EntityTFWraith;
+import net.minecraft.world.entity.monster.EntityZombieAlex;
+import net.minecraft.world.level.SpawnListEntry;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.levelgen.feature.WorldGenCaveVines;
@@ -31,6 +38,15 @@ public class BiomeGenThemeWhiteForest extends BiomeGenBase {
 		
 		this.gravelLumpAttempts = 20;
 		this.waterFallAttempts = 100;
+		
+		this.spawnableCreatureList.add(new SpawnListEntry(EntityWolf.class, 4));
+		this.spawnableCreatureList.add(new SpawnListEntry(EntityColdCow.class, 8));
+		this.spawnableCreatureList.add(new SpawnListEntry(EntityTwilightBoar.class, 8));
+		
+		this.spawnableMonsterList.add(new SpawnListEntry(EntityZombieAlex.class, 10));
+		
+		this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityTFWraith.class, 2));
+		this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityGhoul.class, 10));
 	}
 	
 	@Override

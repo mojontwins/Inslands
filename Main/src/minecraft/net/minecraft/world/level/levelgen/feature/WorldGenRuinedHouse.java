@@ -12,8 +12,6 @@ public class WorldGenRuinedHouse extends WorldGenerator {
 		int width = 5 + rand.nextInt(5); if ((width & 1) == 0) width ++;
 		int length = 5 + rand.nextInt(5); if ((length & 1) == 0) length ++;
 		
-		System.out.println ("Attempt ruin @ " + x0 + " " + z0);
-		
 		// Base height
 		int h = 0;
 		int min = 128; int max = 0;
@@ -21,7 +19,6 @@ public class WorldGenRuinedHouse extends WorldGenerator {
 			for(int z = z0; z < z0 + length; z ++) {
 				int height = world.getLandSurfaceHeightValue(x, z);
 				if (height < 64) {
-					System.out.println ("Under water");
 					return false;
 				}
 				
@@ -34,7 +31,6 @@ public class WorldGenRuinedHouse extends WorldGenerator {
 		
 		// Too much variation: fail
 		if (Math.abs(max - min) > 8) {
-			System.out.println ("land variance too much: " + (max - min));
 			return false;
 		}
 		
@@ -43,7 +39,7 @@ public class WorldGenRuinedHouse extends WorldGenerator {
 			for(int z = z0; z < z0 + length; z ++) {
 				int height = world.getLandSurfaceHeightValue(x, z);
 				if (height > h) for (int y = h; y < height; y ++) world.setBlock(x, y, z, 0);
-				if (height < h) for (int y = height; y < h; y ++) world.setBlock(x, y, z, Block.stone.blockID);
+				if (height < h) for (int y = height; y < h; y ++) world.setBlock(x, y, z, Block.gravel.blockID);
 				
 				world.setBlock(x, h, z, Block.planks.blockID);
 			}
@@ -52,11 +48,11 @@ public class WorldGenRuinedHouse extends WorldGenerator {
 		// Broken walls
 		for(int x = x0; x < x0 + width; x ++) {
 			for(int z = z0; z < z0 + length; z ++) {
-				if ((x == x0 || x == x0 + width - 1) && (z == z0 || z == z0 + length - 1)) {
-					if(((x - x0) & 1) == 1 || ((z - z0) & 1) == 1) {
+				if ((x == x0 || x == x0 + width - 1) || (z == z0 || z == z0 + length - 1)) {
+					//if(((x - x0) & 1) == 1 || ((z - z0) & 1) == 1) {
 						int hh = h + 1 + rand.nextInt (4);
 						for(int y = h; y < hh; y ++) world.setBlock(x, y, z, Block.cobblestone.blockID);
-					}
+					//}
 				}
 			}
 		}

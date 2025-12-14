@@ -16,7 +16,7 @@ public class RenderTFWraith extends RenderBiped {
 
 	protected boolean shouldRenderPass(EntityLiving entityLiving1, int i2, float f) {
 		if(i2 == 2) {
-			this.loadTexture("/com/benimatic/twilightforest/textures/ghost.png");
+			this.loadTexture("/mob/wraith.png");
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glDisable(GL11.GL_ALPHA_TEST);
 			GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);

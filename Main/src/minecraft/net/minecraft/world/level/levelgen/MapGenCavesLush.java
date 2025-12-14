@@ -13,7 +13,6 @@ public class MapGenCavesLush extends MapGenCaves {
 	protected void recursiveGenerate(World world, int i2, int i3, int chunkX, int chunkZ, byte[] data) {
 		this.caveLow(world, i2, i3, chunkX, chunkZ, data);
 		this.caveTop(world, i2, i3, chunkX, chunkZ, data);
-
 	}
 
 	private void caveTop(World world, int i2, int i3, int chunkX, int chunkZ, byte[] data) {

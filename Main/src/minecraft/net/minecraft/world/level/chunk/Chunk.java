@@ -881,6 +881,7 @@ public class Chunk {
 			Arrays.fill(this.biomeGenCache, biome);
 			double t = biome.t;
 			double h = biome.h;
+
 			Arrays.fill(this.grassColorCache, ColorizerGrass.getGrassColor(t, h));
 			Arrays.fill(this.foliageColorCache, ColorizerFoliage.getFoliageColor(t, h));
 		} else {
