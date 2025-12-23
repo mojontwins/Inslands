@@ -509,6 +509,14 @@ public class Chunk {
 	public boolean canBlockSeeTheSky(int i1, int i2, int i3) {
 		return i2 >= (this.heightMap[i3 << 4 | i1] & 255);
 	}
+	
+	public boolean isBlockUnderGround(int x, int y, int z) {
+		for(int yy = y; y < 128; y ++) {
+			if(this.getBlockID(x, yy, z) == Block.stone.blockID) return true;
+		}
+		
+		return false;
+	}
 
 	public TileEntity getChunkBlockTileEntity(int i1, int i2, int i3) {
 		ChunkPosition chunkPosition4 = new ChunkPosition(i1, i2, i3);

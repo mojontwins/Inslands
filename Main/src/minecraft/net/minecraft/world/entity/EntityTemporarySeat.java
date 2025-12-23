@@ -31,11 +31,16 @@ public class EntityTemporarySeat extends Entity {
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
-		this.tileX = nbt.getInteger(string1)
+		this.tileX = nbt.getInteger("tileX");
+		this.tileY = nbt.getInteger("tileY");
+		this.tileZ = nbt.getInteger("tileZ");
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt) {
+		nbt.setInteger("tileX", this.tileX);
+		nbt.setInteger("tileY", this.tileY);
+		nbt.setInteger("tileZ", this.tileZ);
 	}
 
 	@Override

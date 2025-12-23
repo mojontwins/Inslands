@@ -45,7 +45,7 @@ public class BiomeGenThemeWhiteForest extends BiomeGenBase {
 		
 		this.spawnableMonsterList.add(new SpawnListEntry(EntityZombieAlex.class, 10));
 		
-		this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityTFWraith.class, 2));
+		this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityTFWraith.class, 1));
 		this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityGhoul.class, 10));
 	}
 	

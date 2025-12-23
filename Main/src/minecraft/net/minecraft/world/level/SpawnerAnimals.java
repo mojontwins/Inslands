@@ -266,7 +266,7 @@ public final class SpawnerAnimals {
 	private static boolean canCreatureTypeSpawnAtLocation(EnumCreatureType enumCreatureType, World world, int x, int y, int z) {
 		
 		if(enumCreatureType == EnumCreatureType.caveCreature) {
-			if (world.canBlockSeeTheSky(x, y, z)) return false; 			// Cave creatures cannot spawn in the open!
+			if (!world.isBlockUnderground(x, y, z)) return false; 			// Cave creatures cannot spawn in the open!
 		} 
 		
 		Material creatureMaterial = enumCreatureType.getCreatureMaterial();
