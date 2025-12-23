@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"br",
+				"brightness\tabc"
+			],
+			[
 				"back",
 				"background-color\tproperty"
 			],
@@ -510,10 +514,6 @@
 			[
 				"toa",
 				"total_entries"
-			],
-			[
-				"write",
-				"write_log"
 			]
 		]
 	},
@@ -523,44 +523,36 @@
 			"file": "README.md",
 			"settings":
 			{
-				"buffer_size": 26695,
+				"buffer_size": 26756,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "\tpublic void moveEntity(double moveX, double moveY, double moveZ) {\n\t\tif(this.noClip) {\n\t\t\tthis.boundingBox.offset(moveX, moveY, moveZ);\n\t\t\tthis.posX = (this.boundingBox.minX + this.boundingBox.maxX) / 2.0D;\n\t\t\tthis.posY = this.boundingBox.minY + (double)this.yOffset - (double)this.ySize;\n\t\t\tthis.posZ = (this.boundingBox.minZ + this.boundingBox.maxZ) / 2.0D;\n\t\t} else {\n\t\t\tthis.ySize *= 0.4F;\n\t\t\tdouble prevPosX = this.posX;\n\t\t\tdouble prevPosZ = this.posZ;\n\n\t\t\t// Slow on webs\n\t\t\tif(this.isInWeb) {\n\t\t\t\tthis.isInWeb = false;\n\t\t\t\tmoveX *= 0.25D;\n\t\t\t\tmoveY *= (double)0.05F;\n\t\t\t\tmoveZ *= 0.25D;\n\t\t\t\tthis.motionX = 0.0D;\n\t\t\t\tthis.motionY = 0.0D;\n\t\t\t\tthis.motionZ = 0.0D;\n\t\t\t}\n\n\t\t\t// Slower traversing snow\n\t\t\tif (this.isInSnow && !this.bootsOfLeather()) {\n\t\t\t\tthis.isInSnow = false;\n\t\t\t\tmoveX *= 0.8D;\n\t\t\t\tmoveZ *= 0.8D;\n\t\t\t\tthis.motionX *= 0.6D;\n\t\t\t\tthis.motionZ *= 0.6D;\n\t\t\t}\n\t\t\t\n\t\t\tdouble prevMoveX = moveX;\n\t\t\tdouble prevMoveY = moveY;\n\t\t\tdouble prevMoveZ = moveZ;\n\t\t\tAxisAlignedBB bbCopy = this.boundingBox.copy();\n\t\t\tboolean preventFalling = this.onGround && this.isSneaking();\n\n\t\t\tif(preventFalling) {\n\t\t\t\tdouble d19;\n\t\t\t\tfor(d19 = 0.05D; moveX != 0.0D && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.getOffsetBoundingBox(moveX, -1.0D, 0.0D)).size() == 0; prevMoveX = moveX) {\n\t\t\t\t\tif(moveX < d19 && moveX >= -d19) {\n\t\t\t\t\t\tmoveX = 0.0D;\n\t\t\t\t\t} else if(moveX > 0.0D) {\n\t\t\t\t\t\tmoveX -= d19;\n\t\t\t\t\t} else {\n\t\t\t\t\t\tmoveX += d19;\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tfor(; moveZ != 0.0D && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.getOffsetBoundingBox(0.0D, -1.0D, moveZ)).size() == 0; prevMoveZ = moveZ) {\n\t\t\t\t\tif(moveZ < d19 && moveZ >= -d19) {\n\t\t\t\t\t\tmoveZ = 0.0D;\n\t\t\t\t\t} else if(moveZ > 0.0D) {\n\t\t\t\t\t\tmoveZ -= d19;\n\t\t\t\t\t} else {\n\t\t\t\t\t\tmoveZ += d19;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tList<AxisAlignedBB> collBBs = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(moveX, moveY, moveZ));\n\n\t\t\tfor(int i = 0; i < collBBs.size(); ++i) {\n\t\t\t\tmoveY = ((AxisAlignedBB)collBBs.get(i)).calculateYOffset(this.boundingBox, moveY);\n\t\t\t}\n\n\t\t\tthis.boundingBox.offset(0.0D, moveY, 0.0D);\n\t\t\tif(!this.booleanTrue && prevMoveY != moveY) {\n\t\t\t\tmoveZ = 0.0D;\n\t\t\t\tmoveY = 0.0D;\n\t\t\t\tmoveX = 0.0D;\n\t\t\t}\n\n\t\t\tboolean z36 = this.onGround || prevMoveY != moveY && prevMoveY < 0.0D;\n\n\t\t\tint i;\n\t\t\tfor(i = 0; i < collBBs.size(); ++i) {\n\t\t\t\tmoveX = ((AxisAlignedBB)collBBs.get(i)).calculateXOffset(this.boundingBox, moveX);\n\t\t\t}\n\n\t\t\tthis.boundingBox.offset(moveX, 0.0D, 0.0D);\n\t\t\tif(!this.booleanTrue && prevMoveX != moveX) {\n\t\t\t\tmoveZ = 0.0D;\n\t\t\t\tmoveY = 0.0D;\n\t\t\t\tmoveX = 0.0D;\n\t\t\t}\n\n\t\t\tfor(i = 0; i < collBBs.size(); ++i) {\n\t\t\t\tmoveZ = ((AxisAlignedBB)collBBs.get(i)).calculateZOffset(this.boundingBox, moveZ);\n\t\t\t}\n\n\t\t\tthis.boundingBox.offset(0.0D, 0.0D, moveZ);\n\t\t\tif(!this.booleanTrue && prevMoveZ != moveZ) {\n\t\t\t\tmoveZ = 0.0D;\n\t\t\t\tmoveY = 0.0D;\n\t\t\t\tmoveX = 0.0D;\n\t\t\t}\n\n\t\t\tdouble d23;\n\t\t\tint i28;\n\t\t\tdouble d37;\n\t\t\tif(this.stepHeight > 0.0F && z36 && (preventFalling || this.ySize < 0.05F) && (prevMoveX != moveX || prevMoveZ != moveZ)) {\n\t\t\t\td37 = moveX;\n\t\t\t\td23 = moveY;\n\t\t\t\tdouble d25 = moveZ;\n\t\t\t\tmoveX = prevMoveX;\n\t\t\t\tmoveY = (double)this.stepHeight;\n\t\t\t\tmoveZ = prevMoveZ;\n\t\t\t\tAxisAlignedBB axisAlignedBB27 = this.boundingBox.copy();\n\t\t\t\tthis.boundingBox.setBB(bbCopy);\n\t\t\t\tcollBBs = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(prevMoveX, moveY, prevMoveZ));\n\n\t\t\t\tfor(i28 = 0; i28 < collBBs.size(); ++i28) {\n\t\t\t\t\tmoveY = ((AxisAlignedBB)collBBs.get(i28)).calculateYOffset(this.boundingBox, moveY);\n\t\t\t\t}\n\n\t\t\t\tthis.boundingBox.offset(0.0D, moveY, 0.0D);\n\t\t\t\tif(!this.booleanTrue && prevMoveY != moveY) {\n\t\t\t\t\tmoveZ = 0.0D;\n\t\t\t\t\tmoveY = 0.0D;\n\t\t\t\t\tmoveX = 0.0D;\n\t\t\t\t}\n\n\t\t\t\tfor(i28 = 0; i28 < collBBs.size(); ++i28) {\n\t\t\t\t\tmoveX = ((AxisAlignedBB)collBBs.get(i28)).calculateXOffset(this.boundingBox, moveX);\n\t\t\t\t}\n\n\t\t\t\tthis.boundingBox.offset(moveX, 0.0D, 0.0D);\n\t\t\t\tif(!this.booleanTrue && prevMoveX != moveX) {\n\t\t\t\t\tmoveZ = 0.0D;\n\t\t\t\t\tmoveY = 0.0D;\n\t\t\t\t\tmoveX = 0.0D;\n\t\t\t\t}\n\n\t\t\t\tfor(i28 = 0; i28 < collBBs.size(); ++i28) {\n\t\t\t\t\tmoveZ = ((AxisAlignedBB)collBBs.get(i28)).calculateZOffset(this.boundingBox, moveZ);\n\t\t\t\t}\n\n\t\t\t\tthis.boundingBox.offset(0.0D, 0.0D, moveZ);\n\t\t\t\tif(!this.booleanTrue && prevMoveZ != moveZ) {\n\t\t\t\t\tmoveZ = 0.0D;\n\t\t\t\t\tmoveY = 0.0D;\n\t\t\t\t\tmoveX = 0.0D;\n\t\t\t\t}\n\n\t\t\t\t/*\n\t\t\t\tif(!this.booleanTrue && prevMoveY != moveY) {\n\t\t\t\t\tmoveZ = 0.0D;\n\t\t\t\t\tmoveY = 0.0D;\n\t\t\t\t\tmoveX = 0.0D;\n\t\t\t\t} else {\n\t\t\t\t\tmoveY = (double)(-this.stepHeight);\n\n\t\t\t\t\tfor(i28 = 0; i28 < collBBs.size(); ++i28) {\n\t\t\t\t\t\tmoveY = ((AxisAlignedBB)collBBs.get(i28)).calculateYOffset(this.boundingBox, moveY);\n\t\t\t\t\t}\n\n\t\t\t\t\tthis.boundingBox.offset(0.0D, moveY, 0.0D);\n\t\t\t\t}\n\t\t\t\t*/\n\n\t\t\t\tif(d37 * d37 + d25 * d25 >= moveX * moveX + moveZ * moveZ) {\n\t\t\t\t\tmoveX = d37;\n\t\t\t\t\tmoveY = d23;\n\t\t\t\t\tmoveZ = d25;\n\t\t\t\t\tthis.boundingBox.setBB(axisAlignedBB27);\n\t\t\t\t} else {\n\t\t\t\t\t/*\n\t\t\t\t\tdouble d41 = this.boundingBox.minY - (double)((int)this.boundingBox.minY);\n\t\t\t\t\tif(d41 > 0.0D) {\n\t\t\t\t\t\tthis.ySize = (float)((double)this.ySize + d41 + 0.01D);\n\t\t\t\t\t}\n\t\t\t\t\t*/\n\t\t\t\t\t\tthis.ySize = (float)((double)this.ySize + 0.5D);\n\t\t\t\t}\n\t\t\t}\t\n\t\t\t\n\t\t\tthis.posX = (this.boundingBox.minX + this.boundingBox.maxX) / 2.0D;\n\t\t\tthis.posY = this.boundingBox.minY + (double)this.yOffset - (double)this.ySize;\n\t\t\tthis.posZ = (this.boundingBox.minZ + this.boundingBox.maxZ) / 2.0D;\n\t\t\t\n\t\t\t// Stop at world boundaries.\n\t\t\tif(this.posX < 0.5D) {\n\t\t\t\tthis.posX = 0; this.motionX = 0; moveX = 0;\n\t\t\t}\n\t\t\tif(this.posZ < 0.5D) {\n\t\t\t\tthis.posZ = 0; this.motionZ = 0; moveZ = 0;\n\t\t\t}\n\t\t\tif(this.posX > (double)WorldSize.width - 0.5D) {\n\t\t\t\tthis.posX = (double)WorldSize.width - 0.5D; this.motionX = 0; moveX = 0;\n\t\t\t}\n\t\t\tif(this.posZ > (double)WorldSize.length - 0.5D) {\n\t\t\t\tthis.posZ = (double)WorldSize.length - 0.5D; this.motionZ = 0; moveZ = 0;\n\t\t\t}\n\n\t\t\tthis.isCollidedHorizontally = prevMoveX != moveX || prevMoveZ != moveZ;\n\t\t\tthis.isCollidedVertically = prevMoveY != moveY;\n\t\t\tthis.onGround = prevMoveY != moveY && prevMoveY < 0.0D;\n\t\t\tthis.isCollided = this.isCollidedHorizontally || this.isCollidedVertically;\n\t\t\t\n\t\t\tboolean rebound = this.hitGround(moveY, this.onGround);\n\t\t\t\n\t\t\tif(prevMoveX != moveX) {\n\t\t\t\tthis.motionX = 0.0D;\n\t\t\t}\n\n\t\t\tif(prevMoveY != moveY && rebound == false) {\n\t\t\t\tthis.motionY = 0.0D;\n\t\t\t}\n\n\t\t\tif(prevMoveZ != moveZ) {\n\t\t\t\tthis.motionZ = 0.0D;\n\t\t\t}\n\n\t\t\td37 = this.posX - prevPosX;\n\t\t\td23 = this.posZ - prevPosZ;\n\t\t\tint i26;\n\t\t\tint i38;\n\t\t\tint i39;\n\t\t\tif(this.canTriggerWalking() && !preventFalling && this.ridingEntity == null) {\n\t\t\t\tthis.distanceWalkedModified = (float)((double)this.distanceWalkedModified + (double)MathHelper.sqrt_double(d37 * d37 + d23 * d23) * 0.6D);\n\t\t\t\ti38 = MathHelper.floor_double(this.posX);\n\t\t\t\ti26 = MathHelper.floor_double(this.posY - (double)0.2F - (double)this.yOffset);\n\t\t\t\ti39 = MathHelper.floor_double(this.posZ);\n\t\t\t\tBlock block = Block.blocksList[this.worldObj.getBlockID(i38, i26, i39)];\n\t\t\t\tif(this.worldObj.getBlockID(i38, i26 - 1, i39) == Block.fence.blockID) {\n\t\t\t\t\tblock = Block.blocksList[this.worldObj.getBlockID(i38, i26 - 1, i39)];\n\t\t\t\t}\n\n\t\t\t\tif(this.distanceWalkedModified > (float)this.nextStepDistance && block != null) {\n\t\t\t\t\t++this.nextStepDistance;\n\t\t\t\t\tStepSound stepSound29 = block.stepSound;\n\t\t\t\t\tif(this.worldObj.getBlockID(i38, i26 + 1, i39) == Block.snow.blockID) {\n\t\t\t\t\t\tstepSound29 = Block.snow.stepSound;\n\t\t\t\t\t\tthis.worldObj.playSoundAtEntity(this, stepSound29.getStepSound(), stepSound29.getVolume() * 0.15F, stepSound29.getPitch());\n\t\t\t\t\t} else if(!block.blockMaterial.getIsLiquid()) {\n\t\t\t\t\t\tthis.worldObj.playSoundAtEntity(this, stepSound29.getStepSound(), stepSound29.getVolume() * 0.15F, stepSound29.getPitch());\n\t\t\t\t\t}\n\n\t\t\t\t\tblock.onEntityWalking(this.worldObj, i38, i26, i39, this);\n\t\t\t\t}\n\t\t\t}\n\n\t\t\t// Call .onEntityCollidedWithBlock for all blocks I am touching\n\t\t\ti38 = MathHelper.floor_double(this.boundingBox.minX + 0.001D);\n\t\t\ti26 = MathHelper.floor_double(this.boundingBox.minY + 0.001D);\n\t\t\ti39 = MathHelper.floor_double(this.boundingBox.minZ + 0.001D);\n\t\t\ti28 = MathHelper.floor_double(this.boundingBox.maxX - 0.001D);\n\t\t\tint i40 = MathHelper.floor_double(this.boundingBox.maxY - 0.001D);\n\t\t\tint i30 = MathHelper.floor_double(this.boundingBox.maxZ - 0.001D);\n\t\t\tif(this.worldObj.checkChunksExist(i38, i26, i39, i28, i40, i30)) {\n\t\t\t\tfor(int i31 = i38; i31 <= i28; ++i31) {\n\t\t\t\t\tfor(int i32 = i26; i32 <= i40; ++i32) {\n\t\t\t\t\t\tfor(int i33 = i39; i33 <= i30; ++i33) {\n\t\t\t\t\t\t\tBlock block = Block.blocksList[this.worldObj.getBlockID(i31, i32, i33)];\n\t\t\t\t\t\t\tif(block != null) {\n\t\t\t\t\t\t\t\tblock.onEntityCollidedWithBlock(this.worldObj, i31, i32, i33, this);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tboolean z42 = this.isWet();\n\t\t\tif(this.worldObj.isBoundingBoxBurning(this.boundingBox.getInsetBoundingBox(0.001D, 0.001D, 0.001D))) {\n\t\t\t\tboolean doFire = true;\n\t\t\t\t\n\t\t\t\tif(this instanceof EntityBoat) {\n\t\t\t\t\tif(((EntityBoat)this).fireResistant) doFire = false;\n\t\t\t\t}\n\t\t\t\tif(this instanceof EntityPlayer) {\n\t\t\t\t\tif(this.ridingEntity != null && this.ridingEntity instanceof EntityBoat) {\n\t\t\t\t\t\tif(((EntityBoat)this.ridingEntity).fireResistant) doFire = false;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tif(doFire) {\n\t\t\t\t\tthis.dealFireDamage(1);\n\t\t\t\t\tif(!z42) {\n\t\t\t\t\t\t++this.fire;\n\t\t\t\t\t\tif(this.fire == 0) {\n\t\t\t\t\t\t\tthis.fire = 300;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t} else if(this.fire <= 0) {\n\t\t\t\tthis.fire = -this.fireResistance;\n\t\t\t}\n\n\t\t\tif(z42 && this.fire > 0) {\n\t\t\t\tthis.worldObj.playSoundAtEntity(this, \"random.fizz\", 0.7F, 1.6F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.4F);\n\t\t\t\tthis.fire = -this.fireResistance;\n\t\t\t}\n\n\t\t}\n\t}",
+			"contents": "PELO CON HUEVOS\nPELO CON PELUSAS\nPELO CON MOCOS\nPELO CON POSTILLAS\nPELO PELO PELO\n",
 			"settings":
 			{
-				"buffer_size": 9581,
+				"buffer_size": 82,
 				"line_ending": "Windows",
-				"name": "public void moveEntity(double moveX, double moveY"
+				"name": "PELO CON HUEVOS"
 			}
 		},
 		{
-			"contents": "\tpublic boolean renderBlockRedstoneWire(Block block1, int i2, int i3, int i4) {\n\t\tTessellator tessellator5 = Tessellator.instance;\n\t\tint i6 = this.blockAccess.getBlockMetadata(i2, i3, i4);\n\t\t\n\t\tint i7 = block1.getBlockTextureFromSideAndMetadata(1, i6);\n\t\tif(this.overrideBlockTexture >= 0) {\n\t\t\ti7 = this.overrideBlockTexture;\n\t\t}\n\n\t\ttessellator5.setBrightness(block1.getMixedBrightnessForBlock(this.blockAccess, i2, i3, i4));\n\t\tfloat f8 = 1.0F;\n\t\tfloat f9 = (float)i6 / 15.0F;\n\t\tfloat f10 = f9 * 0.6F + 0.4F;\n\t\tif(i6 == 0) {\n\t\t\tf10 = 0.3F;\n\t\t}\n\n\t\tfloat f11 = f9 * f9 * 0.7F - 0.5F;\n\t\tfloat f12 = f9 * f9 * 0.6F - 0.7F;\n\t\tif(f11 < 0.0F) {\n\t\t\tf11 = 0.0F;\n\t\t}\n\n\t\tif(f12 < 0.0F) {\n\t\t\tf12 = 0.0F;\n\t\t}\n\n\t\ttessellator5.setColorOpaque_F(f10, f11, f12);\n\t\t/*\n\t\tint i13 = (i7 & 15) << 4;\n\t\tint i14 = i7 & 0xff0;\n\t\tdouble u1 = (double)((float)i13 / TextureAtlasSize.w);\n\t\tdouble u2 = (double)(((float)i13 + 15.99F) / TextureAtlasSize.w);\n\t\tdouble v1 = (double)((float)i14 / TextureAtlasSize.h);\n\t\tdouble v2 = (double)(((float)i14 + 15.99F) / TextureAtlasSize.h);\n\t\t*/\n\t\tIdx2uvF.calc(i7);\n\n\t\tdouble u1 = (double)Idx2uvF.u1;\n\t\tdouble u2 = (double)Idx2uvF.u2;\n\t\tdouble v1 = (double)Idx2uvF.v1;\n\t\tdouble v2 = (double)Idx2uvF.v2;\n\t\t\n\t\tdouble u10 = u1; \n\t\tdouble u20 = u2;\t\n\t\t\n\t\tboolean z29 = BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2 - 1, i3, i4, 1) || !this.blockAccess.isBlockNormalCube(i2 - 1, i3, i4) && BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2 - 1, i3 - 1, i4, -1);\n\t\tboolean z30 = BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2 + 1, i3, i4, 3) || !this.blockAccess.isBlockNormalCube(i2 + 1, i3, i4) && BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2 + 1, i3 - 1, i4, -1);\n\t\tboolean z31 = BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2, i3, i4 - 1, 2) || !this.blockAccess.isBlockNormalCube(i2, i3, i4 - 1) && BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2, i3 - 1, i4 - 1, -1);\n\t\tboolean z32 = BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2, i3, i4 + 1, 0) || !this.blockAccess.isBlockNormalCube(i2, i3, i4 + 1) && BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2, i3 - 1, i4 + 1, -1);\n\t\tif(!this.blockAccess.isBlockNormalCube(i2, i3 + 1, i4)) {\n\t\t\tif(this.blockAccess.isBlockNormalCube(i2 - 1, i3, i4) && BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2 - 1, i3 + 1, i4, -1)) {\n\t\t\t\tz29 = true;\n\t\t\t}\n\n\t\t\tif(this.blockAccess.isBlockNormalCube(i2 + 1, i3, i4) && BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2 + 1, i3 + 1, i4, -1)) {\n\t\t\t\tz30 = true;\n\t\t\t}\n\n\t\t\tif(this.blockAccess.isBlockNormalCube(i2, i3, i4 - 1) && BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2, i3 + 1, i4 - 1, -1)) {\n\t\t\t\tz31 = true;\n\t\t\t}\n\n\t\t\tif(this.blockAccess.isBlockNormalCube(i2, i3, i4 + 1) && BlockRedstoneWire.isPowerProviderOrWire(this.blockAccess, i2, i3 + 1, i4 + 1, -1)) {\n\t\t\t\tz32 = true;\n\t\t\t}\n\t\t}\n\n\t\tfloat f34 = (float)(i2 + 0);\n\t\tfloat f35 = (float)(i2 + 1);\n\t\tfloat f36 = (float)(i4 + 0);\n\t\tfloat f37 = (float)(i4 + 1);\n\t\tbyte b38 = 0;\n\t\tif((z29 || z30) && !z31 && !z32) {\n\t\t\tb38 = 1;\n\t\t}\n\n\t\tif((z31 || z32) && !z30 && !z29) {\n\t\t\tb38 = 2;\n\t\t}\n\n\t\tif(b38 != 0) {\n\t\t\tu1 = u10 + Texels.texelsU(16.0F);\n\t\t\tu2 = u20 + Texels.texelsU(16.0F);\n\t\t}\n\n\t\tif(b38 == 0) {\n\t\t\tif(!z29) {\n\t\t\t\tf34 += 0.3125F;\n\t\t\t\t}\n\n\t\t\tif(!z29) {\n\t\t\t\tu1 += Texels.texelsU(5); // 0.01953125D;\n\t\t\t\t}\n\n\t\t\tif(!z30) {\n\t\t\t\tf35 -= 0.3125F;\n\t\t\t\t}\n\n\t\t\tif(!z30) {\n\t\t\t\tu2 -= Texels.texelsU(5); // 0.01953125D;\n\t\t\t\t}\n\n\t\t\tif(!z31) {\n\t\t\t\tf36 += 0.3125F;\n\t\t\t\t}\n\n\t\t\tif(!z31) {\n\t\t\t\tv1 += Texels.texelsV(5); // 0.01953125D;\n\t\t\t\t}\n\n\t\t\tif(!z32) {\n\t\t\t\tf37 -= 0.3125F;\n\t\t\t\t}\n\n\t\t\tif(!z32) {\n\t\t\t\tv2 -= Texels.texelsV(5); // 0.01953125D;\n\t\t\t}\n\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f37, u2, v2);\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f36, u2, v1);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f36, u1, v1);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f37, u1, v2);\n\t\t\ttessellator5.setColorOpaque_F(f8, f8, f8);\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f37, u2, v2);\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f36, u2, v1);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f36, u1, v1);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f37, u1, v2);\n\t\t} else if(b38 == 1) {\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f37, u2, v2);\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f36, u2, v1);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f36, u1, v1);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f37, u1, v2);\n\t\t\ttessellator5.setColorOpaque_F(f8, f8, f8);\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f37, u2, v2);\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f36, u2, v1);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f36, u1, v1);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f37, u1, v2);\n\t\t} else if(b38 == 2) {\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f37, u2, v2);\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f36, u1, v2);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f36, u1, v1);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f37, u2, v1);\n\t\t\ttessellator5.setColorOpaque_F(f8, f8, f8);\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f37, u2, v2);\n\t\t\ttessellator5.addVertexWithUV((double)f35, (double)i3 + 0.015625D, (double)f36, u1, v2);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f36, u1, v1);\n\t\t\ttessellator5.addVertexWithUV((double)f34, (double)i3 + 0.015625D, (double)f37, u2, v1);\n\t\t}\n\n\t\tif(!this.blockAccess.isBlockNormalCube(i2, i3 + 1, i4)) {\n\t\t\tu1 = u10 + Texels.texelsU(16.0F);\n\t\t\tu2 = u20 + Texels.texelsU(16.0F);\n\t\t\t\n\t\t\tif(this.blockAccess.isBlockNormalCube(i2 - 1, i3, i4) && this.blockAccess.getBlockID(i2 - 1, i3 + 1, i4) == Block.redstoneWire.blockID) {\n\t\t\t\ttessellator5.setColorOpaque_F(f8 * f10, f8 * f11, f8 * f12);\n\t\t\t\ttessellator5.addVertexWithUV((double)i2 + 0.015625D, (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 1), u2, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)i2 + 0.015625D, (double)(i3 + 0), (double)(i4 + 1), u1, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)i2 + 0.015625D, (double)(i3 + 0), (double)(i4 + 0), u1, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)i2 + 0.015625D, (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 0), u2, v2);\n\t\t\t\ttessellator5.setColorOpaque_F(f8, f8, f8);\n\t\t\t\ttessellator5.addVertexWithUV((double)i2 + 0.015625D, (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 1), u2, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)i2 + 0.015625D, (double)(i3 + 0), (double)(i4 + 1), u1, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)i2 + 0.015625D, (double)(i3 + 0), (double)(i4 + 0), u1, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)i2 + 0.015625D, (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 0), u2, v2);\n\t\t\t}\n\n\t\t\tif(this.blockAccess.isBlockNormalCube(i2 + 1, i3, i4) && this.blockAccess.getBlockID(i2 + 1, i3 + 1, i4) == Block.redstoneWire.blockID) {\n\t\t\t\ttessellator5.setColorOpaque_F(f8 * f10, f8 * f11, f8 * f12);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1) - 0.015625D, (double)(i3 + 0), (double)(i4 + 1), u1, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1) - 0.015625D, (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 1), u2, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1) - 0.015625D, (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 0), u2, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1) - 0.015625D, (double)(i3 + 0), (double)(i4 + 0), u1, v1);\n\t\t\t\ttessellator5.setColorOpaque_F(f8, f8, f8);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1) - 0.015625D, (double)(i3 + 0), (double)(i4 + 1), u1, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1) - 0.015625D, (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 1), u2, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1) - 0.015625D, (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 0), u2, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1) - 0.015625D, (double)(i3 + 0), (double)(i4 + 0), u1, v1);\n\t\t\t}\n\n\t\t\tif(this.blockAccess.isBlockNormalCube(i2, i3, i4 - 1) && this.blockAccess.getBlockID(i2, i3 + 1, i4 - 1) == Block.redstoneWire.blockID) {\n\t\t\t\ttessellator5.setColorOpaque_F(f8 * f10, f8 * f11, f8 * f12);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1), (double)(i3 + 0), (double)i4 + 0.015625D, u1, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1), (double)((float)(i3 + 1) + 0.021875F), (double)i4 + 0.015625D, u2, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 0), (double)((float)(i3 + 1) + 0.021875F), (double)i4 + 0.015625D, u2, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 0), (double)(i3 + 0), (double)i4 + 0.015625D, u1, v1);\n\t\t\t\ttessellator5.setColorOpaque_F(f8, f8, f8);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1), (double)(i3 + 0), (double)i4 + 0.015625D, u1, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1), (double)((float)(i3 + 1) + 0.021875F), (double)i4 + 0.015625D, u2, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 0), (double)((float)(i3 + 1) + 0.021875F), (double)i4 + 0.015625D, u2, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 0), (double)(i3 + 0), (double)i4 + 0.015625D, u1, v1);\n\t\t\t}\n\n\t\t\tif(this.blockAccess.isBlockNormalCube(i2, i3, i4 + 1) && this.blockAccess.getBlockID(i2, i3 + 1, i4 + 1) == Block.redstoneWire.blockID) {\n\t\t\t\ttessellator5.setColorOpaque_F(f8 * f10, f8 * f11, f8 * f12);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1), (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 1) - 0.015625D, u2, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1), (double)(i3 + 0), (double)(i4 + 1) - 0.015625D, u1, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 0), (double)(i3 + 0), (double)(i4 + 1) - 0.015625D, u1, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 0), (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 1) - 0.015625D, u2, v2);\n\t\t\t\ttessellator5.setColorOpaque_F(f8, f8, f8);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1), (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 1) - 0.015625D, u2, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 1), (double)(i3 + 0), (double)(i4 + 1) - 0.015625D, u1, v1);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 0), (double)(i3 + 0), (double)(i4 + 1) - 0.015625D, u1, v2);\n\t\t\t\ttessellator5.addVertexWithUV((double)(i2 + 0), (double)((float)(i3 + 1) + 0.021875F), (double)(i4 + 1) - 0.015625D, u2, v2);\n\t\t\t}\n\t\t}\n\n\t\treturn true;\n\t}\n",
+			"contents": "49 achievements\n217 recipes\nJava library path: E:\\Cosas\\Inslands\\Main\\lib\\client\\natives;E:\\Cosas\\Inslands\\Main\\lib\\client\\natives;E:\\Cosas\\Inslands\\Main\\lib\\client\\natives\nSkipping bad option: fancyGraphics:false\nSkipping bad option: ofGrass:0\n\nOptiFine_1.7.3_HD_G\nTue Aug 26 14:35:28 CEST 2025\nOS: Windows 10 (amd64) version 10.0\nJava: 1.8.0_442, Azul Systems, Inc.\nVM: OpenJDK 64-Bit Server VM (mixed mode), Azul Systems, Inc.\nLWJGL: 2.9.3\nOpenGL: Intel(R) HD Graphics 400 version 4.4.0 - Build 20.19.15.5171, Intel\nOpenGL Version: 4.0\nOpenGL Fancy fog: Not available (GL_NV_fog_distance)\nWARNING: Found unknown Windows version: Windows 10\nAttempting to use default windows plug-in.\nLoading: net.java.games.input.DirectAndRawInputEnvironmentPlugin\n\nStarting up SoundSystem...\nInitializing LWJGL OpenAL\n    (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)\nOpenAL initialized.\n\nTexture registered: net.minecraft.client.renderer.ptexture.TextureLavaFX@76c981f4, image: 0, index: 237\nTexture registered: net.minecraft.client.renderer.ptexture.TextureWaterFX@23ec7269, image: 0, index: 205\nTexture registered: net.minecraft.client.renderer.ptexture.TexturePortalFX@5d5bf051, image: 0, index: 14\nTexture registered: net.minecraft.client.renderer.ptexture.TextureCompassFX@62d0aae5, image: 1, index: 54\nTexture registered: net.minecraft.client.renderer.ptexture.TextureWatchFX@62e3082a, image: 1, index: 70\nTexture registered: net.minecraft.client.renderer.ptexture.TextureWaterFlowFX@a18b91c, image: 0, index: 206\nTexture registered: net.minecraft.client.renderer.ptexture.TextureLavaFlowFX@53c1294e, image: 0, index: 238\nTexture registered: net.minecraft.client.renderer.ptexture.TextureFlamesFX@6d09f653, image: 0, index: 31\nTexture registered: net.minecraft.client.renderer.ptexture.TextureFlamesFX@17d11180, image: 0, index: 47\nTextureAnimatedFX 252, 0, textureAtlasURI = /animated/block_seaweed.png (20 frames)\nTexture registered: net.minecraft.client.renderer.ptexture.TextureAnimatedFX@3fc4dede, image: 0, index: 252\nTextureAnimatedFX 150, 0, textureAtlasURI = /animated/block_acidwater.png (38 frames)\nTexture registered: net.minecraft.client.renderer.ptexture.TextureAnimatedFX@6602afaa, image: 0, index: 150\nWorld changed\nPreload World\nAttempting hill maze @ 71 78 135\nHill maze failed, not 30 solid.\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempting hill maze @ 183 72 103\nHill maze failed, not 30 solid.\nAttempting hill maze @ 167 74 151\nAttempted hedge maze but too low! @1\nAttempting hill maze @ 183 51 135\nAttempted hedge maze but too low! @46\n000000000000000000000000000000000000000 \n010121212121212121210121212121212101210 \n020200000000000002020200020000000200020 \n010121210121210121010121012121210121210 \n020000000200020200000200000000020000020 \n012121212101210121212101210121210121210 \n000000050002000000020002020200000200000 \n012105555501012121012101012101210121210 \n000205555502020002000002000002020000020 \n012155555551010101212121012121012121010 \n020205555502020200000000050002000002020 \n010105555501210121212105555501012121010 \n020000050000000200050005555502020000020 \n010121212101212105555555555551010121210 \n020200020002000205555505555502020200000 \n010101012121012155555555555501010121210 \n020202000000020205555500050002000000020 \n010121012121010105555501210121212121010 \n020002000202020000050002020200000002020 \n012101210101012121212121010101212121010 \n000200020200000000000000020202000000020 \n012101210121212101210101210101212101210 \n020002000002000202020202000200000202000 \n012121012121010121010101212121210101210 \n020000020000020000020200000000000200020 \n012121010121210121210101210121212121010 \n000002020200000200000202020200020000020 \n012101010121012101212101012101210121210 \n020202020202020002000202000200000200000 \n010101210101012101010101210101210101210 \n020200050002000202020200020002020200020 \n010105555501210121012121012121010121210 \n020205555502020200050002000500020000020 \n010155555551012105555501055555012121010 \n000205555502000005555502055555020000020 \n012105555501212155555551555555510121210 \n020000050000000205555502055555020200000 \n012121212121212105555501055555012121210 \n000000000000000000000000000000000000000 \nPainting fail!! Bomb at 160 , 52, 126 : 3\nHill maze @ 183 51 135\nHill maze failed, not 30 solid.\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nWorld not valid [ Found spawn point? false, Valid upon theme? true ] - trying again!\nPreload World\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempting hill maze @ 119 54 167\nAttempted hedge maze but too low! @1\nHill maze failed, not 30 solid.\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempting hill maze @ 167 83 119\nAttempted hedge maze but too low! @1\nHill maze failed, not 30 solid.\nAttempted hedge maze but too low! @1\nAttempting hill maze @ 183 93 167\nAttempted hedge maze but too low! @1\nAttempting hill maze @ 199 43 151\nAttempting hill maze @ 199 47 119\nHill maze failed, not 30 solid.\nHill maze failed, not 30 solid.\nHill maze failed, not 30 solid.\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nHill mazes = 0, hedge mazes = 0 -> bad level.\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nAttempted hedge maze but too low! @23\nAttempted hedge maze but too low! @49\n000000000000000005000000000000000 \n012105555501210121212121212101210 \n000205555502020200000002000202020 \n010155555551012121012101210121010 \n020205555500050000020202020000020 \n012105555505555501210101012121010 \n020000050005555502000200000002020 \n012101212155555551210121210121010 \n000200020205555500020000020200020 \n010121210105555501210121210121010 \n020200050000050002000000020002020 \n012105555501012121012121012121010 \n020005555502020002020002000000020 \n010155555551210101210121012121210 \n020205555502000200000200000000020 \n010105555501012101210121212121010 \n020200050002020002020000000202020 \n510121010121010121012121210101015 \n020202020200020200000000020002020 \n012101012121210121212121012121010 \n000002000000020000000002000500020 \n012101212101210121212101055555010 \n020200000202000200000202055555020 \n010121212101210101212101555555510 \n020005000000020202000002055555020 \n010555550121212101012121055555010 \n020555550200000002020000000500020 \n015555555101210121012101212121010 \n020555550002020000000202000002020 \n010555550121012101210101012121010 \n020005000200000202020202000000020 \n012121212101212121012101212121210 \n000000000000000005000000000000000 \nHedge maze @ 105, 121\nAttempting hill maze @ 151 81 151\nAttempting hill maze @ 167 91 119\nAttempted hedge maze but too low! @1\nAttempting hill maze @ 183 86 103\nAttempted hedge maze but too low! @1\nHill maze failed, not 30 solid.\nAttempted hedge maze but too low! @62\nHill maze failed, not 30 solid.\nHill maze failed, not 30 solid.\nAttempted hedge maze but too low! @1\n000000000000000005000000000000000 \n010121212121012121212121212101210 \n020000020002000005000200020200020 \n010121010101210555550101210121010 \n020202020200020555550202000002020 \n012101010121215555555101210121210 \n000002020200000555550200020000000 \n012101210101210555550121012121210 \n020000000202020005000002000000020 \n012101212101012121210121012101010 \n000202000000020000000200020202020 \n012101012121010121210121210121010 \n020002020002020200020200050000020 \n012121012101012121012105555501210 \n020000020202000000000205555502000 \n010121210101212121210155555551210 \n020002000200000000020205555502020 \n512101210101212121210105555501015 \n000202000202000005000005050002020 \n012101012101010555550555550121010 \n020000020002020555550555550200020 \n010121012101215555555555555101010 \n020202000200020555550555550202020 \n010101210121010555550555550121010 \n020200020002020005000005000000020 \n012101212121010121212121012121010 \n000200050000020200000002000202020 \n012105555501210101210121012101010 \n020005555502000202020200020002020 \n010155555551210101010121010101210 \n020205555500020202000002020200020 \n012105555501212101212121210121210 \n000000000000000005000000000000000 \nHedge maze @ 137, 169\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\n(RE)Creating player\nSaving NEW world\nWorld changed\nSaving\nWorld changed\nStopping!\n\nSoundSystem shutting down...\n    Author: Paul Lamb, www.paulscode.com\n",
 			"settings":
 			{
-				"buffer_size": 10984,
+				"buffer_size": 9402,
 				"line_ending": "Windows",
-				"name": "public boolean renderBlockRedstoneWire(Block bloc"
+				"name": "49 achievements"
 			}
 		},
 		{
-			"file": "/D/cosas/InfHell/infhell2/src/minecraft/net/minecraft/src/RenderBlocks.java",
+			"contents": "49 achievements\n217 recipes\nJava library path: E:\\Cosas\\Inslands\\Main\\lib\\client\\natives;E:\\Cosas\\Inslands\\Main\\lib\\client\\natives;E:\\Cosas\\Inslands\\Main\\lib\\client\\natives\nSkipping bad option: fancyGraphics:false\nSkipping bad option: ofGrass:0\n\nOptiFine_1.7.3_HD_G\nWed Aug 27 10:36:47 CEST 2025\nOS: Windows 10 (amd64) version 10.0\nJava: 1.8.0_442, Azul Systems, Inc.\nVM: OpenJDK 64-Bit Server VM (mixed mode), Azul Systems, Inc.\nLWJGL: 2.9.3\nOpenGL: Intel(R) HD Graphics 400 version 4.4.0 - Build 20.19.15.5171, Intel\nOpenGL Version: 4.0\nOpenGL Fancy fog: Not available (GL_NV_fog_distance)\nWARNING: Found unknown Windows version: Windows 10\nAttempting to use default windows plug-in.\nLoading: net.java.games.input.DirectAndRawInputEnvironmentPlugin\n\nStarting up SoundSystem...\nInitializing LWJGL OpenAL\n    (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)\nOpenAL initialized.\n\nTexture registered: net.minecraft.client.renderer.ptexture.TextureLavaFX@226ffbfb, image: 0, index: 237\nTexture registered: net.minecraft.client.renderer.ptexture.TextureWaterFX@62d0aae5, image: 0, index: 205\nTexture registered: net.minecraft.client.renderer.ptexture.TexturePortalFX@600b0796, image: 0, index: 14\nTexture registered: net.minecraft.client.renderer.ptexture.TextureCompassFX@5aec8356, image: 1, index: 54\nTexture registered: net.minecraft.client.renderer.ptexture.TextureWatchFX@17d11180, image: 1, index: 70\nTexture registered: net.minecraft.client.renderer.ptexture.TextureWaterFlowFX@58ce8a3f, image: 0, index: 206\nTexture registered: net.minecraft.client.renderer.ptexture.TextureLavaFlowFX@29f5331, image: 0, index: 238\nTexture registered: net.minecraft.client.renderer.ptexture.TextureFlamesFX@2086965f, image: 0, index: 31\nTexture registered: net.minecraft.client.renderer.ptexture.TextureFlamesFX@3fc4dede, image: 0, index: 47\nTextureAnimatedFX 252, 0, textureAtlasURI = /animated/block_seaweed.png (20 frames)\nTexture registered: net.minecraft.client.renderer.ptexture.TextureAnimatedFX@6602afaa, image: 0, index: 252\nTextureAnimatedFX 150, 0, textureAtlasURI = /animated/block_acidwater.png (38 frames)\nTexture registered: net.minecraft.client.renderer.ptexture.TextureAnimatedFX@29fcc96f, image: 0, index: 150\nWorld changed\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\n",
 			"settings":
 			{
-				"buffer_size": 219056,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "\tprivate void updateCaptions() {\n\t\tStringTranslate translator = StringTranslate.getInstance();\n\t\tthis.gameModeButton.displayString = translator.translateKey(\"selectWorld.gameMode\") + \" \" + translator.translateKey(\"selectWorld.gameMode.\" + this.gameMode);\n\t\t\n\t\t/*\n\t\tthis.gameModeDescriptionLine1 = translator.translateKey(\"selectWorld.gameMode.\" + this.gameMode + \".line1\");\n\t\tthis.gameModeDescriptionLine2 = translator.translateKey(\"selectWorld.gameMode.\" + this.gameMode + \".line2\");\n\t\t*/\n\t\t\n\t\tthis.levelThemeButton.displayString = translator.translateKey(\"selectWorld.levelTheme\") + \": \" + translator.translateKey(\"theme.\" + LevelThemeSettings.findThemeById(this.themeId).name);\n\t\tthis.levelSizeButton.displayString = translator.translateKey(\"selectWorld.levelSize\") + \": \" + translator.translateKey(\"size.\" + sizeStrings[this.sizeId]);\n\t\t\n\t\tthis.generateStructuresButton.displayString = translator.translateKey(\"selectWorld.mapFeatures\") + \": \" + (this.generateStructures ? translator.translateKey(\"options.on\") : translator.translateKey(\"options.off\"));\n\t\tthis.enableCheatsButton.displayString = translator.translateKey(\"selectWorld.enableCheats\") + \": \" + (this.enableCheats ? translator.translateKey(\"options.on\") : translator.translateKey(\"options.off\"));\n\t\tthis.craftingGuideButton.displayString = translator.translateKey(\"selectWorld.craftingGuide\") + \": \" + (this.craftGuide ? translator.translateKey(\"options.on\") : translator.translateKey(\"options.off\"));\n\t\tthis.levelChecksButton.displayString = \"Level checks: \" + (this.levelChecks ? translator.translateKey(\"options.on\") : translator.translateKey(\"options.off\")); \n\t\tthis.layeredSandButton = \"Layered sand: \" + (this.layeredSand ?  translator.translateKey(\"options.on\") : translator.translateKey(\"options.off\"));\n\t\t\n\t\tint i = this.worldType; if(i == -1) i = 0;\n\t\tthis.worldTypeButton.displayString = translator.translateKey(\"selectWorld.mapType\") + \": \" + translator.translateKey(WorldType.worldTypes[i].getTranslateName());\n\t}",
-			"settings":
-			{
-				"buffer_size": 1992,
+				"buffer_size": 21726,
 				"line_ending": "Windows",
-				"name": "private void updateCaptions() {"
+				"name": "49 achievements"
 			}
 		}
 	],
@@ -648,14 +640,22 @@
 	},
 	"expanded_folders":
 	[
-		"/D/cosas/Inslands"
+		"/E/Cosas/Inslands",
+		"/E/Cosas/Inslands/web"
 	],
 	"file_history":
 	[
-		"/C/cosas/Inslands/Main/src/minecraft/terrain.png",
-		"/C/cosas/Inslands/Main/src/minecraft/net/minecraft/src/ItemPiston.java",
-		"/C/cosas/Inslands/Main/src/minecraft/net/minecraft/src/Block.java",
+		"/E/Cosas/b166MP2/main/src/minecraft/net/minecraft/client/gui/LoadingScreenRenderer.java",
+		"/E/Cosas/Inslands/web/index.html",
+		"/E/Cosas/MP125-src/minecraft/net/minecraft/src/RenderBlocks.java",
+		"/E/Cosas/b166MP2/main/src/minecraft/net/minecraft/network/packet/Packet.java",
+		"/D/Cosas/Inslands/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/RenderBlocks.java",
+		"/E/Cosas/MP125/main/src/minecraft/net/minecraft/src/GuiIngame.java",
+		"/E/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/Version.java",
 		"/E/apunters.md",
+		"/E/Cosas/Inslands/Main/src/minecraft/terrain.png",
+		"/E/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/Block.java",
+		"/E/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/ItemPiston.java",
 		"/E/git/LBasic/wip.md",
 		"/E/Cosas/Inslands/README.md",
 		"/D/Cosas/MP125-src/minecraft/com/mojontwins/desertdimension/MapGenDesertCaves.java",
@@ -772,18 +772,11 @@
 		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/ChunkLoader.java",
 		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/EntityTrader.java",
 		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/EntityCowman.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/EntityList.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/RenderBlocks.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/BlockLog.java",
-		"/C/Users/na_th/AppData/Local/Temp/7zOCE2B293F/en_US.lang",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/GuiCrafting.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/EntityPlayer.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft_server/net/minecraft/src/EntityLiving.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/CraftingRecipe.java"
+		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/EntityList.java"
 	],
 	"find":
 	{
-		"height": 38.4
+		"height": 22.0
 	},
 	"find_in_files":
 	{
@@ -805,38 +798,73 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"var1",
-			"(world,",
-			", Block.web.blockID)",
-			"this.worldObj.setBlockWithNotify(",
-			"\"}",
-			"new String",
-			"\\s+} else {\n\\s+if",
-			"} else {\n\tif",
-			"(btnName",
-			"redstonewire",
-			" + Texels.texH)",
-			"i33",
-			"i32",
-			"i31",
-			"i30",
-			"i40",
-			"i28",
-			"i39",
-			"i26",
-			"i38",
-			"i21",
-			"z36",
-			"i20",
-			"list35",
-			"z18",
-			"axisAlignedBB17",
-			"d15",
-			"d13",
-			"d11",
-			"d9",
-			"d7",
-			"acid",
+			" Found spawn point? false",
+			"X",
+			"dz",
+			"dy",
+			"dx",
+			"poison",
+			"hud",
+			"entityPlayer5",
+			"z4",
+			"i3",
+			"i2",
+			"chunkX",
+			"entity1",
+			"nBTTagCompound1",
+			"b11",
+			"i13",
+			"i12",
+			"b10",
+			"f9",
+			"i8",
+			"tessellator7",
+			"i6",
+			"i5",
+			"j2",
+			"i1",
+			"f3",
+			"i2",
+			"f7",
+			"f6",
+			"i5",
+			"tessellator4",
+			"i3",
+			"f2",
+			"block1",
+			"x8",
+			"z9",
+			"tessellator8",
+			"x6",
+			"f25",
+			"f22",
+			"f19",
+			"f24",
+			"f21",
+			"f18",
+			"f23",
+			"f20",
+			"f17",
+			"f16",
+			"f15",
+			"f14",
+			"f13",
+			"f12",
+			"f18",
+			"f11",
+			"f10",
+			"f7",
+			"f6",
+			"f5",
+			"i4",
+			"i3",
+			"i2",
+			"block1",
+			"grass",
+			"ininventory",
+			"ininvntory",
+			"getRotatedV\\((\\d+)\\)",
+			"getRotatedU\\((\\d+)\\)",
 			"itempiston",
 			"piston",
 			"hill maze @",
@@ -897,42 +925,7 @@
 			"i36",
 			"i55",
 			"i25",
-			"i8",
-			"y",
-			"d23",
-			"d21",
-			"d19",
-			"d17",
-			"d15",
-			"d13",
-			"d11",
-			"d50",
-			"d15",
-			"d13",
-			"d11",
-			"d7",
-			"i10",
-			"i9",
-			"i8",
-			"i2",
-			"i9",
-			"i2",
-			"chunkX",
-			"i1",
-			"i6",
-			"i5",
-			"i8",
-			"i27",
-			"b3",
-			"i3",
-			"i2",
-			"i1",
-			"i4",
-			"i3",
-			"i2",
-			"i1",
-			"i5",
-			"i4"
+			"i8"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -940,35 +933,65 @@
 		"regex": false,
 		"replace_history":
 		[
-			"translator",
-			"(this.worldObj,",
-			")",
-			"this.setWeb(world, ",
-			"this.setWeb(",
-			"\"};",
-			"\\treturn new String",
-			"\\n} else if",
-			"} else if",
-			"btnName",
-			")",
-			"zt",
-			"yt",
-			"xt",
-			"z2",
-			"y2",
-			"x2",
-			"z1",
-			"y1",
-			"x1",
-			"i",
-			"collBBs",
-			"preventFalling",
-			"bbCopy",
-			"prevMoveZ",
-			"prevMoveY",
-			"prevMoveX",
-			"prevPosZ",
-			"prevPosX",
+			"z0",
+			"y0",
+			"x0",
+			"player",
+			"isPlayer",
+			"chunkZ",
+			"chunkX",
+			"entity",
+			"nbt",
+			"2",
+			"y",
+			"x",
+			"100",
+			"tileSize",
+			"texId",
+			"tes",
+			"h",
+			"w",
+			"currentMillis",
+			"progress",
+			"brightness",
+			"meta",
+			"n2",
+			"n1",
+			"renderType",
+			"tes",
+			"renderType",
+			"brightness",
+			"block",
+			"textureId",
+			"renderedAny",
+			"tes",
+			"blockBrightness",
+			"bNS",
+			"gNS",
+			"rNS",
+			"bEW",
+			"gEW",
+			"rEW",
+			"bBottom",
+			"gBottom",
+			"rBottom",
+			"bTop",
+			"gTop",
+			"rTop",
+			"lmNS",
+			"lmEW",
+			"lmTo",
+			"lmBo",
+			"b",
+			"g",
+			"r",
+			"z",
+			"y",
+			"x",
+			"block",
+			"getRotatedV(\\1, TextureAtlasSize.h)",
+			"getRotatedU(\\1, TextureAtlasSize.w)",
+			"getRotatedU(\\1, TextureAtlasSize.h)",
 			"",
 			"ren \\1 __\\1",
 			"-1",
@@ -1037,37 +1060,7 @@
 			"lightValue",
 			"z",
 			"y",
-			"x",
-			"z",
-			"y",
-			"x",
-			"z",
-			"x",
-			"z",
-			"y",
-			"x",
-			"z",
-			"y",
-			"x",
-			"metadata",
-			"x",
-			"y",
-			"z",
-			"y",
-			"x",
-			"z",
-			"y",
-			"x",
-			"blockID",
-			"metadata",
-			"blockID",
-			"z",
-			"y",
-			"x",
-			"z",
-			"y",
-			"x",
-			"chunk"
+			"x"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -1078,7 +1071,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -1087,15 +1080,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 26695,
+						"buffer_size": 26756,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								10619,
-								10619
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1104,7 +1097,35 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3352.0,
+						"translation.y": 8742.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 82,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								82,
+								82
+							]
+						],
+						"settings":
+						{
+							"auto_name": "PELO CON HUEVOS",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -1113,62 +1134,33 @@
 			]
 		},
 		{
-			"selected": 3,
+			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 1,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 9581,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								9581
-							]
-						],
-						"settings":
-						{
-							"auto_name": "public void moveEntity(double moveX, double moveY",
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 3600.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
 				{
 					"buffer": 2,
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10984,
+						"buffer_size": 9402,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								10984
+								2485,
+								2485
 							]
 						],
 						"settings":
 						{
-							"auto_name": "public boolean renderBlockRedstoneWire(Block bloc",
+							"auto_name": "49 achievements",
 							"syntax": "Packages/Text/Plain text.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3538.4,
+						"translation.y": 595.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
@@ -1176,60 +1168,30 @@
 				},
 				{
 					"buffer": 3,
-					"file": "/D/cosas/InfHell/infhell2/src/minecraft/net/minecraft/src/RenderBlocks.java",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 219056,
+						"buffer_size": 21726,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								51502,
-								51502
+								3851,
+								3876
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Java/Java.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"auto_name": "49 achievements",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 16770.4,
+						"translation.y": 1069.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1992,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								1992
-							]
-						],
-						"settings":
-						{
-							"auto_name": "private void updateCaptions() {",
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -1237,7 +1199,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 26.0
+		"height": 22.0
 	},
 	"input":
 	{
@@ -1281,7 +1243,7 @@
 	"project": "PE_OLD.sublime-project",
 	"replace":
 	{
-		"height": 72.0
+		"height": 40.0
 	},
 	"save_all_on_build": true,
 	"select_file":

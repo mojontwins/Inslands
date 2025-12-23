@@ -317,9 +317,6 @@ public class Block {
 	// Trap
 	public static final Block pressurePlateTrap = (new BlockPressurePlate(225, stone.blockIndexInTexture, EnumMobType.players, Material.wood)).setHardness(0.5F).setStepSound(soundWoodFootstep).setBlockName("pressurePlate").setRequiresSelfNotify();	
 	
-	// 226
-	// 227
-	// 228
 	// 229
 	// 230
 	// 231
