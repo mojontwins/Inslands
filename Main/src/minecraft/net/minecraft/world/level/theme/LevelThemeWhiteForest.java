@@ -28,6 +28,6 @@ public class LevelThemeWhiteForest extends LevelThemeSettings {
 	
 	@Override
 	public MapGenBase overrideCaveGenerator() {
-		return new MapGenCavesLush();
+		return new MapGenCavesLush(); 
 	}
 }
