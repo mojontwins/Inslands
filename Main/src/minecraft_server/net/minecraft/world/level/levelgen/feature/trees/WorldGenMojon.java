@@ -20,7 +20,7 @@ public abstract class WorldGenMojon extends WorldGenerator {
 		this.withNotify = withNotify;
 	}
 	
-	public void setBlockWithMetadata(World world, int x, int y, int z, int blockID, int meta) {
+	public void setBlockAndMetadata(World world, int x, int y, int z, int blockID, int meta) {
 		if (this.withNotify) {
 			world.setBlockAndMetadataWithNotify(x, y, z, blockID, meta);
 		} else {
@@ -28,8 +28,8 @@ public abstract class WorldGenMojon extends WorldGenerator {
 		}
 	}
 
-	public void setBlockWithMetadata(World world, BlockPos blockPos, int blockID, int meta) {
-		this.setBlockWithMetadata(world, blockPos.x, blockPos.y, blockPos.z, blockID, meta);
+	public void setBlockAndMetadata(World world, BlockPos blockPos, int blockID, int meta) {
+		this.setBlockAndMetadata(world, blockPos.x, blockPos.y, blockPos.z, blockID, meta);
 	}
 	
 	public void setBlockIfEmpty(World world, BlockPos blockPos, int blockID, int meta) {
@@ -37,12 +37,12 @@ public abstract class WorldGenMojon extends WorldGenerator {
 	}
 	
 	public void setBlockIfEmpty(World world, int x, int y, int z, int blockID, int meta) {
-		if (0 == world.getBlockID(x, y, z)) this.setBlockWithMetadata(world, x, y, z, blockID, meta);
+		if (0 == world.getBlockID(x, y, z)) this.setBlockAndMetadata(world, x, y, z, blockID, meta);
 	}
 	
 	public void setBlockIfAirOrLeaves(World world, int x, int y, int z, int blockID, int meta) {
 		Material material = world.getBlockMaterial(x, y, z);
-		if (material == Material.air || material == Material.leaves) this.setBlockWithMetadata(world, x, y, z, blockID, meta);
+		if (material == Material.air || material == Material.leaves) this.setBlockAndMetadata(world, x, y, z, blockID, meta);
 	}
 	
 	public void roundedShape(World world, int x0, int y0, int z0, int r, int blockID, int meta, boolean withBottomHole) {
@@ -66,7 +66,7 @@ public abstract class WorldGenMojon extends WorldGenerator {
 						!(x == x1 && z == z2 && y == y2) &&
 						!(x == x2 && z == z2 && y == y2)
 					) {
-						this.setBlockWithMetadata(world, x, y, z, blockID, meta);
+						this.setBlockAndMetadata(world, x, y, z, blockID, meta);
 					}
 				}
 			}
@@ -106,7 +106,7 @@ public abstract class WorldGenMojon extends WorldGenerator {
 			int errorZ = dz2 - dxAbs;
 
 			for(int i = 0; i < dxAbs; ++i) {
-				this.setBlockWithMetadata(world, blockPos, blockID, meta | logMetaHorzX);
+				this.setBlockAndMetadata(world, blockPos, blockID, meta | logMetaHorzX);
 				
 				if(errorY > 0) {
 					blockPos.move(Direction.UP, yIncr);
@@ -129,7 +129,7 @@ public abstract class WorldGenMojon extends WorldGenerator {
 			int errorZ = dz2 - dyAbs;
 
 			for(int i = 0; i < dyAbs; ++i) {
-				this.setBlockWithMetadata(world, blockPos, blockID, meta);
+				this.setBlockAndMetadata(world, blockPos, blockID, meta);
 				
 				if(errorX > 0) {
 					blockPos.move(Direction.EAST, xIncr);
@@ -152,7 +152,7 @@ public abstract class WorldGenMojon extends WorldGenerator {
 			int errorY = dy2 - dzAbs;
 			
 			for(int i = 0; i < dzAbs; ++i) {
-				this.setBlockWithMetadata(world, blockPos, blockID, meta | logMetaHorzZ);
+				this.setBlockAndMetadata(world, blockPos, blockID, meta | logMetaHorzZ);
 				
 				if(errorX > 0) {
 					blockPos.move(Direction.EAST, xIncr);
@@ -170,7 +170,7 @@ public abstract class WorldGenMojon extends WorldGenerator {
 			}
 		}
 
-		this.setBlockWithMetadata(world, blockPos, blockID, meta);
+		this.setBlockAndMetadata(world, blockPos, blockID, meta);
 	}
 	
 	public void circle(World world, BlockPos src, int rad, int blockID, int meta) {

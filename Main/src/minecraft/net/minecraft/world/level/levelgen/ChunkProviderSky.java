@@ -254,7 +254,7 @@ public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkPro
 		// Caves
 		this.caveGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
 		
-		// Mineshafts
+		// Mineshafts 
 		if (this.mapFeaturesEnabled) {
 			this.mineshaftGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
 			this.strongholdGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);

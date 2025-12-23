@@ -520,15 +520,36 @@
 	"buffers":
 	[
 		{
-			"file": "README.md",
+			"file": "Main/src/minecraft/net/minecraft/world/level/tile/BlockSapling.java",
 			"settings":
 			{
+<<<<<<< HEAD
 				"buffer_size": 26756,
+=======
+				"buffer_size": 3615,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/Git/mojonBASIC/GHUNP/dev/GHUNP.bas",
+			"settings":
+			{
+				"buffer_size": 19271,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/Git/mojonBASIC/utils/bin2hex.bas",
+			"settings":
+			{
+				"buffer_size": 1237,
+>>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
+<<<<<<< HEAD
 			"contents": "PELO CON HUEVOS\nPELO CON PELUSAS\nPELO CON MOCOS\nPELO CON POSTILLAS\nPELO PELO PELO\n",
 			"settings":
 			{
@@ -553,6 +574,64 @@
 				"buffer_size": 21726,
 				"line_ending": "Windows",
 				"name": "49 achievements"
+=======
+			"file": "/D/Git/mojonBASIC/GHUNP/dev/63088.bas",
+			"settings":
+			{
+				"buffer_size": 9609,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "PIEDRA PAPEL TIJERAS CON IA GENERATIVA\n\nCon este sencillo programa podrás dotar a tu Amstrad CPC con verdadera Inteligencia Artificial Generativa y podrás retarle a Piedra, Papel o Tijeras. Como tu CPC no está conectado a Internet, sólo puede plagiar al único humano con el que tiene contacto: tú mismo. ¡Disfruta!\n\n10 DIM ia%(4):FOR i%=0 TO 4:ia%(i%)=INT(\nRND*3)+1:NEXT i%:LET cw%=0:LET cr%=1\n20 PRINT \"Piedra Papel Tijeras con IA GE\nNERATIVA\"\n30 PRINT \"1 PIEDRA 2 PAPEL 3 TIJERAS\":IN\nPUT a%\n40 ia%(cw%)=a%:b%=ia%(cr%):cw%=(cw%+1) M\nOD 5:cr%=(cr%+1) MOD 5: REM IA\n50 PRINT \"Yo saco:\";:IF b%=1 THEN PRINT \n\"PIEDRA\" ELSE IF b%=2 THEN PRINT \"PAPEL\"\n ELSE PRINT \"TIJERAS\"\n60 IF a%=b% THEN PRINT \"EMPATE\" ELSE IF \na%=1+(b% MOD 3) THEN PRINT \"HAS GANADO!\"\n ELSE PRINT \"PIERDES!\"\n70 GOTO 20\n",
+			"settings":
+			{
+				"buffer_size": 785,
+				"line_ending": "Windows",
+				"name": "PIEDRA PAPEL TIJERAS CON IA GENERATIVA"
+			}
+		},
+		{
+			"file": "/D/Git/mojonBASIC/README.md",
+			"settings":
+			{
+				"buffer_size": 156,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/Cosas/_retro/zxbasicus/chem2o.bas",
+			"settings":
+			{
+				"buffer_size": 41194,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "\tpublic void renderItemIntoGUI(FontRenderer fr, RenderEngine re, ItemStack stack, int x, int y) {\n\t\tif(stack != null) {\n\t\t\tthis.drawItemIntoGui(fr, re, stack.itemID, stack.getItemDamage(), stack.getIconIndex(), x, y);\n\t\t}\n\t}\n\n\tpublic void renderItemOverlayIntoGUI(FontRenderer fr, RenderEngine re, ItemStack stack, int x, int y) {\n\t\tif(stack != null) {\n\t\t\tif(stack.itemID < 256) {\n\t\t\t\tBlock b = Block.blocksList[stack.itemID];\n\t\t\t\tString ovl;\n\t\t\t\tif(b != null && (ovl = b.inventoryOverlayString(stack.itemDamage)) != null) {\n\t\t\t\t\tGL11.glDisable(GL11.GL_LIGHTING);\n\t\t\t\t\tGL11.glDisable(GL11.GL_DEPTH_TEST);\n\t\t\t\t\tfr.drawStringWithShadow(ovl, x, y, 0xFFFFFF);\n\t\t\t\t\tGL11.glEnable(GL11.GL_LIGHTING);\n\t\t\t\t\tGL11.glEnable(GL11.GL_DEPTH_TEST);\n\t\t\t\t}\n\t\t\t}\n\t\t\t\n\t\t\tif(stack.stackSize > 1) {\n\t\t\t\tString string6 = \"\" + stack.stackSize;\n\t\t\t\tGL11.glDisable(GL11.GL_LIGHTING);\n\t\t\t\tGL11.glDisable(GL11.GL_DEPTH_TEST);\n\t\t\t\tfr.drawStringWithShadow(string6, x + 19 - 2 - fr.getStringWidth(string6), y + 6 + 3, 0xFFFFFF);\n\t\t\t\tGL11.glEnable(GL11.GL_LIGHTING);\n\t\t\t\tGL11.glEnable(GL11.GL_DEPTH_TEST);\n\t\t\t}\n\n\t\t\tif(stack.isItemDamaged()) {\n\t\t\t\tint i11 = (int)Math.round(13.0D - (double)stack.getItemDamageForDisplay() * 13.0D / (double)stack.getMaxDamage());\n\t\t\t\tint i7 = (int)Math.round(255.0D - (double)stack.getItemDamageForDisplay() * 255.0D / (double)stack.getMaxDamage());\n\t\t\t\tGL11.glDisable(GL11.GL_LIGHTING);\n\t\t\t\tGL11.glDisable(GL11.GL_DEPTH_TEST);\n\t\t\t\tGL11.glDisable(GL11.GL_TEXTURE_2D);\n\t\t\t\tTessellator tessellator8 = Tessellator.instance;\n\t\t\t\tint i9 = 255 - i7 << 16 | i7 << 8;\n\t\t\t\tint i10 = (255 - i7) / 4 << 16 | 16128;\n\t\t\t\tthis.renderQuad(tessellator8, x + 2, y + 13, 13, 2, 0);\n\t\t\t\tthis.renderQuad(tessellator8, x + 2, y + 13, 12, 1, i10);\n\t\t\t\tthis.renderQuad(tessellator8, x + 2, y + 13, i11, 1, i9);\n\t\t\t\tGL11.glEnable(GL11.GL_TEXTURE_2D);\n\t\t\t\tGL11.glEnable(GL11.GL_LIGHTING);\n\t\t\t\tGL11.glEnable(GL11.GL_DEPTH_TEST);\n\t\t\t\tGL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);\n\t\t\t}\n\n\t\t}\n\t}",
+			"settings":
+			{
+				"buffer_size": 1960,
+				"line_ending": "Windows",
+				"name": "public void renderItemIntoGUI(FontRenderer fr, Re"
+			}
+		},
+		{
+			"file": "/D/Cosas/_retro/zxbasicus/chem2.bas",
+			"settings":
+			{
+				"buffer_size": 30012,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/Cosas/_retro/zxbasicus/infinity.bas",
+			"settings":
+			{
+				"buffer_size": 6339,
+				"line_ending": "Windows"
+>>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
 			}
 		}
 	],
@@ -640,6 +719,7 @@
 	},
 	"expanded_folders":
 	[
+<<<<<<< HEAD
 		"/E/Cosas/Inslands",
 		"/E/Cosas/Inslands/web"
 	],
@@ -652,6 +732,33 @@
 		"/D/Cosas/Inslands/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/RenderBlocks.java",
 		"/E/Cosas/MP125/main/src/minecraft/net/minecraft/src/GuiIngame.java",
 		"/E/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/Version.java",
+=======
+		"/D/Cosas/Inslands",
+		"/D/Cosas/Inslands/Main",
+		"/D/Cosas/Inslands/Main/src",
+		"/D/Cosas/Inslands/Main/src/minecraft",
+		"/D/Cosas/Inslands/Main/src/minecraft/font",
+		"/D/Cosas/Inslands/Main/src/minecraft/net",
+		"/D/Cosas/Inslands/Main/src/minecraft/net/minecraft",
+		"/D/Cosas/Inslands/Main/src/minecraft/net/minecraft/world",
+		"/D/Cosas/Inslands/Main/src/minecraft/net/minecraft/world/level",
+		"/D/Cosas/Inslands/Main/src/minecraft/net/minecraft/world/level/dimension",
+		"/D/Cosas/Inslands/Main/src/minecraft/net/minecraft/world/level/tile",
+		"/D/Cosas/Inslands/web"
+	],
+	"file_history":
+	[
+		"/D/Git/mojonBASIC/GHUNP/dev/GHUNP.bas",
+		"/D/cosas/InfHell/infhell2/src/minecraft/net/minecraft/src/RenderBlocks.java",
+		"/D/Cosas/Inslands/web/index.html",
+		"/D/Cosas/Inslands/README.md",
+		"/D/Cosas/Inslands/Main/src/minecraft/net/minecraft/world/level/tile/BlockLeaves.java",
+		"/D/Cosas/Inslands/Main/jars/server.properties",
+		"/D/Games/UltimMC/instances/Inslands 250825/patches/customjar.json",
+		"/C/cosas/Inslands/Main/src/minecraft/terrain.png",
+		"/C/cosas/Inslands/Main/src/minecraft/net/minecraft/src/ItemPiston.java",
+		"/C/cosas/Inslands/Main/src/minecraft/net/minecraft/src/Block.java",
+>>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
 		"/E/apunters.md",
 		"/E/Cosas/Inslands/Main/src/minecraft/terrain.png",
 		"/E/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/Block.java",
@@ -682,8 +789,6 @@
 		"/C/Users/na_th/AppData/Local/Temp/7zO457505CD/ChunkSource.java",
 		"/D/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/EntityCreeper.java",
 		"/D/Cosas/Inslands/chagelog.txt",
-		"/D/Cosas/Inslands/web/index.html",
-		"/D/Cosas/Inslands/README.md",
 		"/C/Users/na_th/Desktop/FeatureSpoonerCastle.java",
 		"/D/Cosas/RMCP_tests/b1.7.3--optifine-plasticraft/src/minecraft/net/minecraft/src/ChunkProviderTwilightForest.java",
 		"/D/Cosas/Inslands/Main/src-aether/minecraft/net/minecraft/src/PlayerBase.java",
@@ -719,7 +824,6 @@
 		"/D/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/Gui.java",
 		"/D/Cosas/Inslands/Main/src-b1.7.3_vanilla/minecraft_server/net/minecraft/src/ChunkProviderServer.java",
 		"/C/Users/na_th/AppData/Local/Temp/8121b75d-07a1-4619-a3e6-372b152c7c21_src--20230518b--Client-feature-complete.7z.c21/src/minecraft_server/net/minecraft/src/ChunkProviderServer.java",
-		"/D/Cosas/Inslands/Main/jars/server.properties",
 		"/D/Cosas/PE_OLD/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/World.java",
 		"/D/Cosas/PE_OLD/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/BiomeGenForest.java",
 		"/D/Cosas/PE_OLD/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/BiomeGenRainforest.java",
@@ -772,11 +876,22 @@
 		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/ChunkLoader.java",
 		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/EntityTrader.java",
 		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/EntityCowman.java",
+<<<<<<< HEAD
 		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/EntityList.java"
 	],
 	"find":
 	{
 		"height": 22.0
+=======
+		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/EntityList.java",
+		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/RenderBlocks.java",
+		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/BlockLog.java",
+		"/C/Users/na_th/AppData/Local/Temp/7zOCE2B293F/en_US.lang"
+	],
+	"find":
+	{
+		"height": 26.0
+>>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
 	},
 	"find_in_files":
 	{
@@ -798,6 +913,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+<<<<<<< HEAD
 			" Found spawn point? false",
 			"X",
 			"dz",
@@ -865,6 +981,78 @@
 			"ininvntory",
 			"getRotatedV\\((\\d+)\\)",
 			"getRotatedU\\((\\d+)\\)",
+=======
+			"b",
+			"940",
+			"690",
+			"GO TO 240",
+			"m",
+			"r",
+			"c$ AND z<>2;d$ AND z=2",
+			"i5",
+			"i4",
+			"itemStack3",
+			"renderEngine2",
+			"fontRenderer1",
+			"v250901",
+			"c10",
+			"i16",
+			"itemStack14",
+			"itemStack15",
+			"character13",
+			"hashMap12",
+			"string7",
+			"i5",
+			"i6",
+			"string9",
+			"string11",
+			"i8",
+			"i4",
+			"string3",
+			"object2",
+			"itemStack1",
+			"arrayList3",
+			"object7",
+			"obj",
+			"i6",
+			"i5",
+			"object4",
+			"object2",
+			"itemStack1",
+			"chunkdatasend",
+			"var1",
+			"(world,",
+			", Block.web.blockID)",
+			"this.worldObj.setBlockWithNotify(",
+			"\"}",
+			"new String",
+			"\\s+} else {\n\\s+if",
+			"} else {\n\tif",
+			"(btnName",
+			"redstonewire",
+			" + Texels.texH)",
+			"i33",
+			"i32",
+			"i31",
+			"i30",
+			"i40",
+			"i28",
+			"i39",
+			"i26",
+			"i38",
+			"i21",
+			"z36",
+			"i20",
+			"list35",
+			"z18",
+			"axisAlignedBB17",
+			"d15",
+			"d13",
+			"d11",
+			"d9",
+			"d7",
+			"acid",
+>>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
 			"itempiston",
 			"piston",
 			"hill maze @",
@@ -922,10 +1110,14 @@
 			"d30",
 			"d28",
 			"d26",
+<<<<<<< HEAD
 			"i36",
 			"i55",
 			"i25",
 			"i8"
+=======
+			"i36"
+>>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -933,6 +1125,7 @@
 		"regex": false,
 		"replace_history":
 		[
+<<<<<<< HEAD
 			"z0",
 			"y0",
 			"x0",
@@ -992,6 +1185,70 @@
 			"getRotatedV(\\1, TextureAtlasSize.h)",
 			"getRotatedU(\\1, TextureAtlasSize.w)",
 			"getRotatedU(\\1, TextureAtlasSize.h)",
+=======
+			"GO TO 210",
+			"c$ AND z=1;d$ AND z<>1",
+			"y",
+			"x",
+			"stack",
+			"re",
+			"fr",
+			"v250901_01",
+			"c",
+			"i",
+			"stacks",
+			"stack",
+			"c",
+			"recipeMap",
+			"recipeLine",
+			"columns",
+			"lines",
+			"recipeLine",
+			"recipeLines",
+			"recipeLine",
+			"i",
+			"idx",
+			"recipeString",
+			"objV",
+			"resultStack",
+			"stack",
+			"obj",
+			"objV",
+			"i",
+			"numObjs",
+			"objArr",
+			"obj",
+			"stack",
+			"translator",
+			"(this.worldObj,",
+			")",
+			"this.setWeb(world, ",
+			"this.setWeb(",
+			"\"};",
+			"\\treturn new String",
+			"\\n} else if",
+			"} else if",
+			"btnName",
+			")",
+			"zt",
+			"yt",
+			"xt",
+			"z2",
+			"y2",
+			"x2",
+			"z1",
+			"y1",
+			"x1",
+			"i",
+			"collBBs",
+			"preventFalling",
+			"bbCopy",
+			"prevMoveZ",
+			"prevMoveY",
+			"prevMoveX",
+			"prevPosZ",
+			"prevPosX",
+>>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
 			"",
 			"ren \\1 __\\1",
 			"-1",
@@ -1057,36 +1314,49 @@
 			"z",
 			"y",
 			"x",
+<<<<<<< HEAD
 			"lightValue",
 			"z",
 			"y",
 			"x"
+=======
+			"lightValue"
+>>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
 		],
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": false,
+		"whole_word": true,
 		"wrap": true
 	},
 	"groups":
 	[
 		{
+<<<<<<< HEAD
 			"selected": 1,
+=======
+			"selected": 2,
+>>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "README.md",
+					"file": "Main/src/minecraft/net/minecraft/world/level/tile/BlockSapling.java",
 					"semi_transient": false,
 					"settings":
 					{
+<<<<<<< HEAD
 						"buffer_size": 26756,
+=======
+						"buffer_size": 3615,
+>>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
+<<<<<<< HEAD
 								0,
 								0
 							]
@@ -1180,6 +1450,10 @@
 							[
 								3851,
 								3876
+=======
+								2136,
+								2136
+>>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
 							]
 						],
 						"settings":
@@ -1188,11 +1462,279 @@
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
+<<<<<<< HEAD
 						"translation.y": 1069.0,
+=======
+						"translation.y": 450.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/D/Git/mojonBASIC/GHUNP/dev/GHUNP.bas",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 19271,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								19267,
+								19267
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/VBDotNet/vbdotnet.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 585.0,
+>>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
 					"type": "text"
+<<<<<<< HEAD
+=======
+				},
+				{
+					"buffer": 2,
+					"file": "/D/Git/mojonBASIC/utils/bin2hex.bas",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1237,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1023,
+								1023
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/VBDotNet/vbdotnet.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/D/Git/mojonBASIC/GHUNP/dev/63088.bas",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9609,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/VBDotNet/vbdotnet.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 3015.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 785,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								785,
+								785
+							]
+						],
+						"settings":
+						{
+							"auto_name": "PIEDRA PAPEL TIJERAS CON IA GENERATIVA",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/D/Git/mojonBASIC/README.md",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 156,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								156,
+								156
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/D/Cosas/_retro/zxbasicus/chem2o.bas",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 41194,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8913,
+								8913
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/VBDotNet/vbdotnet.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 342.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 7,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1960,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								1960
+							]
+						],
+						"settings":
+						{
+							"auto_name": "public void renderItemIntoGUI(FontRenderer fr, Re",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "/D/Cosas/_retro/zxbasicus/chem2.bas",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 30012,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/VBDotNet/vbdotnet.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "/D/Cosas/_retro/zxbasicus/infinity.bas",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6339,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6339,
+								6339
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/VBDotNet/vbdotnet.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+>>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
 				}
 			]
 		}
@@ -1243,7 +1785,11 @@
 	"project": "PE_OLD.sublime-project",
 	"replace":
 	{
+<<<<<<< HEAD
 		"height": 40.0
+=======
+		"height": 48.0
+>>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1285,7 +1831,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 183.0,
+	"side_bar_width": 280.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

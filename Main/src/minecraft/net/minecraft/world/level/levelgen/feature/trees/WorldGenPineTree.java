@@ -95,10 +95,10 @@ public class WorldGenPineTree extends WorldGenMojon {
 		}
 		
 		for(int y = y0; y <= y0 + 1; y ++) {
-			this.setBlockWithMetadata(world, x0, y, z0, trunkID, trunkMeta);
-			this.setBlockWithMetadata(world, x0 + 1, y, z0, trunkID, trunkMeta);
-			this.setBlockWithMetadata(world, x0, y, z0 + 1, trunkID, trunkMeta);
-			this.setBlockWithMetadata(world, x0 + 1, y, z0 + 1, trunkID, trunkMeta);
+			this.setBlockAndMetadata(world, x0, y, z0, trunkID, trunkMeta);
+			this.setBlockAndMetadata(world, x0 + 1, y, z0, trunkID, trunkMeta);
+			this.setBlockAndMetadata(world, x0, y, z0 + 1, trunkID, trunkMeta);
+			this.setBlockAndMetadata(world, x0 + 1, y, z0 + 1, trunkID, trunkMeta);
 		}
 		
 	}
@@ -120,10 +120,10 @@ public class WorldGenPineTree extends WorldGenMojon {
 		// Trunk 
 		
 		for(int y = y0; y < this.height + y0; y ++) {
-			this.setBlockWithMetadata(world, x0, y, z0, trunkID, trunkMeta);
-			this.setBlockWithMetadata(world, x0 + 1, y, z0, trunkID, trunkMeta);
-			this.setBlockWithMetadata(world, x0, y, z0 + 1, trunkID, trunkMeta);
-			this.setBlockWithMetadata(world, x0 + 1, y, z0 + 1, trunkID, trunkMeta);
+			this.setBlockAndMetadata(world, x0, y, z0, trunkID, trunkMeta);
+			this.setBlockAndMetadata(world, x0 + 1, y, z0, trunkID, trunkMeta);
+			this.setBlockAndMetadata(world, x0, y, z0 + 1, trunkID, trunkMeta);
+			this.setBlockAndMetadata(world, x0 + 1, y, z0 + 1, trunkID, trunkMeta);
 		}
 		
 		// Branches
@@ -136,12 +136,12 @@ public class WorldGenPineTree extends WorldGenMojon {
 		
 		// Top
 		this.squareTreeLayer(world, rand, x0, y, z0, 4, leavesID, leavesMeta);
-		this.setBlockWithMetadata(world, x0, y, z0, trunkID, trunkMeta);
+		this.setBlockAndMetadata(world, x0, y, z0, trunkID, trunkMeta);
 		this.crossTreeLayer(world, rand, x0, y + 1, z0, 4, leavesID, leavesMeta);
-		this.setBlockWithMetadata(world, x0, y + 2, z0, leavesID, leavesMeta);
-		this.setBlockWithMetadata(world, x0 + 1, y + 2, z0, leavesID, leavesMeta);
-		this.setBlockWithMetadata(world, x0, y + 2, z0 + 1, leavesID, leavesMeta);
-		this.setBlockWithMetadata(world, x0 + 1, y + 2, z0 + 1, leavesID, leavesMeta);
+		this.setBlockAndMetadata(world, x0, y + 2, z0, leavesID, leavesMeta);
+		this.setBlockAndMetadata(world, x0 + 1, y + 2, z0, leavesID, leavesMeta);
+		this.setBlockAndMetadata(world, x0, y + 2, z0 + 1, leavesID, leavesMeta);
+		this.setBlockAndMetadata(world, x0 + 1, y + 2, z0 + 1, leavesID, leavesMeta);
 		
 		return true;
 

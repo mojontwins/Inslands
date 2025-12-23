@@ -29,6 +29,9 @@ public class LevelThemePoisonIsland extends LevelThemeSettings {
 		this.forcedWorldType = true;
 		
 		this.levelThemeMainBiome = BiomeGenBase.themePoison;
+		
+		// Will do several tiny stupid things.
+		this.creepy = true;
 	}
 
 	@Override

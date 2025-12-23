@@ -72,7 +72,7 @@ public class WorldGenBaobab extends WorldGenMojon {
 		for(int x = x1; x <= x2; x ++) {
 			for(int z = z1; z <= z2; z ++) {
 				for(int y = y0; y < y0 + this.height; y ++) {
-					this.setBlockWithMetadata(world, x, y, z, trunkID, trunkMeta);
+					this.setBlockAndMetadata(world, x, y, z, trunkID, trunkMeta);
 				}
 			}
 		}
@@ -80,19 +80,19 @@ public class WorldGenBaobab extends WorldGenMojon {
 		// Make some roots
 		
 		if(rand.nextBoolean()) {
-			this.setBlockWithMetadata(world, x1 - 1, y0, z1 + rand.nextInt(width), trunkID, trunkMeta);
+			this.setBlockAndMetadata(world, x1 - 1, y0, z1 + rand.nextInt(width), trunkID, trunkMeta);
 		}
 		
 		if(rand.nextBoolean()) {
-			this.setBlockWithMetadata(world, x2 + 1, y0, z1 + rand.nextInt(width), trunkID, trunkMeta);
+			this.setBlockAndMetadata(world, x2 + 1, y0, z1 + rand.nextInt(width), trunkID, trunkMeta);
 		}
 		
 		if(rand.nextBoolean()) {
-			this.setBlockWithMetadata(world, x1 + rand.nextInt(width), y0, z1 - 1, trunkID, trunkMeta);
+			this.setBlockAndMetadata(world, x1 + rand.nextInt(width), y0, z1 - 1, trunkID, trunkMeta);
 		}
 		
 		if(rand.nextBoolean()) {
-			this.setBlockWithMetadata(world, x1 + rand.nextInt(width), y0, z2 + 1, trunkID, trunkMeta);
+			this.setBlockAndMetadata(world, x1 + rand.nextInt(width), y0, z2 + 1, trunkID, trunkMeta);
 		}
 		
 		// Make principal branches

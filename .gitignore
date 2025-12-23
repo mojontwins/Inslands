@@ -9,5 +9,6 @@ Main/temp/*
 Main/workspace/Client/bin/*
 Main/workspace/Server/bin/*
 Main/workspace/.metadata/.plugins/*
+Main/workspace/.metadata/.plugins/org.eclipse.core.resources/*
 Main/workspace/.metadata/.log
 Main/workspace/.metadata/version.ini

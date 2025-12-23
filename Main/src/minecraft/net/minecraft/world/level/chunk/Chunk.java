@@ -1,6 +1,7 @@
 package net.minecraft.world.level.chunk;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -15,10 +16,12 @@ import net.minecraft.world.level.ChunkPosition;
 import net.minecraft.world.level.EnumSkyBlock;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.WorldChunkManager;
+import net.minecraft.world.level.WorldChunkManagerHell;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.colorizer.ColorizerFoliage;
 import net.minecraft.world.level.colorizer.ColorizerGrass;
 import net.minecraft.world.level.levelgen.city.Building;
+import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.BlockContainer;
 import net.minecraft.world.level.tile.BlockEntity;
@@ -866,20 +869,38 @@ public class Chunk {
 	
 	public void refreshCaches() {
 		WorldChunkManager worldChunkManager = this.worldObj.getWorldChunkManager();
-		BiomeGenBase biomeGen [] = null;
-		biomeGen = worldChunkManager.loadBlockGeneratorData(biomeGen, this.xPosition << 4, this.zPosition << 4, 16, 16);
-		this.biomeGenCache = biomeGen.clone();
-		
-		int biomeIndex = 0;
-		this.grassColorCache = new int[256];
-		this.foliageColorCache = new int[256];
-		for(int x = 0; x < 16; ++x) {
-			for(int z = 0; z < 16; ++z) {
-				double t = worldChunkManager.temperature[biomeIndex];
-				double h = worldChunkManager.humidity[biomeIndex];
-				this.grassColorCache[biomeIndex] = ColorizerGrass.getGrassColor(t, h);
-				this.foliageColorCache[biomeIndex] = ColorizerFoliage.getFoliageColor(t, h);
-				biomeIndex ++;
+		BiomeGenBase biome = (worldChunkManager instanceof WorldChunkManagerHell) ?
+				LevelThemeGlobalSettings.levelThemeNetherBiome
+			:
+				LevelThemeGlobalSettings.levelThemeMainBiome;
+		if (biome != null) {
+			this.biomeGenCache = new BiomeGenBase[256];
+			this.grassColorCache = new int[256];
+			this.foliageColorCache = new int[256];
+			
+			Arrays.fill(this.biomeGenCache, biome);
+			double t = biome.t;
+			double h = biome.h;
+
+			Arrays.fill(this.grassColorCache, ColorizerGrass.getGrassColor(t, h));
+			Arrays.fill(this.foliageColorCache, ColorizerFoliage.getFoliageColor(t, h));
+		} else {
+			
+			BiomeGenBase biomeGen [] = null;
+			biomeGen = worldChunkManager.loadBlockGeneratorData(biomeGen, this.xPosition << 4, this.zPosition << 4, 16, 16);
+			this.biomeGenCache = biomeGen.clone();
+			
+			int biomeIndex = 0;
+			this.grassColorCache = new int[256];
+			this.foliageColorCache = new int[256];
+			for(int x = 0; x < 16; ++x) {
+				for(int z = 0; z < 16; ++z) {
+					double t = worldChunkManager.temperature[biomeIndex];
+					double h = worldChunkManager.humidity[biomeIndex];
+					this.grassColorCache[biomeIndex] = ColorizerGrass.getGrassColor(t, h);
+					this.foliageColorCache[biomeIndex] = ColorizerFoliage.getFoliageColor(t, h);
+					biomeIndex ++;
+				}
 			}
 		}
 	}

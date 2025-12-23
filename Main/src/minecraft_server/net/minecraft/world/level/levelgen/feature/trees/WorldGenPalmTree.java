@@ -55,14 +55,14 @@ public class WorldGenPalmTree extends WorldGenMojon {
 		}
 		
 		BlockPos cursor = new BlockPos().set(x0, y0 - 1, z0);
-		this.setBlockWithMetadata(world, cursor, Block.dirt.blockID, 0);
+		this.setBlockAndMetadata(world, cursor, Block.dirt.blockID, 0);
 		
 		int direction = Direction.HORZ_PLANE[rand.nextInt(Direction.HORZ_PLANE.length)];
 				
 		for(int y = 0 ; y < height; y ++) {
 			cursor.x = x0; cursor.z = z0;
 			cursor.move(direction, (int)Math.floor(arch));
-			this.setBlockWithMetadata(world, cursor.move(Direction.UP), trunkID, trunkMeta);
+			this.setBlockAndMetadata(world, cursor.move(Direction.UP), trunkID, trunkMeta);
 			arch *= 1.3D;
 		}
 		

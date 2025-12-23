@@ -9,7 +9,7 @@ public abstract class WorldGenMojon extends WorldGenerator {
 		super();
 	}
 	
-	public void setBlockWithMetadata(World world, int x, int y, int z, int blockID, int meta) {
+	public void setBlockAndMetadata(World world, int x, int y, int z, int blockID, int meta) {
 		if (this.withNotify) {
 			world.setBlockAndMetadataWithNotify(x, y, z, blockID, meta);
 		} else {
@@ -38,7 +38,7 @@ public abstract class WorldGenMojon extends WorldGenerator {
 							!(x == x1 && z == z2 && y == y2) &&
 							!(x == x2 && z == z2 && y == y2)
 					) {
-						this.setBlockWithMetadata(world, x, y, z, blockID, meta);
+						this.setBlockAndMetadata(world, x, y, z, blockID, meta);
 					}
 				}
 			}
