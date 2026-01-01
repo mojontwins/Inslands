@@ -323,7 +323,7 @@ public class Block {
 	public static final Block sapling3 = (new BlockSapling3(228)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("sapling").setRequiresSelfNotify().setCreativeTab(CreativeTabs.tabDeco);
 	
 	// Furniture
-	public static final Block sofaPiece = (new BlockSofaPiece(229)).setBlockName("sofa").setHardness(1.5F).setResistance(3.0F).setStepSound(soundWoodFootstep).setBlockName("wood").setIsUrban(true);;
+	public static final Block sofaPiece = (new BlockSofaPiece(229)).setBlockName("sofa").setHardness(1.5F).setResistance(3.0F).setStepSound(soundWoodFootstep).setBlockName("sofaPiece").setIsUrban(true);;
 
 	// 230
 	// 231

@@ -27,6 +27,10 @@ public class BlockState {
 	public Block getBlock() {
 		return block;
 	}
+	
+	public int getBlockID() {
+		return block.blockID;
+	}
 
 	public int getMetadata() {
 		return metadata;

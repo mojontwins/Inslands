@@ -56,5 +56,7 @@ public class RecipesMine {
 		craftingManager.addShapelessRecipe(new ItemStack(Item.quartz,4), new Object[] {new ItemStack(Block.blockQuartz)});
 		
 		craftingManager.addRecipe(new ItemStack(Block.planks, 4, 0), new Object[]{"#", '#', Block.wood3});
+		craftingManager.addRecipe(new ItemStack(Block.sofaPiece, 3), new Object[] {"w", "#w", "##w", 'w', Block.cloth, '#', Block.planks});
+		craftingManager.addRecipe(new ItemStack(Block.sofaPiece, 3), new Object[] {"w", "#w", "##w", 'w', Block.cloth, '#', Block.planks2});
 	}
 }

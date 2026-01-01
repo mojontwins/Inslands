@@ -8,6 +8,8 @@ import net.minecraft.world.level.tile.BlockFluid;
 import net.minecraft.world.level.tile.BlockIce;
 
 public abstract class WorldGenerator {
+	public boolean relaxedBoundaries = false;
+	
 	public abstract boolean generate(World world, Random rand, int x, int y, int z);
 
 	public void setScale(double scaleX, double scaleY, double scaleZ) {
@@ -17,5 +19,10 @@ public abstract class WorldGenerator {
 		if(world.isBlockOpaqueCube(x, y, z)) return true;
 		Block block = Block.blocksList[world.getBlockID(x, y, z)];
 		return (block instanceof BlockIce) || (block instanceof BlockFluid);
+	}
+	
+	public WorldGenerator setRelaxedBoundaries() {
+		this.relaxedBoundaries = true;
+		return this;
 	}
 }

@@ -668,6 +668,10 @@ public class World implements IBlockAccess {
 		return this.getChunkFromChunkCoords(i1 >> 4, i3 >> 4).canBlockSeeTheSky(i1 & 15, i2, i3 & 15);
 	}
 	
+	public boolean isBlockUnderground(int x, int y, int z) {
+		return this.getChunkFromBlockCoords(x >> 4, z >> 4).isBlockUnderGround(x & 15, y, z & 15);
+	}
+	
 	public boolean canBlockSeeTheSkyThruCanopy(int x, int y, int z) {
 		Chunk chunk = this.getChunkFromChunkCoords(x >> 4, z >> 4);
 		x = x & 15; z = z & 15;
@@ -2555,6 +2559,7 @@ public class World implements IBlockAccess {
 			}
 
 			// Thunder hits
+			
 			if (this.worldInfo.getThundering() && this.rand.nextInt(this.lightningChance) == 0) {
 				this.updateLCG = this.updateLCG * 3 + DIST_HASH_MAGIC;
 				tIndex = this.updateLCG >> 2;
@@ -2586,6 +2591,7 @@ public class World implements IBlockAccess {
 			}
 
 			// Select a top block and cover / uncover with snow
+			
 			if(LevelThemeGlobalSettings.dynamicSnow) {
 				if (this.snowTicker <= 0) {
 					
@@ -2640,8 +2646,40 @@ public class World implements IBlockAccess {
 					}
 				}
 			}
+			
+			// Random creepy stuff
+			
+			if (LevelThemeGlobalSettings.creepy) {
+				this.updateLCG = this.updateLCG * 3 + this.DIST_HASH_MAGIC;
+				tIndex = this.updateLCG >> 2;
+				x = tIndex & 15;
+				z = tIndex >> 8 & 15;
+				y = tIndex >> 16 & 127;
+				blockID = chunk.getBlockID(x, y, z);
+				int meta = chunk.getBlockMetadata(x, y, z);
+		
+				// Toggle door
+				if(blockID == Block.doorWood.blockID || blockID == Block.doorSteel.blockID) {
+					if((meta & 8) != 0) {
+						y --;
+					}
+					
+					if(this.getBlockID(x, y + 1, z) == blockID) {
+						this.setBlockMetadataWithNotify(x, y + 1, z, (meta ^ 4) + 8);
+					}
+
+					this.setBlockMetadataWithNotify(x, y, z, meta ^ 4);
+					this.markBlocksDirty(x, y - 1, z, x, y, z);
+				} 
+		
+				// Toggle trapdoor
+				else if(blockID == Block.trapdoor.blockID) {
+					this.setBlockMetadataWithNotify(x, y, z, meta ^ 4);
+				}
+			}
 
 			// Tick X random blocks
+			
 			for (int i = 0; i < blocksToTick; ++i) {
 				this.updateLCG = this.updateLCG * 3 + this.DIST_HASH_MAGIC;
 				tIndex = this.updateLCG >> 2;
@@ -3493,6 +3531,7 @@ public class World implements IBlockAccess {
 			if(creatureType.getCreatureClass().isAssignableFrom(entity.getClass())) {
 				numEntitiesOfThisType ++;
 				if(numEntitiesOfThisType >= maxEntitiesOfThisType) {
+					System.out.println ("Type " + creatureType.name() + ", max=" + maxEntitiesOfThisType + ", number=" + numEntitiesOfThisType);
 					if(entity instanceof EntityLiving) {
 						((EntityLiving) entity).health = 0;
 					} else {
