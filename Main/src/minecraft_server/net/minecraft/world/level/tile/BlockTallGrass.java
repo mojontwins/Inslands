@@ -67,7 +67,7 @@ public class BlockTallGrass extends BlockFlower {
 	@Override
 	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z) {
 		int meta = blockAccess.getBlockMetadata(x, y, z);
-		if (((meta >> 4) & 7) == 0 && LevelThemeGlobalSettings.colorizedPlants) return blockAccess.getFoliageColorFromCache(x, z);
+		if (((meta >> 4) & 7) == 0 && LevelThemeGlobalSettings.colorizedPlants) return blockAccess.getGrassColorFromCache(x, z);
 		return this.getRenderColor(meta);
 	}
 

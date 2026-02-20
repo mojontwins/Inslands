@@ -322,8 +322,9 @@ public class Block {
 	public static final Block leaves3 = (new BlockLeaves3(227)).setHardness(0.2F).setLightOpacity(3).setStepSound(soundGrassFootstep).setBlockName("leaves").disableStats().setRequiresSelfNotify().setLightValue(0.875F).setCreativeTab(CreativeTabs.tabBlock);
 	public static final Block sapling3 = (new BlockSapling3(228)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("sapling").setRequiresSelfNotify().setCreativeTab(CreativeTabs.tabDeco);
 	
-	// 228
-	// 229
+	// Furniture
+	public static final Block sofaPiece = (new BlockSofaPiece(229)).setBlockName("sofa").setHardness(1.5F).setResistance(3.0F).setStepSound(soundWoodFootstep).setBlockName("sofaPiece").setIsUrban(true);;
+
 	// 230
 	// 231
 	// 232

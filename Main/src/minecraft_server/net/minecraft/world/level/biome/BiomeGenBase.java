@@ -34,12 +34,13 @@ public class BiomeGenBase {
 	public static final BiomeGenBase biomeDefault = new BiomeGenBase().setBiomeName("Default Alpha");
 	
 	// Level themes
-	public static final BiomeGenBase themeHell = new BiomeGenThemeHell().setBiomeName("Hell");
-	public static final BiomeGenBase themeForest = new BiomeGenThemeForest().setBiomeName("Forest");
-	public static final BiomeGenBase themeParadise = new BiomeGenThemeParadise().setBiomeName("Paradise");
-	public static final BiomeGenBase themeForestHell = new BiomeGenThemeForestHell().setBiomeName("Forest Hell").setDisableRain();
-	public static final BiomeGenBase themeHellHell = new BiomeGenThemeHellHell().setBiomeName("Hell Hell").setDisableRain();
-	public static final BiomeGenBase themePoison = new BiomeGenThemePoisonIsland().setBiomeName("Poison Island");
+	public static final BiomeGenBase themeHell = new BiomeGenThemeHell().setBiomeName("Hell").setTemperatureRainfall(1.0, 0);
+	public static final BiomeGenBase themeForest = new BiomeGenThemeForest().setBiomeName("Forest").setTemperatureRainfall(.5, .8);
+	public static final BiomeGenBase themeParadise = new BiomeGenThemeParadise().setBiomeName("Paradise").setTemperatureRainfall(.6, .6);
+	public static final BiomeGenBase themeForestHell = new BiomeGenThemeForestHell().setBiomeName("Forest Hell").setDisableRain().setTemperatureRainfall(1, 0);
+	public static final BiomeGenBase themeHellHell = new BiomeGenThemeHellHell().setBiomeName("Hell Hell").setDisableRain().setTemperatureRainfall(1, 0);
+	public static final BiomeGenBase themePoison = new BiomeGenThemePoisonIsland().setBiomeName("Poison Island").setTemperatureRainfall(.5, .5);
+	public static final BiomeGenBase themeWhiteForest = new BiomeGenThemeWhiteForest().setBiomeName("White Jungle").setTemperatureRainfall(.2, .9);
 	
 	// Leave these for compatibility
 	public static final BiomeGenBase hell = (new BiomeGenHell()).setColor(16711680).setBiomeName("Hell").setDisableRain();
@@ -50,7 +51,7 @@ public class BiomeGenBase {
 	public static int currentBiomeCode = 0;
 	
 	private static BiomeGenBase biomeLookupTable [] = new BiomeGenBase[64*64];
-	
+
 	public byte topBlock = (byte)Block.grass.blockID;
 	public byte fillerBlock = (byte)Block.dirt.blockID;
 	
@@ -61,6 +62,8 @@ public class BiomeGenBase {
 	protected List<SpawnListEntry> spawnableWaterCreatureList = new ArrayList<SpawnListEntry>();
 	protected List<SpawnListEntry> spawnableCaveCreatureList = new ArrayList<SpawnListEntry>();
 	private boolean enableSnow;
+	
+	public double t = .5, h = .8;
 	
 	public WorldGenBo3Tree bo3Tree = new WorldGenBo3Tree();
 
@@ -357,5 +360,11 @@ public class BiomeGenBase {
 
 	public boolean isHumid() {
 		return false;
+	}
+	
+	public BiomeGenBase setTemperatureRainfall(double t, double h) {
+		this.t = t;
+		this.h = h;
+		return this;
 	}
 }

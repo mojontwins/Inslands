@@ -67,6 +67,7 @@ import net.minecraft.world.entity.EntityDerp;
 import net.minecraft.world.entity.EntityLightningBolt;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EntityPainting;
+import net.minecraft.world.entity.EntityTemporarySeat;
 import net.minecraft.world.entity.animal.EntityBetaOcelot;
 import net.minecraft.world.entity.animal.EntityCatBlack;
 import net.minecraft.world.entity.animal.EntityCatRed;
@@ -269,6 +270,8 @@ public class RenderManager {
 		this.entityRenderMap.put(EntityPoisonWitch.class, new RenderTwoLayeredBiped());
 		
 		this.entityRenderMap.put(EntityDerp.class, new RenderBiped(new ModelBiped(), 0.5F));
+		
+		this.entityRenderMap.put(EntityTemporarySeat.class, new RenderNone());
 		
 		// Set this as the render manager to all Render objects
 		Iterator<Render> iterator1 = this.entityRenderMap.values().iterator();

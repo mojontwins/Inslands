@@ -51,16 +51,21 @@ public class BlockVine extends Block implements INonSolidPlant {
     }
     
 	@Override
-	public int getBlockTextureFromSideAndMetadata(int side, int meta) {
-		return LevelThemeGlobalSettings.colorizedPlants ? 15 * 16 + 11 : this.blockIndexInTexture;
+	public int getBlockTextureFromSide(int side) {
+		return LevelThemeGlobalSettings.colorizedPlants ? 
+				15 * 16 + 11 
+			: 
+				this.blockIndexInTexture;
 	}
 	
+	@Override
 	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
 		if(LevelThemeGlobalSettings.colorizedPlants) {
-			return world.getGrassColorFromCache(x, z);
+			return world.getFoliageColorFromCache(x, z);
 		} else return 0xffffff;
 	}
 	
+	@Override
 	public int getRenderColor(int meta) {
 		if(LevelThemeGlobalSettings.colorizedPlants) {
 			return ColorizerFoliage.getFoliageColorBasic();

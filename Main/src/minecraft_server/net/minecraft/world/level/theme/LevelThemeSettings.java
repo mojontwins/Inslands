@@ -31,6 +31,7 @@ public class LevelThemeSettings {
 	public boolean colorizedPlants = false;
 	public boolean dynamicSnow = false;
 	public boolean forcedWorldType = false;
+	public boolean creepy = false;
 
 	public static List<LevelThemeSettings> allThemeSettings = new ArrayList<LevelThemeSettings> ();
 
@@ -69,6 +70,8 @@ public class LevelThemeSettings {
 			.withDynamicSnow(true);
 	
 	public static LevelThemeSettings poison = new LevelThemePoisonIsland(5).setOverlay(-1);
+	
+	public static LevelThemeSettings white = new LevelThemeWhiteForest(6);
 
 	public LevelThemeSettings(int id) {
 		this.id = id;

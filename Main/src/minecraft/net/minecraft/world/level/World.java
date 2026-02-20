@@ -668,6 +668,10 @@ public class World implements IBlockAccess {
 		return this.getChunkFromChunkCoords(i1 >> 4, i3 >> 4).canBlockSeeTheSky(i1 & 15, i2, i3 & 15);
 	}
 	
+	public boolean isBlockUnderground(int x, int y, int z) {
+		return this.getChunkFromBlockCoords(x >> 4, z >> 4).isBlockUnderGround(x & 15, y, z & 15);
+	}
+	
 	public boolean canBlockSeeTheSkyThruCanopy(int x, int y, int z) {
 		Chunk chunk = this.getChunkFromChunkCoords(x >> 4, z >> 4);
 		x = x & 15; z = z & 15;

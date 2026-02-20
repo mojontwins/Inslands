@@ -13,6 +13,7 @@ theme.Forest=Forest
 theme.Paradise=Paradise
 theme.Poison=Poison Island
 theme.Biomes=Biomes
+theme.WhiteJungle=White Jungle
 
 size.small=Small
 size.normal=Normal
@@ -528,6 +529,7 @@ tile.sapling.Mangrove.name=Mangrove sapling
 tile.sapling.Blood.name=Blood sapling
 tile.barbedWire.name=Barbed Wire
 tile.hedge.name=Hedge
+tile.sofaPiece.name=Sofa Piece
 
 item.acornSeed.name=Acorn Seed
 item.pickaxeIron.name=Iron Pickaxe

@@ -67,6 +67,7 @@ public class FeatureProvider {
 		while(featureClassIterator.hasNext()) {					
 			try {
 				Class<?> featureClass = featureClassIterator.next();
+				
 				if(featureClass != null) {
 					feature = (Feature)featureClass
 							.getConstructor(new Class[] {
@@ -200,6 +201,7 @@ public class FeatureProvider {
 		 */
 		registeredFeatures = new ArrayList<Class<?>> ();
 		
+		registerFeature(FeatureSlimeBossLair.class);
 		registerFeature(FeatureVolcano.class);
 		registerFeature(FeatureAmazonVillage.class);
 		registerFeature(FeatureOceanRuins.class);

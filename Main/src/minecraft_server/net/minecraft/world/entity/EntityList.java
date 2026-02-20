@@ -259,6 +259,8 @@ public class EntityList {
 		addMapping(EntityFungalCalamity.class, "FungalCalamity", 126);
 		addMapping(EntityGhoul.class, "Ghoul", 127);
 		
+		addMapping(EntityTemporarySeat.class, "TemporarySeat", 128);
+		
 		addMapping(EntityDerp.class, "Derp", 255);
 		
 		// Trading

@@ -23,12 +23,13 @@ public class BlockGrass extends Block implements IBlockWithSubtypes, IGroundSubs
 
 	public int getBlockTexture(IBlockAccess blockAccess, int x, int y, int z, int side) {
 		int meta = blockAccess.getBlockMetadata(x, y, z);
+		int top = LevelThemeGlobalSettings.colorizedPlants ? 253 : 0;
 		
 		if(meta == 1) {
 		
 			switch(side) {
 				case 0: return 2;
-				case 1: return LevelThemeGlobalSettings.colorizedPlants ? 253 : 0;
+				case 1: return top;
 				default: 
 					Block block = Block.blocksList[blockAccess.getBlockID(x, y + 1, z)];
 					
@@ -46,7 +47,7 @@ public class BlockGrass extends Block implements IBlockWithSubtypes, IGroundSubs
 		
 		switch(side) {
 			case 0: return 2;
-			case 1: return 0;
+			case 1: return top;
 			default: 
 				Block block = Block.blocksList[blockAccess.getBlockID(x, y + 1, z)];
 				
@@ -56,21 +57,6 @@ public class BlockGrass extends Block implements IBlockWithSubtypes, IGroundSubs
 				if(block.getRenderType() == 111 && (blockAccess.getBlockMetadata(x, y + 1, z) & 0xf) > 0) return 68;
 				
 				return 3;
-		}
-	}
-
-	@Override
-	public int getBlockTextureFromSideAndMetadata(int side, int meta) {
-		if(meta == 1) return 0; 
-		return this.getBlockTextureFromSide(side);
-	}
-	
-	@Override
-	public int getBlockTextureFromSide(int side) {
-		switch(side) {
-			case 0: return 2;
-			case 1: return 0;
-			default: return 3;
 		}
 	}
 	

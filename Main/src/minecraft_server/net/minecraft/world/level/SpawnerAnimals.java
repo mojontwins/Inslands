@@ -117,7 +117,7 @@ public final class SpawnerAnimals {
 				// System.out.println ("Chunks: " + eligibleChunksForSpawning.size() + ", TYPE: " + creatureType + " #" + activeEntitiesOfThisType + " of " + maxEntitiesOfThisType);
 								
 				if(activeEntitiesOfThisType > maxEntitiesOfThisType) {
-					world.pruneEntitiesToCap(creatureType, maxEntitiesOfThisType);
+					//world.pruneEntitiesToCap(creatureType, maxEntitiesOfThisType);
 				}
 				
 				if(
@@ -266,7 +266,7 @@ public final class SpawnerAnimals {
 	private static boolean canCreatureTypeSpawnAtLocation(EnumCreatureType enumCreatureType, World world, int x, int y, int z) {
 		
 		if(enumCreatureType == EnumCreatureType.caveCreature) {
-			if (world.canBlockSeeTheSky(x, y, z)) return false; 			// Cave creatures cannot spawn in the open!
+			if (!world.isBlockUnderground(x, y, z)) return false; 			// Cave creatures cannot spawn in the open!
 		} 
 		
 		Material creatureMaterial = enumCreatureType.getCreatureMaterial();

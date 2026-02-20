@@ -3,9 +3,12 @@ package net.minecraft.world.level.tile;
 import java.util.Random;
 
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
+import net.minecraft.world.level.colorizer.ColorizerFoliage;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 import net.minecraft.world.phys.AxisAlignedBB;
 
 public class BlockCaveVine extends Block implements INonSolidPlant {
@@ -259,6 +262,28 @@ public class BlockCaveVine extends Block implements INonSolidPlant {
 	
 	public boolean seeThrough() {
 		return true; 
+	}
+	
+	@Override
+	public int getBlockTextureFromSideAndMetadata(int side, int meta) {
+		return LevelThemeGlobalSettings.colorizedPlants ? 
+				10 * 16 + 1 
+			: 
+				this.blockIndexInTexture;
+	}
+	
+	@Override
+	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
+		if(LevelThemeGlobalSettings.colorizedPlants) {
+			return world.getFoliageColorFromCache(x, z);
+		} else return 0xffffff;
+	}
+	
+	@Override
+	public int getRenderColor(int meta) {
+		if(LevelThemeGlobalSettings.colorizedPlants) {
+			return ColorizerFoliage.getFoliageColorBasic();
+		} else return 0xffffff;
 	}
 
 }
