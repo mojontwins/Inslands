@@ -92,7 +92,7 @@ public class WorldServer extends World {
 		this.entityRemoval.removeObject(entity1.entityId);
 	}
 
-	public Entity s_func_6158_a(int i1) {
+	public Entity getEntityByID(int i1) {
 		return (Entity)this.entityRemoval.lookup(i1);
 	}
 

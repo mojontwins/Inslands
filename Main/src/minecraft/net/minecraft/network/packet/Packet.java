@@ -232,6 +232,7 @@ public abstract class Packet {
 		addIdClassMapping(97, true, true, Packet97SetInventorySlot.class);
 		addIdClassMapping(98, true, false, Packet98UpdateWeather.class);
 		addIdClassMapping(99, true, false, Packet99SetCreativeMode.class);
+		addIdClassMapping(91, true, true, Packet91UpdateAnimalName.class);
 		
 		packetStats = new HashMap<Integer,PacketCounter>();
 		totalPacketsCount = 0;

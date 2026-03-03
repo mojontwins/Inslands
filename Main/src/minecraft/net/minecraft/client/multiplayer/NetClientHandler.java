@@ -68,6 +68,7 @@ import net.minecraft.network.packet.Packet71Weather;
 import net.minecraft.network.packet.Packet88MovingPiston;
 import net.minecraft.network.packet.Packet8UpdateHealth;
 import net.minecraft.network.packet.Packet90ArmoredMobSpawn;
+import net.minecraft.network.packet.Packet91UpdateAnimalName;
 import net.minecraft.network.packet.Packet93FiniteWorldSettings;
 import net.minecraft.network.packet.Packet94FreezeLevel;
 import net.minecraft.network.packet.Packet95UpdateDayOfTheYear;
@@ -77,6 +78,7 @@ import net.minecraft.network.packet.Packet99SetCreativeMode;
 import net.minecraft.network.packet.Packet9Respawn;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityCreature;
 import net.minecraft.world.entity.EntityLightningBolt;
 import net.minecraft.world.entity.EntityList;
 import net.minecraft.world.entity.EntityLiving;
@@ -808,6 +810,15 @@ public class NetClientHandler extends NetHandler {
 			}
 		}
 
+	}
+	
+	public void handleUpdateAnimalName(Packet91UpdateAnimalName packet) {
+		Entity entity = this.getEntityByID(packet.entityId);
+		if(entity == null || !(entity instanceof EntityCreature)) {
+			// System.out.println ("Received name " + packet.name + " for non existing creature " + packet.entityId);
+		} else {
+			((EntityCreature) entity).setName(packet.name);
+		}
 	}
 
 	public void handleUpdateProgressBar(Packet105UpdateProgressbar packet105UpdateProgressbar1) {

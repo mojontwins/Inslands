@@ -21,6 +21,7 @@ public class StructureMineshaftMesaPieces {
 			new StructurePieceTreasure(Item.pickaxeSteel.shiftedIndex, 0, 1, 1, 1), 
 			new StructurePieceTreasure(Block.rail.blockID, 0, 4, 8, 1), 
 			new StructurePieceTreasure(Item.seeds.shiftedIndex, 0, 2, 4, 10), 
+			new StructurePieceTreasure(Item.nametagSimple.shiftedIndex, 0, 1, 2, 3), 
 	};
 
 	private static StructureComponent getRandomComponent(List<StructureComponent> list0, Random random1, int i2, int i3, int i4, int i5, int i6) {

@@ -8,6 +8,7 @@ import com.mojang.nbt.NBTTagList;
 
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityCreature;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EnumAction;
 import net.minecraft.world.entity.animal.EntityPig;
@@ -682,6 +683,9 @@ public abstract class EntityPlayer extends EntityLiving {
 	public void onItemPickup(Entity entity1, int i2) {
 	}
 
+	public void displayGUIGiveName(EntityCreature entity) {
+	}
+	
 	public float getEyeHeight() {
 		return 0.12F;
 	}

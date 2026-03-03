@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemBow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemSword;
 import net.minecraft.world.level.World;
+import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 
 public class EntityCow extends EntityAnimal {
 	public EntityCow(World world1) {
@@ -62,7 +63,7 @@ public class EntityCow extends EntityAnimal {
 			return false;
 		}
 		
-		if(!this.worldObj.isRemote) {
+		if(!this.worldObj.isRemote && LevelThemeGlobalSettings.hauntCows) {
 			
 			boolean hauntMe = false;
 			
@@ -75,9 +76,11 @@ public class EntityCow extends EntityAnimal {
 					return true;
 				}
 			
+				/*
 				if(this.rand.nextInt(50) != 0) {
 					return true;
 				}
+				*/
 				
 				// Knock player back a bit
 				entityPlayer.addVelocity(

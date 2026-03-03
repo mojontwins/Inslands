@@ -7,6 +7,7 @@ import com.mojang.nbt.NBTTagCompound;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.User;
 import net.minecraft.client.gui.GuiDispenser;
+import net.minecraft.client.gui.GuiGiveName;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.client.gui.inventory.GuiCrafting;
@@ -15,6 +16,7 @@ import net.minecraft.client.gui.inventory.GuiFurnace;
 import net.minecraft.client.particle.EntityPickupFX;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityCreature;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.inventory.IInventory;
 import net.minecraft.world.level.World;
@@ -171,6 +173,10 @@ public class EntityPlayerSP extends EntityPlayer {
 
 	public void displayGUIEditSign(TileEntitySign tileEntitySign1) {
 		this.mc.displayGuiScreen(new GuiEditSign(tileEntitySign1));
+	}
+	
+	public void displayGUIGiveName(EntityCreature entity) {
+		this.mc.displayGuiScreen(new GuiGiveName(entity));
 	}
 
 	public void displayGUIChest(IInventory iInventory1) {

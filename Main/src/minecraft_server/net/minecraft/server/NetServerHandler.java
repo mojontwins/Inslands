@@ -27,12 +27,14 @@ import net.minecraft.network.packet.Packet27Position;
 import net.minecraft.network.packet.Packet3Chat;
 import net.minecraft.network.packet.Packet53BlockChange;
 import net.minecraft.network.packet.Packet7UseEntity;
+import net.minecraft.network.packet.Packet91UpdateAnimalName;
 import net.minecraft.network.packet.Packet97SetInventorySlot;
 import net.minecraft.network.packet.Packet99SetCreativeMode;
 import net.minecraft.network.packet.Packet9Respawn;
 import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityCreature;
 import net.minecraft.world.inventory.InventoryPlayer;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -551,7 +553,7 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 
 	public void handleUseEntity(Packet7UseEntity packet7UseEntity1) {
 		WorldServer worldServer2 = this.mcServer.getWorldManager(this.playerEntity.dimension);
-		Entity entity3 = worldServer2.s_func_6158_a(packet7UseEntity1.targetEntity);
+		Entity entity3 = worldServer2.getEntityByID(packet7UseEntity1.targetEntity);
 		if (entity3 != null && this.playerEntity.canEntityBeSeen(entity3)
 				&& this.playerEntity.getDistanceSqToEntity(entity3) < 36.0D) {
 			if(packet7UseEntity1.isLeftClick == 0) {
@@ -664,7 +666,17 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 		}
 
 	}
-
+	
+	public void handleUpdateAnimalName(Packet91UpdateAnimalName packet) {
+		WorldServer worldServer = this.mcServer.getWorldManager(this.playerEntity.dimension);
+		Entity entity = worldServer.getEntityByID(packet.entityId);
+		if(entity == null || !(entity instanceof EntityCreature)) {
+			System.out.println ("Received name " + packet.name + " for non existing creature " + packet.entityId);
+		} else {
+			((EntityCreature) entity).setName(packet.name);
+		}
+	}
+	
 	public void handleCustomPayload(Packet250CustomPayload par1Packet250CustomPayload) {
 	}
 	

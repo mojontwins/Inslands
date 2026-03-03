@@ -4,636 +4,521 @@
 		"selected_items":
 		[
 			[
-				"br",
-				"brightness\tabc"
+				"soap",
+				"soapcall\tabc"
 			],
 			[
-				"back",
-				"background-color\tproperty"
+				"IDEN",
+				"IDENTITIES_LEVEL\tabc"
 			],
 			[
-				"fa",
-				"fAux2\tabc"
+				"row",
+				"rowtype\tabc"
 			],
 			[
-				"getBlock",
-				"getBlockMetadata\tabc"
+				"us",
+				"userlogins\tabc"
 			],
 			[
-				"Im",
-				"ImageDestroy\tabc"
+				"defau",
+				"default_host\tabc"
 			],
 			[
-				"offs",
-				"offsetCounter\tabc"
+				"ADD_TO_ASO",
+				"ADD_TO_ASSOC_SEDES\t(Queries.php)"
 			],
 			[
-				"AY_S",
-				"AY_PLAY_SOUND\t(diario.md)"
+				"GET_LAST_ASSI",
+				"GET_LAST_ASSOC_SEDE_ID\t(Queries.php)"
 			],
 			[
-				"__",
-				"__tile_address\tabc"
+				"RESOURCE",
+				"RESOURCE_ID\tabc"
 			],
 			[
-				"mkts",
-				"mkts_om.exe\t(mkts_om.bas)"
+				"Parameter",
+				"ParameterNames\tabc"
 			],
 			[
-				"doS",
-				"doStrait2x2\tabc"
+				"mirrored",
+				"mirrored_resources\tabc"
 			],
 			[
-				"patter",
-				"patternWidthInPixels\tabc"
+				"justify",
+				"justify-content\tproperty"
 			],
 			[
-				"cpcMode",
-				"cpcMode0GetBitmapFrom\tabc"
+				"border",
+				"border-box\tbox-sizing"
 			],
 			[
-				"_s",
-				"_simple_coco_update_continue\tabc"
+				"CREATE_",
+				"CREATE_MIRROR_DATA\t(Queries.php)"
 			],
 			[
-				"eij_state_moving",
-				"_eij_state_moving_y"
+				"is",
+				"is_numeric\tabc"
 			],
 			[
-				"_eij_stil",
-				"_eij_state_still_appearing\tabc"
+				"mirror",
+				"mirror_id\tabc"
 			],
 			[
-				"eij_",
-				"_eij_state_done"
+				"resource",
+				"resource_id\tabc"
 			],
 			[
-				"enems_hotspot",
-				"enems_hotspots_0\tabc"
+				"can",
+				"cancel-text\tcancel-text"
+			],
+			[
+				"resource_status_re",
+				"resource_status_reason_id\tabc"
+			],
+			[
+				"schedule",
+				"schedule_id\tabc"
+			],
+			[
+				"allow_mult",
+				"allow_multiday_reservations\tabc"
+			],
+			[
+				"column",
+				"column_value\tabc"
+			],
+			[
+				"vert",
+				"vertical-align\t(jda.css)"
+			],
+			[
+				"dashbo",
+				"dashboardHeader\t(jda.css)"
+			],
+			[
+				"gener",
+				"general_section\t(jda.css)"
+			],
+			[
+				"overflow",
+				"overflow-y\tproperty"
+			],
+			[
+				"text-a",
+				"text-align\tproperty"
+			],
+			[
+				"dahsb",
+				"dashboardHeader\t(jda.css)"
+			],
+			[
+				"DISCAR",
+				"DISCARD_GENERAL_NOTICE\t(SchedulePage.php)"
+			],
+			[
+				"overfl",
+				"overflow-y\tproperty"
+			],
+			[
+				"canSelect",
+				"canSelectOrganismo\tabc"
+			],
+			[
+				"ldap",
+				"ldap_handle\tabc"
+			],
+			[
+				"custom_",
+				"custom_attribute_value_id\tabc"
+			],
+			[
+				"custo",
+				"custom_attribute_value_id\t(AttributeValue.php)"
+			],
+			[
+				"CustomAttri",
+				"CustomAttributeCategory\tabc"
+			],
+			[
+				"resourceAttr",
+				"resourceAttributeList\tabc"
+			],
+			[
+				"resourceAt",
+				"resourceAttributeList\tabc"
+			],
+			[
+				"resourecAtt",
+				"resourceAttributeList\tabc"
+			],
+			[
+				"schdule",
+				"scheduleId\tabc"
+			],
+			[
+				"GetOrgani",
+				"GetOrganismoIdAA\t(SyncInterfacePage.php)"
+			],
+			[
+				"autoass",
+				"autoassign\tabc"
+			],
+			[
+				"MODE_",
+				"MODE_AUTO_ASSIGN\tabc"
+			],
+			[
+				"applica",
+				"applicableDates\tabc"
+			],
+			[
+				"default",
+				"default_period\tabc"
+			],
+			[
+				"GetSchedu",
+				"GetScheduleIncludeWeekends\t(NotificationPreferencesPresenter.php)"
+			],
+			[
+				"sche",
+				"schedule_include_weekends\tabc"
+			],
+			[
+				"scued",
+				"schedule_include_weekends\tabc"
+			],
+			[
+				"daily",
+				"dailyLayout\tabc"
+			],
+			[
+				"PPD",
+				"PdfOutput\t(view-resource.php)"
+			],
+			[
+				"custom_attrbu",
+				"custom_attribute_id\tabc"
+			],
+			[
+				"custom_at",
+				"custom_attribute_values\tabc"
+			],
+			[
+				"resourceAtt",
+				"resourceAttributesForResourceTypeAssoc\tabc"
+			],
+			[
+				"resourceTy",
+				"resourceTypeId\tabc"
+			],
+			[
+				"log",
+				"log::debug(\"For\t(AttributeList.php)"
+			],
+			[
+				"secondarY",
+				"secondary_entity_id\t(Queries.php)"
+			],
+			[
+				"custom_att",
+				"custom_attribute_id\tabc"
+			],
+			[
+				"custom_atr",
+				"custom_attribute_id\tabc"
 			],
 			[
 				"custom",
-				"custom_animation.h\t(custom_animation.h)"
+				"custom_attribute_values\tabc"
 			],
 			[
-				"BREAL",
-				"BREAKABLE_WALLS\t(bullets.h)"
+				"entity",
+				"entityIds\tabc"
 			],
 			[
-				"bullets_",
-				"bullets_update\tabc"
+				"secondary",
+				"secondaryEntityId\tabc"
 			],
 			[
-				"ENABLE",
-				"ENABLE_FANTIES\tabc"
+				"ATT",
+				"ATTRIBUTE_SECONDARY_ENTITY_ID\t(diario.md)"
 			],
 			[
-				"FANTI",
-				"FANTIES_TYPE_HOMING\t(config.h)"
+				"secon",
+				"secondaryEntityId\t(diario.md)"
 			],
 			[
-				"invali",
-				"invalidate_tile\t(printer.h)"
+				"secondar",
+				"secondary_entity_id\tabc"
 			],
 			[
-				"VIEW",
-				"VIEWPORT_Y\tabc"
+				"seco",
+				"secondary_entity_id\tabc"
 			],
 			[
-				"inval",
-				"invalidate_tile\t(printer.h)"
+				"ATTRIBUTE_SEC",
+				"ATTRIBUTE_SECONDARY_ENTITY_ID\tabc"
 			],
 			[
-				"main",
-				"maincounter\tabc"
+				"attributeCate",
+				"attributeCategoryId\tabc"
 			],
 			[
-				"VIE",
-				"VIEWPORT_Y\t(printer.h)"
+				"GET_ATTRBUTE",
+				"GET_ATTRIBUTE_BY_ID\tabc"
 			],
 			[
-				"draw_colou",
-				"draw_coloured_tile\t(printer.h)"
+				"organis",
+				"organismo_id\tabc"
 			],
 			[
-				"invalidate",
-				"invalidate_viewport\t(printer.h)"
+				"Parame",
+				"ParameterNames::SEDE_ID\tabc"
 			],
 			[
-				"orig",
-				"orig_tile\tabc"
+				"force",
+				"force_migration\tabc"
 			],
 			[
-				"draw_om",
-				"draw_invalidate_coloured_tile_gamearea\t(printer.h)"
+				"migra",
+				"migration_from\tabc"
 			],
 			[
-				"draw_coloured_ti",
-				"draw_coloured_tile_gamearea\tabc"
+				"mig",
+				"migration_to\tabc"
 			],
 			[
-				"dra",
-				"draw_invalidate_coloured_tile_gamearea\tabc"
+				"users_",
+				"users_partial\tabc"
 			],
 			[
-				"draw",
-				"draw_coloured_tile_gamearea\tabc"
+				"attt",
+				"attribute\tabc"
 			],
 			[
-				"baddies",
-				"baddiesCountGenital"
+				"User",
+				"Username\tabc"
 			],
 			[
-				"baddiesCou",
-				"baddiesCountGenital\tabc"
+				"join",
+				"joinby\tabc"
 			],
 			[
-				"textMap",
-				"textMapH\tabc"
+				"sedel",
+				"sedeSeleccionada\tabc"
 			],
 			[
-				"textT",
-				"textTilesetfile\tabc"
+				"Pas",
+				"PassCaducado\t(AuthenticationResponse.php)"
 			],
 			[
-				"TextBox",
-				"TextBox_GetText\tabc"
+				"Authent",
+				"AuthenticationResponse\tabc"
 			],
 			[
-				"text",
-				"textEnemsLoadFile\tabc"
+				"extra",
+				"extra_resources\tabc"
 			],
 			[
-				"textt",
-				"textTilesetfile\tabc"
+				"adminResoure",
+				"adminResourceList\tabc"
 			],
 			[
-				"button",
-				"buttonTilesetfile\tabc"
+				"user",
+				"username\tabc"
 			],
 			[
-				"Button_",
-				"Button_Event\tabc"
+				"pag",
+				"page\tabc"
 			],
 			[
-				"buttonC",
-				"buttonCreateNew\tabc"
+				"SetOrgani",
+				"SetOrganismoId\t(SyncInterfacePage.php)"
 			],
 			[
-				"Text",
-				"TextBox_GetText\tabc"
+				"organi",
+				"organismo_id\tabc"
 			],
 			[
-				"textScr",
-				"textScrW\tabc"
+				"master",
+				"master_organismo_id\tabc"
 			],
 			[
-				"Textb",
-				"TextBox_New\tabc"
+				"getOr",
+				"getOrganismoID\tabc"
 			],
 			[
-				"TILANI",
-				"TILANIMS_TYPE_SELECT_FLAG\tabc"
+				"SetFlag",
+				"SetFlagUniversalVisibility\t(OrganismoConfigPage.php)"
 			],
 			[
-				"TILANIMS_SE",
-				"TILANIMS_TYPE_SELECT_FLAG\t(config.h)"
+				"orgnai",
+				"organismo_id\tabc"
 			],
 			[
-				"TILANIMS_TP",
-				"TILANIMS_TYPE_ONE\tabc"
+				"AS",
+				"ASSOC_NAME\t(diario.md)"
 			],
 			[
-				"TILAN",
-				"TILANIMS_PERIOD\t(config.h)"
+				"SetNmbre",
+				"SetNombreAsociacion\t(ManageResourcesPage.php)"
 			],
 			[
-				"_va_coll",
-				"_va_collision_done\tabc"
+				"SetShowWar",
+				"SetShowWarningNotMaster\t(ManageResourcesPage.php)"
 			],
 			[
-				"MA",
-				"MAX_BULLETS\tabc"
+				"ORGNAI",
+				"ORGANISMO_ID\tabc"
 			],
 			[
-				"clausuas",
-				"clausulasUsed\tabc"
+				"masetr",
+				"master_organismo_id\t(diario.md)"
 			],
 			[
-				"CUSTOM",
-				"CUSTOM_HIT\t(player.h)"
+				"Organism",
+				"OrganismosRepository\t(diario.md)"
 			],
 			[
-				"PLAY_SAM",
-				"PLAY_SAMPLE_ON_DEATH\t(config.h)"
+				"GET_ORGNA",
+				"GET_ORGANISMOS_BY_ASSOC_ID\t(diario.md)"
 			],
 			[
-				"LEVEL_ENDING",
-				"LEVEL_ENDING_GOOD\t(script.spt)"
+				"fijar",
+				"fijarEsteOrganismo\tabc"
 			],
 			[
-				"LEVEL_END",
-				"LEVEL_ENDING_BAD\t(script.spt)"
+				"durationH",
+				"durationHoursReadable\t(reservation.js)"
 			],
 			[
-				"LEVEL_CAS",
-				"LEVEL_CASTLE_B\t(script.spt)"
+				"ldap_get_",
+				"ldap_get_entries\t(test_ldap.php)"
 			],
 			[
-				"PLA",
-				"PLAYER_DRUNK_EXPR\t(va_genital.h)"
+				"Addio",
+				"AdditionalResources\t(ReservationSavePresenter.php)"
 			],
 			[
-				"_player_mvoe",
-				"_player_move_af_holed_set\tabc"
+				"descripc",
+				"descripción\tabc"
 			],
 			[
-				"_player_move",
-				"_player_move_af_incframe_done\tabc"
+				"invit",
+				"invitation\tabc"
 			],
 			[
-				"p_ct",
-				"p_state_ct\tabc"
+				"extrae",
+				"extrae_invitacion\t(trabajoficheros.php)"
 			],
 			[
-				"EST_",
-				"EST_HOLED\tabc"
+				"crea",
+				"crea_invitacion\t(trabajoficheros.php)"
 			],
 			[
-				"_enems",
-				"_enems_move_pregotten_set\tabc"
+				"fecha",
+				"fecha\tabc"
 			],
 			[
-				"bye",
-				"byteCoordinates\tabc"
+				"defecto",
+				"defecto_ta_publico\tabc"
 			],
 			[
-				"sp_nana",
-				"sp_nanako_0"
+				"feche",
+				"fechaexp\tabc"
 			],
 			[
-				"nanako_may",
-				"nanako_may_move_horz"
+				"form_sub",
+				"form_submit\t(form-opciones-fichero.php)"
 			],
 			[
-				"sp_mar",
-				"sp_marcador_vidas_1"
+				"PROCESADOE",
+				"PROCESADO_ERR_EXTENSION\tabc"
 			],
 			[
-				"cwit",
-				"cwithheader"
+				"write",
+				"write_log\t(Common.php)"
 			],
 			[
-				"He",
-				"fOutHeader"
+				"margi",
+				"margin-right\tproperty"
 			],
 			[
-				"PLAT",
-				"PLATFORM_SG1000"
+				"fechaexp",
+				"fechaexp_altered\tabc"
 			],
 			[
-				"metaSpri",
-				"metaSpriteIndex"
+				"bean",
+				"beanstalkd_port\tabc"
 			],
 			[
-				"metasprite",
-				"metaSpriteIndex"
+				"get_se",
+				"get_select_sql\t(Ignitedquery.php)"
 			],
 			[
-				"metaSpr",
-				"metaSpriteType"
+				"log_",
+				"log_message('info',\"estadoav::fid"
 			],
 			[
-				"wMeta",
-				"wMetaPixels"
+				"HTTP",
+				"HTTP_HOST"
 			],
 			[
-				"PLATFORM_",
-				"PLATFORM_CPC"
+				"CSRF",
+				"CSRFToken"
 			],
 			[
-				"PLATFORM",
-				"PLATFORM_ZX"
+				"uploa",
+				"uploadedImage"
 			],
 			[
-				"TMS",
-				"TMS9918"
+				"orgi",
+				"organismoId"
 			],
 			[
-				"TMS9918Get",
-				"TMS9918GetBitmapFrom"
+				"Appl",
+				"ApplyDifference"
 			],
 			[
-				"TMS9918",
-				"TMS9918Colour"
+				"RE",
+				"REMOTE_ADDR"
 			],
 			[
-				"double_hots",
-				"double_hotspots_do\t(mainloop.h)"
+				"LAST",
+				"LAST_ATTEMPT\t(ColumnNames.php)"
 			],
 			[
-				"double",
-				"double_hotspots_paint"
+				"ANTIBRUTE",
+				"ANTIBRUTEFORCE_BANFOR\t(LdapConfig.php)"
 			],
 			[
-				"attr",
-				"attr_table_offset"
+				"antibrute",
+				"antibruteforce.attempts\t(Ldap.config.php)"
 			],
 			[
-				"togg",
-				"toggle_switch\t(extra_vars.h)"
+				"GET_USER",
+				"GET_USER_BY_USERNAME"
 			],
 			[
-				"toggle",
-				"toggle_timer\t(extra_vars.h)"
+				"session_reg",
+				"session_regenerate_id"
 			],
 			[
-				"HOTSPOT_TYPE_TO",
-				"HOTSPOT_TYPE_TOGGLE_OFF\t(extra_vars.h)"
+				"str",
+				"strcasecmp"
 			],
 			[
-				"wate",
-				"water_strip\t(on_entering_screen.h)"
+				"sedeSele",
+				"sedeSeleccionadaShow"
 			],
 			[
-				"PPU_CTRL",
-				"PPU_CTRL_VAR1\t(neslib.s)"
-			],
-			[
-				"frame",
-				"frame_counter"
-			],
-			[
-				"stri",
-				"strictMscNumeric"
-			],
-			[
-				"e",
-				"e24to9"
-			],
-			[
-				"ImgIn",
-				"imgIn"
-			],
-			[
-				"calcua",
-				"calculateHugePal"
-			],
-			[
-				"ig",
-				"imgIn"
-			],
-			[
-				"SPING",
-				"SPRING_SPIKE_TILE"
-			],
-			[
-				"customScr",
-				"customScriptOrder"
-			],
-			[
-				"customScir",
-				"customScriptOrder"
-			],
-			[
-				"MAX_CHAC",
-				"MAX_CHAC_CHACKS_QUEUED"
-			],
-			[
-				"chac_chacs_Q",
-				"chac_chacs_queue_read"
-			],
-			[
-				"chac_chacs_queu",
-				"chac_chacs_queue_write\t(bss.h)"
-			],
-			[
-				"chac",
-				"chac_chacs_read"
-			],
-			[
-				"inte",
-				"interactives_index"
-			],
-			[
-				"interactives",
-				"interactives_yx"
-			],
-			[
-				"MAP_",
-				"MAP_FORMAT_PACKED"
-			],
-			[
-				"RLE",
-				"MAP_FORMAT_RLE16"
-			],
-			[
-				"CHAC_CHAC",
-				"CHAC_CHAC_FROM_MAP"
-			],
-			[
-				"max_",
-				"max_chac_chacs\t(tile_chac_chac.h)"
-			],
-			[
-				"ENABLE_CH",
-				"ENABLE_TILE_CHAC_CHAC\t(map_detectors.h)"
-			],
-			[
-				"chac_chac",
-				"chac_chacs_ct\t(tile_chac_chac.h)"
-			],
-			[
-				"chac_c",
-				"chac_chacs_state\t(tile_chac_chac.h)"
-			],
-			[
-				"addressboo",
-				"addressbook_export\t(export.inc)"
-			],
-			[
-				"bedework_rec",
-				"bedework_records_starting_with\t(simple_bedework_rest_client.php)"
-			],
-			[
-				"start",
-				"start_row"
-			],
-			[
-				"bedewo",
-				"bedework_client"
-			],
-			[
-				"allow",
-				"allow_report"
-			],
-			[
-				"bedew",
-				"bedework_client"
-			],
-			[
-				"bede",
-				"bedework_client"
-			],
-			[
-				"cookie",
-				"cookie_jar"
-			],
-			[
-				"curl",
-				"curl_setup"
-			],
-			[
-				"cooke",
-				"cookie_jar"
-			],
-			[
-				"coo",
-				"cookie_jar"
-			],
-			[
-				"current",
-				"current_rule"
-			],
-			[
-				"getg",
-				"get_group\t(list.inc)"
-			],
-			[
-				"rcmail",
-				"rcmail::write_log"
-			],
-			[
-				"grou",
-				"group_id"
-			],
-			[
-				"vcard_",
-				"vcard_filename"
-			],
-			[
-				"toa",
-				"total_entries"
+				"format",
+				"formattedStartDate"
 			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "Main/src/minecraft/net/minecraft/world/level/tile/BlockSapling.java",
-			"settings":
-			{
-<<<<<<< HEAD
-				"buffer_size": 26756,
-=======
-				"buffer_size": 3615,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/Git/mojonBASIC/GHUNP/dev/GHUNP.bas",
-			"settings":
-			{
-				"buffer_size": 19271,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/Git/mojonBASIC/utils/bin2hex.bas",
-			"settings":
-			{
-				"buffer_size": 1237,
->>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-<<<<<<< HEAD
-			"contents": "PELO CON HUEVOS\nPELO CON PELUSAS\nPELO CON MOCOS\nPELO CON POSTILLAS\nPELO PELO PELO\n",
-			"settings":
-			{
-				"buffer_size": 82,
-				"line_ending": "Windows",
-				"name": "PELO CON HUEVOS"
-			}
-		},
-		{
-			"contents": "49 achievements\n217 recipes\nJava library path: E:\\Cosas\\Inslands\\Main\\lib\\client\\natives;E:\\Cosas\\Inslands\\Main\\lib\\client\\natives;E:\\Cosas\\Inslands\\Main\\lib\\client\\natives\nSkipping bad option: fancyGraphics:false\nSkipping bad option: ofGrass:0\n\nOptiFine_1.7.3_HD_G\nTue Aug 26 14:35:28 CEST 2025\nOS: Windows 10 (amd64) version 10.0\nJava: 1.8.0_442, Azul Systems, Inc.\nVM: OpenJDK 64-Bit Server VM (mixed mode), Azul Systems, Inc.\nLWJGL: 2.9.3\nOpenGL: Intel(R) HD Graphics 400 version 4.4.0 - Build 20.19.15.5171, Intel\nOpenGL Version: 4.0\nOpenGL Fancy fog: Not available (GL_NV_fog_distance)\nWARNING: Found unknown Windows version: Windows 10\nAttempting to use default windows plug-in.\nLoading: net.java.games.input.DirectAndRawInputEnvironmentPlugin\n\nStarting up SoundSystem...\nInitializing LWJGL OpenAL\n    (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)\nOpenAL initialized.\n\nTexture registered: net.minecraft.client.renderer.ptexture.TextureLavaFX@76c981f4, image: 0, index: 237\nTexture registered: net.minecraft.client.renderer.ptexture.TextureWaterFX@23ec7269, image: 0, index: 205\nTexture registered: net.minecraft.client.renderer.ptexture.TexturePortalFX@5d5bf051, image: 0, index: 14\nTexture registered: net.minecraft.client.renderer.ptexture.TextureCompassFX@62d0aae5, image: 1, index: 54\nTexture registered: net.minecraft.client.renderer.ptexture.TextureWatchFX@62e3082a, image: 1, index: 70\nTexture registered: net.minecraft.client.renderer.ptexture.TextureWaterFlowFX@a18b91c, image: 0, index: 206\nTexture registered: net.minecraft.client.renderer.ptexture.TextureLavaFlowFX@53c1294e, image: 0, index: 238\nTexture registered: net.minecraft.client.renderer.ptexture.TextureFlamesFX@6d09f653, image: 0, index: 31\nTexture registered: net.minecraft.client.renderer.ptexture.TextureFlamesFX@17d11180, image: 0, index: 47\nTextureAnimatedFX 252, 0, textureAtlasURI = /animated/block_seaweed.png (20 frames)\nTexture registered: net.minecraft.client.renderer.ptexture.TextureAnimatedFX@3fc4dede, image: 0, index: 252\nTextureAnimatedFX 150, 0, textureAtlasURI = /animated/block_acidwater.png (38 frames)\nTexture registered: net.minecraft.client.renderer.ptexture.TextureAnimatedFX@6602afaa, image: 0, index: 150\nWorld changed\nPreload World\nAttempting hill maze @ 71 78 135\nHill maze failed, not 30 solid.\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempting hill maze @ 183 72 103\nHill maze failed, not 30 solid.\nAttempting hill maze @ 167 74 151\nAttempted hedge maze but too low! @1\nAttempting hill maze @ 183 51 135\nAttempted hedge maze but too low! @46\n000000000000000000000000000000000000000 \n010121212121212121210121212121212101210 \n020200000000000002020200020000000200020 \n010121210121210121010121012121210121210 \n020000000200020200000200000000020000020 \n012121212101210121212101210121210121210 \n000000050002000000020002020200000200000 \n012105555501012121012101012101210121210 \n000205555502020002000002000002020000020 \n012155555551010101212121012121012121010 \n020205555502020200000000050002000002020 \n010105555501210121212105555501012121010 \n020000050000000200050005555502020000020 \n010121212101212105555555555551010121210 \n020200020002000205555505555502020200000 \n010101012121012155555555555501010121210 \n020202000000020205555500050002000000020 \n010121012121010105555501210121212121010 \n020002000202020000050002020200000002020 \n012101210101012121212121010101212121010 \n000200020200000000000000020202000000020 \n012101210121212101210101210101212101210 \n020002000002000202020202000200000202000 \n012121012121010121010101212121210101210 \n020000020000020000020200000000000200020 \n012121010121210121210101210121212121010 \n000002020200000200000202020200020000020 \n012101010121012101212101012101210121210 \n020202020202020002000202000200000200000 \n010101210101012101010101210101210101210 \n020200050002000202020200020002020200020 \n010105555501210121012121012121010121210 \n020205555502020200050002000500020000020 \n010155555551012105555501055555012121010 \n000205555502000005555502055555020000020 \n012105555501212155555551555555510121210 \n020000050000000205555502055555020200000 \n012121212121212105555501055555012121210 \n000000000000000000000000000000000000000 \nPainting fail!! Bomb at 160 , 52, 126 : 3\nHill maze @ 183 51 135\nHill maze failed, not 30 solid.\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nWorld not valid [ Found spawn point? false, Valid upon theme? true ] - trying again!\nPreload World\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempting hill maze @ 119 54 167\nAttempted hedge maze but too low! @1\nHill maze failed, not 30 solid.\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempting hill maze @ 167 83 119\nAttempted hedge maze but too low! @1\nHill maze failed, not 30 solid.\nAttempted hedge maze but too low! @1\nAttempting hill maze @ 183 93 167\nAttempted hedge maze but too low! @1\nAttempting hill maze @ 199 43 151\nAttempting hill maze @ 199 47 119\nHill maze failed, not 30 solid.\nHill maze failed, not 30 solid.\nHill maze failed, not 30 solid.\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nHill mazes = 0, hedge mazes = 0 -> bad level.\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nAttempted hedge maze but too low! @23\nAttempted hedge maze but too low! @49\n000000000000000005000000000000000 \n012105555501210121212121212101210 \n000205555502020200000002000202020 \n010155555551012121012101210121010 \n020205555500050000020202020000020 \n012105555505555501210101012121010 \n020000050005555502000200000002020 \n012101212155555551210121210121010 \n000200020205555500020000020200020 \n010121210105555501210121210121010 \n020200050000050002000000020002020 \n012105555501012121012121012121010 \n020005555502020002020002000000020 \n010155555551210101210121012121210 \n020205555502000200000200000000020 \n010105555501012101210121212121010 \n020200050002020002020000000202020 \n510121010121010121012121210101015 \n020202020200020200000000020002020 \n012101012121210121212121012121010 \n000002000000020000000002000500020 \n012101212101210121212101055555010 \n020200000202000200000202055555020 \n010121212101210101212101555555510 \n020005000000020202000002055555020 \n010555550121212101012121055555010 \n020555550200000002020000000500020 \n015555555101210121012101212121010 \n020555550002020000000202000002020 \n010555550121012101210101012121010 \n020005000200000202020202000000020 \n012121212101212121012101212121210 \n000000000000000005000000000000000 \nHedge maze @ 105, 121\nAttempting hill maze @ 151 81 151\nAttempting hill maze @ 167 91 119\nAttempted hedge maze but too low! @1\nAttempting hill maze @ 183 86 103\nAttempted hedge maze but too low! @1\nHill maze failed, not 30 solid.\nAttempted hedge maze but too low! @62\nHill maze failed, not 30 solid.\nHill maze failed, not 30 solid.\nAttempted hedge maze but too low! @1\n000000000000000005000000000000000 \n010121212121012121212121212101210 \n020000020002000005000200020200020 \n010121010101210555550101210121010 \n020202020200020555550202000002020 \n012101010121215555555101210121210 \n000002020200000555550200020000000 \n012101210101210555550121012121210 \n020000000202020005000002000000020 \n012101212101012121210121012101010 \n000202000000020000000200020202020 \n012101012121010121210121210121010 \n020002020002020200020200050000020 \n012121012101012121012105555501210 \n020000020202000000000205555502000 \n010121210101212121210155555551210 \n020002000200000000020205555502020 \n512101210101212121210105555501015 \n000202000202000005000005050002020 \n012101012101010555550555550121010 \n020000020002020555550555550200020 \n010121012101215555555555555101010 \n020202000200020555550555550202020 \n010101210121010555550555550121010 \n020200020002020005000005000000020 \n012101212121010121212121012121010 \n000200050000020200000002000202020 \n012105555501210101210121012101010 \n020005555502000202020200020002020 \n010155555551210101010121010101210 \n020205555500020202000002020200020 \n012105555501212101212121210121210 \n000000000000000005000000000000000 \nHedge maze @ 137, 169\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nAttempted hedge maze but too low! @1\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\n(RE)Creating player\nSaving NEW world\nWorld changed\nSaving\nWorld changed\nStopping!\n\nSoundSystem shutting down...\n    Author: Paul Lamb, www.paulscode.com\n",
-			"settings":
-			{
-				"buffer_size": 9402,
-				"line_ending": "Windows",
-				"name": "49 achievements"
-			}
-		},
-		{
-			"contents": "49 achievements\n217 recipes\nJava library path: E:\\Cosas\\Inslands\\Main\\lib\\client\\natives;E:\\Cosas\\Inslands\\Main\\lib\\client\\natives;E:\\Cosas\\Inslands\\Main\\lib\\client\\natives\nSkipping bad option: fancyGraphics:false\nSkipping bad option: ofGrass:0\n\nOptiFine_1.7.3_HD_G\nWed Aug 27 10:36:47 CEST 2025\nOS: Windows 10 (amd64) version 10.0\nJava: 1.8.0_442, Azul Systems, Inc.\nVM: OpenJDK 64-Bit Server VM (mixed mode), Azul Systems, Inc.\nLWJGL: 2.9.3\nOpenGL: Intel(R) HD Graphics 400 version 4.4.0 - Build 20.19.15.5171, Intel\nOpenGL Version: 4.0\nOpenGL Fancy fog: Not available (GL_NV_fog_distance)\nWARNING: Found unknown Windows version: Windows 10\nAttempting to use default windows plug-in.\nLoading: net.java.games.input.DirectAndRawInputEnvironmentPlugin\n\nStarting up SoundSystem...\nInitializing LWJGL OpenAL\n    (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)\nOpenAL initialized.\n\nTexture registered: net.minecraft.client.renderer.ptexture.TextureLavaFX@226ffbfb, image: 0, index: 237\nTexture registered: net.minecraft.client.renderer.ptexture.TextureWaterFX@62d0aae5, image: 0, index: 205\nTexture registered: net.minecraft.client.renderer.ptexture.TexturePortalFX@600b0796, image: 0, index: 14\nTexture registered: net.minecraft.client.renderer.ptexture.TextureCompassFX@5aec8356, image: 1, index: 54\nTexture registered: net.minecraft.client.renderer.ptexture.TextureWatchFX@17d11180, image: 1, index: 70\nTexture registered: net.minecraft.client.renderer.ptexture.TextureWaterFlowFX@58ce8a3f, image: 0, index: 206\nTexture registered: net.minecraft.client.renderer.ptexture.TextureLavaFlowFX@29f5331, image: 0, index: 238\nTexture registered: net.minecraft.client.renderer.ptexture.TextureFlamesFX@2086965f, image: 0, index: 31\nTexture registered: net.minecraft.client.renderer.ptexture.TextureFlamesFX@3fc4dede, image: 0, index: 47\nTextureAnimatedFX 252, 0, textureAtlasURI = /animated/block_seaweed.png (20 frames)\nTexture registered: net.minecraft.client.renderer.ptexture.TextureAnimatedFX@6602afaa, image: 0, index: 252\nTextureAnimatedFX 150, 0, textureAtlasURI = /animated/block_acidwater.png (38 frames)\nTexture registered: net.minecraft.client.renderer.ptexture.TextureAnimatedFX@29fcc96f, image: 0, index: 150\nWorld changed\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? true, Valid upon theme? false ] - trying again!\nPreload World\nRunning level theme specific inits\nlevelIsValidUponWorldTheme, isNewWorld?true, do checks?true\nNo bronze dungeon in paradise -> bad level\nWorld not valid [ Found spawn point? false, Valid upon theme? false ] - trying again!\nPreload World\n",
-			"settings":
-			{
-				"buffer_size": 21726,
-				"line_ending": "Windows",
-				"name": "49 achievements"
-=======
-			"file": "/D/Git/mojonBASIC/GHUNP/dev/63088.bas",
-			"settings":
-			{
-				"buffer_size": 9609,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "PIEDRA PAPEL TIJERAS CON IA GENERATIVA\n\nCon este sencillo programa podrás dotar a tu Amstrad CPC con verdadera Inteligencia Artificial Generativa y podrás retarle a Piedra, Papel o Tijeras. Como tu CPC no está conectado a Internet, sólo puede plagiar al único humano con el que tiene contacto: tú mismo. ¡Disfruta!\n\n10 DIM ia%(4):FOR i%=0 TO 4:ia%(i%)=INT(\nRND*3)+1:NEXT i%:LET cw%=0:LET cr%=1\n20 PRINT \"Piedra Papel Tijeras con IA GE\nNERATIVA\"\n30 PRINT \"1 PIEDRA 2 PAPEL 3 TIJERAS\":IN\nPUT a%\n40 ia%(cw%)=a%:b%=ia%(cr%):cw%=(cw%+1) M\nOD 5:cr%=(cr%+1) MOD 5: REM IA\n50 PRINT \"Yo saco:\";:IF b%=1 THEN PRINT \n\"PIEDRA\" ELSE IF b%=2 THEN PRINT \"PAPEL\"\n ELSE PRINT \"TIJERAS\"\n60 IF a%=b% THEN PRINT \"EMPATE\" ELSE IF \na%=1+(b% MOD 3) THEN PRINT \"HAS GANADO!\"\n ELSE PRINT \"PIERDES!\"\n70 GOTO 20\n",
-			"settings":
-			{
-				"buffer_size": 785,
-				"line_ending": "Windows",
-				"name": "PIEDRA PAPEL TIJERAS CON IA GENERATIVA"
-			}
-		},
-		{
-			"file": "/D/Git/mojonBASIC/README.md",
-			"settings":
-			{
-				"buffer_size": 156,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/Cosas/_retro/zxbasicus/chem2o.bas",
-			"settings":
-			{
-				"buffer_size": 41194,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "\tpublic void renderItemIntoGUI(FontRenderer fr, RenderEngine re, ItemStack stack, int x, int y) {\n\t\tif(stack != null) {\n\t\t\tthis.drawItemIntoGui(fr, re, stack.itemID, stack.getItemDamage(), stack.getIconIndex(), x, y);\n\t\t}\n\t}\n\n\tpublic void renderItemOverlayIntoGUI(FontRenderer fr, RenderEngine re, ItemStack stack, int x, int y) {\n\t\tif(stack != null) {\n\t\t\tif(stack.itemID < 256) {\n\t\t\t\tBlock b = Block.blocksList[stack.itemID];\n\t\t\t\tString ovl;\n\t\t\t\tif(b != null && (ovl = b.inventoryOverlayString(stack.itemDamage)) != null) {\n\t\t\t\t\tGL11.glDisable(GL11.GL_LIGHTING);\n\t\t\t\t\tGL11.glDisable(GL11.GL_DEPTH_TEST);\n\t\t\t\t\tfr.drawStringWithShadow(ovl, x, y, 0xFFFFFF);\n\t\t\t\t\tGL11.glEnable(GL11.GL_LIGHTING);\n\t\t\t\t\tGL11.glEnable(GL11.GL_DEPTH_TEST);\n\t\t\t\t}\n\t\t\t}\n\t\t\t\n\t\t\tif(stack.stackSize > 1) {\n\t\t\t\tString string6 = \"\" + stack.stackSize;\n\t\t\t\tGL11.glDisable(GL11.GL_LIGHTING);\n\t\t\t\tGL11.glDisable(GL11.GL_DEPTH_TEST);\n\t\t\t\tfr.drawStringWithShadow(string6, x + 19 - 2 - fr.getStringWidth(string6), y + 6 + 3, 0xFFFFFF);\n\t\t\t\tGL11.glEnable(GL11.GL_LIGHTING);\n\t\t\t\tGL11.glEnable(GL11.GL_DEPTH_TEST);\n\t\t\t}\n\n\t\t\tif(stack.isItemDamaged()) {\n\t\t\t\tint i11 = (int)Math.round(13.0D - (double)stack.getItemDamageForDisplay() * 13.0D / (double)stack.getMaxDamage());\n\t\t\t\tint i7 = (int)Math.round(255.0D - (double)stack.getItemDamageForDisplay() * 255.0D / (double)stack.getMaxDamage());\n\t\t\t\tGL11.glDisable(GL11.GL_LIGHTING);\n\t\t\t\tGL11.glDisable(GL11.GL_DEPTH_TEST);\n\t\t\t\tGL11.glDisable(GL11.GL_TEXTURE_2D);\n\t\t\t\tTessellator tessellator8 = Tessellator.instance;\n\t\t\t\tint i9 = 255 - i7 << 16 | i7 << 8;\n\t\t\t\tint i10 = (255 - i7) / 4 << 16 | 16128;\n\t\t\t\tthis.renderQuad(tessellator8, x + 2, y + 13, 13, 2, 0);\n\t\t\t\tthis.renderQuad(tessellator8, x + 2, y + 13, 12, 1, i10);\n\t\t\t\tthis.renderQuad(tessellator8, x + 2, y + 13, i11, 1, i9);\n\t\t\t\tGL11.glEnable(GL11.GL_TEXTURE_2D);\n\t\t\t\tGL11.glEnable(GL11.GL_LIGHTING);\n\t\t\t\tGL11.glEnable(GL11.GL_DEPTH_TEST);\n\t\t\t\tGL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);\n\t\t\t}\n\n\t\t}\n\t}",
-			"settings":
-			{
-				"buffer_size": 1960,
-				"line_ending": "Windows",
-				"name": "public void renderItemIntoGUI(FontRenderer fr, Re"
-			}
-		},
-		{
-			"file": "/D/Cosas/_retro/zxbasicus/chem2.bas",
-			"settings":
-			{
-				"buffer_size": 30012,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/Cosas/_retro/zxbasicus/infinity.bas",
-			"settings":
-			{
-				"buffer_size": 6339,
-				"line_ending": "Windows"
->>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -642,7 +527,7 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 132.0,
+		"height": 79.0,
 		"last_filter": "",
 		"selected_items":
 		[
@@ -651,59 +536,35 @@
 				"Package Control: Install Package"
 			],
 			[
-				"",
-				"Package Control: Disable Package"
+				"php",
+				"phpfmt: format now"
 			],
 			[
-				"the",
-				"UI: Select Theme"
+				"phpf",
+				"phpfmt: format now"
 			],
 			[
-				"beauti",
-				"Beautify::Beautify File"
+				"phpm",
+				"phpfmt: format now"
 			],
 			[
-				"mini",
-				"Minify::Default File Settings"
+				"phpfmt",
+				"phpfmt: format now"
 			],
 			[
-				"format",
-				"Format: Javascript"
+				"remove",
+				"Package Control: Remove Package"
 			],
 			[
 				"boxy",
 				"Boxy Theme: Preferences"
-			],
-			[
-				"markdow",
-				"Set Syntax: Markdown Extended"
-			],
-			[
-				"remove ",
-				"Package Control: Remove Package"
-			],
-			[
-				"instal",
-				"Package Control: Install Package"
-			],
-			[
-				"ter",
-				"Terminal: Open"
-			],
-			[
-				"package",
-				"Package Control: Install Package"
-			],
-			[
-				"Package Control: ",
-				"Package Control: Install Package"
 			]
 		],
-		"width": 382.0
+		"width": 430.0
 	},
 	"console":
 	{
-		"height": 118.0,
+		"height": 184.0,
 		"history":
 		[
 		]
@@ -719,193 +580,148 @@
 	},
 	"expanded_folders":
 	[
-<<<<<<< HEAD
-		"/E/Cosas/Inslands",
-		"/E/Cosas/Inslands/web"
+		"/C/git/Inslands"
 	],
 	"file_history":
 	[
-		"/E/Cosas/b166MP2/main/src/minecraft/net/minecraft/client/gui/LoadingScreenRenderer.java",
-		"/E/Cosas/Inslands/web/index.html",
-		"/E/Cosas/MP125-src/minecraft/net/minecraft/src/RenderBlocks.java",
-		"/E/Cosas/b166MP2/main/src/minecraft/net/minecraft/network/packet/Packet.java",
-		"/D/Cosas/Inslands/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/RenderBlocks.java",
-		"/E/Cosas/MP125/main/src/minecraft/net/minecraft/src/GuiIngame.java",
-		"/E/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/Version.java",
-=======
-		"/D/Cosas/Inslands",
-		"/D/Cosas/Inslands/Main",
-		"/D/Cosas/Inslands/Main/src",
-		"/D/Cosas/Inslands/Main/src/minecraft",
-		"/D/Cosas/Inslands/Main/src/minecraft/font",
-		"/D/Cosas/Inslands/Main/src/minecraft/net",
-		"/D/Cosas/Inslands/Main/src/minecraft/net/minecraft",
-		"/D/Cosas/Inslands/Main/src/minecraft/net/minecraft/world",
-		"/D/Cosas/Inslands/Main/src/minecraft/net/minecraft/world/level",
-		"/D/Cosas/Inslands/Main/src/minecraft/net/minecraft/world/level/dimension",
-		"/D/Cosas/Inslands/Main/src/minecraft/net/minecraft/world/level/tile",
-		"/D/Cosas/Inslands/web"
-	],
-	"file_history":
-	[
-		"/D/Git/mojonBASIC/GHUNP/dev/GHUNP.bas",
-		"/D/cosas/InfHell/infhell2/src/minecraft/net/minecraft/src/RenderBlocks.java",
-		"/D/Cosas/Inslands/web/index.html",
-		"/D/Cosas/Inslands/README.md",
-		"/D/Cosas/Inslands/Main/src/minecraft/net/minecraft/world/level/tile/BlockLeaves.java",
-		"/D/Cosas/Inslands/Main/jars/server.properties",
-		"/D/Games/UltimMC/instances/Inslands 250825/patches/customjar.json",
-		"/C/cosas/Inslands/Main/src/minecraft/terrain.png",
-		"/C/cosas/Inslands/Main/src/minecraft/net/minecraft/src/ItemPiston.java",
-		"/C/cosas/Inslands/Main/src/minecraft/net/minecraft/src/Block.java",
->>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
-		"/E/apunters.md",
-		"/E/Cosas/Inslands/Main/src/minecraft/terrain.png",
-		"/E/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/Block.java",
-		"/E/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/ItemPiston.java",
-		"/E/git/LBasic/wip.md",
-		"/E/Cosas/Inslands/README.md",
-		"/D/Cosas/MP125-src/minecraft/com/mojontwins/desertdimension/MapGenDesertCaves.java",
-		"/E/Cosas/Inslands/Main/src/minecraft/com/mojontwins/minecraft/worldedit/WorldEdit.java",
-		"/E/Cosas/Inslands/Test-deleteme/src/minecraft/net/minecraft/src/Chunk.java",
-		"/E/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/EnumCreatureType.java",
-		"/E/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/World.java",
-		"/E/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/Item.java",
-		"/E/Cosas/Inslands/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/WorldChunkManager.java",
-		"/D/Games/Sombilers/Data/.minecraft/crash-reports/crash-2024-08-18_16.59.44-client.txt",
-		"/D/Games/Sombilers/Server/server.properties",
-		"/C/Users/na_th/AppData/Local/Temp/7zO457B43EF/SimplexNoise.java",
-		"/C/Users/na_th/AppData/Local/Temp/7zO4573875E/BiomeMap.java",
-		"/C/Users/na_th/AppData/Local/Temp/7zO4573CE0F/BiomeSource.java",
-		"/D/Cosas/InfHell/infhell2/jars/server.properties",
-		"/C/Users/na_th/AppData/Local/Temp/7zO457F041E/LargeFeature.java",
-		"/C/Users/na_th/AppData/Local/Temp/7zO457FBEDE/SimplexNoise.java",
-		"/C/Users/na_th/AppData/Local/Temp/7zO4573CDCE/Rotate.java",
-		"/C/Users/na_th/AppData/Local/Temp/7zO4577839E/TownFeature.java",
-		"/C/Users/na_th/AppData/Local/Temp/7zO457E664D/RandomLevelSource.java",
-		"/C/Users/na_th/AppData/Local/Temp/7zO457E000D/LevelChunk.java",
-		"/C/Users/na_th/AppData/Local/Temp/7zO45777C3D/DataLayer.java",
-		"/C/Users/na_th/AppData/Local/Temp/7zO4570DB2D/ChunkCache.java",
-		"/C/Users/na_th/AppData/Local/Temp/7zO457505CD/ChunkSource.java",
-		"/D/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/EntityCreeper.java",
-		"/D/Cosas/Inslands/chagelog.txt",
-		"/C/Users/na_th/Desktop/FeatureSpoonerCastle.java",
-		"/D/Cosas/RMCP_tests/b1.7.3--optifine-plasticraft/src/minecraft/net/minecraft/src/ChunkProviderTwilightForest.java",
-		"/D/Cosas/Inslands/Main/src-aether/minecraft/net/minecraft/src/PlayerBase.java",
-		"/D/Cosas/Inslands/Main/src-aether/minecraft/net/minecraft/src/ChunkProviderAether.java",
-		"/D/Cosas/Inslands/Main/src-aether/minecraft/net/minecraft/src/AetherGenDungeonBronze.java",
-		"/D/Cosas/Inslands/Main/src-aether/minecraft/net/minecraft/src/PlayerBaseAether.java",
-		"/D/Cosas/RMCP_tests/b1.7.3--optifine-plasticraft/src/minecraft/net/minecraft/src/mod_TwilightForest.java",
-		"/D/Cosas/RMCP_tests/b1.7.3--optifine-plasticraft/src/minecraft/net/minecraft/src/TFGenWitchHut.java",
-		"/D/Cosas/RMCP_tests/b1.7.3--optifine-plasticraft/src/minecraft/net/minecraft/src/TFBiomeGenBase.java",
-		"/D/Cosas/Inslands/Main/src-aether/minecraft/net/minecraft/src/PlayerAPI.java",
-		"/D/Cosas/Inslands/Main/src-aether/minecraft/net/minecraft/src/EntityPlayerSP.java",
-		"/D/Cosas/Inslands/Main/src-aether/minecraft/net/minecraft/src/EntityPlayer.java",
-		"/D/Cosas/Inslands/Main/src-aether/minecraft/net/minecraft/src/AetherAchievements.java",
-		"/D/Cosas/Inslands/Main/src-aether/minecraft/net/minecraft/src/mod_Aether.java",
-		"/D/Cosas/Inslands/Main/src-aether/minecraft/net/minecraft/src/AetherMobs.java",
-		"/D/Cosas/Inslands/Main/src-aether/minecraft/net/minecraft/src/ItemDye.java",
-		"/D/Cosas/Inslands/Main/src-aether/minecraft/net/minecraft/src/BlockCloth.java",
-		"/D/Cosas/Inslands/Main/src-aether/minecraft/net/minecraft/src/AetherItems.java",
-		"/D/Cosas/Inslands/Main/src-aether/minecraft/net/minecraft/src/AetherBlocks.java",
-		"/D/Cosas/Inslands/Main/src-aether/minecraft/net/minecraft/src/BlockDungeon.java",
-		"/D/Cosas/Inslands/Main/src-aether/minecraft/net/minecraft/src/BlockTrap.java",
-		"/D/Cosas/Inslands/Main/src-aether/minecraft/net/minecraft/src/World.java",
-		"/D/Cosas/Inslands/.gitignore",
-		"/D/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/BlockCloth.java",
-		"/D/Cosas/Inslands/Main/src-aether/minecraft/net/minecraft/src/SAPI.java",
-		"/D/Cosas/Inslands/Main/src/minecraft/com/misc/aether/BlockTrap.java",
-		"/D/Cosas/Inslands/Inf20100415/src/minecraft/net/minecraft/game/world/block/Block.java",
-		"/D/Cosas/Inslands/Main/src-aether/minecraft/net/minecraft/src/BlockAercloud.java",
-		"/D/Cosas/Inslands/Main/src-aether/minecraft/net/minecraft/src/AetherGenClouds.java",
-		"/D/Cosas/Inslands/Main/src/minecraft/lang/stats_US.lang",
-		"/D/Cosas/Inslands/web/mystyle.css",
-		"/D/Cosas/Inslands/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/GuiMainMenu.java",
-		"/D/Cosas/Inslands/Main/src/minecraft/net/minecraft/src/Gui.java",
-		"/D/Cosas/Inslands/Main/src-b1.7.3_vanilla/minecraft_server/net/minecraft/src/ChunkProviderServer.java",
-		"/C/Users/na_th/AppData/Local/Temp/8121b75d-07a1-4619-a3e6-372b152c7c21_src--20230518b--Client-feature-complete.7z.c21/src/minecraft_server/net/minecraft/src/ChunkProviderServer.java",
-		"/D/Cosas/PE_OLD/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/World.java",
-		"/D/Cosas/PE_OLD/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/BiomeGenForest.java",
-		"/D/Cosas/PE_OLD/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/BiomeGenRainforest.java",
-		"/D/Cosas/PE_OLD/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/ChunkProviderGenerate.java",
-		"/D/Cosas/PE_OLD/Inf20100415/src/minecraft/net/minecraft/game/world/chunk/ChunkProviderLoadOrGenerate.java",
-		"/D/Cosas/PE_OLD/Inf20100415/src/minecraft/net/minecraft/game/world/terrain/ChunkProviderGenerate.java",
-		"/D/Cosas/PE_OLD/Inf20100415/src/minecraft/net/minecraft/game/world/terrain/noise/NoiseGeneratorOctaves.java",
-		"/D/Cosas/PE_OLD/Inf20100415/src/minecraft/net/minecraft/game/world/terrain/noise/NoiseGeneratorPerlin.java",
-		"/D/Cosas/PE_OLD/Main/src/minecraft/lang/en_US.lang",
-		"/D/Cosas/PE_OLD/README.md",
-		"/D/Cosas/PE_OLD/Main/src-b1.7.3_vanilla/minecraft/net/minecraft/src/ChunkProvider.java",
-		"/D/Cosas/InfHell/schematic/amazon/amazon-hut2.txt",
-		"/D/Cosas/InfHell/infhell2/changelog.txt",
-		"/D/Cosas/InfHell/infhell2/src-v0.4/minecraft/net/minecraft/src/MetadataChunkBlock.java",
-		"/D/Cosas/InfHell/diary.md",
-		"/D/Cosas/InfHell/InfHell/src/minecraft_server/net/minecraft/src/ItemSword.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/com/mojontwins/minecraft/feature/FeatureSlimeBossLair.java",
-		"/C/Program Files/JBridge/README.txt",
-		"/D/Cosas/InfHell/schematic/witch-coven.txt",
-		"/D/Cosas/InfHell/schematic/graveyard.txt",
-		"/D/Cosas/InfHell/infhell-v0.5.info",
-		"/D/Cosas/InfHell/schematic/amazon/amazon-atalaya2.txt",
-		"/D/Cosas/InfHell/schematic/amazon_house_2.txt",
-		"/D/Cosas/InfHell/schematic/amazon-atalaya.txt",
-		"/D/Cosas/InfHell/schematic/amazon-hut.txt",
-		"/C/Users/na_th/AppData/Local/Temp/7zOC92B6B04/NetworkManager.java",
-		"/D/Games/UltimMC/meta/org.lwjgl/2.9.4-nightly-20150209.json",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/RenderGlobal.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/World.java",
-		"/D/Cosas/InfHell/diary2.md",
-		"/D/Cosas/InfHell/infhell2/src/minecraft/lang/en_US.lang",
-		"/D/Cosas/InfHell/infhell2/src/minecraft/lang/stats_US.lang",
-		"/D/Games/Minecraft 1.7.10 Terrafirmacraft/Data/.minecraft/assets/indexes/1.7.10.json",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/Weather.java",
-		"/D/Cosas/InfHell/infhell2/src-v0.1/minecraft/net/minecraft/src/J_CompactJsonFormatter.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/Packet24MobSpawn.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/EntityPlayerSP.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/Entity.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/EntityLiving.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/EntityZombie.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/GuiCredits.java",
-		"/D/Cosas/InfHell/infhell2/src/minecraft/com/benimatic/twilightforest/RenderTFWraith.java",
-		"/D/Cosas/InfHell/infhell2/src-v0.1/minecraft/net/minecraft/src/CanvasIsomPreview.java",
-		"/D/Cosas/InfHell/infhell2/src-v0.1/minecraft/net/minecraft/client/Minecraft.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/BlockLadder.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft_server--postalpha/net/minecraft/src/BlockLadder.java",
-		"/C/Users/na_th/AppData/Local/Temp/7zO412A59D3/readme.txt",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/GameSettings.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/EntityRenderer.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/ChunkLoader.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/EntityTrader.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/EntityCowman.java",
-<<<<<<< HEAD
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/EntityList.java"
+		"/C/git/Infhell2/src/minecraft/net/minecraft/src/AchievementList.java",
+		"/C/git/Infhell2/src/minecraft/net/minecraft/src/EntityList.java",
+		"/C/git/Infhell2/src/minecraft/net/minecraft/src/RenderManager.java",
+		"/C/git/Inslands/README.md",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/lib/Roundcube/rcube_storage.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/lib/Roundcube/rcube_imap.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/roundpad/file_api.js",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/avelsieve/avelsieve.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/avelsieve/lib/filters.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/consigna_attachments/consigna_attachments.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/simplesamlphp/lib/xmlseclibs.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/simplesamlphp/config/acl.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/simplesamlphp/config/authmemcookie.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/simplesamlphp/config/config.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/simplesamlphp/lib/SimpleSAML/Stats.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/simplesamlphp/lib/SimpleSAML/Store.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/simplesamlphp/lib/SimpleSAML/SessionHandlerCookie.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/simplesamlphp/config/authsources.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/simplesamlphp/metadata/saml20-idp-remote.php",
+		"/C/Users/jcastano/AppData/Local/Temp/pid-13880/carpeta-empresa-1031b569703d.json",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/ldap_search/ldap_search.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/lib/Roundcube/rcube_sandetel.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/skins/larry/ui.js",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/js/app.js",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/public_html/index.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/config/config.inc.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/password/password.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/simplesamlphp/COPYING",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/simplesamlphp/Configuration.php",
+		"/C/Proyectos/remote/preccobuz02/modules.md",
+		"/C/Proyectos/remote/preccobuz02/rector.php",
+		"/C/Proyectos/remote/preccobuz-real.sublime-project",
+		"/C/Proyectos/remote/preccobuz-real/sftp-config.json",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/simplesamlphp-1.11-php8.3.tar.gz",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/enigma.7z",
+		"/C/Proyectos/2018/20180912a--Activar API REST booked scheduler/instrucciones.txt",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/skins/larry_sandetel/templates/login.html",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/lib/Roundcube/html.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/config/.htaccess",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/config/mimetypes.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/config/mime.types",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/index.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/password/password_strength.js",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/enigma/README",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/password/config.inc.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/password/nusoap/nusoap.php",
+		"/C/git-corp/consigna/src/app/config/avanzadas.php",
+		"/C/git-corp/consigna/src/app/config/routes.php",
+		"/C/Proyectos/remote/descon01/consigna/public/css/estilo.css",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/password/password.php-old.php",
+		"/C/Lair/cosas/mc/infhell2/src/minecraft/net/minecraft/src/RecipesMine.java",
+		"/C/Lair/cosas/mc/infhell2/src/minecraft/net/minecraft/src/BlockChain.java",
+		"/C/Lair/cosas/mc/infhell2/src/minecraft/net/minecraft/src/BlockPane.java",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/simplesamlphp/lib/SimpleSAML/Module.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/simplesamlphp/lib/SimpleSAML/Error/Assertion.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/simplesamlphp/www/module.php",
+		"/C/Users/jcastano/Desktop/alta_proxyclave.md",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/simplesamlphp/www/_include.php",
+		"/C/Lair/cosas/mc/infhell2/src/minecraft/net/minecraft/src/Block.java",
+		"/C/Lair/cosas/mc/infhell2/src/minecraft/net/minecraft/src/RenderBlocks.java",
+		"/C/Users/jcastano/AppData/Local/Temp/7zO83695E8A/mod_TwilightForest.java",
+		"/C/Users/jcastano/AppData/Local/Temp/7zO4A08FF5B/mod_coral.java",
+		"/C/Proyectos/entregas/Entrega-FicherosJunta_1.14.0.0/migration-diary.md",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/simplesamlphp/metadata-templates/saml20-idp-remote.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/sso.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/simplesamlphp/metadata-templates/saml20-idp-hosted.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/simplesamlphp/metadata-templates/shib13-sp-remote.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/simplesamlphp/metadata/saml20-idp-remote.php~",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/simplesamlphp/config/ldap.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/steps/mail/list_contacts.inc",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/smart_autocomplete/smart_autocomplete.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/steps/mail/sendmail.inc",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/steps/mail/get.inc",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/steps/mail/func.inc",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/lib/Roundcube/rcube.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/include/rcmail.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/lib/Roundcube/rcube_message_header.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/lib/Roundcube/rcube_text2html.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/lib/Roundcube/rcube_message.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/steps/mail/compose.inc",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/lib/Roundcube/rcube_spellcheck_pspell.php",
+		"/C/Users/jcastano/Downloads/tree.txt",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/lib/Roundcube/rcube_html2text.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/lib/Roundcube/rcube_utils.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/lib/Roundcube/rcube_spellchecker.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/enigma/lib/enigma_engine.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/steps/mail/show.inc",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/lib/Roundcube/rcube_db_mysql.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/lib/Roundcube/rcube_session_db.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/lib/Roundcube/rcube_imap_generic.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/lib/Roundcube/rcube_string_replacer.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/hide_blockquote/hide_blockquote.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/hide_blockquote/hide_blockquote.js",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/identity_select/identity_select.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/markasjunk2/README.md",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/markasjunk2/markasjunk2.php",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/emoticons/localization/es_ES.inc",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/hide_blockquote/localization/eu_ES.inc",
+		"/C/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/hide_blockquote/localization/es_ES.inc",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/archive/archive.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/attachment_reminder/attachment_reminder.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/emoticons/emoticons.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/enigma/README",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/enigma/config.inc.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/enigma/localization/es_ES.inc",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/lib/Roundcube/rcube.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/include/iniset.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/enigma/lib/enigma_ui.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/enigma/lib/enigma_error.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/steps/mail/func.inc",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/lib/Roundcube/rcube_plugin.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/lib/Roundcube/rcube_plugin_api.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/include/rcmail_output_html.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/enigma/enigma.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/enigma/lib/enigma_engine.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/include/rcmail.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/enigma/lib/Crypt/GPG/Engine.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/config/config.inc.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/steps/mail/sendmail.inc",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/enigma/lib/enigma_mime_message.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/lib/Roundcube/rcube_text2html.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/enigma/lib/enigma_driver_gnupg.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/enigma/lib/Crypt/GPG.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/enigma/lib/Crypt/GPG/Exceptions.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/plugins/enigma/lib/Crypt/GPG/ProcessHandler.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/lib/Roundcube/rcube_mime.php",
+		"/D/Proyectos/remote/preccobuz02/correo.juntadeandalucia.es/program/steps/settings/func.inc",
+		"/C/Users/jcastano/AppData/Local/Temp/7zOC84E4A87/config.inc.php"
 	],
 	"find":
 	{
-		"height": 22.0
-=======
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/EntityList.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/RenderBlocks.java",
-		"/D/Cosas/InfHell/InfHell/src/minecraft/net/minecraft/src/BlockLog.java",
-		"/C/Users/na_th/AppData/Local/Temp/7zOCE2B293F/en_US.lang"
-	],
-	"find":
-	{
-		"height": 26.0
->>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
+		"height": 38.0
 	},
 	"find_in_files":
 	{
-		"height": 134.0,
+		"height": 137.0,
 		"where_history":
 		[
-			"E:\\Cosas\\Inslands\\Main\\src\\minecraft\\net\\minecraft\\src",
-			"D:\\Cosas\\Inslands\\Main\\src\\minecraft\\net",
-			"D:\\Cosas\\Inslands\\Main\\src\\minecraft",
-			"D:\\Cosas\\Inslands\\Main\\src-aether",
-			"D:\\Cosas\\Inslands\\Main\\src-aether\\minecraft\\net\\minecraft\\src",
-			"D:\\Cosas\\Inslands\\Main\\src-aether\\minecraft\\net\\minecraft",
-			"D:\\Cosas\\Inslands\\Main\\src-aether\\minecraft\\net",
-			"D:\\Cosas\\PE_OLD\\Main\\src-b1.7.3_vanilla\\minecraft\\net\\minecraft\\src"
 		]
 	},
 	"find_state":
@@ -913,211 +729,6 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-<<<<<<< HEAD
-			" Found spawn point? false",
-			"X",
-			"dz",
-			"dy",
-			"dx",
-			"poison",
-			"hud",
-			"entityPlayer5",
-			"z4",
-			"i3",
-			"i2",
-			"chunkX",
-			"entity1",
-			"nBTTagCompound1",
-			"b11",
-			"i13",
-			"i12",
-			"b10",
-			"f9",
-			"i8",
-			"tessellator7",
-			"i6",
-			"i5",
-			"j2",
-			"i1",
-			"f3",
-			"i2",
-			"f7",
-			"f6",
-			"i5",
-			"tessellator4",
-			"i3",
-			"f2",
-			"block1",
-			"x8",
-			"z9",
-			"tessellator8",
-			"x6",
-			"f25",
-			"f22",
-			"f19",
-			"f24",
-			"f21",
-			"f18",
-			"f23",
-			"f20",
-			"f17",
-			"f16",
-			"f15",
-			"f14",
-			"f13",
-			"f12",
-			"f18",
-			"f11",
-			"f10",
-			"f7",
-			"f6",
-			"f5",
-			"i4",
-			"i3",
-			"i2",
-			"block1",
-			"grass",
-			"ininventory",
-			"ininvntory",
-			"getRotatedV\\((\\d+)\\)",
-			"getRotatedU\\((\\d+)\\)",
-=======
-			"b",
-			"940",
-			"690",
-			"GO TO 240",
-			"m",
-			"r",
-			"c$ AND z<>2;d$ AND z=2",
-			"i5",
-			"i4",
-			"itemStack3",
-			"renderEngine2",
-			"fontRenderer1",
-			"v250901",
-			"c10",
-			"i16",
-			"itemStack14",
-			"itemStack15",
-			"character13",
-			"hashMap12",
-			"string7",
-			"i5",
-			"i6",
-			"string9",
-			"string11",
-			"i8",
-			"i4",
-			"string3",
-			"object2",
-			"itemStack1",
-			"arrayList3",
-			"object7",
-			"obj",
-			"i6",
-			"i5",
-			"object4",
-			"object2",
-			"itemStack1",
-			"chunkdatasend",
-			"var1",
-			"(world,",
-			", Block.web.blockID)",
-			"this.worldObj.setBlockWithNotify(",
-			"\"}",
-			"new String",
-			"\\s+} else {\n\\s+if",
-			"} else {\n\tif",
-			"(btnName",
-			"redstonewire",
-			" + Texels.texH)",
-			"i33",
-			"i32",
-			"i31",
-			"i30",
-			"i40",
-			"i28",
-			"i39",
-			"i26",
-			"i38",
-			"i21",
-			"z36",
-			"i20",
-			"list35",
-			"z18",
-			"axisAlignedBB17",
-			"d15",
-			"d13",
-			"d11",
-			"d9",
-			"d7",
-			"acid",
->>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
-			"itempiston",
-			"piston",
-			"hill maze @",
-			"!!",
-			"__mojon-twins--",
-			"(.+)",
-			" 0",
-			"-1 ",
-			" -1",
-			"0",
-			"biomeGenBase23",
-			"wand",
-			"worldeidt",
-			"WorldEdit",
-			"implements IMob",
-			"IWaterMob",
-			"x0",
-			"i9",
-			"i8",
-			"i7",
-			"i5",
-			"i4",
-			"i3",
-			"i2",
-			"i1",
-			"twilightMushroom",
-			"PlayerBase",
-			"updatePlayerActionState",
-			"i12",
-			"i11",
-			"i10",
-			"i9",
-			"i8",
-			"entityPlayer",
-			"defeat",
-			"getminecraftinstance",
-			"getminecraftinstanceç",
-			"key",
-			"currentBoss",
-			"chest",
-			"playerToAttack",
-			"func_27160_B",
-			"blueCloud",
-			"containskey",
-			"getskycolor",
-			"i56",
-			"d47",
-			"d45",
-			"d41",
-			"d39",
-			"volNoise1",
-			"d37",
-			"d34",
-			"d32",
-			"d30",
-			"d28",
-			"d26",
-<<<<<<< HEAD
-			"i36",
-			"i55",
-			"i25",
-			"i8"
-=======
-			"i36"
->>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1125,627 +736,33 @@
 		"regex": false,
 		"replace_history":
 		[
-<<<<<<< HEAD
-			"z0",
-			"y0",
-			"x0",
-			"player",
-			"isPlayer",
-			"chunkZ",
-			"chunkX",
-			"entity",
-			"nbt",
-			"2",
-			"y",
-			"x",
-			"100",
-			"tileSize",
-			"texId",
-			"tes",
-			"h",
-			"w",
-			"currentMillis",
-			"progress",
-			"brightness",
-			"meta",
-			"n2",
-			"n1",
-			"renderType",
-			"tes",
-			"renderType",
-			"brightness",
-			"block",
-			"textureId",
-			"renderedAny",
-			"tes",
-			"blockBrightness",
-			"bNS",
-			"gNS",
-			"rNS",
-			"bEW",
-			"gEW",
-			"rEW",
-			"bBottom",
-			"gBottom",
-			"rBottom",
-			"bTop",
-			"gTop",
-			"rTop",
-			"lmNS",
-			"lmEW",
-			"lmTo",
-			"lmBo",
-			"b",
-			"g",
-			"r",
-			"z",
-			"y",
-			"x",
-			"block",
-			"getRotatedV(\\1, TextureAtlasSize.h)",
-			"getRotatedU(\\1, TextureAtlasSize.w)",
-			"getRotatedU(\\1, TextureAtlasSize.h)",
-=======
-			"GO TO 210",
-			"c$ AND z=1;d$ AND z<>1",
-			"y",
-			"x",
-			"stack",
-			"re",
-			"fr",
-			"v250901_01",
-			"c",
-			"i",
-			"stacks",
-			"stack",
-			"c",
-			"recipeMap",
-			"recipeLine",
-			"columns",
-			"lines",
-			"recipeLine",
-			"recipeLines",
-			"recipeLine",
-			"i",
-			"idx",
-			"recipeString",
-			"objV",
-			"resultStack",
-			"stack",
-			"obj",
-			"objV",
-			"i",
-			"numObjs",
-			"objArr",
-			"obj",
-			"stack",
-			"translator",
-			"(this.worldObj,",
-			")",
-			"this.setWeb(world, ",
-			"this.setWeb(",
-			"\"};",
-			"\\treturn new String",
-			"\\n} else if",
-			"} else if",
-			"btnName",
-			")",
-			"zt",
-			"yt",
-			"xt",
-			"z2",
-			"y2",
-			"x2",
-			"z1",
-			"y1",
-			"x1",
-			"i",
-			"collBBs",
-			"preventFalling",
-			"bbCopy",
-			"prevMoveZ",
-			"prevMoveY",
-			"prevMoveX",
-			"prevPosZ",
-			"prevPosX",
->>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
-			"",
-			"ren \\1 __\\1",
-			"-1",
-			"otherBiome",
-			"absZ",
-			"absX",
-			"existingID",
-			"height",
-			"metadata",
-			"blockID",
-			"z",
-			"y",
-			"x",
-			"zz",
-			"yy",
-			"xx",
-			"attempts",
-			"blockID",
-			"thePlayer",
-			"blockID",
-			"volume",
-			"zScalingFactor",
-			"volNoise2",
-			"volNoise1",
-			"xScalingFactor",
-			"curNoiseD",
-			"curNoiseC",
-			"curNoiseB",
-			"curNoiseA",
-			"yscalingFactor",
-			"z",
-			"x",
-			"y",
-			"ySection",
-			"y",
-			"i",
-			"noiseDinc",
-			"noiseCinc",
-			"noiseBinc",
-			"noiseAinc",
-			"noiseD",
-			"noiseC",
-			"noiseB",
-			"noiseA",
-			"noiseC",
-			"noiseB",
-			"noiseA",
-			"terrainNoise",
-			"y",
-			"z",
-			"x",
-			"chunkZ",
-			"chunkX",
-			"zSection",
-			"xSection",
-			"ySection",
-			"indexInBlockArray",
-			"blocks",
-			"z",
-			"y",
-			"x",
-			"blockID",
-			"z",
-			"y",
-			"x",
-<<<<<<< HEAD
-			"lightValue",
-			"z",
-			"y",
-			"x"
-=======
-			"lightValue"
->>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
 		],
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": true,
+		"whole_word": false,
 		"wrap": true
 	},
 	"groups":
 	[
 		{
-<<<<<<< HEAD
-			"selected": 1,
-=======
-			"selected": 2,
->>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "Main/src/minecraft/net/minecraft/world/level/tile/BlockSapling.java",
-					"semi_transient": false,
-					"settings":
-					{
-<<<<<<< HEAD
-						"buffer_size": 26756,
-=======
-						"buffer_size": 3615,
->>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-<<<<<<< HEAD
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 8742.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 82,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								82,
-								82
-							]
-						],
-						"settings":
-						{
-							"auto_name": "PELO CON HUEVOS",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		},
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 2,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 9402,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2485,
-								2485
-							]
-						],
-						"settings":
-						{
-							"auto_name": "49 achievements",
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 595.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 21726,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3851,
-								3876
-=======
-								2136,
-								2136
->>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
-							]
-						],
-						"settings":
-						{
-							"auto_name": "49 achievements",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-<<<<<<< HEAD
-						"translation.y": 1069.0,
-=======
-						"translation.y": 450.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/D/Git/mojonBASIC/GHUNP/dev/GHUNP.bas",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 19271,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								19267,
-								19267
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/VBDotNet/vbdotnet.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 585.0,
->>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-<<<<<<< HEAD
-=======
-				},
-				{
-					"buffer": 2,
-					"file": "/D/Git/mojonBASIC/utils/bin2hex.bas",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1237,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1023,
-								1023
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/VBDotNet/vbdotnet.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/D/Git/mojonBASIC/GHUNP/dev/63088.bas",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 9609,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/VBDotNet/vbdotnet.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 3015.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 785,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								785,
-								785
-							]
-						],
-						"settings":
-						{
-							"auto_name": "PIEDRA PAPEL TIJERAS CON IA GENERATIVA",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/D/Git/mojonBASIC/README.md",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 156,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								156,
-								156
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "/D/Cosas/_retro/zxbasicus/chem2o.bas",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 41194,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								8913,
-								8913
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/VBDotNet/vbdotnet.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 342.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 2,
-			"sheets":
-			[
-				{
-					"buffer": 7,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1960,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								1960
-							]
-						],
-						"settings":
-						{
-							"auto_name": "public void renderItemIntoGUI(FontRenderer fr, Re",
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "/D/Cosas/_retro/zxbasicus/chem2.bas",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 30012,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/VBDotNet/vbdotnet.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "/D/Cosas/_retro/zxbasicus/infinity.bas",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6339,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								6339,
-								6339
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/VBDotNet/vbdotnet.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
->>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
-				}
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 22.0
+		"height": 24.0
 	},
 	"input":
 	{
-		"height": 43.0
+		"height": 46.0
 	},
 	"layout":
 	{
@@ -1777,6 +794,10 @@
 		]
 	},
 	"menu_visible": true,
+	"output.SFTP":
+	{
+		"height": 0.0
+	},
 	"output.find_results":
 	{
 		"height": 0.0
@@ -1785,11 +806,7 @@
 	"project": "PE_OLD.sublime-project",
 	"replace":
 	{
-<<<<<<< HEAD
-		"height": 40.0
-=======
-		"height": 48.0
->>>>>>> 60defea09ad6e30a0a53bd8bc81635cbf115f435
+		"height": 44.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1809,19 +826,23 @@
 		[
 			[
 				"",
-				"D:\\git\\MK1\\MK1_v4.sublime-project"
+				"D:\\git\\mk1v4\\MK1_v4.sublime-project"
+			],
+			[
+				"desown",
+				"D:\\Proyectos\\remote\\desowncl01.sublime-project"
 			]
 		],
 		"width": 380.0
 	},
 	"select_symbol":
 	{
-		"height": 400.0,
+		"height": 0.0,
 		"last_filter": "",
 		"selected_items":
 		[
 		],
-		"width": 510.0
+		"width": 0.0
 	},
 	"selected_group": 0,
 	"settings":
@@ -1831,7 +852,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 280.0,
+	"side_bar_width": 276.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

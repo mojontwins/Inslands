@@ -101,6 +101,7 @@ public class TFTreasure {
 		this.useless.add((Block)Block.reed, 4);
 		this.useless.add((Block)Block.sand, 4);
 		this.rare.add((Block)Block.blockCopper, 1);
+		this.rare.add((Item)Item.nametagSimple, 1);
 		
 		if(i == 1 || i == 2 || i == 3) {
 			this.common.add((Item)Item.ingotIron, 4);

@@ -363,6 +363,7 @@ public class FeatureIcePalace extends FeatureDynamicSchematic {
 			case 0:
 				return new ItemStack(Item.maceDiamond);
 			case 1:
+				return new ItemStack(Item.nametagSimple);
 			case 2:
 				return this.getTreasure(2, rand);
 			case 3:

@@ -1,6 +1,11 @@
 package net.minecraft.world.entity;
 
+import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
 import net.minecraft.world.level.pathfinder.PathEntity;
@@ -211,4 +216,43 @@ public class EntityCreature extends EntityLiving {
 	public void setTarget(Entity entity1) {
 		this.entityToAttack = entity1;
 	}
+	
+	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+		super.writeEntityToNBT(nbttagcompound);
+		String name = this.getName();
+		if (name != null && !"".equals(name)) nbttagcompound.setString("Name", name);
+	}
+
+	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+		super.readEntityFromNBT(nbttagcompound);
+		this.setName(nbttagcompound.getString("Name"));
+	}
+	
+	public String getName() {
+		String name = this.dataWatcher.getWatchableObjectString(Datawatchers.DW_NAME);
+		if ("".equals(name)) return null;
+		return name;
+	}
+
+	public void setName(String name) {
+		if(name == null) name = "";
+		dataWatcher.updateObject(Datawatchers.DW_NAME, name);
+	}
+	
+	@Override
+	protected boolean canDespawn() {
+		return this.getName() == null;
+	}
+	
+	@Override
+	public boolean interact(EntityPlayer entityPlayer) {
+		ItemStack itemStack = entityPlayer.inventory.getCurrentItem();
+		if (itemStack != null && itemStack.itemID == Item.nametagSimple.shiftedIndex) {
+			if(!entityPlayer.isCreative) itemStack.stackSize --;
+			entityPlayer.displayGUIGiveName(this);
+			return true;
+		}
+		
+		return false;
+	}	
 }

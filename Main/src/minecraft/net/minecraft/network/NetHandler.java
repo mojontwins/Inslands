@@ -54,6 +54,7 @@ import net.minecraft.network.packet.Packet7UseEntity;
 import net.minecraft.network.packet.Packet88MovingPiston;
 import net.minecraft.network.packet.Packet8UpdateHealth;
 import net.minecraft.network.packet.Packet90ArmoredMobSpawn;
+import net.minecraft.network.packet.Packet91UpdateAnimalName;
 import net.minecraft.network.packet.Packet93FiniteWorldSettings;
 import net.minecraft.network.packet.Packet94FreezeLevel;
 import net.minecraft.network.packet.Packet95UpdateDayOfTheYear;
@@ -307,6 +308,10 @@ public abstract class NetHandler {
 		this.registerPacket(packet);
 	}
 
+	public void handleUpdateAnimalName(Packet91UpdateAnimalName packet) {
+		this.registerPacket(packet);
+	}
+	
 	public void handleCustomPayload(Packet250CustomPayload packet250CustomPayload) {
 		this.registerPacket(packet250CustomPayload);
 	}

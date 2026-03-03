@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.world.entity.animal.EntityColdCow;
 import net.minecraft.world.entity.animal.EntityTwilightBoar;
 import net.minecraft.world.entity.animal.EntityWolf;
+import net.minecraft.world.entity.animal.moc.EntityGoat;
 import net.minecraft.world.entity.monster.EntityGhoul;
 import net.minecraft.world.entity.monster.EntityTFWraith;
 import net.minecraft.world.entity.monster.EntityZombieAlex;
@@ -42,6 +43,7 @@ public class BiomeGenThemeWhiteForest extends BiomeGenBase {
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityWolf.class, 4));
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityColdCow.class, 8));
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityTwilightBoar.class, 8));
+		this.spawnableCreatureList.add(new SpawnListEntry(EntityGoat.class, 4));
 		
 		this.spawnableMonsterList.add(new SpawnListEntry(EntityZombieAlex.class, 10));
 		

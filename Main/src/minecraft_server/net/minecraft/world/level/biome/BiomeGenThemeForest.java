@@ -8,6 +8,7 @@ import net.minecraft.world.entity.animal.EntityTwilightBighorn;
 import net.minecraft.world.entity.animal.EntityTwilightBoar;
 import net.minecraft.world.entity.animal.EntityTwilightDeer;
 import net.minecraft.world.entity.animal.EntityWolf;
+import net.minecraft.world.entity.animal.moc.EntityGoat;
 import net.minecraft.world.entity.monster.EntityFungalCalamity;
 import net.minecraft.world.entity.monster.EntityTFHedgeSpider;
 import net.minecraft.world.entity.monster.EntityTFKobold;
@@ -71,6 +72,7 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityTwilightBoar.class, 10));
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityChickenBlack.class, 10));
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityTwilightDeer.class, 8));
+		this.spawnableCreatureList.add(new SpawnListEntry(EntityGoat.class, 4));
 		
 		this.spawnableMonsterList.add(new SpawnListEntry(EntityFungalCalamity.class, 20));
 				

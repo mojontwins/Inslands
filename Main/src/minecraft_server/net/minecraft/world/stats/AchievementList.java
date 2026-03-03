@@ -79,6 +79,11 @@ public class AchievementList {
 	public static Achievement twilightHunter = (new Achievement(63, "forestHunter",14, 0, Item.bow, themeForest)).registerAchievement();
 	public static Achievement fungalInfection = (new Achievement(64, "fungalInfection", 14, 1, Item.fungaInfection, themeForest)).registerAchievement();
 	
+	public static Achievement bucketMilkCow = (new Achievement(46, "bucketMilkCow", -1,  8, Item.bucketMilk, acquireIron)).registerAchievement();
+	public static Achievement bucketMilkGoat = (new Achievement(47, "bucketMilkGoat", -1,  9, Item.bucketMilk, acquireIron)).registerAchievement();
+	public static Achievement bucketMilkCursed = (new Achievement(48, "bucketMilkCursed", -1, 10, Item.bucketMilk, acquireIron)).registerAchievement();
+	
+	
 	public static void func_27374_a() {
 	}
 

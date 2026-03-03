@@ -26,6 +26,7 @@ import net.minecraft.world.entity.animal.EntityTwilightBighorn;
 import net.minecraft.world.entity.animal.EntityTwilightBoar;
 import net.minecraft.world.entity.animal.EntityTwilightDeer;
 import net.minecraft.world.entity.animal.EntityWolf;
+import net.minecraft.world.entity.animal.moc.EntityGoat;
 import net.minecraft.world.entity.block.EntityMeatBlock;
 import net.minecraft.world.entity.item.EntityBoat;
 import net.minecraft.world.entity.item.EntityFallingSand;
@@ -262,6 +263,9 @@ public class EntityList {
 		addMapping(EntityTemporarySeat.class, "TemporarySeat", 128);
 		
 		addMapping(EntityDerp.class, "Derp", 255);
+		
+		// MoCreatures
+		addMapping(EntityGoat.class, "Goat", 150);
 		
 		// Trading
 		/*

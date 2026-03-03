@@ -16,7 +16,7 @@ import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.tile.Block;
 
 public class MapGenStronghold extends MapGenStructure {
-	public static final int chance = 10240;
+	public static final int chance = 4096;
 	public static final int minSeparation = 64;
 	
 	public static int bricksId, bricksMeta;

@@ -31,6 +31,7 @@ import net.minecraft.client.model.betterdungeons.ModelArcher;
 import net.minecraft.client.model.betterdungeons.ModelHuman;
 import net.minecraft.client.model.deadlymonsters.ModelHauntedCow;
 import net.minecraft.client.model.gwdm.ModelGhoul;
+import net.minecraft.client.model.moc.ModelGoat;
 import net.minecraft.client.model.mojontwins.ModelIceBoss;
 import net.minecraft.client.model.twilight.ModelBighornFur;
 import net.minecraft.client.model.twilight.ModelTFKobold;
@@ -54,6 +55,7 @@ import net.minecraft.client.renderer.entity.aether.RenderSlider;
 import net.minecraft.client.renderer.entity.betterdungeons.RenderHuman;
 import net.minecraft.client.renderer.entity.deadlymonsters.RenderHauntedCow;
 import net.minecraft.client.renderer.entity.gwdm.RenderGhoul;
+import net.minecraft.client.renderer.entity.moc.RenderGoat;
 import net.minecraft.client.renderer.entity.mojontwins.RenderAmazon;
 import net.minecraft.client.renderer.entity.mojontwins.RenderIceBall;
 import net.minecraft.client.renderer.entity.mojontwins.RenderIceBoss;
@@ -86,6 +88,7 @@ import net.minecraft.world.entity.animal.EntityTwilightBighorn;
 import net.minecraft.world.entity.animal.EntityTwilightBoar;
 import net.minecraft.world.entity.animal.EntityTwilightDeer;
 import net.minecraft.world.entity.animal.EntityWolf;
+import net.minecraft.world.entity.animal.moc.EntityGoat;
 import net.minecraft.world.entity.item.EntityBoat;
 import net.minecraft.world.entity.item.EntityFallingSand;
 import net.minecraft.world.entity.item.EntityItem;
@@ -272,6 +275,9 @@ public class RenderManager {
 		this.entityRenderMap.put(EntityDerp.class, new RenderBiped(new ModelBiped(), 0.5F));
 		
 		this.entityRenderMap.put(EntityTemporarySeat.class, new RenderNone());
+		
+		// Mo Creatures
+		this.entityRenderMap.put(EntityGoat.class, new RenderGoat(new ModelGoat(), 0.7F));		
 		
 		// Set this as the render manager to all Render objects
 		Iterator<Render> iterator1 = this.entityRenderMap.values().iterator();

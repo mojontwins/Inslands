@@ -550,13 +550,19 @@ This would be completely impossible in the vanilla game lol.
 		* All flowers in the yellow flower id with meta?
 # When I'm ready to add new stuff
 
-* [ ] Goats and the named entity dynamic.
-	* [ ] Item Tag
-	* [ ] save entity name, GUI, etc.
-	* [ ] Add tags to loot.
-	* [ ] Add goats.
-* [ ] Backport all the custom command block shit.
+* [X] Goats and the named entity dynamic Entity Model Renderer
+	* [X] Item Tag
+	* [X] save entity name, GUI, etc.
+	* [X] Add tags to loot.
+	* [X] Add goats.
+* [-] Backport all the custom command block shit.
 * [ ] Think about gameplay items for a desert and a glacier based theme (for the future).
 	* [ ] both lack trees, dirt and saplings must be obtained. Make sure skeletons still drop acorns.
 	* [ ] cold mechanics. Need to reactivate code for freeze
 	* [ ] The ice palace in glacier.
+
+* [ ] Cursed cow - make mechanic configurable per theme.
+
+* [ ] Item icon!
+* [ ] Achievement for the white forest.
+* [ ] Achievement for the slime boss.
