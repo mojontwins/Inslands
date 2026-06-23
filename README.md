@@ -566,3 +566,13 @@ This would be completely impossible in the vanilla game lol.
 * [ ] Item icon!
 * [ ] Achievement for the white forest.
 * [ ] Achievement for the slime boss.
+
+# A wild bug appears
+
+* [ ] Fix whatever happens with naming creatures (I had to add a dirty try/catch so it doesn't crash).
+* [ ] Check new leaves and make sure they decay and drop the right sapling.
+* [X] Make sure new wood is included in the axe tool efficiency list.
+* [ ] Sandstone slabs don't pile up correctly when placed (probably every slab of the new type).
+* [ ] Haystacks glitch their textures, probably for having changed the class hyerarchy for blocks you can place in different orientations.
+
+* [ ] Add a fire place of sorts?

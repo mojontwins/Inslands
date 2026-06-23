@@ -9,7 +9,7 @@ anaglyph3d:false
 advancedOpengl:true
 fpsLimit:0
 difficulty:2
-fancyGraphics:true
+fancyGraphics:false
 hand:true
 threadedLighting:false
 clearWaters:true
@@ -39,7 +39,7 @@ ofMipmapLinear:true
 ofLoadFar:false
 ofPreloadedChunks:0
 ofOcclusionFancy:false
-ofSmoothFps:false
+ofSmoothFps:true
 ofSmoothInput:false
 ofAoLevel:1.0
 ofClouds:0

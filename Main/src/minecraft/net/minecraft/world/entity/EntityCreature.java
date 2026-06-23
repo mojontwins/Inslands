@@ -15,6 +15,12 @@ public class EntityCreature extends EntityLiving {
 	protected PathEntity activePath;
 	protected Entity entityToAttack;
 	protected boolean hasAttacked = false;
+	
+	@Override
+	protected void entityInit() {
+		super.entityInit();
+		this.dataWatcher.addObject(Datawatchers.DW_NAME, String.valueOf("")); 
+	}
 
 	public EntityCreature(World world1) {
 		super(world1);
@@ -229,8 +235,13 @@ public class EntityCreature extends EntityLiving {
 	}
 	
 	public String getName() {
-		String name = this.dataWatcher.getWatchableObjectString(Datawatchers.DW_NAME);
-		if ("".equals(name)) return null;
+		String name = null;
+		try {
+			name = this.dataWatcher.getWatchableObjectString(Datawatchers.DW_NAME);
+			if ("".equals(name)) return null;
+		} catch (Exception e) {
+			
+		}
 		return name;
 	}
 
