@@ -165,7 +165,7 @@ public enum EnumTreeType {
 				return e;
 			}
 		}
-		
+	System.out.println ("Unknown leaves type for " + leaves);	
 		return OAK;
 	}
 	

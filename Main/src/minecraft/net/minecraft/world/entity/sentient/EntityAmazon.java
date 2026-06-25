@@ -409,6 +409,10 @@ public class EntityAmazon extends EntityArmoredMob implements ISentient {
 
 	@Override
 	public boolean interact(EntityPlayer entityPlayer1) {
+		if (super.interact(entityPlayer1)) {
+			return false;
+		}
+		
 		ItemStack itemStack2 = entityPlayer1.inventory.getCurrentItem();
 		if(!this.isAmazonTamed()) {
 			if(itemStack2 != null && this.interestingItem(itemStack2.itemID) /* && !this.isAmazonAngry()*/ ) {

@@ -14,9 +14,11 @@ public class EntityTwilightDeer extends EntityCow {
 		return null;
 	}
 
+	/*
 	public boolean interact(EntityPlayer entityplayer) {
 		return false;
 	}
+	*/
 	
 	public boolean needsLitBlockToSpawn() {
 		return false;

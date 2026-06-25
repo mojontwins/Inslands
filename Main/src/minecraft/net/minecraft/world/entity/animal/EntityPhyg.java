@@ -164,6 +164,10 @@ public class EntityPhyg extends EntityAetherAnimal {
 	}
 
 	public boolean interact(EntityPlayer entityplayer) {
+		if (super.interact(entityplayer)) {
+			return false;
+		}
+		
 		if(!this.getSaddled && entityplayer.inventory.getCurrentItem() != null && entityplayer.inventory.getCurrentItem().itemID == Item.saddle.shiftedIndex) {
 			entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, (ItemStack)null);
 			this.getSaddled = true;

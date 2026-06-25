@@ -16,6 +16,10 @@ public class EntityMooshroom extends EntityCow {
 	}
 
 	public boolean interact(EntityPlayer par1EntityPlayer) {
+		if (super.interact(par1EntityPlayer)) {
+			return false;
+		}
+		
 		ItemStack itemstack = par1EntityPlayer.inventory.getCurrentItem();
 
 		if (itemstack != null && itemstack.itemID == Item.bowlEmpty.shiftedIndex) {

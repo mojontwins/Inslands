@@ -240,7 +240,7 @@ public class EntityCreature extends EntityLiving {
 			name = this.dataWatcher.getWatchableObjectString(Datawatchers.DW_NAME);
 			if ("".equals(name)) return null;
 		} catch (Exception e) {
-			
+			this.dataWatcher.addObject(Datawatchers.DW_NAME, String.valueOf("")); 
 		}
 		return name;
 	}

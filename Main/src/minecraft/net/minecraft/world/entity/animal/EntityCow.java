@@ -49,6 +49,10 @@ public class EntityCow extends EntityAnimal {
 	}
 
 	public boolean interact(EntityPlayer entityPlayer1) {
+		if (super.interact(entityPlayer1)) {
+			return false;
+		}
+		
 		ItemStack itemStack2 = entityPlayer1.inventory.getCurrentItem();
 		if(itemStack2 != null && itemStack2.itemID == Item.bucketEmpty.shiftedIndex) {
 			entityPlayer1.inventory.setInventorySlotContents(entityPlayer1.inventory.currentItem, new ItemStack(Item.bucketMilk));

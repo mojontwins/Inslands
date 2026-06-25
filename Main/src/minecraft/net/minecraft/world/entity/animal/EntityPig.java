@@ -43,6 +43,10 @@ public class EntityPig extends EntityAnimal {
 	}
 
 	public boolean interact(EntityPlayer entityPlayer1) {
+		if (super.interact(entityPlayer1)) {
+			return false;
+		}
+		
 		if(!this.getSaddled() || this.worldObj.isRemote || this.riddenByEntity != null && this.riddenByEntity != entityPlayer1) {
 			return false;
 		} else {

@@ -570,9 +570,10 @@ This would be completely impossible in the vanilla game lol.
 # A wild bug appears
 
 * [ ] Fix whatever happens with naming creatures (I had to add a dirty try/catch so it doesn't crash).
-* [ ] Check new leaves and make sure they decay and drop the right sapling.
+* [ ] Wrong icon for name tag.
+* [X] Check new leaves and make sure they decay and drop the right sapling (!) All leaves subclass `BlockLeaves` which uses `EnumTreeType` to determine sapling type. Check this, all tree types, all tree generators. I was passing the wrong metadata when finding the tree types.
 * [X] Make sure new wood is included in the axe tool efficiency list.
-* [ ] Sandstone slabs don't pile up correctly when placed (probably every slab of the new type).
-* [ ] Haystacks glitch their textures, probably for having changed the class hyerarchy for blocks you can place in different orientations.
+* [X] Sandstone slabs don't pile up correctly when placed (probably every slab of the new type). This happens if you place the upper half first and click on the bottom (face = 0). Wrong logics when comparing metadata, solved.
+* [X] Haystacks glitch their textures, probably for having changed the class hyerarchy for blocks you can place in different orientations.
 
 * [ ] Add a fire place of sorts?

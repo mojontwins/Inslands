@@ -38,6 +38,10 @@ public class EntitySheepuff extends EntityAetherAnimal {
 	}
 
 	public boolean interact(EntityPlayer entityplayer) {
+		if (super.interact(entityplayer)) {
+			return false;
+		}
+		
 		ItemStack itemstack = entityplayer.inventory.getCurrentItem();
 		int colour;
 		if(itemstack != null && itemstack.itemID == Item.shears.shiftedIndex && !this.getSheared()) {

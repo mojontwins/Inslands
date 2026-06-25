@@ -21,7 +21,16 @@ public class BlockHaystack extends Block {
 		if(metadata == 0) return (side <= 1 ? this.blockIndexInTexture + 1 : this.blockIndexInTexture);		
 		
 		// otherwise, custom renderer will ask for side == 0 meaning sides, side == 1 meaning ends.
+		/*
 		return this.blockIndexInTexture + side;
+		*/
+		
+		// This changed with the new renderer
+		if (metadata == 2 || metadata == 3) {
+			return (side == 2 || side == 3) ? this.blockIndexInTexture + 1 : this.blockIndexInTexture;
+		} else  {
+			return (side == 4 || side == 5) ? this.blockIndexInTexture + 1 : this.blockIndexInTexture;
+		}
 	}
 	
 	public int getBlockTextureFromSide(int side) {

@@ -59,7 +59,7 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, 
 			if(meta == 0) return new ItemStack(Item.acornSeed);
 			return new ItemStack(Item.stick);
 		default:
-			EnumTreeType tree = EnumTreeType.findTreeTypeFromLeaves(new BlockState(this, meta));
+			EnumTreeType tree = EnumTreeType.findTreeTypeFromLeaves(new BlockState(this, meta & 0xf0));
 			return new ItemStack(tree.sapling.getBlock().blockID, 1, tree.sapling.getMetadata() & 0xf0);
 		}
 	}
@@ -104,10 +104,12 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, 
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random random) {
+		/*
 		this.updateTick17(world, x, y, z, random);
 	}
 
 	public void updateTick17(World world, int x, int y, int z, Random random) {
+	*/
 		if (!world.isRemote) {
 			int metadata = world.getBlockMetadata(x, y, z);
 
@@ -186,6 +188,7 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, 
 		}
 	}
 
+	/*
 	public void updateTickBeta(World world, int x, int y, int z, Random random) {
 		if (!world.isRemote) {
 			int metadata = world.getBlockMetadata(x, y, z);
@@ -298,6 +301,7 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, 
 			}
 		}
 	}
+	*/
 
 	private void removeLeaves(World world, int i, int j, int k) {
 		this.dropBlockAsItem(world, i, j, k, world.getBlockMetadata(i, j, k));

@@ -32,11 +32,11 @@ public class ItemSlab extends ItemBlock {
 			int meta = world.getBlockMetadata(x, y, z);
 			int type = meta & 7;
 			boolean isUpper = (meta & 8) != 0;
-System.out.println ("x y z " + x + " " + y + " " + z + " side " +face + " ID " + blockID + " meta " + meta + " type " + type + " upper " + isUpper);		
+
 			if(
 				((face == 1 && !isUpper) || (face == 0 && isUpper)) && 
 				blockID == Block.stairSingle.blockID && 
-				meta == itemStack.getItemDamage()
+				type == (itemStack.getItemDamage() & 7)
 			) {
 				if (world.checkIfAABBIsClear(Block.stairDouble.getCollisionBoundingBoxFromPool(world, x, y, z)) && 
 					world.setBlockAndMetadataWithNotify(x, y, z, Block.stairDouble.blockID, type)
