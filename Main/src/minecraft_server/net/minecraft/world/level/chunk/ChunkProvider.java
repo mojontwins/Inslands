@@ -256,7 +256,8 @@ public class ChunkProvider implements IChunkProvider {
 	 * <p>
 	 * The work is split into three deliberately separate phases:
 	 * <ol>
-	 *   <li><b>Terrain</b>: every chunk is generated and cached, but not lit.</li>
+	 *   <li><b>Terrain</b>: every chunk is loaded from disk if available, otherwise generated
+	 *       and cached — but not lit.</li>
 	 *   <li><b>Populate</b>: every chunk is decorated (ores, trees, structures...). Lighting
 	 *       is deferred through {@link World#deferLightingUpdate}, so the thousands of block
 	 *       writes a decorate step performs do not each trigger a Starlight recalculation.</li>
@@ -265,48 +266,62 @@ public class ChunkProvider implements IChunkProvider {
 	 * </ol>
 	 * Because every chunk exists before populate begins, features that read or write across
 	 * chunk borders behave exactly as they do in the normal interactive path.
+	 * <p>
+	 * If every chunk was already on disk ({@code anyGenerated == false} after Phase 1), the
+	 * populate and lighting phases are skipped entirely — the world is final as-is. This
+	 * makes nether re-entry on the client (where the previous DIM-1 is saved) nearly instant.
 	 *
 	 * @param progress optional sink advanced over {@code 3 * totalChunks} steps
 	 */
 	public void generateWholeWorld(IProgressUpdate progress) {
 		final int totalSteps = WorldSize.getTotalChunks() * 3;
 		int step = 0;
+		boolean anyGenerated = false;
 
-		// Phase 1: terrain only. No lighting yet so that nothing is lit twice.
+		// Phase 1: prefer disk, else generate. Record whether anything was generated.
 		for(int chunkX = 0; chunkX < WorldSize.xChunks; chunkX ++) {
 			for(int chunkZ = 0; chunkZ < WorldSize.zChunks; chunkZ ++) {
 				step = reportProgress(progress, step, totalSteps);
 
-				Chunk chunk = this.chunkGenerator.provideChunk(chunkX, chunkZ);
-				this.chunkCache[WorldSize.coords2hash(chunkX, chunkZ)] = chunk;
-				chunk.onChunkLoad();
-			}
+				int cacheIndex = WorldSize.coords2hash(chunkX, chunkZ);
+				Chunk chunk = this.loadChunkFromFile(chunkX, chunkZ);
+				if(chunk == null) {
+					chunk = this.chunkGenerator.provideChunk(chunkX, chunkZ);
+					GlobalVars.didGenerateChunks = true;
+					anyGenerated = true;
+				}
+				this.chunkCache[cacheIndex] = chunk;
+				chunk.onChunkLoad();                   // NO initLighting: loaded chunks are final,
+			}                                          // generated chunks are lit once in Phase 3
 		}
-		GlobalVars.didGenerateChunks = true;
 
-		// Phase 2: populate with per-block lighting disabled.
-		this.world.deferLightingUpdate = true;
-		try {
+		// Phase 2 + Phase 3 run only if something was actually created this pass.
+		if(anyGenerated) {
+			this.world.deferLightingUpdate = true;
+			try {
+				for(int chunkX = 0; chunkX < WorldSize.xChunks; chunkX ++) {
+					for(int chunkZ = 0; chunkZ < WorldSize.zChunks; chunkZ ++) {
+						step = reportProgress(progress, step, totalSteps);
+						this.populate(this, chunkX, chunkZ);   // skips isTerrainPopulated (loaded) chunks
+					}
+				}
+			} finally {
+				// Always restore the flag: leaving it set would permanently stop all lighting.
+				this.world.deferLightingUpdate = false;
+			}
+
+			// Relight the WHOLE world once if any chunk was generated — never just the new
+			// ones: populated features may have written across borders into loaded neighbours,
+			// and a single deterministic pass kills any seam between fresh and saved light.
 			for(int chunkX = 0; chunkX < WorldSize.xChunks; chunkX ++) {
 				for(int chunkZ = 0; chunkZ < WorldSize.zChunks; chunkZ ++) {
 					step = reportProgress(progress, step, totalSteps);
-					this.populate(this, chunkX, chunkZ);
+
+					Chunk chunk = this.chunkCache[WorldSize.coords2hash(chunkX, chunkZ)];
+					chunk.generateHeightMap();
+					chunk.generateLandSurfaceHeightMap();
+					chunk.initLightingForRealNotJustHeightmap(true);
 				}
-			}
-		} finally {
-			// Always restore the flag: leaving it set would permanently stop all lighting.
-			this.world.deferLightingUpdate = false;
-		}
-
-		// Phase 3: one complete lighting pass over the finished world.
-		for(int chunkX = 0; chunkX < WorldSize.xChunks; chunkX ++) {
-			for(int chunkZ = 0; chunkZ < WorldSize.zChunks; chunkZ ++) {
-				step = reportProgress(progress, step, totalSteps);
-
-				Chunk chunk = this.chunkCache[WorldSize.coords2hash(chunkX, chunkZ)];
-				chunk.generateHeightMap();
-				chunk.generateLandSurfaceHeightMap();
-				chunk.initLightingForRealNotJustHeightmap(true);
 			}
 		}
 	}

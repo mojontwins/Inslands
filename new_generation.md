@@ -277,12 +277,13 @@ private void preloadWorld(World world, String caption, boolean isNew) {
 - The client's per-block `BlockFire.dontSpread` guard isn't needed in bulk mode because `generateWholeWorld` → `provideChunk`/`populate` place everything before the game loop runs; keep it only on the legacy load branch.
 - **Save once (client):** `Minecraft.changeWorld()` already does `world.saveWorldIndirectly(this.loadingScreen)` when `world.isNewWorld` (`Minecraft.java:1467-1470`) — that fires right after `preloadWorld`, which is exactly the "first save". No extra save needed on the client. (The server branch in §4.6 needs the explicit call because the dedicated server has no equivalent immediate save.)
 
-### 4.8 Keep the nether path untouched
-`ChunkProviderHell.provideChunk()` already writes its own light arrays during terrain gen and runs a nether-style lighting model; it is excluded by the `worldType == 0` guard. No changes to `ChunkProviderHell.java`.
+### 4.8 Keep the nether path untouched (v1)
+The nether is excluded from v1 by the `worldType == 0` guard in `preloadWorld`, so `ChunkProviderHell` keeps running its own chunk-by-chunk flow. No changes to `ChunkProviderHell.java` in v1. (Note: `ChunkProviderHell.provideChunk` does *not* pre-write light arrays — it only fills blocks/metadata; lighting always comes later from the wrapper's `initLightingForRealNotJustHeightmap`. See §9 for the v2 nether plan, which requires no `ChunkProviderHell` change either.)
 
 ### 4.9 Optional cleanup (later, not required for v1)
 - Wrap the two loop pairs in `ChunkProvider`/`ChunkProviderServer` with a small `forChunkRowMajor()` helper to avoid 6 copies of the row-major loop.
 - Consider moving the `world.deferLightingUpdate` guard down into `World.setBlock*` as defensive duplication (harmless, cheap) so any future caller bypassing `Chunk.setblockID*` also respects the flag.
+- Once v2 (§9) makes the finite `ChunkProvider` phases load-aware, the "generated vs loaded" decision per chunk could be generalised to an explicit `boolean[] generatedSet` if partial-DIM-1 border-light tuning ever needs it. Today a single `anyGenerated` flag (§9.3) is enough, and the phase-tracking order (Phase 1 decides → Phases 2/3 whole-world gates) keeps the code to a handful of lines.
 - If Starlight artifact testing shows stale skylight at population-change columns, call `chunk.skylightMap = new NibbleArray(chunk.blocks.length)` (or expose `Chunk.clearAllLights()`, `Chunk.java:950`) before Phase 3. Expected but **not** required: `initSkylight` propagates fresh 15-sources top-down over final block states, and `initBlockLight(true)` rescans all emitters, so stale values self-correct; the deep-cave case (pre-population 0 skylight) is unchanged because populate never touches caves.
 
 ## 5. Correctness review / gotchas
@@ -322,7 +323,174 @@ No changes to: `ChunkProviderGenerate`, `StarlightEngine`, `ChunkProviderHell`, 
 
 ## 8. Scope / future work
 
-- v1 gates bulk generation to the overworld (`worldType == 0`). If nether bulk generation is later wanted, `ChunkProviderHell` needs the same Phase 3 force-scan and its `provideChunk` must stop pre-writing light arrays; defer.
-- `WorldSize` "long" (16x128) and the nether quarter-size special cases (`WorldSize.java:39-56`) are unaffected because the loops use `WorldSize.xChunks/zChunks` directly.
-- This keeps "chunked but always-present" storage (proposal line 15) fully intact — nothing about load/save serialisation changes.
+- ~~v1 gates bulk generation to the overworld (`worldType == 0`). If nether bulk generation is later wanted, `ChunkProviderHell` needs the same Phase 3 force-scan and its `provideChunk` must stop pre-writing light arrays; defer.~~ **Done in v2 (§9): the nether is bulk-generated too.** The old caveat turned out to be obsolete: `ChunkProviderHell.provideChunk` never pre-writes light arrays (the `new Chunk(...)` ctor allocates them, but they are only ever filled by the wrapper's `initLightingForRealNotJustHeightmap()`), so **no change to `ChunkProviderHell` was needed** — Phase 3's `initLightingForRealNotJustHeightmap(true)` already performs the nether-style full 0..127 emitter scan, and `hasNoSky` already skips skylight. What v2 adds instead is: (a) a client gate so first nether entry uses the bulk path, (b) a load-aware Phase 1 in the finite `ChunkProvider` so *re*-entry doesn't wipe saved DIM-1 builds, and (c) a server gate + save step for fresh worlds.
+- Remaining deferrals:
+  - **Sky dimension.** `WorldProviderSky` does not override `worldType`, so it *inherits* `worldType == 0` and would already match the `worldType == 0` gate — but no reachable flow today loads it through `preloadWorld`, so leave it alone. If a sky dimension flow is ever added, apply the same `anyGenerated` load-aware bulk (§9.3).
+  - **Load-aware generation on the dedicated server.** Not needed: `ChunkProviderServer.generateWholeWorld` only ever runs for fresh worlds (`isNew`, DIM-1 provably empty), so its regenerate-all Phase 1 is correct and needs no disk probe.
+  - **Existing pre-v2 worlds.** A world whose DIM-1 was never populated (player never built it) still takes the legacy chunk-by-chunk path on the dedicated server (`isNew == false`). Acceptable: it matches today behaviour and only the first load pays.
+- `WorldSize` "long" (16x128) and the nether quarter-size special cases (`WorldSize.java:39-56`) are unaffected because the loops use `WorldSize.xChunks/zChunks` directly and `ChunkProviderHell` performs the central-quarter `inRange` clamping itself.
+- This keeps "chunked but always-present" storage (proposal line 15) fully intact — nothing about load/save serialisation changes, and DIM-1 remains a normal sub-folder of the same save.
+
+## 9. Nether bulk generation (v2 — this plan)
+
+### 9.1 Why the nether is slow today, and what research changed
+
+The nether is created on a completely separate path from the overworld:
+
+- **Client (SSP)**: every portal entry builds a *fresh* nether `World` via the copy ctor `World(World, WorldProvider)` (`World.java:179`), then `usePortal` calls `preloadWorld(world7, "Entering the Nether", false)` (`Minecraft.java:1371`) → always the legacy chunk-by-chunk branch (`isNewWorld == false` for the copy ctor, `World.java:199`), so the first visit generates every chunk with **per-block Starlight during populate**, plus an immediate per-chunk full blocklight scan from the wrapper (`initLightingForRealNotJustHeightmap`) — slower than the overworld ever was.
+- **Server (dedicated)**: `initWorld` always passes `isNew == false` to `preloadWorld` for slot 1 (`WorldServerMulti` → copy-ctor semantics, `MinecraftServer.java:217`), so a fresh world's DIM-1 is also generated chunk-by-chunk at startup.
+
+Two research findings make the fix almost free:
+
+1. **The bulk engines are already generator-agnostic.** `ChunkProvider.generateWholeWorld` (`ChunkProvider.java:271`) and `ChunkProviderServer.generateWholeWorld` (`ChunkProviderServer.java:302`) drive everything through `this.chunkGenerator` — Phase 1 calls `chunkGenerator.provideChunk`, Phase 2 routes through the provider `populate()` wrapper → `chunkGenerator.populate` (with the `deferLightingUpdate` flag already set), Phase 3 calls `initLightingForRealNotJustHeightmap(true)`. In the nether the wrapped generator is `ChunkProviderHell`, and each piece works unchanged: `provideChunk` writes no light, `populate` (lava, fire, glowstone, nether ores, biome populate) goes through `World.setBlock*` → the already-guarded `updateLight`, and Phase 3's forced full-range emitter scan is exactly "light like the nether" — for the nether itself it is simply the native behaviour, with `hasNoSky` skipping `initSkylight` for free.
+2. **`ChunkProviderHell.provideChunk` never pre-writes light arrays** (`Chunk.java:105-111` allocates `skylightMap`/`blocklightMap`; `ChunkProviderHell.provideChunk` `:206-247` only fills `blocks[]`/`metadata[]`). The old §8 note ("stop pre-writing light arrays") has nothing to remove.
+
+### 9.2 Client (SSP) hooks
+
+1. `Minecraft.usePortal()` — entering-nether branch (`Minecraft.java:1369-1373`):
+   ```java
+   world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(-1));
+   this.preloadWorld(world7, "Entering the Nether", true);   // was: false
+   ```
+   (`if(world7.isNewWorld) world7.worldProvider.getInitialSpawnLocation(world7);` is dead for the nether and can stay or go.)
+2. `Minecraft.preloadWorld()` gate (`Minecraft.java:1502`):
+   ```java
+   if(isNew && (world.isNewWorld || world.worldProvider.worldType == -1)) {
+   ```
+   The copy-ctor nether world has `isNewWorld == false`, so the `worldType == -1` disjunct is what lets it through. The overworld path is untouched; the sky dimension inherits `worldType == 0` but has no `preloadWorld` flow today (§8).
+
+Route *every* nether entry through the bulk path (`isNew = true`), not just the first: with the load-aware Phase 1 (§9.3) a *re*-entry that fully loads DIM-1 does zero generation, zero populate and zero lighting — the progress bar will read "Building terrain" on re-entry, a purely cosmetic nuance.
+
+### 9.3 Load-aware Phase 1 in `ChunkProvider` — do NOT regenerate saved DIM-1
+
+The client nether `World`'s `saveHandler` is the *overworld's* (`World.java:209`), and `getChunkLoader` routes `WorldProviderHell` to `DIM-1` (`SaveConverterMcRegion.java:72`). So the nether **persists on disk today**: exit saves DIM-1, re-entry's legacy `prepareChunk` reloads it (that is why re-entry is already fast). If we pointed the bulk path at a regenerate-all Phase 1, every re-entry would wipe player nether builds. Fix: make the finite `ChunkProvider.generateWholeWorld` (both source trees, same change) load-aware:
+
+```java
+/** Generates the entire finite world in one shot, loading any chunks already on disk. */
+public void generateWholeWorld(IProgressUpdate progress) {
+    final int totalSteps = WorldSize.getTotalChunks() * 3;
+    int step = 0;
+    boolean anyGenerated = false;
+
+    // Phase 1: prefer disk, else generate. Record whether anything was generated.
+    for(int chunkX = 0; chunkX < WorldSize.xChunks; chunkX ++) {
+        for(int chunkZ = 0; chunkZ < WorldSize.zChunks; chunkZ ++) {
+            step = reportProgress(progress, step, totalSteps);
+            int cacheIndex = WorldSize.coords2hash(chunkX, chunkZ);
+            Chunk chunk = this.loadChunkFromFile(chunkX, chunkZ);
+            if(chunk == null) {
+                chunk = this.chunkGenerator.provideChunk(chunkX, chunkZ);
+                GlobalVars.didGenerateChunks = true;
+                anyGenerated = true;
+            }
+            this.chunkCache[cacheIndex] = chunk;
+            chunk.onChunkLoad();                    // NO initLighting: loaded chunks are final,
+        }                                           // generated chunks are lit once in Phase 3
+    }
+
+    // Phase 2 + Phase 3 run only if something was actually created this pass.
+    if(anyGenerated) {
+        this.world.deferLightingUpdate = true;
+        try {
+            for(int chunkX = 0; chunkX < WorldSize.xChunks; chunkX ++) {
+                for(int chunkZ = 0; chunkZ < WorldSize.zChunks; chunkZ ++) {
+                    step = reportProgress(progress, step, totalSteps);
+                    this.populate(this, chunkX, chunkZ);   // skips isTerrainPopulated (loaded) chunks
+                }
+            }
+        } finally {
+            this.world.deferLightingUpdate = false;
+        }
+
+        // Relight the WHOLE world once if any chunk was generated, never just the new ones:
+        // populated features may have written across borders into loaded neighbours, and a
+        // single deterministic pass kills any seam between fresh and saved light.
+        for(int chunkX = 0; chunkX < WorldSize.xChunks; chunkX ++) {
+            for(int chunkZ = 0; chunkZ < WorldSize.zChunks; chunkZ ++) {
+                step = reportProgress(progress, step, totalSteps);
+                Chunk chunk = this.chunkCache[WorldSize.coords2hash(chunkX, chunkZ)];
+                chunk.generateHeightMap();
+                chunk.generateLandSurfaceHeightMap();
+                chunk.initLightingForRealNotJustHeightmap(true);
+            }
+        }
+    }
+}
+```
+
+Behaviour by case:
+
+| Scenario | Phase 1 | Phase 2 | Phase 3 |
+|---|---|---|---|
+| Fresh overworld (v1 path, `isNewWorld`) | DIM-0 empty → all generated (`anyGenerated`) | populate, deferred | one full relight — identical to v1 |
+| First nether visit | DIM-1 empty → all generated | populate, deferred (fast!) | one full relight |
+| Nether re-entry (same/fresh session) | all loaded, `anyGenerated == false` | **skipped** | **skipped** → re-entry ~instant, builds preserved |
+| Partial DIM-1 (generated + loaded mix) | some generated | populate only the new ones | one world-wide relight → border-correct |
+
+Notes:
+- `loadChunkFromFile` is the private helper already used by `prepareChunk` (`ChunkProvider.java:150`); returning `null` for missing chunks is exactly the "wasGenerated" test.
+- `GlobalVars.didGenerateChunks` keeps its monotone semantics (true if any chunk generated), so the client's `preloadWorld` post-generate block (`Minecraft.java:1518`) behaves exactly as it does today: first nether visit runs `specialPostGeneration`, full re-entry (fresh session) does not.
+- `generateHeightMap()` sets `isModified = true`, so on a mixed partial world the loaded chunks get re-saved on quit — harmless, they came from the same seed anyway.
+- `WorldGenLakes` skylight read does not matter here: the nether populate never spawns lakes, and `hasNoSky` keeps skylight untouched.
+
+### 9.4 Server (dedicated) hooks
+
+1. `MinecraftServer.initWorld()` — propagate the *folder* freshness to the DIM-1 world. Slot 1's `worldMngr.isNewWorld` is always `false` (copy-ctor semantics), but DIM-1 is only ever written by nether saves, so "overworld folder was just created" (slot 0's `isNewWorld`) provably implies "DIM-1 empty". Hoist a shared flag inside the loop body (it is re-computed every re-roll iteration):
+   ```java
+   boolean newWorld = worldMngr.isNewWorld;
+   if(i == 1) newWorld = worldFolderIsNew;          // worldFolderIsNew captured at i == 0
+   ...
+   this.preloadWorld(worldMngr, newWorld);
+   ```
+2. `MinecraftServer.preloadWorld()` — three-way split, and **narrow the trailing post-gen block to the overworld** so the indev house / spawn finder (`WorldProvider.getInitialSpawnLocation`, `WorldProvider.java:60-110`) can never run on the nether:
+   ```java
+   private void preloadWorld(WorldServer world, boolean isNew) {
+       if(isNew && world.worldProvider.worldType == 0) {
+           // overworld: bulk + first save (v1, unchanged)
+           this.outputPercentRemaining("Building terrain", 0);
+           world.chunkProviderServer.generateWholeWorld(new ConvertProgressUpdater(this));
+           this.outputPercentRemaining("Saving level", 0);
+           world.saveWorld(true, new ConvertProgressUpdater(this));
+       } else if(isNew && world.worldProvider.worldType == -1) {
+           // nether: bulk + first save of DIM-1 (no spawn, no post-gen)
+           this.outputPercentRemaining("Building nether", 0);
+           world.chunkProviderServer.generateWholeWorld(new ConvertProgressUpdater(this));
+           this.outputPercentRemaining("Saving nether", 0);
+           world.saveWorld(true, new ConvertProgressUpdater(this));
+       } else {
+           // legacy chunk-by-chunk (existing worlds, sky if ever preloaded)
+           ... existing loop unchanged ...
+       }
+
+       if(isNew && world.worldProvider.worldType == 0) {
+           LevelThemeGlobalSettings.getTheme().specialPostGeneration(world);
+           world.worldProvider.getInitialSpawnLocation(world);
+       }
+   }
+   ```
+   `ChunkProviderServer.generateWholeWorld` stays **regenerate-all**: it is only reached with `isNew == true`, i.e. a fresh DIM-1 that is provably empty, so there is nothing to load and no persistence risk.
+
+### 9.5 Sync matrix (§6 additions — both trees unless noted)
+
+| File | Change |
+|---|---|
+| `minecraft/` + `minecraft_server/` `world/level/chunk/ChunkProvider.java` | Phase 1 becomes load-aware + `anyGenerated` gates on Phases 2/3 (§9.3) |
+| `minecraft/` `client/Minecraft.java` | `usePortal` passes `isNew = true` for nether entry (§9.2.1); `preloadWorld` gate adds `worldType == -1` (§9.2.2) |
+| `minecraft_server/` `server/MinecraftServer.java` | `initWorld` propagates folder freshness to DIM-1 (§9.4.1); `preloadWorld` nether bulk branch + narrow post-gen to `worldType == 0` (§9.4.2) |
+
+No changes to: `ChunkProviderHell`, `ChunkProviderServer.generateWholeWorld` body, `StarlightEngine`, `World`, `Chunk`, `WorldProvider*` (only the three call sites above move).
+
+### 9.6 Testing additions (append to §7 checklist)
+
+1. Client, Small world: enter the nether → first visit builds fast (bulk progress, lava/fire/glowstone correctly blocklit, skylight dark, red lightmap via `WorldProviderHell.updateLightmap`), void-wall bedrock ring intact.
+2. Client: build a marked structure in the nether, exit to overworld, re-enter → structure intact (DIM-1 reloaded, no regeneration, near-instant entry), `Teleporter.setExitLocation` still links the portals.
+3. Server, fresh world: startup logs "Building nether / Saving nether"; `saves/<folder>/DIM-1/` exists with one full write; restart reloads from DIM-1 with no regeneration; verify **no indev house / fortress placed** in the nether (post-gen block correctly skipped).
+4. Server: degraded case unchanged — load a pre-v2 world (DIM-1 never visited) → legacy chunk-by-chunk nether on first visit, nothing breaks.
+5. Client, quit-while-in-nether then reload: DIM-1 persisted (chunks were dirty after bulk populate), nether reloads from disk on return.
+
+## 10. Remaining future work (post-v2)
+
+- Generalise the finite `ChunkProvider` phase tracking to per-chunk `boolean[] generatedSet` if partial-DIM-1 border-light tuning ever needs finer control than the whole-world relight gate (§4.9).
+- Make dedicated-server nether gen load-aware if a multi-world scenario ever leaves a partially populated DIM-1 behind (today impossible: server bulk only fires on fresh folders).
+- Sky dimension: if a reachable sky `preloadWorld` flow is added, it already matches the `worldType == 0` gate and can reuse the same load-aware bulk unchanged.
 

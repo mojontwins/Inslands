@@ -139,21 +139,26 @@ public class MinecraftServer implements Runnable, ICommandListener {
 	/**
 	 * Forces the whole level into memory before the server starts ticking.
 	 * <p>
-	 * A brand-new overworld is generated and lit in one bulk pass (see
-	 * {@code ChunkProviderServer.generateWholeWorld}) and then saved once. Existing worlds,
-	 * and the nether dimension, keep the original chunk-by-chunk preload.
+	 * A brand-new overworld or nether is generated and lit in one bulk pass (see
+	 * {@code ChunkProviderServer.generateWholeWorld}) and then saved once. Existing worlds
+	 * keep the original chunk-by-chunk preload. The nether's post-generation (indev house,
+	 * spawn point) is intentionally skipped — it has no overworld-style spawn.
 	 */
 	private void preloadWorld(WorldServer world, boolean isNew) {
-		// Only the overworld (worldType 0) uses the bulk generator for now; the nether has its
-		// own chunk provider and lighting model.
 		if(isNew && world.worldProvider.worldType == 0) {
+			// Overworld: bulk generation + single full save.
 			this.outputPercentRemaining("Building terrain", 0);
 			world.chunkProviderServer.generateWholeWorld(new ConvertProgressUpdater(this));
-
-			// Save the finished world to disk immediately, in a single full write.
 			this.outputPercentRemaining("Saving level", 0);
 			world.saveWorld(true, new ConvertProgressUpdater(this));
+		} else if(isNew && world.worldProvider.worldType == -1) {
+			// Nether: bulk generation + single full save of DIM-1. No spawn, no post-gen.
+			this.outputPercentRemaining("Building nether", 0);
+			world.chunkProviderServer.generateWholeWorld(new ConvertProgressUpdater(this));
+			this.outputPercentRemaining("Saving nether", 0);
+			world.saveWorld(true, new ConvertProgressUpdater(this));
 		} else {
+			// Legacy chunk-by-chunk (existing worlds, sky if ever preloaded).
 			int chunksLoaded = 0;
 			long prevTime = System.currentTimeMillis();
 
@@ -170,8 +175,10 @@ public class MinecraftServer implements Runnable, ICommandListener {
 			}
 		}
 
-		// Extra theme-specific post generation, only for freshly created worlds.
-		if(isNew) {
+		// Theme-specific post generation + spawn placement — overworld only.
+		// The nether's getInitialSpawnLocation would build an indev house there, which
+		// is never wanted.  canRespawnHere() == false already prevents regular respawns.
+		if(isNew && world.worldProvider.worldType == 0) {
 			LevelThemeGlobalSettings.getTheme().specialPostGeneration(world);
 			world.worldProvider.getInitialSpawnLocation(world);
 		}
@@ -215,6 +222,10 @@ public class MinecraftServer implements Runnable, ICommandListener {
 				
 				// Check if valid
 				boolean newWorld = worldMngr.isNewWorld;
+
+				// The nether (DIM-1) shares the world folder: it is "new" exactly when the
+				// overworld was just created, so propagate the flag.
+				if(i == 1) newWorld = this.worldMngr[0].isNewWorld;
 				if(newWorld) {
 					logger.info("Generating new world");
 				} else {

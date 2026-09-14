@@ -1367,8 +1367,8 @@ public abstract class Minecraft implements Runnable {
 			}
 
 			world7 = null;
-			world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(-1));
-			this.preloadWorld(world7, "Entering the Nether", false);
+		world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(-1));
+		this.preloadWorld(world7, "Entering the Nether", true);
 			if(world7.isNewWorld) world7.worldProvider.getInitialSpawnLocation(world7);
 			this.changeWorld(world7, "Entering the Nether", this.thePlayer);
 		} else {
@@ -1499,7 +1499,7 @@ public abstract class Minecraft implements Runnable {
 		this.loadingScreen.printText(caption);
 		this.loadingScreen.displayLoadingString(isNew ? "Building terrain" : "Loading terrain");
 
-		if(isNew && world.isNewWorld) {
+		if(isNew && (world.isNewWorld || world.worldProvider.worldType == -1)) {
 			// Client single-player always uses the modded finite-world ChunkProvider.
 			((ChunkProvider)world.chunkProvider).generateWholeWorld(this.loadingScreen);
 		} else {
