@@ -1,7 +1,7 @@
 package net.minecraft.world.level.theme;
 
-import net.minecraft.world.entity.animal.EntityCatBlack;
-import net.minecraft.world.entity.sentient.EntityPoisonWitch;
+import net.minecraft.world.entity.animal.wild.EntityCatBlack;
+import net.minecraft.world.entity.mob.humanoid.EntityPoisonWitch;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.WorldType;

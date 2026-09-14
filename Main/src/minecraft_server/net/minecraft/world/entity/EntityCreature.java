@@ -1,20 +1,25 @@
 package net.minecraft.world.entity;
 
 import com.mojang.nbt.NBTTagCompound;
-
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.World;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
 import net.minecraft.world.level.pathfinder.PathEntity;
+import net.minecraft.world.level.World;
 import net.minecraft.world.phys.Vec3D;
 
 public class EntityCreature extends EntityLiving {
 	protected PathEntity activePath;
 	protected Entity entityToAttack;
 	protected boolean hasAttacked = false;
+
+	@Override
+	protected void entityInit() {
+		super.entityInit();
+		this.dataWatcher.addObject(Datawatchers.DW_NAME, String.valueOf("")); 
+	}
 
 	public EntityCreature(World world1) {
 		super(world1);
@@ -93,22 +98,12 @@ public class EntityCreature extends EntityLiving {
 				double d10 = vec3D5.zCoord - this.posZ;
 				double d12 = vec3D5.yCoord - (double)i21;
 				float f14 = (float)(Math.atan2(d10, d8) * 180.0D / (double)(float)Math.PI) - 90.0F;
-				float f15 = f14 - this.rotationYaw;
+				float f15 = MathHelper.wrapDegrees(f14 - this.rotationYaw);
 
-				for(this.moveForward = this.moveSpeed; f15 < -180.0F; f15 += 360.0F) {
-				}
+				this.moveForward = this.moveSpeed;
 
-				while(f15 >= 180.0F) {
-					f15 -= 360.0F;
-				}
-
-				if(f15 > 30.0F) {
-					f15 = 30.0F;
-				}
-
-				if(f15 < -30.0F) {
-					f15 = -30.0F;
-				}
+				if(f15 > 30.0F) f15 = 30.0F;
+				if(f15 < -30.0F) f15 = -30.0F;
 
 				this.rotationYaw += f15;
 				if(this.hasAttacked && this.entityToAttack != null) {
@@ -229,14 +224,23 @@ public class EntityCreature extends EntityLiving {
 	}
 	
 	public String getName() {
-		String name = this.dataWatcher.getWatchableObjectString(Datawatchers.DW_NAME);
+		String name = null;
+		try {
+			name = this.dataWatcher.getWatchableObjectString(Datawatchers.DW_NAME);
 		if ("".equals(name)) return null;
+		} catch (Exception e) {
+			this.dataWatcher.addObject(Datawatchers.DW_NAME, String.valueOf("")); 
+		}
 		return name;
 	}
 
 	public void setName(String name) {
 		if(name == null) name = "";
-		dataWatcher.updateObject(Datawatchers.DW_NAME, name);
+		try {
+			dataWatcher.updateObject(Datawatchers.DW_NAME, name);
+		} catch (Exception e) {
+			dataWatcher.addObject(Datawatchers.DW_NAME, name);
+		}
 	}
 	
 	@Override

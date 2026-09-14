@@ -1,22 +1,20 @@
 package net.minecraft.world.entity.item;
 
+import com.mojang.nbt.NBTTagCompound;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import com.mojang.nbt.NBTTagCompound;
-
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.inventory.IInventory;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.World;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.BlockPistonBase;
 import net.minecraft.world.level.tile.BlockRail;
 import net.minecraft.world.level.tile.BlockStairs;
 import net.minecraft.world.level.tile.BlockStep;
 import net.minecraft.world.level.tile.entity.TileEntity;
+import net.minecraft.world.level.World;
 import net.minecraft.world.phys.AxisAlignedBB;
 
 public class EntityMovingPiston extends Entity {

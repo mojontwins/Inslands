@@ -8,8 +8,8 @@ public class EntityAILookIdle extends EntityAIBase {
 	private double lookZ;
 	private int idleTime = 0;
 
-	public EntityAILookIdle(EntityLiving entityLiving1) {
-		this.idleEntity = entityLiving1;
+	public EntityAILookIdle(EntityLiving entityLiving) {
+		this.idleEntity = entityLiving;
 		this.setMutexBits(3);
 	}
 
@@ -22,14 +22,14 @@ public class EntityAILookIdle extends EntityAIBase {
 	}
 
 	public void startExecuting() {
-		double d1 = Math.PI * 2D * this.idleEntity.getRNG().nextDouble();
-		this.lookX = Math.cos(d1);
-		this.lookZ = Math.sin(d1);
+		double theta = Math.PI * 2D * this.idleEntity.getRNG().nextDouble();
+		this.lookX = Math.cos(theta);
+		this.lookZ = Math.sin(theta);
 		this.idleTime = 20 + this.idleEntity.getRNG().nextInt(20);
 	}
 
 	public void updateTask() {
 		--this.idleTime;
-		this.idleEntity.getLookHelper().setLookPosition(this.idleEntity.posX + this.lookX, this.idleEntity.posY + (double)this.idleEntity.getEyeHeight(), this.idleEntity.posZ + this.lookZ, 10.0F, (float)this.idleEntity.getVerticalFaceSpeed());
+		this.idleEntity.getLookHelper().setLookPosition(this.idleEntity.posX + this.lookX, this.idleEntity.posY + (double) this.idleEntity.getEyeHeight(), this.idleEntity.posZ + this.lookZ, 10.0F, (float) this.idleEntity.getVerticalFaceSpeed());
 	}
 }

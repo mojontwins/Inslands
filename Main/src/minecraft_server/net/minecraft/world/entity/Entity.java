@@ -1,13 +1,11 @@
 package net.minecraft.world.entity;
 
-import java.util.List;
-import java.util.Random;
-
 import com.mojang.nbt.NBTTagCompound;
 import com.mojang.nbt.NBTTagDouble;
 import com.mojang.nbt.NBTTagFloat;
 import com.mojang.nbt.NBTTagList;
-
+import java.util.List;
+import java.util.Random;
 import net.minecraft.network.DataWatcher;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.item.EntityBoat;
@@ -15,12 +13,12 @@ import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.inventory.IInventory;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.World;
-import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.BlockFluid;
 import net.minecraft.world.level.tile.StepSound;
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.phys.AxisAlignedBB;
 import net.minecraft.world.phys.Vec3D;
 
@@ -159,8 +157,47 @@ public abstract class Entity {
 		this.onEntityUpdate();
 	}
 
+	protected boolean isLavaFireImmune() {
+		if (this instanceof EntityBoat && ((EntityBoat) this).fireResistant) {
+			return true;
+		}
+		if (this instanceof EntityPlayer && this.ridingEntity instanceof EntityBoat) {
+			return ((EntityBoat) this.ridingEntity).fireResistant;
+		}
+		return false;
+	}
+
+	private void spawnSplashParticles() {
+		float splashIntensity = MathHelper.sqrt_double(
+			this.motionX * this.motionX * 0.2D + this.motionY * this.motionY + this.motionZ * this.motionZ * 0.2D
+		) * 0.2F;
+		if (splashIntensity > 1.0F) splashIntensity = 1.0F;
+
+		this.worldObj.playSoundAtEntity(this, "random.splash", splashIntensity,
+			1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.4F);
+
+		float splashY = (float) MathHelper.floor_double(this.boundingBox.minY);
+		int particleCount = (int) (1.0F + this.width * 20.0F);
+
+		for (int i = 0; i < particleCount; i++) {
+			float dx = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
+			float dz = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
+			this.worldObj.spawnParticle("bubble",
+				this.posX + dx, splashY + 1.0F, this.posZ + dz,
+				this.motionX, this.motionY - this.rand.nextFloat() * 0.2F, this.motionZ);
+		}
+
+		for (int i = 0; i < particleCount; i++) {
+			float dx = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
+			float dz = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
+			this.worldObj.spawnParticle("splash",
+				this.posX + dx, splashY + 1.0F, this.posZ + dz,
+				this.motionX, this.motionY, this.motionZ);
+		}
+	}
+
 	public void onEntityUpdate() {
-		if(this.ridingEntity != null && this.ridingEntity.isDead) {
+		if (this.ridingEntity != null && this.ridingEntity.isDead) {
 			this.ridingEntity = null;
 		}
 
@@ -169,36 +206,14 @@ public abstract class Entity {
 		this.prevPosX = this.posX;
 		this.prevPosY = this.posY;
 		this.prevPosZ = this.posZ;
-		
 		this.prevRotationPitch = this.rotationPitch;
 		this.prevRotationYaw = this.rotationYaw;
 
 		boolean acidMovement = this.handleAcidMovement();
-		
-		if(this.handleWaterMovement() || acidMovement) {
-			if(!this.inWater && !this.isFirstUpdate) {
-				float f1 = MathHelper.sqrt_double(this.motionX * this.motionX * (double)0.2F + this.motionY * this.motionY + this.motionZ * this.motionZ * (double)0.2F) * 0.2F;
-				if(f1 > 1.0F) {
-					f1 = 1.0F;
-				}
 
-				this.worldObj.playSoundAtEntity(this, "random.splash", f1, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.4F);
-				float f2 = (float)MathHelper.floor_double(this.boundingBox.minY);
-
-				int i3;
-				float f4;
-				float f5;
-				for(i3 = 0; (float)i3 < 1.0F + this.width * 20.0F; ++i3) {
-					f4 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
-					f5 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
-					this.worldObj.spawnParticle("bubble", this.posX + (double)f4, (double)(f2 + 1.0F), this.posZ + (double)f5, this.motionX, this.motionY - (double)(this.rand.nextFloat() * 0.2F), this.motionZ);
-				}
-
-				for(i3 = 0; (float)i3 < 1.0F + this.width * 20.0F; ++i3) {
-					f4 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
-					f5 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
-					this.worldObj.spawnParticle("splash", this.posX + (double)f4, (double)(f2 + 1.0F), this.posZ + (double)f5, this.motionX, this.motionY, this.motionZ);
-				}
+		if (this.handleWaterMovement() || acidMovement) {
+			if (!this.inWater && !this.isFirstUpdate) {
+				spawnSplashParticles();
 			}
 
 			this.fallDistance = 0.0F;
@@ -208,49 +223,31 @@ public abstract class Entity {
 			this.inWater = false;
 		}
 
-		if(this.worldObj.isRemote) {
+		if (this.worldObj.isRemote) {
 			this.fire = 0;
-		} else if(this.fire > 0) {
-			if(this.isImmuneToFire) {
+		} else if (this.fire > 0) {
+			if (this.isImmuneToFire) {
 				this.fire -= 4;
-				if(this.fire < 0) {
+				if (this.fire < 0) {
 					this.fire = 0;
 				}
 			} else {
-				if(this.fire % 20 == 0) {
-					this.attackEntityFrom((Entity)null, 1);
+				if (this.fire % 20 == 0) {
+					this.attackEntityFrom(null, 1);
 				}
-
 				--this.fire;
 			}
 		}
 
-		if(this.handleLavaMovement()) {
-			boolean setOnFire = true;
-			if(this instanceof EntityBoat) {
-				if (((EntityBoat)this).fireResistant) {
-					setOnFire = false;
-				}
-			}
-			if(this instanceof EntityPlayer) {
-				if(this.ridingEntity != null && this.ridingEntity instanceof EntityBoat) {
-					if (((EntityBoat)this.ridingEntity).fireResistant) {
-						setOnFire = false;
-					}
-				}
-			}
-			if(setOnFire) this.setOnFireFromLava();
-		}
-		
-		if(acidMovement) {
-			
+		if (this.handleLavaMovement() && !this.isLavaFireImmune()) {
+			this.setOnFireFromLava();
 		}
 
-		if(this.posY < -64.0D) {
+		if (this.posY < -64.0D) {
 			this.kill();
 		}
 
-		if(!this.worldObj.isRemote) {
+		if (!this.worldObj.isRemote) {
 			this.setEntityFlag(0, this.fire > 0);
 			this.setEntityFlag(2, this.ridingEntity != null);
 		}
@@ -527,14 +524,12 @@ public abstract class Entity {
 			int y2 = MathHelper.floor_double(this.boundingBox.maxY - 0.001D);
 			int z2 = MathHelper.floor_double(this.boundingBox.maxZ - 0.001D);
 
-			if(this.worldObj.checkChunksExist(x1, y1, z1, x2, y2, z2)) {
-				for(int xt = x1; xt <= x2; ++xt) {
-					for(int yt = y1; yt <= y2; ++yt) {
-						for(int zt = z1; zt <= z2; ++zt) {
-							Block block = Block.blocksList[this.worldObj.getBlockID(xt, yt, zt)];
-							if(block != null) {
-								block.onEntityCollidedWithBlock(this.worldObj, xt, yt, zt, this);
-							}
+			for(int xt = x1; xt <= x2; ++xt) {
+				for(int yt = y1; yt <= y2; ++yt) {
+					for(int zt = z1; zt <= z2; ++zt) {
+						Block block = Block.blocksList[this.worldObj.getBlockID(xt, yt, zt)];
+						if(block != null) {
+							block.onEntityCollidedWithBlock(this.worldObj, xt, yt, zt, this);
 						}
 					}
 				}
@@ -542,18 +537,7 @@ public abstract class Entity {
 			
 			boolean z42 = this.isWet();
 			if(this.worldObj.isBoundingBoxBurning(this.boundingBox.getInsetBoundingBox(0.001D, 0.001D, 0.001D))) {
-				boolean doFire = true;
-				
-				if(this instanceof EntityBoat) {
-					if(((EntityBoat)this).fireResistant) doFire = false;
-				}
-				if(this instanceof EntityPlayer) {
-					if(this.ridingEntity != null && this.ridingEntity instanceof EntityBoat) {
-						if(((EntityBoat)this.ridingEntity).fireResistant) doFire = false;
-					}
-				}
-				
-				if(doFire) {
+				if(!this.isLavaFireImmune()) {
 					this.dealFireDamage(1);
 					if(!z42) {
 						++this.fire;
@@ -893,30 +877,20 @@ public abstract class Entity {
 
 	protected abstract void writeEntityToNBT(NBTTagCompound nBTTagCompound1);
 
-	protected NBTTagList newDoubleNBTList(double... d1) {
-		NBTTagList nBTTagList2 = new NBTTagList();
-		double[] d3 = d1;
-		int i4 = d1.length;
-
-		for(int i5 = 0; i5 < i4; ++i5) {
-			double d6 = d3[i5];
-			nBTTagList2.setTag(new NBTTagDouble(d6));
+	protected NBTTagList newDoubleNBTList(double... values) {
+		NBTTagList list = new NBTTagList();
+		for (double d : values) {
+			list.setTag(new NBTTagDouble(d));
 		}
-
-		return nBTTagList2;
+		return list;
 	}
 
-	protected NBTTagList newFloatNBTList(float... f1) {
-		NBTTagList nBTTagList2 = new NBTTagList();
-		float[] f3 = f1;
-		int i4 = f1.length;
-
-		for(int i5 = 0; i5 < i4; ++i5) {
-			float f6 = f3[i5];
-			nBTTagList2.setTag(new NBTTagFloat(f6));
+	protected NBTTagList newFloatNBTList(float... values) {
+		NBTTagList list = new NBTTagList();
+		for (float f : values) {
+			list.setTag(new NBTTagFloat(f));
 		}
-
-		return nBTTagList2;
+		return list;
 	}
 
 	public float getShadowSize() {
@@ -977,21 +951,10 @@ public abstract class Entity {
 			if(this.ridingEntity != null) {
 				this.ridingEntity.updateRiderPosition();
 				this.entityRiderYawDelta += (double)(this.ridingEntity.rotationYaw - this.ridingEntity.prevRotationYaw);
+				this.entityRiderPitchDelta += (double)(this.ridingEntity.rotationPitch - this.ridingEntity.prevRotationPitch);
 
-				for(this.entityRiderPitchDelta += (double)(this.ridingEntity.rotationPitch - this.ridingEntity.prevRotationPitch); this.entityRiderYawDelta >= 180.0D; this.entityRiderYawDelta -= 360.0D) {
-				}
-
-				while(this.entityRiderYawDelta < -180.0D) {
-					this.entityRiderYawDelta += 360.0D;
-				}
-
-				while(this.entityRiderPitchDelta >= 180.0D) {
-					this.entityRiderPitchDelta -= 360.0D;
-				}
-
-				while(this.entityRiderPitchDelta < -180.0D) {
-					this.entityRiderPitchDelta += 360.0D;
-				}
+				this.entityRiderYawDelta = MathHelper.wrapDegrees(this.entityRiderYawDelta);
+				this.entityRiderPitchDelta = MathHelper.wrapDegrees(this.entityRiderPitchDelta);
 
 				double d1 = this.entityRiderYawDelta * 0.5D;
 				double d3 = this.entityRiderPitchDelta * 0.5D;
@@ -1065,15 +1028,7 @@ public abstract class Entity {
 		this.setRotation(f7, f8);
 		List<AxisAlignedBB> list10 = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.getInsetBoundingBox(8.0D / 256D, 0.0D, 8.0D / 256D));
 		if(list10.size() > 0) {
-			double d11 = 0.0D;
-
-			for(int i13 = 0; i13 < list10.size(); ++i13) {
-				AxisAlignedBB axisAlignedBB14 = (AxisAlignedBB)list10.get(i13);
-				if(axisAlignedBB14.maxY > d11) {
-					d11 = axisAlignedBB14.maxY;
-				}
-			}
-
+			double d11 = list10.stream().mapToDouble(bb -> bb.maxY).max().orElse(0.0D);
 			d3 += d11 - this.boundingBox.minY;
 			this.setPosition(d1, d3, d5);
 		}

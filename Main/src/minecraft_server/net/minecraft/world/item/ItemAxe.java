@@ -7,8 +7,11 @@ import net.minecraft.world.level.tile.Block;
 public class ItemAxe extends ItemTool {
 	private static Block[] blocksEffectiveAgainst = new Block[]{
 		Block.planks, 
+		Block.planks2, 
 		Block.bookShelf, 
 		Block.wood, 
+		Block.wood2,
+		Block.wood3, 
 		Block.chest,
 		Block.ladder,
 		Block.pressurePlatePlanks,

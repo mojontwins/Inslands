@@ -1,7 +1,6 @@
 package net.minecraft.world.entity.ai;
 
 import java.util.Random;
-
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.EntityCreature;
 import net.minecraft.world.level.World;
@@ -12,31 +11,31 @@ public class EntityAIFleeSun extends EntityAIBase {
 	private double shelterX;
 	private double shelterY;
 	private double shelterZ;
-	private float field_48299_e;
+	private float movementSpeed;
 	private World theWorld;
 
-	public EntityAIFleeSun(EntityCreature entityCreature1, float f2) {
-		this.theCreature = entityCreature1;
-		this.field_48299_e = f2;
-		this.theWorld = entityCreature1.worldObj;
+	public EntityAIFleeSun(EntityCreature entityCreature, float speed) {
+		this.theCreature = entityCreature;
+		this.movementSpeed = speed;
+		this.theWorld = entityCreature.worldObj;
 		this.setMutexBits(1);
 	}
 
 	public boolean shouldExecute() {
-		if(!this.theWorld.isDaytime()) {
+		if (!this.theWorld.isDaytime()) {
 			return false;
-		} else if(!this.theCreature.isBurning()) {
+		} else if (!this.theCreature.isBurning()) {
 			return false;
-		} else if(!this.theWorld.canBlockSeeTheSky(MathHelper.floor_double(this.theCreature.posX), (int)this.theCreature.boundingBox.minY, MathHelper.floor_double(this.theCreature.posZ))) {
+		} else if (!this.theWorld.canBlockSeeTheSky(MathHelper.floor_double(this.theCreature.posX), (int) this.theCreature.boundingBox.minY, MathHelper.floor_double(this.theCreature.posZ))) {
 			return false;
 		} else {
-			Vec3D vec3D1 = this.findPossibleShelter();
-			if(vec3D1 == null) {
+			Vec3D shelter = this.findPossibleShelter();
+			if (shelter == null) {
 				return false;
 			} else {
-				this.shelterX = vec3D1.xCoord;
-				this.shelterY = vec3D1.yCoord;
-				this.shelterZ = vec3D1.zCoord;
+				this.shelterX = shelter.xCoord;
+				this.shelterY = shelter.yCoord;
+				this.shelterZ = shelter.zCoord;
 				return true;
 			}
 		}
@@ -47,18 +46,18 @@ public class EntityAIFleeSun extends EntityAIBase {
 	}
 
 	public void startExecuting() {
-		this.theCreature.getNavigator().tryMoveToXYZ(this.shelterX, this.shelterY, this.shelterZ, this.field_48299_e);
+		this.theCreature.getNavigator().tryMoveToXYZ(this.shelterX, this.shelterY, this.shelterZ, this.movementSpeed);
 	}
 
 	private Vec3D findPossibleShelter() {
-		Random random1 = this.theCreature.getRNG();
+		Random random = this.theCreature.getRNG();
 
-		for(int i2 = 0; i2 < 10; ++i2) {
-			int i3 = MathHelper.floor_double(this.theCreature.posX + (double)random1.nextInt(20) - 10.0D);
-			int i4 = MathHelper.floor_double(this.theCreature.boundingBox.minY + (double)random1.nextInt(6) - 3.0D);
-			int i5 = MathHelper.floor_double(this.theCreature.posZ + (double)random1.nextInt(20) - 10.0D);
-			if(!this.theWorld.canBlockSeeTheSky(i3, i4, i5) && this.theCreature.getBlockPathWeight(i3, i4, i5) < 0.0F) {
-				return Vec3D.createVector((double)i3, (double)i4, (double)i5);
+		for (int attempt = 0; attempt < 10; ++attempt) {
+			int x = MathHelper.floor_double(this.theCreature.posX + (double) random.nextInt(20) - 10.0D);
+			int y = MathHelper.floor_double(this.theCreature.boundingBox.minY + (double) random.nextInt(6) - 3.0D);
+			int z = MathHelper.floor_double(this.theCreature.posZ + (double) random.nextInt(20) - 10.0D);
+			if (!this.theWorld.canBlockSeeTheSky(x, y, z) && this.theCreature.getBlockPathWeight(x, y, z) < 0.0F) {
+				return Vec3D.createVector((double) x, (double) y, (double) z);
 			}
 		}
 

@@ -5,7 +5,7 @@ import java.util.Random;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.EntityPlayer;
-import net.minecraft.world.entity.sentient.EntityAmazon;
+import net.minecraft.world.entity.mob.humanoid.EntityAmazon;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
 

@@ -5,7 +5,7 @@ import java.util.Random;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.item.EntityItem;
-import net.minecraft.world.entity.monster.EntitySnowball;
+import net.minecraft.world.entity.projectile.EntitySnowball;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.entity.projectile.EntityArrow;
 import net.minecraft.world.entity.projectile.EntityEgg;
@@ -72,12 +72,6 @@ public class BlockDispenser extends BlockContainer {
 	}
 
 	public int getBlockTexture(IBlockAccess iBlockAccess1, int i2, int i3, int i4, int i5) {
-		/*if(i5 == 1) {
-			return this.blockIndexInTexture + 17;
-		} else if(i5 == 0) {
-			return this.blockIndexInTexture + 17;
-		}*/
-		
 		if(i5 < 2) {
 			return Block.stone.blockIndexInTexture;
 		} else {

@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.monster.EntityExplodingZombie;
+import net.minecraft.world.entity.mob.undead.EntityExplodingZombie;
 
 public class RenderExplodingZombie extends RenderZombie {
 

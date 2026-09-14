@@ -3,7 +3,7 @@ package net.minecraft.world.level.tile.entity;
 import net.minecraft.world.entity.EntityList;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.IMobWithLevel;
-import net.minecraft.world.entity.monster.EntityAlphaWitch;
+import net.minecraft.world.entity.mob.boss.EntityAlphaWitch;
 
 public class TileEntityMobSpawnerOneshot extends TileEntityMobSpawner {
 	// Just spawns its mob once when the player approaches.

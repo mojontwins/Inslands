@@ -208,6 +208,7 @@ public abstract class Minecraft implements Runnable {
 	}
 
 	public void startGame() throws LWJGLException {
+		System.setProperty("net.java.games.input.useDefaultPlugin", "false");
 		System.out.println("Java library path: " + System.getProperty("java.library.path"));
 		if(this.mcCanvas != null) {
 			Graphics graphics1 = this.mcCanvas.getGraphics();

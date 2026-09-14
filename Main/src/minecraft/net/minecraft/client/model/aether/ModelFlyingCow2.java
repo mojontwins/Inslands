@@ -2,7 +2,7 @@ package net.minecraft.client.model.aether;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.world.entity.animal.EntityFlyingCow;
+import net.minecraft.world.entity.animal.wild.EntityFlyingCow;
 
 public class ModelFlyingCow2 extends ModelBase {
 	private ModelRenderer leftWingInner = new ModelRenderer(0, 0);

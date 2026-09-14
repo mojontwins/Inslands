@@ -6,7 +6,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelCreeper;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.monster.EntityCreeper;
+import net.minecraft.world.entity.mob.creeper.EntityCreeper;
 
 public class RenderCreeper extends RenderLiving {
 	private ModelBase field_27008_a = new ModelCreeper(2.0F);

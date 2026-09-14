@@ -27,8 +27,6 @@ public class WorldGenPalmTree extends WorldGenMojon {
 
 	@Override
 	public boolean generate(World world, Random rand, int x0, int y0, int z0) {
-		// Can a palm tree grow here?
-		
 		if(!this.validGround(world, x0, y0 - 1, z0)) {
 			return false;
 		}
@@ -41,8 +39,6 @@ public class WorldGenPalmTree extends WorldGenMojon {
 			}
 		}
 		
-		// Two variations
-		
 		double arch;
 		int height;
 		
@@ -54,25 +50,34 @@ public class WorldGenPalmTree extends WorldGenMojon {
 			height = 8;
 		}
 		
-		BlockPos cursor = new BlockPos().set(x0, y0 - 1, z0);
-		this.setBlockAndMetadata(world, cursor, Block.dirt.blockID, 0);
+		this.setBlockAndMetadata(world, x0, y0 - 1, z0, Block.dirt.blockID, 0);
 		
 		int direction = Direction.HORZ_PLANE[rand.nextInt(Direction.HORZ_PLANE.length)];
+		int offX = Direction.offsetX[direction];
+		int offZ = Direction.offsetZ[direction];
 				
-		for(int y = 0 ; y < height; y ++) {
-			cursor.x = x0; cursor.z = z0;
-			cursor.move(direction, (int)Math.floor(arch));
-			this.setBlockAndMetadata(world, cursor.move(Direction.UP), trunkID, trunkMeta);
+		int trunkX = x0;
+		int trunkY = y0;
+		int trunkZ = z0;
+
+		for(int i = 0; i < height; i ++) {
+			int archStep = (int)Math.floor(arch);
+			trunkX = x0 + offX * archStep;
+			trunkZ = z0 + offZ * archStep;
+			this.setBlockAndMetadata(world, trunkX, trunkY, trunkZ, trunkID, trunkMeta);
+			trunkY ++;
 			arch *= 1.3D;
 		}
 		
-		this.edgesPlusShape(world, cursor.move(Direction.DOWN), 5, leavesID, leavesMeta); 	// Y -1
-		this.edgesPlusShape(world, cursor.move(Direction.UP), 5, leavesID, leavesMeta); 	// Y + 2
+		BlockPos cursor = new BlockPos().set(trunkX, trunkY, trunkZ);
+
+		this.edgesPlusShape(world, cursor.move(Direction.DOWN), 5, leavesID, leavesMeta);
+		this.edgesPlusShape(world, cursor.move(Direction.UP), 5, leavesID, leavesMeta);
 		
-		this.edgesSquareShape(world, cursor.move(Direction.UP), 5, leavesID, leavesMeta);	// Y
+		this.edgesSquareShape(world, cursor.move(Direction.UP), 5, leavesID, leavesMeta);
 		this.edgesPlusShape(world, cursor, 3, leavesID, leavesMeta);
 		
-		this.setBlockIfEmpty(world, cursor.move(Direction.UP), leavesID, leavesMeta); 		// Y + 1
+		this.setBlockIfEmpty(world, cursor.move(Direction.UP), leavesID, leavesMeta);
 		this.edgesSquareShape(world, cursor, 3, leavesID, leavesMeta);
 		
 		

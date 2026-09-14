@@ -1,14 +1,13 @@
 package net.minecraft.world.entity;
 
 import com.mojang.nbt.NBTTagCompound;
-
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.World;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
 import net.minecraft.world.level.pathfinder.PathEntity;
+import net.minecraft.world.level.World;
 import net.minecraft.world.phys.Vec3D;
 
 public class EntityCreature extends EntityLiving {
@@ -99,22 +98,12 @@ public class EntityCreature extends EntityLiving {
 				double d10 = vec3D5.zCoord - this.posZ;
 				double d12 = vec3D5.yCoord - (double)i21;
 				float f14 = (float)(Math.atan2(d10, d8) * 180.0D / (double)(float)Math.PI) - 90.0F;
-				float f15 = f14 - this.rotationYaw;
+				float f15 = MathHelper.wrapDegrees(f14 - this.rotationYaw);
 
-				for(this.moveForward = this.moveSpeed; f15 < -180.0F; f15 += 360.0F) {
-				}
+				this.moveForward = this.moveSpeed;
 
-				while(f15 >= 180.0F) {
-					f15 -= 360.0F;
-				}
-
-				if(f15 > 30.0F) {
-					f15 = 30.0F;
-				}
-
-				if(f15 < -30.0F) {
-					f15 = -30.0F;
-				}
+				if(f15 > 30.0F) f15 = 30.0F;
+				if(f15 < -30.0F) f15 = -30.0F;
 
 				this.rotationYaw += f15;
 				if(this.hasAttacked && this.entityToAttack != null) {
@@ -247,7 +236,11 @@ public class EntityCreature extends EntityLiving {
 
 	public void setName(String name) {
 		if(name == null) name = "";
-		dataWatcher.updateObject(Datawatchers.DW_NAME, name);
+		try {
+			dataWatcher.updateObject(Datawatchers.DW_NAME, name);
+		} catch (Exception e) {
+			dataWatcher.addObject(Datawatchers.DW_NAME, name);
+		}
 	}
 	
 	@Override

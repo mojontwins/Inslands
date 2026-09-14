@@ -5,10 +5,10 @@ import net.minecraft.world.entity.EntityLiving;
 public class EntityAISwimming extends EntityAIBase {
 	private EntityLiving theEntity;
 
-	public EntityAISwimming(EntityLiving entityLiving1) {
-		this.theEntity = entityLiving1;
+	public EntityAISwimming(EntityLiving entityLiving) {
+		this.theEntity = entityLiving;
 		this.setMutexBits(4);
-		entityLiving1.getNavigator().setCanSwim(true);
+		entityLiving.getNavigator().setCanSwim(true);
 	}
 
 	public boolean shouldExecute() {

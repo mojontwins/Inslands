@@ -6,7 +6,7 @@ import java.util.Random;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.EntityItem;
-import net.minecraft.world.entity.monster.EntitySpider;
+import net.minecraft.world.entity.mob.spider.EntitySpider;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.IBlockAccess;

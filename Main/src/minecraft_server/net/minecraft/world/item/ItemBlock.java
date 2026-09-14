@@ -16,46 +16,46 @@ public class ItemBlock extends Item {
 		this.setIconIndex(Block.blocksList[i1 + 256].getBlockTextureFromSide(2));
 	}
 
-	public boolean onItemUse(ItemStack itemStack1, EntityPlayer entityPlayer2, World world3, int i4, int i5, int i6, int i7, float xWithinFace, float yWithinFace, float zWithinFace) {
-		if(world3.getBlockID(i4, i5, i6) == Block.snow.blockID) {
-			i7 = 0;
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float xWithinFace, float yWithinFace, float zWithinFace) {
+		if(world.getBlockID(x, y, z) == Block.snow.blockID) {
+			side = 0;
 		} else {
-			if(i7 == 0) {
-				--i5;
+			if(side == 0) {
+				--y;
 			}
 
-			if(i7 == 1) {
-				++i5;
+			if(side == 1) {
+				++y;
 			}
 
-			if(i7 == 2) {
-				--i6;
+			if(side == 2) {
+				--z;
 			}
 
-			if(i7 == 3) {
-				++i6;
+			if(side == 3) {
+				++z;
 			}
 
-			if(i7 == 4) {
-				--i4;
+			if(side == 4) {
+				--x;
 			}
 
-			if(i7 == 5) {
-				++i4;
+			if(side == 5) {
+				++x;
 			}
 		}
 
-		if(itemStack1.stackSize == 0) {
+		if(stack.stackSize == 0) {
 			return false;
-		} else if(i5 == 127 && Block.blocksList[this.blockID].blockMaterial.isSolid()) {
+		} else if(y == 127 && Block.blocksList[this.blockID].blockMaterial.isSolid()) {
 			return false;
-		} else if(world3.canBlockBePlacedAt(this.blockID, i4, i5, i6, false, i7)) {
+		} else if(world.canBlockBePlacedAt(this.blockID, x, y, z, false, side)) {
 			Block block8 = Block.blocksList[this.blockID];
-			if(world3.setBlockAndMetadataWithNotify(i4, i5, i6, this.blockID, this.getPlacedBlockMetadata(itemStack1.getItemDamage()))) {
-				Block.blocksList[this.blockID].onBlockPlaced(world3, i4, i5, i6, i7, xWithinFace, yWithinFace, zWithinFace);
-				Block.blocksList[this.blockID].onBlockPlacedBy(world3, i4, i5, i6, entityPlayer2);
-				world3.playSoundEffect((double)((float)i4 + 0.5F), (double)((float)i5 + 0.5F), (double)((float)i6 + 0.5F), block8.stepSound.getStepSound(), (block8.stepSound.getVolume() + 1.0F) / 2.0F, block8.stepSound.getPitch() * 0.8F);
-				if(!entityPlayer2.isCreative) --itemStack1.stackSize;
+			if(world.setBlockAndMetadataWithNotify(x, y, z, this.blockID, this.getPlacedBlockMetadata(stack.getItemDamage()))) {
+				Block.blocksList[this.blockID].onBlockPlaced(world, x, y, z, side, xWithinFace, yWithinFace, zWithinFace);
+				Block.blocksList[this.blockID].onBlockPlacedBy(world, x, y, z, player);
+				world.playSoundEffect((double)((float)x + 0.5F), (double)((float)y + 0.5F), (double)((float)z + 0.5F), block8.stepSound.getStepSound(), (block8.stepSound.getVolume() + 1.0F) / 2.0F, block8.stepSound.getPitch() * 0.8F);
+				if(!player.isCreative) --stack.stackSize;
 			}
 
 			return true;

@@ -1,7 +1,7 @@
 package net.minecraft.world.entity.status;
 
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.monster.EntityAlphaWitch;
+import net.minecraft.world.entity.mob.boss.EntityAlphaWitch;
 
 public class StatusSlowness extends Status {
 
@@ -11,7 +11,7 @@ public class StatusSlowness extends Status {
 	}
 
 	@Override
-	public void performEffect (EntityLiving entityLiving, int amplifier, int duration) {
+	public void performEffect(EntityLiving entityLiving, int amplifier, int duration) {
 		// Make slower somehow
 		entityLiving.speedModifier = 0.2F;
 	}
@@ -22,7 +22,7 @@ public class StatusSlowness extends Status {
 	}
 	
 	@Override
-	public boolean isApplicableTo (EntityLiving entityLiving) {
+	public boolean isApplicableTo(EntityLiving entityLiving) {
 		return !(entityLiving instanceof EntityAlphaWitch);
 	}
 }

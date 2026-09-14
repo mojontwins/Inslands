@@ -2,7 +2,6 @@ package net.minecraft.world.entity.projectile;
 
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.monster.EntitySnowball;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.entity.status.Status;
 import net.minecraft.world.entity.status.StatusEffect;
@@ -13,16 +12,16 @@ import net.minecraft.world.stats.AchievementList;
 
 public class EntityThrowableToxicFungus extends EntitySnowball {
 
-	public EntityThrowableToxicFungus(World world1) {
-		super(world1);
+	public EntityThrowableToxicFungus(World world) {
+		super(world);
 	}
 
-	public EntityThrowableToxicFungus(World world1, double d2, double d4, double d6) {
-		super(world1, d2, d4, d6);
+	public EntityThrowableToxicFungus(World world, double x, double y, double z) {
+		super(world, x, y, z);
 	}
 
-	public EntityThrowableToxicFungus(World world1, EntityLiving entityLiving2) {
-		super(world1, entityLiving2);
+	public EntityThrowableToxicFungus(World world, EntityLiving thrower) {
+		super(world, thrower);
 	}
 
 	public void onUpdate() {
@@ -44,27 +43,25 @@ public class EntityThrowableToxicFungus extends EntitySnowball {
 	}
 	
 	@Override
-	public void throwableHitEntity(MovingObjectPosition par1MovingObjectPosition) {
+	public void throwableHitEntity(MovingObjectPosition hitPos) {
 		int i;
-		if(par1MovingObjectPosition.entityHit != null && par1MovingObjectPosition.entityHit instanceof EntityLiving) {
-			
-			EntityLiving comoCamote = ((EntityLiving)par1MovingObjectPosition.entityHit);
-			
-			if(comoCamote.attackEntityFrom(this.thrower, 1)) {
-				byte time = (byte)(this.worldObj.difficultySetting == 0 ? 0 : 7);
-				if(time > 0) {
-					System.out.print("Adding statuses to " + comoCamote);
-					comoCamote.addStatusEffect(new StatusEffect(Status.statusSlowness.id, time * 20, 0));
+		if (hitPos.entityHit != null && hitPos.entityHit instanceof EntityLiving) {
+			EntityLiving entityHit = (EntityLiving) hitPos.entityHit;
+			if (entityHit.attackEntityFrom(this.thrower, 1)) {
+				byte time = (byte) (this.worldObj.difficultySetting == 0 ? 0 : 7);
+				if (time > 0) {
+					System.out.print("Adding statuses to " + entityHit);
+					entityHit.addStatusEffect(new StatusEffect(Status.statusSlowness.id, time * 20, 0));
 
-					if(comoCamote instanceof EntityPlayer) {
-						((EntityPlayer)comoCamote).triggerAchievement(AchievementList.fungalInfection);
+					if (entityHit instanceof EntityPlayer) {
+						((EntityPlayer) entityHit).triggerAchievement(AchievementList.fungalInfection);
 					}
 				}
 			}
-		} else if(par1MovingObjectPosition != null) {
-			int x = MathHelper.floor_double((double)par1MovingObjectPosition.blockX);
-			int y = MathHelper.floor_double((double)par1MovingObjectPosition.blockY);
-			int z = MathHelper.floor_double((double)par1MovingObjectPosition.blockZ);
+		} else if (hitPos != null) {
+			int x = MathHelper.floor_double((double) hitPos.blockX);
+			int y = MathHelper.floor_double((double) hitPos.blockY);
+			int z = MathHelper.floor_double((double) hitPos.blockZ);
 			int blockID = this.worldObj.getBlockID(x, y, z);
 			if(blockID == Block.dirt.blockID || blockID == Block.grass.blockID || blockID == Block.sand.blockID) {
 				this.worldObj.setBlockWithNotify(x, y, z, Block.mycelium.blockID);

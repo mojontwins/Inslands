@@ -3,7 +3,7 @@ package net.minecraft.world.item;
 import java.util.List;
 
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.animal.EntitySheep;
+import net.minecraft.world.entity.animal.farm.EntitySheep;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;

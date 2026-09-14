@@ -1,7 +1,6 @@
 package net.minecraft.world.entity.block;
 
 import com.mojang.nbt.NBTTagCompound;
-
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.level.World;
 
@@ -10,8 +9,8 @@ public class EntityBlockEntity extends EntityLiving {
 	public int yTile;
 	public int zTile;
 
-	public EntityBlockEntity(World world1) {
-		super(world1);
+	public EntityBlockEntity(World world) {
+		super(world);
 	}
 
 	public void setTilePosition(int xTile, int yTile, int zTile) {
@@ -20,17 +19,17 @@ public class EntityBlockEntity extends EntityLiving {
 		this.zTile = zTile;
 	}
 	
-	public void writeEntityToNBT(NBTTagCompound nBTTagCompound1) {
-		super.writeEntityToNBT(nBTTagCompound1);
-		nBTTagCompound1.setShort("xTile", (short)this.xTile);
-		nBTTagCompound1.setShort("yTile", (short)this.yTile);
-		nBTTagCompound1.setShort("zTile", (short)this.zTile);
+	public void writeEntityToNBT(NBTTagCompound nbtTagCompound) {
+		super.writeEntityToNBT(nbtTagCompound);
+		nbtTagCompound.setShort("xTile", (short) this.xTile);
+		nbtTagCompound.setShort("yTile", (short) this.yTile);
+		nbtTagCompound.setShort("zTile", (short) this.zTile);
 	}
 
-	public void readEntityFromNBT(NBTTagCompound nBTTagCompound1) {
-		super.readEntityFromNBT(nBTTagCompound1);
-		this.xTile = nBTTagCompound1.getShort("xTile");
-		this.yTile = nBTTagCompound1.getShort("yTile");
-		this.zTile = nBTTagCompound1.getShort("zTile");
+	public void readEntityFromNBT(NBTTagCompound nbtTagCompound) {
+		super.readEntityFromNBT(nbtTagCompound);
+		this.xTile = nbtTagCompound.getShort("xTile");
+		this.yTile = nbtTagCompound.getShort("yTile");
+		this.zTile = nbtTagCompound.getShort("zTile");
 	}
 }

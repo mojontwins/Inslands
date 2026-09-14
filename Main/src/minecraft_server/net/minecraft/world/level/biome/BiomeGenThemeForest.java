@@ -2,17 +2,17 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
-import net.minecraft.world.entity.animal.EntityBetaOcelot;
-import net.minecraft.world.entity.animal.EntityChickenBlack;
-import net.minecraft.world.entity.animal.EntityTwilightBighorn;
-import net.minecraft.world.entity.animal.EntityTwilightBoar;
-import net.minecraft.world.entity.animal.EntityTwilightDeer;
-import net.minecraft.world.entity.animal.EntityWolf;
+import net.minecraft.world.entity.animal.wild.EntityBetaOcelot;
+import net.minecraft.world.entity.animal.farm.EntityChickenBlack;
+import net.minecraft.world.entity.animal.farm.EntityTwilightBighorn;
+import net.minecraft.world.entity.animal.farm.EntityTwilightBoar;
+import net.minecraft.world.entity.animal.farm.EntityTwilightDeer;
+import net.minecraft.world.entity.animal.wild.EntityWolf;
 import net.minecraft.world.entity.animal.moc.EntityGoat;
-import net.minecraft.world.entity.monster.EntityFungalCalamity;
-import net.minecraft.world.entity.monster.EntityTFHedgeSpider;
-import net.minecraft.world.entity.monster.EntityTFKobold;
-import net.minecraft.world.entity.monster.EntityTFRedcap;
+import net.minecraft.world.entity.mob.undead.EntityFungalCalamity;
+import net.minecraft.world.entity.mob.spider.EntityTFHedgeSpider;
+import net.minecraft.world.entity.mob.twilight.EntityTFKobold;
+import net.minecraft.world.entity.mob.twilight.EntityTFRedcap;
 import net.minecraft.world.level.SpawnListEntry;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.feature.TFGenFoundation;

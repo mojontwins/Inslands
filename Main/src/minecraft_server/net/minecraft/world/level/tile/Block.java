@@ -100,8 +100,6 @@ public class Block {
 	// 34
 	public static final Block cloth = (new BlockCloth()).setHardness(0.8F).setStepSound(soundClothFootstep).setBlockName("cloth").setRequiresSelfNotify();
 	// 36
-	//public static final BlockFlower plantYellow = (BlockFlower)(new BlockFlower(37, 13)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("flower");
-	//public static final BlockFlower plantRed = (BlockFlower)(new BlockFlower(38, 12)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("rose");
 	public static final BlockFlower flowers = (BlockFlower)(new BlockFlowerWithSubtypes(37)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("flower");
 	public static final BlockFlower mushroomBrown = (BlockFlower)(new BlockMushroom(39, 29)).setHardness(0.0F).setStepSound(soundGrassFootstep).setLightValue(0.125F).setBlockName("mushroom");
 	public static final BlockFlower mushroomRed = (BlockFlower)(new BlockMushroom(40, 28)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("mushroom");
@@ -155,7 +153,6 @@ public class Block {
 	public static final Block slowSand = (new BlockSoulSand(88, 104)).setHardness(0.5F).setStepSound(soundSandFootstep).setBlockName("hellsand");
 	
 	// Reinstated for b1.6: glowStone is glass
-	//public static final Block glowStone = (new BlockGlowStone(89, 105, Material.rock)).setHardness(0.3F).setStepSound(soundGlassFootstep).setLightValue(1.0F).setBlockName("lightgem");
 	public static final Block glowStone = (new BlockGlowStone(89, 105, Material.glass)).setHardness(0.3F).setStepSound(soundGlassFootstep).setLightValue(1.0F).setBlockName("lightgem");
 	
 	public static final BlockPortal portal = (BlockPortal)(new BlockPortal(90, 14)).setHardness(-1.0F).setStepSound(soundGlassFootstep).setLightValue(0.75F).setBlockName("portal");
@@ -218,8 +215,6 @@ public class Block {
 	public static final Block oreRuby = (new BlockOre(140, 14*16 + 3)).setHardness(2.5F).setResistance(10.0F).setStepSound(soundStoneFootstep).setBlockName("oreRuby");
 	public static final Block oreEmerald = (new BlockOre(141, 13*16 + 3)).setHardness(2.5F).setResistance(10.0F).setStepSound(soundStoneFootstep).setBlockName("oreEmerald");
 	public static final Block seaweed = (new BlockSeaweed(142, 15*16 + 12)).setHardness(0.2F).setLightOpacity(3).setStepSound(soundGrassFootstep).setBlockName("seaWeed");
-	//public static final BlockFlower paeonia = (BlockFlower)(new BlockFlower(143, 14*16 + 2)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("paeonia");
-	//public static final BlockFlower blueFlower = (BlockFlower)(new BlockFlower(144, 14*16 + 0)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("blueFlower");
 	public static final Block coral = (new BlockCoral(145, 12 * 16 + 10)).setHardness(0.5F).setStepSound(soundGrassFootstep).setLightOpacity(3).setLightValue(0.675F).setBlockName("coral");
 	public static final Block mushroomCapGreen = (new BlockBigMushroom(146, 2)).setHardness(0.2F).setStepSound(soundWoodFootstep).setLightValue(0.675F).setBlockName("bigMushroomGreen");
 	public static final Block shinyGlass = (new Block(147, 12 * 16 + 8, Material.glass)).setHardness(0.3F).setStepSound(soundGlassFootstep).setIsUrban(true).setLightValue(1.0F).setBlockName("shinyGlass").setCreativeTab(CreativeTabs.tabBlock);

@@ -4,7 +4,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.animal.EntityChicken;
+import net.minecraft.world.entity.animal.farm.EntityChicken;
 
 public class RenderChicken extends RenderLiving {
 	public RenderChicken(ModelBase modelBase1, float f2) {
@@ -15,9 +15,9 @@ public class RenderChicken extends RenderLiving {
 		super.doRenderLiving(entityChicken1, d2, d4, d6, f8, f9);
 	}
 
-	protected float getWingRotation(EntityChicken entityChicken1, float f2) {
-		float f3 = entityChicken1.field_756_e + (entityChicken1.field_752_b - entityChicken1.field_756_e) * f2;
-		float f4 = entityChicken1.field_757_d + (entityChicken1.destPos - entityChicken1.field_757_d) * f2;
+	protected float getWingRotation(EntityChicken entityChicken, float f2) {
+		float f3 = entityChicken.prevWingRotation + (entityChicken.wingRotation - entityChicken.prevWingRotation) * f2;
+		float f4 = entityChicken.prevDestPos + (entityChicken.destPos - entityChicken.prevDestPos) * f2;
 		return (MathHelper.sin(f3) + 1.0F) * f4;
 	}
 

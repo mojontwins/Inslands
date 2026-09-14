@@ -30,11 +30,12 @@ public class BlockPos {
 	}
 
 	public BlockPos set(BlockPos blockPos) {
-		return new BlockPos().set(blockPos.x, blockPos.y, blockPos.z);
+		this.x = blockPos.x; this.y = blockPos.y; this.z = blockPos.z;
+		return this;
 	}
 
 	public BlockPos rotateHorzFrom(BlockPos origin, boolean rotated) {
-		return this.rotateHorzFrom(origin.x, origin.x, rotated);
+		return this.rotateHorzFrom(origin.x, origin.z, rotated);
 	}
 		
 	public BlockPos rotateHorzFrom(int x, int z, boolean rotated) {		

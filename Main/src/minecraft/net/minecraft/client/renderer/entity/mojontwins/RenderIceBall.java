@@ -6,7 +6,7 @@ import org.lwjgl.opengl.GL12;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.sentient.EntityIceBall;
+import net.minecraft.world.entity.projectile.EntityIceBall;
 import net.minecraft.world.item.Item;
 
 public class RenderIceBall extends Render {

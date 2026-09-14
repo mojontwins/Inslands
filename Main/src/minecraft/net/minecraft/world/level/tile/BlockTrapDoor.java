@@ -103,34 +103,6 @@ public class BlockTrapDoor extends Block {
 
 	public void onNeighborBlockChange(World world1, int i2, int i3, int i4, int i5) {
 		if(!world1.isRemote) {
-			/*
-			int i6 = world1.getBlockMetadata(i2, i3, i4);
-			
-			int i7 = i2;
-			int i8 = i4;
-			
-			if((i6 & 3) == 0) {
-				i8 = i4 + 1;
-			}
-
-			if((i6 & 3) == 1) {
-				--i8;
-			}
-
-			if((i6 & 3) == 2) {
-				i7 = i2 + 1;
-			}
-
-			if((i6 & 3) == 3) {
-				--i7;
-			}
-
-			if(!world1.isBlockNormalCube(i7, i3, i8)) {
-				world1.setBlockWithNotify(i2, i3, i4, 0);
-				this.dropBlockAsItem(world1, i2, i3, i4, i6);
-			}
-			*/
-
 			if(i5 > 0 && Block.blocksList[i5].canProvidePower()) {
 				boolean z9 = world1.isBlockIndirectlyGettingPowered(i2, i3, i4);
 				this.onPoweredBlockChange(world1, i2, i3, i4, z9);

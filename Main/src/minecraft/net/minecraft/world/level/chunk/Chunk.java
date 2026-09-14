@@ -292,20 +292,28 @@ public class Chunk {
 			// If there's a sky, skylight may need to be recalculated.			
 			if(!this.worldObj.worldProvider.hasNoSky) {
 
-				// If block is not 100% transparent
-				if(Block.lightOpacity[id] != 0) {
+				// Skip light recompute if both blocks have identical light properties.
+				// Swapping one opaque block for another with the same opacity/value
+				// cannot change light levels.
+				boolean sameLight = (Block.lightOpacity[existingId] == Block.lightOpacity[id])
+				                 && (Block.lightValue[existingId]     == Block.lightValue[id]);
 
-					// And set above current topmost block
-					if(y >= height) {
-						// Relight from just above this new block
-						this.relightBlock(x, y + 1, z);
-					}
-				} else {
-					// Set a 100% transparent block
-
-					// If it is replacing the topmost block, relight from here.
-					if(y == height - 1) {
-						this.relightBlock(x, y, z);
+				if(!sameLight) {
+					// If block is not 100% transparent
+					if(Block.lightOpacity[id] != 0) {
+	
+						// And set above current topmost block
+						if(y >= height) {
+							// Relight from just above this new block
+							this.relightBlock(x, y + 1, z);
+						}
+					} else {
+						// Set a 100% transparent block
+	
+						// If it is replacing the topmost block, relight from here.
+						if(y == height - 1) {
+							this.relightBlock(x, y, z);
+						}
 					}
 				}
 			}

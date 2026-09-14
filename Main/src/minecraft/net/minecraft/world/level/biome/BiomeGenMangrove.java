@@ -2,13 +2,13 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
-import net.minecraft.world.entity.monster.EntityCreeper;
-import net.minecraft.world.entity.monster.EntityDrowned;
-import net.minecraft.world.entity.monster.EntityElementalCreeper;
-import net.minecraft.world.entity.monster.EntityPigZombieVolcanoes;
-import net.minecraft.world.entity.monster.EntitySkeleton;
-import net.minecraft.world.entity.monster.EntitySlime;
-import net.minecraft.world.entity.monster.EntitySpider;
+import net.minecraft.world.entity.mob.creeper.EntityCreeper;
+import net.minecraft.world.entity.mob.undead.EntityDrowned;
+import net.minecraft.world.entity.mob.creeper.EntityElementalCreeper;
+import net.minecraft.world.entity.mob.undead.EntityPigZombieVolcanoes;
+import net.minecraft.world.entity.mob.undead.EntitySkeleton;
+import net.minecraft.world.entity.mob.slime.EntitySlime;
+import net.minecraft.world.entity.mob.spider.EntitySpider;
 import net.minecraft.world.level.SpawnListEntry;
 import net.minecraft.world.level.Weather;
 import net.minecraft.world.level.World;

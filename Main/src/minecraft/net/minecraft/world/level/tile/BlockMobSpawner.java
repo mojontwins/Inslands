@@ -15,7 +15,6 @@ public class BlockMobSpawner extends BlockContainer {
 	protected BlockMobSpawner(int id, int blockIndex, boolean oneShot) {
 		super(id, blockIndex, Material.rock);
 		this.oneShot = oneShot;
-		//if(oneShot) this.blockIndexInTexture = 253;
 	}
 	
 	@Override

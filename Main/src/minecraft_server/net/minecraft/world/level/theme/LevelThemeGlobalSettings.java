@@ -23,6 +23,7 @@ public class LevelThemeGlobalSettings {
 	public static boolean levelChecks = true;
 	public static boolean dynamicSnow = false;
 	public static boolean creepy = false;
+	public static boolean hauntCows = false;
 	
 	public static LevelThemeSettings theme = null;
 	
@@ -47,6 +48,7 @@ public class LevelThemeGlobalSettings {
 			colorizedPlants = settings.colorizedPlants;
 			dynamicSnow = settings.dynamicSnow;
 			creepy = settings.creepy;
+			hauntCows = settings.hauntCows;
 			
 			theme = settings;
 		}

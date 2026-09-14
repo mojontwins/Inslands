@@ -5,30 +5,30 @@ import net.minecraft.world.phys.Vec3D;
 
 public class EntityAIWander extends EntityAIBase {
 	private EntityCreature entity;
-	private double field_46098_b;
-	private double field_46099_c;
-	private double field_46097_d;
-	private float field_48317_e;
+	private double wanderTargetX;
+	private double wanderTargetY;
+	private double wanderTargetZ;
+	private float movementSpeed;
 
-	public EntityAIWander(EntityCreature entityCreature1, float f2) {
-		this.entity = entityCreature1;
-		this.field_48317_e = f2;
+	public EntityAIWander(EntityCreature entityCreature, float movementSpeed) {
+		this.entity = entityCreature;
+		this.movementSpeed = movementSpeed;
 		this.setMutexBits(1);
 	}
 
 	public boolean shouldExecute() {
 		/*if(this.entity.getAge() >= 100) {
 			return false;
-		} else */if(this.entity.getRNG().nextInt(120) != 0) {
+		} else */if (this.entity.getRNG().nextInt(120) != 0) {
 			return false;
 		} else {
-			Vec3D vec3D1 = RandomPositionGenerator.findRandomTarget(this.entity, 10, 7);
-			if(vec3D1 == null) {
+			Vec3D target = RandomPositionGenerator.findRandomTarget(this.entity, 10, 7);
+			if (target == null) {
 				return false;
 			} else {
-				this.field_46098_b = vec3D1.xCoord;
-				this.field_46099_c = vec3D1.yCoord;
-				this.field_46097_d = vec3D1.zCoord;
+				this.wanderTargetX = target.xCoord;
+				this.wanderTargetY = target.yCoord;
+				this.wanderTargetZ = target.zCoord;
 				return true;
 			}
 		}
@@ -39,6 +39,6 @@ public class EntityAIWander extends EntityAIBase {
 	}
 
 	public void startExecuting() {
-		this.entity.getNavigator().tryMoveToXYZ(this.field_46098_b, this.field_46099_c, this.field_46097_d, this.field_48317_e);
+		this.entity.getNavigator().tryMoveToXYZ(this.wanderTargetX, this.wanderTargetY, this.wanderTargetZ, this.movementSpeed);
 	}
 }

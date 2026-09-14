@@ -1,7 +1,6 @@
 package net.minecraft.world.entity.status;
 
 import com.mojang.nbt.NBTTagCompound;
-
 import net.minecraft.world.entity.EntityLiving;
 
 public class StatusEffect {
@@ -37,8 +36,8 @@ public class StatusEffect {
 	 * This method is to be called from EntityLiving's `onEntityUpdate`
 	 * returns false when the effect has finished.
 	 */
-	public boolean onUpdate (EntityLiving entityLiving) {
-		Status status = Status.statusTypes [statusID];
+	public boolean onUpdate(EntityLiving entityLiving) {
+		Status status = Status.statusTypes[statusID];
 		if (duration > 0) {
 			if (status.isReady(duration, amplifier)) {
 				status.performEffect(entityLiving, amplifier, duration);
@@ -52,13 +51,13 @@ public class StatusEffect {
 		}
 	}
 	
-	public void combine (StatusEffect statusEffect) {
+	public void combine(StatusEffect statusEffect) {
 		// Update this with statusEffect's values.
 		this.duration += statusEffect.duration;
 		if (this.amplifier < statusEffect.amplifier) this.amplifier = statusEffect.amplifier;
 	}
 	
-	public boolean equals (Object obj) {
+	public boolean equals(Object obj) {
 		if (!(obj instanceof StatusEffect)) return false;
 		
 		StatusEffect statusEffect = (StatusEffect) obj;

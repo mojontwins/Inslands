@@ -2,10 +2,10 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
-import net.minecraft.world.entity.animal.EntityColdCow;
-import net.minecraft.world.entity.monster.EntityCreeper;
-import net.minecraft.world.entity.monster.EntityIceSkeleton;
-import net.minecraft.world.entity.monster.EntitySlime;
+import net.minecraft.world.entity.animal.farm.EntityColdCow;
+import net.minecraft.world.entity.mob.creeper.EntityCreeper;
+import net.minecraft.world.entity.mob.undead.EntityIceSkeleton;
+import net.minecraft.world.entity.mob.slime.EntitySlime;
 import net.minecraft.world.level.SpawnListEntry;
 import net.minecraft.world.level.Weather;
 import net.minecraft.world.level.World;

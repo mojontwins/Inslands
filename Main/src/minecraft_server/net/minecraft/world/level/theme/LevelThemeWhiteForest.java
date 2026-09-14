@@ -22,6 +22,8 @@ public class LevelThemeWhiteForest extends LevelThemeSettings {
 		this.name="WhiteJungle";
 		this.preferredWorldType = WorldType.INFDEV.id;
 		this.forcedWorldType = false;
+		this.creepy = true;
+		this.hauntCows = true;
 
 		this.levelThemeMainBiome = BiomeGenBase.themeWhiteForest;
 	}

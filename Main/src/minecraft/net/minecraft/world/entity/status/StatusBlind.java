@@ -11,7 +11,7 @@ public class StatusBlind extends Status {
 	}
 	
 	@Override
-	public void performEffect (EntityLiving entityLiving, int amplifier, int duration) {
+	public void performEffect(EntityLiving entityLiving, int amplifier, int duration) {
 		// Decrease half a heart
 		// Make slower somehow
 		entityLiving.isBlinded = true;
@@ -23,7 +23,7 @@ public class StatusBlind extends Status {
 	}
 
 	@Override
-	public boolean isApplicableTo (EntityLiving entityLiving) {
+	public boolean isApplicableTo(EntityLiving entityLiving) {
 		return (entityLiving instanceof EntityPlayer);
 	}
 }

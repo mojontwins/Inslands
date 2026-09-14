@@ -1,12 +1,10 @@
 package net.minecraft.world.entity;
 
-import java.util.List;
-
 import com.mojang.nbt.NBTTagCompound;
-
+import java.util.List;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.level.World;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.World;
 import net.minecraft.world.phys.AxisAlignedBB;
 import net.minecraft.world.phys.Vec3D;
 
@@ -21,7 +19,7 @@ public class EntityLightningBolt extends EntityWeatherEffect {
 		this.lightningState = 2;
 		this.boltVertex = this.rand.nextLong();
 		this.boltLivingTime = this.rand.nextInt(3) + 1;
-		if(world1.difficultySetting >= 2 && world1.doChunksNearChunkExist(MathHelper.floor_double(d2), MathHelper.floor_double(d4), MathHelper.floor_double(d6), 10)) {
+		if(world1.difficultySetting >= 2) {
 			int i8 = MathHelper.floor_double(d2);
 			int i9 = MathHelper.floor_double(d4);
 			int i10 = MathHelper.floor_double(d6);
@@ -56,13 +54,11 @@ public class EntityLightningBolt extends EntityWeatherEffect {
 				--this.boltLivingTime;
 				this.lightningState = 1;
 				this.boltVertex = this.rand.nextLong();
-				if(this.worldObj.doChunksNearChunkExist(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ), 10)) {
-					int i1 = MathHelper.floor_double(this.posX);
-					int i2 = MathHelper.floor_double(this.posY);
-					int i3 = MathHelper.floor_double(this.posZ);
-					if(this.worldObj.getBlockID(i1, i2, i3) == 0 && Block.fire.canPlaceBlockAt(this.worldObj, i1, i2, i3)) {
-						this.worldObj.setBlockWithNotify(i1, i2, i3, Block.fire.blockID);
-					}
+				int i1 = MathHelper.floor_double(this.posX);
+				int i2 = MathHelper.floor_double(this.posY);
+				int i3 = MathHelper.floor_double(this.posZ);
+				if(this.worldObj.getBlockID(i1, i2, i3) == 0 && Block.fire.canPlaceBlockAt(this.worldObj, i1, i2, i3)) {
+					this.worldObj.setBlockWithNotify(i1, i2, i3, Block.fire.blockID);
 				}
 			}
 		}

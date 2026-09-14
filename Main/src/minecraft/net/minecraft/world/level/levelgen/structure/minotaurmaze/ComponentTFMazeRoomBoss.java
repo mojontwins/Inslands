@@ -2,7 +2,7 @@ package net.minecraft.world.level.levelgen.structure.minotaurmaze;
 
 import java.util.Random;
 
-import net.minecraft.world.entity.monster.EntityTFMinoshroom;
+import net.minecraft.world.entity.mob.twilight.EntityTFMinoshroom;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.TFTreasure;
 import net.minecraft.world.level.levelgen.structure.StructureBoundingBox;

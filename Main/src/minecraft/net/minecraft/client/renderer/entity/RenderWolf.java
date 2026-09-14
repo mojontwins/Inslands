@@ -3,7 +3,7 @@ package net.minecraft.client.renderer.entity;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.animal.EntityWolf;
+import net.minecraft.world.entity.animal.wild.EntityWolf;
 
 public class RenderWolf extends RenderLiving {
 	public RenderWolf(ModelBase modelBase1, float f2) {

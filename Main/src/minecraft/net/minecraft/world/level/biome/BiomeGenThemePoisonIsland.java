@@ -2,12 +2,12 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
-import net.minecraft.world.entity.monster.EntityCreeper;
-import net.minecraft.world.entity.monster.EntityGhoul;
-import net.minecraft.world.entity.monster.EntityPoisonSkeleton;
-import net.minecraft.world.entity.monster.EntitySpider;
-import net.minecraft.world.entity.monster.EntityTFSwarmSpiderCaves;
-import net.minecraft.world.entity.monster.EntityZombie;
+import net.minecraft.world.entity.mob.creeper.EntityCreeper;
+import net.minecraft.world.entity.mob.undead.EntityGhoul;
+import net.minecraft.world.entity.mob.undead.EntityPoisonSkeleton;
+import net.minecraft.world.entity.mob.spider.EntitySpider;
+import net.minecraft.world.entity.mob.spider.EntityTFSwarmSpiderCaves;
+import net.minecraft.world.entity.mob.undead.EntityZombie;
 import net.minecraft.world.level.SpawnListEntry;
 import net.minecraft.world.level.Weather;
 import net.minecraft.world.level.World;

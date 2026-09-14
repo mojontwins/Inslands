@@ -197,6 +197,10 @@ public class StarlightEngine {
 		final NibbleArray nibble = this.getNibbleFromCache(worldX >> 4, worldZ >> 4);
 
 		if (nibble != null && worldY >= 0 && worldY <= 127) {
+			int existing = nibble.getNibble(worldX & 15, worldY & 15, worldZ & 15);
+			if (existing == level) {
+				return;
+			}
 			nibble.setNibble(worldX & 15, worldY & 127, worldZ & 15, level);
 		}
 	}

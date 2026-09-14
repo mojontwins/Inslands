@@ -4,7 +4,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.animal.EntityHauntedCow;
+import net.minecraft.world.entity.mob.undead.EntityHauntedCow;
 
 public class RenderHauntedCow extends RenderLiving {
 	public RenderHauntedCow(ModelBase modelBase1, float f2) {

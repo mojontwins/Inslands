@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.monster.EntitySlime;
+import net.minecraft.world.entity.mob.slime.EntitySlime;
 
 public class RenderSlime extends RenderLiving {
 	private ModelBase scaleAmount;

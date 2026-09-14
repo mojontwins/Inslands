@@ -1,11 +1,10 @@
 package net.minecraft.world.entity.item;
 
 import com.mojang.nbt.NBTTagCompound;
-
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.World;
 import net.minecraft.world.level.tile.BlockSand;
+import net.minecraft.world.level.World;
 
 public class EntityFallingSand extends Entity {
 	public int blockID;

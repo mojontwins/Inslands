@@ -6,7 +6,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.monster.EntityHumanBase;
+import net.minecraft.world.entity.mob.EntityHumanBase;
 
 public class ModelHuman extends ModelBase {
 	public ModelRenderer bipedHead;

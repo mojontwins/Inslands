@@ -38,10 +38,6 @@ public class BlockPumpkin extends Block {
 		return i1 == 1 ? this.blockIndexInTexture : (i1 == 0 ? this.blockIndexInTexture : (i1 == 3 ? this.blockIndexInTexture + 1 + 16 : this.blockIndexInTexture + 16));
 	}
 
-	public void onBlockAdded(World world1, int i2, int i3, int i4) {
-		super.onBlockAdded(world1, i2, i3, i4);
-	}
-
 	public boolean canPlaceBlockAt(World world1, int i2, int i3, int i4) {
 		int i5 = world1.getBlockID(i2, i3, i4);
 		return (i5 == 0 || Block.blocksList[i5].blockMaterial.getIsGroundCover()) && world1.isBlockNormalCube(i2, i3 - 1, i4);

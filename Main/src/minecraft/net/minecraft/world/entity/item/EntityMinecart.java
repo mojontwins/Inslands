@@ -1,10 +1,8 @@
 package net.minecraft.world.entity.item;
 
-import java.util.List;
-
 import com.mojang.nbt.NBTTagCompound;
 import com.mojang.nbt.NBTTagList;
-
+import java.util.List;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
@@ -12,9 +10,9 @@ import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.inventory.IInventory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.World;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.BlockRail;
+import net.minecraft.world.level.World;
 import net.minecraft.world.phys.AxisAlignedBB;
 import net.minecraft.world.phys.Vec3D;
 
@@ -23,21 +21,21 @@ public class EntityMinecart extends Entity implements IInventory {
 	public int minecartCurrentDamage;
 	public int minecartTimeSinceHit;
 	public int minecartRockDirection;
-	private boolean field_856_i;
+	private boolean isInReverse;
 	public int minecartType;
 	public int fuel;
 	public double pushX;
 	public double pushZ;
 	private static final int[][][] railConnections = new int[][][]{{{0, 0, -1}, {0, 0, 1}}, {{-1, 0, 0}, {1, 0, 0}}, {{-1, -1, 0}, {1, 0, 0}}, {{-1, 0, 0}, {1, -1, 0}}, {{0, 0, -1}, {0, -1, 1}}, {{0, -1, -1}, {0, 0, 1}}, {{0, 0, 1}, {1, 0, 0}}, {{0, 0, 1}, {-1, 0, 0}}, {{0, 0, -1}, {-1, 0, 0}}, {{0, 0, -1}, {1, 0, 0}}};
-	private int field_9415_k;
-	private double field_9414_l;
-	private double field_9413_m;
-	private double field_9412_n;
-	private double field_9411_o;
-	private double field_9410_p;
-	private double field_9409_q;
-	private double field_9408_r;
-	private double field_9407_s;
+	private int newPosRotationIncrements;
+	private double newPosX;
+	private double newPosY;
+	private double newPosZ;
+	private double newRotationYaw;
+	private double newRotationPitch;
+	private double velocityX;
+	private double velocityY;
+	private double velocityZ;
 
 	public EntityMinecart(World world1) {
 		super(world1);
@@ -45,7 +43,7 @@ public class EntityMinecart extends Entity implements IInventory {
 		this.minecartCurrentDamage = 0;
 		this.minecartTimeSinceHit = 0;
 		this.minecartRockDirection = 1;
-		this.field_856_i = false;
+		this.isInReverse = false;
 		this.preventEntitySpawning = true;
 		this.setSize(0.98F, 0.7F);
 		this.yOffset = this.height / 2.0F;
@@ -186,22 +184,22 @@ public class EntityMinecart extends Entity implements IInventory {
 		}
 
 		double d7;
-		if(this.worldObj.isRemote && this.field_9415_k > 0) {
-			if(this.field_9415_k > 0) {
-				double d46 = this.posX + (this.field_9414_l - this.posX) / (double)this.field_9415_k;
-				double d47 = this.posY + (this.field_9413_m - this.posY) / (double)this.field_9415_k;
-				double d5 = this.posZ + (this.field_9412_n - this.posZ) / (double)this.field_9415_k;
+		if(this.worldObj.isRemote && this.newPosRotationIncrements > 0) {
+			if(this.newPosRotationIncrements > 0) {
+				double d46 = this.posX + (this.newPosX - this.posX) / (double)this.newPosRotationIncrements;
+				double d47 = this.posY + (this.newPosY - this.posY) / (double)this.newPosRotationIncrements;
+				double d5 = this.posZ + (this.newPosZ - this.posZ) / (double)this.newPosRotationIncrements;
 
-				for(d7 = this.field_9411_o - (double)this.rotationYaw; d7 < -180.0D; d7 += 360.0D) {
+				for(d7 = this.newRotationYaw - (double)this.rotationYaw; d7 < -180.0D; d7 += 360.0D) {
 				}
 
 				while(d7 >= 180.0D) {
 					d7 -= 360.0D;
 				}
 
-				this.rotationYaw = (float)((double)this.rotationYaw + d7 / (double)this.field_9415_k);
-				this.rotationPitch = (float)((double)this.rotationPitch + (this.field_9410_p - (double)this.rotationPitch) / (double)this.field_9415_k);
-				--this.field_9415_k;
+				this.rotationYaw = (float)((double)this.rotationYaw + d7 / (double)this.newPosRotationIncrements);
+				this.rotationPitch = (float)((double)this.rotationPitch + (this.newRotationPitch - (double)this.rotationPitch) / (double)this.newPosRotationIncrements);
+				--this.newPosRotationIncrements;
 				this.setPosition(d46, d47, d5);
 				this.setRotation(this.rotationYaw, this.rotationPitch);
 			} else {
@@ -226,7 +224,7 @@ public class EntityMinecart extends Entity implements IInventory {
 			d7 = 2.0D / 256D;
 			int i9 = this.worldObj.getBlockID(i1, i2, i3);
 			if(BlockRail.isRailBlock(i9)) {
-				Vec3D vec3D10 = this.func_514_g(this.posX, this.posY, this.posZ);
+				Vec3D vec3D10 = this.getRailPosition(this.posX, this.posY, this.posZ);
 				int i11 = this.worldObj.getBlockMetadata(i1, i2, i3);
 				this.posY = (double)i2;
 				boolean z12 = false;
@@ -372,7 +370,7 @@ public class EntityMinecart extends Entity implements IInventory {
 					this.motionZ *= (double)0.96F;
 				}
 
-				Vec3D vec3D52 = this.func_514_g(this.posX, this.posY, this.posZ);
+				Vec3D vec3D52 = this.getRailPosition(this.posX, this.posY, this.posZ);
 				if(vec3D52 != null && vec3D10 != null) {
 					double d40 = (vec3D10.yCoord - vec3D52.yCoord) * 0.05D;
 					d23 = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
@@ -464,7 +462,7 @@ public class EntityMinecart extends Entity implements IInventory {
 			double d49 = this.prevPosZ - this.posZ;
 			if(d48 * d48 + d49 * d49 > 0.001D) {
 				this.rotationYaw = (float)(Math.atan2(d49, d48) * 180.0D / Math.PI);
-				if(this.field_856_i) {
+				if(this.isInReverse) {
 					this.rotationYaw += 180.0F;
 				}
 			}
@@ -479,7 +477,7 @@ public class EntityMinecart extends Entity implements IInventory {
 
 			if(d50 < -170.0D || d50 >= 170.0D) {
 				this.rotationYaw += 180.0F;
-				this.field_856_i = !this.field_856_i;
+				this.isInReverse = !this.isInReverse;
 			}
 
 			this.setRotation(this.rotationYaw, this.rotationPitch);
@@ -509,7 +507,7 @@ public class EntityMinecart extends Entity implements IInventory {
 		}
 	}
 
-	public Vec3D func_515_a(double d1, double d3, double d5, double d7) {
+	public Vec3D getRailPositionOffset(double d1, double d3, double d5, double d7) {
 		int i9 = MathHelper.floor_double(d1);
 		int i10 = MathHelper.floor_double(d3);
 		int i11 = MathHelper.floor_double(d5);
@@ -545,11 +543,11 @@ public class EntityMinecart extends Entity implements IInventory {
 				d3 += (double)i14[1][1];
 			}
 
-			return this.func_514_g(d1, d3, d5);
+			return this.getRailPosition(d1, d3, d5);
 		}
 	}
 
-	public Vec3D func_514_g(double d1, double d3, double d5) {
+	public Vec3D getRailPosition(double d1, double d3, double d5) {
 		int i7 = MathHelper.floor_double(d1);
 		int i8 = MathHelper.floor_double(d3);
 		int i9 = MathHelper.floor_double(d5);
@@ -805,22 +803,22 @@ public class EntityMinecart extends Entity implements IInventory {
 		return true;
 	}
 
-	public void setPositionAndRotation(double d1, double d3, double d5, float f7, float f8, int i9) {
-		this.field_9414_l = d1;
-		this.field_9413_m = d3;
-		this.field_9412_n = d5;
-		this.field_9411_o = (double)f7;
-		this.field_9410_p = (double)f8;
-		this.field_9415_k = i9 + 2;
-		this.motionX = this.field_9409_q;
-		this.motionY = this.field_9408_r;
-		this.motionZ = this.field_9407_s;
+	public void setPositionAndRotation(double x, double y, double z, float yaw, float pitch, int interpolationTicks) {
+		this.newPosX = x;
+		this.newPosY = y;
+		this.newPosZ = z;
+		this.newRotationYaw = (double) yaw;
+		this.newRotationPitch = (double) pitch;
+		this.newPosRotationIncrements = interpolationTicks + 2;
+		this.motionX = this.velocityX;
+		this.motionY = this.velocityY;
+		this.motionZ = this.velocityZ;
 	}
 
-	public void setVelocity(double d1, double d3, double d5) {
-		this.field_9409_q = this.motionX = d1;
-		this.field_9408_r = this.motionY = d3;
-		this.field_9407_s = this.motionZ = d5;
+	public void setVelocity(double x, double y, double z) {
+		this.velocityX = this.motionX = x;
+		this.velocityY = this.motionY = y;
+		this.velocityZ = this.motionZ = z;
 	}
 
 	public boolean canInteractWith(EntityPlayer entityPlayer1) {

@@ -1,8 +1,7 @@
 package net.minecraft.world.entity.status;
 
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.monster.EntityZombie;
+import net.minecraft.world.entity.mob.undead.EntityZombie;
 
 public class StatusPoisoned extends Status {
 	public StatusPoisoned(int id, boolean isBadEffect) {
@@ -11,21 +10,21 @@ public class StatusPoisoned extends Status {
 	}
 	
 	@Override
-	public void performEffect (EntityLiving entityLiving, int amplifier, int duration) {
+	public void performEffect(EntityLiving entityLiving, int amplifier, int duration) {
 		// Decrease half a heart
 		if (entityLiving.health > 1) {
-			entityLiving.attackEntityFrom((Entity)null, 1);
+			entityLiving.attackEntityFrom(null, 1);
 		}
 	}
-	
+
 	@Override
-	public boolean isReady (int tick, int amplifier) {
+	public boolean isReady(int tick, int amplifier) {
 		// Run every 5 ticks
 		return (tick % 5) == 0;
 	}
 
 	@Override
-	public boolean isApplicableTo (EntityLiving entityLiving) {
+	public boolean isApplicableTo(EntityLiving entityLiving) {
 		// Zombies can't be poisoned
 		return !(entityLiving instanceof EntityZombie);
 	}

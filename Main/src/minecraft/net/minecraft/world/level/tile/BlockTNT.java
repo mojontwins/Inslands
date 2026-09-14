@@ -67,8 +67,4 @@ public class BlockTNT extends Block {
 
 		super.onBlockClicked(world1, i2, i3, i4, entityPlayer5);
 	}
-
-	public boolean blockActivated(World world1, int i2, int i3, int i4, EntityPlayer entityPlayer5) {
-		return super.blockActivated(world1, i2, i3, i4, entityPlayer5);
-	}
 }

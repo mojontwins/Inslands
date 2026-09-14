@@ -2,7 +2,7 @@ package net.minecraft.client.model.aether;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.world.entity.animal.EntityPhyg;
+import net.minecraft.world.entity.animal.wild.EntityPhyg;
 
 public class ModelFlyingPig2 extends ModelBase {
 	private ModelRenderer leftWingInner = new ModelRenderer(0, 0);

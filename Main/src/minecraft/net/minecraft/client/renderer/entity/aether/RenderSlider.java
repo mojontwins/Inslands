@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.monster.EntitySlider;
+import net.minecraft.world.entity.mob.boss.EntitySlider;
 
 public class RenderSlider extends RenderLiving {
 	public RenderSlider(ModelBase ms, float f) {

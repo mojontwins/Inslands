@@ -12,22 +12,25 @@ public class NibbleArray {
 	}
 
 	public int getNibble(int i1, int i2, int i3) {
-		int i4 = i1 << 11 | i3 << 7 | i2;
-		int i5 = i4 >> 1;
-		int i6 = i4 & 1;
-		return i6 == 0 ? this.data[i5] & 15 : this.data[i5] >> 4 & 15;
+		return this.getNibble(i1 << 11 | i3 << 7 | i2);
+	}
+
+	public int getNibble(int flatIndex) {
+		int byteIndex = flatIndex >> 1;
+		return (flatIndex & 1) == 0 ? this.data[byteIndex] & 15 : this.data[byteIndex] >> 4 & 15;
 	}
 
 	public void setNibble(int i1, int i2, int i3, int i4) {
-		int i5 = i1 << 11 | i3 << 7 | i2;
-		int i6 = i5 >> 1;
-		int i7 = i5 & 1;
-		if(i7 == 0) {
-			this.data[i6] = (byte)(this.data[i6] & 240 | i4 & 15);
-		} else {
-			this.data[i6] = (byte)(this.data[i6] & 15 | (i4 & 15) << 4);
-		}
+		this.setNibble(i1 << 11 | i3 << 7 | i2, i4);
+	}
 
+	public void setNibble(int flatIndex, int value) {
+		int byteIndex = flatIndex >> 1;
+		if((flatIndex & 1) == 0) {
+			this.data[byteIndex] = (byte)(this.data[byteIndex] & 240 | value & 15);
+		} else {
+			this.data[byteIndex] = (byte)(this.data[byteIndex] & 15 | (value & 15) << 4);
+		}
 	}
 
 	public boolean isValid() {

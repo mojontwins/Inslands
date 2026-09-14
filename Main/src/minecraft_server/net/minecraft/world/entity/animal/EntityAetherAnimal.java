@@ -1,33 +1,23 @@
 package net.minecraft.world.entity.animal;
 
-import com.mojang.nbt.NBTTagCompound;
-
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.level.World;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.World;
 
 public abstract class EntityAetherAnimal extends EntityAnimal {
 	public EntityAetherAnimal(World world) {
 		super(world);
 	}
 
-	public float getBlockPathWeight(int i, int j, int k) {
-		return this.worldObj.getBlockID(i, j - 1, k) == Block.grass.blockID ? 10.0F : this.worldObj.getLightBrightness(i, j, k) - 0.5F;
-	}
-
-	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-		super.writeEntityToNBT(nbttagcompound);
-	}
-
-	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-		super.readEntityFromNBT(nbttagcompound);
+	public float getBlockPathWeight(int x, int y, int z) {
+		return this.worldObj.getBlockID(x, y - 1, z) == Block.grass.blockID ? 10.0F : this.worldObj.getLightBrightness(x, y, z) - 0.5F;
 	}
 
 	public boolean getCanSpawnHere() {
-		int i = MathHelper.floor_double(this.posX);
-		int j = MathHelper.floor_double(this.boundingBox.minY);
-		int k = MathHelper.floor_double(this.posZ);
-		return this.worldObj.checkIfAABBIsClear(this.boundingBox) && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).size() == 0 && !this.worldObj.getIsAnyLiquid(this.boundingBox) && this.worldObj.getBlockID(i, j - 1, k) == Block.grass.blockID && this.worldObj.getFullBlockLightValue(i, j, k) > 8 && this.getBlockPathWeight(i, j, k) >= 0.0F;
+		int x = MathHelper.floor_double(this.posX);
+		int y = MathHelper.floor_double(this.boundingBox.minY);
+		int z = MathHelper.floor_double(this.posZ);
+		return this.worldObj.checkIfAABBIsClear(this.boundingBox) && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).size() == 0 && !this.worldObj.getIsAnyLiquid(this.boundingBox) && this.worldObj.getBlockID(x, y - 1, z) == Block.grass.blockID && this.worldObj.getFullBlockLightValue(x, y, z) > 8 && this.getBlockPathWeight(x, y, z) >= 0.0F;
 	}
 
 	public int getTalkInterval() {

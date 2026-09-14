@@ -1,8 +1,7 @@
 package net.minecraft.world.entity.status;
 
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.monster.EntityZombie;
+import net.minecraft.world.entity.mob.undead.EntityZombie;
 
 public class StatusAutoHealing extends Status {
 	public StatusAutoHealing(int id, boolean isBadEffect) {
@@ -13,11 +12,11 @@ public class StatusAutoHealing extends Status {
 	@Override
 	public void performEffect(EntityLiving entityLiving, int amplifier, int duration) {
 		// Increase half a heart - decrease for zombies!
-		if(entityLiving instanceof EntityZombie) {
-			if(entityLiving.health > 1) {
-				entityLiving.attackEntityFrom((Entity)null, 1);
+		if (entityLiving instanceof EntityZombie) {
+			if (entityLiving.health > 1) {
+				entityLiving.attackEntityFrom(null, 1);
 			}
-		} else if(entityLiving.health < entityLiving.getFullHealth()) {
+		} else if (entityLiving.health < entityLiving.getFullHealth()) {
 			entityLiving.heal(amplifier);
 		}
 	}

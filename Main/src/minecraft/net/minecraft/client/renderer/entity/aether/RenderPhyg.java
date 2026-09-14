@@ -4,7 +4,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.aether.ModelFlyingPig2;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.animal.EntityPhyg;
+import net.minecraft.world.entity.animal.wild.EntityPhyg;
 
 public class RenderPhyg extends RenderLiving {
 	public RenderPhyg(ModelBase modelbase, ModelBase modelbase1, float f) {

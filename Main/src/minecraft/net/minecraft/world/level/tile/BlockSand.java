@@ -13,25 +13,6 @@ public class BlockSand extends Block implements IGroundSubstitute {
 		this.displayOnCreativeTab = CreativeTabs.tabBlock;
 	}
 
-	/*
-	public void onBlockAdded(World world, int x, int y, int z) {
-		world.scheduleBlockUpdate(x, y, z, this.blockID, this.tickRate());
-	}
-
-	public void onNeighborBlockChange(World world, int x, int y, int z, int id) {
-		world.scheduleBlockUpdate(x, y, z, this.blockID, this.tickRate());
-	}
-
-	public void updateTick(World world, int x, int y, int z, Random rand) {
-		this.tryToFall(world, x, y, z);
-	}
-	
-	public int tickRate() {
-		return 3;
-	}
-
-	*/
-	
 	// Non-ticking version
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
@@ -47,8 +28,7 @@ public class BlockSand extends Block implements IGroundSubstitute {
 		
 		try {
 			if(canFallBelow(world, x, y - 1, z) && y >= 0) {
-				byte b8 = 32;
-				if(!fallInstantly && world.checkChunksExist(x - b8, y - b8, z - b8, x + b8, y + b8, z + b8)) {
+				if(!fallInstantly) {
 					EntityFallingSand entityFallingSand9 = new EntityFallingSand(world, (double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, this.blockID);
 					world.spawnEntityInWorld(entityFallingSand9);
 				} else {
@@ -64,7 +44,6 @@ public class BlockSand extends Block implements IGroundSubstitute {
 				}
 			}
 		} catch (StackOverflowError e) {
-			System.out.println ("Sand overflowed the stack");
 		}
 
 	}

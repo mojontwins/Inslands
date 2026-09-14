@@ -16,18 +16,6 @@ public class BlockFence extends Block {
 		super(blockID, blockIndex, material);
 	}
 	
-	/*
-	public void getCollidingBoundingBoxes(World world, int x, int y, int z, AxisAlignedBB aabb, ArrayList<AxisAlignedBB> collidingBoundingBoxes) {
-		collidingBoundingBoxes.add(AxisAlignedBB.getBoundingBoxFromPool((double)x, (double)y, (double)z, (double)(x + 1), (double)y + 1.5D, (double)(z + 1)));
-	}
-	*/
-
-	/*
-	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
-		return world.getBlockID(x, y - 1, z) == this.blockID ? true : (!world.getBlockMaterial(x, y - 1, z).isSolid() ? false : super.canPlaceBlockAt(world, x, y, z));
-	}
-	*/
-	
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world1, int i2, int i3, int i4) {
 		boolean z5 = this.canConnectFenceTo(world1, i2, i3, i4 - 1);
@@ -111,15 +99,6 @@ public class BlockFence extends Block {
 	}
 	
 	public boolean canConnectFenceTo(IBlockAccess iBlockAccess1, int i2, int i3, int i4) {
-		/*
-		int i5 = iBlockAccess1.getBlockID(i2, i3, i4);
-		if(i5 != this.blockID) {
-			Block block6 = Block.blocksList[i5];
-			return block6 != null && block6.isOpaqueCube() && block6.renderAsNormalBlock() ? block6.blockMaterial != Material.pumpkin : false;
-		} else {
-			return true;
-		}
-		*/
 		return iBlockAccess1.getBlockID(i2, i3, i4) == this.blockID;
 	}
 }

@@ -22,8 +22,8 @@ public abstract class EntityAIBase {
 	public void updateTask() {
 	}
 
-	public void setMutexBits(int i1) {
-		this.mutexBits = i1;
+	public void setMutexBits(int bits) {
+		this.mutexBits = bits;
 	}
 
 	public int getMutexBits() {

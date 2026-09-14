@@ -2,13 +2,13 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
-import net.minecraft.world.entity.animal.EntityColdCow;
-import net.minecraft.world.entity.animal.EntityTwilightBoar;
-import net.minecraft.world.entity.animal.EntityWolf;
+import net.minecraft.world.entity.animal.farm.EntityColdCow;
+import net.minecraft.world.entity.animal.farm.EntityTwilightBoar;
+import net.minecraft.world.entity.animal.wild.EntityWolf;
 import net.minecraft.world.entity.animal.moc.EntityGoat;
-import net.minecraft.world.entity.monster.EntityGhoul;
-import net.minecraft.world.entity.monster.EntityTFWraith;
-import net.minecraft.world.entity.monster.EntityZombieAlex;
+import net.minecraft.world.entity.mob.undead.EntityGhoul;
+import net.minecraft.world.entity.mob.flying.EntityTFWraith;
+import net.minecraft.world.entity.mob.undead.EntityZombieAlex;
 import net.minecraft.world.level.SpawnListEntry;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.WorldSize;

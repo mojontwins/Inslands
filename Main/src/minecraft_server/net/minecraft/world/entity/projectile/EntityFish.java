@@ -1,17 +1,15 @@
 package net.minecraft.world.entity.projectile;
 
-import java.util.List;
-
 import com.mojang.nbt.NBTTagCompound;
-
+import java.util.List;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.World;
 import net.minecraft.world.phys.AxisAlignedBB;
 import net.minecraft.world.phys.MovingObjectPosition;
 import net.minecraft.world.phys.Vec3D;
@@ -29,12 +27,12 @@ public class EntityFish extends Entity {
 	private int ticksInAir;
 	private int ticksCatchable;
 	public Entity bobber;
-	private int field_6388_l;
-	private double field_6387_m;
-	private double field_6386_n;
-	private double field_6385_o;
-	private double field_6384_p;
-	private double field_6383_q;
+	private int newPosRotationIncrements;
+	private double newPosX;
+	private double newPosY;
+	private double newPosZ;
+	private double newRotationYaw;
+	private double newRotationPitch;
 	private double velocityX;
 	private double velocityY;
 	private double velocityZ;
@@ -85,7 +83,7 @@ public class EntityFish extends Entity {
 		this.motionX = (double)(-MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI) * f3);
 		this.motionZ = (double)(MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI) * f3);
 		this.motionY = (double)(-MathHelper.sin(this.rotationPitch / 180.0F * (float)Math.PI) * f3);
-		this.func_4042_a(this.motionX, this.motionY, this.motionZ, 1.5F, 1.0F);
+		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.5F, 1.0F);
 	}
 
 	protected void entityInit() {
@@ -97,63 +95,63 @@ public class EntityFish extends Entity {
 		return d1 < d3 * d3;
 	}
 
-	public void func_4042_a(double d1, double d3, double d5, float f7, float f8) {
-		float f9 = MathHelper.sqrt_double(d1 * d1 + d3 * d3 + d5 * d5);
-		d1 /= (double)f9;
-		d3 /= (double)f9;
-		d5 /= (double)f9;
-		d1 += this.rand.nextGaussian() * (double)0.0075F * (double)f8;
-		d3 += this.rand.nextGaussian() * (double)0.0075F * (double)f8;
-		d5 += this.rand.nextGaussian() * (double)0.0075F * (double)f8;
-		d1 *= (double)f7;
-		d3 *= (double)f7;
-		d5 *= (double)f7;
-		this.motionX = d1;
-		this.motionY = d3;
-		this.motionZ = d5;
-		float f10 = MathHelper.sqrt_double(d1 * d1 + d5 * d5);
-		this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(d1, d5) * 180.0D / (double)(float)Math.PI);
-		this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(d3, (double)f10) * 180.0D / (double)(float)Math.PI);
+	public void setThrowableHeading(double x, double y, double z, float velocity, float inaccuracy) {
+		float magnitude = MathHelper.sqrt_double(x * x + y * y + z * z);
+		x /= (double) magnitude;
+		y /= (double) magnitude;
+		z /= (double) magnitude;
+		x += this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy;
+		y += this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy;
+		z += this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy;
+		x *= (double) velocity;
+		y *= (double) velocity;
+		z *= (double) velocity;
+		this.motionX = x;
+		this.motionY = y;
+		this.motionZ = z;
+		float horizontal = MathHelper.sqrt_double(x * x + z * z);
+		this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(x, z) * 180.0D / (double) (float) Math.PI);
+		this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(y, (double) horizontal) * 180.0D / (double) (float) Math.PI);
 		this.ticksInGround = 0;
 	}
 
-	public void setPositionAndRotation(double d1, double d3, double d5, float f7, float f8, int i9) {
-		this.field_6387_m = d1;
-		this.field_6386_n = d3;
-		this.field_6385_o = d5;
-		this.field_6384_p = (double)f7;
-		this.field_6383_q = (double)f8;
-		this.field_6388_l = i9;
+	public void setPositionAndRotation(double x, double y, double z, float yaw, float pitch, int interpolationTicks) {
+		this.newPosX = x;
+		this.newPosY = y;
+		this.newPosZ = z;
+		this.newRotationYaw = (double) yaw;
+		this.newRotationPitch = (double) pitch;
+		this.newPosRotationIncrements = interpolationTicks;
 		this.motionX = this.velocityX;
 		this.motionY = this.velocityY;
 		this.motionZ = this.velocityZ;
 	}
 
-	public void setVelocity(double d1, double d3, double d5) {
-		this.velocityX = this.motionX = d1;
-		this.velocityY = this.motionY = d3;
-		this.velocityZ = this.motionZ = d5;
+	public void setVelocity(double x, double y, double z) {
+		this.velocityX = this.motionX = x;
+		this.velocityY = this.motionY = y;
+		this.velocityZ = this.motionZ = z;
 	}
 
 	public void onUpdate() {
 		super.onUpdate();
-		if(this.field_6388_l > 0) {
-			double d21 = this.posX + (this.field_6387_m - this.posX) / (double)this.field_6388_l;
-			double d22 = this.posY + (this.field_6386_n - this.posY) / (double)this.field_6388_l;
-			double d23 = this.posZ + (this.field_6385_o - this.posZ) / (double)this.field_6388_l;
+		if (this.newPosRotationIncrements > 0) {
+			double interpX = this.posX + (this.newPosX - this.posX) / (double) this.newPosRotationIncrements;
+			double interpY = this.posY + (this.newPosY - this.posY) / (double) this.newPosRotationIncrements;
+			double interpZ = this.posZ + (this.newPosZ - this.posZ) / (double) this.newPosRotationIncrements;
 
-			double d7;
-			for(d7 = this.field_6384_p - (double)this.rotationYaw; d7 < -180.0D; d7 += 360.0D) {
+			double yawDiff;
+			for (yawDiff = this.newRotationYaw - (double) this.rotationYaw; yawDiff < -180.0D; yawDiff += 360.0D) {
 			}
 
-			while(d7 >= 180.0D) {
-				d7 -= 360.0D;
+			while (yawDiff >= 180.0D) {
+				yawDiff -= 360.0D;
 			}
 
-			this.rotationYaw = (float)((double)this.rotationYaw + d7 / (double)this.field_6388_l);
-			this.rotationPitch = (float)((double)this.rotationPitch + (this.field_6383_q - (double)this.rotationPitch) / (double)this.field_6388_l);
-			--this.field_6388_l;
-			this.setPosition(d21, d22, d23);
+			this.rotationYaw = (float) ((double) this.rotationYaw + yawDiff / (double) this.newPosRotationIncrements);
+			this.rotationPitch = (float) ((double) this.rotationPitch + (this.newRotationPitch - (double) this.rotationPitch) / (double) this.newPosRotationIncrements);
+			--this.newPosRotationIncrements;
+			this.setPosition(interpX, interpY, interpZ);
 			this.setRotation(this.rotationYaw, this.rotationPitch);
 		} else {
 			if(!this.worldObj.isRemote) {

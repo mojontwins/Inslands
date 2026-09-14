@@ -105,12 +105,6 @@ public class BlockStep extends Block {
 	}
 	
 	public boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side) {
-		if(this != Block.stairSingle) {
-			super.shouldSideBeRendered(blockAccess, x, y, z, side);
-		}
-
-		//return side == 1 ? true : (!super.shouldSideBeRendered(blockAccess, x, y, z, side) ? false : (side == 0 ? true : blockAccess.getBlockID(x, y, z) != this.blockID));
-		
 		if (side != 1 && side != 0 && !super.shouldSideBeRendered(blockAccess, x, y, z, side)) {
 			return false;
 		}

@@ -1,35 +1,24 @@
 package net.minecraft.world.entity.animal;
 
-import com.mojang.nbt.NBTTagCompound;
-
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.EntityCreature;
-import net.minecraft.world.level.World;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.World;
 
 public abstract class EntityAnimal extends EntityCreature implements IAnimals {
-	public EntityAnimal(World world1) {
-		super(world1);
+	public EntityAnimal(World world) {
+		super(world);
 	}
 
-	public float getBlockPathWeight(int i1, int i2, int i3) {
-		return this.worldObj.getBlockID(i1, i2 - 1, i3) == Block.grass.blockID ? 10.0F : this.worldObj.getLightBrightness(i1, i2, i3) - 0.5F;
-		
-	}
-
-	public void writeEntityToNBT(NBTTagCompound nBTTagCompound1) {
-		super.writeEntityToNBT(nBTTagCompound1);
-	}
-
-	public void readEntityFromNBT(NBTTagCompound nBTTagCompound1) {
-		super.readEntityFromNBT(nBTTagCompound1);
+	public float getBlockPathWeight(int x, int y, int z) {
+		return this.worldObj.getBlockID(x, y - 1, z) == Block.grass.blockID ? 10.0F : this.worldObj.getLightBrightness(x, y, z) - 0.5F;
 	}
 
 	public boolean getCanSpawnHere() {
-		int i1 = MathHelper.floor_double(this.posX);
-		int i2 = MathHelper.floor_double(this.boundingBox.minY);
-		int i3 = MathHelper.floor_double(this.posZ);
-		return this.worldObj.getBlockID(i1, i2 - 1, i3) == Block.grass.blockID && (this.worldObj.getFullBlockLightValue(i1, i2, i3) > 8 || !this.needsLitBlockToSpawn()) && super.getCanSpawnHere();
+		int x = MathHelper.floor_double(this.posX);
+		int y = MathHelper.floor_double(this.boundingBox.minY);
+		int z = MathHelper.floor_double(this.posZ);
+		return this.worldObj.getBlockID(x, y - 1, z) == Block.grass.blockID && (this.worldObj.getFullBlockLightValue(x, y, z) > 8 || !this.needsLitBlockToSpawn()) && super.getCanSpawnHere();
 	}
 
 	public int getTalkInterval() {

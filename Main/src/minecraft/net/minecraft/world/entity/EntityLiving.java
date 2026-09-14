@@ -1,33 +1,32 @@
 package net.minecraft.world.entity;
 
+import com.mojang.nbt.NBTTagCompound;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
-
-import com.mojang.nbt.NBTTagCompound;
-
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.ai.EntityAITasks;
-import net.minecraft.world.entity.animal.EntityWolf;
+import net.minecraft.world.entity.animal.wild.EntityWolf;
 import net.minecraft.world.entity.helper.EntityJumpHelper;
 import net.minecraft.world.entity.helper.EntityLookHelper;
 import net.minecraft.world.entity.helper.EntityMoveHelper;
 import net.minecraft.world.entity.helper.EntitySenses;
-import net.minecraft.world.entity.monster.EntityCreeper;
-import net.minecraft.world.entity.monster.EntityGhast;
-import net.minecraft.world.entity.monster.EntityMob;
+import net.minecraft.world.entity.mob.creeper.EntityCreeper;
+import net.minecraft.world.entity.mob.EntityMob;
+import net.minecraft.world.entity.mob.flying.EntityGhast;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.entity.status.Status;
 import net.minecraft.world.entity.status.StatusEffect;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.World;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.PathNavigate;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.StepSound;
+import net.minecraft.world.level.World;
 import net.minecraft.world.phys.AxisAlignedBB;
 import net.minecraft.world.phys.MovingObjectPosition;
 import net.minecraft.world.phys.Vec3D;
@@ -169,87 +168,75 @@ public abstract class EntityLiving extends Entity {
 
 	}
 
+	private void spawnDrowningParticles() {
+		for (int i = 0; i < 8; i++) {
+			float dx = this.rand.nextFloat() - this.rand.nextFloat();
+			float dy = this.rand.nextFloat() - this.rand.nextFloat();
+			float dz = this.rand.nextFloat() - this.rand.nextFloat();
+			this.worldObj.spawnParticle("bubble",
+				this.posX + dx, this.posY + dy, this.posZ + dz,
+				this.motionX, this.motionY, this.motionZ);
+		}
+	}
+
+	private void spawnDeathParticles() {
+		for (int i = 0; i < 20; i++) {
+			double vx = this.rand.nextGaussian() * 0.02D;
+			double vy = this.rand.nextGaussian() * 0.02D;
+			double vz = this.rand.nextGaussian() * 0.02D;
+			this.worldObj.spawnParticle("explode",
+				this.posX + (this.rand.nextFloat() * this.width * 2.0F) - this.width,
+				this.posY + (this.rand.nextFloat() * this.height),
+				this.posZ + (this.rand.nextFloat() * this.width * 2.0F) - this.width,
+				vx, vy, vz);
+		}
+	}
+
 	public void onEntityUpdate() {
 		this.prevSwingProgress = this.swingProgress;
 		super.onEntityUpdate();
-		
-		// Play a sound at random
-		if(this.rand.nextInt(1000) < this.livingSoundTime++) {
+
+		if (this.rand.nextInt(1000) < this.livingSoundTime++) {
 			this.livingSoundTime = -this.getTalkInterval();
 			this.playLivingSound();
-			
 		}
 
-		// Hurt entity if inside of block
-		if(this.isEntityAlive() && this.isEntityInsideOpaqueBlock()) {
-			this.attackEntityFrom((Entity)null, 1);
-			
+		if (this.isEntityAlive() && this.isEntityInsideOpaqueBlock()) {
+			this.attackEntityFrom(null, 1);
 		}
 
-		// Put down fire if immune to fire
-		if(this.isImmuneToFire || this.worldObj.isRemote) {
+		if (this.isImmuneToFire || this.worldObj.isRemote) {
 			this.fire = 0;
 		}
 
-		int i1;
-		
-		// Underwater / air shit
-		if(
-			this.isEntityAlive() && 
-			this.isInsideOfMaterial(Material.water) && 
-			!this.canBreatheUnderwater()
-		) {
+		if (this.isEntityAlive() && this.isInsideOfMaterial(Material.water) && !this.canBreatheUnderwater()) {
 			this.setAir(this.decreaseAirSupply(this.getAir()));
-			if(this.getAir() == -20) {
+			if (this.getAir() == -20) {
 				this.setAir(0);
-
-				for(i1 = 0; i1 < 8; ++i1) {
-					float f2 = this.rand.nextFloat() - this.rand.nextFloat();
-					float f3 = this.rand.nextFloat() - this.rand.nextFloat();
-					float f4 = this.rand.nextFloat() - this.rand.nextFloat();
-					this.worldObj.spawnParticle("bubble", this.posX + (double)f2, this.posY + (double)f3, this.posZ + (double)f4, this.motionX, this.motionY, this.motionZ);
-				}
-
-				this.attackEntityFrom((Entity)null, 2);
+				spawnDrowningParticles();
+				this.attackEntityFrom(null, 2);
 			}
-
 			this.fire = 0;
-			
 		} else {
 			this.setAir(this.maxAir);
-			
 		}
 
 		this.prevCameraPitch = this.cameraPitch;
-		
-		if(this.attackTime > 0) {
-			--this.attackTime;
-		}
 
-		if(this.hurtTime > 0) {
-			--this.hurtTime;
-		}
+		this.attackTime = Math.max(0, this.attackTime - 1);
+		this.hurtTime = Math.max(0, this.hurtTime - 1);
+		this.heartsLife = Math.max(0, this.heartsLife - 1);
 
-		if(this.heartsLife > 0) {
-			--this.heartsLife;
-		}
-
-		if(this.health <= 0) {
+		if (this.health <= 0) {
 			++this.deathTime;
-			if(this.deathTime > 20) {
+			if (this.deathTime > 20) {
 				this.onEntityDeath();
 				this.setEntityDead();
-
-				for(i1 = 0; i1 < 20; ++i1) {
-					double d8 = this.rand.nextGaussian() * 0.02D;
-					double d9 = this.rand.nextGaussian() * 0.02D;
-					double d6 = this.rand.nextGaussian() * 0.02D;
-					this.worldObj.spawnParticle("explode", this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d8, d9, d6);
-				}
+				spawnDeathParticles();
 			}
 		}
-		
-		if(this.recentlyHit > 0) {
+
+		if (this.recentlyHit > 0) {
 			--this.recentlyHit;
 		} else {
 			this.attackingPlayer = null;
@@ -260,8 +247,8 @@ public abstract class EntityLiving extends Entity {
 		this.prevRotationYawHead = this.rotationYawHead;
 		this.prevRotationYaw = this.rotationYaw;
 		this.prevRotationPitch = this.rotationPitch;
-		
-		this.updateStatusEffects ();
+
+		this.updateStatusEffects();
 	}
 
 	protected int decreaseAirSupply(int i1) {
@@ -300,102 +287,46 @@ public abstract class EntityLiving extends Entity {
 	public void onUpdate() {
 		super.onUpdate();
 		this.onLivingUpdate();
-		
-		double d1 = this.posX - this.prevPosX;
-		double d3 = this.posZ - this.prevPosZ;
-		float f5 = MathHelper.sqrt_double(d1 * d1 + d3 * d3);
-		float f6 = this.renderYawOffset;
-		float f7 = 0.0F;
-		
-		//this.ridingRotUnused = this.prevRidingRotUnused;
-		
-		//float f8 = 0.0F;
-		if(f5 > 0.05F) {
-			//f8 = 1.0F;
-			f7 = f5 * 3.0F;
-			f6 = (float)Math.atan2(d3, d1) * 180.0F / (float)Math.PI - 90.0F;
+
+		double dx = this.posX - this.prevPosX;
+		double dz = this.posZ - this.prevPosZ;
+		float horizontalSpeed = MathHelper.sqrt_double(dx * dx + dz * dz);
+		float targetYaw = this.renderYawOffset;
+		float limbSwingAmount = 0.0F;
+
+		if (horizontalSpeed > 0.05F) {
+			limbSwingAmount = horizontalSpeed * 3.0F;
+			targetYaw = (float) Math.atan2(dz, dx) * 180.0F / (float) Math.PI - 90.0F;
 		}
 
-		if(this.swingProgress > 0.0F) {
-			f6 = this.rotationYaw;
+		if (this.swingProgress > 0.0F) {
+			targetYaw = this.rotationYaw;
 		}
 
-		/*
-		if(!this.onGround) {
-			f8 = 0.0F;
-		}
-		*/
+		float yawDelta = MathHelper.wrapDegrees(targetYaw - this.renderYawOffset);
+		this.renderYawOffset += yawDelta * 0.3F;
 
-		//this.prevRidingRotUnused += (f8 - this.prevRidingRotUnused) * 0.3F;
+		float relativeYaw = MathHelper.wrapDegrees(this.rotationYaw - this.renderYawOffset);
+		boolean movingBackwards = relativeYaw < -90.0F || relativeYaw >= 90.0F;
 
-		float f9;
-		for(f9 = f6 - this.renderYawOffset; f9 < -180.0F; f9 += 360.0F) {
-		}
+		if (relativeYaw < -75.0F) relativeYaw = -75.0F;
+		if (relativeYaw >= 75.0F) relativeYaw = 75.0F;
 
-		while(f9 >= 180.0F) {
-			f9 -= 360.0F;
+		this.renderYawOffset = this.rotationYaw - relativeYaw;
+		if (relativeYaw * relativeYaw > 2500.0F) {
+			this.renderYawOffset += relativeYaw * 0.2F;
 		}
 
-		this.renderYawOffset += f9 * 0.3F;
-
-		float f10;
-		for(f10 = this.rotationYaw - this.renderYawOffset; f10 < -180.0F; f10 += 360.0F) {
+		if (movingBackwards) {
+			limbSwingAmount *= -1.0F;
 		}
 
-		while(f10 >= 180.0F) {
-			f10 -= 360.0F;
-		}
+		this.prevRotationYaw += MathHelper.wrapDegrees(this.rotationYaw - this.prevRotationYaw);
+		this.prevRenderYawOffset += MathHelper.wrapDegrees(this.renderYawOffset - this.prevRenderYawOffset);
+		this.prevRotationPitch += MathHelper.wrapDegrees(this.rotationPitch - this.prevRotationPitch);
+		this.prevRotationYawHead += MathHelper.wrapDegrees(this.rotationYawHead - this.prevRotationYawHead);
 
-		boolean z11 = f10 < -90.0F || f10 >= 90.0F;
-		if(f10 < -75.0F) {
-			f10 = -75.0F;
-		}
-
-		if(f10 >= 75.0F) {
-			f10 = 75.0F;
-		}
-
-		this.renderYawOffset = this.rotationYaw - f10;
-		if(f10 * f10 > 2500.0F) {
-			this.renderYawOffset += f10 * 0.2F;
-		}
-
-		if(z11) {
-			f7 *= -1.0F;
-		}
-
-		while(this.rotationYaw - this.prevRotationYaw < -180.0F) {
-			this.prevRotationYaw -= 360.0F;
-		}
-
-		while(this.rotationYaw - this.prevRotationYaw >= 180.0F) {
-			this.prevRotationYaw += 360.0F;
-		}
-
-		while(this.renderYawOffset - this.prevRenderYawOffset < -180.0F) {
-			this.prevRenderYawOffset -= 360.0F;
-		}
-
-		while(this.renderYawOffset - this.prevRenderYawOffset >= 180.0F) {
-			this.prevRenderYawOffset += 360.0F;
-		}
-
-		while(this.rotationPitch - this.prevRotationPitch < -180.0F) {
-			this.prevRotationPitch -= 360.0F;
-		}
-
-		while(this.rotationPitch - this.prevRotationPitch >= 180.0F) {
-			this.prevRotationPitch += 360.0F;
-		}
-
-		while(this.rotationYawHead - this.prevRotationYawHead < -180.0F) {
-			this.prevRotationYawHead -= 360.0F;
-		}
-
-		while(this.rotationYawHead - this.prevRotationYawHead >= 180.0F) {
-			this.prevRotationYawHead += 360.0F;
-		}
-		this.rotationUnused += f7;
+		this.rotationUnused += limbSwingAmount;
 	}
 
 	protected void setSize(float f1, float f2) {
@@ -726,23 +657,19 @@ public abstract class EntityLiving extends Entity {
 		nbt.setShort("HurtTime", (short)this.hurtTime);
 		nbt.setShort("DeathTime", (short)this.deathTime);
 		nbt.setShort("AttackTime", (short)this.attackTime);
-						
+
 		NBTTagCompound statusEffectsCompound = new NBTTagCompound();
 		statusEffectsCompound.setInteger("Size", this.activeStatusEffectsMap.size());
-		Iterator<Integer> it = activeStatusEffectsMap.keySet().iterator();
 		int i = 0;
-		while(it.hasNext()) {
-			Integer id = it.next(); // System.out.println("Getting status " + i + " with ID " + id);
-			StatusEffect statusEffect = this.activeStatusEffectsMap.get(id);
+		for (StatusEffect statusEffect : this.activeStatusEffectsMap.values()) {
 			NBTTagCompound statusEffectCompound = new NBTTagCompound();
 			statusEffect.writeStatusEffectToNBT(statusEffectCompound);
 			statusEffectsCompound.setCompoundTag("StatusEffect_" + i, statusEffectCompound);
-			i ++;
-			
+			i++;
 		}
-		
+
 		nbt.setCompoundTag("ActiveStatusEffects", statusEffectsCompound);
-		
+
 		if(!this.isAIEnabled() && this.maximumHomeDistance > 0) {
 			nbt.setFloat("maximumHomeDistance", this.maximumHomeDistance);
 			nbt.setInteger("homeX", this.homePosition.posX);
@@ -795,36 +722,18 @@ public abstract class EntityLiving extends Entity {
 			double d3 = this.posY + (this.newPosY - this.posY) / (double)this.newPosRotationIncrements;
 			double d5 = this.posZ + (this.newPosZ - this.posZ) / (double)this.newPosRotationIncrements;
 
-			double d7;
-			for(d7 = this.newRotationYaw - (double)this.rotationYaw; d7 < -180.0D; d7 += 360.0D) {
-			}
-
-			while(d7 >= 180.0D) {
-				d7 -= 360.0D;
-			}
-
-			this.rotationYaw = (float)((double)this.rotationYaw + d7 / (double)this.newPosRotationIncrements);
+			this.rotationYaw = (float)((double)this.rotationYaw + MathHelper.wrapDegrees(this.newRotationYaw - (double)this.rotationYaw) / (double)this.newPosRotationIncrements);
 			this.rotationPitch = (float)((double)this.rotationPitch + (this.newRotationPitch - (double)this.rotationPitch) / (double)this.newPosRotationIncrements);
 			--this.newPosRotationIncrements;
 			this.setPosition(d1, d3, d5);
 			this.setRotation(this.rotationYaw, this.rotationPitch);
-			
-			List<AxisAlignedBB> list9 = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.getInsetBoundingBox(8.0D / 256D, 0.0D, 8.0D / 256D));
-			if(list9.size() > 0) {
-				double d10 = 0.0D;
 
-				for(int i12 = 0; i12 < list9.size(); ++i12) {
-					AxisAlignedBB axisAlignedBB13 = (AxisAlignedBB)list9.get(i12);
-					if(axisAlignedBB13.maxY > d10) {
-						d10 = axisAlignedBB13.maxY;
-					}
-				}
-
-				d3 += d10 - this.boundingBox.minY;
+			List<AxisAlignedBB> colliders = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.getInsetBoundingBox(8.0D / 256D, 0.0D, 8.0D / 256D));
+			if(!colliders.isEmpty()) {
+				double maxTop = colliders.stream().mapToDouble(bb -> bb.maxY).max().orElse(0.0D);
+				d3 += maxTop - this.boundingBox.minY;
 				this.setPosition(d1, d3, d5);
 			}
-			
-			
 		}
 
 		if(this.isMovementBlocked()) {
@@ -832,34 +741,29 @@ public abstract class EntityLiving extends Entity {
 			this.moveStrafing = 0.0F;
 			this.moveForward = 0.0F;
 			this.randomYawVelocity = 0.0F;
-			
 		} else if(!this.isMultiplayerEntity) {
 			if(this.isAIEnabled()) {
 				this.updateAITasks();
-				
 			} else {
 				this.updateEntityActionState();
 				this.rotationYawHead = this.rotationYaw;
-				
 			}
-			
 		}
 
-		boolean z14;
-		
+		boolean inWaterMovement;
 		if(this instanceof EntityPlayer) {
-			z14 = this.isInWater() && !((EntityPlayer)this).divingHelmetOn();
+			inWaterMovement = this.isInWater() && !((EntityPlayer)this).divingHelmetOn();
 		} else {
-			z14 = this.isInWater();
+			inWaterMovement = this.isInWater();
 		}
-		
-		boolean z2 = this.handleLavaMovement();
-		
+
+		boolean inLava = this.handleLavaMovement();
+
 		if(this.isJumping) {
-			if(z14) {
-				this.motionY += (double)0.04F;
-			} else if(z2) {
-				this.motionY += (double)0.04F;
+			if(inWaterMovement) {
+				this.motionY += 0.04D;
+			} else if(inLava) {
+				this.motionY += 0.04D;
 			} else if(this.onGround) {
 				this.jump();
 			}
@@ -869,17 +773,15 @@ public abstract class EntityLiving extends Entity {
 		this.moveForward *= 0.98F;
 		this.randomYawVelocity *= 0.9F;
 		if (!this.isStopped) this.moveEntityWithHeading(this.moveStrafing, this.moveForward);
-		
-		List<Entity> list15 = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand((double)0.2F, 0.0D, (double)0.2F));
-		if(list15 != null && list15.size() > 0) {
-			for(int i4 = 0; i4 < list15.size(); ++i4) {
-				Entity entity16 = (Entity)list15.get(i4);
-				if(entity16.canBePushed()) {
-					entity16.applyEntityCollision(this);
+
+		List<Entity> nearbyEntities = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(0.2D, 0.0D, 0.2D));
+		if(nearbyEntities != null) {
+			for (Entity entity : nearbyEntities) {
+				if (entity.canBePushed()) {
+					entity.applyEntityCollision(this);
 				}
 			}
 		}
-
 	}
 
 	private void updateAITasks() {
@@ -1032,24 +934,11 @@ public abstract class EntityLiving extends Entity {
 		return this.currentTarget;
 	}
 
-	private float updateRotation(float f1, float f2, float f3) {
-		float f4;
-		for(f4 = f2 - f1; f4 < -180.0F; f4 += 360.0F) {
-		}
-
-		while(f4 >= 180.0F) {
-			f4 -= 360.0F;
-		}
-
-		if(f4 > f3) {
-			f4 = f3;
-		}
-
-		if(f4 < -f3) {
-			f4 = -f3;
-		}
-
-		return f1 + f4;
+	private float updateRotation(float current, float target, float maxChange) {
+		float delta = MathHelper.wrapDegrees(target - current);
+		if (delta > maxChange) delta = maxChange;
+		if (delta < -maxChange) delta = -maxChange;
+		return current + delta;
 	}
 
 	public void onEntityDeath() {
@@ -1162,41 +1051,36 @@ public abstract class EntityLiving extends Entity {
 	
 	// Status effects
 	
-	public void updateStatusEffects () {
-		if(activeStatusEffectsMap.size() == 0) return; 
-		
-		Iterator<Integer> it = activeStatusEffectsMap.keySet().iterator();
-		
-		// This will help me select one effect at random:
-		int randomEffectCounter = 0;
-		int randomEffectSelected = this.rand.nextInt(activeStatusEffectsMap.size());    	
-		
+	public void updateStatusEffects() {
+		if (activeStatusEffectsMap.isEmpty()) return;
+
+		int randomEffectIndex = this.rand.nextInt(activeStatusEffectsMap.size());
+		int currentIndex = 0;
+
+		Iterator<Map.Entry<Integer, StatusEffect>> it = activeStatusEffectsMap.entrySet().iterator();
 		while (it.hasNext()) {
-			Integer statusID = it.next();
-			StatusEffect statusEffect = (StatusEffect) activeStatusEffectsMap.get(statusID);
-			
-			// Create a particle? Not perfect but greedy solution which mostly works
-			if (randomEffectCounter == randomEffectSelected) {
+			Map.Entry<Integer, StatusEffect> entry = it.next();
+			StatusEffect statusEffect = entry.getValue();
+
+			if (currentIndex == randomEffectIndex) {
 				Status status = Status.statusTypes[statusEffect.statusID];
 				if (status.showParticles) {
 					int particleColour = status.particleColor;
-
 					this.worldObj.spawnParticle(
-							"status_effect",
-							posX + (this.rand.nextFloat() - 0.5F) * (float) width, 
-							(posY + this.rand.nextFloat() * (float) height) - (float) yOffset, 
-							posZ + (this.rand.nextFloat() - 0.5F) * (float) width,
-							(float)(particleColour >> 16 & 0xff) / 255F,
-							(float)(particleColour >> 8 & 0xff) / 255F,
-							(float)(particleColour & 0xff) / 255F
-						   );
+						"status_effect",
+						posX + (this.rand.nextFloat() - 0.5F) * width,
+						(posY + this.rand.nextFloat() * height) - yOffset,
+						posZ + (this.rand.nextFloat() - 0.5F) * width,
+						(float)(particleColour >> 16 & 0xff) / 255F,
+						(float)(particleColour >> 8 & 0xff) / 255F,
+						(float)(particleColour & 0xff) / 255F
+					);
 				}
 			}
-			randomEffectCounter ++;
-			
-			// Status effect will return false when duration has run out
+			currentIndex++;
+
 			if (!statusEffect.onUpdate(this)) {
-				it.remove ();
+				it.remove();
 			}
 		}
 	}
@@ -1208,12 +1092,7 @@ public abstract class EntityLiving extends Entity {
 	}
 	
 	public void clearActiveStatusEffects() {
-		Iterator<Integer> it = activeStatusEffectsMap.keySet().iterator ();
-		
-		while (it.hasNext()) {
-			it.next();
-			it.remove ();
-		}
+		activeStatusEffectsMap.clear();
 	}
 	
 	public Collection<StatusEffect> getActiveStatusEffects() {

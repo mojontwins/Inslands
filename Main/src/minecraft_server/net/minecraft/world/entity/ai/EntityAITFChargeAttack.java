@@ -3,8 +3,8 @@ package net.minecraft.world.entity.ai;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.monster.EntityMob;
-import net.minecraft.world.entity.monster.EntityTFMinotaur;
+import net.minecraft.world.entity.mob.EntityMob;
+import net.minecraft.world.entity.mob.twilight.EntityTFMinotaur;
 import net.minecraft.world.phys.Vec3D;
 
 public class EntityAITFChargeAttack extends EntityAIBase {
@@ -20,9 +20,9 @@ public class EntityAITFChargeAttack extends EntityAIBase {
 	protected int windup;
 	protected boolean hasAttacked;
 
-	public EntityAITFChargeAttack(EntityLiving var1, float var2) {
-		this.charger = var1;
-		this.speed = var2;
+	public EntityAITFChargeAttack(EntityLiving entityLiving, float speed) {
+		this.charger = entityLiving;
+		this.speed = speed;
 		this.windup = 0;
 		this.hasAttacked = false;
 		this.setMutexBits(3);
@@ -37,22 +37,22 @@ public class EntityAITFChargeAttack extends EntityAIBase {
 		if (this.chargeTarget == null) {
 			return false;
 		} else {
-			double var1 = this.charger.getDistanceSqToEntity(this.chargeTarget);
+			double distance = this.charger.getDistanceSqToEntity(this.chargeTarget);
 
-			if (var1 >= 16.0D && var1 <= 64.0D) {
+			if (distance >= 16.0D && distance <= 64.0D) {
 				if (!this.charger.onGround) {
 					return false;
 				} else {
-					Vec3D var3 = this.findChargePoint(this.charger, this.chargeTarget, 2.1D);
-					//boolean var4 = this.chargeTarget.worldObj.rayTraceBlocks(Vec3.getVec3Pool().getVecFromPool(this.chargeTarget.posX, this.chargeTarget.posY + (double) this.chargeTarget.getEyeHeight(), this.chargeTarget.posZ), var3) == null;
+					Vec3D chargePoint = this.findChargePoint(this.charger, this.chargeTarget, 2.1D);
+					//boolean lineOfSight = this.chargeTarget.worldObj.rayTraceBlocks(Vec3.getVec3Pool().getVecFromPool(this.chargeTarget.posX, this.chargeTarget.posY + (double) this.chargeTarget.getEyeHeight(), this.chargeTarget.posZ), chargePoint) == null;
 
-					boolean var4 = this.chargeTarget.worldObj.rayTraceBlocks(Vec3D.createVector(this.chargeTarget.posX, this.chargeTarget.posY + (double) this.chargeTarget.getEyeHeight(),
-							this.chargeTarget.posZ), var3) == null;
-					
-					if (var3 != null && var4) {
-						this.chargeX = var3.xCoord;
-						this.chargeY = var3.yCoord;
-						this.chargeZ = var3.zCoord;
+					boolean lineOfSight = this.chargeTarget.worldObj.rayTraceBlocks(Vec3D.createVector(this.chargeTarget.posX, this.chargeTarget.posY + (double) this.chargeTarget.getEyeHeight(),
+							this.chargeTarget.posZ), chargePoint) == null;
+
+					if (chargePoint != null && lineOfSight) {
+						this.chargeX = chargePoint.xCoord;
+						this.chargeY = chargePoint.yCoord;
+						this.chargeZ = chargePoint.zCoord;
 						return this.charger.getRNG().nextInt(1) == 0;
 					} else {
 						return false;
@@ -98,13 +98,13 @@ public class EntityAITFChargeAttack extends EntityAIBase {
 			}
 		}
 
-		double var3 = (double) (this.charger.width * 2.1F * this.charger.width * 2.1F);
+		double attackRange = (double) (this.charger.width * 2.1F * this.charger.width * 2.1F);
 
 		if (this.charger.getDistanceSq(this.chargeTarget.posX, this.chargeTarget.boundingBox.minY,
-				this.chargeTarget.posZ) <= var3 && !this.hasAttacked) {
+				this.chargeTarget.posZ) <= attackRange && !this.hasAttacked) {
 			this.hasAttacked = true;
-			if(this.charger instanceof EntityMob) {
-				((EntityMob)this.charger).attackEntityAsMob(this.chargeTarget);
+			if (this.charger instanceof EntityMob) {
+				((EntityMob) this.charger).attackEntityAsMob(this.chargeTarget);
 			}
 		}
 	}
@@ -122,14 +122,14 @@ public class EntityAITFChargeAttack extends EntityAIBase {
 		}
 	}
 
-	protected Vec3D findChargePoint(Entity var1, Entity var2, double var3) {
-		double var5 = var2.posX - var1.posX;
-		double var7 = var2.posZ - var1.posZ;
-		float var9 = (float) Math.atan2(var7, var5);
-		double var10 = (double) MathHelper.sqrt_double(var5 * var5 + var7 * var7);
-		double var12 = (double) MathHelper.cos(var9) * (var10 + var3);
-		double var14 = (double) MathHelper.sin(var9) * (var10 + var3);
-		//return Vec3.getVec3Pool().getVecFromPool(var1.posX + var12, var2.posY, var1.posZ + var14);
-		return Vec3D.createVector(var1.posX + var12, var2.posY, var1.posZ + var14);
+	protected Vec3D findChargePoint(Entity charger, Entity target, double extraDistance) {
+		double dX = target.posX - charger.posX;
+		double dZ = target.posZ - charger.posZ;
+		float yawAngle = (float) Math.atan2(dZ, dX);
+		double distance = (double) MathHelper.sqrt_double(dX * dX + dZ * dZ);
+		double offsetX = (double) MathHelper.cos(yawAngle) * (distance + extraDistance);
+		double offsetZ = (double) MathHelper.sin(yawAngle) * (distance + extraDistance);
+		//return Vec3.getVec3Pool().getVecFromPool(charger.posX + offsetX, target.posY, charger.posZ + offsetZ);
+		return Vec3D.createVector(charger.posX + offsetX, target.posY, charger.posZ + offsetZ);
 	}
 }

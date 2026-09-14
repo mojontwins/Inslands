@@ -5,8 +5,8 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.animal.EntitySheep;
-import net.minecraft.world.entity.animal.EntitySheepuff;
+import net.minecraft.world.entity.animal.farm.EntitySheep;
+import net.minecraft.world.entity.animal.wild.EntitySheepuff;
 
 public class RenderSheepuff extends RenderLiving {
 	private ModelBase wool;

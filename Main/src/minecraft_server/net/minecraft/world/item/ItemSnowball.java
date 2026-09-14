@@ -1,6 +1,6 @@
 package net.minecraft.world.item;
 
-import net.minecraft.world.entity.monster.EntitySnowball;
+import net.minecraft.world.entity.projectile.EntitySnowball;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.creative.CreativeTabs;

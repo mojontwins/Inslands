@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.animal.EntityWolf;
+import net.minecraft.world.entity.animal.wild.EntityWolf;
 
 public class ModelWolf extends ModelBase {
 	public ModelRenderer wolfHeadMain;

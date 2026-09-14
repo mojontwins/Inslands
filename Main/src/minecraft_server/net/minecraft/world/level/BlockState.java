@@ -71,4 +71,9 @@ public class BlockState {
 		this.z = z;
 	}
 	
+	@Override
+	public String toString()  {
+		return "BlockState(" + this.block.getBlockName() + " (" + this.block.blockID + "):" + this.metadata +")";
+	}
+	
 }

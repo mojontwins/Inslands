@@ -5,8 +5,8 @@ import net.minecraft.world.entity.EntityCreature;
 public class EntityAIRestrictSun extends EntityAIBase {
 	private EntityCreature theEntity;
 
-	public EntityAIRestrictSun(EntityCreature entityCreature1) {
-		this.theEntity = entityCreature1;
+	public EntityAIRestrictSun(EntityCreature entityCreature) {
+		this.theEntity = entityCreature;
 	}
 
 	public boolean shouldExecute() {

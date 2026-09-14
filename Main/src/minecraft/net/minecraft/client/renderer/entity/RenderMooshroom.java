@@ -6,7 +6,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelQuadruped;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.animal.EntityCow;
+import net.minecraft.world.entity.animal.farm.EntityCow;
 import net.minecraft.world.level.tile.Block;
 
 public class RenderMooshroom extends RenderLiving {

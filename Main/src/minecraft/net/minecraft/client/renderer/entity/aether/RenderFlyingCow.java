@@ -4,7 +4,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.aether.ModelFlyingCow2;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.animal.EntityFlyingCow;
+import net.minecraft.world.entity.animal.wild.EntityFlyingCow;
 
 public class RenderFlyingCow extends RenderLiving {
 	public RenderFlyingCow(ModelBase modelbase, ModelBase modelbase1, float f) {

@@ -10,7 +10,7 @@ import net.minecraft.network.NetHandler;
 import net.minecraft.network.WatchableObject;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.EntityList;
-import net.minecraft.world.entity.monster.EntityArmoredMob;
+import net.minecraft.world.entity.mob.EntityArmoredMob;
 import net.minecraft.world.item.ItemStack;
 
 public class Packet90ArmoredMobSpawn extends Packet {

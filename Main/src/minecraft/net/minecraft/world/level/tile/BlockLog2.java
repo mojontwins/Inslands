@@ -26,17 +26,14 @@ public class BlockLog2 extends BlockLog implements IBlockWithSubtypes {
 	@Override
 	public void onBlockRemoval(World world1, int i2, int i3, int i4) {
 		byte b5 = 4;
-		int i6 = b5 + 1;
-		if(world1.checkChunksExist(i2 - i6, i3 - i6, i4 - i6, i2 + i6, i3 + i6, i4 + i6)) {
-			for(int i7 = -b5; i7 <= b5; ++i7) {
-				for(int i8 = -b5; i8 <= b5; ++i8) {
-					for(int i9 = -b5; i9 <= b5; ++i9) {
-						int i10 = world1.getBlockID(i2 + i7, i3 + i8, i4 + i9);
-						if(i10 == Block.leaves2.blockID) {
-							int i11 = world1.getBlockMetadata(i2 + i7, i3 + i8, i4 + i9);
-							if((i11 & 8) == 0) {
-								world1.setBlockMetadata(i2 + i7, i3 + i8, i4 + i9, i11 | 8);
-							}
+		for(int i7 = -b5; i7 <= b5; ++i7) {
+			for(int i8 = -b5; i8 <= b5; ++i8) {
+				for(int i9 = -b5; i9 <= b5; ++i9) {
+					int i10 = world1.getBlockID(i2 + i7, i3 + i8, i4 + i9);
+					if(i10 == Block.leaves2.blockID) {
+						int i11 = world1.getBlockMetadata(i2 + i7, i3 + i8, i4 + i9);
+						if((i11 & 8) == 0) {
+							world1.setBlockMetadata(i2 + i7, i3 + i8, i4 + i9, i11 | 8);
 						}
 					}
 				}

@@ -87,4 +87,18 @@ public class MathHelper {
 		//return -Math.floorDiv(-a, b);
 		return (int)-Math.floor((double)-a / b);
 	}
+
+	public static float wrapDegrees(float degrees) {
+		float result = degrees % 360.0F;
+		if (result < -180.0F) result += 360.0F;
+		if (result >= 180.0F) result -= 360.0F;
+		return result;
+	}
+
+	public static double wrapDegrees(double degrees) {
+		double result = degrees % 360.0D;
+		if (result < -180.0D) result += 360.0D;
+		if (result >= 180.0D) result -= 360.0D;
+		return result;
+	}
 }

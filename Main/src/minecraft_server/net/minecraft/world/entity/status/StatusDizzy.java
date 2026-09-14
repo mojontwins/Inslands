@@ -11,12 +11,12 @@ public class StatusDizzy extends Status {
 	}
 
 	@Override
-	public void performEffect (EntityLiving entityLiving, int amplifier, int duration) {
-		if(entityLiving instanceof EntityPlayer) {
-			EntityPlayer entityPlayer = (EntityPlayer)entityLiving;
-			if(duration > 60) {
-				entityPlayer.timeInPortal += 0.006666667F + 0.05F;
-				if(entityPlayer.timeInPortal > 1.0F) entityPlayer.timeInPortal = 1.0F;
+	public void performEffect(EntityLiving entityLiving, int amplifier, int duration) {
+		if (entityLiving instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) entityLiving;
+			if (duration > 60) {
+				player.timeInPortal += 0.006666667F + 0.05F;
+				if (player.timeInPortal > 1.0F) player.timeInPortal = 1.0F;
 			} 
 			
 			// EntityPlayerSP will take care of decreasing `timeInPortal` by itself.

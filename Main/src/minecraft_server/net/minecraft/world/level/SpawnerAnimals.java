@@ -1,23 +1,23 @@
 package net.minecraft.world.level;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EnumCreatureType;
 import net.minecraft.world.entity.IMobWithLevel;
-import net.minecraft.world.entity.animal.EntityCow;
-import net.minecraft.world.entity.animal.EntityPig;
-import net.minecraft.world.entity.animal.EntitySheep;
-import net.minecraft.world.entity.monster.EntityAlphaWitch;
-import net.minecraft.world.entity.monster.EntityHusk;
-import net.minecraft.world.entity.monster.EntitySkeleton;
-import net.minecraft.world.entity.monster.EntitySpider;
-import net.minecraft.world.entity.monster.EntityZombie;
-import net.minecraft.world.entity.monster.EntityZombieAlex;
+import net.minecraft.world.entity.animal.farm.EntityCow;
+import net.minecraft.world.entity.animal.farm.EntityPig;
+import net.minecraft.world.entity.animal.farm.EntitySheep;
+import net.minecraft.world.entity.mob.boss.EntityAlphaWitch;
+import net.minecraft.world.entity.mob.undead.EntityHusk;
+import net.minecraft.world.entity.mob.undead.EntitySkeleton;
+import net.minecraft.world.entity.mob.spider.EntitySpider;
+import net.minecraft.world.entity.mob.undead.EntityZombie;
+import net.minecraft.world.entity.mob.undead.EntityZombieAlex;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.chunk.Chunk;
@@ -32,403 +32,405 @@ import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 import net.minecraft.world.level.tile.BlockBed;
 
 public final class SpawnerAnimals {
-	private static Set<ChunkCoordIntPair> eligibleChunksForSpawning = new HashSet<ChunkCoordIntPair>();
-	protected static final Class<?>[] nightSpawnEntities = new Class[]{EntitySpider.class, EntityZombie.class, EntitySkeleton.class};
+	private static final Set<ChunkCoordIntPair> eligibleChunksForSpawning = new HashSet<>();
+	private static final Class<?>[] nightSpawnClasses = new Class<?>[]{EntitySpider.class, EntityZombie.class, EntitySkeleton.class};
 
-	protected static ChunkPosition getRandomSpawningPointInChunk(World world, int i1, int i2) {
-		int i3 = i1 + world.rand.nextInt(16);
-		int i4 = world.rand.nextInt(128);
-		int i5 = i2 + world.rand.nextInt(16);
-		return new ChunkPosition(i3, i4, i5);
+	private static final int SPAWN_SEARCH_RADIUS = 8;
+	private static final int SPAWN_SPREAD = 6;
+	private static final int MAX_SPAWN_ATTEMPTS = 3;
+	private static final float MIN_SPAWN_DISTANCE_FROM_SPAWN_SQ = 576.0F;
+	private static final double MIN_PLAYER_DISTANCE = 24.0D;
+
+	private static ChunkPosition getRandomSpawningPointInChunk(World world, int chunkX, int chunkZ) {
+		int x = chunkX + world.rand.nextInt(16);
+		int y = world.rand.nextInt(128);
+		int z = chunkZ + world.rand.nextInt(16);
+		return new ChunkPosition(x, y, z);
 	}
 
-	public static final int performSpawning(World world, boolean flag1, boolean flag2) {
-		if(!flag1 && !flag2) {
+	public static final int performSpawning(World world, boolean spawnHostileMobs, boolean spawnPeacefulMobs) {
+		if(!spawnHostileMobs && !spawnPeacefulMobs) {
 			return 0;
-		} else {
-			eligibleChunksForSpawning.clear();
+		}
 
-			IChunkProvider chunkProvider = world.getChunkProvider().getChunkProviderGenerate();
-			
-			int minXChunk = WorldSize.getXChunkMinForReal(chunkProvider);
-			int maxXChunk = WorldSize.getXChunkMaxForReal(chunkProvider);
-			int minZChunk = WorldSize.getZChunkMinForReal(chunkProvider);
-			int maxZChunk = WorldSize.getZChunkMaxForReal(chunkProvider);
-			
-			int totalSpawned;
-			
-			for(int i = 0; i < world.playerEntities.size(); ++i) {
-				EntityPlayer entityPlayer4 = (EntityPlayer)world.playerEntities.get(i);
-				int x0 = MathHelper.floor_double(entityPlayer4.posX / 16.0D);
-				int z0 = MathHelper.floor_double(entityPlayer4.posZ / 16.0D);
-				byte radius = 8;
-	
-				int xx, zz;
-				for(int x = -radius; x <= radius; ++x) {
-					xx = x0 + x;
-					if(xx >= minXChunk && xx < maxXChunk) {
-						for(int z = -radius; z <= radius; ++z) {
-							zz = z0 + z;
-							if (zz >= minZChunk && zz < maxZChunk) {
-								eligibleChunksForSpawning.add(new ChunkCoordIntPair(xx, zz));
-							}
+		eligibleChunksForSpawning.clear();
+
+		IChunkProvider chunkProvider = world.getChunkProvider().getChunkProviderGenerate();
+		int minXChunk = WorldSize.getXChunkMinForReal(chunkProvider);
+		int maxXChunk = WorldSize.getXChunkMaxForReal(chunkProvider);
+		int minZChunk = WorldSize.getZChunkMinForReal(chunkProvider);
+		int maxZChunk = WorldSize.getZChunkMaxForReal(chunkProvider);
+
+		// Collect eligible chunks near all players
+		world.playerEntities.forEach(player -> {
+			int playerChunkX = MathHelper.floor_double(((EntityPlayer)player).posX / 16.0D);
+			int playerChunkZ = MathHelper.floor_double(((EntityPlayer)player).posZ / 16.0D);
+
+			IntStream.rangeClosed(-SPAWN_SEARCH_RADIUS, SPAWN_SEARCH_RADIUS).forEach(dx -> {
+				int chunkX = playerChunkX + dx;
+				if(chunkX >= minXChunk && chunkX < maxXChunk) {
+					IntStream.rangeClosed(-SPAWN_SEARCH_RADIUS, SPAWN_SEARCH_RADIUS).forEach(dz -> {
+						int chunkZ = playerChunkZ + dz;
+						if(chunkZ >= minZChunk && chunkZ < maxZChunk) {
+							eligibleChunksForSpawning.add(new ChunkCoordIntPair(chunkX, chunkZ));
 						}
+					});
+				}
+			});
+		});
+
+		int totalSpawned = 0;
+		ChunkCoordinates spawnPoint = world.getSpawnPoint();
+
+		for(EnumCreatureType creatureType : EnumCreatureType.values()) {
+			int maxEntities = creatureType.getMaxNumberOfCreature() * eligibleChunksForSpawning.size() / 256;
+			int activeEntities = countActiveEntities(world, creatureType);
+			int hordeSize = 4;
+
+			if(creatureType == EnumCreatureType.monster) {
+				hordeSize += 2;
+				if(world.worldInfo.isBloodMoon()) {
+					maxEntities *= 3;
+					hordeSize *= 3;
+				}
+				if(Seasons.currentSeason == 0) maxEntities += maxEntities >> 1;      // 3/2
+				else if(Seasons.currentSeason == 2) maxEntities = (maxEntities >> 2) + (maxEntities >> 1); // 3/4
+			} else {
+				if(Seasons.currentSeason == 2) maxEntities += maxEntities >> 1;      // 3/2
+				else if(Seasons.currentSeason == 0) maxEntities = (maxEntities >> 2) + (maxEntities >> 1); // 3/4
+			}
+
+			if(!isCreatureTypeAllowed(creatureType, spawnHostileMobs, spawnPeacefulMobs)) {
+				continue;
+			}
+
+			if(activeEntities > maxEntities) {
+				continue;
+			}
+
+			totalSpawned += trySpawnCreatureType(world, creatureType, spawnPoint, activeEntities, hordeSize);
+		}
+
+		return totalSpawned;
+	}
+
+	private static int countActiveEntities(World world, EnumCreatureType creatureType) {
+		return eligibleChunksForSpawning.stream()
+			.mapToInt(coords -> {
+				Chunk chunk = world.getChunkFromChunkCoords(coords.chunkXPos, coords.chunkZPos);
+				return chunk.getCreatureTypeCounter(creatureType);
+			})
+			.sum();
+	}
+
+	private static boolean isCreatureTypeAllowed(EnumCreatureType creatureType, boolean spawnHostileMobs, boolean spawnPeacefulMobs) {
+		if(creatureType.getPeacefulCreature() && !spawnPeacefulMobs) return false;
+		if(!creatureType.getPeacefulCreature() && !spawnHostileMobs) return false;
+		return true;
+	}
+
+	private static int trySpawnCreatureType(World world, EnumCreatureType creatureType, ChunkCoordinates spawnPoint, int activeEntities, int hordeSize) {
+		int totalSpawned = 0;
+
+		for(ChunkCoordIntPair chunkCoords : eligibleChunksForSpawning) {
+			Chunk spawningChunk = world.getChunkFromChunkCoords(chunkCoords.chunkXPos, chunkCoords.chunkZPos);
+			BiomeGenBase biome = spawningChunk.getBiomeGenAt(8, 8);
+			List<SpawnListEntry> spawnList = biome.getSpawnableList(creatureType);
+
+			if(spawnList == null || spawnList.isEmpty()) {
+				continue;
+			}
+
+			SpawnListEntry selectedEntry = selectWeightedRandom(world, spawnList, spawningChunk);
+			if(selectedEntry == null) {
+				continue;
+			}
+
+			ChunkPosition spawnPos = getRandomSpawningPointInChunk(world, chunkCoords.chunkXPos * 16, chunkCoords.chunkZPos * 16);
+			int spawnX = spawnPos.x;
+			int spawnY = spawnPos.y;
+			int spawnZ = spawnPos.z;
+
+			if(world.isBlockNormalCube(spawnX, spawnY, spawnZ)) {
+				continue;
+			}
+
+			if(world.getBlockMaterial(spawnX, spawnY, spawnZ) != creatureType.getCreatureMaterial()) {
+				continue;
+			}
+
+			int spawnedInChunk = 0;
+
+			for(int attempt = 0; attempt < MAX_SPAWN_ATTEMPTS; attempt++) {
+				int x = spawnX;
+				int y = spawnY;
+				int z = spawnZ;
+
+				for(int i = 0; i < hordeSize; i++) {
+					x += world.rand.nextInt(SPAWN_SPREAD) - world.rand.nextInt(SPAWN_SPREAD);
+					y += world.rand.nextInt(1) - world.rand.nextInt(1);
+					z += world.rand.nextInt(SPAWN_SPREAD) - world.rand.nextInt(SPAWN_SPREAD);
+
+					x = x % WorldSize.width;
+					y = y % 128;
+					z = z % WorldSize.length;
+
+					if(!canCreatureTypeSpawnAtLocation(creatureType, world, x, y, z)) {
+						continue;
+					}
+
+					float xFloat = (float)x + 0.5F;
+					float yFloat = (float)y;
+					float zFloat = (float)z + 0.5F;
+
+					if(world.getClosestPlayer(xFloat, yFloat, zFloat, MIN_PLAYER_DISTANCE) != null) {
+						continue;
+					}
+
+					float dxSpawn = xFloat - (float)spawnPoint.posX;
+					float dySpawn = yFloat - (float)spawnPoint.posY;
+					float dzSpawn = zFloat - (float)spawnPoint.posZ;
+					float distanceSq = dxSpawn * dxSpawn + dySpawn * dySpawn + dzSpawn * dzSpawn;
+
+					if(distanceSq < MIN_SPAWN_DISTANCE_FROM_SPAWN_SQ) {
+						continue;
+					}
+
+					EntityLiving entity = instantiateEntity(selectedEntry.entityClass, world);
+					if(entity == null) {
+						return totalSpawned;
+					}
+
+					entity.setLocationAndAngles(xFloat, yFloat, zFloat, world.rand.nextFloat() * 360.0F, 0.0F);
+
+					if(!entity.getCanSpawnHere()) {
+						continue;
+					}
+
+					++spawnedInChunk;
+					world.spawnEntityInWorld(entity);
+					creatureSpecificInit(entity, world, xFloat, yFloat, zFloat);
+					totalSpawned += spawnedInChunk;
+
+					if(spawnedInChunk >= entity.getMaxSpawnedInChunk()) {
+						break;
 					}
 				}
 			}
+		}
 
-			totalSpawned = 0;
-			ChunkCoordinates spawnPoint = world.getSpawnPoint();
-			EnumCreatureType[] availableCreatureTypes = EnumCreatureType.values();
-			int maxCreatureTypes = availableCreatureTypes.length;
+		return totalSpawned;
+	}
 
-			label133:
-			for(int creatureTypeIndex = 0; creatureTypeIndex < maxCreatureTypes; ++creatureTypeIndex) {
-				EnumCreatureType creatureType = availableCreatureTypes[creatureTypeIndex];
+	private static SpawnListEntry selectWeightedRandom(World world, List<SpawnListEntry> spawnList, Chunk spawningChunk) {
+		int totalWeight = spawnList.stream().mapToInt(entry -> entry.spawnRarityRate).sum();
+		if(totalWeight <= 0) return null;
 
-				// Change the values of these parameters when suited in your mod!
-				int maxEntitiesOfThisType = creatureType.getMaxNumberOfCreature() * eligibleChunksForSpawning.size() / 256;
-				
-				//int activeEntitiesOfThisType = world.countEntities(creatureType.getCreatureClass());
-				// Let's try and count only entities of this time in active chunks
-				int activeEntitiesOfThisType = 0;
-				Iterator<ChunkCoordIntPair> chunksIt = eligibleChunksForSpawning.iterator();
-				while (chunksIt.hasNext()) {
-					ChunkCoordIntPair chunkCoords = chunksIt.next();
-					Chunk spawningChunk = world.getChunkFromChunkCoords(chunkCoords.chunkXPos, chunkCoords.chunkZPos);
-					activeEntitiesOfThisType += spawningChunk.getCreatureTypeCounter(creatureType);					
-				}
-				
-				int hordeSize = 4;
-
-				if(creatureType == EnumCreatureType.monster) {
-					hordeSize += 2;
-					if(world.worldInfo.isBloodMoon()) { 
-						maxEntitiesOfThisType *=3;
-						hordeSize *= 3;
-					}
-					if(Seasons.currentSeason == 0) maxEntitiesOfThisType = maxEntitiesOfThisType + (maxEntitiesOfThisType >> 1);				// 3/2
-					else if(Seasons.currentSeason == 2) maxEntitiesOfThisType = (maxEntitiesOfThisType >> 2) + (maxEntitiesOfThisType >> 1); 	// 3/4
-				} else {
-					if(Seasons.currentSeason == 2) maxEntitiesOfThisType = maxEntitiesOfThisType + (maxEntitiesOfThisType >> 1);				// 3/2
-					else if(Seasons.currentSeason == 0) maxEntitiesOfThisType = (maxEntitiesOfThisType >> 2) + (maxEntitiesOfThisType >> 1); 	// 3/4
-				}
-
-				// System.out.println ("Chunks: " + eligibleChunksForSpawning.size() + ", TYPE: " + creatureType + " #" + activeEntitiesOfThisType + " of " + maxEntitiesOfThisType);
-								
-				if(activeEntitiesOfThisType > maxEntitiesOfThisType) {
-					//world.pruneEntitiesToCap(creatureType, maxEntitiesOfThisType);
-				}
-				
-				if(
-					(!creatureType.getPeacefulCreature() || flag2) && 
-					(creatureType.getPeacefulCreature() || flag1) && 
-					activeEntitiesOfThisType <= maxEntitiesOfThisType
-				) {
-					Iterator<ChunkCoordIntPair> chunksForSpawningIt = eligibleChunksForSpawning.iterator();
-
-					label130:
-					while(true) {
-						
-						SpawnListEntry mobToSpawn;						
-						int x0;
-						int y0;
-						int z0;
-						Chunk spawningChunk;
-						BiomeGenBase biomeGen = null;
-						
-						do {
-							do {
-								ChunkCoordIntPair chunkCoords;
-								List<SpawnListEntry> possibleMobsToSpawn;
-								do {
-									do {
-										if(!chunksForSpawningIt.hasNext()) {
-											continue label133;
-										}
-
-										chunkCoords = (ChunkCoordIntPair)chunksForSpawningIt.next();
-										spawningChunk = world.getChunkFromChunkCoords(chunkCoords.chunkXPos, chunkCoords.chunkZPos);
-										
-										biomeGen = spawningChunk.getBiomeGenAt(8, 8);
-										
-										possibleMobsToSpawn = biomeGen.getSpawnableList(creatureType);
-									} while(possibleMobsToSpawn == null);
-								} while(possibleMobsToSpawn.isEmpty());
-
-								int i13 = 0;
-
-								for(Iterator<SpawnListEntry> mobsToSpawnIt = possibleMobsToSpawn.iterator(); mobsToSpawnIt.hasNext(); i13 += mobToSpawn.spawnRarityRate) {
-									mobToSpawn = (SpawnListEntry)mobsToSpawnIt.next();
-								}
-
-								int picker = world.rand.nextInt(i13);
-								mobToSpawn = (SpawnListEntry)possibleMobsToSpawn.get(0);
-								Iterator<SpawnListEntry> mobsToSpawnIt = possibleMobsToSpawn.iterator();
-
-								while(mobsToSpawnIt.hasNext()) {
-									SpawnListEntry spawnListEntry = (SpawnListEntry)mobsToSpawnIt.next();
-
-									picker -= spawnListEntry.spawnRarityRate;
-									if(picker < 0) {
-										// Urban mobs only spawn in cities
-										if(!spawnListEntry.isUrban || spawningChunk.hasBuilding || spawningChunk.hasRoad) {
-											mobToSpawn = spawnListEntry;
-											break;
-										}
-									}
-								}
-
-								ChunkPosition chunkPosition41 = getRandomSpawningPointInChunk(world, chunkCoords.chunkXPos * 16, chunkCoords.chunkZPos * 16);
-								x0 = chunkPosition41.x;
-								y0 = chunkPosition41.y;
-								z0 = chunkPosition41.z;
-							} while(world.isBlockNormalCube(x0, y0, z0));
-						} while(world.getBlockMaterial(x0, y0, z0) != creatureType.getCreatureMaterial());
-
-						int spawnedCount = 0;
-
-						int spawningAttempts = 3;
-						
-						//System.out.println("Biome " + biomeGen + " Mob to spawn " + mobToSpawn.entityClass);
-
-						for(int spawningAttempt = 0; spawningAttempt < spawningAttempts; ++spawningAttempt) {
-							int x1 = x0;
-							int y1 = y0;
-							int z1 = z0;
-							byte spawnRadius = 6;
-
-							for(int i26 = 0; i26 < hordeSize; ++i26) {
-								x1 += world.rand.nextInt(spawnRadius) - world.rand.nextInt(spawnRadius);
-								y1 += world.rand.nextInt(1) - world.rand.nextInt(1);
-								z1 += world.rand.nextInt(spawnRadius) - world.rand.nextInt(spawnRadius);
-
-								x1 = x1 % WorldSize.width;
-								y1 = y1 % 128;
-								z1 = z1 % WorldSize.length;
-								
-								//System.out.println ("Attempting @ " + x1 + " " + y1 + " " + z1);
-								if(canCreatureTypeSpawnAtLocation(creatureType, world, x1, y1, z1)) {
-									float xF = (float)x1 + 0.5F;
-									float yF = (float)y1;
-									float zF = (float)z1 + 0.5F;
-									
-									if(world.getClosestPlayer((double)xF, (double)yF, (double)zF, 24.0D) == null) {
-										float xF1 = xF - (float)spawnPoint.posX;
-										float yF1 = yF - (float)spawnPoint.posY;
-										float zF1 = zF - (float)spawnPoint.posZ;
-										float distanceSq = xF1 * xF1 + yF1 * yF1 + zF1 * zF1;
-										
-										if(distanceSq >= 576.0F) {
-											EntityLiving entityLiving;
-											try {
-												entityLiving = (EntityLiving)mobToSpawn.entityClass.getConstructor(new Class[]{World.class}).newInstance(new Object[]{world});
-											} catch (Exception exception34) {
-												exception34.printStackTrace();
-												return totalSpawned;
-											}
-
-											/*
-											if (world.getBlockMaterial(x1, y1, z1).getIsLiquid() != entityLiving.getCanSpawnOnWater()) {
-												continue;
-											}
-											*/
-
-											entityLiving.setLocationAndAngles((double)xF, (double)yF, (double)zF, world.rand.nextFloat() * 360.0F, 0.0F);
-											
-											if(entityLiving.getCanSpawnHere()) {
-												++spawnedCount;
-												world.spawnEntityInWorld(entityLiving);
-												creatureSpecificInit(entityLiving, world, xF, yF, zF);
-												
-												// Cut soon
-												if(spawnedCount >= entityLiving.getMaxSpawnedInChunk()) {
-													continue label130;
-												}
-											} //else System.out.println ("Failed 'canSpawnHere'");
-
-											totalSpawned += spawnedCount;
-										} //else System.out.println ("Failed 'tooCloseToSpawn'");
-									} //else System.out.println ("Failed 'playerTooCloase'");
-								} //else System.out.println ("Failed 'cancreatureSpawnAtlocation'");;
-							}
-						}
-					}
-				} else {
-					//System.out.println ("Too many of " + creatureType + "!");
+		int picker = world.rand.nextInt(totalWeight);
+		for(SpawnListEntry entry : spawnList) {
+			picker -= entry.spawnRarityRate;
+			if(picker < 0) {
+				if(!entry.isUrban || spawningChunk.hasBuilding || spawningChunk.hasRoad) {
+					return entry;
 				}
 			}
+		}
 
-			return totalSpawned;
+		// Fallback: return first entry that matches urban criteria
+		for(SpawnListEntry entry : spawnList) {
+			if(!entry.isUrban || spawningChunk.hasBuilding || spawningChunk.hasRoad) {
+				return entry;
+			}
+		}
+
+		return null;
+	}
+
+	private static EntityLiving instantiateEntity(Class<?> entityClass, World world) {
+		try {
+			return (EntityLiving)entityClass.getConstructor(World.class).newInstance(world);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 
-	private static boolean canCreatureTypeSpawnAtLocation(EnumCreatureType enumCreatureType, World world, int x, int y, int z) {
-		
-		if(enumCreatureType == EnumCreatureType.caveCreature) {
-			if (!world.isBlockUnderground(x, y, z)) return false; 			// Cave creatures cannot spawn in the open!
-		} 
-		
-		Material creatureMaterial = enumCreatureType.getCreatureMaterial();
-		boolean res = false;
-		
+	static boolean canCreatureTypeSpawnAtLocation(EnumCreatureType creatureType, World world, int x, int y, int z) {
+		if(creatureType == EnumCreatureType.caveCreature) {
+			if(!world.isBlockUnderground(x, y, z)) return false;
+		}
+
+		Material creatureMaterial = creatureType.getCreatureMaterial();
+
 		if(creatureMaterial == Material.water) {
-			res =   world.getBlockMaterial(x, y, z).getIsLiquid() &&  		// Cube is water
-					!world.isBlockNormalCube(x, y + 1, z); 					// Cube above not solid
+			return world.getBlockMaterial(x, y, z).getIsLiquid()
+				&& !world.isBlockNormalCube(x, y + 1, z);
 		} else {
-			res =  	world.isBlockNormalCube(x, y - 1, z) && 				// Cube below is solid
-					!world.isBlockNormalCube(x, y, z) && 					// This cube is not solid
-					!world.getBlockMaterial(x, y, z).getIsLiquid() &&  		// nor water
-					!world.isBlockNormalCube(x, y + 1, z); 					// Cube above is not solid
+			return world.isBlockNormalCube(x, y - 1, z)
+				&& !world.isBlockNormalCube(x, y, z)
+				&& !world.getBlockMaterial(x, y, z).getIsLiquid()
+				&& !world.isBlockNormalCube(x, y + 1, z);
 		}
-		
-		return res;
 	}
-	
+
 	private static EntityLiving spawnSpecial(EntityLiving entityLiving, World world, float posX, float posY, float posZ, float rotationYaw, float rotationPitch) {
 		entityLiving.setLocationAndAngles(posX, posY, posZ, rotationYaw, rotationPitch);
 		world.spawnEntityInWorld(entityLiving);
 		return entityLiving;
 	}
-	
-	/*
-	private static void setupTrader(EntityTrader entityTrader, World world, boolean specialTrader) {
-		entityTrader.fillTradingRecipeList(world, specialTrader);
-	}
-	*/
 
-	public static void creatureSpecificInit(EntityLiving entityLiving, World world, float xF, float yF, float zF) {
-		//BiomeGenBase biome = world.getBiomeGenAt((int)xF, (int)zF);
-		
-		if(entityLiving instanceof EntityPig) {
-			if(world.rand.nextInt(128) == 0) {
-				EntityLiving entityRider = spawnSpecial(new EntityHusk(world), world, xF, yF, zF, entityLiving.rotationYaw, 0.0F);
-				entityRider.mountEntity(entityLiving);
-			} else if(world.rand.nextInt(32) == 0) {
-				/*
-				EntityLiving entityRider = spawnSpecial(new EntityPigman(world), world, xF, yF, zF, entityLiving.rotationYaw, 0.0F);
-				setupTrader((EntityTrader)entityRider, world, false);
-				entityRider.mountEntity(entityLiving);
-				*/
-			}
-		} else if(entityLiving instanceof EntityCow) {
-			if(world.rand.nextInt(128) == 0) {
-				EntityLiving entityRider = spawnSpecial(new EntityHusk(world), world, xF, yF, zF, entityLiving.rotationYaw, 0.0F);
-				entityRider.mountEntity(entityLiving);
-			} else if(world.rand.nextInt(32) == 0) {
-				/*
-				EntityLiving entityRider = spawnSpecial(new EntityCowman(world), world, xF, yF, zF, entityLiving.rotationYaw, 0.0F);
-				setupTrader((EntityTrader)entityRider, world, false);
-				entityRider.mountEntity(entityLiving);
-				*/
-			}
-		} else if(entityLiving instanceof EntitySpider) {
-			EntityLiving entityRider = null;
-			switch(world.rand.nextInt(128)) {
-				case 0: entityRider = new EntitySkeleton(world); break;
-				case 1: entityRider = new EntityZombie(world); break;
-				case 2: entityRider = new EntityZombieAlex(world); break;
-				case 3: entityRider = new EntityHusk(world); break;
-			}
-			
-			if(entityRider != null) {
-				spawnSpecial(entityRider, world, xF, yF, zF, entityLiving.rotationYaw, 0.0F);
-				entityRider.mountEntity(entityLiving);
-			}
-		} else if(entityLiving instanceof EntitySheep) {
-			if(LevelThemeGlobalSettings.colourfulFlock) {
-				((EntitySheep)entityLiving).setFleeceColor(EntitySheep.getRandomFleeceColorForReal(world.rand));
-			} else {
-				((EntitySheep)entityLiving).setFleeceColor(EntitySheep.getRandomFleeceColor(world.rand));
-			}
-		} else if(entityLiving instanceof EntityAlphaWitch) {
-			((EntityAlphaWitch)entityLiving).fillInventory();
-		} else if(entityLiving instanceof IMobWithLevel) {
-			int metadata = world.getBlockMetadata((int)xF, (int)yF, (int)zF);
-			IMobWithLevel mobWithLevel = (IMobWithLevel)entityLiving;
-			int level = metadata == 0 ? world.rand.nextInt(mobWithLevel.getMaxLevel()) : metadata & 7;
-			mobWithLevel.setLevel(level);
+	public static void creatureSpecificInit(EntityLiving entity, World world, float x, float y, float z) {
+		if(entity instanceof EntityPig) {
+			initPig(world, entity, x, y, z);
+		} else if(entity instanceof EntityCow) {
+			initCow(world, entity, x, y, z);
+		} else if(entity instanceof EntitySpider) {
+			initSpider(world, entity, x, y, z);
+		} else if(entity instanceof EntitySheep) {
+			initSheep((EntitySheep) entity, world);
+		} else if(entity instanceof EntityAlphaWitch) {
+			((EntityAlphaWitch)entity).fillInventory();
+		} else if(entity instanceof IMobWithLevel) {
+			initMobWithLevel(world, (IMobWithLevel)entity, x, y, z);
 		}
-
 	}
 
-	public static boolean performSleepSpawning(World world, List<EntityPlayer> list1) {
-		boolean z2 = false;
-		Pathfinder pathfinder3 = new Pathfinder(world);
-		Iterator<EntityPlayer> iterator4 = list1.iterator();
+	private static void initPig(World world, EntityLiving pig, float x, float y, float z) {
+		if(world.rand.nextInt(128) == 0) {
+			EntityLiving rider = spawnSpecial(new EntityHusk(world), world, x, y, z, pig.rotationYaw, 0.0F);
+			rider.mountEntity(pig);
+		}
+	}
 
-		while(true) {
-			EntityPlayer entityPlayer5;
-			Class<?>[] class6;
-			do {
-				do {
-					if(!iterator4.hasNext()) {
-						return z2;
-					}
+	private static void initCow(World world, EntityLiving cow, float x, float y, float z) {
+		if(world.rand.nextInt(128) == 0) {
+			EntityLiving rider = spawnSpecial(new EntityHusk(world), world, x, y, z, cow.rotationYaw, 0.0F);
+			rider.mountEntity(cow);
+		}
+	}
 
-					entityPlayer5 = (EntityPlayer)iterator4.next();
-					class6 = nightSpawnEntities;
-				} while(class6 == null);
-			} while(class6.length == 0);
+	private static void initSpider(World world, EntityLiving spider, float x, float y, float z) {
+		EntityLiving rider = null;
+		switch(world.rand.nextInt(128)) {
+			case 0: rider = new EntitySkeleton(world); break;
+			case 1: rider = new EntityZombie(world); break;
+			case 2: rider = new EntityZombieAlex(world); break;
+			case 3: rider = new EntityHusk(world); break;
+		}
 
-			boolean z7 = false;
+		if(rider != null) {
+			spawnSpecial(rider, world, x, y, z, spider.rotationYaw, 0.0F);
+			rider.mountEntity(spider);
+		}
+	}
 
-			for(int i8 = 0; i8 < 20 && !z7; ++i8) {
-				int i9 = MathHelper.floor_double(entityPlayer5.posX) + world.rand.nextInt(32) - world.rand.nextInt(32);
-				int i10 = MathHelper.floor_double(entityPlayer5.posZ) + world.rand.nextInt(32) - world.rand.nextInt(32);
-				int i11 = MathHelper.floor_double(entityPlayer5.posY) + world.rand.nextInt(16) - world.rand.nextInt(16);
-				if(i11 < 1) {
-					i11 = 1;
-				} else if(i11 > 128) {
-					i11 = 128;
-				}
+	private static void initSheep(EntitySheep sheep, World world) {
+		if(LevelThemeGlobalSettings.colourfulFlock) {
+			sheep.setFleeceColor(EntitySheep.getRandomFleeceColorForReal(world.rand));
+		} else {
+			sheep.setFleeceColor(EntitySheep.getRandomFleeceColor(world.rand));
+		}
+	}
 
-				int i12 = world.rand.nextInt(class6.length);
+	private static void initMobWithLevel(World world, IMobWithLevel mob, float x, float y, float z) {
+		int metadata = world.getBlockMetadata((int)x, (int)y, (int)z);
+		int level = metadata == 0 ? world.rand.nextInt(mob.getMaxLevel()) : metadata & 7;
+		mob.setLevel(level);
+	}
 
-				int i13;
-				for(i13 = i11; i13 > 2 && !world.isBlockNormalCube(i9, i13 - 1, i10); --i13) {
-				}
+	public static boolean performSleepSpawning(World world, List<EntityPlayer> players) {
+		Pathfinder pathfinder = new Pathfinder(world);
 
-				while(!canCreatureTypeSpawnAtLocation(EnumCreatureType.monster, world, i9, i13, i10) && i13 < i11 + 16 && i13 < 128) {
-					++i13;
-				}
+		for(EntityPlayer player : players) {
+			if(nightSpawnClasses == null || nightSpawnClasses.length == 0) {
+				continue;
+			}
 
-				if(i13 < i11 + 16 && i13 < 128) {
-					float f14 = (float)i9 + 0.5F;
-					float f15 = (float)i13;
-					float f16 = (float)i10 + 0.5F;
-
-					EntityLiving entityLiving17;
-					try {
-						entityLiving17 = (EntityLiving)class6[i12].getConstructor(new Class[]{World.class}).newInstance(new Object[]{world});
-					} catch (Exception exception21) {
-						exception21.printStackTrace();
-						return z2;
-					}
-
-					entityLiving17.setLocationAndAngles((double)f14, (double)f15, (double)f16, world.rand.nextFloat() * 360.0F, 0.0F);
-					if(entityLiving17.getCanSpawnHere()) {
-						PathEntity pathEntity18 = pathfinder3.createEntityPathTo(entityLiving17, entityPlayer5, 32.0F);
-						if(pathEntity18 != null && pathEntity18.pathLength > 1) {
-							PathPoint pathPoint19 = pathEntity18.getPathPoint();
-							if(Math.abs((double)pathPoint19.xCoord - entityPlayer5.posX) < 1.5D && Math.abs((double)pathPoint19.zCoord - entityPlayer5.posZ) < 1.5D && Math.abs((double)pathPoint19.yCoord - entityPlayer5.posY) < 1.5D) {
-								ChunkCoordinates chunkCoordinates20 = BlockBed.getNearestEmptyChunkCoordinates(world, MathHelper.floor_double(entityPlayer5.posX), MathHelper.floor_double(entityPlayer5.posY), MathHelper.floor_double(entityPlayer5.posZ), 1);
-								if(chunkCoordinates20 == null) {
-									chunkCoordinates20 = new ChunkCoordinates(i9, i13 + 1, i10);
-								}
-
-								entityLiving17.setLocationAndAngles((double)((float)chunkCoordinates20.posX + 0.5F), (double)chunkCoordinates20.posY, (double)((float)chunkCoordinates20.posZ + 0.5F), 0.0F, 0.0F);
-								world.spawnEntityInWorld(entityLiving17);
-								creatureSpecificInit(entityLiving17, world, (float)chunkCoordinates20.posX + 0.5F, (float)chunkCoordinates20.posY, (float)chunkCoordinates20.posZ + 0.5F);
-								entityPlayer5.wakeUpPlayer(true, false, false);
-								entityLiving17.playLivingSound();
-								z2 = true;
-								z7 = true;
-							}
-						}
-					}
-				}
+			if(trySleepSpawnNearPlayer(world, pathfinder, player, nightSpawnClasses)) {
+				return true;
 			}
 		}
+
+		return false;
+	}
+
+	private static boolean trySleepSpawnNearPlayer(World world, Pathfinder pathfinder, EntityPlayer player, Class<?>[] spawnClasses) {
+		for(int attempt = 0; attempt < 20; attempt++) {
+			int spawnX = MathHelper.floor_double(player.posX) + world.rand.nextInt(32) - world.rand.nextInt(32);
+			int spawnZ = MathHelper.floor_double(player.posZ) + world.rand.nextInt(32) - world.rand.nextInt(32);
+			int spawnY = MathHelper.floor_double(player.posY) + world.rand.nextInt(16) - world.rand.nextInt(16);
+			if(spawnY < 1) spawnY = 1;
+			else if(spawnY > 128) spawnY = 128;
+
+			int classIndex = world.rand.nextInt(spawnClasses.length);
+
+			// Find ground level
+			int groundY = spawnY;
+			for(; groundY > 2 && !world.isBlockNormalCube(spawnX, groundY - 1, spawnZ); --groundY) {
+			}
+
+			// Search upward for valid spawn position
+			while(!canCreatureTypeSpawnAtLocation(EnumCreatureType.monster, world, spawnX, groundY, spawnZ) && groundY < spawnY + 16 && groundY < 128) {
+				++groundY;
+			}
+
+			if(groundY >= spawnY + 16 || groundY >= 128) {
+				continue;
+			}
+
+			EntityLiving entity = instantiateEntity(spawnClasses[classIndex], world);
+			if(entity == null) {
+				return false;
+			}
+
+			float xFloat = (float)spawnX + 0.5F;
+			float yFloat = (float)groundY;
+			float zFloat = (float)spawnZ + 0.5F;
+
+			entity.setLocationAndAngles(xFloat, yFloat, zFloat, world.rand.nextFloat() * 360.0F, 0.0F);
+
+			if(!entity.getCanSpawnHere()) {
+				continue;
+			}
+
+			PathEntity path = pathfinder.createEntityPathTo(entity, player, 32.0F);
+			if(path == null || path.pathLength <= 1) {
+				continue;
+			}
+
+			PathPoint pathEnd = path.getPathPoint();
+			double dxPath = Math.abs(pathEnd.xCoord - player.posX);
+			double dyPath = Math.abs(pathEnd.yCoord - player.posY);
+			double dzPath = Math.abs(pathEnd.zCoord - player.posZ);
+
+			if(dxPath >= 1.5D || dyPath >= 1.5D || dzPath >= 1.5D) {
+				continue;
+			}
+
+			ChunkCoordinates bedPos = BlockBed.getNearestEmptyChunkCoordinates(
+				world,
+				MathHelper.floor_double(player.posX),
+				MathHelper.floor_double(player.posY),
+				MathHelper.floor_double(player.posZ),
+				1
+			);
+
+			if(bedPos == null) {
+				bedPos = new ChunkCoordinates(spawnX, groundY + 1, spawnZ);
+			}
+
+			float bedXFloat = (float)bedPos.posX + 0.5F;
+			float bedYFloat = (float)bedPos.posY;
+			float bedZFloat = (float)bedPos.posZ + 0.5F;
+
+			entity.setLocationAndAngles(bedXFloat, bedYFloat, bedZFloat, 0.0F, 0.0F);
+			world.spawnEntityInWorld(entity);
+			creatureSpecificInit(entity, world, bedXFloat, bedYFloat, bedZFloat);
+			player.wakeUpPlayer(true, false, false);
+			entity.playLivingSound();
+			return true;
+		}
+
+		return false;
 	}
 }

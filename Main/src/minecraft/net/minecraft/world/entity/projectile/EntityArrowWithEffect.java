@@ -1,7 +1,6 @@
 package net.minecraft.world.entity.projectile;
 
 import com.mojang.nbt.NBTTagCompound;
-
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.entity.status.StatusEffect;

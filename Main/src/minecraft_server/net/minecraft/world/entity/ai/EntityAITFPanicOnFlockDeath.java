@@ -2,11 +2,10 @@ package net.minecraft.world.entity.ai;
 
 import java.util.Iterator;
 import java.util.List;
-
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityCreature;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.monster.EntityTFKobold;
+import net.minecraft.world.entity.mob.twilight.EntityTFKobold;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.phys.Vec3D;
 import net.minecraft.world.stats.AchievementList;
@@ -19,9 +18,9 @@ public class EntityAITFPanicOnFlockDeath extends EntityAIBase {
 	private double fleeZ;
 	int fleeTimer;
 
-	public EntityAITFPanicOnFlockDeath(EntityCreature var1, float var2) {
-		this.flockCreature = var1;
-		this.speed = var2;
+	public EntityAITFPanicOnFlockDeath(EntityCreature entityCreature, float speed) {
+		this.flockCreature = entityCreature;
+		this.speed = speed;
 		this.setMutexBits(1);
 		this.fleeTimer = 0;
 	}
@@ -30,36 +29,36 @@ public class EntityAITFPanicOnFlockDeath extends EntityAIBase {
 	 * Returns whether the EntityAIBase should begin execution.
 	 */
 	public boolean shouldExecute() {
-		boolean var1 = this.fleeTimer > 0;
-		List<Entity> var2 = this.flockCreature.worldObj.getEntitiesWithinAABB(
+		boolean panicking = this.fleeTimer > 0;
+		List<Entity> nearbyCreatures = this.flockCreature.worldObj.getEntitiesWithinAABB(
 				this.flockCreature.getClass(),
 				this.flockCreature.boundingBox.expand(4.0D, 2.0D, 4.0D)
 			);
-		Iterator<Entity> var3 = var2.iterator();
+		Iterator<Entity> iter = nearbyCreatures.iterator();
 
-		while (var3.hasNext()) {
-			EntityLiving var4 = (EntityLiving) var3.next();
+		while (iter.hasNext()) {
+			EntityLiving nearbyCreature = (EntityLiving) iter.next();
 
-			if (var4.deathTime > 0) {
-				var1 = true;
-				if (var4.lastAttackingEntity instanceof EntityPlayer) {
-					((EntityPlayer)var4.lastAttackingEntity).triggerAchievement(AchievementList.scareKobold);
+			if (nearbyCreature.deathTime > 0) {
+				panicking = true;
+				if (nearbyCreature.lastAttackingEntity instanceof EntityPlayer) {
+					((EntityPlayer) nearbyCreature.lastAttackingEntity).triggerAchievement(AchievementList.scareKobold);
 				}
 				break;
 			}
 		}
 
-		if (!var1) {
+		if (!panicking) {
 			return false;
 		} else {
-			Vec3D var5 = RandomPositionGenerator.findRandomTarget(this.flockCreature, 5, 4);
+			Vec3D fleeTarget = RandomPositionGenerator.findRandomTarget(this.flockCreature, 5, 4);
 
-			if (var5 == null) {
+			if (fleeTarget == null) {
 				return false;
 			} else {
-				this.fleeX = var5.xCoord;
-				this.fleeY = var5.yCoord;
-				this.fleeZ = var5.zCoord;
+				this.fleeX = fleeTarget.xCoord;
+				this.fleeY = fleeTarget.yCoord;
+				this.fleeZ = fleeTarget.zCoord;
 				return true;
 			}
 		}

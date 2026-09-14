@@ -2,7 +2,6 @@ package net.minecraft.world.entity.projectile;
 
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.monster.EntitySnowball;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemBottle;
 import net.minecraft.world.level.World;

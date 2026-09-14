@@ -1,6 +1,6 @@
 package net.minecraft.world.entity.animal.moc;
 
-import java.util.List;
+import java.util.Comparator;
 
 import com.mojang.nbt.NBTTagCompound;
 
@@ -9,8 +9,8 @@ import net.minecraft.world.entity.Datawatchers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.animal.EntityAnimal;
-import net.minecraft.world.entity.animal.EntityWolf;
-import net.minecraft.world.entity.monster.EntityMob;
+import net.minecraft.world.entity.animal.wild.EntityWolf;
+import net.minecraft.world.entity.mob.EntityMob;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemFood;
@@ -34,34 +34,33 @@ public class EntityMoCAnimal extends EntityAnimal {
 	protected void entityInit() {
 		super.entityInit();
 
-		this.dataWatcher.addObject(Datawatchers.DW_EDAD, Integer.valueOf(0)); // int ageTicks / "edad"
-		this.dataWatcher.addObject(Datawatchers.DW_TYPE, Integer.valueOf(0)); // int type
-		this.dataWatcher.addObject(Datawatchers.DW_ISADULT, Byte.valueOf((byte) 0)); // isAdult - 0 false 1 true
+		this.dataWatcher.addObject(Datawatchers.DW_EDAD, 0); // int ageTicks / "edad"
+		this.dataWatcher.addObject(Datawatchers.DW_TYPE, 0); // int type
+		this.dataWatcher.addObject(Datawatchers.DW_ISADULT, (byte) 0); // isAdult - 0 false 1 true
 	}
 
 	public boolean getIsAdult() {
-		return (this.dataWatcher.getWatchableObjectByte(Datawatchers.DW_ISADULT) == 1);
+		return this.dataWatcher.getWatchableObjectByte(Datawatchers.DW_ISADULT) == 1;
 	}
 
-	public void setIsAdult(boolean flag) {
-		byte input = (byte) (flag ? 1 : 0);
-		this.dataWatcher.updateObject(Datawatchers.DW_ISADULT, Byte.valueOf(input));
+	public void setIsAdult(boolean adult) {
+		this.dataWatcher.updateObject(Datawatchers.DW_ISADULT, (byte) (adult ? 1 : 0));
 	}
 
 	public int getEdad() {
 		return this.dataWatcher.getWatchableObjectInt(Datawatchers.DW_EDAD);
 	}
 
-	public void setEdad(int i) {
-		this.dataWatcher.updateObject(Datawatchers.DW_EDAD, Integer.valueOf(i));
+	public void setEdad(int edad) {
+		this.dataWatcher.updateObject(Datawatchers.DW_EDAD, edad);
 	}
 
 	public int getType() {
 		return this.dataWatcher.getWatchableObjectInt(Datawatchers.DW_TYPE);
 	}
 
-	public void setType(int i) {
-		this.dataWatcher.updateObject(Datawatchers.DW_TYPE, Integer.valueOf(i));
+	public void setType(int type) {
+		this.dataWatcher.updateObject(Datawatchers.DW_TYPE, type);
 	}
 
 	public boolean getIsJumping() {
@@ -84,9 +83,9 @@ public class EntityMoCAnimal extends EntityAnimal {
 		this.roper = roper;
 	}
 
-	public boolean isItemEdible(Item item1) {
-		return (item1 instanceof ItemFood) || (item1 instanceof ItemSeeds) || item1 == Item.wheat || item1 == Item.sugar
-				|| item1 == Item.cake || item1 == Item.egg;
+	public boolean isItemEdible(Item item) {
+		return item instanceof ItemFood || item instanceof ItemSeeds || item == Item.wheat || item == Item.sugar
+				|| item == Item.cake || item == Item.egg;
 	}
 
 	@Override
@@ -105,74 +104,57 @@ public class EntityMoCAnimal extends EntityAnimal {
 		this.setType(nbttagcompound.getInteger("Type"));
 	}
 
-	public void faceLocation(int i, int j, int k, float f) {
-		double var4 = i + 0.5D - this.posX;
-		double var8 = k + 0.5D - this.posZ;
-		double var6 = j + 0.5D - this.posY;
-		double var14 = MathHelper.sqrt_double(var4 * var4 + var8 * var8);
-		float var12 = (float) (Math.atan2(var8, var4) * 180.0D / Math.PI) - 90.0F;
-		float var13 = (float) (-(Math.atan2(var6, var14) * 180.0D / Math.PI));
-		this.rotationPitch = -this.updateRotation(this.rotationPitch, var13, f);
-		this.rotationYaw = this.updateRotation(this.rotationYaw, var12, f);
+	public void faceLocation(int x, int y, int z, float maxTurn) {
+		double dx = x + 0.5D - this.posX;
+		double dz = z + 0.5D - this.posZ;
+		double dy = y + 0.5D - this.posY;
+		double horizontalDistance = MathHelper.sqrt_double(dx * dx + dz * dz);
+		float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - 90.0F;
+		float pitch = (float) (-(Math.atan2(dy, horizontalDistance) * 180.0D / Math.PI));
+		this.rotationPitch = -this.updateRotation(this.rotationPitch, pitch, maxTurn);
+		this.rotationYaw = this.updateRotation(this.rotationYaw, yaw, maxTurn);
 	}
 
-	private float updateRotation(float par1, float par2, float par3) {
-		float var4;
-
-		for (var4 = par2 - par1; var4 < -180.0F; var4 += 360.0F) {
-			;
+	private float updateRotation(float current, float target, float maxChange) {
+		float delta = target - current;
+		for (; delta < -180.0F; delta += 360.0F) {
 		}
-
-		while (var4 >= 180.0F) {
-			var4 -= 360.0F;
+		while (delta >= 180.0F) {
+			delta -= 360.0F;
 		}
-
-		if (var4 > par3) {
-			var4 = par3;
+		if (delta > maxChange) {
+			delta = maxChange;
 		}
-
-		if (var4 < -par3) {
-			var4 = -par3;
+		if (delta < -maxChange) {
+			delta = -maxChange;
 		}
-
-		return par1 + var4;
+		return current + delta;
 	}
 
-	public void getMyOwnPath(Entity entity, float f) {
-		PathEntity pathentity = this.worldObj.getPathEntityToEntity(this, entity, 16F, true, false, false, true);
-		if (pathentity != null) {
-			this.setPathToEntity(pathentity);
+	public void getMyOwnPath(Entity entity, float distance) {
+		PathEntity path = this.worldObj.getPathEntityToEntity(this, entity, 16F, true, false, false, true);
+		if (path != null) {
+			this.setPathToEntity(path);
 		}
 	}
 
-	protected EntityLiving getClosestEntityLiving(Entity entity, double d) {
-		double d1 = -1D;
-		EntityLiving entityliving = null;
-		List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(d, d, d));
-		for (int i = 0; i < list.size(); i++) {
-			Entity entity1 = list.get(i);
-
-			if (this.entitiesToIgnore(entity1)) {
-				continue;
-			}
-
-			double d2 = entity1.getDistanceSq(entity.posX, entity.posY, entity.posZ);
-			if (((d < 0.0D) || (d2 < (d * d))) && ((d1 == -1D) || (d2 < d1))
-					&& ((EntityLiving) entity1).canEntityBeSeen(entity)) {
-				d1 = d2;
-				entityliving = (EntityLiving) entity1;
-			}
-		}
-
-		return entityliving;
+	protected EntityLiving getClosestEntityLiving(Entity origin, double range) {
+		double rangeSq = range * range;
+		return this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(range, range, range)).stream()
+				.filter(entity -> !this.entitiesToIgnore(entity))
+				.filter(entity -> range < 0.0D || entity.getDistanceSq(origin.posX, origin.posY, origin.posZ) < rangeSq)
+				.filter(entity -> ((EntityLiving) entity).canEntityBeSeen(origin))
+				.min(Comparator.comparingDouble(entity -> entity.getDistanceSq(origin.posX, origin.posY, origin.posZ)))
+				.map(EntityLiving.class::cast)
+				.orElse(null);
 	}
 
 	public boolean entitiesToIgnore(Entity entity) {
-		return ((!(entity instanceof EntityLiving)) || (entity instanceof EntityMob) || (entity instanceof EntityPlayer)
-				|| (entity instanceof EntityWolf) || (entity.width >= this.width || entity.height >= this.height));
+		return !(entity instanceof EntityLiving) || entity instanceof EntityMob || entity instanceof EntityPlayer
+				|| entity instanceof EntityWolf || entity.width >= this.width || entity.height >= this.height;
 	}
 
-	public boolean isMyFavoriteFood(ItemStack par1ItemStack) {
+	public boolean isMyFavoriteFood(ItemStack itemStack) {
 		return false;
 	}
 

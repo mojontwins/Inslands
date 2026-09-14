@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.monster.EntityHumanBase;
+import net.minecraft.world.entity.mob.EntityHumanBase;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.tile.Block;

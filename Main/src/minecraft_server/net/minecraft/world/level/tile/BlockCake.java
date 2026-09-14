@@ -11,7 +11,6 @@ import net.minecraft.world.phys.AxisAlignedBB;
 public class BlockCake extends Block {
 	protected BlockCake(int i1, int i2) {
 		super(i1, i2, Material.cakeMaterial);
-		//this.setTickOnLoad(true);
 	}
 
 	public void setBlockBoundsBasedOnState(IBlockAccess iBlockAccess1, int i2, int i3, int i4) {

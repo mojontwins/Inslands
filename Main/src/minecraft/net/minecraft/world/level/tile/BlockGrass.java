@@ -59,17 +59,7 @@ public class BlockGrass extends Block implements IBlockWithSubtypes, IGroundSubs
 				return 3;
 		}
 	}
-	
-	// Softlocked for a1.1.2
-	/*
-	public int colorMultiplier(IBlockAccess iBlockAccess1, int i2, int i3, int i4) {
-		iBlockAccess1.getWorldChunkManager().getBiomesForGeneration(i2, i4, 1, 1);
-		double d5 = iBlockAccess1.getWorldChunkManager().temperature[0];
-		double d7 = iBlockAccess1.getWorldChunkManager().humidity[0];
-		return ColorizerGrass.getGrassColor(d5, d7);
-	}
-	*/
-	
+
 	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
 		if(LevelThemeGlobalSettings.colorizedPlants) {
 			return world.getGrassColorFromCache(x, z);

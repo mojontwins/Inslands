@@ -56,13 +56,6 @@ public class BlockCactus extends Block implements INonSolidPlant {
 		return false;
 	}
 
-	// Softlocked for a1.1.2: fancy cacti.
-	/*
-	public int getRenderType() {
-		return 13;
-	}
-	*/
-
 	public boolean canPlaceBlockAt(World world1, int i2, int i3, int i4) {
 		return !super.canPlaceBlockAt(world1, i2, i3, i4) ? false : this.canBlockStay(world1, i2, i3, i4);
 	}

@@ -1,6 +1,5 @@
 package net.minecraft.world.entity.status;
 
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
 
 public class StatusInstantDamage extends Status {
@@ -11,12 +10,12 @@ public class StatusInstantDamage extends Status {
 	}
 	
 	@Override
-	public void performEffect (EntityLiving entityLiving, int amplifier, int duration) {
-		entityLiving.attackEntityFrom((Entity)null, 6);
+	public void performEffect(EntityLiving entityLiving, int amplifier, int duration) {
+		entityLiving.attackEntityFrom(null, 6);
 	}
 	
 	@Override
-	public boolean isReady (int tick, int amplifier) {
+	public boolean isReady(int tick, int amplifier) {
 		return true;
 	}
 	

@@ -2,7 +2,7 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
-import net.minecraft.world.entity.monster.EntityPigZombieVolcanoes;
+import net.minecraft.world.entity.mob.undead.EntityPigZombieVolcanoes;
 import net.minecraft.world.level.SpawnListEntry;
 import net.minecraft.world.level.Weather;
 import net.minecraft.world.level.World;

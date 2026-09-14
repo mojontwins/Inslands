@@ -56,8 +56,6 @@ public class WorldGenEucalyptusBig extends WorldGenMojon {
 	private boolean checkTree(World world, Random rand, int x, int y, int z) {
 		final int height = rand.nextInt(BASE_HEIGHT_VARIANCE) + BASE_HEIGHT;
 		final int width = CANOPY_WIDTH + rand.nextInt(CANOPY_WIDTH_VARIANCE);
-		final int chunkCheck = width + 1;
-
 		// Make sure that a tree can grow on the soil
 		if (!this.validGround(world, x, y - 1, z) || !this.validGround(world, x + 1, y - 1, z)
 				|| !this.validGround(world, x, y - 1, z + 1) || !this.validGround(world, x + 1, y - 1, z + 1)) {
@@ -70,11 +68,6 @@ public class WorldGenEucalyptusBig extends WorldGenMojon {
 
 		// Make sure that the tree can fit in the world
 		if (y < 1 || y + height + 4 > 128)
-			return false;
-
-		// Make sure the cunks are loaded
-		if (!world.checkChunksExist(x - chunkCheck, y - chunkCheck, z - chunkCheck, x + chunkCheck, y + chunkCheck,
-				z + chunkCheck))
 			return false;
 
 		// Draw the main trunk

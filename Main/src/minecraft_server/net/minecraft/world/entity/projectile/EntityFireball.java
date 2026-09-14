@@ -1,9 +1,7 @@
 package net.minecraft.world.entity.projectile;
 
-import java.util.List;
-
 import com.mojang.nbt.NBTTagCompound;
-
+import java.util.List;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;

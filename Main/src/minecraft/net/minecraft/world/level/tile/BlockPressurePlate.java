@@ -45,9 +45,6 @@ public class BlockPressurePlate extends Block {
 		return world.isBlockNormalCube(x, y - 1, z);
 	}
 
-	public void onBlockAdded(World world, int x, int y, int z) {
-	}
-
 	public void onNeighborBlockChange(World world, int x, int y, int z, int i5) {
 		boolean pressed = false;
 		if(!world.isBlockNormalCube(x, y - 1, z)) {

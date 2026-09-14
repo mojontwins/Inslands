@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.monster.EntityDiamondSkeleton;
+import net.minecraft.world.entity.mob.undead.EntityDiamondSkeleton;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.model.BlockModel;

@@ -2,7 +2,6 @@ package net.minecraft.world.level.tile;
 
 import java.util.Random;
 
-import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.colorizer.ColorizerFoliage;
@@ -196,9 +195,6 @@ public class BlockCaveVine extends Block implements INonSolidPlant {
 	/**
 	 * Ticks the block if it's been scheduled
 	 */
-	@Override
-	public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random) {
-	}
 
 	/**
 	 * called before onBlockPlacedBy by ItemBlock and ItemReed
@@ -250,10 +246,6 @@ public class BlockCaveVine extends Block implements INonSolidPlant {
 	 * Called when the player destroys a block with an item that can harvest it. (i,
 	 * j, k) are the coordinates of the block and l is the block's subtype/damage.
 	 */
-	@Override
-	public void harvestBlock(World par1World, EntityPlayer par2EntityPlayer, int par3, int par4, int par5, int par6) {
-		super.harvestBlock(par1World, par2EntityPlayer, par3, par4, par5, par6);
-	}
 
 	@Override
 	public boolean isClimbable() {

@@ -43,8 +43,6 @@ public class BlockSeat extends Block {
 		world.spawnEntityInWorld(ts);
 		entityPlayer.mountEntity(ts);
 		
-		System.out.println ("Player mounted " + ts);
-		
 		return true;
 	}
 }

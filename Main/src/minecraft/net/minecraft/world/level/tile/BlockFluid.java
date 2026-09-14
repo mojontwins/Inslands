@@ -192,10 +192,6 @@ public abstract class BlockFluid extends Block {
 		return f5 > f6 ? f5 : f6;
 	}
 
-	public void updateTick(World world1, int i2, int i3, int i4, Random random5) {
-		super.updateTick(world1, i2, i3, i4, random5);
-	}
-
 	public int getRenderBlockPass() {
 		return Material.woa(this.blockMaterial) ? 1 : 0;
 	}

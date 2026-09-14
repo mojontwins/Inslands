@@ -1,24 +1,22 @@
 package net.minecraft.world.entity.player;
 
-import java.util.Iterator;
-import java.util.List;
-
 import com.mojang.nbt.NBTTagCompound;
 import com.mojang.nbt.NBTTagList;
-
+import java.util.Iterator;
+import java.util.List;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.entity.animal.farm.EntityPig;
+import net.minecraft.world.entity.animal.wild.EntityWolf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityCreature;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EnumAction;
-import net.minecraft.world.entity.animal.EntityPig;
-import net.minecraft.world.entity.animal.EntityWolf;
 import net.minecraft.world.entity.item.EntityBoat;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.item.EntityMinecart;
-import net.minecraft.world.entity.monster.EntityCreeper;
-import net.minecraft.world.entity.monster.EntityGhast;
-import net.minecraft.world.entity.monster.EntityMob;
+import net.minecraft.world.entity.mob.creeper.EntityCreeper;
+import net.minecraft.world.entity.mob.EntityMob;
+import net.minecraft.world.entity.mob.flying.EntityGhast;
 import net.minecraft.world.entity.projectile.EntityArrow;
 import net.minecraft.world.entity.projectile.EntityFish;
 import net.minecraft.world.inventory.Container;
@@ -27,19 +25,19 @@ import net.minecraft.world.inventory.IInventory;
 import net.minecraft.world.inventory.InventoryPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Seasons;
-import net.minecraft.world.level.Weather;
-import net.minecraft.world.level.World;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.Seasons;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.BlockBed;
 import net.minecraft.world.level.tile.entity.TileEntityChest;
 import net.minecraft.world.level.tile.entity.TileEntityDispenser;
 import net.minecraft.world.level.tile.entity.TileEntityFurnace;
 import net.minecraft.world.level.tile.entity.TileEntitySign;
+import net.minecraft.world.level.Weather;
+import net.minecraft.world.level.World;
 import net.minecraft.world.phys.AxisAlignedBB;
 import net.minecraft.world.phys.Vec3D;
 import net.minecraft.world.stats.AchievementList;
@@ -1171,7 +1169,7 @@ public abstract class EntityPlayer extends EntityLiving {
 			this.triggerAchievement(AchievementList.killEnemy);
 		}
 
-		if(entityLiving1 instanceof net.minecraft.world.entity.monster.EntitySecretBoss) {
+		if(entityLiving1 instanceof net.minecraft.world.entity.mob.boss.EntitySecretBoss) {
 			this.triggerAchievement(AchievementList.slimeBoss);
 		}
 	}

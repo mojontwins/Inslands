@@ -3,7 +3,7 @@ package net.minecraft.world.level.levelgen.feature;
 import java.util.Random;
 
 import net.minecraft.world.GlobalVars;
-import net.minecraft.world.entity.monster.EntitySlider;
+import net.minecraft.world.entity.mob.boss.EntitySlider;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.World;

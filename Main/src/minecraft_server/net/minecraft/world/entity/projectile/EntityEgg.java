@@ -1,13 +1,11 @@
 package net.minecraft.world.entity.projectile;
 
-import java.util.List;
-
 import com.mojang.nbt.NBTTagCompound;
-
+import java.util.List;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.entity.animal.farm.EntityChicken;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.animal.EntityChicken;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

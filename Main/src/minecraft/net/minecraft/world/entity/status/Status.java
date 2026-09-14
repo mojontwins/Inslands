@@ -4,7 +4,7 @@ import net.minecraft.world.entity.EntityLiving;
 
 public class Status {
 	public String name;
-	public static final Status statusTypes [] = new Status [256];
+	public static final Status statusTypes[] = new Status[256];
 	public static int latestId = 1;
 	public boolean isBadEffect;
 	public int id;
@@ -25,14 +25,14 @@ public class Status {
 	public Status(int id, boolean isBadEffect) {
 		this.id = id;
 		this.isBadEffect = isBadEffect;
-		statusTypes [id] = this;
+		statusTypes[id] = this;
 	}
 	
 	/*
 	 * Handy sequencer you can use to get free Status IDs.
 	 */
-	public static int getNewStatusId () {
-		return (latestId < 256) ? latestId ++ : -1;		
+	public static int getNewStatusId() {
+		return (latestId < 256) ? latestId++ : -1;
 	}
 
 	/*

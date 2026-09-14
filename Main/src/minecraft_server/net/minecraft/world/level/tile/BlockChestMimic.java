@@ -2,7 +2,7 @@ package net.minecraft.world.level.tile;
 
 import java.util.Random;
 
-import net.minecraft.world.entity.monster.EntityMimic;
+import net.minecraft.world.entity.mob.dungeon.EntityMimic;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;

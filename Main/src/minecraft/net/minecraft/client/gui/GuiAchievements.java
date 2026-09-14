@@ -314,22 +314,22 @@ public class GuiAchievements extends GuiScreen {
 			i33 = i2 - 4;
 			if(this.statFileWriter.canUnlockAchievement(achievement27)) {
 				i34 = Math.max(this.fontRenderer.getStringWidth(string31), 120);
-				int i37 = this.fontRenderer.func_27277_a(string32, i34);
+				int i37 = this.fontRenderer.splitStringHeight(string32, i34);
 				if(this.statFileWriter.hasAchievementUnlocked(achievement27)) {
 					i37 += 12;
 				}
 
 				this.drawGradientRect(i17 - 3, i33 - 3, i17 + i34 + 3, i33 + i37 + 3 + 12, -1073741824, -1073741824);
-				this.fontRenderer.func_27278_a(string32, i17, i33 + 12, i34, -6250336);
+				this.fontRenderer.drawSplitString(string32, i17, i33 + 12, i34, -6250336);
 				if(this.statFileWriter.hasAchievementUnlocked(achievement27)) {
 					this.fontRenderer.drawStringWithShadow(StatCollector.translateToLocal("achievement.taken"), i17, i33 + i37 + 4, -7302913);
 				}
 			} else {
 				i34 = Math.max(this.fontRenderer.getStringWidth(string31), 120);
 				String string39 = StatCollector.translateToLocalFormatted("achievement.requires", new Object[]{achievement27.parentAchievement.statName});
-				i38 = this.fontRenderer.func_27277_a(string39, i34);
+				i38 = this.fontRenderer.splitStringHeight(string39, i34);
 				this.drawGradientRect(i17 - 3, i33 - 3, i17 + i34 + 3, i33 + i38 + 12 + 3, -1073741824, -1073741824);
-				this.fontRenderer.func_27278_a(string39, i17, i33 + 12, i34, -9416624);
+				this.fontRenderer.drawSplitString(string39, i17, i33 + 12, i34, -9416624);
 			}
 
 			this.fontRenderer.drawStringWithShadow(string31, i17, i33, this.statFileWriter.canUnlockAchievement(achievement27) ? (achievement27.getSpecial() ? -128 : -1) : (achievement27.getSpecial() ? -8355776 : -8355712));

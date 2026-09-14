@@ -2,7 +2,7 @@ package net.minecraft.client.renderer.entity;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.animal.EntityPig;
+import net.minecraft.world.entity.animal.farm.EntityPig;
 
 public class RenderPig extends RenderLiving {
 	public RenderPig(ModelBase modelBase1, ModelBase modelBase2, float f3) {

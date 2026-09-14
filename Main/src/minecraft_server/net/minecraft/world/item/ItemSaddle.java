@@ -1,7 +1,7 @@
 package net.minecraft.world.item;
 
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.animal.EntityPig;
+import net.minecraft.world.entity.animal.farm.EntityPig;
 import net.minecraft.world.level.creative.CreativeTabs;
 
 public class ItemSaddle extends Item {

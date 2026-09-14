@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.animal.EntitySheep;
+import net.minecraft.world.entity.animal.farm.EntitySheep;
 
 public class RenderSheep extends RenderLiving {
 	public RenderSheep(ModelBase modelBase1, ModelBase modelBase2, float f3) {

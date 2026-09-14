@@ -34,10 +34,6 @@ public class BlockStairs extends Block {
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	}
 
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world1, int i2, int i3, int i4) {
-		return super.getCollisionBoundingBoxFromPool(world1, i2, i3, i4);
-	}
-
 	public boolean isOpaqueCube() {
 		return false;
 	}
@@ -48,10 +44,6 @@ public class BlockStairs extends Block {
 
 	public int getRenderType() {
 		return 10;
-	}
-
-	public boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side) {
-		return super.shouldSideBeRendered(blockAccess, x, y, z, side);
 	}
 
 	public void getCollidingBoundingBoxes(World world, int x, int y, int z, AxisAlignedBB aabb, ArrayList<AxisAlignedBB> collidingBoundingBoxes) {
@@ -116,12 +108,6 @@ public class BlockStairs extends Block {
 		this.modelBlock.onBlockClicked(world, x, y, z, entityPlayer);
 	}
 
-	/*
-	public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int metadata) {
-		this.modelBlock.onBlockDestroyedByPlayer(world, x, y, z, metadata);
-	}
-	*/
-
 	public float getBlockBrightness(IBlockAccess blockAccess, int x, int y, int z) {
 		return this.modelBlock.getBlockBrightness(blockAccess, x, y, z);
 	}
@@ -133,17 +119,6 @@ public class BlockStairs extends Block {
 	public int getRenderBlockPass() {
 		return this.modelBlock.getRenderBlockPass();
 	}
-
-	/*
-	public int idDropped(int metadata, Random rand) {
-		System.out.println("Dropping " + this.blockID);
-		return this.modelBlock.idDropped(metadata, rand);
-	}
-
-	public int quantityDropped(Random rand) {
-		return this.modelBlock.quantityDropped(rand);
-	}
-	*/
 
 	public int getBlockTextureFromSideAndMetadata(int side, int metadata) {
 		return this.modelBlock.getBlockTextureFromSideAndMetadata(side, metadata);

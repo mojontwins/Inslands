@@ -14,7 +14,6 @@ public class BlockLilypad extends Block {
 
 	public BlockLilypad(int id, int blockIndex) {
 		super(id, blockIndex, Material.plants);
-		// this.setTickOnLoad(true);
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.015625F, 1.0F);
 		
 		this.displayOnCreativeTab = CreativeTabs.tabDeco;

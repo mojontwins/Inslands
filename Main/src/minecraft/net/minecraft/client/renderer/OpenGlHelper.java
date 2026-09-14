@@ -23,8 +23,10 @@ public class OpenGlHelper {
 
 	public static void setActiveTexture(int i0) {
 		if(useMultitextureARB) {
+			ARBMultitexture.glClientActiveTextureARB(i0);
 			ARBMultitexture.glActiveTextureARB(i0);
 		} else {
+			GL13.glClientActiveTexture(i0);
 			GL13.glActiveTexture(i0);
 		}
 

@@ -6,7 +6,7 @@ import net.minecraft.client.model.ModelWitch;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.monster.EntityAlphaWitch;
+import net.minecraft.world.entity.mob.boss.EntityAlphaWitch;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.tile.Block;

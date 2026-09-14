@@ -1,51 +1,51 @@
 package net.minecraft.world.entity.ai;
 
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.animal.EntityTameable;
+import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.pathfinder.PathEntity;
 import net.minecraft.world.level.pathfinder.PathPoint;
 
 public abstract class EntityAITarget extends EntityAIBase {
 	protected EntityLiving taskOwner;
-	protected float field_48379_d;
-	protected boolean field_48380_e;
-	private boolean field_48383_a;
-	private int field_48381_b;
-	private int field_48377_f;
-	private int field_48378_g;
+	protected float targetDistance;
+	protected boolean shouldCheckSight;
+	private boolean needsPathCheck;
+	private int pathCheckResult;
+	private int pathCheckCooldown;
+	private int ticksWithoutVisibility;
 
-	public EntityAITarget(EntityLiving entityLiving1, float f2, boolean z3) {
-		this(entityLiving1, f2, z3, false);
+	public EntityAITarget(EntityLiving entityLiving, float distance, boolean shouldCheckSight) {
+		this(entityLiving, distance, shouldCheckSight, false);
 	}
 
-	public EntityAITarget(EntityLiving entityLiving1, float f2, boolean z3, boolean z4) {
-		this.field_48381_b = 0;
-		this.field_48377_f = 0;
-		this.field_48378_g = 0;
-		this.taskOwner = entityLiving1;
-		this.field_48379_d = f2;
-		this.field_48380_e = z3;
-		this.field_48383_a = z4;
+	public EntityAITarget(EntityLiving entityLiving, float distance, boolean shouldCheckSight, boolean needsPathCheck) {
+		this.pathCheckResult = 0;
+		this.pathCheckCooldown = 0;
+		this.ticksWithoutVisibility = 0;
+		this.taskOwner = entityLiving;
+		this.targetDistance = distance;
+		this.shouldCheckSight = shouldCheckSight;
+		this.needsPathCheck = needsPathCheck;
 	}
 
 	public boolean continueExecuting() {
-		EntityLiving entityLiving1 = this.taskOwner.getAttackTarget();
-		if(entityLiving1 == null) {
+		EntityLiving target = this.taskOwner.getAttackTarget();
+		if (target == null) {
 			return false;
-		} else if(!entityLiving1.isEntityAlive()) {
+		} else if (!target.isEntityAlive()) {
 			return false;
-		} else if(this.taskOwner.getDistanceSqToEntity(entityLiving1) > (double)(this.field_48379_d * this.field_48379_d)) {
+		} else if (this.taskOwner.getDistanceSqToEntity(target) > (double) (this.targetDistance * this.targetDistance)) {
 			return false;
 		} else {
-			if(this.field_48380_e) {
-				if(!this.taskOwner.getEntitySenses().canSee(entityLiving1)) {
-					if(++this.field_48378_g > 60) {
+			if (this.shouldCheckSight) {
+				if (!this.taskOwner.getEntitySenses().canSee(target)) {
+					if (++this.ticksWithoutVisibility > 60) {
 						return false;
 					}
 				} else {
-					this.field_48378_g = 0;
+					this.ticksWithoutVisibility = 0;
 				}
 			}
 
@@ -54,53 +54,53 @@ public abstract class EntityAITarget extends EntityAIBase {
 	}
 
 	public void startExecuting() {
-		this.field_48381_b = 0;
-		this.field_48377_f = 0;
-		this.field_48378_g = 0;
+		this.pathCheckResult = 0;
+		this.pathCheckCooldown = 0;
+		this.ticksWithoutVisibility = 0;
 	}
 
 	public void resetTask() {
-		this.taskOwner.setAttackTarget((EntityLiving)null);
+		this.taskOwner.setAttackTarget(null);
 	}
 
-	protected boolean func_48376_a(EntityLiving entityLiving1, boolean z2) {
-		if(entityLiving1 == null) {
+	protected boolean isSuitableTarget(EntityLiving target, boolean allowPlayers) {
+		if (target == null) {
 			return false;
-		} else if(entityLiving1 == this.taskOwner) {
+		} else if (target == this.taskOwner) {
 			return false;
-		} else if(!entityLiving1.isEntityAlive()) {
+		} else if (!target.isEntityAlive()) {
 			return false;
-		} else if(entityLiving1.boundingBox.maxY > this.taskOwner.boundingBox.minY && entityLiving1.boundingBox.minY < this.taskOwner.boundingBox.maxY) {
-			if(!this.taskOwner.func_48100_a(entityLiving1.getClass())) {
+		} else if (target.boundingBox.maxY > this.taskOwner.boundingBox.minY && target.boundingBox.minY < this.taskOwner.boundingBox.maxY) {
+			if (!this.taskOwner.func_48100_a(target.getClass())) {
 				return false;
 			} else {
-				if(this.taskOwner instanceof EntityTameable && ((EntityTameable)this.taskOwner).isTamed()) {
-					if(entityLiving1 instanceof EntityTameable && ((EntityTameable)entityLiving1).isTamed()) {
+				if (this.taskOwner instanceof EntityTameable && ((EntityTameable) this.taskOwner).isTamed()) {
+					if (target instanceof EntityTameable && ((EntityTameable) target).isTamed()) {
 						return false;
 					}
 
-					if(entityLiving1 == ((EntityTameable)this.taskOwner).getOwner()) {
+					if (target == ((EntityTameable) this.taskOwner).getOwner()) {
 						return false;
 					}
-				} else if(entityLiving1 instanceof EntityPlayer && !z2 && ((EntityPlayer)entityLiving1).isCreative) {
+				} else if (target instanceof EntityPlayer && !allowPlayers && ((EntityPlayer) target).isCreative) {
 					return false;
 				}
 
-				if(!this.taskOwner.isWithinHomeDistance(MathHelper.floor_double(entityLiving1.posX), MathHelper.floor_double(entityLiving1.posY), MathHelper.floor_double(entityLiving1.posZ))) {
+				if (!this.taskOwner.isWithinHomeDistance(MathHelper.floor_double(target.posX), MathHelper.floor_double(target.posY), MathHelper.floor_double(target.posZ))) {
 					return false;
-				} else if(this.field_48380_e && !this.taskOwner.getEntitySenses().canSee(entityLiving1)) {
+				} else if (this.shouldCheckSight && !this.taskOwner.getEntitySenses().canSee(target)) {
 					return false;
 				} else {
-					if(this.field_48383_a) {
-						if(--this.field_48377_f <= 0) {
-							this.field_48381_b = 0;
+					if (this.needsPathCheck) {
+						if (--this.pathCheckCooldown <= 0) {
+							this.pathCheckResult = 0;
 						}
 
-						if(this.field_48381_b == 0) {
-							this.field_48381_b = this.func_48375_a(entityLiving1) ? 1 : 2;
+						if (this.pathCheckResult == 0) {
+							this.pathCheckResult = this.hasPathToTarget(target) ? 1 : 2;
 						}
 
-						if(this.field_48381_b == 2) {
+						if (this.pathCheckResult == 2) {
 							return false;
 						}
 					}
@@ -113,19 +113,19 @@ public abstract class EntityAITarget extends EntityAIBase {
 		}
 	}
 
-	private boolean func_48375_a(EntityLiving entityLiving1) {
-		this.field_48377_f = 10 + this.taskOwner.getRNG().nextInt(5);
-		PathEntity pathEntity2 = this.taskOwner.getNavigator().getPathToEntity(entityLiving1);
-		if(pathEntity2 == null) {
+	private boolean hasPathToTarget(EntityLiving target) {
+		this.pathCheckCooldown = 10 + this.taskOwner.getRNG().nextInt(5);
+		PathEntity path = this.taskOwner.getNavigator().getPathToEntity(target);
+		if (path == null) {
 			return false;
 		} else {
-			PathPoint pathPoint3 = pathEntity2.getFinalPathPoint();
-			if(pathPoint3 == null) {
+			PathPoint endPoint = path.getFinalPathPoint();
+			if (endPoint == null) {
 				return false;
 			} else {
-				int i4 = pathPoint3.xCoord - MathHelper.floor_double(entityLiving1.posX);
-				int i5 = pathPoint3.zCoord - MathHelper.floor_double(entityLiving1.posZ);
-				return (double)(i4 * i4 + i5 * i5) <= 2.25D;
+				int dX = endPoint.xCoord - MathHelper.floor_double(target.posX);
+				int dZ = endPoint.zCoord - MathHelper.floor_double(target.posZ);
+				return (double) (dX * dX + dZ * dZ) <= 2.25D;
 			}
 		}
 	}

@@ -2,7 +2,7 @@ package net.minecraft.world.level.biome;
 
 import java.util.Random;
 
-import net.minecraft.world.entity.animal.EntityBetaOcelot;
+import net.minecraft.world.entity.animal.wild.EntityBetaOcelot;
 import net.minecraft.world.level.SpawnListEntry;
 import net.minecraft.world.level.Weather;
 import net.minecraft.world.level.World;

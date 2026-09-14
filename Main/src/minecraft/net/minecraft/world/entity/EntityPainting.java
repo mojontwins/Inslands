@@ -1,16 +1,14 @@
 package net.minecraft.world.entity;
 
+import com.mojang.nbt.NBTTagCompound;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.mojang.nbt.NBTTagCompound;
-
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.World;
 
 public class EntityPainting extends Entity {
 	private int tickCounter;

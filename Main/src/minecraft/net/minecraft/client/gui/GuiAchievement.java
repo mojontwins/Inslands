@@ -107,7 +107,7 @@ public class GuiAchievement extends Gui {
 				GL11.glDisable(GL11.GL_LIGHTING);
 				this.drawTexturedModalRect(i5, i6, 96, 202, 160, 32);
 				if(this.haveAchievement) {
-					this.theGame.fontRenderer.func_27278_a(this.achievementStatName, i5 + 30, i6 + 7, 120, -1);
+					this.theGame.fontRenderer.drawSplitString(this.achievementStatName, i5 + 30, i6 + 7, 120, -1);
 				} else {
 					this.theGame.fontRenderer.drawString(this.achievementGetLocalText, i5 + 30, i6 + 7, -256);
 					this.theGame.fontRenderer.drawString(this.achievementStatName, i5 + 30, i6 + 18, -1);

@@ -8,19 +8,19 @@ public class EntityAILeapAtTarget extends EntityAIBase {
 	EntityLiving leapTarget;
 	float leapMotionY;
 
-	public EntityAILeapAtTarget(EntityLiving entityLiving1, float f2) {
-		this.leaper = entityLiving1;
-		this.leapMotionY = f2;
+	public EntityAILeapAtTarget(EntityLiving entityLiving, float leapMotionY) {
+		this.leaper = entityLiving;
+		this.leapMotionY = leapMotionY;
 		this.setMutexBits(5);
 	}
 
 	public boolean shouldExecute() {
 		this.leapTarget = this.leaper.getAttackTarget();
-		if(this.leapTarget == null) {
+		if (this.leapTarget == null) {
 			return false;
 		} else {
-			double d1 = this.leaper.getDistanceSqToEntity(this.leapTarget);
-			return d1 >= 4.0D && d1 <= 16.0D ? (!this.leaper.onGround ? false : this.leaper.getRNG().nextInt(5) == 0) : false;
+			double distance = this.leaper.getDistanceSqToEntity(this.leapTarget);
+			return distance >= 4.0D && distance <= 16.0D ? (!this.leaper.onGround ? false : this.leaper.getRNG().nextInt(5) == 0) : false;
 		}
 	}
 
@@ -29,11 +29,11 @@ public class EntityAILeapAtTarget extends EntityAIBase {
 	}
 
 	public void startExecuting() {
-		double d1 = this.leapTarget.posX - this.leaper.posX;
-		double d3 = this.leapTarget.posZ - this.leaper.posZ;
-		float f5 = MathHelper.sqrt_double(d1 * d1 + d3 * d3);
-		this.leaper.motionX += d1 / (double)f5 * 0.5D * (double)0.8F + this.leaper.motionX * (double)0.2F;
-		this.leaper.motionZ += d3 / (double)f5 * 0.5D * (double)0.8F + this.leaper.motionZ * (double)0.2F;
-		this.leaper.motionY = (double)this.leapMotionY;
+		double dX = this.leapTarget.posX - this.leaper.posX;
+		double dZ = this.leapTarget.posZ - this.leaper.posZ;
+		float distance = MathHelper.sqrt_double(dX * dX + dZ * dZ);
+		this.leaper.motionX += dX / (double) distance * 0.5D * (double) 0.8F + this.leaper.motionX * (double) 0.2F;
+		this.leaper.motionZ += dZ / (double) distance * 0.5D * (double) 0.8F + this.leaper.motionZ * (double) 0.2F;
+		this.leaper.motionY = (double) this.leapMotionY;
 	}
 }

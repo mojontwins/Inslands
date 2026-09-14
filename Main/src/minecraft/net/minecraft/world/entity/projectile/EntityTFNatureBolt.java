@@ -2,7 +2,6 @@ package net.minecraft.world.entity.projectile;
 
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.EntityLiving;
-import net.minecraft.world.entity.monster.EntitySnowball;
 import net.minecraft.world.entity.status.Status;
 import net.minecraft.world.entity.status.StatusEffect;
 import net.minecraft.world.level.World;
@@ -10,16 +9,16 @@ import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.phys.MovingObjectPosition;
 
 public class EntityTFNatureBolt extends EntitySnowball {
-	public EntityTFNatureBolt(World par1World, double par2, double par4, double par6) {
-		super(par1World, par2, par4, par6);
+	public EntityTFNatureBolt(World world, double x, double y, double z) {
+		super(world, x, y, z);
 	}
 
-	public EntityTFNatureBolt(World par1World, EntityLiving par2EntityLiving) {
-		super(par1World, par2EntityLiving);
+	public EntityTFNatureBolt(World world, EntityLiving thrower) {
+		super(world, thrower);
 	}
 
-	public EntityTFNatureBolt(World par1World) {
-		super(par1World);
+	public EntityTFNatureBolt(World world) {
+		super(world);
 	}
 
 	public void onUpdate() {
@@ -42,21 +41,21 @@ public class EntityTFNatureBolt extends EntitySnowball {
 	}
 
 	@Override
-	public void throwableHitEntity(MovingObjectPosition par1MovingObjectPosition) {
+	public void throwableHitEntity(MovingObjectPosition hitPos) {
 		int i;
-		if(par1MovingObjectPosition.entityHit != null && par1MovingObjectPosition.entityHit instanceof EntityLiving) {
-			if(par1MovingObjectPosition.entityHit.attackEntityFrom(this.thrower, 2)) {
-				byte b5 = (byte)(this.worldObj.difficultySetting == 0 ? 0 : (this.worldObj.difficultySetting == 2 ? 3 : 7));
-				if(b5 > 0) {
-					((EntityLiving)par1MovingObjectPosition.entityHit).addStatusEffect(new StatusEffect(Status.statusPoisoned.id, b5 * 20, 0));
-					System.out.println("Poisoning entityHit " + par1MovingObjectPosition.entityHit);
+		if (hitPos.entityHit != null && hitPos.entityHit instanceof EntityLiving) {
+			if (hitPos.entityHit.attackEntityFrom(this.thrower, 2)) {
+				byte duration = (byte) (this.worldObj.difficultySetting == 0 ? 0 : (this.worldObj.difficultySetting == 2 ? 3 : 7));
+				if (duration > 0) {
+					((EntityLiving) hitPos.entityHit).addStatusEffect(new StatusEffect(Status.statusPoisoned.id, duration * 20, 0));
+					System.out.println("Poisoning entityHit " + hitPos.entityHit);
 				}
 			}
-		} else if(par1MovingObjectPosition != null) {
-			i = MathHelper.floor_double((double)par1MovingObjectPosition.blockX);
-			int dy = MathHelper.floor_double((double)par1MovingObjectPosition.blockY);
-			int dz = MathHelper.floor_double((double)par1MovingObjectPosition.blockZ);
-			if(this.worldObj.getBlockMaterial(i, dy, dz).isSolid()) {
+		} else if (hitPos != null) {
+			i = MathHelper.floor_double((double) hitPos.blockX);
+			int dy = MathHelper.floor_double((double) hitPos.blockY);
+			int dz = MathHelper.floor_double((double) hitPos.blockZ);
+			if (this.worldObj.getBlockMaterial(i, dy, dz).isSolid()) {
 				this.worldObj.setBlockAndMetadataWithNotify(i, dy, dz, Block.leaves.blockID, 2);
 			}
 		}
