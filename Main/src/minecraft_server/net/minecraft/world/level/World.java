@@ -56,7 +56,6 @@ public class World implements IBlockAccess {
 	public boolean scheduledUpdatesAreImmediate;
 	
 	public List<Entity> loadedEntityList;
-	private List<Entity> unloadedEntityList;
 	private TreeSet<NextTickListEntry> scheduledTickTreeSet;
 	private Set<NextTickListEntry> scheduledTickSet;
 	public List<TileEntity> loadedTileEntityList;
@@ -68,7 +67,16 @@ public class World implements IBlockAccess {
 	protected int updateLCG;
 	protected final int DIST_HASH_MAGIC;
 	
+	/** Suppresses block-neighbour notifications while a world is being edited programmatically. */
 	public boolean editingBlocks;
+
+	/**
+	 * If true, all per-block Starlight light recalculations triggered by block writes are skipped.
+	 * This is only used while the finite world is populated in one shot during world creation
+	 * (see {@code ChunkProvider.generateWholeWorld}); the resulting level is then lit completely
+	 * in a single pass, which is far cheaper than relighting on every generated block.
+	 */
+	public boolean deferLightingUpdate;
 	private long lockTimestamp;
 	protected int autosavePeriod;
 	public int difficultySetting;
@@ -131,7 +139,6 @@ public class World implements IBlockAccess {
 		this.thisSessionTicks = 0L; 
 		this.scheduledUpdatesAreImmediate = false;
 		this.loadedEntityList = new ArrayList<Entity>();
-		this.unloadedEntityList = new ArrayList<Entity>();
 		this.scheduledTickTreeSet = new TreeSet<NextTickListEntry>();
 		this.scheduledTickSet = new HashSet<NextTickListEntry>();
 		this.loadedTileEntityList = new ArrayList<TileEntity>();
@@ -173,7 +180,6 @@ public class World implements IBlockAccess {
 		this.thisSessionTicks = 0L; 
 		this.scheduledUpdatesAreImmediate = false;
 		this.loadedEntityList = new ArrayList<Entity>();
-		this.unloadedEntityList = new ArrayList<Entity>();
 		this.scheduledTickTreeSet = new TreeSet<NextTickListEntry>();
 		this.scheduledTickSet = new HashSet<NextTickListEntry>();
 		this.loadedTileEntityList = new ArrayList<TileEntity>();
@@ -227,7 +233,6 @@ public class World implements IBlockAccess {
 		this.thisSessionTicks = 0L; 
 		this.scheduledUpdatesAreImmediate = false;
 		this.loadedEntityList = new ArrayList<Entity>();
-		this.unloadedEntityList = new ArrayList<Entity>();
 		this.scheduledTickTreeSet = new TreeSet<NextTickListEntry>();
 		this.scheduledTickSet = new HashSet<NextTickListEntry>();
 		this.loadedTileEntityList = new ArrayList<TileEntity>();
@@ -424,37 +429,6 @@ public class World implements IBlockAccess {
 	
 	public boolean blockExists(BlockPos blockPos) {
 		return this.blockExists(blockPos.x, blockPos.y, blockPos.z);
-	}
-
-	public boolean doChunksNearChunkExist(int i1, int i2, int i3, int i4) {
-		return true;
-		// return this.checkChunksExist(i1 - i4, i2 - i4, i3 - i4, i1 + i4, i2 + i4, i3 + i4);
-	}
-
-	public boolean checkChunksExist(int x1, int y1, int z1, int x2, int y2, int z2) {
-		return true;
-		/*
-		if(y2 >= 0 && y1 < 128) {
-			x1 >>= 4;
-			y1 >>= 4;
-			z1 >>= 4;
-			x2 >>= 4;
-			y2 >>= 4;
-			z2 >>= 4;
-
-			for(int x = x1; x <= x2; ++x) {
-				for(int z = z1; z <= z2; ++z) {
-					if(!this.chunkExists(x, z)) {
-						return false;
-					}
-				}
-			}
-
-			return true;
-		} else {
-			return false;
-		}
-		*/
 	}
 
 	public boolean chunkExists(int i1, int i2) {
@@ -1525,38 +1499,27 @@ public class World implements IBlockAccess {
 
 	public void scheduleBlockUpdate(int i1, int i2, int i3, int i4, int i5) {
 		NextTickListEntry nextTickListEntry6 = new NextTickListEntry(i1, i2, i3, i4);
-		byte b7 = 8;
 		if(this.scheduledUpdatesAreImmediate) {
-			if(this.checkChunksExist(nextTickListEntry6.xCoord - b7, nextTickListEntry6.yCoord - b7, nextTickListEntry6.zCoord - b7, nextTickListEntry6.xCoord + b7, nextTickListEntry6.yCoord + b7, nextTickListEntry6.zCoord + b7)) {
-				int i8 = this.getBlockID(nextTickListEntry6.xCoord, nextTickListEntry6.yCoord, nextTickListEntry6.zCoord);
-				if(i8 == nextTickListEntry6.blockID && i8 > 0) {
-					Block.blocksList[i8].updateTick(this, nextTickListEntry6.xCoord, nextTickListEntry6.yCoord, nextTickListEntry6.zCoord, this.rand);
-				}
+			int i8 = this.getBlockID(nextTickListEntry6.xCoord, nextTickListEntry6.yCoord, nextTickListEntry6.zCoord);
+			if(i8 == nextTickListEntry6.blockID && i8 > 0) {
+				Block.blocksList[i8].updateTick(this, nextTickListEntry6.xCoord, nextTickListEntry6.yCoord, nextTickListEntry6.zCoord, this.rand);
 			}
 
 		} else {
-			if(this.checkChunksExist(i1 - b7, i2 - b7, i3 - b7, i1 + b7, i2 + b7, i3 + b7)) {
-				if(i4 > 0) {
-					nextTickListEntry6.setScheduledTime((long)i5 + this.worldInfo.getWorldTime());
-				}
+			if(i4 > 0) {
+				nextTickListEntry6.setScheduledTime((long)i5 + this.worldInfo.getWorldTime());
+			}
 
-				if(!this.scheduledTickSet.contains(nextTickListEntry6)) {
-					this.scheduledTickSet.add(nextTickListEntry6);
-					this.scheduledTickTreeSet.add(nextTickListEntry6);
-				}
+			if(!this.scheduledTickSet.contains(nextTickListEntry6)) {
+				this.scheduledTickSet.add(nextTickListEntry6);
+				this.scheduledTickTreeSet.add(nextTickListEntry6);
 			}
 
 		}
 	}
 
 	public void updateEntities() {
-		/*
-		 * Original code updates all entities in the world. 
-		 * It relies on chunks being unloaded calling unloadEntities to remove their entities.
-		 * But this doesn't happen in this version, so...
-		 * 1.- I'll remove the code handling the unload of entities and
-		 * 2.- I'll prune the list and update entities that are less than 128 blocks away of a player
-		 */
+		// Update only entities within 8 chunks of a player.
 		
 		int i;
 		Entity curEntity;
@@ -1689,85 +1652,81 @@ public class World implements IBlockAccess {
 	}
 
 	public void updateEntityWithOptionalForce(Entity entity, boolean z2) {
-		int x = MathHelper.floor_double(entity.posX);
-		int z = MathHelper.floor_double(entity.posZ);
-		byte radius = 32;
+		MathHelper.floor_double(entity.posX);
+		MathHelper.floor_double(entity.posZ);
 		
-		if(!z2 || this.checkChunksExist(x - radius, 0, z - radius, x + radius, 128, z + radius)) {
+		
+		// Remember current position / rotation as "prev"
+
+		entity.lastTickPosX = entity.posX;
+		entity.lastTickPosY = entity.posY;
+		entity.lastTickPosZ = entity.posZ;
+		entity.prevRotationYaw = entity.rotationYaw;
+		entity.prevRotationPitch = entity.rotationPitch;
+
+		// Call onUpdate
+
+		if(z2 && entity.addedToChunk) {
+			if(entity.ridingEntity != null) {
+				entity.updateRidden();
+			} else {
+				entity.onUpdate();
+			}
+		}
+
+		// Safe: on invalid position / angle, back to "prev"
+
+		if(Double.isNaN(entity.posX) || Double.isInfinite(entity.posX)) {
+			entity.posX = entity.lastTickPosX;
+		}
+
+		if(Double.isNaN(entity.posY) || Double.isInfinite(entity.posY)) {
+			entity.posY = entity.lastTickPosY;
+		}
+
+		if(Double.isNaN(entity.posZ) || Double.isInfinite(entity.posZ)) {
+			entity.posZ = entity.lastTickPosZ;
+		}
+
+		if(Double.isNaN((double)entity.rotationPitch) || Double.isInfinite((double)entity.rotationPitch)) {
+			entity.rotationPitch = entity.prevRotationPitch;
+		}
+
+		if(Double.isNaN((double)entity.rotationYaw) || Double.isInfinite((double)entity.rotationYaw)) {
+			entity.rotationYaw = entity.prevRotationYaw;
+		}
+
+		// Did entity move to a different cubic 16x16x16 chunk?
+
+		int chunkX = MathHelper.floor_double(entity.posX / 16.0D);
+		int chunkY = MathHelper.floor_double(entity.posY / 16.0D);
+		int chunkZ = MathHelper.floor_double(entity.posZ / 16.0D);
+
+		if(!entity.addedToChunk || entity.chunkCoordX != chunkX || entity.chunkCoordY != chunkY || entity.chunkCoordZ != chunkZ) {
 			
-			// Remember current position / rotation as "prev"
+			// If entity is already in a chunk, remove entity from chunk
 
-			entity.lastTickPosX = entity.posX;
-			entity.lastTickPosY = entity.posY;
-			entity.lastTickPosZ = entity.posZ;
-			entity.prevRotationYaw = entity.rotationYaw;
-			entity.prevRotationPitch = entity.rotationPitch;
-
-			// Call onUpdate
-
-			if(z2 && entity.addedToChunk) {
-				if(entity.ridingEntity != null) {
-					entity.updateRidden();
-				} else {
-					entity.onUpdate();
-				}
+			if(entity.addedToChunk && this.chunkExists(entity.chunkCoordX, entity.chunkCoordZ)) {
+				this.getChunkFromChunkCoords(entity.chunkCoordX, entity.chunkCoordZ).removeEntityAtIndex(entity, entity.chunkCoordY);
 			}
 
-			// Safe: on invalid position / angle, back to "prev"
+			// Add entity to the new chunk
 
-			if(Double.isNaN(entity.posX) || Double.isInfinite(entity.posX)) {
-				entity.posX = entity.lastTickPosX;
+			if(this.chunkExists(chunkX, chunkZ)) {
+				entity.addedToChunk = true;
+				this.getChunkFromChunkCoords(chunkX, chunkZ).addEntity(entity);
+			} else {
+				entity.addedToChunk = false;
 			}
+		}
 
-			if(Double.isNaN(entity.posY) || Double.isInfinite(entity.posY)) {
-				entity.posY = entity.lastTickPosY;
+		if(z2 && entity.addedToChunk && entity.riddenByEntity != null) {
+			if(!entity.riddenByEntity.isDead && entity.riddenByEntity.ridingEntity == entity) {
+				this.updateEntity(entity.riddenByEntity);
+			} else {
+				entity.riddenByEntity.ridingEntity = null;
+				entity.riddenByEntity = null;
 			}
-
-			if(Double.isNaN(entity.posZ) || Double.isInfinite(entity.posZ)) {
-				entity.posZ = entity.lastTickPosZ;
-			}
-
-			if(Double.isNaN((double)entity.rotationPitch) || Double.isInfinite((double)entity.rotationPitch)) {
-				entity.rotationPitch = entity.prevRotationPitch;
-			}
-
-			if(Double.isNaN((double)entity.rotationYaw) || Double.isInfinite((double)entity.rotationYaw)) {
-				entity.rotationYaw = entity.prevRotationYaw;
-			}
-
-			// Did entity move to a different cubic 16x16x16 chunk?
-
-			int chunkX = MathHelper.floor_double(entity.posX / 16.0D);
-			int chunkY = MathHelper.floor_double(entity.posY / 16.0D);
-			int chunkZ = MathHelper.floor_double(entity.posZ / 16.0D);
-
-			if(!entity.addedToChunk || entity.chunkCoordX != chunkX || entity.chunkCoordY != chunkY || entity.chunkCoordZ != chunkZ) {
-				
-				// If entity is already in a chunk, remove entity from chunk
-
-				if(entity.addedToChunk && this.chunkExists(entity.chunkCoordX, entity.chunkCoordZ)) {
-					this.getChunkFromChunkCoords(entity.chunkCoordX, entity.chunkCoordZ).removeEntityAtIndex(entity, entity.chunkCoordY);
-				}
-
-				// Add entity to the new chunk
-
-				if(this.chunkExists(chunkX, chunkZ)) {
-					entity.addedToChunk = true;
-					this.getChunkFromChunkCoords(chunkX, chunkZ).addEntity(entity);
-				} else {
-					entity.addedToChunk = false;
-				}
-			}
-
-			if(z2 && entity.addedToChunk && entity.riddenByEntity != null) {
-				if(!entity.riddenByEntity.isDead && entity.riddenByEntity.ridingEntity == entity) {
-					this.updateEntity(entity.riddenByEntity);
-				} else {
-					entity.riddenByEntity.ridingEntity = null;
-					entity.riddenByEntity = null;
-				}
-			}
-
 		}
 	}
 
@@ -1889,14 +1848,12 @@ public class World implements IBlockAccess {
 		int i5 = MathHelper.floor_double(axisAlignedBB1.maxY + 1.0D);
 		int i6 = MathHelper.floor_double(axisAlignedBB1.minZ);
 		int i7 = MathHelper.floor_double(axisAlignedBB1.maxZ + 1.0D);
-		if(this.checkChunksExist(i2, i4, i6, i3, i5, i7)) {
-			for(int i8 = i2; i8 < i3; ++i8) {
-				for(int i9 = i4; i9 < i5; ++i9) {
-					for(int i10 = i6; i10 < i7; ++i10) {
-						int i11 = this.getBlockID(i8, i9, i10);
-						if(i11 == Block.fire.blockID || i11 == Block.lavaMoving.blockID || i11 == Block.lavaStill.blockID) {
-							return true;
-						}
+		for(int i8 = i2; i8 < i3; ++i8) {
+			for(int i9 = i4; i9 < i5; ++i9) {
+				for(int i10 = i6; i10 < i7; ++i10) {
+					int i11 = this.getBlockID(i8, i9, i10);
+					if(i11 == Block.fire.blockID || i11 == Block.lavaMoving.blockID || i11 == Block.lavaStill.blockID) {
+						return true;
 					}
 				}
 			}
@@ -1912,37 +1869,33 @@ public class World implements IBlockAccess {
 		int i7 = MathHelper.floor_double(axisAlignedBB1.maxY + 1.0D);
 		int i8 = MathHelper.floor_double(axisAlignedBB1.minZ);
 		int i9 = MathHelper.floor_double(axisAlignedBB1.maxZ + 1.0D);
-		if(!this.checkChunksExist(i4, i6, i8, i5, i7, i9)) {
-			return false;
-		} else {
-			boolean z10 = false;
-			Vec3D vec3D11 = Vec3D.createVector(0.0D, 0.0D, 0.0D);
+		boolean z10 = false;
+		Vec3D vec3D11 = Vec3D.createVector(0.0D, 0.0D, 0.0D);
 
-			for(int i12 = i4; i12 < i5; ++i12) {
-				for(int i13 = i6; i13 < i7; ++i13) {
-					for(int i14 = i8; i14 < i9; ++i14) {
-						Block block15 = Block.blocksList[this.getBlockID(i12, i13, i14)];
-						if(block15 != null && block15.blockMaterial == material2) {
-							double d16 = (double)((float)(i13 + 1) - BlockFluid.getFluidHeightPercent(this.getBlockMetadata(i12, i13, i14)));
-							if((double)i7 >= d16) {
-								z10 = true;
-								block15.velocityToAddToEntity(this, i12, i13, i14, entity3, vec3D11);
-							}
+		for(int i12 = i4; i12 < i5; ++i12) {
+			for(int i13 = i6; i13 < i7; ++i13) {
+				for(int i14 = i8; i14 < i9; ++i14) {
+					Block block15 = Block.blocksList[this.getBlockID(i12, i13, i14)];
+					if(block15 != null && block15.blockMaterial == material2) {
+						double d16 = (double)((float)(i13 + 1) - BlockFluid.getFluidHeightPercent(this.getBlockMetadata(i12, i13, i14)));
+						if((double)i7 >= d16) {
+							z10 = true;
+							block15.velocityToAddToEntity(this, i12, i13, i14, entity3, vec3D11);
 						}
 					}
 				}
 			}
-
-			if(vec3D11.lengthVector() > 0.0D) {
-				vec3D11 = vec3D11.normalize();
-				double d18 = 0.014D;
-				entity3.motionX += vec3D11.xCoord * d18;
-				entity3.motionY += vec3D11.yCoord * d18;
-				entity3.motionZ += vec3D11.zCoord * d18;
-			}
-
-			return z10;
 		}
+
+		if(vec3D11.lengthVector() > 0.0D) {
+			vec3D11 = vec3D11.normalize();
+			double d18 = 0.014D;
+			entity3.motionX += vec3D11.xCoord * d18;
+			entity3.motionY += vec3D11.yCoord * d18;
+			entity3.motionZ += vec3D11.zCoord * d18;
+		}
+
+		return z10;
 	}
 
 	public boolean isMaterialInBB(AxisAlignedBB axisAlignedBB1, Material material2) {
@@ -2712,12 +2665,9 @@ public class World implements IBlockAccess {
 
 				this.scheduledTickTreeSet.remove(nextTickListEntry4);
 				this.scheduledTickSet.remove(nextTickListEntry4);
-				byte b5 = 8;
-				if(this.checkChunksExist(nextTickListEntry4.xCoord - b5, nextTickListEntry4.yCoord - b5, nextTickListEntry4.zCoord - b5, nextTickListEntry4.xCoord + b5, nextTickListEntry4.yCoord + b5, nextTickListEntry4.zCoord + b5)) {
-					int i6 = this.getBlockID(nextTickListEntry4.xCoord, nextTickListEntry4.yCoord, nextTickListEntry4.zCoord);
-					if(i6 == nextTickListEntry4.blockID && i6 > 0) {
-						Block.blocksList[i6].updateTick(this, nextTickListEntry4.xCoord, nextTickListEntry4.yCoord, nextTickListEntry4.zCoord, this.rand);
-					}
+				int i6 = this.getBlockID(nextTickListEntry4.xCoord, nextTickListEntry4.yCoord, nextTickListEntry4.zCoord);
+				if(i6 == nextTickListEntry4.blockID && i6 > 0) {
+					Block.blocksList[i6].updateTick(this, nextTickListEntry4.xCoord, nextTickListEntry4.yCoord, nextTickListEntry4.zCoord, this.rand);
 				}
 			}
 
@@ -2833,10 +2783,6 @@ public class World implements IBlockAccess {
 			this.obtainEntitySkin((Entity)list1.get(i2));
 		}
 
-	}
-
-	public void unloadEntities(List<Entity> list1) {
-		this.unloadedEntityList.addAll(list1);
 	}
 
 	public void dropOldChunks() {
@@ -3190,30 +3136,11 @@ public class World implements IBlockAccess {
 	}
 
 	public void updateEntityList() {
-		
-		//this.loadedEntityList.removeAll(this.unloadedEntityList);
-
 		int i1;
 		Entity entity2;
 		int i3;
 		int i4;
-		
-		/*
-		for(i1 = 0; i1 < this.unloadedEntityList.size(); ++i1) {
-			entity2 = (Entity)this.unloadedEntityList.get(i1);
-			i3 = entity2.chunkCoordX;
-			i4 = entity2.chunkCoordZ;
-			if(entity2.addedToChunk && this.chunkExists(i3, i4)) {
-				this.getChunkFromChunkCoords(i3, i4).removeEntity(entity2);
-			}
-		}
 
-		for(i1 = 0; i1 < this.unloadedEntityList.size(); ++i1) {
-			this.releaseEntitySkin((Entity)this.unloadedEntityList.get(i1));
-		}
-
-		this.unloadedEntityList.clear();
-		*/
 		for(i1 = 0; i1 < this.loadedEntityList.size(); ++i1) {
 			entity2 = (Entity)this.loadedEntityList.get(i1);
 			if(entity2.ridingEntity != null) {

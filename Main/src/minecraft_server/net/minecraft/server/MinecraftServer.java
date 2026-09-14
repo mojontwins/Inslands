@@ -136,24 +136,41 @@ public class MinecraftServer implements Runnable, ICommandListener {
 		return true;
 	}
 	
+	/**
+	 * Forces the whole level into memory before the server starts ticking.
+	 * <p>
+	 * A brand-new overworld is generated and lit in one bulk pass (see
+	 * {@code ChunkProviderServer.generateWholeWorld}) and then saved once. Existing worlds,
+	 * and the nether dimension, keep the original chunk-by-chunk preload.
+	 */
 	private void preloadWorld(WorldServer world, boolean isNew) {
-		int chunksLoaded = 0;
-		long prevTime = System.currentTimeMillis();
-		
-		for(int x = 0; x < WorldSize.xChunks; x ++) { 
-			for(int z = 0 ; z < WorldSize.zChunks; z ++) {
-				long curTime = System.currentTimeMillis();
-				if(curTime > prevTime + 1000L) {
-					prevTime = curTime;
-					this.outputPercentRemaining("Preparing spawn area", chunksLoaded * 100 / WorldSize.getTotalChunks());
+		// Only the overworld (worldType 0) uses the bulk generator for now; the nether has its
+		// own chunk provider and lighting model.
+		if(isNew && world.worldProvider.worldType == 0) {
+			this.outputPercentRemaining("Building terrain", 0);
+			world.chunkProviderServer.generateWholeWorld(new ConvertProgressUpdater(this));
+
+			// Save the finished world to disk immediately, in a single full write.
+			this.outputPercentRemaining("Saving level", 0);
+			world.saveWorld(true, new ConvertProgressUpdater(this));
+		} else {
+			int chunksLoaded = 0;
+			long prevTime = System.currentTimeMillis();
+
+			for(int chunkX = 0; chunkX < WorldSize.xChunks; chunkX ++) {
+				for(int chunkZ = 0; chunkZ < WorldSize.zChunks; chunkZ ++) {
+					long curTime = System.currentTimeMillis();
+					if(curTime > prevTime + 1000L) {
+						prevTime = curTime;
+						this.outputPercentRemaining("Preparing spawn area", chunksLoaded * 100 / WorldSize.getTotalChunks());
+					}
+					chunksLoaded++;
+					world.chunkProviderServer.prepareChunk(chunkX, chunkZ);
 				}
-				chunksLoaded++;
-				world.getBlockID(x, 64, z);
-				world.chunkProviderServer.prepareChunk(x, z);
 			}
 		}
-		
-		// Here: extra, special post generation.	
+
+		// Extra theme-specific post generation, only for freshly created worlds.
 		if(isNew) {
 			LevelThemeGlobalSettings.getTheme().specialPostGeneration(world);
 			world.worldProvider.getInitialSpawnLocation(world);

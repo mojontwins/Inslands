@@ -91,6 +91,7 @@ import net.minecraft.world.level.biome.BiomeGenThemeForest;
 import net.minecraft.world.level.biome.BiomeGenThemeHell;
 import net.minecraft.world.level.biome.BiomeGenThemeParadise;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
+import net.minecraft.world.level.chunk.ChunkProvider;
 import net.minecraft.world.level.chunk.storage.ISaveFormat;
 import net.minecraft.world.level.chunk.storage.ISaveHandler;
 import net.minecraft.world.level.chunk.storage.SaveConverterMcRegion;
@@ -1386,7 +1387,7 @@ public abstract class Minecraft implements Runnable {
 
 			world7 = null;
 			world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(0)); 
-			this.preloadWorld(world7, "Leaving the Nether", fullscreen);
+			this.preloadWorld(world7, "Leaving the Nether", false);
 			this.changeWorld(world7, "Leaving the Nether", this.thePlayer);
 		}
 
@@ -1486,26 +1487,34 @@ public abstract class Minecraft implements Runnable {
 		this.startWorld(string1, string2, new WorldSettings(0L, 0, true, false, false, true, WorldType.DEFAULT));
 	}
 
+	/**
+	 * Forces the whole level into memory before the game loop starts.
+	 * <p>
+	 * A brand-new overworld is generated and lit in one bulk pass (see
+	 * {@code ChunkProvider.generateWholeWorld}). Existing worlds, and the nether dimension,
+	 * keep the original chunk-by-chunk preload. The new world is saved later when
+	 * {@code changeWorld} sees {@code world.isNewWorld}.
+	 */
 	private void preloadWorld(World world, String caption, boolean isNew) {
-		System.out.println ("Preload World");
 		this.loadingScreen.printText(caption);
 		this.loadingScreen.displayLoadingString(isNew ? "Building terrain" : "Loading terrain");
 
-		int ctr = 0;
-		
-		// Preload ALL world		
-		BlockFire.dontSpread = true;
-		for(int x = 0; x < WorldSize.width; x += 16) {
-			for(int z = 0 ; z < WorldSize.length; z += 16) {
-				this.loadingScreen.setLoadingProgress(ctr++ * 100 / WorldSize.getTotalChunks());
-				world.getBlockID(x, 64, z);
+		if(isNew && world.isNewWorld) {
+			// Client single-player always uses the modded finite-world ChunkProvider.
+			((ChunkProvider)world.chunkProvider).generateWholeWorld(this.loadingScreen);
+		} else {
+			BlockFire.dontSpread = true;
+			int loadedChunks = 0;
+			for(int chunkX = 0; chunkX < WorldSize.xChunks; chunkX ++) {
+				for(int chunkZ = 0; chunkZ < WorldSize.zChunks; chunkZ ++) {
+					this.loadingScreen.setLoadingProgress(loadedChunks++ * 100 / WorldSize.getTotalChunks());
+					world.chunkProvider.prepareChunk(chunkX, chunkZ);
+				}
 			}
+			BlockFire.dontSpread = false;
 		}
-		BlockFire.dontSpread = false;
-		
-		// Here: extra, special post generation.
-		// No matter if the level was or was not new, if chunks had to be generated, 
-		// We have to generate special stuff...
+
+		// Extra theme-specific post generation, only if chunks had to be generated.
 		if(GlobalVars.didGenerateChunks) {
 			if(isNew) {
 				this.loadingScreen.displayLoadingString("Generating special stuff");
@@ -1515,7 +1524,7 @@ public abstract class Minecraft implements Runnable {
 			LevelThemeGlobalSettings.getTheme().specialPostGeneration(world);
 		}
 
-		this.loadingScreen.displayLoadingString("Simulating world for a bit");		
+		this.loadingScreen.displayLoadingString("Simulating world for a bit");
 	}
 
 	public void installResource(String string1, File file2) {

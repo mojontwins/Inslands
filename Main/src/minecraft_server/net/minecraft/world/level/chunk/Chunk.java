@@ -3,7 +3,6 @@ package net.minecraft.world.level.chunk;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -30,6 +29,8 @@ import net.minecraft.world.phys.AxisAlignedBB;
 
 public class Chunk {
 	public static boolean isLit;
+	
+	private static final EnumCreatureType[] CREATURE_TYPES = EnumCreatureType.values();
 	
 	public byte[] blocks;
 	public byte[] data;
@@ -183,7 +184,7 @@ public class Chunk {
 					do {
 						i6 -= Block.lightOpacity[this.blocks[i5 + i7] & 255];
 						if(i6 > 0) {
-							this.skylightMap.setNibble(i2, i7, i3, i6);
+							this.skylightMap.setNibble(i5 | i7, i6);
 						}
 
 						--i7;
@@ -220,7 +221,7 @@ public class Chunk {
 					do {
 						lightLevel -= Block.lightOpacity[this.blocks[index + y] & 255];
 						if(lightLevel > 0) {
-							this.skylightMap.setNibble(x, y, z, lightLevel);
+							this.skylightMap.setNibble(index | y, lightLevel);
 						}
 
 						--y;
@@ -262,7 +263,7 @@ public class Chunk {
 	}
 
 	public int getBlockID(int x, int y, int z) {
-		return (int) this.blocks[x << 11 | z << 7 | y] & 0xff;
+		return this.blocks[x << 11 | z << 7 | y] & 0xff;
 	}
 
 	public boolean setblockIDWithMetadata(int x, int y, int z, int id, int metadata) {
@@ -278,7 +279,7 @@ public class Chunk {
 			Block block = Block.blocksList[existingId];
 			
 			// Write new block ID
-			this.blocks[x << 11 | z << 7 | y] = (byte)id;
+			this.blocks[index] = (byte)id;
 			
 			// Call `onRemoval` from removed block, if applies.
 			if(block != null && !this.worldObj.isRemote) {
@@ -308,7 +309,11 @@ public class Chunk {
 					}
 				}
 			}
-			this.updateLight(x, y, z);
+			// Skip the expensive per-block Starlight pass while bulk-generating a world:
+			// the whole level is lit once after populate completes.
+			if(!this.worldObj.deferLightingUpdate) {
+				this.updateLight(x, y, z);
+			}
 
 			block = Block.blocksList[id];
 			if(block != null) {
@@ -320,69 +325,84 @@ public class Chunk {
 		}
 	}
 	
-	public boolean setblockIDAndMetadataColumn(int x, int y, int z, int[] id) {
-		// Column is bottom to top ordered
-		// Metadata is encoded as a most significant byte
+	/**
+	 * Writes a whole vertical column of blocks at once.
+	 * <p>
+	 * {@code columnData} is ordered bottom-to-top starting at {@code y}. Each positive entry
+	 * encodes a single block as {@code (metadata << 8) | blockID}. A value of {@code -1} skips
+	 * one vertical position, while a value {@code < -1} starts a run whose length is
+	 * {@code -value}; the following entry then describes either a skip run ({@code -1}) or a
+	 * block to repeat for the whole run. Used for fast RLE'd building placement, so it bypasses
+	 * the usual per-block neighbour notifications.
+	 */
+	public boolean setblockIDAndMetadataColumn(int x, int y, int z, int[] columnData) {
+		int worldX = (this.xPosition << 4) | x;
+		int worldZ = (this.zPosition << 4) | z;
 
-		int absX = (this.xPosition << 4) | x;
-		int absZ = (this.zPosition << 4) | z;
-		
-		int height = this.heightMap[z << 4 | x] & 255;
-		
-		int index = x << 11 | z << 7 | y;
-		
-		// Write blocks
-		for(int i = 0; i < id.length; i ++) {
-			int b = id[i];
-			if(b >= 0) {
-				this.data[index] = (byte)((b >> 8) & 0xff);
-				
-				// Call `onRemoval` from removed block, if applies.
-				Block block = Block.blocksList[this.blocks[index] & 255];
-				if(block != null && !this.worldObj.isRemote) {
-					block.onBlockRemoval(this.worldObj, absX, y, absZ);
+		// Stored column height before writing, used to decide whether the height map changed.
+		int previousColumnHeight = this.heightMap[z << 4 | x] & 255;
+
+		int blockIndex = x << 11 | z << 7 | y;
+
+		for(int dataIndex = 0; dataIndex < columnData.length; dataIndex ++) {
+			int encoded = columnData[dataIndex];
+			if(encoded >= 0) {
+				// Single block: metadata lives in the high byte.
+				this.data[blockIndex] = (byte)((encoded >> 8) & 0xff);
+
+				// Call `onRemoval` from the block being replaced, if applies.
+				Block previousBlock = Block.blocksList[this.blocks[blockIndex] & 255];
+				if(previousBlock != null && !this.worldObj.isRemote) {
+					previousBlock.onBlockRemoval(this.worldObj, worldX, y, worldZ);
 				}
-				
-				this.blocks[index ++] = (byte) (b & 255);
+
+				this.blocks[blockIndex ++] = (byte)(encoded & 255);
 				y ++;
-			} else if(b < -1) {
-				// A negative value is the count for a run
-				int c = -b;
-				i ++;
-				b = id[i];
-				if(b == -1) {
-					index += c;
+			} else if(encoded < -1) {
+				// Run of identical blocks (or of air); the next entry is the run payload.
+				int runLength = -encoded;
+				encoded = columnData[++ dataIndex];
+				if(encoded == -1) {
+					// Skip run: leave the existing blocks untouched.
+					blockIndex += runLength;
+					y += runLength;
 				} else {
-					byte m = (byte) ((b >> 8) & 255);
-					byte b0 = (byte) (b & 255);
-					while (c -- > 0) {
-						this.data[index] = m;
-						
-						// Call `onRemoval` from removed block, if applies.
-						Block block = Block.blocksList[this.blocks[index] & 255];
-						if(block != null && !this.worldObj.isRemote) {
-							block.onBlockRemoval(this.worldObj, absX, y, absZ);
+					byte runMetadata = (byte)((encoded >> 8) & 0xff);
+					byte runBlockID = (byte)(encoded & 255);
+					while(runLength -- > 0 && y < 128) {
+						this.data[blockIndex] = runMetadata;
+
+						// Call `onRemoval` from the block being replaced, if applies.
+						Block previousBlock = Block.blocksList[this.blocks[blockIndex] & 255];
+						if(previousBlock != null && !this.worldObj.isRemote) {
+							previousBlock.onBlockRemoval(this.worldObj, worldX, y, worldZ);
 						}
-						
-						this.blocks[index ++] = b0;
+
+						this.blocks[blockIndex ++] = runBlockID;
 						y ++;
 					}
-				} 
+				}
 			} else {
+				// -1: skip a single vertical position.
+				blockIndex ++;
 				y ++;
-			};
+			}
 			if(y == 128) break;
 		}
-		
-		// The topmost block
+
+		// `y` now points one past the topmost written block.
 		y --;
-		
-		// Relight top
-		if (y >= height) this.relightBlock(x, y + 1, z);
-		this.updateLight(x, y, z);
-		
+
+		// Keep the height map up to date (cheap; never touches Starlight).
+		if(y >= previousColumnHeight) this.relightBlock(x, y + 1, z);
+
+		// Skip the expensive per-block Starlight pass while bulk-generating a world.
+		if(!this.worldObj.deferLightingUpdate) {
+			this.updateLight(x, y, z);
+		}
+
 		this.isModified = true;
-		
+
 		return true;
 	}
 
@@ -402,31 +422,34 @@ public class Chunk {
 	public int getSavedLightValue(EnumSkyBlock enumSkyBlock1, int i2, int i3, int i4) {
 		if(i3 < 0) return 0;
 		if(i3 > 127) return 15;
-		return enumSkyBlock1 == EnumSkyBlock.Sky ? this.skylightMap.getNibble(i2, i3, i4) : (enumSkyBlock1 == EnumSkyBlock.Block ? this.blocklightMap.getNibble(i2, i3, i4) : 0);
+		int flatIndex = i2 << 11 | i4 << 7 | i3;
+		return enumSkyBlock1 == EnumSkyBlock.Sky ? this.skylightMap.getNibble(flatIndex) : (enumSkyBlock1 == EnumSkyBlock.Block ? this.blocklightMap.getNibble(flatIndex) : 0);
 	}
 
 	public void setLightValue(EnumSkyBlock enumSkyBlock1, int i2, int i3, int i4, int i5) {
 		this.isModified = true;
+		int flatIndex = i2 << 11 | i4 << 7 | i3;
 		if(enumSkyBlock1 == EnumSkyBlock.Sky) {
-			this.skylightMap.setNibble(i2, i3, i4, i5);
+			this.skylightMap.setNibble(flatIndex, i5);
 		} else {
 			if(enumSkyBlock1 != EnumSkyBlock.Block) {
 				return;
 			}
 
-			this.blocklightMap.setNibble(i2, i3, i4, i5);
+			this.blocklightMap.setNibble(flatIndex, i5);
 		}
 
 	}
 
 	public int getBlockLightValue(int i1, int i2, int i3, int i4) {
-		int i5 = this.skylightMap.getNibble(i1, i2, i3);
+		int flatIndex = i1 << 11 | i3 << 7 | i2;
+		int i5 = this.skylightMap.getNibble(flatIndex);
 		if(i5 > 0) {
 			isLit = true;
 		}
 
 		i5 -= i4;
-		int i6 = this.blocklightMap.getNibble(i1, i2, i3);
+		int i6 = this.blocklightMap.getNibble(flatIndex);
 		if(i6 > i5) {
 			i5 = i6;
 		}
@@ -435,9 +458,8 @@ public class Chunk {
 	}
 	
 	public EnumCreatureType getCreatureType(Entity entity) {
-		EnumCreatureType[] availableCreatureTypes = EnumCreatureType.values();
-		for(int i = 0; i < availableCreatureTypes.length; i ++) {
-			EnumCreatureType creatureType = availableCreatureTypes[i];
+		for(int i = 0; i < CREATURE_TYPES.length; i ++) {
+			EnumCreatureType creatureType = CREATURE_TYPES[i];
 			if(creatureType.getCreatureClass().isAssignableFrom(entity.getClass())) {
 				return creatureType;
 			}
@@ -612,7 +634,8 @@ public class Chunk {
 		tileEntity4.xCoord = this.xPosition << 4 | i1;
 		tileEntity4.yCoord = i2;
 		tileEntity4.zCoord = this.zPosition << 4 | i3;
-		if(this.getBlockID(i1, i2, i3) != 0 && Block.blocksList[this.getBlockID(i1, i2, i3)] instanceof BlockContainer) {
+		int blockId = this.getBlockID(i1, i2, i3);
+		if(blockId != 0 && Block.blocksList[blockId] instanceof BlockContainer) {
 			tileEntity4.validate();
 			this.chunkTileEntityMap.put(chunkPosition5, tileEntity4);
 		} else {
@@ -676,17 +699,7 @@ public class Chunk {
 
 	public void onChunkUnload() {
 		this.isChunkLoaded = false;
-		Iterator<TileEntity> iterator1 = this.chunkTileEntityMap.values().iterator();
-
-		while(iterator1.hasNext()) {
-			TileEntity tileEntity2 = (TileEntity)iterator1.next();
-			tileEntity2.invalidate();
-		}
-
-		for(int i3 = 0; i3 < this.entities.length; ++i3) {
-			this.worldObj.unloadEntities(this.entities[i3]);
-		}
-
+		this.chunkTileEntityMap.values().forEach(TileEntity::invalidate);
 	}
 
 	public void setChunkModified() {
@@ -933,7 +946,7 @@ public class Chunk {
 			Block block = Block.blocksList[existingId];
 			
 			// Write new block ID
-			this.blocks[x << 11 | z << 7 | y] = (byte)id;
+			this.blocks[index] = (byte)id;
 			
 			// Call `onRemoval` from removed block, if applies.
 			if(block != null && !this.worldObj.isRemote) {
@@ -966,25 +979,44 @@ public class Chunk {
 		
 	}
 
-	public void setMetadata(byte[] metadata) {
-		// TODO Auto-generated method stub
-		
-	}
-	
+	/**
+	 * Calculates the real (not height-map-only) lighting for this chunk using Starlight.
+	 * The block-light scan range is derived from the chunk's biome, so biomes that need an
+	 * exhaustive scan (nether-like) automatically get one.
+	 */
 	public void initLightingForRealNotJustHeightmap() {
-		this.worldObj.blockLight.initBlockLight(this.xPosition, this.zPosition, this.worldObj.getBiomeGenAt(this.xPosition, this.zPosition).forceBlockLightInitLikeNether);
+		BiomeGenBase biome = this.worldObj.getBiomeGenAt(this.xPosition, this.zPosition);
+		this.initLightingForRealNotJustHeightmap(biome.forceBlockLightInitLikeNether);
+	}
 
-		if (!this.worldObj.worldProvider.hasNoSky) {
+	/**
+	 * Calculates the real lighting for this chunk using Starlight.
+	 *
+	 * @param forceFullBlockScan when true, scans the whole column (y = 0..127) for light
+	 *                           emitters instead of only the ones seeded during terrain
+	 *                           generation. Required when the chunk was populated with
+	 *                           lighting deferred, because emitters placed during populate
+	 *                           were never registered with Starlight.
+	 */
+	public void initLightingForRealNotJustHeightmap(boolean forceFullBlockScan) {
+		this.worldObj.blockLight.initBlockLight(this.xPosition, this.zPosition, forceFullBlockScan);
+
+		if(!this.worldObj.worldProvider.hasNoSky) {
 			this.worldObj.skyLight.initSkylight(this.xPosition, this.zPosition);
 		}
 	}
 
+	/**
+	 * Re-evaluates the light emitted by (or removed from) a single world-space block position.
+	 * Called after a block changes; skipped entirely while lighting is deferred during bulk
+	 * world generation.
+	 */
 	public void updateLight(int localX, int worldY, int localZ) {
 		int worldX = localX | (this.xPosition << 4);
 		int worldZ = localZ | (this.zPosition << 4);
 
 		this.worldObj.blockLight.checkBlockEmittance(worldX, worldY, worldZ);
-		if (!this.worldObj.worldProvider.hasNoSky) {
+		if(!this.worldObj.worldProvider.hasNoSky) {
 			this.worldObj.skyLight.checkSkyEmittance(worldX, worldY, worldZ);
 		}
 	}

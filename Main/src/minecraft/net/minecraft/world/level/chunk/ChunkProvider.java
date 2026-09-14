@@ -7,228 +7,238 @@ import net.minecraft.world.level.World;
 import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.chunk.storage.IProgressUpdate;
 
+/**
+ * Chunk provider for the finite Inslands worlds.
+ * <p>
+ * A finite world is small enough that every chunk fits in memory at once, so this provider
+ * keeps them in a flat {@link #chunkCache} indexed by {@link WorldSize#coords2hash(int, int)}
+ * rather than a sliding cache. Requests outside the world bounds resolve to a shared
+ * {@link #blankChunk}.
+ * <p>
+ * Modified, simplified version for finite worlds by na_th_an.
+ */
 public class ChunkProvider implements IChunkProvider {
-	private Chunk blankChunk;
-	private IChunkProvider chunkProvider;
-	private IChunkLoader chunkLoader;
-	private World worldObj;
-	
-	private boolean debug = false;
-	private boolean populateDebug = false;
-	
-	// Modified, simplified version for finite worlds by na_th_an
-	// "simplified", that's what I thought XD
+	/** Returned for any request outside the finite world bounds. */
+	private final Chunk blankChunk;
 
-	private Chunk[] chunkCache;
-	
-	public ChunkProvider(World world1, IChunkLoader iChunkLoader2, IChunkProvider iChunkProvider3) {		
-		this.worldObj = world1;
-		this.chunkLoader = iChunkLoader2;
-		this.chunkProvider = iChunkProvider3;
-		this.blankChunk = this.getBlankChunk();
-		this.chunkCache = new Chunk[WorldSize.getTotalChunks()];		
+	/** The real generator that produces and populates terrain chunks. */
+	private final IChunkProvider chunkGenerator;
+
+	/** Loads/saves chunk data from and to disk. May be null for purely in-memory worlds. */
+	private final IChunkLoader chunkLoader;
+
+	/** The world this provider belongs to. */
+	private final World world;
+
+	/** Flat cache holding every chunk of the world, indexed by {@link WorldSize#coords2hash}. */
+	private final Chunk[] chunkCache;
+
+	public ChunkProvider(World world, IChunkLoader chunkLoader, IChunkProvider chunkGenerator) {
+		this.world = world;
+		this.chunkLoader = chunkLoader;
+		this.chunkGenerator = chunkGenerator;
+		this.blankChunk = chunkGenerator.makeBlank(world);
+		this.chunkCache = new Chunk[WorldSize.getTotalChunks()];
 	}
-	
+
 	public IChunkProvider getChunkProviderGenerate() {
-		return this.chunkProvider;
-	}
-	
-	private Chunk getBlankChunk() {
-		return this.chunkProvider.makeBlank(this.worldObj);
-	}
-	
-	// Shouldn't be needed
-	public Chunk makeBlank(World world) {
-		return this.chunkProvider.makeBlank(this.worldObj);
+		return this.chunkGenerator;
 	}
 
-	public boolean chunkExists(int xChunk, int zChunk) {
-		if(xChunk < 0 || zChunk < 0 || xChunk >= WorldSize.getXChunks(this.chunkProvider) || zChunk >= WorldSize.getZChunks(this.chunkProvider)) return true;
-		return this.chunkCache[WorldSize.coords2hash(xChunk, zChunk)] != null;
+	/**
+	 * The {@link IChunkProvider} contract requires this method, but the finite world already
+	 * knows its own dimensions, so the supplied world is ignored in favour of {@link #world}.
+	 */
+	public Chunk makeBlank(World ignoredWorld) {
+		return this.chunkGenerator.makeBlank(this.world);
 	}
 
-	public Chunk prepareChunk(int xChunk, int zChunk) {
-		if(xChunk < 0 || xChunk >= WorldSize.getXChunks(this.chunkProvider) || zChunk < 0 || zChunk >= WorldSize.getZChunks(this.chunkProvider)) {
+	public boolean chunkExists(int chunkX, int chunkZ) {
+		// Out-of-bounds chunks are treated as "present" so border populate checks succeed.
+		if(chunkX < 0 || chunkZ < 0 || chunkX >= WorldSize.getXChunks(this.chunkGenerator) || chunkZ >= WorldSize.getZChunks(this.chunkGenerator)) {
+			return true;
+		}
+		return this.chunkCache[WorldSize.coords2hash(chunkX, chunkZ)] != null;
+	}
+
+	public Chunk prepareChunk(int chunkX, int chunkZ) {
+		if(chunkX < 0 || chunkX >= WorldSize.getXChunks(this.chunkGenerator) || chunkZ < 0 || chunkZ >= WorldSize.getZChunks(this.chunkGenerator)) {
 			return this.blankChunk;
-		} else {
-			int hash = WorldSize.coords2hash(xChunk, zChunk);
-			Chunk chunk = this.chunkCache[hash];
-			boolean generated = false;
-			if(chunk == null) {
-				chunk = this.loadChunkFromFile(xChunk, zChunk);
-				
-				if(chunk == null) {
-					if(this.chunkProvider == null) {
-						chunk = this.blankChunk;
-					} else {
-						if(this.debug) System.out.println ("PROVIDING " + xChunk + " " + zChunk);
-						chunk = this.chunkProvider.provideChunk(xChunk, zChunk);
-						generated = true;
-						GlobalVars.didGenerateChunks = true;
-					}
-				} else if(this.debug) System.out.println ("LOADED " + xChunk + " " + zChunk);
-	
-				this.chunkCache[hash] = chunk;
-				
-				if(chunk != null) {
-					chunk.onChunkLoad();
-					if(generated) chunk.initLightingForRealNotJustHeightmap();
-				}
-	
-				if(
-						!chunk.isTerrainPopulated && 
-						this.chunkExists(xChunk + 1, zChunk + 1) && 
-						this.chunkExists(xChunk, zChunk + 1) && 
-						this.chunkExists(xChunk + 1, zChunk)
-				) {
-					this.populate(this, xChunk, zChunk);
-				}
-	
-				if(xChunk > 0) {
-					if(
-						this.chunkExists(xChunk - 1, zChunk) && 
-						!this.provideChunk(xChunk - 1, zChunk).isTerrainPopulated && 
-						this.chunkExists(xChunk - 1, zChunk + 1) && 
-						this.chunkExists(xChunk, zChunk + 1) && 
-						this.chunkExists(xChunk - 1, zChunk)
-					) {
-						this.populate(this, xChunk - 1, zChunk);
-					}
-				}
-	
-				if(zChunk > 0) {
-					if(
-							this.chunkExists(xChunk, zChunk - 1) && 
-							!this.provideChunk(xChunk, zChunk - 1).isTerrainPopulated && 
-							this.chunkExists(xChunk + 1, zChunk - 1) && 
-							this.chunkExists(xChunk, zChunk - 1) && 
-							this.chunkExists(xChunk + 1, zChunk)
-					) {
-						this.populate(this, xChunk, zChunk - 1);
-					}
-				}
-	
-				if(xChunk > 0 && zChunk > 0) {
-					if(
-							this.chunkExists(xChunk - 1, zChunk - 1) && 
-							!this.provideChunk(xChunk - 1, zChunk - 1).isTerrainPopulated && 
-							this.chunkExists(xChunk - 1, zChunk - 1) && 
-							this.chunkExists(xChunk, zChunk - 1) && 
-							this.chunkExists(xChunk - 1, zChunk)
-					) {
-						this.populate(this, xChunk - 1, zChunk - 1);
-					}
-				}
-			}
-			
+		}
+
+		int cacheIndex = WorldSize.coords2hash(chunkX, chunkZ);
+		Chunk chunk = this.chunkCache[cacheIndex];
+		if(chunk != null) {
 			return chunk;
-		}	
+		}
+
+		// Prefer loading from disk; otherwise let the generator create fresh terrain.
+		boolean wasGenerated = false;
+		chunk = this.loadChunkFromFile(chunkX, chunkZ);
+		if(chunk == null) {
+			if(this.chunkGenerator == null) {
+				chunk = this.blankChunk;
+			} else {
+				chunk = this.chunkGenerator.provideChunk(chunkX, chunkZ);
+				wasGenerated = true;
+				GlobalVars.didGenerateChunks = true;
+			}
+		}
+
+		this.chunkCache[cacheIndex] = chunk;
+
+		if(chunk != null) {
+			chunk.onChunkLoad();
+			if(wasGenerated) {
+				chunk.initLightingForRealNotJustHeightmap();
+			}
+		}
+
+		// A chunk can only be populated once its south-east neighbours exist, because features
+		// may read across borders. The same condition is then re-checked for the neighbouring
+		// chunks whose own populate step needed this one to be present.
+		if(!chunk.isTerrainPopulated &&
+				this.chunkExists(chunkX + 1, chunkZ + 1) &&
+				this.chunkExists(chunkX, chunkZ + 1) &&
+				this.chunkExists(chunkX + 1, chunkZ)) {
+			this.populate(this, chunkX, chunkZ);
+		}
+
+		if(chunkX > 0 &&
+				this.chunkExists(chunkX - 1, chunkZ) &&
+				!this.provideChunk(chunkX - 1, chunkZ).isTerrainPopulated &&
+				this.chunkExists(chunkX - 1, chunkZ + 1) &&
+				this.chunkExists(chunkX, chunkZ + 1)) {
+			this.populate(this, chunkX - 1, chunkZ);
+		}
+
+		if(chunkZ > 0 &&
+				this.chunkExists(chunkX, chunkZ - 1) &&
+				!this.provideChunk(chunkX, chunkZ - 1).isTerrainPopulated &&
+				this.chunkExists(chunkX + 1, chunkZ - 1) &&
+				this.chunkExists(chunkX + 1, chunkZ)) {
+			this.populate(this, chunkX, chunkZ - 1);
+		}
+
+		if(chunkX > 0 && chunkZ > 0 &&
+				this.chunkExists(chunkX - 1, chunkZ - 1) &&
+				!this.provideChunk(chunkX - 1, chunkZ - 1).isTerrainPopulated &&
+				this.chunkExists(chunkX, chunkZ - 1) &&
+				this.chunkExists(chunkX - 1, chunkZ)) {
+			this.populate(this, chunkX - 1, chunkZ - 1);
+		}
+
+		return chunk;
 	}
 
-	public Chunk provideChunk(int x, int z) { 
-		if(x < 0 || x >= WorldSize.getXChunks(this.chunkProvider) || z < 0 || z >= WorldSize.getZChunks(this.chunkProvider)) {
+	public Chunk provideChunk(int chunkX, int chunkZ) {
+		if(chunkX < 0 || chunkX >= WorldSize.getXChunks(this.chunkGenerator) || chunkZ < 0 || chunkZ >= WorldSize.getZChunks(this.chunkGenerator)) {
 			return this.blankChunk;
-		} else {
-			Chunk chunk = this.chunkCache[WorldSize.coords2hash(x, z)];
-			return chunk == null ? this.prepareChunk(x, z) : chunk;
 		}
+
+		Chunk chunk = this.chunkCache[WorldSize.coords2hash(chunkX, chunkZ)];
+		return chunk == null ? this.prepareChunk(chunkX, chunkZ) : chunk;
 	}
-	
+
 	public Chunk justGenerateForHeight(int chunkX, int chunkZ) {
-		if(chunkX >= 0 && chunkX < WorldSize.getXChunks(this.chunkProvider) && chunkZ >= 0 && chunkZ < WorldSize.getZChunks(this.chunkProvider)) {
-			return this.chunkProvider.justGenerateForHeight(chunkX, chunkZ);
-		} else {
-			return this.blankChunk;
+		if(chunkX >= 0 && chunkX < WorldSize.getXChunks(this.chunkGenerator) && chunkZ >= 0 && chunkZ < WorldSize.getZChunks(this.chunkGenerator)) {
+			return this.chunkGenerator.justGenerateForHeight(chunkX, chunkZ);
 		}
+		return this.blankChunk;
 	}
 
-	private Chunk loadChunkFromFile(int i1, int i2) {
+	private Chunk loadChunkFromFile(int chunkX, int chunkZ) {
 		if(this.chunkLoader == null) {
 			return null;
-		} else {
-			try {
-				Chunk chunk3 = this.chunkLoader.loadChunk(this.worldObj, i1, i2);
-				if(chunk3 != null) {
-					chunk3.lastSaveTime = this.worldObj.getWorldTime();
+		}
+
+		try {
+			Chunk chunk = this.chunkLoader.loadChunk(this.world, chunkX, chunkZ);
+			if(chunk != null) {
+				chunk.lastSaveTime = this.world.getWorldTime();
+			}
+			return chunk;
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			return null;
+		}
+	}
+
+	private void saveExtraChunkData(Chunk chunk) {
+		if(this.chunkLoader == null) {
+			return;
+		}
+
+		try {
+			this.chunkLoader.saveExtraChunkData(this.world, chunk);
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+	}
+
+	private void saveChunk(Chunk chunk) {
+		if(this.chunkLoader == null) {
+			return;
+		}
+
+		try {
+			chunk.lastSaveTime = this.world.getWorldTime();
+			this.chunkLoader.saveChunk(this.world, chunk);
+		} catch (IOException exception) {
+			exception.printStackTrace();
+		}
+	}
+
+	public void populate(IChunkProvider chunkProvider, int chunkX, int chunkZ) {
+		Chunk chunk = this.provideChunk(chunkX, chunkZ);
+		if(chunk.isTerrainPopulated) {
+			return;
+		}
+
+		chunk.isTerrainPopulated = true;
+		if(this.chunkGenerator == null) {
+			return;
+		}
+
+		this.chunkGenerator.populate(chunkProvider, chunkX, chunkZ);
+		chunk.setChunkModified();
+	}
+
+	public boolean saveChunks(boolean saveAll, IProgressUpdate progress) {
+		int savedCount = 0;
+
+		for(int cacheIndex = 0; cacheIndex < WorldSize.getTotalChunks(); cacheIndex ++) {
+			Chunk chunk = this.chunkCache[cacheIndex];
+			if(chunk == null) {
+				continue;
+			}
+
+			if(saveAll && !chunk.neverSave) {
+				this.saveExtraChunkData(chunk);
+			}
+
+			if(chunk.needsSaving(saveAll)) {
+				this.saveChunk(chunk);
+				chunk.isModified = false;
+				++ savedCount;
+				// During autosave, cap the work per call so the game does not stall.
+				if(savedCount == 24 && !saveAll) {
+					return false;
 				}
-
-				return chunk3;
-			} catch (Exception exception4) {
-				exception4.printStackTrace();
-				return null;
-			}
-		}
-	}
-
-	private void saveExtraChunkData(Chunk chunk1) {
-		if(this.chunkLoader != null) {
-			try {
-				this.chunkLoader.saveExtraChunkData(this.worldObj, chunk1);
-			} catch (Exception exception3) {
-				exception3.printStackTrace();
-			}
-
-		}
-	}
-
-	private void saveChunk(Chunk chunk1) {
-		if(this.chunkLoader != null) {
-			try {
-				chunk1.lastSaveTime = this.worldObj.getWorldTime();
-				this.chunkLoader.saveChunk(this.worldObj, chunk1);
-			} catch (IOException iOException3) {
-				iOException3.printStackTrace();
-			}
-
-		}
-	}
-
-	public void populate(IChunkProvider iChunkProvider1, int x, int z) {
-		Chunk chunk4 = this.provideChunk(x, z);
-		if(!chunk4.isTerrainPopulated) {
-			chunk4.isTerrainPopulated = true;
-			if(this.chunkProvider != null) {
-				if(populateDebug) System.out.println ("Populating " + x + " " + z);
-				this.chunkProvider.populate(iChunkProvider1, x, z);
-				chunk4.setChunkModified();
 			}
 		}
 
-	}
-
-	public boolean saveChunks(boolean z1, IProgressUpdate iProgressUpdate2) {
-		int i3 = 0;
-			
-		for(int i4 = 0; i4 < WorldSize.getTotalChunks(); i4 ++) {
-			Chunk chunk5 = this.chunkCache[i4];
-					
-			if(chunk5 != null) {
-				if(z1 && !chunk5.neverSave) {
-					this.saveExtraChunkData(chunk5);
-				}
-	
-				if(chunk5.needsSaving(z1)) {
-					this.saveChunk(chunk5);
-					chunk5.isModified = false;
-					++i3;
-					if(i3 == 24 && !z1) {
-						return false;
-					}
-				}
-			}
-		}
-
-		if(z1) {
+		if(saveAll) {
 			if(this.chunkLoader == null) {
 				return true;
 			}
-
 			this.chunkLoader.saveExtraData();
 		}
 
 		return true;
 	}
 
+	/** Invalid for a finite world: chunks are kept in memory and never unloaded. */
 	public boolean unload100OldestChunks() {
 		return false;
 	}
@@ -238,6 +248,74 @@ public class ChunkProvider implements IChunkProvider {
 	}
 
 	public String makeString() {
-		return "ServerChunkCache: " + this.chunkCache.length ; 
+		return "ServerChunkCache: " + this.chunkCache.length;
+	}
+
+	/**
+	 * Generates and lights the entire finite world in one non-interactive pass.
+	 * <p>
+	 * The work is split into three deliberately separate phases:
+	 * <ol>
+	 *   <li><b>Terrain</b>: every chunk is generated and cached, but not lit.</li>
+	 *   <li><b>Populate</b>: every chunk is decorated (ores, trees, structures...). Lighting
+	 *       is deferred through {@link World#deferLightingUpdate}, so the thousands of block
+	 *       writes a decorate step performs do not each trigger a Starlight recalculation.</li>
+	 *   <li><b>Light</b>: the height maps are rebuilt and a single full-range lighting pass is
+	 *       run per chunk, with Starlight propagating light across chunk borders.</li>
+	 * </ol>
+	 * Because every chunk exists before populate begins, features that read or write across
+	 * chunk borders behave exactly as they do in the normal interactive path.
+	 *
+	 * @param progress optional sink advanced over {@code 3 * totalChunks} steps
+	 */
+	public void generateWholeWorld(IProgressUpdate progress) {
+		final int totalSteps = WorldSize.getTotalChunks() * 3;
+		int step = 0;
+
+		// Phase 1: terrain only. No lighting yet so that nothing is lit twice.
+		for(int chunkX = 0; chunkX < WorldSize.xChunks; chunkX ++) {
+			for(int chunkZ = 0; chunkZ < WorldSize.zChunks; chunkZ ++) {
+				step = reportProgress(progress, step, totalSteps);
+
+				Chunk chunk = this.chunkGenerator.provideChunk(chunkX, chunkZ);
+				this.chunkCache[WorldSize.coords2hash(chunkX, chunkZ)] = chunk;
+				chunk.onChunkLoad();
+			}
+		}
+		GlobalVars.didGenerateChunks = true;
+
+		// Phase 2: populate with per-block lighting disabled.
+		this.world.deferLightingUpdate = true;
+		try {
+			for(int chunkX = 0; chunkX < WorldSize.xChunks; chunkX ++) {
+				for(int chunkZ = 0; chunkZ < WorldSize.zChunks; chunkZ ++) {
+					step = reportProgress(progress, step, totalSteps);
+					this.populate(this, chunkX, chunkZ);
+				}
+			}
+		} finally {
+			// Always restore the flag: leaving it set would permanently stop all lighting.
+			this.world.deferLightingUpdate = false;
+		}
+
+		// Phase 3: one complete lighting pass over the finished world.
+		for(int chunkX = 0; chunkX < WorldSize.xChunks; chunkX ++) {
+			for(int chunkZ = 0; chunkZ < WorldSize.zChunks; chunkZ ++) {
+				step = reportProgress(progress, step, totalSteps);
+
+				Chunk chunk = this.chunkCache[WorldSize.coords2hash(chunkX, chunkZ)];
+				chunk.generateHeightMap();
+				chunk.generateLandSurfaceHeightMap();
+				chunk.initLightingForRealNotJustHeightmap(true);
+			}
+		}
+	}
+
+	/** Advances the loading progress by one step, if a progress sink was supplied. */
+	private static int reportProgress(IProgressUpdate progress, int step, int totalSteps) {
+		if(progress != null && totalSteps > 0) {
+			progress.setLoadingProgress(step * 100 / totalSteps);
+		}
+		return step + 1;
 	}
 }

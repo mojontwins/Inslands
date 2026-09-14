@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraft.world.GlobalVars;
 import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.chunk.ChunkCoordIntPair;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
@@ -18,182 +20,216 @@ import net.minecraft.world.level.chunk.IChunkLoader;
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.chunk.storage.IProgressUpdate;
 
+/**
+ * Top-level chunk provider used by the dedicated server.
+ * <p>
+ * It wraps the raw terrain generator ({@link #chunkGenerator}) and adds loading, saving and
+ * unloading of chunks, much like vanilla's {@code ChunkProviderServer}. For the finite Inslands
+ * worlds it also offers {@link #generateWholeWorld}, which builds the entire level in one pass.
+ */
 public class ChunkProviderServer implements IChunkProvider {
+	/** Chunk hashes that have been requested for unloading. */
 	private Set<Integer> droppedChunksSet = new HashSet<Integer>();
+
+	/** Returned when a chunk is requested but is neither loaded nor allowed to load. */
 	private Chunk dummyChunk;
-	private IChunkProvider serverChunkGenerator;
+
+	/** Underlying terrain generator (normally a {@code ChunkProviderGenerate}). */
+	private IChunkProvider chunkGenerator;
+
+	/** Loads/saves chunk data from and to disk. May be null. */
 	private IChunkLoader chunkLoader;
+
+	/** When true, chunks are allowed to load even during spawn-point searches. */
 	public boolean chunkLoadOverride = false;
-	private Map<Integer, Chunk> id2ChunkMap = new HashMap<Integer, Chunk>();
-	private List<Chunk> loadedChunksServer = new ArrayList<Chunk>();
+
+	/** Loaded chunks keyed by {@link ChunkCoordIntPair#chunkXZ2Int}. */
+	private Map<Integer, Chunk> chunksById = new HashMap<Integer, Chunk>();
+
+	/** Loaded chunks in load order, used for iteration and saving. */
+	private List<Chunk> loadedChunks = new ArrayList<Chunk>();
+
+	/** Server world owning these chunks. */
 	private WorldServer world;
 
-	public ChunkProviderServer(WorldServer worldServer1, IChunkLoader iChunkLoader2, IChunkProvider iChunkProvider3) {
-		this.dummyChunk = new EmptyChunk(worldServer1, new byte[32768], new byte[32768], 0, 0);
-		this.world = worldServer1;
-		this.chunkLoader = iChunkLoader2;
-		this.serverChunkGenerator = iChunkProvider3;
+	public ChunkProviderServer(WorldServer world, IChunkLoader chunkLoader, IChunkProvider chunkGenerator) {
+		this.dummyChunk = new EmptyChunk(world, new byte[32768], new byte[32768], 0, 0);
+		this.world = world;
+		this.chunkLoader = chunkLoader;
+		this.chunkGenerator = chunkGenerator;
 	}
 
-	public boolean chunkExists(int i1, int i2) {
-		return this.id2ChunkMap.containsKey(ChunkCoordIntPair.chunkXZ2Int(i1, i2));
+	public boolean chunkExists(int chunkX, int chunkZ) {
+		return this.chunksById.containsKey(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ));
 	}
 
-	public void dropChunk(int i1, int i2) {
+	/**
+	 * Requests that a chunk be unloaded, unless it is within the spawn-protection radius of a
+	 * respawn-capable dimension.
+	 */
+	public void dropChunk(int chunkX, int chunkZ) {
 		if(this.world.worldProvider.canRespawnHere()) {
-		ChunkCoordinates chunkCoordinates3 = this.world.getSpawnPoint();
-		int i4 = i1 * 16 + 8 - chunkCoordinates3.posX;
-		int i5 = i2 * 16 + 8 - chunkCoordinates3.posZ;
-		short s6 = 128;
-		if(i4 < -s6 || i4 > s6 || i5 < -s6 || i5 > s6) {
-			this.droppedChunksSet.add(ChunkCoordIntPair.chunkXZ2Int(i1, i2));
-		}
-		} else {
-			this.droppedChunksSet.add(ChunkCoordIntPair.chunkXZ2Int(i1, i2));
+			ChunkCoordinates spawnPoint = this.world.getSpawnPoint();
+			int distanceX = chunkX * 16 + 8 - spawnPoint.posX;
+			int distanceZ = chunkZ * 16 + 8 - spawnPoint.posZ;
+			short protectRadius = 128;
+			if(distanceX >= -protectRadius && distanceX <= protectRadius && distanceZ >= -protectRadius && distanceZ <= protectRadius) {
+				return;
+			}
 		}
 
+		this.droppedChunksSet.add(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ));
 	}
-	
+
 	public void unloadAllChunks() {
-		Iterator<Chunk> iterator1 = this.loadedChunksServer.iterator();
+		Iterator<Chunk> iterator = this.loadedChunks.iterator();
 
-		while(iterator1.hasNext()) {
-			Chunk chunk2 = (Chunk)iterator1.next();
-			this.dropChunk(chunk2.xPosition, chunk2.zPosition);
+		while(iterator.hasNext()) {
+			Chunk chunk = iterator.next();
+			this.dropChunk(chunk.xPosition, chunk.zPosition);
 		}
-
 	}
 
 	public Chunk prepareChunk(int chunkX, int chunkZ) {
 		int hash = ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ);
 		this.droppedChunksSet.remove(hash);
-		Chunk chunk = (Chunk)this.id2ChunkMap.get(hash);
+
+		Chunk chunk = this.chunksById.get(hash);
+		if(chunk != null) {
+			return chunk;
+		}
+
+		// Prefer disk, otherwise let the generator create new terrain.
+		chunk = this.loadChunkFromFile(chunkX, chunkZ);
+		boolean wasGenerated = chunk == null;
 		if(chunk == null) {
-			chunk = this.loadChunkFromFile(chunkX, chunkZ);
-			boolean generated = chunk == null;
-			if(chunk == null) {
-				if(this.serverChunkGenerator == null) {
-					chunk = this.dummyChunk;
-				} else {
-					chunk = this.serverChunkGenerator.provideChunk(chunkX, chunkZ);
-				}
-			}
+			chunk = this.chunkGenerator == null ? this.dummyChunk : this.chunkGenerator.provideChunk(chunkX, chunkZ);
+		}
 
-			this.id2ChunkMap.put(hash, chunk);
-			this.loadedChunksServer.add(chunk);
-			if(chunk != null) {
-				chunk.onChunkLoad();
-				if (generated) chunk.initLightingForRealNotJustHeightmap();
-			}
+		this.chunksById.put(hash, chunk);
+		this.loadedChunks.add(chunk);
 
-			if(!chunk.isTerrainPopulated && this.chunkExists(chunkX + 1, chunkZ + 1) && this.chunkExists(chunkX, chunkZ + 1) && this.chunkExists(chunkX + 1, chunkZ)) {
-				this.populate(this, chunkX, chunkZ);
-			}
+		chunk.onChunkLoad();
+		if(wasGenerated) {
+			chunk.initLightingForRealNotJustHeightmap();
+		}
 
-			if(chunkX > 0) {
-				if(this.chunkExists(chunkX - 1, chunkZ) && !this.provideChunk(chunkX - 1, chunkZ).isTerrainPopulated && this.chunkExists(chunkX - 1, chunkZ + 1) && this.chunkExists(chunkX, chunkZ + 1) && this.chunkExists(chunkX - 1, chunkZ)) {
-					this.populate(this, chunkX - 1, chunkZ);
-				}
-			}
-	
-			if (chunkZ > 0) {
-				if(this.chunkExists(chunkX, chunkZ - 1) && !this.provideChunk(chunkX, chunkZ - 1).isTerrainPopulated && this.chunkExists(chunkX + 1, chunkZ - 1) && this.chunkExists(chunkX, chunkZ - 1) && this.chunkExists(chunkX + 1, chunkZ)) {
-					this.populate(this, chunkX, chunkZ - 1);
-				}
-			}
+		// Populate this chunk once its south-east neighbours exist, then re-check the three
+		// neighbouring chunks whose own populate step needed this one to be present.
+		if(!chunk.isTerrainPopulated && this.chunkExists(chunkX + 1, chunkZ + 1) && this.chunkExists(chunkX, chunkZ + 1) && this.chunkExists(chunkX + 1, chunkZ)) {
+			this.populate(this, chunkX, chunkZ);
+		}
 
-			if (chunkX > 0 && chunkZ > 0) {
-				if(this.chunkExists(chunkX - 1, chunkZ - 1) && !this.provideChunk(chunkX - 1, chunkZ - 1).isTerrainPopulated && this.chunkExists(chunkX - 1, chunkZ - 1) && this.chunkExists(chunkX, chunkZ - 1) && this.chunkExists(chunkX - 1, chunkZ)) {
-					this.populate(this, chunkX - 1, chunkZ - 1);
-				}
+		if(chunkX > 0) {
+			if(this.chunkExists(chunkX - 1, chunkZ) && !this.provideChunk(chunkX - 1, chunkZ).isTerrainPopulated && this.chunkExists(chunkX - 1, chunkZ + 1) && this.chunkExists(chunkX, chunkZ + 1)) {
+				this.populate(this, chunkX - 1, chunkZ);
+			}
+		}
+
+		if(chunkZ > 0) {
+			if(this.chunkExists(chunkX, chunkZ - 1) && !this.provideChunk(chunkX, chunkZ - 1).isTerrainPopulated && this.chunkExists(chunkX + 1, chunkZ - 1) && this.chunkExists(chunkX + 1, chunkZ)) {
+				this.populate(this, chunkX, chunkZ - 1);
+			}
+		}
+
+		if(chunkX > 0 && chunkZ > 0) {
+			if(this.chunkExists(chunkX - 1, chunkZ - 1) && !this.provideChunk(chunkX - 1, chunkZ - 1).isTerrainPopulated && this.chunkExists(chunkX, chunkZ - 1) && this.chunkExists(chunkX - 1, chunkZ)) {
+				this.populate(this, chunkX - 1, chunkZ - 1);
 			}
 		}
 
 		return chunk;
 	}
 
-	public Chunk provideChunk(int i1, int i2) {
-		Chunk chunk3 = (Chunk)this.id2ChunkMap.get(ChunkCoordIntPair.chunkXZ2Int(i1, i2));
-		return chunk3 == null ? (!this.world.findingSpawnPoint && !this.chunkLoadOverride ? this.dummyChunk : this.prepareChunk(i1, i2)) : chunk3;
+	public Chunk provideChunk(int chunkX, int chunkZ) {
+		Chunk chunk = this.chunksById.get(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ));
+		if(chunk != null) {
+			return chunk;
+		}
+		return this.world.findingSpawnPoint || this.chunkLoadOverride ? this.prepareChunk(chunkX, chunkZ) : this.dummyChunk;
 	}
 
-	private Chunk loadChunkFromFile(int i1, int i2) {
+	private Chunk loadChunkFromFile(int chunkX, int chunkZ) {
 		if(this.chunkLoader == null) {
 			return null;
-		} else {
-			try {
-				Chunk chunk3 = this.chunkLoader.loadChunk(this.world, i1, i2);
-				if(chunk3 != null) {
-					chunk3.lastSaveTime = this.world.getWorldTime();
-				}
+		}
 
-				return chunk3;
-			} catch (Exception exception4) {
-				exception4.printStackTrace();
-				return null;
+		try {
+			Chunk chunk = this.chunkLoader.loadChunk(this.world, chunkX, chunkZ);
+			if(chunk != null) {
+				chunk.lastSaveTime = this.world.getWorldTime();
 			}
+			return chunk;
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			return null;
 		}
 	}
 
-	private void saveChunkExtraData(Chunk chunk1) {
-		if(this.chunkLoader != null) {
-			try {
-				this.chunkLoader.saveExtraChunkData(this.world, chunk1);
-			} catch (Exception exception3) {
-				exception3.printStackTrace();
-			}
+	private void saveChunkExtraData(Chunk chunk) {
+		if(this.chunkLoader == null) {
+			return;
+		}
 
+		try {
+			this.chunkLoader.saveExtraChunkData(this.world, chunk);
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
 	}
 
-	private void saveChunkData(Chunk chunk1) {
-		if(this.chunkLoader != null) {
-			try {
-				chunk1.lastSaveTime = this.world.getWorldTime();
-				this.chunkLoader.saveChunk(this.world, chunk1);
-			} catch (IOException iOException3) {
-				iOException3.printStackTrace();
-			}
+	private void saveChunkData(Chunk chunk) {
+		if(this.chunkLoader == null) {
+			return;
+		}
 
+		try {
+			chunk.lastSaveTime = this.world.getWorldTime();
+			this.chunkLoader.saveChunk(this.world, chunk);
+		} catch (IOException exception) {
+			exception.printStackTrace();
 		}
 	}
 
-	public void populate(IChunkProvider iChunkProvider1, int i2, int i3) {
-		Chunk chunk4 = this.provideChunk(i2, i3);
-		if(!chunk4.isTerrainPopulated) {
-			chunk4.isTerrainPopulated = true;
-			if(this.serverChunkGenerator != null) {
-				this.serverChunkGenerator.populate(iChunkProvider1, i2, i3);
-				chunk4.setChunkModified();
-			}
+	public void populate(IChunkProvider chunkProvider, int chunkX, int chunkZ) {
+		Chunk chunk = this.provideChunk(chunkX, chunkZ);
+		if(chunk.isTerrainPopulated) {
+			return;
 		}
 
+		chunk.isTerrainPopulated = true;
+		if(this.chunkGenerator == null) {
+			return;
+		}
+
+		this.chunkGenerator.populate(chunkProvider, chunkX, chunkZ);
+		chunk.setChunkModified();
 	}
 
-	public boolean saveChunks(boolean z1, IProgressUpdate iProgressUpdate2) {
-		int i3 = 0;
+	public boolean saveChunks(boolean saveAll, IProgressUpdate progress) {
+		int savedCount = 0;
 
-		for(int i4 = 0; i4 < this.loadedChunksServer.size(); ++i4) {
-			Chunk chunk5 = (Chunk)this.loadedChunksServer.get(i4);
-			if(z1 && !chunk5.neverSave) {
-				this.saveChunkExtraData(chunk5);
+		for(int index = 0; index < this.loadedChunks.size(); ++index) {
+			Chunk chunk = this.loadedChunks.get(index);
+			if(saveAll && !chunk.neverSave) {
+				this.saveChunkExtraData(chunk);
 			}
 
-			if(chunk5.needsSaving(z1)) {
-				this.saveChunkData(chunk5);
-				chunk5.isModified = false;
-				++i3;
-				if(i3 == 24 && !z1) {
+			if(chunk.needsSaving(saveAll)) {
+				this.saveChunkData(chunk);
+				chunk.isModified = false;
+				++ savedCount;
+				// During autosave, cap the work per call so the game does not stall.
+				if(savedCount == 24 && !saveAll) {
 					return false;
 				}
 			}
 		}
 
-		if(z1) {
+		if(saveAll) {
 			if(this.chunkLoader == null) {
 				return true;
 			}
-
 			this.chunkLoader.saveExtraData();
 		}
 
@@ -202,16 +238,16 @@ public class ChunkProviderServer implements IChunkProvider {
 
 	public boolean unload100OldestChunks() {
 		if(!this.world.levelSaving) {
-			for(int i1 = 0; i1 < 100; ++i1) {
+			for(int i = 0; i < 100; ++i) {
 				if(!this.droppedChunksSet.isEmpty()) {
-					Integer integer2 = (Integer)this.droppedChunksSet.iterator().next();
-					Chunk chunk3 = (Chunk)this.id2ChunkMap.get(integer2);
-					chunk3.onChunkUnload();
-					this.saveChunkData(chunk3);
-					this.saveChunkExtraData(chunk3);
-					this.droppedChunksSet.remove(integer2);
-					this.id2ChunkMap.remove(integer2);
-					this.loadedChunksServer.remove(chunk3);
+					Integer hash = this.droppedChunksSet.iterator().next();
+					Chunk chunk = this.chunksById.get(hash);
+					chunk.onChunkUnload();
+					this.saveChunkData(chunk);
+					this.saveChunkExtraData(chunk);
+					this.droppedChunksSet.remove(hash);
+					this.chunksById.remove(hash);
+					this.loadedChunks.remove(chunk);
 				}
 			}
 
@@ -220,29 +256,97 @@ public class ChunkProviderServer implements IChunkProvider {
 			}
 		}
 
-		return this.serverChunkGenerator.unload100OldestChunks();
+		return this.chunkGenerator.unload100OldestChunks();
 	}
 
 	public boolean canSave() {
 		return !this.world.levelSaving;
 	}
-	
+
 	public String makeString() {
-		return "ServerChunkCache: " + this.id2ChunkMap.size() + " Drop: " + this.droppedChunksSet.size();
+		return "ServerChunkCache: " + this.chunksById.size() + " Drop: " + this.droppedChunksSet.size();
 	}
 
 	@Override
-	public Chunk justGenerateForHeight(int i, int j) {
-		return this.serverChunkGenerator.justGenerateForHeight(i, i);
+	public Chunk justGenerateForHeight(int chunkX, int chunkZ) {
+		return this.chunkGenerator.justGenerateForHeight(chunkX, chunkZ);
 	}
 
 	@Override
 	public IChunkProvider getChunkProviderGenerate() {
-		return serverChunkGenerator;
+		return this.chunkGenerator;
 	}
 
 	@Override
-	public Chunk makeBlank(World worldObj) {
-		return this.serverChunkGenerator.makeBlank(worldObj);
+	public Chunk makeBlank(World ignoredWorld) {
+		return this.chunkGenerator.makeBlank(ignoredWorld);
+	}
+
+	/**
+	 * Generates and lights the entire finite world in one non-interactive pass.
+	 * <p>
+	 * The work is split into three deliberately separate phases:
+	 * <ol>
+	 *   <li><b>Terrain</b>: every chunk is generated and cached, but not lit.</li>
+	 *   <li><b>Populate</b>: every chunk is decorated (ores, trees, structures...). Lighting
+	 *       is deferred through {@link World#deferLightingUpdate}, so the thousands of block
+	 *       writes a decorate step performs do not each trigger a Starlight recalculation.</li>
+	 *   <li><b>Light</b>: the height maps are rebuilt and a single full-range lighting pass is
+	 *       run per chunk, with Starlight propagating light across chunk borders.</li>
+	 * </ol>
+	 * Because every chunk exists before populate begins, features that read or write across
+	 * chunk borders behave exactly as they do in the normal interactive path.
+	 *
+	 * @param progress optional sink advanced over {@code 3 * totalChunks} steps
+	 */
+	public void generateWholeWorld(IProgressUpdate progress) {
+		final int totalSteps = WorldSize.getTotalChunks() * 3;
+		int step = 0;
+
+		// Phase 1: terrain only. No lighting yet so that nothing is lit twice.
+		for(int chunkX = 0; chunkX < WorldSize.xChunks; chunkX ++) {
+			for(int chunkZ = 0; chunkZ < WorldSize.zChunks; chunkZ ++) {
+				step = reportProgress(progress, step, totalSteps);
+
+				Chunk chunk = this.chunkGenerator.provideChunk(chunkX, chunkZ);
+				int hash = ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ);
+				this.chunksById.put(hash, chunk);
+				this.loadedChunks.add(chunk);
+				chunk.onChunkLoad();
+			}
+		}
+		GlobalVars.didGenerateChunks = true;
+
+		// Phase 2: populate with per-block lighting disabled.
+		this.world.deferLightingUpdate = true;
+		try {
+			for(int chunkX = 0; chunkX < WorldSize.xChunks; chunkX ++) {
+				for(int chunkZ = 0; chunkZ < WorldSize.zChunks; chunkZ ++) {
+					step = reportProgress(progress, step, totalSteps);
+					this.populate(this, chunkX, chunkZ);
+				}
+			}
+		} finally {
+			// Always restore the flag: leaving it set would permanently stop all lighting.
+			this.world.deferLightingUpdate = false;
+		}
+
+		// Phase 3: one complete lighting pass over the finished world.
+		for(int index = 0; index < this.loadedChunks.size(); index ++) {
+			step = reportProgress(progress, step, totalSteps);
+
+			Chunk chunk = this.loadedChunks.get(index);
+			chunk.generateHeightMap();
+			chunk.generateLandSurfaceHeightMap();
+			chunk.initLightingForRealNotJustHeightmap(true);
+		}
+	}
+
+	/** Advances the loading progress by one step, if a progress sink was supplied. */
+	private static int reportProgress(IProgressUpdate progress, int step, int totalSteps) {
+		if(progress != null && totalSteps > 0) {
+			progress.setLoadingProgress(step * 100 / totalSteps);
+		}
+		return step + 1;
 	}
 }
