@@ -6,149 +6,302 @@ import net.minecraft.world.level.World;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.IGroundSubstitute;
 
+/**
+ * A cell-based maze held on a "raw" grid, plus helpers that stamp the maze
+ * into a {@link World}.
+ *
+ * <h3>The raw grid</h3>
+ * The maze is generated on a grid of {@code cellsWide x cellsDeep} cells
+ * (see {@link #generateRecursiveBacktracker}). Before it is drawn into the
+ * world, the cell grid is mapped onto a finer "raw" grid that keeps one entry
+ * per strip, where strips are either a whole cell or a cell divider:
+ *
+ * <pre>
+ *   raw index    meaning                   world thickness
+ *   -----------------------------------------------------------
+ *   odd  (2k+1)  the passage cell k        {@link #cellStripWidth} blocks
+ *   even (2k)    the divider wall at cell k {@link #wallStripWidth} blocks
+ * </pre>
+ *
+ * The raw grid therefore holds {@code 2*cellsWide+1} by {@code 2*cellsDeep+1}
+ * entries. Cell {@code (cx, cz)} lives at raw {@code (cx*2+1, cz*2+1)} and the
+ * divider wall between neighbouring cells {@code (a,z)} and {@code (b,z)} sits
+ * at raw {@code (a*2+2, z*2+1)} (one of the even indices).
+ *
+ * <h3>Raw-grid values</h3>
+ * <ul>
+ *   <li>{@link #WALL_RAW} (0)      - closed wall / not-yet-carved cell</li>
+ *   <li>{@link #PASSAGE_RAW} (1)   - carved open passage cell</li>
+ *   <li>{@link #OPEN_WALL_RAW} (2) - a divider wall knocked open by the carver</li>
+ *   <li>{@link #ROOM} (5)          - part of a carved dungeon room</li>
+ *   <li>{@link #OUT_OF_BOUNDS}     - reads that land outside the grid</li>
+ * </ul>
+ * When the maze is stamped into the world, every non-zero value is treated as
+ * "open space"; value 0 is drawn as a wall.
+ */
 public class TFMaze {
-	public int width;
-	public int depth;
-	public int oddBias = 3;
-	public int evenBias = 1;
-	public int tall = 3;
-	public int roots = 0;
-	public int worldX;
-	public int worldY;
-	public int worldZ;
-	public int type;
-	public int wallblockID = Block.mazeStone.blockID;
-	public int wallBlockMeta = 0;
-	public int rootblockID = Block.mazeStone.blockID;
-	public int rootBlockMeta = 1;
-	public int torchblockID = Block.torchWood.blockID;
-	public int torchBlockMeta = 0;
-	public int torchRarity = 2;
-	public int rawWidth;
-	public int rawDepth;
-	public int[] storage;
+
+	// ---------------------------------------------------------------------
+	// Raw-grid values / sentinels
+	// ---------------------------------------------------------------------
+
+	/** Value returned by raw-grid reads that fall outside the grid. */
 	public static final int OUT_OF_BOUNDS = Integer.MIN_VALUE;
-	public static final int OOB = Integer.MIN_VALUE;
+
+	/** Raw-grid value marking the blocks of a carved room. */
 	public static final int ROOM = 5;
-	public Random rand = new Random();
 
-	public TFMaze(int cellsWidth, int cellsDepth) {
-		this.width = cellsWidth;
-		this.depth = cellsDepth;
-		this.rawWidth = this.width * 2 + 1;
-		this.rawDepth = this.depth * 2 + 1;
-		this.storage = new int[this.rawWidth * this.rawDepth];
+	/** Raw-grid value for a closed wall (or a not-yet-carved cell). */
+	public static final int WALL_RAW = 0;
+
+	/** Raw-grid value for a carved open passage cell. */
+	public static final int PASSAGE_RAW = 1;
+
+	/** Raw-grid value for a divider wall that has been knocked open. */
+	public static final int OPEN_WALL_RAW = 2;
+
+	// ---------------------------------------------------------------------
+	// Maze dimensions (measured in cells)
+	// ---------------------------------------------------------------------
+
+	/** Number of maze cells along the X axis. */
+	public int cellsWide;
+
+	/** Number of maze cells along the Z axis. */
+	public int cellsDeep;
+
+	// ---------------------------------------------------------------------
+	// Strip thickness (controls how thick the maze walls / passages are)
+	// ---------------------------------------------------------------------
+
+	/**
+	 * World thickness of the raw strips at even raw indices: the 1-block wide
+	 * divider walls between cells.
+	 */
+	public int wallStripWidth = 1;
+
+	/**
+	 * World thickness of the raw strips at odd raw indices: the cell passages.
+	 * Defaults to 3 (the hill maze); the hedge maze overrides this to 2.
+	 */
+	public int cellStripWidth = 3;
+
+	// ---------------------------------------------------------------------
+	// Stamping parameters
+	// ---------------------------------------------------------------------
+
+	/** How many blocks high every wall is built. */
+	public int wallHeight = 3;
+
+	/** How far below the maze floor the wall "roots" are extended. */
+	public int rootDepth = 0;
+
+	/**
+	 * Origin (minimum corner) block coordinate of the maze, recorded by
+	 * {@link #copyToWorld} / {@link #carveToWorld} and used by the
+	 * decoration helpers.
+	 */
+	public int originX;
+	public int originY;
+	public int originZ;
+
+	/**
+	 * Placement policy used by the block writers:
+	 * {@code 0} (default) only replaces {@link IGroundSubstitute} blocks,
+	 * {@code 4} (set by the hedge maze) replaces anything.
+	 */
+	public int forceOverwrite = 0;
+
+	/** Block + metadata used for walls. */
+	public int wallBlockID = Block.mazeStone.blockID;
+	public int wallBlockMeta = 0;
+
+	/** Block + metadata used for the wall roots. */
+	public int rootBlockID = Block.mazeStone.blockID;
+	public int rootBlockMeta = 1;
+
+	/** Block + metadata used for torches placed by {@link #placeTorches}. */
+	public int torchBlockID = Block.torchWood.blockID;
+	public int torchBlockMeta = 0;
+
+	// ---------------------------------------------------------------------
+	// Raw grid
+	// ---------------------------------------------------------------------
+
+	/** Raw-grid dimensions: {@code 2*cellsWide+1} and {@code 2*cellsDeep+1}. */
+	public int gridWidth;
+	public int gridDepth;
+
+	/** Flat array holding the raw grid (one int per raw cell). */
+	public int[] grid;
+
+	/** Random source used by the maze generation. */
+	public Random random = new Random();
+
+	// ---------------------------------------------------------------------
+	// Construction
+	// ---------------------------------------------------------------------
+
+	public TFMaze(int cellsWide, int cellsDeep) {
+		this.cellsWide = cellsWide;
+		this.cellsDeep = cellsDeep;
+		this.gridWidth = cellsWide * 2 + 1;
+		this.gridDepth = cellsDeep * 2 + 1;
+		this.grid = new int[this.gridWidth * this.gridDepth];
 	}
 
-	public int getCell(int x, int z) {
-		return this.getRaw(x * 2 + 1, z * 2 + 1);
+	// ---------------------------------------------------------------------
+	// Cell-level access (coordinates are in maze cells)
+	// ---------------------------------------------------------------------
+
+	/** Returns the raw-grid value stored in cell {@code (cellX, cellZ)}. */
+	public int getCell(int cellX, int cellZ) {
+		return this.getRawCell(cellX * 2 + 1, cellZ * 2 + 1);
 	}
 
-	public void putCell(int x, int z, int value) {
-		this.putRaw(x * 2 + 1, z * 2 + 1, value);
+	/** Writes a raw-grid value into cell {@code (cellX, cellZ)}. */
+	public void putCell(int cellX, int cellZ, int value) {
+		this.putRawCell(cellX * 2 + 1, cellZ * 2 + 1, value);
 	}
 
-	public boolean cellEquals(int x, int z, int value) {
-		return this.getCell(x, z) == value;
+	/** True if cell {@code (cellX, cellZ)} currently holds the given value. */
+	public boolean cellEquals(int cellX, int cellZ, int value) {
+		return this.getCell(cellX, cellZ) == value;
 	}
 
-	public int getWall(int sx, int sz, int dx, int dz) {
-		if(dx == sx + 1 && dz == sz) {
-			return this.getRaw(sx * 2 + 2, sz * 2 + 1);
-		} else if(dx == sx - 1 && dz == sz) {
-			return this.getRaw(sx * 2 + 0, sz * 2 + 1);
-		} else if(dx == sx && dz == sz + 1) {
-			return this.getRaw(sx * 2 + 1, sz * 2 + 2);
-		} else if(dx == sx && dz == sz - 1) {
-			return this.getRaw(sx * 2 + 1, sz * 2 + 0);
+	/**
+	 * Returns the raw-grid value of the divider wall between cell
+	 * {@code (fromCellX, fromCellZ)} and its neighbour {@code (toCellX, toCellZ)}.
+	 * The two cells must be cardinally adjacent.
+	 */
+	public int getWall(int fromCellX, int fromCellZ, int toCellX, int toCellZ) {
+		if(toCellX == fromCellX + 1 && toCellZ == fromCellZ) {
+			// wall on the +X side of the cell
+			return this.getRawCell(fromCellX * 2 + 2, fromCellZ * 2 + 1);
+		} else if(toCellX == fromCellX - 1 && toCellZ == fromCellZ) {
+			// wall on the -X side
+			return this.getRawCell(fromCellX * 2 + 0, fromCellZ * 2 + 1);
+		} else if(toCellX == fromCellX && toCellZ == fromCellZ + 1) {
+			// wall on the +Z side
+			return this.getRawCell(fromCellX * 2 + 1, fromCellZ * 2 + 2);
+		} else if(toCellX == fromCellX && toCellZ == fromCellZ - 1) {
+			// wall on the -Z side
+			return this.getRawCell(fromCellX * 2 + 1, fromCellZ * 2 + 0);
 		} else {
-			System.out.println("Wall check out of bounds; s = " + sx + ", " + sz + "; d = " + dx + ", " + dz);
-			return Integer.MIN_VALUE;
+			System.out.println("Wall check out of bounds; s = " + fromCellX + ", " + fromCellZ + "; d = " + toCellX + ", " + toCellZ);
+			return OUT_OF_BOUNDS;
 		}
 	}
 
-	public void putWall(int sx, int sz, int dx, int dz, int value) {
-		if(dx == sx + 1 && dz == sz) {
-			this.putRaw(sx * 2 + 2, sz * 2 + 1, value);
+	/**
+	 * Writes a raw-grid value into the divider wall between two adjacent cells.
+	 */
+	public void putWall(int fromCellX, int fromCellZ, int toCellX, int toCellZ, int value) {
+		if(toCellX == fromCellX + 1 && toCellZ == fromCellZ) {
+			this.putRawCell(fromCellX * 2 + 2, fromCellZ * 2 + 1, value);
 		}
 
-		if(dx == sx - 1 && dz == sz) {
-			this.putRaw(sx * 2 + 0, sz * 2 + 1, value);
+		if(toCellX == fromCellX - 1 && toCellZ == fromCellZ) {
+			this.putRawCell(fromCellX * 2 + 0, fromCellZ * 2 + 1, value);
 		}
 
-		if(dx == sx && dz == sz + 1) {
-			this.putRaw(sx * 2 + 1, sz * 2 + 2, value);
+		if(toCellX == fromCellX && toCellZ == fromCellZ + 1) {
+			this.putRawCell(fromCellX * 2 + 1, fromCellZ * 2 + 2, value);
 		}
 
-		if(dx == sx && dz == sz - 1) {
-			this.putRaw(sx * 2 + 1, sz * 2 + 0, value);
-		}
-
-	}
-
-	public boolean isWall(int sx, int sz, int dx, int dz) {
-		return this.getWall(sx, sz, dx, dz) == 0;
-	}
-
-	protected void putRaw(int rawx, int rawz, int value) {
-		if(rawx >= 0 && rawx < this.rawWidth && rawz >= 0 && rawz < this.rawDepth) {
-			this.storage[rawz * this.rawWidth + rawx] = value;
+		if(toCellX == fromCellX && toCellZ == fromCellZ - 1) {
+			this.putRawCell(fromCellX * 2 + 1, fromCellZ * 2 + 0, value);
 		}
 
 	}
 
-	protected int getRaw(int rawx, int rawz) {
-		return rawx >= 0 && rawx < this.rawWidth && rawz >= 0 && rawz < this.rawDepth ? this.storage[rawz * this.rawWidth + rawx] : Integer.MIN_VALUE;
+	/**
+	 * True if the divider wall between the two given cells is still standing
+	 * (it has not been knocked open by the carver). Out-of-grid neighbours
+	 * report "not a wall", i.e. the maze border counts as open.
+	 */
+	public boolean isWall(int fromCellX, int fromCellZ, int toCellX, int toCellZ) {
+		return this.getWall(fromCellX, fromCellZ, toCellX, toCellZ) == WALL_RAW;
 	}
 
-	public void copyToWorld(World world, int x0, int y0, int z0) {
-		this.worldX = x0;
-		this.worldY = y0;
-		this.worldZ = z0;
+	// ---------------------------------------------------------------------
+	// Raw-grid access (coordinates are raw grid indices)
+	// ---------------------------------------------------------------------
 
-		for(int x = 0; x < this.rawWidth; ++x) {
-			for(int z = 0; z < this.rawDepth; ++z) {
-				int mx0 = x0 + x / 2 * (this.evenBias + this.oddBias); // x0 + x / 2 * 4 = x0 + (x / 2) * 4 = x0 + 4x / 2 = x0 + 2x
-				int mz0 = z0 + z / 2 * (this.evenBias + this.oddBias);
-				int i, j, y;
-				
-				// I've rewritten this algorithm. x, z traverse the `storage` array via `this.getRaw`.
-				// If x or z are even, they represent a single block wide row or column in the array.
-				// If x or z are odd, they represent a 3(default) block wide row or column in the array.
-				// If the value read is 0, that means a wall. Otherwise we must carve.
-				
-				// · ···
-				//     
-				// · ···
-				// · ···
-				// · ···
-				
-				int bx = this.isEven(x) ? this.evenBias : this.oddBias;
-				int ox = this.isEven(x) ? 0 : 1;
-				int bz = this.isEven(z) ? this.evenBias : this.oddBias;
-				int oz = this.isEven(z) ? 0 : 1;
-				
-				if(this.getRaw(x, z) == 0) {	
-					// If we got a 0, this means wall. 
-					
-					for(i = 0; i < bx; i ++) {
-						for(j = 0; j < bz; j ++) {
-							for(y = 0; y < this.tall; ++y) {
-								this.putWallBlock(world, mx0 + ox + i, y0 + y, mz0 + oz + j);
+	/** Index into the flat {@link #grid} array for the given raw coords. */
+	private int gridIndex(int rawX, int rawZ) {
+		return rawZ * this.gridWidth + rawX;
+	}
+
+	protected void putRawCell(int rawX, int rawZ, int value) {
+		if(rawX >= 0 && rawX < this.gridWidth && rawZ >= 0 && rawZ < this.gridDepth) {
+			this.grid[this.gridIndex(rawX, rawZ)] = value;
+		}
+
+	}
+
+	protected int getRawCell(int rawX, int rawZ) {
+		return rawX >= 0 && rawX < this.gridWidth && rawZ >= 0 && rawZ < this.gridDepth ? this.grid[this.gridIndex(rawX, rawZ)] : OUT_OF_BOUNDS;
+	}
+
+	public boolean isEven(int n) {
+		return n % 2 == 0;
+	}
+
+	// ---------------------------------------------------------------------
+	// Stamping into the world
+	// ---------------------------------------------------------------------
+
+	/**
+	 * Draws the maze into the world with its minimum corner at
+	 * {@code (minX, originY=minY, minZ)}.
+	 *
+	 * <p>Each raw entry is expanded to a {@link #wallStripWidth}/{@link #cellStripWidth}
+	 * block wide strip: odd raw indices are the wide passages, even raw
+	 * indices are the thin divider walls. A wall value ({@link #WALL_RAW})
+	 * builds a wall column plus its roots; any other value carves the same
+	 * footprint out of the terrain.</p>
+	 */
+	public void copyToWorld(World world, int minX, int minY, int minZ) {
+		this.originX = minX;
+		this.originY = minY;
+		this.originZ = minZ;
+
+		int stripStride = this.wallStripWidth + this.cellStripWidth;
+
+		for(int rawX = 0; rawX < this.gridWidth; rawX++) {
+			for(int rawZ = 0; rawZ < this.gridDepth; rawZ++) {
+				// World coordinate of this raw strip's base line: every pair
+				// of raw indices (wall + passage) advances one stripStride.
+				int stripBaseX = minX + rawX / 2 * stripStride;
+				int stripBaseZ = minZ + rawZ / 2 * stripStride;
+
+				// Even raw indices are single-block divider walls; odd raw
+				// indices are wide passages starting one block in.
+				int stripWidthX = this.isEven(rawX) ? this.wallStripWidth : this.cellStripWidth;
+				int stripOffsetX = this.isEven(rawX) ? 0 : 1;
+				int stripWidthZ = this.isEven(rawZ) ? this.wallStripWidth : this.cellStripWidth;
+				int stripOffsetZ = this.isEven(rawZ) ? 0 : 1;
+
+				if(this.getRawCell(rawX, rawZ) == WALL_RAW) {
+					// Closed wall: raise the wall column and sink its roots.
+					for(int colX = 0; colX < stripWidthX; colX++) {
+						for(int colZ = 0; colZ < stripWidthZ; colZ++) {
+							for(int up = 0; up < this.wallHeight; up++) {
+								this.putWallBlock(world, stripBaseX + stripOffsetX + colX, minY + up, stripBaseZ + stripOffsetZ + colZ);
 							}
 
-							for(y = 0; y <= this.roots; ++y) {
-								this.putRootBlock(world, mx0 + ox + i, y0 - y, mz0 + oz + j);
+							for(int down = 0; down <= this.rootDepth; down++) {
+								this.putRootBlock(world, stripBaseX + stripOffsetX + colX, minY - down, stripBaseZ + stripOffsetZ + colZ);
 							}
 						}
 					}
 				} else {
-					// Otherwise it means carve.
-					
-					for(i = 0; i < bx; i ++) {
-						for(j = 0; j < bz; j ++) {
-							for(y = 0; y < this.tall; ++y) {
-								this.carveBlock(world, mx0 + i + ox, y0 + y, mz0 + j + oz);
+					// Open space: carve out the corresponding footprint.
+					for(int colX = 0; colX < stripWidthX; colX++) {
+						for(int colZ = 0; colZ < stripWidthZ; colZ++) {
+							for(int up = 0; up < this.wallHeight; up++) {
+								this.carveBlock(world, stripBaseX + stripOffsetX + colX, minY + up, stripBaseZ + stripOffsetZ + colZ);
 							}
 						}
 					}
@@ -159,40 +312,50 @@ public class TFMaze {
 		this.placeTorches(world);
 	}
 
-	public void carveToWorld(World world, int dx, int dy, int dz) {
-		this.worldX = dx;
-		this.worldY = dy;
-		this.worldZ = dz;
+	/**
+	 * Like {@link #copyToWorld} but only carves (opens) the passages,
+	 * leaving the untouched wall strips in place. Used to punch a maze into
+	 * already-generated terrain.
+	 */
+	public void carveToWorld(World world, int originX, int originY, int originZ) {
+		this.originX = originX;
+		this.originY = originY;
+		this.originZ = originZ;
 
-		for(int x = 0; x < this.rawWidth; ++x) {
-			for(int z = 0; z < this.rawDepth; ++z) {
-				if(this.getRaw(x, z) != 0) {
-					int mdx = dx + x / 2 * (this.evenBias + this.oddBias);
-					int mdz = dz + z / 2 * (this.evenBias + this.oddBias);
-					int mx;
-					if(this.isEven(x) && this.isEven(z)) {
-						for(mx = 0; mx < this.tall; ++mx) {
-							this.carveBlock(world, mdx, dy + mx, mdz);
+		int stripStride = this.wallStripWidth + this.cellStripWidth;
+
+		for(int rawX = 0; rawX < this.gridWidth; rawX++) {
+			for(int rawZ = 0; rawZ < this.gridDepth; rawZ++) {
+				if(this.getRawCell(rawX, rawZ) != WALL_RAW) {
+					int stripBaseX = originX + rawX / 2 * stripStride;
+					int stripBaseZ = originZ + rawZ / 2 * stripStride;
+
+					if(this.isEven(rawX) && this.isEven(rawZ)) {
+						// Intersection of two divider walls: single tall column.
+						for(int up = 0; up < this.wallHeight; up++) {
+							this.carveBlock(world, stripBaseX, originY + up, stripBaseZ);
 						}
 					} else {
-						int mz;
-						if(this.isEven(x) && !this.isEven(z)) {
-							for(mx = 1; mx <= this.oddBias; ++mx) {
-								for(mz = 0; mz < this.tall; ++mz) {
-									this.carveBlock(world, mdx, dy + mz, mdz + mx);
+						if(this.isEven(rawX) && !this.isEven(rawZ)) {
+							// X wall strip crossing a Z passage strip.
+							for(int passage = 1; passage <= this.cellStripWidth; passage++) {
+								for(int up = 0; up < this.wallHeight; up++) {
+									this.carveBlock(world, stripBaseX, originY + up, stripBaseZ + passage);
 								}
 							}
-						} else if(!this.isEven(x) && this.isEven(z)) {
-							for(mx = 1; mx <= this.oddBias; ++mx) {
-								for(mz = 0; mz < this.tall; ++mz) {
-									this.carveBlock(world, mdx + mx, dy + mz, mdz);
+						} else if(!this.isEven(rawX) && this.isEven(rawZ)) {
+							// X passage strip crossing a Z wall strip.
+							for(int passage = 1; passage <= this.cellStripWidth; passage++) {
+								for(int up = 0; up < this.wallHeight; up++) {
+									this.carveBlock(world, stripBaseX + passage, originY + up, stripBaseZ);
 								}
 							}
-						} else if(!this.isEven(x) && !this.isEven(z)) {
-							for(mx = 1; mx <= this.oddBias; ++mx) {
-								for(mz = 1; mz <= this.oddBias; ++mz) {
-									for(int y = 0; y < this.tall; ++y) {
-										this.carveBlock(world, mdx + mx, dy + y, mdz + mz);
+						} else if(!this.isEven(rawX) && !this.isEven(rawZ)) {
+							// Passage interior.
+							for(int offX = 1; offX <= this.cellStripWidth; offX++) {
+								for(int offZ = 1; offZ <= this.cellStripWidth; offZ++) {
+									for(int up = 0; up < this.wallHeight; up++) {
+										this.carveBlock(world, stripBaseX + offX, originY + up, stripBaseZ + offZ);
 									}
 								}
 							}
@@ -205,36 +368,50 @@ public class TFMaze {
 		this.placeTorches(world);
 	}
 
+	/**
+	 * Places a wall block. Unless {@link #forceOverwrite} is non-zero, the
+	 * block is only placed over {@link IGroundSubstitute} terrain.
+	 */
 	protected void putWallBlock(World world, int x, int y, int z) {
-		if(this.type == 4 || world.getBlock(x, y, z) instanceof IGroundSubstitute)
-			world.setBlockAndMetadataWithNotify(x, y, z, this.wallblockID, this.wallBlockMeta);
+		if(this.forceOverwrite == 4 || world.getBlock(x, y, z) instanceof IGroundSubstitute)
+			world.setBlockAndMetadataWithNotify(x, y, z, this.wallBlockID, this.wallBlockMeta);
 	}
 
+	/**
+	 * Carves a block to air (same ground-substitute policy as walls).
+	 */
 	protected void carveBlock(World world, int x, int y, int z) {
-		if(this.type == 4 || world.getBlock(x, y, z) instanceof IGroundSubstitute)
+		if(this.forceOverwrite == 4 || world.getBlock(x, y, z) instanceof IGroundSubstitute)
 			world.setBlockAndMetadataWithNotify(x, y, z, 0, 0);
 	}
 
+	/**
+	 * Places a "root" block below the maze floor (same policy as walls).
+	 */
 	protected void putRootBlock(World world, int x, int y, int z) {
-		if(this.type == 4 || world.getBlock(x, y, z) instanceof IGroundSubstitute)
-			world.setBlockAndMetadataWithNotify(x, y, z, this.rootblockID, this.rootBlockMeta);
+		if(this.forceOverwrite == 4 || world.getBlock(x, y, z) instanceof IGroundSubstitute)
+			world.setBlockAndMetadataWithNotify(x, y, z, this.rootBlockID, this.rootBlockMeta);
 	}
 
-	public boolean isEven(int n) {
-		return n % 2 == 0;
-	}
+	// ---------------------------------------------------------------------
+	// Torches and tree decoration
+	// ---------------------------------------------------------------------
 
+	/**
+	 * Walks the raw grid and drops torches onto selected wall corners. Only
+	 * even/even raw positions (divider-wall intersections) are considered.
+	 */
 	public void placeTorches(World world) {
 		byte torchHeight = 1;
 
-		for(int x = 0; x < this.rawWidth; ++x) {
-			for(int z = 0; z < this.rawDepth; ++z) {
-				if(this.getRaw(x, z) == 0) {
-					int mdx = this.worldX + x / 2 * (this.evenBias + this.oddBias);
-					int mdy = this.worldY + torchHeight;
-					int mdz = this.worldZ + z / 2 * (this.evenBias + this.oddBias);
-					if(this.isEven(x) && this.isEven(z) && this.shouldTorch(x, z) && world.getBlockID(mdx, mdy, mdz) == this.wallblockID) {
-						world.setBlockAndMetadataWithNotify(mdx, mdy, mdz, this.torchblockID, this.torchBlockMeta);
+		for(int rawX = 0; rawX < this.gridWidth; rawX++) {
+			for(int rawZ = 0; rawZ < this.gridDepth; rawZ++) {
+				if(this.getRawCell(rawX, rawZ) == WALL_RAW) {
+					int wallX = this.originX + rawX / 2 * (this.wallStripWidth + this.cellStripWidth);
+					int wallY = this.originY + torchHeight;
+					int wallZ = this.originZ + rawZ / 2 * (this.wallStripWidth + this.cellStripWidth);
+					if(this.isEven(rawX) && this.isEven(rawZ) && this.shouldTorch(rawX, rawZ) && world.getBlockID(wallX, wallY, wallZ) == this.wallBlockID) {
+						world.setBlockAndMetadataWithNotify(wallX, wallY, wallZ, this.torchBlockID, this.torchBlockMeta);
 					}
 				}
 			}
@@ -242,142 +419,226 @@ public class TFMaze {
 
 	}
 
-	public boolean shouldTorch(int rx, int rz) {
-		return this.getRaw(rx + 1, rz) != Integer.MIN_VALUE && this.getRaw(rx - 1, rz) != Integer.MIN_VALUE && this.getRaw(rx, rz + 1) != Integer.MIN_VALUE && this.getRaw(rx, rz - 1) != Integer.MIN_VALUE ? (this.getRaw(rx + 1, rz) == 0 && this.getRaw(rx - 1, rz) == 0 || this.getRaw(rx, rz + 1) == 0 && this.getRaw(rx, rz - 1) == 0 ? false : this.rand.nextInt(2) == 0) : false;
+	/**
+	 * Decides whether a torch should be placed at wall corner {@code (rawX, rawZ)}.
+	 * Torches only land in the middle of the maze (not on the grid border)
+	 * and only where the surrounding wall geometry forms a bend (not a
+	 * straight corridor along X or along Z).
+	 */
+	public boolean shouldTorch(int rawX, int rawZ) {
+		boolean eastOutOfBounds = this.getRawCell(rawX + 1, rawZ) == OUT_OF_BOUNDS;
+		boolean westOutOfBounds = this.getRawCell(rawX - 1, rawZ) == OUT_OF_BOUNDS;
+		boolean southOutOfBounds = this.getRawCell(rawX, rawZ + 1) == OUT_OF_BOUNDS;
+		boolean northOutOfBounds = this.getRawCell(rawX, rawZ - 1) == OUT_OF_BOUNDS;
+
+		if(eastOutOfBounds || westOutOfBounds || southOutOfBounds || northOutOfBounds) return false;
+
+		boolean straightAlongX = this.getRawCell(rawX + 1, rawZ) == WALL_RAW && this.getRawCell(rawX - 1, rawZ) == WALL_RAW;
+		boolean straightAlongZ = this.getRawCell(rawX, rawZ + 1) == WALL_RAW && this.getRawCell(rawX, rawZ - 1) == WALL_RAW;
+
+		// No torches in straight corridors - only around bends.
+		if(straightAlongX || straightAlongZ) return false;
+
+		return this.random.nextInt(2) == 0;
 	}
 
-	public boolean shouldTree(int rx, int rz) {
-		return rx != 0 && rx != this.rawWidth - 1 || this.getRaw(rx, rz + 1) == 0 && this.getRaw(rx, rz - 1) == 0 ? ((rz == 0 || rz == this.rawDepth - 1) && (this.getRaw(rx + 1, rz) != 0 || this.getRaw(rx - 1, rz) != 0) ? true : this.rand.nextInt(50) == 0) : true;
+	/**
+	 * Decides whether a tree should be spawned on wall corner
+	 * {@code (rawX, rawZ)} (used by subclass stampers that scatter trees).
+	 * Cells on the maze border that are open along one axis always get one;
+	 * otherwise trees are rare (1 in 50).
+	 */
+	public boolean shouldTree(int rawX, int rawZ) {
+		boolean interiorAlongX = rawX != 0 && rawX != this.gridWidth - 1;
+		boolean sealedNorthSouth = this.getRawCell(rawX, rawZ + 1) == WALL_RAW && this.getRawCell(rawX, rawZ - 1) == WALL_RAW;
+
+		if(!interiorAlongX && !sealedNorthSouth) return true;
+
+		boolean onZBorder = rawZ == 0 || rawZ == this.gridDepth - 1;
+		boolean openEastWest = this.getRawCell(rawX + 1, rawZ) != WALL_RAW || this.getRawCell(rawX - 1, rawZ) != WALL_RAW;
+
+		if(onZBorder && openEastWest) return true;
+
+		return this.random.nextInt(50) == 0;
 	}
 
-	public int getWorldX(int x) {
-		return this.worldX + x * (this.evenBias + this.oddBias) + 1;
+	/**
+	 * World X coordinate of the centre line of cell {@code cellX} (i.e. the
+	 * start of the maze plus the cell offset, plus one block for the leading
+	 * divider wall).
+	 */
+	public int getWorldX(int cellX) {
+		return this.originX + cellX * (this.wallStripWidth + this.cellStripWidth) + 1;
 	}
 
-	public int getWorldZ(int z) {
-		return this.worldZ + z * (this.evenBias + this.oddBias) + 1;
+	/** World Z coordinate of the centre line of cell {@code cellZ}. */
+	public int getWorldZ(int cellZ) {
+		return this.originZ + cellZ * (this.wallStripWidth + this.cellStripWidth) + 1;
 	}
 
-	public void carveRoom0(int cx, int cz) {
-		this.putCell(cx, cz, 5);
-		this.putCell(cx + 1, cz, 5);
-		this.putWall(cx, cz, cx + 1, cz, 5);
-		this.putCell(cx - 1, cz, 5);
-		this.putWall(cx, cz, cx - 1, cz, 5);
-		this.putCell(cx, cz + 1, 5);
-		this.putWall(cx, cz, cx, cz + 1, 5);
-		this.putCell(cx, cz - 1, 5);
-		this.putWall(cx, cz, cx, cz - 1, 5);
+	// ---------------------------------------------------------------------
+	// Room carving
+	// ---------------------------------------------------------------------
+
+	/**
+	 * Carves a 3-cell-wide "cross" room around cell {@code (cellX, cellZ)}
+	 * (a plus sign centred on the cell).
+	 */
+	public void carveRoom0(int cellX, int cellZ) {
+		this.putCell(cellX, cellZ, ROOM);
+		this.putCell(cellX + 1, cellZ, ROOM);
+		this.putWall(cellX, cellZ, cellX + 1, cellZ, ROOM);
+		this.putCell(cellX - 1, cellZ, ROOM);
+		this.putWall(cellX, cellZ, cellX - 1, cellZ, ROOM);
+		this.putCell(cellX, cellZ + 1, ROOM);
+		this.putWall(cellX, cellZ, cellX, cellZ + 1, ROOM);
+		this.putCell(cellX, cellZ - 1, ROOM);
+		this.putWall(cellX, cellZ, cellX, cellZ - 1, ROOM);
 	}
 
-	public void carveRoom1(int cx, int cz) {
-		int rx = cx * 2 + 1;
-		int rz = cz * 2 + 1;
+	/**
+	 * Carves a 5x5 raw square room around cell {@code (cellX, cellZ)} and
+	 * extends the carving diagonally outwards (a crude "eyebrow" opening in
+	 * each of the four directions).
+	 *
+	 * <p>NOTE: the four "re-seal" calls below pass raw coordinates
+	 * ({@code rx}/{@code rz}) into {@link #putCell}, which expects cell
+	 * coordinates. Depending on the room position the writes land on
+	 * unrelated raw cells (or are silently dropped when out of bounds).
+	 * Preserved verbatim so generated mazes stay identical; a proper fix is
+	 * listed in the optimization plan.</p>
+	 */
+	public void carveRoom1(int cellX, int cellZ) {
+		int centreRawX = cellX * 2 + 1;
+		int centreRawZ = cellZ * 2 + 1;
 
-		for(int i = -2; i <= 2; ++i) {
-			for(int j = -2; j <= 2; ++j) {
-				this.putRaw(rx + i, rz + j, 5);
+		for(int offsetX = -2; offsetX <= 2; offsetX++) {
+			for(int offsetZ = -2; offsetZ <= 2; offsetZ++) {
+				this.putRawCell(centreRawX + offsetX, centreRawZ + offsetZ, ROOM);
 			}
 		}
 
-		this.putCell(rx, rz + 1, 0);
-		this.putCell(rx, rz - 1, 0);
-		this.putCell(rx + 1, rz, 0);
-		this.putCell(rx - 1, rz, 0);
-		if(this.getRaw(rx, rz + 4) != Integer.MIN_VALUE) {
-			this.putRaw(rx, rz + 3, 5);
+		// Re-seal... (see NOTE above - coordinates are raw, not cell based).
+		this.putCell(centreRawX, centreRawZ + 1, WALL_RAW);
+		this.putCell(centreRawX, centreRawZ - 1, WALL_RAW);
+		this.putCell(centreRawX + 1, centreRawZ, WALL_RAW);
+		this.putCell(centreRawX - 1, centreRawZ, WALL_RAW);
+
+		// Widen the four exits by one raw cell when there is room.
+		if(this.getRawCell(centreRawX, centreRawZ + 4) != OUT_OF_BOUNDS) {
+			this.putRawCell(centreRawX, centreRawZ + 3, ROOM);
 		}
 
-		if(this.getRaw(rx, rz - 4) != Integer.MIN_VALUE) {
-			this.putRaw(rx, rz - 3, 5);
+		if(this.getRawCell(centreRawX, centreRawZ - 4) != OUT_OF_BOUNDS) {
+			this.putRawCell(centreRawX, centreRawZ - 3, ROOM);
 		}
 
-		if(this.getRaw(rx + 4, rz) != Integer.MIN_VALUE) {
-			this.putRaw(rx + 3, rz, 5);
+		if(this.getRawCell(centreRawX + 4, centreRawZ) != OUT_OF_BOUNDS) {
+			this.putRawCell(centreRawX + 3, centreRawZ, ROOM);
 		}
 
-		if(this.getRaw(rx - 4, rz) != Integer.MIN_VALUE) {
-			this.putRaw(rx - 3, rz, 5);
+		if(this.getRawCell(centreRawX - 4, centreRawZ) != OUT_OF_BOUNDS) {
+			this.putRawCell(centreRawX - 3, centreRawZ, ROOM);
 		}
 
 	}
 
+	/**
+	 * Knocks open the four mid-edge wall cells so the maze connects to the
+	 * outside on every side.
+	 */
 	public void add4Exits() {
-		int hx = this.rawWidth / 2 + 1;
-		int hz = this.rawDepth / 2 + 1;
-		this.putRaw(hx, 0, 5);
-		this.putRaw(hx, this.rawDepth - 1, 5);
-		this.putRaw(0, hz, 5);
-		this.putRaw(this.rawWidth - 1, hz, 5);
+		int midRawX = this.gridWidth / 2 + 1;
+		int midRawZ = this.gridDepth / 2 + 1;
+		this.putRawCell(midRawX, 0, ROOM);
+		this.putRawCell(midRawX, this.gridDepth - 1, ROOM);
+		this.putRawCell(0, midRawZ, ROOM);
+		this.putRawCell(this.gridWidth - 1, midRawZ, ROOM);
 	}
 
-	public void generateRecursiveBacktracker(int sx, int sz) {
-		this.rbGen(sx, sz);
+	// ---------------------------------------------------------------------
+	// Maze generation (recursive backtracker)
+	// ---------------------------------------------------------------------
+
+	/**
+	 * Entry point for the recursive-backtracker maze generation, starting at
+	 * cell {@code (startCellX, startCellZ)}.
+	 */
+	public void generateRecursiveBacktracker(int startCellX, int startCellZ) {
+		this.growMazeFrom(startCellX, startCellZ);
 	}
 
-	public void rbGen(int sx, int sz) {
-		this.putCell(sx, sz, 1);
-		int unvisited = 0;
-		if(this.cellEquals(sx + 1, sz, 0)) {
-			++unvisited;
-		}
+	/**
+	 * Recursive-backtracker step: marks the current cell as carved, then
+	 * opens a random divider wall into a still-unvisited neighbour and keeps
+	 * carving from there.
+	 *
+	 * <p>Instead of returning up the recursion stack to pick the next
+	 * neighbour, this variant re-enters the current cell two extra times,
+	 * re-picking remaining unvisited neighbours. This is more eager (and
+	 * consumes ~3x the stack depth) but produces the same maze topology as a
+	 * classic backtracker while keeping the code side-effect free of an
+	 * explicit stack.</p>
+	 */
+	public void growMazeFrom(int cellX, int cellZ) {
+		this.putCell(cellX, cellZ, PASSAGE_RAW);
 
-		if(this.cellEquals(sx - 1, sz, 0)) {
-			++unvisited;
-		}
+		int unvisitedNeighbours = 0;
+		if(this.cellEquals(cellX + 1, cellZ, WALL_RAW)) unvisitedNeighbours++;
+		if(this.cellEquals(cellX - 1, cellZ, WALL_RAW)) unvisitedNeighbours++;
+		if(this.cellEquals(cellX, cellZ + 1, WALL_RAW)) unvisitedNeighbours++;
+		if(this.cellEquals(cellX, cellZ - 1, WALL_RAW)) unvisitedNeighbours++;
 
-		if(this.cellEquals(sx, sz + 1, 0)) {
-			++unvisited;
-		}
+		if(unvisitedNeighbours != 0) {
+			// Pick the target neighbour by "counting down" the random pick
+			// across the four cardinal directions.
+			int pick = this.random.nextInt(unvisitedNeighbours);
+			int targetCellX = 0;
+			int targetCellZ = 0;
 
-		if(this.cellEquals(sx, sz - 1, 0)) {
-			++unvisited;
-		}
-
-		if(unvisited != 0) {
-			int rn = this.rand.nextInt(unvisited);
-			int dz = 0;
-			int dx = 0;
-			if(this.cellEquals(sx + 1, sz, 0)) {
-				if(rn == 0) {
-					dx = sx + 1;
-					dz = sz;
+			if(this.cellEquals(cellX + 1, cellZ, WALL_RAW)) {
+				if(pick == 0) {
+					targetCellX = cellX + 1;
+					targetCellZ = cellZ;
 				}
 
-				--rn;
+				pick--;
 			}
 
-			if(this.cellEquals(sx - 1, sz, 0)) {
-				if(rn == 0) {
-					dx = sx - 1;
-					dz = sz;
+			if(this.cellEquals(cellX - 1, cellZ, WALL_RAW)) {
+				if(pick == 0) {
+					targetCellX = cellX - 1;
+					targetCellZ = cellZ;
 				}
 
-				--rn;
+				pick--;
 			}
 
-			if(this.cellEquals(sx, sz + 1, 0)) {
-				if(rn == 0) {
-					dx = sx;
-					dz = sz + 1;
+			if(this.cellEquals(cellX, cellZ + 1, WALL_RAW)) {
+				if(pick == 0) {
+					targetCellX = cellX;
+					targetCellZ = cellZ + 1;
 				}
 
-				--rn;
+				pick--;
 			}
 
-			if(this.cellEquals(sx, sz - 1, 0) && rn == 0) {
-				dx = sx;
-				dz = sz - 1;
+			if(this.cellEquals(cellX, cellZ - 1, WALL_RAW) && pick == 0) {
+				targetCellX = cellX;
+				targetCellZ = cellZ - 1;
 			}
 
-			this.putWall(sx, sz, dx, dz, 2);
-			this.rbGen(dx, dz);
-			this.rbGen(sx, sz);
-			this.rbGen(sx, sz);
+			// Knock the chosen divider wall open and carve the neighbour,
+			// then re-enter the current cell to punch further connections.
+			this.putWall(cellX, cellZ, targetCellX, targetCellZ, OPEN_WALL_RAW);
+			this.growMazeFrom(targetCellX, targetCellZ);
+			this.growMazeFrom(cellX, cellZ);
+			this.growMazeFrom(cellX, cellZ);
 		}
 	}
-	
+
+	/** Seeds the internal random source so a maze can be reproduced. */
 	public void setSeed(long newSeed) {
-		this.rand.setSeed(newSeed);
+		this.random.setSeed(newSeed);
 	}
 }

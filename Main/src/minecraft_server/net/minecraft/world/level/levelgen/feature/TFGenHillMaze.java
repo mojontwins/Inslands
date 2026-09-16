@@ -10,78 +10,110 @@ import net.minecraft.world.level.levelgen.TFTreasure;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.entity.TileEntityMobSpawner;
 
+/**
+ * Generates a stone maze inside a hill-shaped terrain mound.
+ *
+ * <p>Unlike the hedge maze this does not level the ground: it turns the
+ * {@code y - 1} floor into maze stone, caps the whole area at {@code y + 3},
+ * stamps the maze, then decorates every dead end (spiders, webs, treasures,
+ * paintings, traps, doors, fountains...) and the carved 3x3 rooms.</p>
+ */
 public class TFGenHillMaze extends TFGenerator {
-	int hsize;
+	/** How small/large the maze is: 1 -> 11, 2 -> 19, 3 -> 27 cells per side. */
+	int mazeScale;
+
+	/** The cell maze being built/stamped. */
 	TFMaze maze;
+
+	/** Random source for both generation and decoration. */
 	Random rand;
+
+	/** When true, candidacy requires the fill area to be mostly solid. */
 	boolean checkSolid;
+
+	/** Required solidity percentage used by the {@link #checkSolid} test. */
 	int solidPercent = 60;
+
 	boolean debug = false;
 
+	/** Compass faces (also used as the "f" decoration parameter): opening faces -Z. */
+	static final int FACE_NORTH = 0;
+	/** Opening faces +X. */
+	static final int FACE_EAST = 1;
+	/** Opening faces +Z. */
+	static final int FACE_SOUTH = 2;
+	/** Opening faces -X. */
+	static final int FACE_WEST = 3;
+
 	public TFGenHillMaze(int size, boolean checksolid, int solidPercent) {
-		this.hsize = size;
+		this.mazeScale = size;
 		this.checkSolid = checksolid;
 		this.solidPercent = solidPercent;
 	}
 
 	public boolean generate(World world, Random rand, int x, int y, int z) {
-		if(this.debug) System.out.println ("Attempting hill maze @ " + x + " " + y + " " + z);
-		
+		if(this.debug) System.out.println("Attempting hill maze @ " + x + " " + y + " " + z);
+
 		this.worldObj = world;
 		this.rand = rand;
-		int sx = x - 7 - this.hsize * 16;
-		int sz = z - 7 - this.hsize * 16;
-		
-		byte msize = 11;
-		if(this.hsize == 2) {
-			msize = 19;
-		} else if(this.hsize == 3) {
-			msize = 27;
+
+		// The maze is offset 7+scale*16 blocks into the negative X/Z so it
+		// slides under an already-generated hill (x, z is the hill centre).
+		int minX = x - 7 - this.mazeScale * 16;
+		int minZ = z - 7 - this.mazeScale * 16;
+
+		byte cellsPerSide = 11;
+		if(this.mazeScale == 2) {
+			cellsPerSide = 19;
+		} else if(this.mazeScale == 3) {
+			cellsPerSide = 27;
 		}
 
-		if (this.checkSolid) {
-			if (!this.checkMostlySolid(sx, y - 1, sz, msize * 4, 5, msize * 4, this.solidPercent)) {
-				if(this.debug) System.out.println ("Hill maze failed, not " + this.solidPercent + " solid.");
+		if(this.checkSolid) {
+			if(!this.checkMostlySolid(minX, y - 1, minZ, cellsPerSide * 4, 5, cellsPerSide * 4, this.solidPercent)) {
+				if(this.debug) System.out.println("Hill maze failed, not " + this.solidPercent + " solid.");
 				return false;
 			}
 		}
-		
-		this.fillIfGround(sx, y - 1, sz, msize * 4, 1, msize * 4, Block.mazeStone.blockID, 1);
-		//this.fill(sx, y, sz, msize * 4, 3, msize * 4, 0, 0);
-		this.fillIfGround(sx, y + 3, sz, msize * 4, 1, msize * 4, Block.mazeStone.blockID, 2);
-		
-		this.maze = new TFMaze(msize, msize);
-		int nrooms = msize / 3;
-		int[] rcoords = new int[nrooms * 2];
 
-		for(int i = 0; i < nrooms; ++i) {
-			int rx;
-			int rz;
+		// Lay the stone floor and cap the labyrinth roof over the fill area.
+		this.fillIfGround(minX, y - 1, minZ, cellsPerSide * 4, 1, cellsPerSide * 4, Block.mazeStone.blockID, 1);
+		//this.fill(minX, y, minZ, cellsPerSide * 4, 3, cellsPerSide * 4, 0, 0);
+		this.fillIfGround(minX, y + 3, minZ, cellsPerSide * 4, 1, cellsPerSide * 4, Block.mazeStone.blockID, 2);
+
+		this.maze = new TFMaze(cellsPerSide, cellsPerSide);
+		int roomCount = cellsPerSide / 3;
+		int[] roomCoords = new int[roomCount * 2];
+
+		for(int i = 0; i < roomCount; ++i) {
+			int roomX;
+			int roomZ;
 			do {
-				rx = rand.nextInt(msize - 2) + 1;
-				rz = rand.nextInt(msize - 2) + 1;
-			} while(this.isNearRoom(rx, rz, rcoords));
+				roomX = rand.nextInt(cellsPerSide - 2) + 1;
+				roomZ = rand.nextInt(cellsPerSide - 2) + 1;
+			} while(this.isNearRoom(roomX, roomZ, roomCoords));
 
-			this.maze.carveRoom1(rx, rz);
-			rcoords[i * 2] = rx;
-			rcoords[i * 2 + 1] = rz;
+			this.maze.carveRoom1(roomX, roomZ);
+			roomCoords[i * 2] = roomX;
+			roomCoords[i * 2 + 1] = roomZ;
 		}
 
 		this.maze.generateRecursiveBacktracker(0, 0);
-		this.maze.copyToWorld(this.worldObj, sx, y, sz);
+		this.maze.copyToWorld(this.worldObj, minX, y, minZ);
 		this.decorateDeadEnds();
-		this.decorate3x3Rooms(rcoords);
-		
-		System.out.println ("Hill maze @ " + x + " " + y + " " + z);
-		
+		this.decorate3x3Rooms(roomCoords);
+
+		System.out.println("Hill maze @ " + x + " " + y + " " + z);
+
 		return true;
 	}
-	
-	protected boolean isNearRoom(int dx, int dz, int[] rcoords) {
-		for(int i = 0; i < rcoords.length / 2; ++i) {
-			int rx = rcoords[i * 2];
-			int rz = rcoords[i * 2 + 1];
-			if((rx != 0 || rz != 0) && Math.abs(dx - rx) < 3 && Math.abs(dz - rz) < 3) {
+
+	/** True if cell (roomX, roomZ) sits within 3 cells of any already-picked room. */
+	protected boolean isNearRoom(int roomX, int roomZ, int[] roomCoords) {
+		for(int i = 0; i < roomCoords.length / 2; ++i) {
+			int otherX = roomCoords[i * 2];
+			int otherZ = roomCoords[i * 2 + 1];
+			if((otherX != 0 || otherZ != 0) && Math.abs(roomX - otherX) < 3 && Math.abs(roomZ - otherZ) < 3) {
 				return true;
 			}
 		}
@@ -89,117 +121,129 @@ public class TFGenHillMaze extends TFGenerator {
 		return false;
 	}
 
+	/**
+	 * Walks every cell and decorates the dead ends: cells that have exactly
+	 * one open neighbour. {@code f} records which neighbour that is, using the
+	 * {@link #FACE_NORTH}/{@link #FACE_EAST}/{@link #FACE_SOUTH}/{@link #FACE_WEST}
+	 * ordinals expected by the {@code deadEnd*} helpers.
+	 */
 	public void decorateDeadEnds() {
-		for(int x = 0; x < this.maze.width; ++x) {
-			for(int z = 0; z < this.maze.depth; ++z) {
-				if(!this.maze.isWall(x, z, x - 1, z) && this.maze.isWall(x, z, x + 1, z) && this.maze.isWall(x, z, x, z - 1) && this.maze.isWall(x, z, x, z + 1)) {
-					this.decorateDeadEnd(x, z, 3);
+		for(int x = 0; x < this.maze.cellsWide; ++x) {
+			for(int z = 0; z < this.maze.cellsDeep; ++z) {
+				boolean westOpen = !this.maze.isWall(x, z, x - 1, z);
+				boolean eastOpen = !this.maze.isWall(x, z, x + 1, z);
+				boolean northOpen = !this.maze.isWall(x, z, x, z - 1);
+				boolean southOpen = !this.maze.isWall(x, z, x, z + 1);
+				boolean southSidesClosed = this.maze.isWall(x, z, x, z + 1);
+
+				if(westOpen && this.maze.isWall(x, z, x + 1, z) && this.maze.isWall(x, z, x, z - 1) && southSidesClosed) {
+					this.decorateDeadEnd(x, z, FACE_WEST);
 				}
 
-				if(this.maze.isWall(x, z, x - 1, z) && !this.maze.isWall(x, z, x + 1, z) && this.maze.isWall(x, z, x, z - 1) && this.maze.isWall(x, z, x, z + 1)) {
-					this.decorateDeadEnd(x, z, 1);
+				if(this.maze.isWall(x, z, x - 1, z) && eastOpen && this.maze.isWall(x, z, x, z - 1) && southSidesClosed) {
+					this.decorateDeadEnd(x, z, FACE_EAST);
 				}
 
-				if(this.maze.isWall(x, z, x - 1, z) && this.maze.isWall(x, z, x + 1, z) && !this.maze.isWall(x, z, x, z - 1) && this.maze.isWall(x, z, x, z + 1)) {
-					this.decorateDeadEnd(x, z, 0);
+				if(this.maze.isWall(x, z, x - 1, z) && this.maze.isWall(x, z, x + 1, z) && northOpen && southSidesClosed) {
+					this.decorateDeadEnd(x, z, FACE_NORTH);
 				}
 
-				if(this.maze.isWall(x, z, x - 1, z) && this.maze.isWall(x, z, x + 1, z) && this.maze.isWall(x, z, x, z - 1) && !this.maze.isWall(x, z, x, z + 1)) {
-					this.decorateDeadEnd(x, z, 2);
+				if(this.maze.isWall(x, z, x - 1, z) && this.maze.isWall(x, z, x + 1, z) && this.maze.isWall(x, z, x, z - 1) && southOpen) {
+					this.decorateDeadEnd(x, z, FACE_SOUTH);
 				}
 			}
 		}
-
 	}
 
-	public void decorateDeadEnd(int x, int z, int f) {
-		int dec = this.rand.nextInt(17); 
-		switch(dec) {
+	/** Picks a random decoration for the dead end at cell (x, z) with the given opening face. */
+	public void decorateDeadEnd(int x, int z, int face) {
+		int roll = this.rand.nextInt(17);
+		switch(roll) {
 		case 0:
-			this.deadEndSpiderSpawner(x, z, f);
+			this.deadEndSpiderSpawner(x, z, face);
 			break;
 		case 1:
-			this.deadEndWebs(x, z, f);
+			this.deadEndWebs(x, z, face);
 			break;
 		case 2:
-			this.deadEndTreasure(x, z, f);
+			this.deadEndTreasure(x, z, face);
 			break;
 		case 3:
-			this.deadEndSpawner(x, z, f);
+			this.deadEndSpawner(x, z, face);
 			break;
 		case 4:
-			this.deadEndPainting(x, z, f);
+			this.deadEndPainting(x, z, face);
 			break;
 		case 5:
-			this.deadEndTrap(x, z, f);
+			this.deadEndTrap(x, z, face);
 			break;
 		case 6:
-			this.deadEndTrappedChest(x, z, f);
+			this.deadEndTrappedChest(x, z, face);
 			break;
 		case 7:
-			this.deadEndTorch(x, z, f);
+			this.deadEndTorch(x, z, face);
 			break;
 		case 8:
-			this.deadEndTorchRedstone(x, z, f);
+			this.deadEndTorchRedstone(x, z, face);
 			break;
 		case 9:
-			this.deadEndFountain(x, z, f);
+			this.deadEndFountain(x, z, face);
 			break;
 		case 10:
-			this.deadEndLavaFountain(x, z, f);
+			this.deadEndLavaFountain(x, z, face);
 			break;
 		case 11:
-			this.deadEndDoorway(x, z, f);
+			this.deadEndDoorway(x, z, face);
 			break;
 		case 12:
-			this.deadEndDoor(x, z, f);
+			this.deadEndDoor(x, z, face);
 			break;
 		case 13:
-			this.deadEndDoorSteel(x, z, f);
+			this.deadEndDoorSteel(x, z, face);
 			break;
 		case 14:
-			this.deadEndDoorTreasure(x, z, f);
+			this.deadEndDoorTreasure(x, z, face);
 		}
-
 	}
 
-	void deadEndSpiderSpawner(int x, int z, int f) {
+	void deadEndSpiderSpawner(int x, int z, int face) {
 		int dx = this.maze.getWorldX(x);
-		int dy = this.maze.worldY;
+		int dy = this.maze.originY;
 		int dz = this.maze.getWorldZ(z);
-		this.deadEndWebs(x, z, f);
+		this.deadEndWebs(x, z, face);
 		String spiderType = this.rand.nextBoolean() ? "Spider" : "SwarmSpider";
-		if(f == 0) {
+		if(face == FACE_NORTH) {
 			this.placeMobSpawner(dx + 1, dy + 0, dz + 2, spiderType);
-		} else if(f == 1) {
+		} else if(face == FACE_EAST) {
 			this.placeMobSpawner(dx + 0, dy + 0, dz + 1, spiderType);
-		} else if(f == 2) {
+		} else if(face == FACE_SOUTH) {
 			this.placeMobSpawner(dx + 1, dy + 0, dz + 0, spiderType);
-		} else if(f == 3) {
+		} else if(face == FACE_WEST) {
 			this.placeMobSpawner(dx + 2, dy + 0, dz + 1, spiderType);
 		}
-
 	}
-	
+
+	/** True if at least 6 of the 9 blocks in the 3x3 floor around (dx, dz) are opaque. */
 	boolean mostFloor(int dx, int dy, int dz) {
-		int blocks = 0; 
-		for(int x = dx; x <= dx + 2; x ++) {
-			for(int z = dz; z <= dz + 2; z ++) {
-				if (this.worldObj.isBlockOpaqueCube(x, dy, z)) blocks ++;
+		int blocks = 0;
+		for(int x = dx; x <= dx + 2; x++) {
+			for(int z = dz; z <= dz + 2; z++) {
+				if(this.worldObj.isBlockOpaqueCube(x, dy, z)) blocks++;
 			}
 		}
-		
+
 		return blocks > 5;
 	}
 
-	void deadEndWebs(int x, int z, int f) {
+	/** Cobweb infestation centred just inside the dead-end opening. */
+	void deadEndWebs(int x, int z, int face) {
 		int dx = this.maze.getWorldX(x);
-		int dy = this.maze.worldY;
+		int dy = this.maze.originY;
 		int dz = this.maze.getWorldZ(z);
-		
-		if (!this.mostFloor(dx, dy - 1, dz)) return;
-		
-		if(f == 0) {
+
+		if(!this.mostFloor(dx, dy - 1, dz)) return;
+
+		if(face == FACE_NORTH) {
 			this.setWeb(this.worldObj, dx + 1, dy + 0, dz + 1);
 			this.setWeb(this.worldObj, dx + 0, dy + 1, dz + 1);
 			this.setWeb(this.worldObj, dx + 2, dy + 1, dz + 1);
@@ -207,7 +251,7 @@ public class TFGenHillMaze extends TFGenerator {
 			this.setWeb(this.worldObj, dx + 0, dy + 0, dz + 2);
 			this.setWeb(this.worldObj, dx + 2, dy + 0, dz + 2);
 			this.setWeb(this.worldObj, dx + 1, dy + 1, dz + 2);
-		} else if(f == 1) {
+		} else if(face == FACE_EAST) {
 			this.setWeb(this.worldObj, dx + 1, dy + 0, dz + 1);
 			this.setWeb(this.worldObj, dx + 1, dy + 1, dz + 0);
 			this.setWeb(this.worldObj, dx + 1, dy + 1, dz + 2);
@@ -215,7 +259,7 @@ public class TFGenHillMaze extends TFGenerator {
 			this.setWeb(this.worldObj, dx + 0, dy + 0, dz + 0);
 			this.setWeb(this.worldObj, dx + 0, dy + 0, dz + 2);
 			this.setWeb(this.worldObj, dx + 0, dy + 1, dz + 1);
-		} else if(f == 2) {
+		} else if(face == FACE_SOUTH) {
 			this.setWeb(this.worldObj, dx + 1, dy + 0, dz + 1);
 			this.setWeb(this.worldObj, dx + 0, dy + 1, dz + 1);
 			this.setWeb(this.worldObj, dx + 2, dy + 1, dz + 1);
@@ -223,7 +267,7 @@ public class TFGenHillMaze extends TFGenerator {
 			this.setWeb(this.worldObj, dx + 0, dy + 0, dz + 0);
 			this.setWeb(this.worldObj, dx + 2, dy + 0, dz + 0);
 			this.setWeb(this.worldObj, dx + 1, dy + 1, dz + 0);
-		} else if(f == 3) {
+		} else if(face == FACE_WEST) {
 			this.setWeb(this.worldObj, dx + 1, dy + 0, dz + 1);
 			this.setWeb(this.worldObj, dx + 1, dy + 1, dz + 0);
 			this.setWeb(this.worldObj, dx + 1, dy + 1, dz + 2);
@@ -233,67 +277,67 @@ public class TFGenHillMaze extends TFGenerator {
 			this.setWeb(this.worldObj, dx + 2, dy + 1, dz + 1);
 		}
 	}
-	
+
+	/** Places a web only where the block is under a canopy (not open sky). */
 	void setWeb(World world, int x, int y, int z) {
 		if(!world.canBlockSeeTheSkyThruCanopy(x, y, z)) {
 			world.setBlockWithNotify(x, y, z, Block.web.blockID);
 		}
 	}
 
-	void deadEndTreasure(int x, int z, int f) {
+	void deadEndTreasure(int x, int z, int face) {
 		int dx = this.maze.getWorldX(x);
-		int dy = this.maze.worldY;
+		int dy = this.maze.originY;
 		int dz = this.maze.getWorldZ(z);
-		if(f == 0) {
+		if(face == FACE_NORTH) {
 			TFTreasure.underhill_deadend.generate(this.worldObj, this.rand, dx + 1, dy + 0, dz + 2);
-		} else if(f == 1) {
+		} else if(face == FACE_EAST) {
 			TFTreasure.underhill_deadend.generate(this.worldObj, this.rand, dx + 0, dy + 0, dz + 1);
-		} else if(f == 2) {
+		} else if(face == FACE_SOUTH) {
 			TFTreasure.underhill_deadend.generate(this.worldObj, this.rand, dx + 1, dy + 0, dz + 0);
-		} else if(f == 3) {
+		} else if(face == FACE_WEST) {
 			TFTreasure.underhill_deadend.generate(this.worldObj, this.rand, dx + 2, dy + 0, dz + 1);
 		}
-
 	}
 
-	void deadEndSpawner(int x, int z, int f) {
+	void deadEndSpawner(int x, int z, int face) {
 		int dx = this.maze.getWorldX(x);
-		int dy = this.maze.worldY;
+		int dy = this.maze.originY;
 		int dz = this.maze.getWorldZ(z);
 		String mobID = this.rand.nextInt(3) == 0 ? "Skeleton" : "Redcap";
-		if(f == 0) {
+		if(face == FACE_NORTH) {
 			this.placeMobSpawner(dx + 1, dy + 0, dz + 2, mobID);
-		} else if(f == 1) {
+		} else if(face == FACE_EAST) {
 			this.placeMobSpawner(dx + 0, dy + 0, dz + 1, mobID);
-		} else if(f == 2) {
+		} else if(face == FACE_SOUTH) {
 			this.placeMobSpawner(dx + 1, dy + 0, dz + 0, mobID);
-		} else if(f == 3) {
+		} else if(face == FACE_WEST) {
 			this.placeMobSpawner(dx + 2, dy + 0, dz + 1, mobID);
 		}
-
 	}
 
-	void deadEndPainting(int x, int z, int f) {
+	/** Torch-lit picture frame on the far wall of the dead end. */
+	void deadEndPainting(int x, int z, int face) {
 		int dx = this.maze.getWorldX(x);
-		int dy = this.maze.worldY;
+		int dy = this.maze.originY;
 		int dz = this.maze.getWorldZ(z);
-		int anum = this.rand.nextInt(7);
-		EnumArt[] aenumart = EnumArt.values();
-		String artID = aenumart[anum].title;
+		int artNum = this.rand.nextInt(7);
+		EnumArt[] artEnum = EnumArt.values();
+		String artID = artEnum[artNum].title;
 		EntityPainting painting = null;
-		if(f == 0) {
+		if(face == FACE_NORTH) {
 			this.worldObj.setBlockWithNotify(dx + 0, dy + 1, dz + 2, Block.torchWood.blockID);
 			painting = new EntityPainting(this.worldObj, dx + 1, dy + 1, dz + 3, 0, artID);
 			this.worldObj.setBlockWithNotify(dx + 2, dy + 1, dz + 2, Block.torchWood.blockID);
-		} else if(f == 1) {
+		} else if(face == FACE_EAST) {
 			this.worldObj.setBlockWithNotify(dx + 0, dy + 1, dz + 0, Block.torchWood.blockID);
 			painting = new EntityPainting(this.worldObj, dx - 1, dy + 1, dz + 1, 3, artID);
 			this.worldObj.setBlockWithNotify(dx + 0, dy + 1, dz + 2, Block.torchWood.blockID);
-		} else if(f == 2) {
+		} else if(face == FACE_SOUTH) {
 			this.worldObj.setBlockWithNotify(dx + 0, dy + 1, dz + 0, Block.torchWood.blockID);
 			painting = new EntityPainting(this.worldObj, dx + 1, dy + 1, dz - 1, 2, artID);
 			this.worldObj.setBlockWithNotify(dx + 2, dy + 1, dz + 0, Block.torchWood.blockID);
-		} else if(f == 3) {
+		} else if(face == FACE_WEST) {
 			this.worldObj.setBlockWithNotify(dx + 2, dy + 1, dz + 0, Block.torchWood.blockID);
 			painting = new EntityPainting(this.worldObj, dx + 3, dy + 1, dz + 1, 1, artID);
 			this.worldObj.setBlockWithNotify(dx + 2, dy + 1, dz + 2, Block.torchWood.blockID);
@@ -306,74 +350,72 @@ public class TFGenHillMaze extends TFGenerator {
 		} else {
 			//System.out.println("Painting fail!! " + painting.art.title + " at " + painting.xPosition + " , " + painting.yPosition + ", " + painting.zPosition + " : " + painting.direction);
 		}
-
 	}
 
-	void deadEndTrap(int x, int z, int f) {
+	/** Stone pressure plate over a TNT charge buried at the dead-end opening. */
+	void deadEndTrap(int x, int z, int face) {
 		int dx = this.maze.getWorldX(x);
-		int dy = this.maze.worldY;
+		int dy = this.maze.originY;
 		int dz = this.maze.getWorldZ(z);
-		
-		if (!this.mostFloor(dx, dy - 1, dz)) return;
-		
+
+		if(!this.mostFloor(dx, dy - 1, dz)) return;
+
 		this.worldObj.setBlockWithNotify(dx + 1, dy + 0, dz + 1, Block.pressurePlateStone.blockID);
-		if(f == 0) {
+		if(face == FACE_NORTH) {
 			this.worldObj.setBlockWithNotify(dx + 1, dy - 1, dz + 2, Block.tnt.blockID);
-		} else if(f == 1) {
+		} else if(face == FACE_EAST) {
 			this.worldObj.setBlockWithNotify(dx + 0, dy - 1, dz + 1, Block.tnt.blockID);
-		} else if(f == 2) {
+		} else if(face == FACE_SOUTH) {
 			this.worldObj.setBlockWithNotify(dx + 1, dy - 1, dz + 0, Block.tnt.blockID);
-		} else if(f == 3) {
+		} else if(face == FACE_WEST) {
 			this.worldObj.setBlockWithNotify(dx + 2, dy - 1, dz + 1, Block.tnt.blockID);
 		}
-
 	}
 
-	void deadEndTrappedChest(int x, int z, int f) {
-		this.deadEndTrap(x, z, f);
-		this.deadEndTreasure(x, z, f);
+	void deadEndTrappedChest(int x, int z, int face) {
+		this.deadEndTrap(x, z, face);
+		this.deadEndTreasure(x, z, face);
 	}
 
-	void deadEndTorch(int x, int z, int f) {
+	void deadEndTorch(int x, int z, int face) {
 		int dx = this.maze.getWorldX(x);
-		int dy = this.maze.worldY;
+		int dy = this.maze.originY;
 		int dz = this.maze.getWorldZ(z);
-		if(f == 0) {
+		if(face == FACE_NORTH) {
 			this.worldObj.setBlockWithNotify(dx + 1, dy + 1, dz + 2, Block.torchWood.blockID);
-		} else if(f == 1) {
+		} else if(face == FACE_EAST) {
 			this.worldObj.setBlockWithNotify(dx + 0, dy + 1, dz + 1, Block.torchWood.blockID);
-		} else if(f == 2) {
+		} else if(face == FACE_SOUTH) {
 			this.worldObj.setBlockWithNotify(dx + 1, dy + 1, dz + 0, Block.torchWood.blockID);
-		} else if(f == 3) {
+		} else if(face == FACE_WEST) {
 			this.worldObj.setBlockWithNotify(dx + 2, dy + 1, dz + 1, Block.torchWood.blockID);
 		}
-
 	}
 
-	void deadEndTorchRedstone(int x, int z, int f) {
+	void deadEndTorchRedstone(int x, int z, int face) {
 		int dx = this.maze.getWorldX(x);
-		int dy = this.maze.worldY;
+		int dy = this.maze.originY;
 		int dz = this.maze.getWorldZ(z);
-		if(f == 0) {
+		if(face == FACE_NORTH) {
 			this.worldObj.setBlockWithNotify(dx + 1, dy + 1, dz + 2, Block.torchRedstoneActive.blockID);
-		} else if(f == 1) {
+		} else if(face == FACE_EAST) {
 			this.worldObj.setBlockWithNotify(dx + 0, dy + 1, dz + 1, Block.torchRedstoneActive.blockID);
-		} else if(f == 2) {
+		} else if(face == FACE_SOUTH) {
 			this.worldObj.setBlockWithNotify(dx + 1, dy + 1, dz + 0, Block.torchRedstoneActive.blockID);
-		} else if(f == 3) {
+		} else if(face == FACE_WEST) {
 			this.worldObj.setBlockWithNotify(dx + 2, dy + 1, dz + 1, Block.torchRedstoneActive.blockID);
 		}
-
 	}
 
-	void deadEndNook(int x, int z, int f) {
+	/** Seals the dead end with a three-block-high stone wall (the "nook" cell). */
+	void deadEndNook(int x, int z, int face) {
 		int dx = this.maze.getWorldX(x);
-		int dy = this.maze.worldY;
+		int dy = this.maze.originY;
 		int dz = this.maze.getWorldZ(z);
-		
-		if (!this.mostFloor(dx, dy - 1, dz)) return;
-		
-		if(f == 0) {
+
+		if(!this.mostFloor(dx, dy - 1, dz)) return;
+
+		if(face == FACE_NORTH) {
 			this.worldObj.setBlockWithNotify(dx + 0, dy + 0, dz + 2, Block.stone.blockID);
 			this.worldObj.setBlockWithNotify(dx + 1, dy + 0, dz + 2, Block.stone.blockID);
 			this.worldObj.setBlockWithNotify(dx + 2, dy + 0, dz + 2, Block.stone.blockID);
@@ -382,7 +424,7 @@ public class TFGenHillMaze extends TFGenerator {
 			this.worldObj.setBlockWithNotify(dx + 0, dy + 2, dz + 2, Block.stone.blockID);
 			this.worldObj.setBlockWithNotify(dx + 1, dy + 2, dz + 2, Block.stone.blockID);
 			this.worldObj.setBlockWithNotify(dx + 2, dy + 2, dz + 2, Block.stone.blockID);
-		} else if(f == 1) {
+		} else if(face == FACE_EAST) {
 			this.worldObj.setBlockWithNotify(dx + 0, dy + 0, dz + 0, Block.stone.blockID);
 			this.worldObj.setBlockWithNotify(dx + 0, dy + 0, dz + 1, Block.stone.blockID);
 			this.worldObj.setBlockWithNotify(dx + 0, dy + 0, dz + 2, Block.stone.blockID);
@@ -391,7 +433,7 @@ public class TFGenHillMaze extends TFGenerator {
 			this.worldObj.setBlockWithNotify(dx + 0, dy + 2, dz + 0, Block.stone.blockID);
 			this.worldObj.setBlockWithNotify(dx + 0, dy + 2, dz + 1, Block.stone.blockID);
 			this.worldObj.setBlockWithNotify(dx + 0, dy + 2, dz + 2, Block.stone.blockID);
-		} else if(f == 2) {
+		} else if(face == FACE_SOUTH) {
 			this.worldObj.setBlockWithNotify(dx + 0, dy + 0, dz + 0, Block.stone.blockID);
 			this.worldObj.setBlockWithNotify(dx + 1, dy + 0, dz + 0, Block.stone.blockID);
 			this.worldObj.setBlockWithNotify(dx + 2, dy + 0, dz + 0, Block.stone.blockID);
@@ -400,7 +442,7 @@ public class TFGenHillMaze extends TFGenerator {
 			this.worldObj.setBlockWithNotify(dx + 0, dy + 2, dz + 0, Block.stone.blockID);
 			this.worldObj.setBlockWithNotify(dx + 1, dy + 2, dz + 0, Block.stone.blockID);
 			this.worldObj.setBlockWithNotify(dx + 2, dy + 2, dz + 0, Block.stone.blockID);
-		} else if(f == 3) {
+		} else if(face == FACE_WEST) {
 			this.worldObj.setBlockWithNotify(dx + 2, dy + 0, dz + 0, Block.stone.blockID);
 			this.worldObj.setBlockWithNotify(dx + 2, dy + 0, dz + 1, Block.stone.blockID);
 			this.worldObj.setBlockWithNotify(dx + 2, dy + 0, dz + 2, Block.stone.blockID);
@@ -410,162 +452,161 @@ public class TFGenHillMaze extends TFGenerator {
 			this.worldObj.setBlockWithNotify(dx + 2, dy + 2, dz + 1, Block.stone.blockID);
 			this.worldObj.setBlockWithNotify(dx + 2, dy + 2, dz + 2, Block.stone.blockID);
 		}
-
 	}
 
-	void deadEndFountain(int x, int z, int f) {
+	/** Seals the dead end with a nook and fills it with a small fountain. */
+	void deadEndFountain(int x, int z, int face) {
 		int dx = this.maze.getWorldX(x);
-		int dy = this.maze.worldY;
+		int dy = this.maze.originY;
 		int dz = this.maze.getWorldZ(z);
-		
-		if (!this.mostFloor(dx, dy - 1, dz)) return;
-		
-		this.deadEndNook(x, z, f);
+
+		if(!this.mostFloor(dx, dy - 1, dz)) return;
+
+		this.deadEndNook(x, z, face);
 		this.worldObj.setBlockWithNotify(dx + 1, dy - 1, dz + 1, 0);
-		if(f == 0) {
+		if(face == FACE_NORTH) {
 			this.worldObj.setBlockWithNotify(dx + 1, dy + 1, dz + 2, Block.waterMoving.blockID);
-		} else if(f == 1) {
+		} else if(face == FACE_EAST) {
 			this.worldObj.setBlockWithNotify(dx + 0, dy + 1, dz + 1, Block.waterMoving.blockID);
-		} else if(f == 2) {
+		} else if(face == FACE_SOUTH) {
 			this.worldObj.setBlockWithNotify(dx + 1, dy + 1, dz + 0, Block.waterMoving.blockID);
-		} else if(f == 3) {
+		} else if(face == FACE_WEST) {
 			this.worldObj.setBlockWithNotify(dx + 2, dy + 1, dz + 1, Block.waterMoving.blockID);
 		}
-
 	}
 
-	void deadEndLavaFountain(int x, int z, int f) {
+	/** Seals the dead end with a nook and fills it with a small lava fountain. */
+	void deadEndLavaFountain(int x, int z, int face) {
 		int dx = this.maze.getWorldX(x);
-		int dy = this.maze.worldY;
+		int dy = this.maze.originY;
 		int dz = this.maze.getWorldZ(z);
-		
-		if (!this.mostFloor(dx, dy - 1, dz)) return;
-		
-		this.deadEndNook(x, z, f);
+
+		if(!this.mostFloor(dx, dy - 1, dz)) return;
+
+		this.deadEndNook(x, z, face);
 		this.worldObj.setBlockWithNotify(dx + 1, dy - 1, dz + 1, 0);
-		if(f == 0) {
+		if(face == FACE_NORTH) {
 			this.worldObj.setBlockWithNotify(dx + 1, dy + 1, dz + 2, Block.lavaMoving.blockID);
-		} else if(f == 1) {
+		} else if(face == FACE_EAST) {
 			this.worldObj.setBlockWithNotify(dx + 0, dy + 1, dz + 1, Block.lavaMoving.blockID);
-		} else if(f == 2) {
+		} else if(face == FACE_SOUTH) {
 			this.worldObj.setBlockWithNotify(dx + 1, dy + 1, dz + 0, Block.lavaMoving.blockID);
-		} else if(f == 3) {
+		} else if(face == FACE_WEST) {
 			this.worldObj.setBlockWithNotify(dx + 2, dy + 1, dz + 1, Block.lavaMoving.blockID);
 		}
-
 	}
 
-	void deadEndDoorway(int x, int z, int f) {
+	/** Builds a doorway frame (open passage) through the sealed wall. */
+	void deadEndDoorway(int x, int z, int face) {
 		int dx = this.maze.getWorldX(x);
-		int dy = this.maze.worldY;
+		int dy = this.maze.originY;
 		int dz = this.maze.getWorldZ(z);
-		if(f == 0) {
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 0, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 0, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 1, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 1, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 2, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 1, dy + 2, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 2, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
-		} else if(f == 1) {
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 0, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 0, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 1, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 1, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 2, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 2, dz + 1, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 2, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
-		} else if(f == 2) {
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 0, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 0, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 1, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 1, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 2, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 1, dy + 2, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 2, dy + 2, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
-		} else if(f == 3) {
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 0, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 0, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 1, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 1, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 2, dz + 0, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 2, dz + 1, this.maze.wallblockID, this.maze.wallBlockMeta);
-			this.putBlockAndMetadataIfSolid(dx + 0, dy + 2, dz + 2, this.maze.wallblockID, this.maze.wallBlockMeta);
+		int wallID = this.maze.wallBlockID;
+		int wallMeta = this.maze.wallBlockMeta;
+		if(face == FACE_NORTH) {
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 0, dz + 0, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 0, dz + 0, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 1, dz + 0, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 1, dz + 0, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 2, dz + 0, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 1, dy + 2, dz + 0, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 2, dz + 0, wallID, wallMeta);
+		} else if(face == FACE_EAST) {
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 0, dz + 0, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 0, dz + 2, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 1, dz + 0, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 1, dz + 2, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 2, dz + 0, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 2, dz + 1, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 2, dz + 2, wallID, wallMeta);
+		} else if(face == FACE_SOUTH) {
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 0, dz + 2, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 0, dz + 2, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 1, dz + 2, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 1, dz + 2, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 2, dz + 2, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 1, dy + 2, dz + 2, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 2, dy + 2, dz + 2, wallID, wallMeta);
+		} else if(face == FACE_WEST) {
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 0, dz + 0, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 0, dz + 2, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 1, dz + 0, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 1, dz + 2, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 2, dz + 0, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 2, dz + 1, wallID, wallMeta);
+			this.putBlockAndMetadataIfSolid(dx + 0, dy + 2, dz + 2, wallID, wallMeta);
 		}
-
 	}
-	
+
+	/** Places both halves of a door on a solid block below (the top half meta carries +8). */
 	void setDoor(int x, int y, int z, int doorId, int baseMeta) {
-		if(this.worldObj.isBlockOpaqueCube(x,  y - 1, z)) {
+		if(this.worldObj.isBlockOpaqueCube(x, y - 1, z)) {
 			this.worldObj.setBlockAndMetadata(x, y + 0, z, doorId, baseMeta);
-			this.worldObj.setBlockAndMetadata(x, y + 1, x, doorId, baseMeta + 8);
+			this.worldObj.setBlockAndMetadata(x, y + 1, z, doorId, baseMeta + 8);
 		}
 	}
 
-	void deadEndDoor(int x, int z, int f) {
+	void deadEndDoor(int x, int z, int face) {
 		int dx = this.maze.getWorldX(x);
-		int dy = this.maze.worldY;
+		int dy = this.maze.originY;
 		int dz = this.maze.getWorldZ(z);
-		this.deadEndDoorway(x, z, f);
-		if(f == 0) {
+		this.deadEndDoorway(x, z, face);
+		if(face == FACE_NORTH) {
 			this.setDoor(dx + 1, dy, dz, Block.doorWood.blockID, 1);
-		} else if(f == 1) {
+		} else if(face == FACE_EAST) {
 			this.setDoor(dx + 2, dy, dz + 1, Block.doorWood.blockID, 2);
-		} else if(f == 2) {
+		} else if(face == FACE_SOUTH) {
 			this.setDoor(dx + 1, dy, dz + 2, Block.doorWood.blockID, 3);
-		} else if(f == 3) {
-			this.setDoor(dx,  dy,  dz + 1, Block.doorWood.blockID, 0);;
+		} else if(face == FACE_WEST) {
+			this.setDoor(dx, dy, dz + 1, Block.doorWood.blockID, 0);
 		}
-
 	}
 
-	void deadEndDoorSteel(int x, int z, int f) {
+	void deadEndDoorSteel(int x, int z, int face) {
 		int dx = this.maze.getWorldX(x);
-		int dy = this.maze.worldY;
+		int dy = this.maze.originY;
 		int dz = this.maze.getWorldZ(z);
-		this.deadEndDoorway(x, z, f);
-		if(f == 0) {
+		this.deadEndDoorway(x, z, face);
+		if(face == FACE_NORTH) {
 			this.setDoor(dx + 1, dy, dz, Block.doorSteel.blockID, 1);
-		} else if(f == 1) {
+		} else if(face == FACE_EAST) {
 			this.setDoor(dx + 2, dy, dz + 1, Block.doorSteel.blockID, 2);
-		} else if(f == 2) {
+		} else if(face == FACE_SOUTH) {
 			this.setDoor(dx + 1, dy, dz + 2, Block.doorSteel.blockID, 3);
-		} else if(f == 3) {
-			this.setDoor(dx,  dy,  dz + 1, Block.doorSteel.blockID, 0);;
+		} else if(face == FACE_WEST) {
+			this.setDoor(dx, dy, dz + 1, Block.doorSteel.blockID, 0);
 		}
-
 	}
 
-	void deadEndDoorTreasure(int x, int z, int f) {
-		this.deadEndDoor(x, z, f);
-		this.deadEndTreasure(x, z, f);
+	void deadEndDoorTreasure(int x, int z, int face) {
+		this.deadEndDoor(x, z, face);
+		this.deadEndTreasure(x, z, face);
 	}
 
 	protected boolean placeMobSpawner(int dx, int dy, int dz, String mobID) {
 		if(!this.worldObj.isBlockOpaqueCube(dx, dy - 1, dz)) return false;
 		this.worldObj.setBlockWithNotify(dx, dy, dz, Block.mobSpawner.blockID);
-		TileEntityMobSpawner ms = (TileEntityMobSpawner)this.worldObj.getBlockTileEntity(dx, dy, dz);
-		if(ms != null) {
-			ms.setMobID(mobID);
+		TileEntityMobSpawner spawner = (TileEntityMobSpawner)this.worldObj.getBlockTileEntity(dx, dy, dz);
+		if(spawner != null) {
+			spawner.setMobID(mobID);
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	void decorate3x3Rooms(int[] rcoords) {
-		for(int i = 0; i < rcoords.length / 2; ++i) {
-			int dx = rcoords[i * 2];
-			int dz = rcoords[i * 2 + 1];
-			this.decorate3x3Room(dx, dz);
+	void decorate3x3Rooms(int[] roomCoords) {
+		for(int i = 0; i < roomCoords.length / 2; ++i) {
+			int roomCellX = roomCoords[i * 2];
+			int roomCellZ = roomCoords[i * 2 + 1];
+			this.decorate3x3Room(roomCellX, roomCellZ);
 		}
-
 	}
 
-	void decorate3x3Room(int x, int z) {
-		int dx = this.maze.getWorldX(x) + 1;
-		int dy = this.maze.worldY;
-		int dz = this.maze.getWorldZ(z) + 1;
+	void decorate3x3Room(int roomCellX, int roomCellZ) {
+		int dx = this.maze.getWorldX(roomCellX) + 1;
+		int dy = this.maze.originY;
+		int dz = this.maze.getWorldZ(roomCellZ) + 1;
 		this.roomSpawner(dx, dy, dz, 11);
 		if(!this.roomTreasure(dx, dy, dz, 11) || this.rand.nextInt(2) == 0) {
 			this.roomTreasure(dx, dy, dz, 11);
@@ -604,11 +645,11 @@ public class TFGenHillMaze extends TFGenerator {
 			rz = dz + 5;
 		}
 
-		boolean flag = false;
-		flag |= this.roomSpiderweb(rx, dy, rz, 3);
-		flag |= this.roomSpiderweb(rx, dy, rz, 3);
-		flag |= this.roomSpiderweb(rx, dy, rz, 3);
-		return flag;
+		boolean placedWeb = false;
+		placedWeb |= this.roomSpiderweb(rx, dy, rz, 3);
+		placedWeb |= this.roomSpiderweb(rx, dy, rz, 3);
+		placedWeb |= this.roomSpiderweb(rx, dy, rz, 3);
+		return placedWeb;
 	}
 
 	private boolean roomSpiderweb(int dx, int dy, int dz, int diameter) {
@@ -622,4 +663,3 @@ public class TFGenHillMaze extends TFGenerator {
 		}
 	}
 }
-
