@@ -249,6 +249,43 @@ public class TFMaze {
 	}
 
 	// ---------------------------------------------------------------------
+	// Strip footprint tables
+	// ---------------------------------------------------------------------
+
+	/**
+	 * Builds the world coordinate at which every raw strip on one axis
+	 * starts: raw index {@code raw} begins at {@code origin + raw/2*stride}.
+	 */
+	private int[] buildStripBase(int origin, int gridSize, int stripStride) {
+		int[] base = new int[gridSize];
+		for(int raw = 0; raw < gridSize; raw++) {
+			base[raw] = origin + raw / 2 * stripStride;
+		}
+
+		return base;
+	}
+
+	/**
+	 * Builds the full world-footprint tables for one maze axis: strip base,
+	 * thickness (wallStripWidth for even/divider strips, cellStripWidth for
+	 * odd/passage strips) and in-strip offset (0 for dividers, 1 for
+	 * passages). Built per stamping call because the strip widths are
+	 * configurable after construction.
+	 */
+	private int[][] buildStripTables(int origin, int gridSize, int stripStride) {
+		int[] base = this.buildStripBase(origin, gridSize, stripStride);
+		int[] thickness = new int[gridSize];
+		int[] offset = new int[gridSize];
+		for(int raw = 0; raw < gridSize; raw++) {
+			boolean even = raw % 2 == 0;
+			thickness[raw] = even ? this.wallStripWidth : this.cellStripWidth;
+			offset[raw] = even ? 0 : 1;
+		}
+
+		return new int[][] {base, thickness, offset};
+	}
+
+	// ---------------------------------------------------------------------
 	// Stamping into the world
 	// ---------------------------------------------------------------------
 
@@ -269,39 +306,45 @@ public class TFMaze {
 
 		int stripStride = this.wallStripWidth + this.cellStripWidth;
 
+		// Precompute the world coordinate/width/offset of every raw strip once
+		// instead of recalculating them inside the rawX/rawZ loop.
+		int[][] stripTablesX = this.buildStripTables(minX, this.gridWidth, stripStride);
+		int[][] stripTablesZ = this.buildStripTables(minZ, this.gridDepth, stripStride);
+		int[] stripBaseX = stripTablesX[0];
+		int[] stripWidthX = stripTablesX[1];
+		int[] stripOffsetX = stripTablesX[2];
+		int[] stripBaseZ = stripTablesZ[0];
+		int[] stripWidthZ = stripTablesZ[1];
+		int[] stripOffsetZ = stripTablesZ[2];
+
 		for(int rawX = 0; rawX < this.gridWidth; rawX++) {
 			for(int rawZ = 0; rawZ < this.gridDepth; rawZ++) {
-				// World coordinate of this raw strip's base line: every pair
-				// of raw indices (wall + passage) advances one stripStride.
-				int stripBaseX = minX + rawX / 2 * stripStride;
-				int stripBaseZ = minZ + rawZ / 2 * stripStride;
-
-				// Even raw indices are single-block divider walls; odd raw
-				// indices are wide passages starting one block in.
-				int stripWidthX = this.isEven(rawX) ? this.wallStripWidth : this.cellStripWidth;
-				int stripOffsetX = this.isEven(rawX) ? 0 : 1;
-				int stripWidthZ = this.isEven(rawZ) ? this.wallStripWidth : this.cellStripWidth;
-				int stripOffsetZ = this.isEven(rawZ) ? 0 : 1;
+				int baseX = stripBaseX[rawX];
+				int baseZ = stripBaseZ[rawZ];
+				int widthX = stripWidthX[rawX];
+				int widthZ = stripWidthZ[rawZ];
+				int offsetX = stripOffsetX[rawX];
+				int offsetZ = stripOffsetZ[rawZ];
 
 				if(this.getRawCell(rawX, rawZ) == WALL_RAW) {
 					// Closed wall: raise the wall column and sink its roots.
-					for(int colX = 0; colX < stripWidthX; colX++) {
-						for(int colZ = 0; colZ < stripWidthZ; colZ++) {
+					for(int colX = 0; colX < widthX; colX++) {
+						for(int colZ = 0; colZ < widthZ; colZ++) {
 							for(int up = 0; up < this.wallHeight; up++) {
-								this.putWallBlock(world, stripBaseX + stripOffsetX + colX, minY + up, stripBaseZ + stripOffsetZ + colZ);
+								this.putWallBlock(world, baseX + offsetX + colX, minY + up, baseZ + offsetZ + colZ);
 							}
 
 							for(int down = 0; down <= this.rootDepth; down++) {
-								this.putRootBlock(world, stripBaseX + stripOffsetX + colX, minY - down, stripBaseZ + stripOffsetZ + colZ);
+								this.putRootBlock(world, baseX + offsetX + colX, minY - down, baseZ + offsetZ + colZ);
 							}
 						}
 					}
 				} else {
 					// Open space: carve out the corresponding footprint.
-					for(int colX = 0; colX < stripWidthX; colX++) {
-						for(int colZ = 0; colZ < stripWidthZ; colZ++) {
+					for(int colX = 0; colX < widthX; colX++) {
+						for(int colZ = 0; colZ < widthZ; colZ++) {
 							for(int up = 0; up < this.wallHeight; up++) {
-								this.carveBlock(world, stripBaseX + stripOffsetX + colX, minY + up, stripBaseZ + stripOffsetZ + colZ);
+								this.carveBlock(world, baseX + offsetX + colX, minY + up, baseZ + offsetZ + colZ);
 							}
 						}
 					}
@@ -324,30 +367,35 @@ public class TFMaze {
 
 		int stripStride = this.wallStripWidth + this.cellStripWidth;
 
+		// Precompute the world coordinate of every raw strip once instead of
+		// recalculating them inside the rawX/rawZ loop.
+		int[] stripBaseX = this.buildStripBase(originX, this.gridWidth, stripStride);
+		int[] stripBaseZ = this.buildStripBase(originZ, this.gridDepth, stripStride);
+
 		for(int rawX = 0; rawX < this.gridWidth; rawX++) {
 			for(int rawZ = 0; rawZ < this.gridDepth; rawZ++) {
 				if(this.getRawCell(rawX, rawZ) != WALL_RAW) {
-					int stripBaseX = originX + rawX / 2 * stripStride;
-					int stripBaseZ = originZ + rawZ / 2 * stripStride;
+					int baseX = stripBaseX[rawX];
+					int baseZ = stripBaseZ[rawZ];
 
 					if(this.isEven(rawX) && this.isEven(rawZ)) {
 						// Intersection of two divider walls: single tall column.
 						for(int up = 0; up < this.wallHeight; up++) {
-							this.carveBlock(world, stripBaseX, originY + up, stripBaseZ);
+							this.carveBlock(world, baseX, originY + up, baseZ);
 						}
 					} else {
 						if(this.isEven(rawX) && !this.isEven(rawZ)) {
 							// X wall strip crossing a Z passage strip.
 							for(int passage = 1; passage <= this.cellStripWidth; passage++) {
 								for(int up = 0; up < this.wallHeight; up++) {
-									this.carveBlock(world, stripBaseX, originY + up, stripBaseZ + passage);
+									this.carveBlock(world, baseX, originY + up, baseZ + passage);
 								}
 							}
 						} else if(!this.isEven(rawX) && this.isEven(rawZ)) {
 							// X passage strip crossing a Z wall strip.
 							for(int passage = 1; passage <= this.cellStripWidth; passage++) {
 								for(int up = 0; up < this.wallHeight; up++) {
-									this.carveBlock(world, stripBaseX + passage, originY + up, stripBaseZ);
+									this.carveBlock(world, baseX + passage, originY + up, baseZ);
 								}
 							}
 						} else if(!this.isEven(rawX) && !this.isEven(rawZ)) {
@@ -355,7 +403,7 @@ public class TFMaze {
 							for(int offX = 1; offX <= this.cellStripWidth; offX++) {
 								for(int offZ = 1; offZ <= this.cellStripWidth; offZ++) {
 									for(int up = 0; up < this.wallHeight; up++) {
-										this.carveBlock(world, stripBaseX + offX, originY + up, stripBaseZ + offZ);
+										this.carveBlock(world, baseX + offX, originY + up, baseZ + offZ);
 									}
 								}
 							}
@@ -404,12 +452,19 @@ public class TFMaze {
 	public void placeTorches(World world) {
 		byte torchHeight = 1;
 
+		int stripStride = this.wallStripWidth + this.cellStripWidth;
+
+		// Precompute the world coordinate of every raw strip once instead of
+		// recalculating them inside the rawX/rawZ loop.
+		int[] stripBaseX = this.buildStripBase(this.originX, this.gridWidth, stripStride);
+		int[] stripBaseZ = this.buildStripBase(this.originZ, this.gridDepth, stripStride);
+
 		for(int rawX = 0; rawX < this.gridWidth; rawX++) {
 			for(int rawZ = 0; rawZ < this.gridDepth; rawZ++) {
 				if(this.getRawCell(rawX, rawZ) == WALL_RAW) {
-					int wallX = this.originX + rawX / 2 * (this.wallStripWidth + this.cellStripWidth);
+					int wallX = stripBaseX[rawX];
 					int wallY = this.originY + torchHeight;
-					int wallZ = this.originZ + rawZ / 2 * (this.wallStripWidth + this.cellStripWidth);
+					int wallZ = stripBaseZ[rawZ];
 					if(this.isEven(rawX) && this.isEven(rawZ) && this.shouldTorch(rawX, rawZ) && world.getBlockID(wallX, wallY, wallZ) == this.wallBlockID) {
 						world.setBlockAndMetadataWithNotify(wallX, wallY, wallZ, this.torchBlockID, this.torchBlockMeta);
 					}
@@ -497,16 +552,10 @@ public class TFMaze {
 	}
 
 	/**
-	 * Carves a 5x5 raw square room around cell {@code (cellX, cellZ)} and
-	 * extends the carving diagonally outwards (a crude "eyebrow" opening in
-	 * each of the four directions).
-	 *
-	 * <p>NOTE: the four "re-seal" calls below pass raw coordinates
-	 * ({@code rx}/{@code rz}) into {@link #putCell}, which expects cell
-	 * coordinates. Depending on the room position the writes land on
-	 * unrelated raw cells (or are silently dropped when out of bounds).
-	 * Preserved verbatim so generated mazes stay identical; a proper fix is
-	 * listed in the optimization plan.</p>
+	 * Carves a 5x5 raw square room around cell {@code (cellX, cellZ)}, then
+	 * re-seals the four cardinal raw cells next to the centre so the room ends
+	 * up as a plus/cross shape (open diagonals, blocked N/E/S/W), and finally
+	 * widens each of the four exits one raw cell further out.
 	 */
 	public void carveRoom1(int cellX, int cellZ) {
 		int centreRawX = cellX * 2 + 1;
@@ -518,11 +567,14 @@ public class TFMaze {
 			}
 		}
 
-		// Re-seal... (see NOTE above - coordinates are raw, not cell based).
-		this.putCell(centreRawX, centreRawZ + 1, WALL_RAW);
-		this.putCell(centreRawX, centreRawZ - 1, WALL_RAW);
-		this.putCell(centreRawX + 1, centreRawZ, WALL_RAW);
-		this.putCell(centreRawX - 1, centreRawZ, WALL_RAW);
+		// Re-seal the four cardinal raw neighbours (opening the diagonals).
+		// NOTE: these used to be fed through putCell(), which treats its
+		// arguments as cell coordinates and multiplied into raw space, so the
+		// write landed on unrelated cells. Fixed to operate in raw space.
+		this.putRawCell(centreRawX, centreRawZ + 1, WALL_RAW);
+		this.putRawCell(centreRawX, centreRawZ - 1, WALL_RAW);
+		this.putRawCell(centreRawX + 1, centreRawZ, WALL_RAW);
+		this.putRawCell(centreRawX - 1, centreRawZ, WALL_RAW);
 
 		// Widen the four exits by one raw cell when there is room.
 		if(this.getRawCell(centreRawX, centreRawZ + 4) != OUT_OF_BOUNDS) {
@@ -569,27 +621,41 @@ public class TFMaze {
 	}
 
 	/**
-	 * Recursive-backtracker step: marks the current cell as carved, then
-	 * opens a random divider wall into a still-unvisited neighbour and keeps
-	 * carving from there.
+	 * Recursive-backtracker maze generation starting at cell
+	 * {@code (startCellX, startCellZ)}.
 	 *
-	 * <p>Instead of returning up the recursion stack to pick the next
-	 * neighbour, this variant re-enters the current cell two extra times,
-	 * re-picking remaining unvisited neighbours. This is more eager (and
-	 * consumes ~3x the stack depth) but produces the same maze topology as a
-	 * classic backtracker while keeping the code side-effect free of an
-	 * explicit stack.</p>
+	 * <p>Implemented with an explicit LIFO frame stack instead of recursion so
+	 * the call depth is bounded by the cell count (no stack-overflow risk on
+	 * large mazes). The stack replays the exact frame order of the old
+	 * recursion &mdash; after punching through to a target, the target frame is
+	 * pushed and processed first, then the current cell is re-enqueued twice
+	 * &mdash; so the RNG draw order and the resulting maze are unchanged.</p>
 	 */
-	public void growMazeFrom(int cellX, int cellZ) {
-		this.putCell(cellX, cellZ, PASSAGE_RAW);
+	public void growMazeFrom(int startCellX, int startCellZ) {
+		// Each frame that finds an unvisited neighbour punches one wall and
+		// pushes three frames (target + current cell twice), so the stack can
+		// never exceed three times the number of cells.
+		int maxFrames = this.cellsWide * this.cellsDeep * 3;
+		int[] stackX = new int[maxFrames];
+		int[] stackZ = new int[maxFrames];
+		int stackSize = 1;
+		stackX[0] = startCellX;
+		stackZ[0] = startCellZ;
 
-		int unvisitedNeighbours = 0;
-		if(this.cellEquals(cellX + 1, cellZ, WALL_RAW)) unvisitedNeighbours++;
-		if(this.cellEquals(cellX - 1, cellZ, WALL_RAW)) unvisitedNeighbours++;
-		if(this.cellEquals(cellX, cellZ + 1, WALL_RAW)) unvisitedNeighbours++;
-		if(this.cellEquals(cellX, cellZ - 1, WALL_RAW)) unvisitedNeighbours++;
+		while(stackSize > 0) {
+			int cellX = stackX[--stackSize];
+			int cellZ = stackZ[stackSize];
 
-		if(unvisitedNeighbours != 0) {
+			this.putCell(cellX, cellZ, PASSAGE_RAW);
+
+			int unvisitedNeighbours = 0;
+			if(this.cellEquals(cellX + 1, cellZ, WALL_RAW)) unvisitedNeighbours++;
+			if(this.cellEquals(cellX - 1, cellZ, WALL_RAW)) unvisitedNeighbours++;
+			if(this.cellEquals(cellX, cellZ + 1, WALL_RAW)) unvisitedNeighbours++;
+			if(this.cellEquals(cellX, cellZ - 1, WALL_RAW)) unvisitedNeighbours++;
+
+			if(unvisitedNeighbours == 0) continue;
+
 			// Pick the target neighbour by "counting down" the random pick
 			// across the four cardinal directions.
 			int pick = this.random.nextInt(unvisitedNeighbours);
@@ -628,12 +694,22 @@ public class TFMaze {
 				targetCellZ = cellZ - 1;
 			}
 
-			// Knock the chosen divider wall open and carve the neighbour,
-			// then re-enter the current cell to punch further connections.
+			// Knock the chosen divider wall open and continue. The target is
+			// pushed last so it is popped (and explored) first, exactly like
+			// the original recursion, and the current cell is re-enqueued
+			// twice so it can punch further connections to remaining
+			// unvisited neighbours.
 			this.putWall(cellX, cellZ, targetCellX, targetCellZ, OPEN_WALL_RAW);
-			this.growMazeFrom(targetCellX, targetCellZ);
-			this.growMazeFrom(cellX, cellZ);
-			this.growMazeFrom(cellX, cellZ);
+
+			stackX[stackSize] = cellX;
+			stackZ[stackSize] = cellZ;
+			stackSize++;
+			stackX[stackSize] = cellX;
+			stackZ[stackSize] = cellZ;
+			stackSize++;
+			stackX[stackSize] = targetCellX;
+			stackZ[stackSize] = targetCellZ;
+			stackSize++;
 		}
 	}
 

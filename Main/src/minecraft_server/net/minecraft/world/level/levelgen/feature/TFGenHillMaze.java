@@ -36,6 +36,12 @@ public class TFGenHillMaze extends TFGenerator {
 
 	boolean debug = false;
 
+	/**
+	 * All painting artworks, cached once instead of re-enumerated for every
+	 * {@link #deadEndPainting} decoration.
+	 */
+	static final EnumArt[] ART_VALUES = EnumArt.values();
+
 	/** Compass faces (also used as the "f" decoration parameter): opening faces -Z. */
 	static final int FACE_NORTH = 0;
 	/** Opening faces +X. */
@@ -321,9 +327,8 @@ public class TFGenHillMaze extends TFGenerator {
 		int dx = this.maze.getWorldX(x);
 		int dy = this.maze.originY;
 		int dz = this.maze.getWorldZ(z);
-		int artNum = this.rand.nextInt(7);
-		EnumArt[] artEnum = EnumArt.values();
-		String artID = artEnum[artNum].title;
+		int artNum = this.rand.nextInt(ART_VALUES.length);
+		String artID = ART_VALUES[artNum].title;
 		EntityPainting painting = null;
 		if(face == FACE_NORTH) {
 			this.worldObj.setBlockWithNotify(dx + 0, dy + 1, dz + 2, Block.torchWood.blockID);
@@ -407,13 +412,17 @@ public class TFGenHillMaze extends TFGenerator {
 		}
 	}
 
-	/** Seals the dead end with a three-block-high stone wall (the "nook" cell). */
-	void deadEndNook(int x, int z, int face) {
+	/**
+	 * Seals the dead end with a three-block-high stone wall (the "nook" cell).
+	 * {@code floorOk} must be the already-computed {@link #mostFloor} result
+	 * for the same footprint, so the callers do not scan the 3x3 twice.
+	 */
+	void deadEndNook(int x, int z, int face, boolean floorOk) {
 		int dx = this.maze.getWorldX(x);
 		int dy = this.maze.originY;
 		int dz = this.maze.getWorldZ(z);
 
-		if(!this.mostFloor(dx, dy - 1, dz)) return;
+		if(!floorOk) return;
 
 		if(face == FACE_NORTH) {
 			this.worldObj.setBlockWithNotify(dx + 0, dy + 0, dz + 2, Block.stone.blockID);
@@ -462,7 +471,7 @@ public class TFGenHillMaze extends TFGenerator {
 
 		if(!this.mostFloor(dx, dy - 1, dz)) return;
 
-		this.deadEndNook(x, z, face);
+		this.deadEndNook(x, z, face, true);
 		this.worldObj.setBlockWithNotify(dx + 1, dy - 1, dz + 1, 0);
 		if(face == FACE_NORTH) {
 			this.worldObj.setBlockWithNotify(dx + 1, dy + 1, dz + 2, Block.waterMoving.blockID);
@@ -483,7 +492,7 @@ public class TFGenHillMaze extends TFGenerator {
 
 		if(!this.mostFloor(dx, dy - 1, dz)) return;
 
-		this.deadEndNook(x, z, face);
+		this.deadEndNook(x, z, face, true);
 		this.worldObj.setBlockWithNotify(dx + 1, dy - 1, dz + 1, 0);
 		if(face == FACE_NORTH) {
 			this.worldObj.setBlockWithNotify(dx + 1, dy + 1, dz + 2, Block.lavaMoving.blockID);

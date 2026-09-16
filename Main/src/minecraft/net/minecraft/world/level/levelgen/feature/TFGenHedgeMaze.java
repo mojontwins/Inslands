@@ -120,11 +120,25 @@ public class TFGenHedgeMaze extends TFGenerator {
 		// Carve
 
 		// The space occupied by the actual labyrinth must be blank. Three
-		// shrinking layers guarantee a flat working area.
-		for(int i = 1; i < 4; i++) {
-			for(int xx = minX - i; xx < minX + mazeSizeBlocks + i; xx++) {
-				for(int zz = minZ - i; zz < minZ + mazeSizeBlocks + i; zz++) {
-					world.setBlock(xx, y + i - 1, zz, 0);
+		// shrinking layers guarantee a flat working area; written in a single
+		// pass so each column only tests the two inner bounds.
+		int carveXLow = minX - 3;
+		int carveXHigh = minX + mazeSizeBlocks + 3;
+		int carveZLow = minZ - 3;
+		int carveZHigh = minZ + mazeSizeBlocks + 3;
+		for(int xx = carveXLow; xx < carveXHigh; xx++) {
+			for(int zz = carveZLow; zz < carveZHigh; zz++) {
+				// Outermost layer (3-block margin) always clears y+2.
+				world.setBlock(xx, y + 2, zz, 0);
+
+				// Second layer (2-block margin) clears y+1.
+				if(xx >= minX - 2 && xx < minX + mazeSizeBlocks + 2 && zz >= minZ - 2 && zz < minZ + mazeSizeBlocks + 2) {
+					world.setBlock(xx, y + 1, zz, 0);
+
+					// Inner layer (1-block margin) clears y+0.
+					if(xx >= minX - 1 && xx < minX + mazeSizeBlocks + 1 && zz >= minZ - 1 && zz < minZ + mazeSizeBlocks + 1) {
+						world.setBlock(xx, y, zz, 0);
+					}
 				}
 			}
 		}
