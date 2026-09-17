@@ -2,14 +2,10 @@ package net.minecraft.world.level.levelgen.feature;
 
 import java.util.Random;
 
-import net.minecraft.world.level.BlockState;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.TFMaze;
 import net.minecraft.world.level.levelgen.TFTreasure;
 import net.minecraft.world.level.tile.Block;
-import net.minecraft.world.level.tile.BlockBigMushroom;
-import net.minecraft.world.level.tile.BlockLog;
-import net.minecraft.world.level.tile.IBigPlants;
 import net.minecraft.world.level.tile.entity.TileEntityMobSpawner;
 
 /**
@@ -145,6 +141,8 @@ public class TFGenHedgeMaze extends TFGenerator {
 
 		// Carve up to delete everything but trunks, leaves and mushrooms,
 		// and extend vertical logs down in case we overwrote a hill.
+		// Not needed anymore!
+		/*
 		for(int i = y + 3; i <= maxHeight; i++) {
 			for(int xx = minX - 3; xx < minX + mazeSizeBlocks + 3; xx++) {
 				for(int zz = minZ - 3; zz < minZ + mazeSizeBlocks + 3; zz++) {
@@ -163,6 +161,7 @@ public class TFGenHedgeMaze extends TFGenerator {
 				}
 			}
 		}
+		*/
 
 		// Grass ground. NOTE: the floor uses mazeCells*3 (not mazeSizeBlocks)
 		// so its extent is one block short on each side - kept for parity.
@@ -206,6 +205,8 @@ public class TFGenHedgeMaze extends TFGenerator {
 		// Now, the layer @ y + 3 may contain partial trees. Hopefully most
 		// will have a trunk, otherwise we can only leave the leaves to
 		// naturally decay.
+		// Not needed anmymore!
+		/*
 		for(int xx = minX - 3; xx < minX + mazeSizeBlocks + 3; xx++) {
 			for(int zz = minZ - 3; zz < minZ + mazeSizeBlocks + 3; zz++) {
 				BlockState blockState = world.getBlockStateAt(xx, y + 3, zz);
@@ -219,6 +220,7 @@ public class TFGenHedgeMaze extends TFGenerator {
 				}
 			}
 		}
+		*/
 
 		System.out.println("Hedge maze @ " + x + " " + z);
 
@@ -230,6 +232,7 @@ public class TFGenHedgeMaze extends TFGenerator {
 	 * extended downwards until it meets solid ground: an upright log, or a
 	 * mushroom stem (metadata 15).
 	 */
+	/*
 	private boolean verticalBranch(BlockState blockState) {
 		Block block = blockState.getBlock();
 		int meta = blockState.getMetadata();
@@ -239,6 +242,7 @@ public class TFGenHedgeMaze extends TFGenerator {
 				(block instanceof BlockBigMushroom && meta == 15)
 		);
 	}
+	*/
 
 	/** True if cell (dx, dz) sits within 3 cells of any already-picked room. */
 	protected boolean isNearRoom(int dx, int dz, int[] roomCoords) {

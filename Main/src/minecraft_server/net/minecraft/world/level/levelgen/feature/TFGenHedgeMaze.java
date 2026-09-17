@@ -145,6 +145,8 @@ public class TFGenHedgeMaze extends TFGenerator {
 
 		// Carve up to delete everything but trunks, leaves and mushrooms,
 		// and extend vertical logs down in case we overwrote a hill.
+		// Not needed anymore!
+		/*
 		for(int i = y + 3; i <= maxHeight; i++) {
 			for(int xx = minX - 3; xx < minX + mazeSizeBlocks + 3; xx++) {
 				for(int zz = minZ - 3; zz < minZ + mazeSizeBlocks + 3; zz++) {
@@ -163,6 +165,7 @@ public class TFGenHedgeMaze extends TFGenerator {
 				}
 			}
 		}
+		*/
 
 		// Grass ground. NOTE: the floor uses mazeCells*3 (not mazeSizeBlocks)
 		// so its extent is one block short on each side - kept for parity.
@@ -206,6 +209,8 @@ public class TFGenHedgeMaze extends TFGenerator {
 		// Now, the layer @ y + 3 may contain partial trees. Hopefully most
 		// will have a trunk, otherwise we can only leave the leaves to
 		// naturally decay.
+		// Not needed anmymore!
+		/*
 		for(int xx = minX - 3; xx < minX + mazeSizeBlocks + 3; xx++) {
 			for(int zz = minZ - 3; zz < minZ + mazeSizeBlocks + 3; zz++) {
 				BlockState blockState = world.getBlockStateAt(xx, y + 3, zz);
@@ -219,6 +224,7 @@ public class TFGenHedgeMaze extends TFGenerator {
 				}
 			}
 		}
+		*/
 
 		System.out.println("Hedge maze @ " + x + " " + z);
 

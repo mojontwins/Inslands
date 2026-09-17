@@ -9,7 +9,6 @@ import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
-import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.entity.TileEntity;
 import net.minecraft.world.level.tile.entity.TileEntityFurnace;
@@ -24,7 +23,6 @@ public class BlockFurnace extends BlockContainer {
 		this.isActive = z2;
 		this.blockIndexInTexture = 45;
 		
-		this.displayOnCreativeTab = CreativeTabs.tabDeco;
 	}
 
 	public int idDropped(int i1, Random random2) {

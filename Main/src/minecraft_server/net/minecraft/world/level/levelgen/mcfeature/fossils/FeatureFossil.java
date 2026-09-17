@@ -10,6 +10,7 @@ import net.minecraft.world.level.World;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.biome.BiomeGenDesert;
 import net.minecraft.world.level.biome.BiomeGenThemeHell;
+import net.minecraft.world.level.biome.BiomeGenThemePoisonIsland;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.levelgen.ChunkProviderSky;
@@ -159,7 +160,7 @@ public class FeatureFossil extends FeatureDynamicSchematic {
 	@Override
 	public boolean shouldSpawn(IChunkProvider chunkProvider, World world, Random rand, BiomeGenBase biome, int chunkX,
 			int chunkZ) {
-		return ((biome instanceof BiomeGenDesert) || (biome instanceof BiomeGenThemeHell)) && !world.isOceanChunk(chunkX, chunkZ);
+		return ((biome instanceof BiomeGenDesert) || (biome instanceof BiomeGenThemeHell) || (biome instanceof BiomeGenThemePoisonIsland)) && !world.isOceanChunk(chunkX, chunkZ);
 	}
 
 	@Override

@@ -627,7 +627,7 @@ public class TFGenHillMaze extends TFGenerator {
 	private boolean roomSpawner(int dx, int dy, int dz, int diameter) {
 		int rx = this.rand.nextInt(diameter) + dx - diameter / 2;
 		int rz = this.rand.nextInt(diameter) + dz - diameter / 2;
-		return this.placeMobSpawner(rx, dy, rz, "Skeleton");
+		return this.placeMobSpawner(rx, dy, rz, this.rand.nextInt(3) == 0 ? "Minotaur" : "Skeleton");
 	}
 
 	private boolean roomTreasure(int dx, int dy, int dz, int diameter) {

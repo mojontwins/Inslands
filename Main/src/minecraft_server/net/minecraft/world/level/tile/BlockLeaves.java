@@ -23,10 +23,47 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, 
 	// Leaves will be rendered using 256+type for fancy, 272+type for fast.
 	// Colourizer will only be used for meta 0.
 	
-	public static byte canopyDiameter = 32;
-	public static int canopyRadius = canopyDiameter / 2;
+	public static final int DECAY_CHECK_BIT = 8;
 
-	int[] surroundings;
+	// --- Decay search geometry -------------------------------------------------
+	// The 9x9x9 search box sits inside an 11x11x11 padded grid. The one-cell pad
+	// lets every +-1 neighbour stride land on a real slot, so the inner flood-fill
+	// loop needs no bounds checks.
+	private static final int RADIUS = 4;                 // connectivity distance to a log
+	private static final int SPAN = RADIUS * 2 + 1;      // 9 cells per axis
+	private static final int GRID = SPAN + 2;            // 11 (padded dimension)
+	private static final int GRID_AREA = GRID * GRID;    // 121
+	private static final int HALF = GRID >> 1;           // 5 (centre offset)
+	private static final int CENTER = HALF * GRID_AREA + HALF * GRID + HALF; // 665
+	private static final int CELL_COUNT = SPAN * SPAN * SPAN; // 729
+
+	/** The six +-1 neighbour strides, in x/y/z pairs. */
+	private static final int[] NEIGHBOR_STRIDES = { GRID_AREA, -GRID_AREA, GRID, -GRID, 1, -1 };
+
+	// Precomputed per-probe-cell tables: the block offset (dx/dy/dz) and the flat
+	// grid cursor for each of the 729 cells, in scan order (x-major, z-minor).
+	private static final int[] PROBE_DX = new int[CELL_COUNT];
+	private static final int[] PROBE_DY = new int[CELL_COUNT];
+	private static final int[] PROBE_DZ = new int[CELL_COUNT];
+	private static final int[] PROBE_CURSOR = new int[CELL_COUNT];
+
+	static {
+		int i = 0;
+		for(int dx = -RADIUS; dx <= RADIUS; ++dx) {
+			for(int dy = -RADIUS; dy <= RADIUS; ++dy) {
+				for(int dz = -RADIUS; dz <= RADIUS; ++dz) {
+					PROBE_DX[i] = dx;
+					PROBE_DY[i] = dy;
+					PROBE_DZ[i] = dz;
+					PROBE_CURSOR[i] = (dx + HALF) * GRID_AREA + (dy + HALF) * GRID + (dz + HALF);
+					++i;
+				}
+			}
+		}
+	}
+
+	/** Scratch grid reused across ticks (the block is a singleton, so one array serves). */
+	private final int[] adjacency = new int[GRID * GRID * GRID];
 
 	protected BlockLeaves(int id, int blockIndex) {
 		super(id, blockIndex, Material.leaves, false);
@@ -68,12 +105,10 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, 
 	}
 
 	public void onBlockRemoval(World world, int x, int y, int z) {
-		int blockID = world.getBlockID(x, y, z);
-
 		// Small optimization: When replaced with leaves or wood, surrounding leaves are
 		// NOT affected
-		if (blockID == Block.wood.blockID || blockID == Block.leaves.blockID)
-			return;
+		Block block =  world.getBlock(x, y, z);
+		if((block instanceof BlockLog) || (block instanceof BlockLeaves)) return;
 		
 		this.onBlockRemovalDo(world, x, y, z);
 	}
@@ -99,78 +134,50 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, 
 		if (!world.isRemote) {
 			int metadata = world.getBlockMetadata(x, y, z);
 
-			// Is leaf marked to be checked?
-			if ((metadata & 8) != 0) {
-				if (this.surroundings == null) {
-					this.surroundings = new int[32768];
+			// Only a leaf a removed log has flagged needs re-checking; the rest stay put.
+			if ((metadata & DECAY_CHECK_BIT) == 0) {
+				return;
 				}
 
-				for (int xx = -4; xx <= 4; ++xx) {
-					for (int yy = -4; yy <= 4; ++yy) {
-						for (int zz = -4; zz <= 4; ++zz) {
-							Block block = Block.blocksList[world.getBlockID(x + xx, y + yy, z + zz)];
+			// Classify the neighbourhood: 0 = log, -2 = leaves, -1 = anything else.
+			// Any wood-material block counts as a log (hollow/chipped logs included),
+			// and every BlockLeaves subtype counts as leaves.
+			for (int i = 0; i < CELL_COUNT; ++i) {
+				Block block = Block.blocksList[world.getBlockID(x + PROBE_DX[i], y + PROBE_DY[i], z + PROBE_DZ[i])];
+				int cursor = PROBE_CURSOR[i];
 
-							if (block == null || block.blockMaterial != Material.wood) {
-								if (block instanceof BlockLeaves) {
-									this.surroundings[((xx + 16) << 10) + ((yy + 16) << 5) + (zz + 16)] = -2;
-								} else {
-									this.surroundings[((xx + 16) << 10) + ((yy + 16) << 5) + (zz + 16)] = -1;
-								}
+				if (block != null && block.blockMaterial == Material.wood) {
+					adjacency[cursor] = 0;
+				} else if (block instanceof BlockLeaves) {
+					adjacency[cursor] = -2;
 							} else {
-								this.surroundings[((xx + 16) << 10) + ((yy + 16) << 5) + (zz + 16)] = 0;
-							}
-						}
+					adjacency[cursor] = -1;
 					}
 				}
 
-				for (int density = 1; density <= 4; ++density) {
-					for (int xx = -4; xx <= 4; ++xx) {
-						for (int yy = -4; yy <= 4; ++yy) {
-							for (int zz = -4; zz <= 4; ++zz) {
-								if (this.surroundings[((xx + 16) << 10) + ((yy + 16) << 5) + zz + 16] == density
-										- 1) {
-									if (this.surroundings[((xx + 16 - 1) << 10) + ((yy + 16) << 5) + zz	+ 16] == -2) {
-										this.surroundings[((xx + 16 - 1) << 10) + ((yy + 16) << 5) + zz	+ 16] = density;
+			// Flood from each log (distance 0) outward through leaves, at most RADIUS steps.
+			for (int distance = 1; distance <= RADIUS; ++distance) {
+				for (int i = 0; i < CELL_COUNT; ++i) {
+					int cursor = PROBE_CURSOR[i];
+					if (adjacency[cursor] == distance - 1) {
+						for (int stride : NEIGHBOR_STRIDES) {
+							int neighbor = cursor + stride;
+							if (adjacency[neighbor] == -2) {
+								adjacency[neighbor] = distance;
+									}
+									}
+									}
+									}
 									}
 
-									if (this.surroundings[((xx + 16 + 1) << 10) + ((yy + 16) << 5) + zz + 16] == -2) {
-										this.surroundings[((xx + 16 + 1) << 10) + ((yy + 16) << 5) + zz	+ 16] = density;
-									}
-
-									if (this.surroundings[((xx + 16) << 10) + ((yy + 16 - 1) << 5) + zz	+ 16] == -2) {
-										this.surroundings[((xx + 16) << 10) + ((yy + 16 - 1) << 5) + zz	+ 16] = density;
-									}
-
-									if (this.surroundings[((xx + 16) << 10) + ((yy + 16 + 1) << 5) + zz	+ 16] == -2) {
-										this.surroundings[((xx + 16) << 10) + ((yy + 16 + 1) << 5) + zz	+ 16] = density;
-									}
-
-									if (this.surroundings[((xx + 16) << 10) + ((yy + 16) << 5)
-											+ (zz + 16 - 1)] == -2) {
-										this.surroundings[((xx + 16) << 10) + ((yy + 16) << 5)
-												+ (zz + 16 - 1)] = density;
-									}
-
-									if (this.surroundings[((xx + 16) << 10) + ((yy + 16) << 5) + zz + 16 + 1] == -2) {
-										this.surroundings[((xx + 16) << 10) + ((yy + 16) << 5) + zz + 16 + 1] = density;
-									}
-								}
-							}
-						}
-					}
-				}
-
-				int l2 = this.surroundings[16912];
-
-				if (l2 >= 0) {
-					world.setBlockMetadata(x, y, z, metadata & -9); // Clear bit 3
+			if (adjacency[CENTER] >= 0) {
+				// Still tethered to a log: keep the leaves and clear the re-check mark.
+				world.setBlockMetadata(x, y, z, metadata & ~DECAY_CHECK_BIT);
 				} else {
 					this.removeLeaves(world, x, y, z);
 				}
 			}
 		}
-	}
-
 
 	private void removeLeaves(World world, int i, int j, int k) {
 		this.dropBlockAsItem(world, i, j, k, world.getBlockMetadata(i, j, k));

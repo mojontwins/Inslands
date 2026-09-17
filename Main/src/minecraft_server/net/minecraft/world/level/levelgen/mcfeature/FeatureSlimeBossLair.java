@@ -3,7 +3,6 @@ package net.minecraft.world.level.levelgen.mcfeature;
 import java.util.Random;
 
 import net.minecraft.world.level.World;
-import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.chunk.IChunkProvider;
@@ -36,22 +35,14 @@ public class FeatureSlimeBossLair extends Feature {
 	
 	@Override
 	public boolean shouldSpawn(IChunkProvider chunkProvider, World world, Random rand, BiomeGenBase biome, int chunkX, int chunkZ) {
-		/*
-		Chunk chunk = world.justGenerateForHeight(chunkX, chunkZ);
-		return 
-				!(chunkProvider instanceof ChunkProviderSky) && 
-				!chunk.isOcean && 
-				!chunk.isUrbanChunk;
-		*/
-		//System.out.println ("Should spawn FeatureSlimeBossLair @ " + chunkX + " " + chunkZ + " biome " + biome + "  (" + (WorldSize.xChunks/2) + " " + (WorldSize.zChunks/2) + ")");
-		return biome == BiomeGenBase.themeWhiteForest && 
-				chunkX == WorldSize.xChunks / 2 && 
-				chunkZ == WorldSize.zChunks / 2;
+		// This feature will never be elligible for spawning naturally. It will be placed manually from the white forest theme.
+		return false;
 	}
 	
 	@Override
 	public boolean shouldFeatureSpawn(IChunkProvider chunkProvider, World world, Random rand, BiomeGenBase biome, int chunkX, int chunkZ) {
-		return this.shouldSpawn(chunkProvider, world, rand, biome, chunkX, chunkZ);
+		// This feature will never be elligible for spawning naturally. It will be placed manually from the white forest theme.
+		return false;
 	}
 
 	@Override
@@ -59,8 +50,6 @@ public class FeatureSlimeBossLair extends Feature {
 		long seed = this.world.getRandomSeed() + this.originChunkX * 25117 + this.originChunkZ * 151121;
 		this.randSpheres.setSeed(seed);
 		this.randGeneral.setSeed(seed);
-		
-		System.out.println ("Gen boss lair " + chunkX + " " + chunkZ);
 		
 		this.chunkXb1 = chunkX << 4;
 		this.chunkXb2 = this.chunkXb1 + 15;
@@ -112,7 +101,7 @@ public class FeatureSlimeBossLair extends Feature {
 			// Draw base
 			int y = minHeight;
 			
-			// System.out.println("Built monument @ around " + (16 * chunkX + 8) + ", " + y + ", " + (16 * chunkZ + 8));
+			System.out.println("Built monument @ around " + (16 * chunkX + 8) + ", " + y + ", " + (16 * chunkZ + 8));
 			
 			for(int i = 0; i < 2; i ++) {
 				for(int x = 4 + i; x < 12 - i; x ++) {

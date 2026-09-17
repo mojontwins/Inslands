@@ -40,12 +40,13 @@ public class LevelThemeForest extends LevelThemeSettings {
 	}
 
 	@Override
-	public void specialPostGeneration(World world) {
+	public void specialPrePopulation(World world) {
 		// Seed properly
 		this.rand = new Random(world.getRandomSeed());
 		
 		// When this runs, the whole world is generated and
 		// we can perform special stuff and detections
+		// right before population (i.e. trees & small feats)
 		
 		this.skyGen = world.worldProvider instanceof WorldProviderSky;
 				

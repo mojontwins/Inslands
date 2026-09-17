@@ -43,6 +43,7 @@ public class LevelThemeWhiteForest extends LevelThemeSettings {
 		System.out.println ("Adding the secret boss lair . . .");
 		int chunkX = WorldSize.xChunks / 2;
 		int chunkZ = WorldSize.zChunks / 2;
-		featureMap [WorldSize.coords2hash(chunkX, chunkZ)] = new FeatureSlimeBossLair(world, chunkX, chunkZ, featureProvider); 
+		Feature bossLair = new FeatureSlimeBossLair(world, chunkX, chunkZ, featureProvider); 
+		featureMap [WorldSize.coords2hash(chunkX, chunkZ)] = bossLair;
 	}
 }

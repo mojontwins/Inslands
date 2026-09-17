@@ -209,7 +209,7 @@ public class Block {
 	public static final Block layeredSand = (new BlockLayeredSand(134, 18)).setHardness(0.2F).setStepSound(soundSandFootstep).setBlockName("layeredSand");
 	public static final Block hollowLog = (new BlockHollowLog(135, 20)).setHardness(1.0F).setResistance(1.0F).setStepSound(soundWoodFootstep).setBlockName("hollowLog");
 	public static final Block dirtPath = (new BlockDirtPath(136, 13*16 + 6)).setHardness(0.6F).setStepSound(soundGrassFootstep).setBlockName("dirtPath");
-	public static final Block blockCoal = (new Block(137, 14*16 + 4, Material.rock)).setHardness(1.5F).setResistance(10.0F).setStepSound(soundStoneFootstep).setBlockName("blockCoal");
+	public static final Block blockCoal = (new Block(137, 14*16 + 4, Material.rock)).setHardness(1.5F).setResistance(10.0F).setStepSound(soundStoneFootstep).setBlockName("blockCoal").setCreativeTab(CreativeTabs.tabBlock);
 	public static final Block regolith = (new BlockRegolith(138, 13*16 + 5)).setHardness(0.7F).setStepSound(soundGravelFootstep).setBlockName("regolith");
 	public static final Block glowshroom = (new BlockMushroom(139, 13*16 + 4)).setHardness(0.0F).setStepSound(soundGrassFootstep).setLightValue(0.5F).setBlockName("glowshroom");
 	public static final Block oreRuby = (new BlockOre(140, 14*16 + 3)).setHardness(2.5F).setResistance(10.0F).setStepSound(soundStoneFootstep).setBlockName("oreRuby");
@@ -292,7 +292,7 @@ public class Block {
 	// Nether ores
 	public static final Block oreQuartz = (new BlockOre(211, 10*16+12)).setHardness(2.0F).setResistance(5.0F).setStepSound(soundStoneFootstep).setBlockName("oreQuartz");
 	public static final Block oreNetherGold = (new BlockOre(212, 10*16+10)).setHardness(3.0F).setResistance(5.0F).setStepSound(soundStoneFootstep).setBlockName("oreGold");
-	public static final Block oreNetherDiamond = (new BlockOre(213, 10*16+11)).setHardness(3.0F).setResistance(5.0F).setStepSound(soundStoneFootstep).setBlockName("oreCoal");
+	public static final Block oreNetherDiamond = (new BlockOre(213, 10*16+11)).setHardness(3.0F).setResistance(5.0F).setStepSound(soundStoneFootstep).setBlockName("oreDiamond");
 	public static final Block blockQuartz = (new BlockOreStorage(214, 10*16+9)).setHardness(3.0F).setResistance(10.0F).setStepSound(soundMetalFootstep).setBlockName("blockQuartz");
 	
 	// Nether blocks

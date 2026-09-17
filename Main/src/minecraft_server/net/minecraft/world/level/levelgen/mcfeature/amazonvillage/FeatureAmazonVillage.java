@@ -182,6 +182,6 @@ public class FeatureAmazonVillage extends FeatureVillage {
 	
 	@Override
 	public int minimumSeparation() {
-		return 16;
+		return 8;
 	}
 }
