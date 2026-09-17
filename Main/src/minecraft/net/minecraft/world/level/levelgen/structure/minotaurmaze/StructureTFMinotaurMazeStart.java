@@ -8,8 +8,8 @@ import net.minecraft.world.level.levelgen.structure.StructureStart;
 
 public class StructureTFMinotaurMazeStart extends StructureStart {
 	public StructureTFMinotaurMazeStart(World world, Random rand, int chunkX, int chunkZ) {
-		int x = (chunkX << 4) + rand.nextInt(16) - 8;
-		int z = (chunkZ << 4) + rand.nextInt(16) - 8;
+		int x = (chunkX << 4) + 8;
+		int z = (chunkZ << 4) + 8;
 
 		int y = world.getWorldInfo().getTerrainType().getSeaLevel(world);
 		

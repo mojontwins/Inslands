@@ -10,10 +10,13 @@ import net.minecraft.world.level.World;
 import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.WorldType;
 import net.minecraft.world.level.biome.BiomeGenBase;
+import net.minecraft.world.level.dimension.WorldProviderHell;
 import net.minecraft.world.level.dimension.WorldProviderSky;
 import net.minecraft.world.level.levelgen.feature.TFGenHedgeMaze;
 import net.minecraft.world.level.levelgen.feature.TFGenHillMaze;
 import net.minecraft.world.level.levelgen.feature.WorldGenerator;
+import net.minecraft.world.level.levelgen.structure.StructureBoundingBox;
+import net.minecraft.world.level.levelgen.structure.minotaurmaze.StructureTFMinotaurMazeStart;
 
 public class LevelThemeForest extends LevelThemeSettings {
 	private Random rand;
@@ -55,6 +58,40 @@ public class LevelThemeForest extends LevelThemeSettings {
 		
 		// Generate underhill mazes.
 		this.generateUnderhillMazes(world);
+
+		// Generate a single minotaur maze, centered on the world's center chunk.
+		this.generateMinotaurMaze(world);
+	}
+
+	private void generateMinotaurMaze(World world) {
+		// Floating island worlds never had a minotaur maze.
+		if (this.skyGen) return;
+
+		// The nether preload also runs this theme hook; it never had a maze either.
+		if (world.worldProvider instanceof WorldProviderHell) return;
+
+		// Match the old mapFeatures gate.
+		if (!world.getWorldInfo().isMapFeaturesEnabled()) return;
+
+		// Once per world, centered on the center chunk so the whole
+		// (very wide) maze fits inside the level.
+		int chunkX = WorldSize.xChunks / 2;
+		int chunkZ = WorldSize.zChunks / 2;
+
+		StructureTFMinotaurMazeStart start = new StructureTFMinotaurMazeStart(world, this.rand, chunkX, chunkZ);
+
+		// Draw every part of the maze that overlaps each chunk, exactly like the
+		// old per-chunk generateStructuresInChunk did during population.
+		StructureBoundingBox bb = start.getBoundingBox();
+		for (int cx = bb.minX >> 4; cx <= bb.maxX >> 4; cx++) {
+			if (cx < 0 || cx >= WorldSize.xChunks) continue;
+			for (int cz = bb.minZ >> 4; cz <= bb.maxZ >> 4; cz++) {
+				if (cz < 0 || cz >= WorldSize.zChunks) continue;
+				int x0 = (cx << 4) + 8;
+				int z0 = (cz << 4) + 8;
+				start.generateStructure(world, this.rand, new StructureBoundingBox(x0, z0, x0 + 15, z0 + 15), this.skyGen);
+			}
+		}
 	}
 
 	private void generateUnderhillMazes(World world) {

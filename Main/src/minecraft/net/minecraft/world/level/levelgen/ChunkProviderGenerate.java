@@ -13,7 +13,6 @@ import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.chunk.EmptyChunk;
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.chunk.storage.IProgressUpdate;
-import net.minecraft.world.level.dimension.WorldProviderSky;
 import net.minecraft.world.level.levelgen.feature.WorldGenCactus;
 import net.minecraft.world.level.levelgen.feature.WorldGenClay;
 import net.minecraft.world.level.levelgen.feature.WorldGenDungeons;
@@ -57,7 +56,6 @@ public class ChunkProviderGenerate implements IChunkProvider {
 	protected MapGenBase ravineGenerator = new MapGenRavine();
 	protected MapGenMineshaft mineshaftGenerator;
 	protected MapGenStronghold strongholdGenerator;
-	protected MapGenTFMinotaurMaze minotaurMazeGenerator;
 
 	protected BiomeGenBase[] biomesForGeneration;
 	double[] mainArray;
@@ -99,7 +97,6 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		this.caveGenerator = this.getCaveGenerator();
 		this.mineshaftGenerator = new MapGenMineshaft(world);
 		this.strongholdGenerator = new MapGenStronghold(world);
-		this.minotaurMazeGenerator = new MapGenTFMinotaurMaze(world);
 		
 	}
 	
@@ -351,7 +348,6 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		if (this.mapFeaturesEnabled) {
 			this.mineshaftGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
 			this.strongholdGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
-			this.minotaurMazeGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
 		}		
 
 		// Ravines
@@ -828,7 +824,6 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		if (this.mapFeaturesEnabled) {
 			this.mineshaftGenerator.generateStructuresInChunk(this.worldObj, this.rand, chunkX, chunkZ, false);
 			this.strongholdGenerator.generateStructuresInChunk(this.worldObj, this.rand, chunkX, chunkZ, true);
-			this.minotaurMazeGenerator.generateStructuresInChunk(this.worldObj, this.rand, chunkX, chunkZ, this.worldObj.worldProvider instanceof WorldProviderSky);
 		}
 	}
 	
