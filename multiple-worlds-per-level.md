@@ -68,6 +68,7 @@ Each linked world has its own `level.dat` with a `WorldInfo` that stores:
 | `generatorName` | existing (`WorldType`) | the **terrain type Y** of the link (any theme's terrain type, including Sky-style for Paradise) |
 | `ThemeId` | existing | the **theme X** of the link (0..6) |
 | `WidthInChunks`/`LengthInChunks` | existing | **random per world** (size id 0..4 via `WorldSize.setSizeById`), frozen in this world's level.dat at reserve time |
+| `LastPositionX/Y/Z`, `LastPositionYaw/Pitch` | **new** | that world's remembered exit position/rotation; the landing spot on re-entry (§4.2, §5.11) |
 | `Player` tag | existing | per-world player position + shared inventory snapshot |
 
 `WorldInfo(nbt)` already calls `LevelThemeGlobalSettings.loadThemeById(...)` and
@@ -214,9 +215,10 @@ Two distinct portal systems coexist:
      `WorldNameGen.getName(baseSeed, worldId)` (§5.13).
    - If brand new / never generated → set theme/terrain/size from the stub, bulk
      `generateWholeWorld`, find spawn, save.
-   - `changeWorld(newWorld, caption, player)` (`Minecraft.java:1416`), then a
-     **Teleporter matched by destination metadata** to find/place the landing
-     exit (§5.4).
+   - `changeWorld(newWorld, caption, player)` (`Minecraft.java:1416`), then place
+     the player per the **landing rule §4.2** (remembered exit position → partner
+     portal → natural spawn); the Teleporter's `findExitLocation` only provides
+     the fallback.
    - **On first entry**: auto-place a **return portal** (§4.1) that links back to
      the world you came from.
 4. Death: `respawn` keeps you in the current world — linked worlds keep
@@ -236,6 +238,43 @@ Two distinct portal systems coexist:
 - It is a perfectly normal world portal: active the same way (diamond tool hit),
   holds a reference on the world it points to (§3.7), and breaking it yields
   nothing (like every portal block, §3.3).
+
+#### 4.2 Where the player lands (per-world exit position)
+
+Travelling **forwards** into a brand-new world is easy (its natural spawn is the
+landing spot), but **going back** to an already-generated world needs an explicit
+rule. The fix is to **remember, per world, where the player was when they left
+it** — stored in that world's own `level.dat` (`WorldInfo`), so no separate file
+is needed. On every `travelToDimension(destId)` landing (§5.10):
+
+1. **First entry (stub, never generated).** Generate the world; use the theme's
+   natural initial spawn (the spawning house); place the return portal there
+   (§4.1) and land the player **on it**. This spot is then that world's initial
+   remembered position.
+2. **Existing world with a remembered position** (the normal "going backwards"
+   case). Restore `LastPositionX/Y/Z` (+ `LastPositionYaw/Pitch`): the player
+   reappears exactly where they stood when they last left that world. This is
+   deliberately **not** partner-portal matching — it sidesteps the ambiguity of
+   several portals pointing at the same world id, and "resuming where I left"
+   is what the player expects.
+3. **No remembered position, or it is no longer valid.** Fall back to the
+   **partner portal** — the `BlockWorldPortal` in the destination whose metadata
+   == the source world id (there is one in the spawning house after §4.1) — and
+   otherwise to the world's natural spawn point.
+
+Recording and safety:
+- **On leaving world A** (any world-portal or nether trip out, i.e. before
+  `changeWorld`): write A's current player position *and* rotation into A's
+  `level.dat` root as `LastPositionX/Y/Z` + `LastPositionYaw/Pitch`. Also refresh
+  it on ordinary world saves so a crash doesn't lose it.
+- Before restoring, **validate** the spot (reuse the vanilla `Teleporter` safety
+  search): inside `WorldSize` bounds, not inside a solid block, not over void/
+  lava — else fall through to case 3.
+- The recorded spot is wherever the player stood within tool reach of the portal
+  (hitting a portal doesn't move the player), which is the portal area and is
+  fine.
+- Scoped to **world-portal** travel; the nether keeps its vanilla scaled
+  partner-portal behaviour (§4, "Nether-portal travel").
 
 ### Nether-portal travel (vanilla path, reworked)
 
@@ -334,9 +373,11 @@ branches are collapsed into this. Legacy `-1` arrives already migrated to `1`
 ### 5.5 `Teleporter.java` (client + server)
 
 - `findExitLocation` (`Teleporter.java:22`) currently matches only
-  `Block.portal` (`:43`). Generalise to match **either** `BlockWorldPortal`
-  whose metadata equals the target id, or the vanilla nether portal (fall back to
-  current behaviour for the nether return path).
+  `Block.portal` (`:43`). Generalise it to match **either** a `BlockWorldPortal`
+  whose metadata equals the source id, or the vanilla nether portal. For
+  world-portal travel this is used only as the **fallback** landing (partner
+  portal) — normally the player is placed at the destination's remembered exit
+  position (§4.2). The nether keeps the current behaviour.
 - `createExitLocation` (`:89`) / `Minecraft.usePortal` coordinate maths
   (`:1351-1378`): the ÷2/×2 nether scaling applies **only** between an overworld
   and the nether; linked-world ↔ linked-world world-portal travel maps 1:1
@@ -435,15 +476,20 @@ colour) for creative/recipes. **Rendering uses the 3D block path** (Option A,
 ### 5.10 `Minecraft.java` + block-attack hook (client; matching server hook)
 
 - New `travelToDimension(int destId)` around the existing `usePortal()`
-  (`Minecraft.java:1335`) per §4.
+  (`Minecraft.java:1335`) per §4. Landing position follows **§4.2**: remembered
+  per-world exit position → partner portal → natural spawn.
+- **Before switching**: record the current world's exit position and rotation
+  into that world's `level.dat` (`LastPositionX/Y/Z` + `LastPositionYaw/Pitch`,
+  §4.2/§5.11), then save.
 - Rework `usePortal()` for the new numbering: on entering the nether, set
   `thePlayer.netherReturnWorldId = <current world id>` first; on leaving, travel
   to `thePlayer.netherReturnWorldId` (fallback 0).
-- Add a `createReturnPortal()` step after entering a new world on **first
-  entry**: place a `BlockWorldPortal` with `metadata == source id` inside the
-  spawning house at the spawn-level floor tile, clear any block covering it, set
-  the player's landing position and spawn point **on top of the portal**, and
-  register the reference it holds on the source world (§3.7, §5.8).
+- Add a `createReturnPortal()` step when entering a world that is **newly
+  generated** (case 1 of §4.2): place a `BlockWorldPortal` with `metadata ==
+  source id` inside the spawning house at the spawn-level floor tile, clear any
+  block covering it, set the player's landing position and spawn point **on top
+  of the portal**, and register the reference it holds on the source world
+  (§3.7, §5.8).
 - Insert the **block-attack hook** at the left-click dispatch
   (`Minecraft.java:853` → `playerController.clickBlock`): if the target is a
   `BlockWorldPortal` and the held item is a diamond-tier tool/weapon, cancel the
@@ -461,13 +507,15 @@ inventory/stats while remembering per-world position:
 - Keep one **canonical player snapshot** in memory (survives world switches;
   also written into world 0's `Player`). It includes `netherReturnWorldId` so the
   nether return target is stable across worlds and sessions.
-- On leaving world A: store A's position (and full player tag) into A's
-  `level.dat`, then save.
-- On entering world B: write a `Player` tag into B's `level.dat` made of
-  [canonical inventory/stats/XP] + [B's own last position], then read it as the
+- On leaving world A: store A's position **and rotation** (and full player tag)
+  into A's `level.dat` root as `LastPositionX/Y/Z` + `LastPositionYaw/Pitch`, then
+  save (this is the data the landing rule §4.2 reads back).
+- On entering world B: land per §4.2 (B's remembered position, else partner portal
+  / natural spawn); build the `Player` tag for B from
+  [canonical inventory/stats/XP] + [the landing position], then read it as the
   new player's data (via the usual `world.saves`/player-creation path).
 - Store "last position per world" inside each linked world's `level.dat` root
-  (`LastPositionX/Y/Z`) — no separate registry file needed.
+  (`LastPositionX/Y/Z`, §3.2) — no separate registry file needed.
 
 ### 5.12 Theme / noise-offset care
 
@@ -588,14 +636,17 @@ legacy `-1`/Paradise worlds survive the renumbering, nether still works.
 **M2 — place & travel (SP).** §5.5, §5.8, §5.9, §5.10, §5.14: ItemWorldPortal
 places the block, allocates the id, writes the stub; hitting the portal with a
 diamond tool reserves+generates the world, teleports the player, builds the
-return portal, saves. Verify: place portal in world 0 → DIM-2 stub; hit it →
-enter world 2; hit the return portal → back to 0; re-enter 2 (position restored).
-Hidden-world API: `placeNewWorldPortal(world, x, y, z, theme, size, terrain)`
-reserves a world with those exact params (verbatim; callers apply any
-`forcedWorldType`/random resolution first, as the item path does).
+return portal, saves. Landing follows §4.2 (remembered exit position → partner
+portal → natural spawn). Verify: place portal in world 0 → DIM-2 stub; hit it →
+enter world 2; hit the return portal → back to 0 **at the spot where you left
+world 0**; re-enter 2 (position restored). Hidden-world API:
+`placeNewWorldPortal(world, x, y, z, theme, size, terrain)` reserves a world
+with those exact params (verbatim; callers apply any `forcedWorldType`/random
+resolution first, as the item path does).
 
 **M3 — player data sharing (§5.11).** Verify: take items in world 2, return to 0,
-items still there; position per world is remembered.
+items still there; each world's exit position/rotation is remembered and the
+first-entry / invalid-position fallbacks (§4.2) land correctly.
 
 **M4 — polish (SP).** Theme flags + create-world gating (`showsOnCreation` skips
 hidden themes in the `GuiCreateWorld` theme button; `isRandomWorldTheme` narrows
@@ -723,6 +774,13 @@ for itself.
    randomisation) and only refuses the nether. The item path enforces
    `forcedWorldType` *before* calling it. Hidden themes are unreachable except
    through such portals. (§5.8, §5.14)
+10. **RESOLVED — landing on re-entry: per-world remembered exit position.**
+    Each world's `level.dat` stores `LastPositionX/Y/Z` + yaw/pitch, written when
+    the player leaves it. Re-entering lands the player there (resume); first
+    entry lands on the freshly placed return portal, and if the remembered
+    position is missing/invalid the fallback is the partner portal, then the
+    natural spawn. Avoids partner-portal ambiguity when several portals point at
+    the same world. (§4.2, §5.5, §5.10, §5.11)
 
 ## 11. Key file anchors (current code)
 
