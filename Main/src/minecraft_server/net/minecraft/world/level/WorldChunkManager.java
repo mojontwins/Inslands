@@ -10,30 +10,35 @@ import net.minecraft.world.level.levelgen.synth.NoiseGeneratorPerlin;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 
 public class WorldChunkManager {
-	private NoiseGeneratorOctaves2 ngo1;
-	private NoiseGeneratorOctaves2 ngo2;
-	private NoiseGeneratorOctaves2 ngo3;
-	private NoiseGeneratorPerlin ngp;
+	// Noise generators for climate noise
+	private NoiseGeneratorOctaves2 temperatureNoiseGen;
+	private NoiseGeneratorOctaves2 humidityNoiseGen;
+	private NoiseGeneratorOctaves2 variationNoiseGen;
+	private NoiseGeneratorPerlin altChunkNoiseGen;
 	
-	public double[] temperature;
-	public double[] humidity;
-	public double[] variation;
+	// Scratch buffers reused across calls. Each loadBlockGeneratorData() call overwrites
+	// them. They hold the post-processed temperature / humidity for the most recently
+	// generated x/z grid. Values are copied into Chunk.temperatureCache / humidityCache
+	// during provideChunk() so later calls cannot clobber them.
+	public double[] temperatureScratch;
+	public double[] humidityScratch;
+	public double[] variationScratch;
 	public BiomeGenBase[] generatedBiomes;
 
 	protected WorldChunkManager() {
 	}
 
 	public WorldChunkManager(World world) {
-		this.ngo1 = new NoiseGeneratorOctaves2(new Random(world.getRandomSeed() * 9871L), 4);
-		this.ngo2 = new NoiseGeneratorOctaves2(new Random(world.getRandomSeed() * 39811L), 4);
-		this.ngo3 = new NoiseGeneratorOctaves2(new Random(world.getRandomSeed() * 543321L), 2);
+		this.temperatureNoiseGen = new NoiseGeneratorOctaves2(new Random(world.getRandomSeed() * 9871L), 4);
+		this.humidityNoiseGen = new NoiseGeneratorOctaves2(new Random(world.getRandomSeed() * 39811L), 4);
+		this.variationNoiseGen = new NoiseGeneratorOctaves2(new Random(world.getRandomSeed() * 543321L), 2);
 		
-		this.ngp = new NoiseGeneratorPerlin(new Random(world.getRandomSeed() * 9871L));
+		this.altChunkNoiseGen = new NoiseGeneratorPerlin(new Random(world.getRandomSeed() * 9871L));
 	}
 	
 	// For easy alternate chunk decoration in single biome themes (or whatever) you can use this
 	public boolean isAltChunk(int chunkX, int chunkZ, double threshold) {
-	    return this.ngp.generateNoise(chunkX / 16.0F, chunkZ / 16.0F) > threshold;
+	    return this.altChunkNoiseGen.generateNoise(chunkX / 16.0F, chunkZ / 16.0F) > threshold;
 	}
 
 	public BiomeGenBase getBiomeGenAtChunkCoord(ChunkCoordIntPair chunkCoordIntPair1) {
@@ -44,46 +49,9 @@ public class WorldChunkManager {
 		return this.getBiomesForGeneration(i1, i2, 1, 1)[0];
 	}
 
-	public double getTemperature(int i1, int i2) {
-		this.temperature = this.ngo1.generateNoiseOctaves(this.temperature, (double)i1, (double)i2, 1, 1, 0.02500000037252903D, 0.02500000037252903D, 0.5D);
-		return this.temperature[0];
-	}
-
 	public BiomeGenBase[] getBiomesForGeneration(int i1, int i2, int i3, int i4) {
 		this.generatedBiomes = this.loadBlockGeneratorData(this.generatedBiomes, i1, i2, i3, i4);
 		return this.generatedBiomes;
-	}
-
-	public double[] getTemperatures(double[] d1, int i2, int i3, int i4, int i5) {
-		if(d1 == null || d1.length < i4 * i5) {
-			d1 = new double[i4 * i5];
-		}
-
-		d1 = this.ngo1.generateNoiseOctaves(d1, (double)i2, (double)i3, i4, i5, 0.02500000037252903D, 0.02500000037252903D, 0.25D);
-		this.variation = this.ngo3.generateNoiseOctaves(this.variation, (double)i2, (double)i3, i4, i5, 0.25D, 0.25D, 0.5882352941176471D);
-		int i6 = 0;
-
-		for(int i7 = 0; i7 < i4; ++i7) {
-			for(int i8 = 0; i8 < i5; ++i8) {
-				double d9 = this.variation[i6] * 1.1D + 0.5D;
-				double d11 = 0.01D;
-				double d13 = 1.0D - d11;
-				double d15 = (d1[i6] * 0.15D + 0.7D) * d13 + d9 * d11;
-				d15 = 1.0D - (1.0D - d15) * (1.0D - d15);
-				if(d15 < 0.0D) {
-					d15 = 0.0D;
-				}
-
-				if(d15 > 1.0D) {
-					d15 = 1.0D;
-				}
-
-				d1[i6] = d15;
-				++i6;
-			}
-		}
-
-		return d1;
 	}
 
 	// Calculate which biome
@@ -95,14 +63,14 @@ public class WorldChunkManager {
 		xPos += GlobalVars.noiseOffsetX;
 		zPos += GlobalVars.noiseOffsetZ;
 		
-		this.temperature = this.ngo1.generateNoiseOctaves(this.temperature, (double)xPos, (double)zPos, width, length, 0.025D, 0.025D, 0.25D);
-		this.humidity = this.ngo2.generateNoiseOctaves(this.humidity, (double)xPos, (double)zPos, width, length, 0.05D, 0.05D, 0.33D);
-		this.variation = this.ngo3.generateNoiseOctaves(this.variation, (double)xPos, (double)zPos, width, length, 0.25D, 0.25D, 0.5882352941176471D);
+		this.temperatureScratch = this.temperatureNoiseGen.generateNoiseOctaves(this.temperatureScratch, (double)xPos, (double)zPos, width, length, 0.025D, 0.025D, 0.25D);
+		this.humidityScratch = this.humidityNoiseGen.generateNoiseOctaves(this.humidityScratch, (double)xPos, (double)zPos, width, length, 0.05D, 0.05D, 0.33D);
+		this.variationScratch = this.variationNoiseGen.generateNoiseOctaves(this.variationScratch, (double)xPos, (double)zPos, width, length, 0.25D, 0.25D, 0.5882352941176471D);
 		
 		/*
-		this.temperature = this.ngo1.generateNoiseOctaves(this.temperature, (double)xPos, (double)zPos, width, length, 0.04D, 0.4D, 0.25D);
-		this.humidity = this.ngo2.generateNoiseOctaves(this.humidity, (double)xPos, (double)zPos, width, length, 0.08D, 0.08D, 0.33D);
-		this.variation = this.ngo3.generateNoiseOctaves(this.variation, (double)xPos, (double)zPos, width, length, 0.25D, 0.25D, 0.5882352941176471D);
+		this.temperatureScratch = this.temperatureNoiseGen.generateNoiseOctaves(this.temperatureScratch, (double)xPos, (double)zPos, width, length, 0.04D, 0.4D, 0.25D);
+		this.humidityScratch = this.humidityNoiseGen.generateNoiseOctaves(this.humidityScratch, (double)xPos, (double)zPos, width, length, 0.08D, 0.08D, 0.33D);
+		this.variationScratch = this.variationNoiseGen.generateNoiseOctaves(this.variationScratch, (double)xPos, (double)zPos, width, length, 0.25D, 0.25D, 0.5882352941176471D);
 		*/
 		int biomeIndex = 0;
 
@@ -118,13 +86,13 @@ public class WorldChunkManager {
 					humidity = LevelThemeGlobalSettings.humidity;
 				} else {
 					
-					double d9 = this.variation[biomeIndex] * 1.1D + 0.5D;
+					double d9 = this.variationScratch[biomeIndex] * 1.1D + 0.5D;
 					double d11 = 0.01D;
 					double d13 = 1.0D - d11;
-					temperature = (this.temperature[biomeIndex] * 0.15D + 0.7D) * d13 + d9 * d11;
+					temperature = (this.temperatureScratch[biomeIndex] * 0.15D + 0.7D) * d13 + d9 * d11;
 					d11 = 0.002D;
 					d13 = 1.0D - d11;
-					humidity = (this.humidity[biomeIndex] * 0.15D + 0.5D) * d13 + d9 * d11;
+					humidity = (this.humidityScratch[biomeIndex] * 0.15D + 0.5D) * d13 + d9 * d11;
 					temperature = 1.0D - (1.0D - temperature) * (1.0D - temperature);
 	
 					if(temperature < 0.0D) {
@@ -146,8 +114,8 @@ public class WorldChunkManager {
 					biome = BiomeGenBase.getBiomeFromLookup(temperature, humidity);
 				}
 				
-				this.temperature[biomeIndex] = temperature;
-				this.humidity[biomeIndex] = humidity;
+				this.temperatureScratch[biomeIndex] = temperature;
+				this.humidityScratch[biomeIndex] = humidity;
 				biomeGenArray[biomeIndex] = biome;
 				biomeIndex ++;
 			}

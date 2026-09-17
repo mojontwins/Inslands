@@ -577,3 +577,8 @@ This would be completely impossible in the vanilla game lol.
 * [X] Haystacks glitch their textures, probably for having changed the class hyerarchy for blocks you can place in different orientations.
 
 * [ ] Add a fire place of sorts?
+
+# Rounding up what's there
+
+* [X] Whole generation in stages!
+* [ ] Now you have this, revise all themes so big, problematic structures are added in the right stage.

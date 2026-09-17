@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.level.Weather;
 import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldChunkManager;
 import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.WorldType;
 import net.minecraft.world.level.biome.BiomeGenBase;
@@ -304,6 +305,19 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		
 		// Cache biomes in chunk
 		chunk.biomeGenCache = this.biomesForGeneration.clone();
+		
+		// Capture the post-processed temperature, humidity and biome codes for this chunk
+		// right now: any later loadBlockGeneratorData() call (e.g. the 21x21 grid in
+		// initializeNoiseField) overwrites the world chunk manager scratch arrays.
+		WorldChunkManager worldChunkManager = this.worldObj.getWorldChunkManager();
+		chunk.temperatureCache = new float[256];
+		chunk.humidityCache = new float[256];
+		chunk.biomeIdCache = new byte[256];
+		for(int cacheIndex = 0; cacheIndex < 256; cacheIndex ++) {
+			chunk.temperatureCache[cacheIndex] = (float)worldChunkManager.temperatureScratch[cacheIndex];
+			chunk.humidityCache[cacheIndex] = (float)worldChunkManager.humidityScratch[cacheIndex];
+			chunk.biomeIdCache[cacheIndex] = (byte)this.biomesForGeneration[cacheIndex].biomeCode;
+		}
 
 		// Generate terrain for this chunk
 		this.generateTerrain(chunkX, chunkZ, blockArray);
@@ -355,18 +369,141 @@ public class ChunkProviderGenerate implements IChunkProvider {
 
 	public Chunk justGenerateForHeight(int chunkX, int chunkZ) {
 		this.rand.setSeed((long)chunkX * 341873128712L + (long)chunkZ * 132897987541L);
-		
-		// Empty block array & new Chunk
-		byte[] blockArray = new byte[32768];
-		byte[] metadata = new byte[32768];
-		Chunk chunk = new Chunk(this.worldObj, blockArray, metadata, chunkX, chunkZ);
-		this.biomesForGeneration = this.worldObj.getWorldChunkManager().loadBlockGeneratorData(this.biomesForGeneration, chunkX * 16, chunkZ * 16, 16, 16);
-		chunk.biomeGenCache = this.biomesForGeneration.clone();
-		this.generateTerrain(chunkX, chunkZ, blockArray);
-		chunk.generateLandSurfaceHeightMap();
-		this.terraform(chunkX, chunkZ, chunk, this.biomesForGeneration);
-		
+
+		// Height-only terrain: evaluate the density lattice and record per-column surface
+		// heights directly, without materialising the 2 x 32 KB block arrays.
+		Chunk chunk = new Chunk(this.worldObj, chunkX, chunkZ);
+		byte[] surface = new byte[256];
+		this.computeLandSurfaceHeightMap(chunkX, chunkZ, surface);
+
+		chunk.landSurfaceHeightMap = surface;
+		chunk.isOcean = this.isOcean;
+		this.terraformHeightMap(chunkX, chunkZ, surface);
+
 		return chunk;
+	}
+
+	/**
+	 * Density-only land surface height map: replays the exact same trilinear interpolation
+	 * sequence as {@link #generateTerrain(int, int, byte[])} but instead of writing the 32768
+	 * block bytes it records the highest positive-density cell per column (the topmost stone,
+	 * which is the only opaque block the terrain pass emits) and folds the {@code isOcean}
+	 * sea-level test the same way. Byte-identical result, no block arrays.
+	 */
+	private void computeLandSurfaceHeightMap(int chunkX, int chunkZ, byte[] surface) {
+		final double noiseScale = 0.125D;
+		final double scalingFactor = 0.25D;
+		final double densityVariationSpeed = 0.25D;
+
+		final byte quadrantSize = 4;
+		final byte seaLevel = 64;
+		final int xSize = quadrantSize + 1;
+		final byte ySize = 17;
+		final int zSize = quadrantSize + 1;
+
+		this.terrainNoise = this.initializeNoiseField(this.terrainNoise, chunkX * quadrantSize, 0, chunkZ * quadrantSize, xSize, ySize, zSize, chunkX, chunkZ);
+		this.isOcean = true;
+
+		// Split in 4x16x4 sections
+		for(int xSection = 0; xSection < quadrantSize; ++xSection) {
+			for(int zSection = 0; zSection < quadrantSize; ++zSection) {
+				for(int ySection = 0; ySection < 16; ++ySection) {
+
+					double densityMinXMinYMinZ = this.terrainNoise[((xSection + 0) * zSize + zSection + 0) * ySize + ySection + 0];
+					double densityMinXMinYMaxZ = this.terrainNoise[((xSection + 0) * zSize + zSection + 1) * ySize + ySection + 0];
+					double densityMaxXMinYMinZ = this.terrainNoise[((xSection + 1) * zSize + zSection + 0) * ySize + ySection + 0];
+					double densityMaxXMinYMaxZ = this.terrainNoise[((xSection + 1) * zSize + zSection + 1) * ySize + ySection + 0];
+					double yLerpAmountMinXMinZ = (this.terrainNoise[((xSection + 0) * zSize + zSection + 0) * ySize + ySection + 1] - densityMinXMinYMinZ) * noiseScale;
+					double yLerpAmountMinXMaxZ = (this.terrainNoise[((xSection + 0) * zSize + zSection + 1) * ySize + ySection + 1] - densityMinXMinYMaxZ) * noiseScale;
+					double yLerpAmountMaxXMinZ = (this.terrainNoise[((xSection + 1) * zSize + zSection + 0) * ySize + ySection + 1] - densityMaxXMinYMinZ) * noiseScale;
+					double yLerpAmountMaxXMaxZ = (this.terrainNoise[((xSection + 1) * zSize + zSection + 1) * ySize + ySection + 1] - densityMaxXMinYMaxZ) * noiseScale;
+
+					for(int y = 0; y < 8; ++y) {
+						double curDensityMinXMinYMinZ = densityMinXMinYMinZ;
+						double curDensityMinXMinYMaxZ = densityMinXMinYMaxZ;
+						double xLerpAmountMinZ = (densityMaxXMinYMinZ - densityMinXMinYMinZ) * scalingFactor;
+						double xLerpAmountMaxZ = (densityMaxXMinYMaxZ - densityMinXMinYMaxZ) * scalingFactor;
+
+						int yy = ySection * 8 + y;
+
+						for(int x = 0; x < 4; ++x) {
+							double density = curDensityMinXMinYMinZ;
+							double densityIncrement = (curDensityMinXMinYMaxZ - curDensityMinXMinYMinZ) * densityVariationSpeed;
+
+							for(int z = 0; z < 4; ++z) {
+								// Same density test as generateTerrain's block write:
+								// stone where density > 0. The column's cells are visited in
+								// increasing y order, so the last positive cell is the surface.
+								if(density > 0.0D) {
+									surface[((zSection << 2) | z) << 4 | ((xSection << 2) | x)] = (byte)yy;
+									if(yy == seaLevel - 1) this.isOcean = false;
+								}
+
+								density += densityIncrement;
+							}
+
+							curDensityMinXMinYMinZ += xLerpAmountMinZ;
+							curDensityMinXMinYMaxZ += xLerpAmountMaxZ;
+						}
+
+						densityMinXMinYMinZ += yLerpAmountMinXMinZ;
+						densityMinXMinYMaxZ += yLerpAmountMinXMaxZ;
+						densityMaxXMinYMinZ += yLerpAmountMaxXMinZ;
+						densityMaxXMinYMaxZ += yLerpAmountMaxXMaxZ;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Height-only half of {@link #terraform(int, int, Chunk, BiomeGenBase[])}: applies the
+	 * same erosion/raising formula to the surface height map without touching block arrays.
+	 */
+	private void terraformHeightMap(int chunkX, int chunkZ, byte[] surface) {
+		int xx = chunkX << 4;
+		for(int x = 0; x < 16; x ++) {
+			double dx = Math.abs(((double)xx / (double)(WorldSize.width - 1) - 0.5D) * 2.0D);
+
+			int zz = chunkZ << 4;
+			for(int z = 0; z < 16; z ++) {
+				double dz = Math.abs(((double)zz / (double)(WorldSize.length - 1) - 0.5D) * 2.0D);
+
+				// Get a weighted 2D distance to the center of sorts. This is a cone centered on the whole map area
+				double d = Math.sqrt(dx * dx + dz * dz) * 1.2D;
+
+				// Get noise
+				double noise = this.noiseIslandGen.generateNoise(xx * 0.05D, zz * 0.05D) / 4.0D + 1.0D;
+
+				// Weird a bit with those values (noise and d) to get a nice fried agg shape
+				double factor = Math.max(Math.min(d, noise), Math.min(dx, dz));
+
+				if(factor > 1.0D) factor = 1.0D;
+				if(factor < 0.0D) factor = 0.0D;
+
+				// Curve a bit
+				factor *= factor;
+
+				// Land height map, that's what we are adjusting:
+				int height = surface[z << 4 | x] & 255;
+
+				// Adjust by factor, centered at 64
+				double normalizedHeight = (double)height - 64.0D;
+				normalizedHeight = normalizedHeight * (1.0D - factor) - factor * 10.0D + 5.0D;
+
+				// Deepen oceans
+				if(normalizedHeight < 0.0D) {
+					normalizedHeight -= normalizedHeight * normalizedHeight * 0.2D;
+				}
+
+				int newHeight = 64 + (int)normalizedHeight;
+
+				// Erode / raise
+				surface[z << 4 | x] = (byte)newHeight;
+				zz ++;
+			}
+			xx ++;
+		}
 	}
 	
 	private double[] initializeNoiseField(double[] densityMapArray, int x, int y, int z, int xSize, int ySize, int zSize, int chunkX, int chunkZ) {
@@ -401,6 +538,13 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		int mainIndex = 0;
 		int depthScaleIndex = 0;
 
+		// The noise field only ever samples biomes inside a 21 x 21 window (the 5 x 5 grid of
+		// columns plus the +-2 distance-averaging window). Decode the whole window once instead
+		// of issuing 5 * 5 * 25 = 625 individual 1 x 1 biome samples. loadBlockGeneratorData is
+		// deterministic per sample position, so every grid cell matches the value the old
+		// per-call getBiomeGenAt produced, byte for byte.
+		BiomeGenBase[] biomeGrid = this.worldObj.getWorldChunkManager().getBiomesForGeneration(chunkX << 4, chunkZ << 4, 21, 21);
+
 		// xSize, zSize = 5
 		for(int dx = 0; dx < xSize; ++dx) {
 			for(int dz = 0; dz < zSize; ++dz) {
@@ -412,12 +556,12 @@ public class ChunkProviderGenerate implements IChunkProvider {
 				
 				// TODO : map this properly to the actual biome map!
 				//BiomeGenBase biomeGenBase20 = this.biomesForGeneration[dx + 2 + (dz + 2) * (xSize + 5)];
-				BiomeGenBase biomeGenBase20 = this.worldObj.getWorldChunkManager().getBiomeGenAt((chunkX << 4) + (dx << 2) + 2, (chunkZ << 4) + (dz << 2) + 2);
+				BiomeGenBase biomeGenBase20 = biomeGrid[((dx << 2) + 2) * 21 + ((dz << 2) + 2)];
 			
 				for(int avgDx = -2; avgDx <= 2; ++avgDx) {
 					for(int avgDz = -2; avgDz <= 2; ++avgDz) {
 						//BiomeGenBase biomeGenBase23 = this.biomesForGeneration[dx + avgDx + 2 + (dz + avgDz + 2) * (xSize + 5)];
-						BiomeGenBase biomeGenBase23 = this.worldObj.getWorldChunkManager().getBiomeGenAt((chunkX << 4) + (dx << 2) + 2 + avgDx, (chunkZ << 4) + (dz << 2) + 2 + avgDz);
+						BiomeGenBase biomeGenBase23 = biomeGrid[((dx << 2) + 2 + avgDx) * 21 + ((dz << 2) + 2 + avgDz)];
 						float distance = this.distanceArray[avgDx + 2 + (avgDz + 2) * 5] / (biomeGenBase23.minHeight + 2.0F);
 						if(biomeGenBase23.minHeight > biomeGenBase20.minHeight) {
 							distance /= 2.0F;

@@ -53,6 +53,14 @@ public class Chunk {
 	public boolean hasEntities;
 	public long lastSaveTime;
 	public BiomeGenBase [] biomeGenCache = null;
+	
+	// Per-chunk climate caches, filled by ChunkProvider* .provideChunk() after the first
+	// loadBlockGeneratorData() call and persisted by ChunkLoader. Values match the world
+	// chunk manager's post-processed noise output for this chunk at its generation time.
+	public float[] temperatureCache = null;
+	public float[] humidityCache = null;
+	public byte[] biomeIdCache = null;
+	
 	public boolean hasBuilding = false;
 	public boolean hasRoad = false;
 	public boolean isOcean = false;
@@ -914,21 +922,34 @@ public class Chunk {
 			Arrays.fill(this.grassColorCache, ColorizerGrass.getGrassColor(t, h));
 			Arrays.fill(this.foliageColorCache, ColorizerFoliage.getFoliageColor(t, h));
 		} else {
-			
-			BiomeGenBase biomeGen [] = null;
-			biomeGen = worldChunkManager.loadBlockGeneratorData(biomeGen, this.xPosition << 4, this.zPosition << 4, 16, 16);
-			this.biomeGenCache = biomeGen.clone();
-			
-			int biomeIndex = 0;
-			this.grassColorCache = new int[256];
-			this.foliageColorCache = new int[256];
-			for(int x = 0; x < 16; ++x) {
-				for(int z = 0; z < 16; ++z) {
-					double t = worldChunkManager.temperature[biomeIndex];
-					double h = worldChunkManager.humidity[biomeIndex];
-					this.grassColorCache[biomeIndex] = ColorizerGrass.getGrassColor(t, h);
-					this.foliageColorCache[biomeIndex] = ColorizerFoliage.getFoliageColor(t, h);
-					biomeIndex ++;
+			// Multi-biome path. Prefer the per-chunk climate caches (fresh generate or
+			// restored from disk) over recomputing the temperature / humidity noise.
+			if (this.temperatureCache != null && this.humidityCache != null && this.biomeIdCache != null) {
+				this.biomeGenCache = new BiomeGenBase[256];
+				this.grassColorCache = new int[256];
+				this.foliageColorCache = new int[256];
+				for (int cacheIndex = 0; cacheIndex < 256; cacheIndex++) {
+					this.biomeGenCache[cacheIndex] = BiomeGenBase.getBiomeFromCode(this.biomeIdCache[cacheIndex] & 0xFF);
+					float t = this.temperatureCache[cacheIndex];
+					float h = this.humidityCache[cacheIndex];
+					this.grassColorCache[cacheIndex] = ColorizerGrass.getGrassColor(t, h);
+					this.foliageColorCache[cacheIndex] = ColorizerFoliage.getFoliageColor(t, h);
+				}
+			} else {
+				// Chunk from an old save without cached climate data: recompute once and
+				// repopulate the caches so subsequent refreshes avoid the recomputation.
+				BiomeGenBase biomeGen [] = null;
+				biomeGen = worldChunkManager.loadBlockGeneratorData(biomeGen, this.xPosition << 4, this.zPosition << 4, 16, 16);
+				this.biomeGenCache = biomeGen.clone();
+				this.temperatureCache = new float[256];
+				this.humidityCache = new float[256];
+				this.biomeIdCache = new byte[256];
+				for (int cacheIndex = 0; cacheIndex < 256; cacheIndex++) {
+					this.temperatureCache[cacheIndex] = (float)worldChunkManager.temperatureScratch[cacheIndex];
+					this.humidityCache[cacheIndex] = (float)worldChunkManager.humidityScratch[cacheIndex];
+					this.biomeIdCache[cacheIndex] = (byte)this.biomeGenCache[cacheIndex].biomeCode;
+					this.grassColorCache[cacheIndex] = ColorizerGrass.getGrassColor(this.temperatureCache[cacheIndex], this.humidityCache[cacheIndex]);
+					this.foliageColorCache[cacheIndex] = ColorizerFoliage.getFoliageColor(this.temperatureCache[cacheIndex], this.humidityCache[cacheIndex]);
 				}
 			}
 		}

@@ -1,9 +1,14 @@
 package net.minecraft.world.level.theme;
 
+import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.WorldType;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.levelgen.MapGenBase;
 import net.minecraft.world.level.levelgen.MapGenCavesLush;
+import net.minecraft.world.level.levelgen.mcfeature.Feature;
+import net.minecraft.world.level.levelgen.mcfeature.FeatureProvider;
+import net.minecraft.world.level.levelgen.mcfeature.FeatureSlimeBossLair;
 
 public class LevelThemeWhiteForest extends LevelThemeSettings {
 
@@ -31,5 +36,14 @@ public class LevelThemeWhiteForest extends LevelThemeSettings {
 	@Override
 	public MapGenBase overrideCaveGenerator() {
 		return new MapGenCavesLush(); 
+	}
+	
+	@Override
+	public void modifyFeatureMap(Feature[] featureMap, World world, FeatureProvider featureProvider) {
+		System.out.println ("Adding the secret boss lair . . .");
+		int chunkX = WorldSize.xChunks / 2;
+		int chunkZ = WorldSize.zChunks / 2;
+		Feature bossLair = new FeatureSlimeBossLair(world, chunkX, chunkZ, featureProvider); 
+		featureMap [WorldSize.coords2hash(chunkX, chunkZ)] = bossLair;
 	}
 }

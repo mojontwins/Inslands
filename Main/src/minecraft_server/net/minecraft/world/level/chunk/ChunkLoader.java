@@ -129,6 +129,20 @@ public class ChunkLoader implements IChunkLoader {
 		nBTTagCompound2.setByteArray("BlockLight", chunk0.blocklightMap.data);
 		nBTTagCompound2.setByteArray("HeightMap", chunk0.heightMap);
 		nBTTagCompound2.setBoolean("TerrainPopulated", chunk0.isTerrainPopulated);
+		
+		// Persist the per-chunk climate caches (temperature, humidity, biome ids) so
+		// reloaded chunks can restore them from disk without recomputing world gen noise.
+		if(chunk0.temperatureCache != null && chunk0.humidityCache != null && chunk0.biomeIdCache != null) {
+			byte[] temperatureBytes = new byte[256];
+			byte[] humidityBytes = new byte[256];
+			for(int cacheIndex = 0; cacheIndex < 256; cacheIndex++) {
+				temperatureBytes[cacheIndex] = (byte)Math.round(chunk0.temperatureCache[cacheIndex] * 255.0F);
+				humidityBytes[cacheIndex] = (byte)Math.round(chunk0.humidityCache[cacheIndex] * 255.0F);
+			}
+			nBTTagCompound2.setByteArray("Temperature", temperatureBytes);
+			nBTTagCompound2.setByteArray("Humidity", humidityBytes);
+			nBTTagCompound2.setByteArray("BiomeIds", chunk0.biomeIdCache);
+		}
 		chunk0.hasEntities = false;
 		
 		NBTTagList nBTTagList3 = new NBTTagList();
@@ -241,6 +255,21 @@ public class ChunkLoader implements IChunkLoader {
 				if(entity != null) {
 					chunk4.addSpecialEntity(entity);
 				}
+			}
+		}
+		
+		// Restore the per-chunk climate caches if the save has them. Old saves without
+		// the tags leave the caches null and Chunk.refreshCaches() repopulates them lazily.
+		byte[] temperatureBytes = nBTTagCompound1.getByteArray("Temperature");
+		byte[] humidityBytes = nBTTagCompound1.getByteArray("Humidity");
+		byte[] biomeIdBytes = nBTTagCompound1.getByteArray("BiomeIds");
+		if(temperatureBytes.length == 256 && humidityBytes.length == 256 && biomeIdBytes.length == 256) {
+			chunk4.temperatureCache = new float[256];
+			chunk4.humidityCache = new float[256];
+			chunk4.biomeIdCache = biomeIdBytes;
+			for(int cacheIndex = 0; cacheIndex < 256; cacheIndex++) {
+				chunk4.temperatureCache[cacheIndex] = (float)(temperatureBytes[cacheIndex] & 0xFF) / 255.0F;
+				chunk4.humidityCache[cacheIndex] = (float)(humidityBytes[cacheIndex] & 0xFF) / 255.0F;
 			}
 		}
 		

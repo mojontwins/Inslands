@@ -9,6 +9,8 @@ import net.minecraft.world.level.WorldType;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.levelgen.MapGenBase;
 import net.minecraft.world.level.levelgen.MapGenCaves;
+import net.minecraft.world.level.levelgen.mcfeature.Feature;
+import net.minecraft.world.level.levelgen.mcfeature.FeatureProvider;
 
 public class LevelThemeSettings {
 	public int id;
@@ -207,5 +209,24 @@ public class LevelThemeSettings {
 	}
 
 	public void specialPostGeneration(World world) {
+	}
+
+	/**
+	 * Called from {@code ChunkProvider.generateWholeWorld} right after phase 1
+	 * (terrain generation) and before phase 2 (population), so a theme may
+	 * prepare the freshly generated terrain for decoration. No-op by default.
+	 */
+	public void specialPrePopulation(World world) {
+	}
+	
+	/*
+	 * Hook invoked by the feature provider right after the world's feature schedule has been
+	 * generated, so a theme may add, remove or replace features before any chunk is generated
+	 * from it. `featureMap` is a dense array indexed by WorldSize.coords2hash(x, z)
+	 * (x + z * WorldSize.xChunks); a cell with no feature is null. `world` and the owning
+	 * `featureProvider` are provided so a theme can instantiate its own features
+	 * (new Feature(world, chunkX, chunkZ, featureProvider)).
+	 */
+	public void modifyFeatureMap(Feature[] featureMap, World world, FeatureProvider featureProvider) {
 	}
 }

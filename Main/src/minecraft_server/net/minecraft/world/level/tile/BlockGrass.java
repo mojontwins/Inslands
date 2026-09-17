@@ -59,7 +59,14 @@ public class BlockGrass extends Block implements IBlockWithSubtypes, IGroundSubs
 				return 3;
 		}
 	}
-	
+
+	@Override
+	public int getBlockTextureFromSideAndMetadata(int side, int meta) {
+		if(side == 0) return 2;
+		if(side == 1) return LevelThemeGlobalSettings.colorizedPlants ? 253 : 0;
+		return meta == 1 ? 0 : 3;
+	}
+
 	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
 		if(LevelThemeGlobalSettings.colorizedPlants) {
 			return world.getGrassColorFromCache(x, z);

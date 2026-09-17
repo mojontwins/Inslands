@@ -19,6 +19,7 @@ import net.minecraft.world.level.chunk.EmptyChunk;
 import net.minecraft.world.level.chunk.IChunkLoader;
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.chunk.storage.IProgressUpdate;
+import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 
 /**
  * Top-level chunk provider used by the dedicated server.
@@ -245,6 +246,7 @@ public class ChunkProviderServer implements IChunkProvider {
 					chunk.onChunkUnload();
 					this.saveChunkData(chunk);
 					this.saveChunkExtraData(chunk);
+					this.world.evictHeightQuery(chunk.xPosition, chunk.zPosition);
 					this.droppedChunksSet.remove(hash);
 					this.chunksById.remove(hash);
 					this.loadedChunks.remove(chunk);
@@ -317,6 +319,10 @@ public class ChunkProviderServer implements IChunkProvider {
 		}
 		GlobalVars.didGenerateChunks = true;
 
+		// Theme hook between terrain generation (phase 1) and population
+		// (phase 2): lets a theme prepare the freshly generated chunks.
+		LevelThemeGlobalSettings.getTheme().specialPrePopulation(this.world);
+
 		// Phase 2: populate with per-block lighting disabled.
 		this.world.deferLightingUpdate = true;
 		try {
@@ -340,6 +346,10 @@ public class ChunkProviderServer implements IChunkProvider {
 			chunk.generateLandSurfaceHeightMap();
 			chunk.initLightingForRealNotJustHeightmap(true);
 		}
+
+		// Theme-specific post generation, once the whole world is generated, populated
+		// and lit.
+		LevelThemeGlobalSettings.getTheme().specialPostGeneration(this.world);
 	}
 
 	/** Advances the loading progress by one step, if a progress sink was supplied. */

@@ -40,7 +40,7 @@ public class EntityPirateBoss extends EntityMob implements IMob, IAngryAtPlayer 
 	}
 
 	@Override
-	protected void despawnEntity() {
+	public void despawnEntity() {
 		if(this.isDead) {
 			super.despawnEntity();
 		}

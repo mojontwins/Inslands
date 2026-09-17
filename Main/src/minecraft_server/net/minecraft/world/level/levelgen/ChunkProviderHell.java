@@ -3,6 +3,7 @@ package net.minecraft.world.level.levelgen;
 import java.util.Random;
 
 import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldChunkManager;
 import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.chunk.Chunk;
@@ -219,6 +220,18 @@ public class ChunkProviderHell implements IChunkProvider {
 			// Cache biomes in chunk
 			chunk.biomeGenCache = this.biomesForGeneration.clone();
 			
+			// Capture the post-processed temperature, humidity and biome codes for this
+			// chunk right now (see ChunkProviderGenerate.provideChunk for details).
+			WorldChunkManager worldChunkManager = this.worldObj.getWorldChunkManager();
+			chunk.temperatureCache = new float[256];
+			chunk.humidityCache = new float[256];
+			chunk.biomeIdCache = new byte[256];
+			for(int cacheIndex = 0; cacheIndex < 256; cacheIndex ++) {
+				chunk.temperatureCache[cacheIndex] = (float)worldChunkManager.temperatureScratch[cacheIndex];
+				chunk.humidityCache[cacheIndex] = (float)worldChunkManager.humidityScratch[cacheIndex];
+				chunk.biomeIdCache[cacheIndex] = (byte)this.biomesForGeneration[cacheIndex].biomeCode;
+			}
+			
 			// Generate terrain for this chunk
 			this.generateTerrain(chunkX, chunkZ, blockArray);
 			
@@ -247,16 +260,10 @@ public class ChunkProviderHell implements IChunkProvider {
 	}
 	
 	public Chunk justGenerateForHeight(int chunkX, int chunkZ) {
-		this.rand.setSeed((long)chunkX * 341873128712L + (long)chunkZ * 132897987541L);
-		
-		// Empty block array & new Chunk
-		byte[] blockArray = new byte[32768];
-		byte[] metadata = new byte[32768];
-		Chunk chunk = new Chunk(this.worldObj, blockArray, metadata, chunkX, chunkZ);
-		this.generateTerrain(chunkX, chunkZ, blockArray);
-		this.caveGenerator.generate(this, this.worldObj, chunkX, chunkZ, blockArray);
-		
-		return chunk;
+		// The nether has no surface height to answer for: the old height pass left the land
+		// surface height map zeroed (no generateLandSurfaceHeightMap call), so a blank chunk
+		// is behaviorally identical and drops the wasteful full-dense 2 x 32 KB terrain scan.
+		return new Chunk(this.worldObj, chunkX, chunkZ);
 	}
 
 	private double[] initializeNoiseField(double[] d1, int i2, int i3, int i4, int i5, int i6, int i7) {

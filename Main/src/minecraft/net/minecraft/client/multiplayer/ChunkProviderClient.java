@@ -51,6 +51,7 @@ public class ChunkProviderClient implements IChunkProvider {
 
 		this.chunkMapping.remove(new ChunkCoordIntPair(i1, i2));
 		this.chunkListing.remove(chunk3);
+		this.worldObj.evictHeightQuery(i1, i2);
 	}
 
 	public Chunk prepareChunk(int chunkX, int chunkZ) {

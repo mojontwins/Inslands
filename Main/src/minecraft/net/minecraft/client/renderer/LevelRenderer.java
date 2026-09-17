@@ -3,8 +3,11 @@ package net.minecraft.client.renderer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import net.minecraft.client.Config;
 import net.minecraft.client.Minecraft;
@@ -58,6 +61,7 @@ public class LevelRenderer implements IWorldAccess {
 	public World worldObj;
 	public RenderEngine renderEngine;
 	public List<WorldRenderer> worldRenderersToUpdate = new ArrayList<WorldRenderer>();
+	private final Set<WorldRenderer> worldRenderersToUpdateSet = new HashSet<WorldRenderer>();
 	private WorldRenderer[] sortedWorldRenderers;
 	private WorldRenderer[] worldRenderers;
 	private int renderChunksWide;
@@ -102,6 +106,32 @@ public class LevelRenderer implements IWorldAccess {
 	double prevReposZ;
 	private long lastMovedTime = System.currentTimeMillis();
 	private long lastActionTime = System.currentTimeMillis();
+
+	// Fixed-name particle types keyed by the exact string World.spawnParticle() passes in.
+	// Lava, footstep and the cracked_* variants are handled specially because their spawners
+	// take different constructor arguments from the rest.
+	private static final HashMap<String, Integer> PARTICLE_TYPE_BY_NAME = new HashMap<String, Integer>();
+	static {
+		PARTICLE_TYPE_BY_NAME.put("bubble", Integer.valueOf(0));
+		PARTICLE_TYPE_BY_NAME.put("smoke", Integer.valueOf(1));
+		PARTICLE_TYPE_BY_NAME.put("note", Integer.valueOf(2));
+		PARTICLE_TYPE_BY_NAME.put("portal", Integer.valueOf(3));
+		PARTICLE_TYPE_BY_NAME.put("explode", Integer.valueOf(4));
+		PARTICLE_TYPE_BY_NAME.put("flame", Integer.valueOf(5));
+		PARTICLE_TYPE_BY_NAME.put("lava", Integer.valueOf(6));
+		PARTICLE_TYPE_BY_NAME.put("footstep", Integer.valueOf(7));
+		PARTICLE_TYPE_BY_NAME.put("splash", Integer.valueOf(8));
+		PARTICLE_TYPE_BY_NAME.put("largesmoke", Integer.valueOf(9));
+		PARTICLE_TYPE_BY_NAME.put("reddust", Integer.valueOf(10));
+		PARTICLE_TYPE_BY_NAME.put("glowdust", Integer.valueOf(11));
+		PARTICLE_TYPE_BY_NAME.put("snowballpoof", Integer.valueOf(12));
+		PARTICLE_TYPE_BY_NAME.put("crackedpebble", Integer.valueOf(13));
+		PARTICLE_TYPE_BY_NAME.put("crackedpotion", Integer.valueOf(14));
+		PARTICLE_TYPE_BY_NAME.put("snowshovel", Integer.valueOf(15));
+		PARTICLE_TYPE_BY_NAME.put("slime", Integer.valueOf(16));
+		PARTICLE_TYPE_BY_NAME.put("heart", Integer.valueOf(17));
+		PARTICLE_TYPE_BY_NAME.put("status_effect", Integer.valueOf(18));
+	}
 
 	public LevelRenderer(Minecraft minecraft, RenderEngine renderengine) {
 		this.mc = minecraft;
@@ -272,6 +302,7 @@ public class LevelRenderer implements IWorldAccess {
 				}
 			}
 
+			this.worldRenderersToUpdateSet.clear();
 			this.worldRenderersToUpdate.clear();
 			this.tileEntities.clear();
 
@@ -290,6 +321,7 @@ public class LevelRenderer implements IWorldAccess {
 						this.worldRenderers[wri].chunkIndex = i3++;
 						this.worldRenderers[wri].markDirty();
 						this.sortedWorldRenderers[wri] = this.worldRenderers[wri];
+						this.worldRenderersToUpdateSet.add(this.worldRenderers[wri]);
 						this.worldRenderersToUpdate.add(this.worldRenderers[wri]);
 						i2 += 3;
 					}
@@ -312,53 +344,53 @@ public class LevelRenderer implements IWorldAccess {
 		}
 	}
 
-	public void renderEntities(Vec3D vec3d, ICamera icamera, float f) {
+	public void renderEntities(Vec3D renderPos, ICamera camera, float partialTicks) {
 		if(this.renderEntitiesStartupCounter > 0) {
 			--this.renderEntitiesStartupCounter;
 		} else {
-			TileEntityRenderer.instance.cacheActiveRenderInfo(this.worldObj, this.renderEngine, this.mc.fontRenderer, this.mc.renderViewEntity, f);
-			RenderManager.instance.cacheActiveRenderInfo(this.worldObj, this.renderEngine, this.mc.fontRenderer, this.mc.renderViewEntity, this.mc.gameSettings, f);
+			TileEntityRenderer.instance.cacheActiveRenderInfo(this.worldObj, this.renderEngine, this.mc.fontRenderer, this.mc.renderViewEntity, partialTicks);
+			RenderManager.instance.cacheActiveRenderInfo(this.worldObj, this.renderEngine, this.mc.fontRenderer, this.mc.renderViewEntity, this.mc.gameSettings, partialTicks);
 			this.countEntitiesTotal = 0;
 			this.countEntitiesRendered = 0;
 			this.countEntitiesHidden = 0;
-			EntityLiving entityliving = this.mc.renderViewEntity;
-			RenderManager.renderPosX = entityliving.lastTickPosX + (entityliving.posX - entityliving.lastTickPosX) * (double)f;
-			RenderManager.renderPosY = entityliving.lastTickPosY + (entityliving.posY - entityliving.lastTickPosY) * (double)f;
-			RenderManager.renderPosZ = entityliving.lastTickPosZ + (entityliving.posZ - entityliving.lastTickPosZ) * (double)f;
-			TileEntityRenderer.staticPlayerX = entityliving.lastTickPosX + (entityliving.posX - entityliving.lastTickPosX) * (double)f;
-			TileEntityRenderer.staticPlayerY = entityliving.lastTickPosY + (entityliving.posY - entityliving.lastTickPosY) * (double)f;
-			TileEntityRenderer.staticPlayerZ = entityliving.lastTickPosZ + (entityliving.posZ - entityliving.lastTickPosZ) * (double)f;
-			this.mc.entityRenderer.enableLightmap((double)f);
-			List<Entity> list5 = this.worldObj.getLoadedEntityList();
-			this.countEntitiesTotal = list5.size();
+			EntityLiving viewEntity = this.mc.renderViewEntity;
+			RenderManager.renderPosX = viewEntity.lastTickPosX + (viewEntity.posX - viewEntity.lastTickPosX) * (double)partialTicks;
+			RenderManager.renderPosY = viewEntity.lastTickPosY + (viewEntity.posY - viewEntity.lastTickPosY) * (double)partialTicks;
+			RenderManager.renderPosZ = viewEntity.lastTickPosZ + (viewEntity.posZ - viewEntity.lastTickPosZ) * (double)partialTicks;
+			TileEntityRenderer.staticPlayerX = viewEntity.lastTickPosX + (viewEntity.posX - viewEntity.lastTickPosX) * (double)partialTicks;
+			TileEntityRenderer.staticPlayerY = viewEntity.lastTickPosY + (viewEntity.posY - viewEntity.lastTickPosY) * (double)partialTicks;
+			TileEntityRenderer.staticPlayerZ = viewEntity.lastTickPosZ + (viewEntity.posZ - viewEntity.lastTickPosZ) * (double)partialTicks;
+			this.mc.entityRenderer.enableLightmap((double)partialTicks);
+			List<Entity> entities = this.worldObj.getLoadedEntityList();
+			this.countEntitiesTotal = entities.size();
 
-			int k;
-			Entity entity1;
-			for(k = 0; k < this.worldObj.weatherEffects.size(); ++k) {
-				entity1 = (Entity)this.worldObj.weatherEffects.get(k);
+			int i;
+			Entity entity;
+			for(i = 0; i < this.worldObj.weatherEffects.size(); ++i) {
+				entity = (Entity)this.worldObj.weatherEffects.get(i);
 				++this.countEntitiesRendered;
-				if(entity1.isInRangeToRenderVec3D(vec3d)) {
-					RenderManager.instance.renderEntity(entity1, f);
+				if(entity.isInRangeToRenderVec3D(renderPos)) {
+					RenderManager.instance.renderEntity(entity, partialTicks);
 				}
 			}
 
 			// PERRO
 	
-			for(k = 0; k < list5.size(); ++k) {
-				entity1 = (Entity)list5.get(k);
-				if(entity1.isInRangeToRenderVec3D(vec3d) && (entity1.ignoreFrustumCheck || icamera.isBoundingBoxInFrustum(entity1.boundingBox)) && (entity1 != this.mc.renderViewEntity || this.mc.gameSettings.thirdPersonView || this.mc.renderViewEntity.isPlayerSleeping()) && this.worldObj.blockExists(MathHelper.floor_double(entity1.posX), 0, MathHelper.floor_double(entity1.posZ))) {
+			for(i = 0; i < entities.size(); ++i) {
+				entity = (Entity)entities.get(i);
+				if(entity.isInRangeToRenderVec3D(renderPos) && (entity.ignoreFrustumCheck || camera.isBoundingBoxInFrustum(entity.boundingBox)) && (entity != this.mc.renderViewEntity || this.mc.gameSettings.thirdPersonView || this.mc.renderViewEntity.isPlayerSleeping()) && this.worldObj.blockExists(MathHelper.floor_double(entity.posX), 0, MathHelper.floor_double(entity.posZ))) {
 					++this.countEntitiesRendered;
-					RenderManager.instance.renderEntity(entity1, f);
+					RenderManager.instance.renderEntity(entity, partialTicks);
 				}
 			}
 
 			RenderHelper.enableStandardItemLighting();
 
-			for(k = 0; k < this.tileEntities.size(); ++k) {
-				TileEntityRenderer.instance.renderTileEntity((TileEntity)this.tileEntities.get(k), f);
+			for(i = 0; i < this.tileEntities.size(); ++i) {
+				TileEntityRenderer.instance.renderTileEntity((TileEntity)this.tileEntities.get(i), partialTicks);
 			}
 
-			this.mc.entityRenderer.disableLightmap((double)f);
+			this.mc.entityRenderer.disableLightmap((double)partialTicks);
 		}
 	}
 
@@ -431,6 +463,7 @@ public class LevelRenderer implements IWorldAccess {
 					boolean wasNeedingUpdate = worldrenderer.needsUpdate;
 					worldrenderer.setPosition(blockX, blockY, blockZ);
 					if(!wasNeedingUpdate && worldrenderer.needsUpdate) {
+						this.worldRenderersToUpdateSet.add(worldrenderer);
 						this.worldRenderersToUpdate.add(worldrenderer);
 					}
 				}
@@ -439,13 +472,16 @@ public class LevelRenderer implements IWorldAccess {
 
 	}
 
-	public int sortAndRender(EntityLiving player, int renderPass, double partialTicks) {
+	public int sortAndRender(EntityLiving viewEntity, int renderPass, double partialTicks) {
 		if(this.worldRenderersToUpdate.size() < 10) {
-			for(int i5 = 0; i5 < 10; ++i5) {
+			// Keep the update queue topped up: every frame a few more renderers are scanned and
+			// added when dirty. Membership is O(1) via the mirror HashSet.
+			for(int i = 0; i < 10; ++i) {
 				this.worldRenderersCheckIndex = (this.worldRenderersCheckIndex + 1) % this.worldRenderers.length;
-				WorldRenderer worldRenderer6 = this.worldRenderers[this.worldRenderersCheckIndex];
-				if(worldRenderer6.needsUpdate && !this.worldRenderersToUpdate.contains(worldRenderer6)) {
-					this.worldRenderersToUpdate.add(worldRenderer6);
+				WorldRenderer renderer = this.worldRenderers[this.worldRenderersCheckIndex];
+				if(renderer.needsUpdate && !this.worldRenderersToUpdateSet.contains(renderer)) {
+					this.worldRenderersToUpdateSet.add(renderer);
+					this.worldRenderersToUpdate.add(renderer);
 				}
 			}
 		}
@@ -462,37 +498,40 @@ public class LevelRenderer implements IWorldAccess {
 			this.renderersSkippingRenderPass = 0;
 		}
 
-		double d39 = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
-		double d40 = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
-		double partialZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks;
-		double dSortX = player.posX - this.prevSortX;
-		double dSortY = player.posY - this.prevSortY;
-		double dSortZ = player.posZ - this.prevSortZ;
-		double distSqSort = dSortX * dSortX + dSortY * dSortY + dSortZ * dSortZ;
-		int num;
+		// Interpolated camera position for this frame.
+		double interpX = viewEntity.lastTickPosX + (viewEntity.posX - viewEntity.lastTickPosX) * partialTicks;
+		double interpY = viewEntity.lastTickPosY + (viewEntity.posY - viewEntity.lastTickPosY) * partialTicks;
+		double interpZ = viewEntity.lastTickPosZ + (viewEntity.posZ - viewEntity.lastTickPosZ) * partialTicks;
+		double deltaSortX = viewEntity.posX - this.prevSortX;
+		double deltaSortY = viewEntity.posY - this.prevSortY;
+		double deltaSortZ = viewEntity.posZ - this.prevSortZ;
+		double distSqSort = deltaSortX * deltaSortX + deltaSortY * deltaSortY + deltaSortZ * deltaSortZ;
+		int renderCount;
 		if(distSqSort > 16.0D) {
-			this.prevSortX = player.posX;
-			this.prevSortY = player.posY;
-			this.prevSortZ = player.posZ;
-			num = Config.getPreloadedChunks() * 16;
-			double ocReq = player.posX - this.prevReposX;
-			double lastIndex = player.posY - this.prevReposY;
-			double stepNum = player.posZ - this.prevReposZ;
-			double switchStep = ocReq * ocReq + lastIndex * lastIndex + stepNum * stepNum;
-			if(switchStep > (double)(num * num) + 16.0D) {
-				this.prevReposX = player.posX;
-				this.prevReposY = player.posY;
-				this.prevReposZ = player.posZ;
-				this.markRenderersForNewPosition(MathHelper.floor_double(player.posX), MathHelper.floor_double(player.posY), MathHelper.floor_double(player.posZ));
+			// The viewport moved far enough to warrant re-sorting the renderers back-to-front.
+			this.prevSortX = viewEntity.posX;
+			this.prevSortY = viewEntity.posY;
+			this.prevSortZ = viewEntity.posZ;
+			int preloadedBlocks = Config.getPreloadedChunks() * 16;
+			double deltaReposX = viewEntity.posX - this.prevReposX;
+			double deltaReposY = viewEntity.posY - this.prevReposY;
+			double deltaReposZ = viewEntity.posZ - this.prevReposZ;
+			double reposDistSq = deltaReposX * deltaReposX + deltaReposY * deltaReposY + deltaReposZ * deltaReposZ;
+			if(reposDistSq > (double)(preloadedBlocks * preloadedBlocks) + 16.0D) {
+				this.prevReposX = viewEntity.posX;
+				this.prevReposY = viewEntity.posY;
+				this.prevReposZ = viewEntity.posZ;
+				this.markRenderersForNewPosition(MathHelper.floor_double(viewEntity.posX), MathHelper.floor_double(viewEntity.posY), MathHelper.floor_double(viewEntity.posZ));
 			}
 
-			Arrays.sort(this.sortedWorldRenderers, new EntitySorter(player));
-			int sumTX = (int)player.posX;
-			int sumTY = (int)player.posZ;
-			short sumTZ = 2000;
-			if(Math.abs(sumTX - WorldRenderer.globalChunkOffsetX) > sumTZ || Math.abs(sumTY - WorldRenderer.globalChunkOffsetZ) > sumTZ) {
-				WorldRenderer.globalChunkOffsetX = sumTX;
-				WorldRenderer.globalChunkOffsetZ = sumTY;
+			Arrays.sort(this.sortedWorldRenderers, new EntitySorter(viewEntity));
+			// When the player roams too far from the chunk grid origin, rebuild against the new grid.
+			int viewChunkX = (int)viewEntity.posX;
+			int viewChunkZ = (int)viewEntity.posZ;
+			short chunkOffsetLimit = 2000;
+			if(Math.abs(viewChunkX - WorldRenderer.globalChunkOffsetX) > chunkOffsetLimit || Math.abs(viewChunkZ - WorldRenderer.globalChunkOffsetZ) > chunkOffsetLimit) {
+				WorldRenderer.globalChunkOffsetX = viewChunkX;
+				WorldRenderer.globalChunkOffsetZ = viewChunkZ;
 				this.loadRenderers();
 			}
 		}
@@ -502,32 +541,34 @@ public class LevelRenderer implements IWorldAccess {
 			GL11.glFinish();
 		}
 
-		byte b41 = 0;
+		renderCount = 0;
 		if(this.occlusionEnabled && this.mc.gameSettings.advancedOpengl && !this.mc.gameSettings.anaglyph && renderPass == 0) {
+			// Advanced OpenGL: walk the back-to-front list in growing bands, issuing occlusion
+			// queries for far-away chunks while rendering the closest ones immediately.
 			byte firstIndex = 0;
-			byte b43 = 20;
-			this.checkOcclusionQueryResult(firstIndex, b43, player.posX, player.posY, player.posZ);
+			byte initialBandEnd = 20;
+			this.checkOcclusionQueryResult(firstIndex, initialBandEnd, viewEntity.posX, viewEntity.posY, viewEntity.posZ);
 
 			int endIndex;
-			for(endIndex = firstIndex; endIndex < b43; ++endIndex) {
+			for(endIndex = firstIndex; endIndex < initialBandEnd; ++endIndex) {
 				this.sortedWorldRenderers[endIndex].isVisible = true;
 			}
 
-			num = b41 + this.renderSortedRenderers(firstIndex, b43, renderPass, partialTicks);
-			endIndex = b43;
-			int i44 = 0;
-			byte step = 30;
+			renderCount = this.renderSortedRenderers(firstIndex, initialBandEnd, renderPass, partialTicks);
+			endIndex = initialBandEnd;
+			int bandStep = 0;
+			byte bandSize = 30;
 
 			int startIndex;
-			for(int i45 = this.renderChunksWide / 2; endIndex < this.sortedWorldRenderers.length; num += this.renderSortedRenderers(startIndex, endIndex, renderPass, partialTicks)) {
+			for(int halfBandWidth = this.renderChunksWide / 2; endIndex < this.sortedWorldRenderers.length; renderCount += this.renderSortedRenderers(startIndex, endIndex, renderPass, partialTicks)) {
 				startIndex = endIndex;
-				if(i44 < i45) {
-					++i44;
+				if(bandStep < halfBandWidth) {
+					++bandStep;
 				} else {
-					--i44;
+					--bandStep;
 				}
 
-				endIndex += i44 * step;
+				endIndex += bandStep * bandSize;
 				if(endIndex <= startIndex) {
 					endIndex = startIndex + 10;
 				}
@@ -542,56 +583,60 @@ public class LevelRenderer implements IWorldAccess {
 				GL11.glDisable(GL11.GL_FOG);
 				GL11.glColorMask(false, false, false, false);
 				GL11.glDepthMask(false);
-				this.checkOcclusionQueryResult(startIndex, endIndex, player.posX, player.posY, player.posZ);
+				this.checkOcclusionQueryResult(startIndex, endIndex, viewEntity.posX, viewEntity.posY, viewEntity.posZ);
 				GL11.glPushMatrix();
-				float sumTX = 0.0F;
-				float sumTY = 0.0F;
-				float sumTZ = 0.0F;
+				// Translate between consecutive queried chunks so every query is issued from the
+				// world origin rather than compounding translations.
+				float accX = 0.0F;
+				float accY = 0.0F;
+				float accZ = 0.0F;
 
 				for(int k = startIndex; k < endIndex; ++k) {
-					WorldRenderer wr = this.sortedWorldRenderers[k];
-					if(wr.skipAllRenderPasses()) {
-						wr.isInFrustum = false;
-					} else if(wr.isUpdating) {
-						wr.isVisible = true;
-					} else if(wr.isInFrustum) {
-						if(Config.isOcclusionFancy() && !wr.isInFrustrumFully) {
-							wr.isVisible = true;
-						} else if(wr.isInFrustum && !wr.isWaitingOnOcclusionQuery) {
-							float bbX;
-							float bbY;
-							float bbZ;
-							float tX;
-							if(wr.isVisibleFromPosition) {
-								bbX = Math.abs((float)(wr.visibleFromX - player.posX));
-								bbY = Math.abs((float)(wr.visibleFromY - player.posY));
-								bbZ = Math.abs((float)(wr.visibleFromZ - player.posZ));
-								tX = bbX + bbY + bbZ;
-								if((double)tX < 10.0D + (double)k / 1000.0D) {
-									wr.isVisible = true;
+					WorldRenderer renderer = this.sortedWorldRenderers[k];
+					if(renderer.skipAllRenderPasses()) {
+						renderer.isInFrustum = false;
+					} else if(renderer.isUpdating) {
+						renderer.isVisible = true;
+					} else if(renderer.isInFrustum) {
+						if(Config.isOcclusionFancy() && !renderer.isInFrustrumFully) {
+							renderer.isVisible = true;
+						} else if(renderer.isInFrustum && !renderer.isWaitingOnOcclusionQuery) {
+							// Skip the query when the camera is near the spot where the renderer
+							// was last observed visible (scale the leeway with the renderer index).
+							float camDeltaX;
+							float camDeltaY;
+							float camDeltaZ;
+							float deltaMag;
+							if(renderer.isVisibleFromPosition) {
+								camDeltaX = Math.abs((float)(renderer.visibleFromX - viewEntity.posX));
+								camDeltaY = Math.abs((float)(renderer.visibleFromY - viewEntity.posY));
+								camDeltaZ = Math.abs((float)(renderer.visibleFromZ - viewEntity.posZ));
+								deltaMag = camDeltaX + camDeltaY + camDeltaZ;
+								if((double)deltaMag < 10.0D + (double)k / 1000.0D) {
+									renderer.isVisible = true;
 									continue;
 								}
 
-								wr.isVisibleFromPosition = false;
+								renderer.isVisibleFromPosition = false;
 							}
 
-							bbX = (float)((double)wr.posXMinus - d39);
-							bbY = (float)((double)wr.posYMinus - d40);
-							bbZ = (float)((double)wr.posZMinus - partialZ);
-							tX = bbX - sumTX;
-							float tY = bbY - sumTY;
-							float tZ = bbZ - sumTZ;
-							if(tX != 0.0F || tY != 0.0F || tZ != 0.0F) {
-								GL11.glTranslatef(tX, tY, tZ);
-								sumTX += tX;
-								sumTY += tY;
-								sumTZ += tZ;
+							camDeltaX = (float)((double)renderer.posXMinus - interpX);
+							camDeltaY = (float)((double)renderer.posYMinus - interpY);
+							camDeltaZ = (float)((double)renderer.posZMinus - interpZ);
+							deltaMag = camDeltaX - accX;
+							float deltaY = camDeltaY - accY;
+							float deltaZ = camDeltaZ - accZ;
+							if(deltaMag != 0.0F || deltaY != 0.0F || deltaZ != 0.0F) {
+								GL11.glTranslatef(deltaMag, deltaY, deltaZ);
+								accX += deltaMag;
+								accY += deltaY;
+								accZ += deltaZ;
 							}
 
-							ARBOcclusionQuery.glBeginQueryARB(GL15.GL_SAMPLES_PASSED, wr.glOcclusionQuery);
-							wr.callOcclusionQueryList();
+							ARBOcclusionQuery.glBeginQueryARB(GL15.GL_SAMPLES_PASSED, renderer.glOcclusionQuery);
+							renderer.callOcclusionQueryList();
 							ARBOcclusionQuery.glEndQueryARB(GL15.GL_SAMPLES_PASSED);
-							wr.isWaitingOnOcclusionQuery = true;
+							renderer.isWaitingOnOcclusionQuery = true;
 						}
 					}
 				}
@@ -604,29 +649,32 @@ public class LevelRenderer implements IWorldAccess {
 				GL11.glEnable(GL11.GL_FOG);
 			}
 		} else {
-			num = b41 + this.renderSortedRenderers(0, this.sortedWorldRenderers.length, renderPass, partialTicks);
+			renderCount = this.renderSortedRenderers(0, this.sortedWorldRenderers.length, renderPass, partialTicks);
 		}
 
-		return num;
+		return renderCount;
 	}
 
-	private void checkOcclusionQueryResult(int startIndex, int endIndex, double px, double py, double pz) {
+	private void checkOcclusionQueryResult(int startIndex, int endIndex, double cameraX, double cameraY, double cameraZ) {
 		for(int k = startIndex; k < endIndex; ++k) {
-			WorldRenderer wr = this.sortedWorldRenderers[k];
-			if(wr.isWaitingOnOcclusionQuery) {
+			WorldRenderer renderer = this.sortedWorldRenderers[k];
+			if(renderer.isWaitingOnOcclusionQuery) {
 				this.occlusionResult.clear();
-				ARBOcclusionQuery.glGetQueryObjectuARB(wr.glOcclusionQuery, GL15.GL_QUERY_RESULT_AVAILABLE, this.occlusionResult);
+				ARBOcclusionQuery.glGetQueryObjectuARB(renderer.glOcclusionQuery, GL15.GL_QUERY_RESULT_AVAILABLE, this.occlusionResult);
 				if(this.occlusionResult.get(0) != 0) {
-					wr.isWaitingOnOcclusionQuery = false;
+					// Query finished: snap back the visible flag. When a renderer stays visible it
+					// records the camera position it was seen from, letting sortAndRender skip its
+					// next query while the camera stays close.
+					renderer.isWaitingOnOcclusionQuery = false;
 					this.occlusionResult.clear();
-					ARBOcclusionQuery.glGetQueryObjectuARB(wr.glOcclusionQuery, GL15.GL_QUERY_RESULT, this.occlusionResult);
-					boolean wasVisible = wr.isVisible;
-					wr.isVisible = this.occlusionResult.get(0) > 0;
-					if(wasVisible && wr.isVisible) {
-						wr.isVisibleFromPosition = true;
-						wr.visibleFromX = px;
-						wr.visibleFromY = py;
-						wr.visibleFromZ = pz;
+					ARBOcclusionQuery.glGetQueryObjectuARB(renderer.glOcclusionQuery, GL15.GL_QUERY_RESULT, this.occlusionResult);
+					boolean wasVisible = renderer.isVisible;
+					renderer.isVisible = this.occlusionResult.get(0) > 0;
+					if(wasVisible && renderer.isVisible) {
+						renderer.isVisibleFromPosition = true;
+						renderer.visibleFromX = cameraX;
+						renderer.visibleFromY = cameraY;
+						renderer.visibleFromZ = cameraZ;
 					}
 				}
 			}
@@ -682,82 +730,71 @@ public class LevelRenderer implements IWorldAccess {
 		++this.cloudOffsetX;
 	}
 
-	public void renderSky(float f1) {
+	public void renderSky(float partialTicks) {
 		if(!this.mc.theWorld.worldProvider.isNether) {
-			// ## SKY ##	
-		
+			// ## SKY ##
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
-			Vec3D vec3D2 = this.worldObj.getSkyColor(this.mc.renderViewEntity, f1);
-			float f3 = (float)vec3D2.xCoord;
-			float f4 = (float)vec3D2.yCoord;
-			float f5 = (float)vec3D2.zCoord;
-			float f7;
-			float f8;
+			Vec3D skyColor = this.worldObj.getSkyColor(this.mc.renderViewEntity, partialTicks);
+			float skyRed = (float)skyColor.xCoord;
+			float skyGreen = (float)skyColor.yCoord;
+			float skyBlue = (float)skyColor.zCoord;
 			if(this.mc.gameSettings.anaglyph) {
-				float f6 = (f3 * 30.0F + f4 * 59.0F + f5 * 11.0F) / 100.0F;
-				f7 = (f3 * 30.0F + f4 * 70.0F) / 100.0F;
-				f8 = (f3 * 30.0F + f5 * 70.0F) / 100.0F;
-				f3 = f6;
-				f4 = f7;
-				f5 = f8;
+				// Split the sky color into the two anaglyph eye images.
+				float luma = (skyRed * 30.0F + skyGreen * 59.0F + skyBlue * 11.0F) / 100.0F;
+				float redChannel = (skyRed * 30.0F + skyGreen * 70.0F) / 100.0F;
+				float blueChannel = (skyRed * 30.0F + skyBlue * 70.0F) / 100.0F;
+				skyRed = luma;
+				skyGreen = redChannel;
+				skyBlue = blueChannel;
 			}
 
-			GL11.glColor3f(f3, f4, f5);
-			Tessellator tessellator17 = Tessellator.instance;
+			GL11.glColor3f(skyRed, skyGreen, skyBlue);
+			Tessellator tessellator = Tessellator.instance;
 			GL11.glDepthMask(false);
-			GL11.glEnable(GL11.GL_FOG);
-			GL11.glColor3f(f3, f4, f5);
 			if(Config.isSkyEnabled()) {
 				GL11.glCallList(this.glSkyList);
 			}
 
-			GL11.glDisable(GL11.GL_FOG);
 			GL11.glDisable(GL11.GL_ALPHA_TEST);
 			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			RenderHelper.disableStandardItemLighting();
 
-			float f9;
-			float f10;
-			float f11;
-			float f12;
-
 			if(LevelThemeGlobalSettings.sunriseSunsetColors) {
-				float[] f18 = this.worldObj.worldProvider.calcSunriseSunsetColors(this.worldObj.getCelestialAngle(f1), f1);
-				if(f18 != null) {
+				// Draw the horizontal sunrise/sunset glow as a GL_TRIANGLE_FAN over the horizon.
+				float[] sunsetColors = this.worldObj.worldProvider.calcSunriseSunsetColors(this.worldObj.getCelestialAngle(partialTicks), partialTicks);
+				if(sunsetColors != null) {
 					GL11.glDisable(GL11.GL_TEXTURE_2D);
 					GL11.glShadeModel(GL11.GL_SMOOTH);
 					GL11.glPushMatrix();
 					GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
-					f8 = this.worldObj.getCelestialAngle(f1);
-					GL11.glRotatef(f8 > 0.5F ? 180.0F : 0.0F, 0.0F, 0.0F, 1.0F);
-					f9 = f18[0];
-					f10 = f18[1];
-					f11 = f18[2];
-					float f14;
+					float celestialAngle = this.worldObj.getCelestialAngle(partialTicks);
+					GL11.glRotatef(celestialAngle > 0.5F ? 180.0F : 0.0F, 0.0F, 0.0F, 1.0F);
+					float glowRed = sunsetColors[0];
+					float glowGreen = sunsetColors[1];
+					float glowBlue = sunsetColors[2];
 					if(this.mc.gameSettings.anaglyph) {
-						f12 = (f9 * 30.0F + f10 * 59.0F + f11 * 11.0F) / 100.0F;
-						float f13 = (f9 * 30.0F + f10 * 70.0F) / 100.0F;
-						f14 = (f9 * 30.0F + f11 * 70.0F) / 100.0F;
-						f9 = f12;
-						f10 = f13;
-						f11 = f14;
+						float luma = (glowRed * 30.0F + glowGreen * 59.0F + glowBlue * 11.0F) / 100.0F;
+						float redChannel = (glowRed * 30.0F + glowGreen * 70.0F) / 100.0F;
+						float blueChannel = (glowRed * 30.0F + glowBlue * 70.0F) / 100.0F;
+						glowRed = luma;
+						glowGreen = redChannel;
+						glowBlue = blueChannel;
 					}
-	
-					tessellator17.startDrawing(6);
-					tessellator17.setColorRGBA_F(f9, f10, f11, f18[3]);
-					tessellator17.addVertex(0.0D, 100.0D, 0.0D);
-					byte b19 = 16;
-					tessellator17.setColorRGBA_F(f18[0], f18[1], f18[2], 0.0F);
-	
-					for(int i20 = 0; i20 <= b19; ++i20) {
-						f14 = (float)i20 * (float)Math.PI * 2.0F / (float)b19;
-						float f15 = MathHelper.sin(f14);
-						float f16 = MathHelper.cos(f14);
-						tessellator17.addVertex((double)(f15 * 120.0F), (double)(f16 * 120.0F), (double)(-f16 * 40.0F * f18[3]));
+
+					tessellator.startDrawing(6);
+					tessellator.setColorRGBA_F(glowRed, glowGreen, glowBlue, sunsetColors[3]);
+					tessellator.addVertex(0.0D, 100.0D, 0.0D);
+					byte glowSegments = 16;
+					tessellator.setColorRGBA_F(sunsetColors[0], sunsetColors[1], sunsetColors[2], 0.0F);
+
+					for(int i = 0; i <= glowSegments; ++i) {
+						float angle = (float)i * (float)Math.PI * 2.0F / (float)glowSegments;
+						float sinAngle = MathHelper.sin(angle);
+						float cosAngle = MathHelper.cos(angle);
+						tessellator.addVertex((double)(sinAngle * 120.0F), (double)(cosAngle * 120.0F), (double)(-cosAngle * 40.0F * sunsetColors[3]));
 					}
-	
-					tessellator17.draw();
+
+					tessellator.draw();
 					GL11.glPopMatrix();
 					GL11.glShadeModel(GL11.GL_FLAT);
 				}
@@ -766,40 +803,37 @@ public class LevelRenderer implements IWorldAccess {
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 			GL11.glPushMatrix();
-			f7 = 1.0F - this.worldObj.getRainStrength(f1);
-			f8 = 0.0F;
-			f9 = 0.0F;
-			f10 = 0.0F;
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, f7);
-			GL11.glTranslatef(f8, f9, f10);
-			GL11.glRotatef(0.0F, 0.0F, 0.0F, 1.0F);
-			GL11.glRotatef(this.worldObj.getCelestialAngle(f1) * 360.0F, 1.0F, 0.0F, 0.0F);
-			
-			f11 = 30.0F;
+			// Sun and moon with additive blending, dimmed while it rains. During a blood moon the
+			// moon turns red and grows to 2.5x its normal size.
+			float daylightFactor = 1.0F - this.worldObj.getRainStrength(partialTicks);
+			GL11.glColor4f(1.0F, 1.0F, 1.0F, daylightFactor);
+			GL11.glRotatef(this.worldObj.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
+
+			float sunMoonSize = 30.0F;
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.renderEngine.getTexture("/terrain/sun.png"));
-			tessellator17.startDrawingQuads();
-			tessellator17.addVertexWithUV((double)(-f11), 100.0D, (double)(-f11), 0.0D, 0.0D);
-			tessellator17.addVertexWithUV((double)f11, 100.0D, (double)(-f11), 1.0D, 0.0D);
-			tessellator17.addVertexWithUV((double)f11, 100.0D, (double)f11, 1.0D, 1.0D);
-			tessellator17.addVertexWithUV((double)(-f11), 100.0D, (double)f11, 0.0D, 1.0D);
-			tessellator17.draw();
-			f11 = 20.0F;
+			tessellator.startDrawingQuads();
+			tessellator.addVertexWithUV((double)(-sunMoonSize), 100.0D, (double)(-sunMoonSize), 0.0D, 0.0D);
+			tessellator.addVertexWithUV((double)sunMoonSize, 100.0D, (double)(-sunMoonSize), 1.0D, 0.0D);
+			tessellator.addVertexWithUV((double)sunMoonSize, 100.0D, (double)sunMoonSize, 1.0D, 1.0D);
+			tessellator.addVertexWithUV((double)(-sunMoonSize), 100.0D, (double)sunMoonSize, 0.0D, 1.0D);
+			tessellator.draw();
+			sunMoonSize = 20.0F;
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.renderEngine.getTexture("/terrain/moon.png"));
 			if(this.worldObj.worldInfo.isBloodMoon()) {
 				GL11.glColor4f(1.0F, 0.0F, 0.0F, 1.0f);
-				f11 = 50.0F;
+				sunMoonSize = 50.0F;
 			}
-			
-			tessellator17.startDrawingQuads();
-			tessellator17.addVertexWithUV((double)(-f11), -100.0D, (double)f11, 1.0D, 1.0D);
-			tessellator17.addVertexWithUV((double)f11, -100.0D, (double)f11, 0.0D, 1.0D);
-			tessellator17.addVertexWithUV((double)f11, -100.0D, (double)(-f11), 0.0D, 0.0D);
-			tessellator17.addVertexWithUV((double)(-f11), -100.0D, (double)(-f11), 1.0D, 0.0D);
-			tessellator17.draw();
+
+			tessellator.startDrawingQuads();
+			tessellator.addVertexWithUV((double)(-sunMoonSize), -100.0D, (double)sunMoonSize, 1.0D, 1.0D);
+			tessellator.addVertexWithUV((double)sunMoonSize, -100.0D, (double)sunMoonSize, 0.0D, 1.0D);
+			tessellator.addVertexWithUV((double)sunMoonSize, -100.0D, (double)(-sunMoonSize), 0.0D, 0.0D);
+			tessellator.addVertexWithUV((double)(-sunMoonSize), -100.0D, (double)(-sunMoonSize), 1.0D, 0.0D);
+			tessellator.draw();
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
-			f12 = this.worldObj.getStarBrightness(f1) * f7;
-			if(f12 > 0.0F) {
-				GL11.glColor4f(f12, f12, f12, f12);
+			float starBrightness = this.worldObj.getStarBrightness(partialTicks) * daylightFactor;
+			if(starBrightness > 0.0F) {
+				GL11.glColor4f(starBrightness, starBrightness, starBrightness, starBrightness);
 				if(Config.isStarsEnabled()) {
 					GL11.glCallList(this.starGLCallList);
 				}
@@ -811,16 +845,16 @@ public class LevelRenderer implements IWorldAccess {
 			GL11.glEnable(GL11.GL_FOG);
 			GL11.glPopMatrix();
 			if(this.worldObj.worldProvider.func_28112_c()) {
-				GL11.glColor3f(f3 * 0.2F + 0.04F, f4 * 0.2F + 0.04F, f5 * 0.6F + 0.1F);
+				GL11.glColor3f(skyRed * 0.2F + 0.04F, skyGreen * 0.2F + 0.04F, skyBlue * 0.6F + 0.1F);
 			} else {
-				GL11.glColor3f(f3, f4, f5);
+				GL11.glColor3f(skyRed, skyGreen, skyBlue);
 			}
 
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			if(Config.isSkyEnabled()) {
 				GL11.glCallList(this.glSkyList2);
 			}
-			
+
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glDepthMask(true);
 		}
@@ -1034,53 +1068,59 @@ public class LevelRenderer implements IWorldAccess {
 		GL11.glEnable(GL11.GL_CULL_FACE);
 	}
 
-	public boolean updateRenderers(EntityLiving entityliving, boolean flag) {
+	public boolean updateRenderers(EntityLiving entity, boolean flag) {
 		if(this.worldRenderersToUpdate.size() <= 0) {
 			return false;
 		} else {
-			int num = 0;
-			int maxNum = Config.getUpdatesPerFrame();
-			if(Config.isDynamicUpdates() && !this.isMoving(entityliving)) {
-				maxNum *= 3;
+			int numUpdated = 0;
+			int maxUpdates = Config.getUpdatesPerFrame();
+			if(Config.isDynamicUpdates() && !this.isMoving(entity)) {
+				maxUpdates *= 3;
 			}
 
-			byte NOT_IN_FRUSTRUM_MUL = 4;
+			// Out-of-frustum chunks are far less urgent than visible ones: multiply their
+			// (squared) distance by this factor so they are deprioritized during selection.
+			byte outOfFrustrumFactor = 4;
 			int numValid = 0;
-			WorldRenderer wrBest = null;
-			float distSqBest = Float.MAX_VALUE;
-			int indexBest = -1;
+			WorldRenderer nearestRenderer = null;
+			float nearestDistSq = Float.MAX_VALUE;
+			int nearestIndex = -1;
+			float[] distSqCached = new float[this.worldRenderersToUpdate.size()];
 
 			int dstIndex;
 			for(dstIndex = 0; dstIndex < this.worldRenderersToUpdate.size(); ++dstIndex) {
-				WorldRenderer i = (WorldRenderer)this.worldRenderersToUpdate.get(dstIndex);
-				if(i != null) {
+				WorldRenderer renderer = this.worldRenderersToUpdate.get(dstIndex);
+				if(renderer != null) {
 					++numValid;
-					if(!i.needsUpdate) {
+					if(!renderer.needsUpdate) {
+						this.worldRenderersToUpdateSet.remove(renderer);
 						this.worldRenderersToUpdate.set(dstIndex, (WorldRenderer)null);
 					} else {
-						float wr = i.distanceToEntitySquared(entityliving);
-						if(wr <= 256.0F && this.isActingNow()) {
-							i.updateRenderer();
-							i.needsUpdate = false;
+						float distSq = renderer.distanceToEntitySquared(entity);
+						distSqCached[dstIndex] = distSq;
+						if(distSq <= 256.0F && this.isActingNow()) {
+							renderer.updateRenderer();
+							renderer.needsUpdate = false;
+							this.worldRenderersToUpdateSet.remove(renderer);
 							this.worldRenderersToUpdate.set(dstIndex, (WorldRenderer)null);
-							++num;
+							++numUpdated;
 						} else {
-							if(wr > 256.0F && num >= maxNum) {
+							if(distSq > 256.0F && numUpdated >= maxUpdates) {
 								break;
 							}
 
-							if(!i.isInFrustum) {
-								wr *= (float)NOT_IN_FRUSTRUM_MUL;
+							if(!renderer.isInFrustum) {
+								distSq *= (float)outOfFrustrumFactor;
 							}
 
-							if(wrBest == null) {
-								wrBest = i;
-								distSqBest = wr;
-								indexBest = dstIndex;
-							} else if(wr < distSqBest) {
-								wrBest = i;
-								distSqBest = wr;
-								indexBest = dstIndex;
+							if(nearestRenderer == null) {
+								nearestRenderer = renderer;
+								nearestDistSq = distSq;
+								nearestIndex = dstIndex;
+							} else if(distSq < nearestDistSq) {
+								nearestRenderer = renderer;
+								nearestDistSq = distSq;
+								nearestIndex = dstIndex;
 							}
 						}
 					}
@@ -1088,52 +1128,58 @@ public class LevelRenderer implements IWorldAccess {
 			}
 
 			int i16;
-			if(wrBest != null) {
-				wrBest.updateRenderer();
-				wrBest.needsUpdate = false;
-				this.worldRenderersToUpdate.set(indexBest, (WorldRenderer)null);
-				++num;
-				float f15 = distSqBest / 5.0F;
+			if(nearestRenderer != null) {
+				// Always rebuild the single nearest renderer, then rebuild any queue entries whose
+				// distance is close enough to it (they share a lot of recompiled geometry).
+				nearestRenderer.updateRenderer();
+				nearestRenderer.needsUpdate = false;
+				this.worldRenderersToUpdateSet.remove(nearestRenderer);
+				this.worldRenderersToUpdate.set(nearestIndex, (WorldRenderer)null);
+				++numUpdated;
+				float thresholdDistSq = nearestDistSq / 5.0F;
 
-				for(i16 = 0; i16 < this.worldRenderersToUpdate.size() && num < maxNum; ++i16) {
-					WorldRenderer worldRenderer17 = (WorldRenderer)this.worldRenderersToUpdate.get(i16);
-					if(worldRenderer17 != null) {
-						float distSq = worldRenderer17.distanceToEntitySquared(entityliving);
-						if(!worldRenderer17.isInFrustum) {
-							distSq *= (float)NOT_IN_FRUSTRUM_MUL;
+				for(i16 = 0; i16 < this.worldRenderersToUpdate.size() && numUpdated < maxUpdates; ++i16) {
+					WorldRenderer renderer = this.worldRenderersToUpdate.get(i16);
+					if(renderer != null) {
+						// Distances were computed in the first pass above; reuse them.
+						float distSq = distSqCached[i16];
+						if(!renderer.isInFrustum) {
+							distSq *= (float)outOfFrustrumFactor;
 						}
 
-						float diffDistSq = Math.abs(distSq - distSqBest);
-						if(diffDistSq < f15) {
-							worldRenderer17.updateRenderer();
-							worldRenderer17.needsUpdate = false;
+						float diffDistSq = Math.abs(distSq - nearestDistSq);
+						if(diffDistSq < thresholdDistSq) {
+							renderer.updateRenderer();
+							renderer.needsUpdate = false;
+							this.worldRenderersToUpdateSet.remove(renderer);
 							this.worldRenderersToUpdate.set(i16, (WorldRenderer)null);
-							++num;
+							++numUpdated;
 						}
 					}
 				}
 			}
 
 			if(numValid == 0) {
+				this.worldRenderersToUpdateSet.clear();
 				this.worldRenderersToUpdate.clear();
 			}
 
 			if(this.worldRenderersToUpdate.size() > 100 && numValid < this.worldRenderersToUpdate.size() * 4 / 5) {
+				// Compact the queue: slide live entries to the front, then drop the trailing nulls
+				// in one O(n) pass instead of removing each one individually.
 				dstIndex = 0;
 
 				for(i16 = 0; i16 < this.worldRenderersToUpdate.size(); ++i16) {
-					WorldRenderer object18 = this.worldRenderersToUpdate.get(i16);
-					if(object18 != null) {
+					WorldRenderer renderer = this.worldRenderersToUpdate.get(i16);
+					if(renderer != null) {
 						if(i16 != dstIndex)  {
-							this.worldRenderersToUpdate.set(dstIndex, object18);
+							this.worldRenderersToUpdate.set(dstIndex, renderer);
 						}
 						++dstIndex;
 					}
 				}
 
-				for(i16 = this.worldRenderersToUpdate.size() - 1; i16 >= dstIndex; --i16) {
-					this.worldRenderersToUpdate.remove(i16);
-				}
+				this.worldRenderersToUpdate.subList(dstIndex, this.worldRenderersToUpdate.size()).clear();
 			}
 
 			return true;
@@ -1291,6 +1337,7 @@ public class LevelRenderer implements IWorldAccess {
 					int i3 = (l2 * this.renderChunksTall + j2) * this.renderChunksWide + l1;
 					WorldRenderer worldrenderer = this.worldRenderers[i3];
 					if(!worldrenderer.needsUpdate) {
+						this.worldRenderersToUpdateSet.add(worldrenderer);
 						this.worldRenderersToUpdate.add(worldrenderer);
 						worldrenderer.markDirty();
 					}
@@ -1356,66 +1403,91 @@ public class LevelRenderer implements IWorldAccess {
 			double dZ = this.mc.renderViewEntity.posZ - posZ;
 			double dist = 16.0D;
 			if(dX * dX + dY * dY + dZ * dZ <= dist * dist) {
-				if(particle.equals("bubble")) {
-					this.mc.effectRenderer.addEffect(new EntityBubbleFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ));
-				} else if(particle.equals("smoke")) {
-					if(Config.isAnimatedSmoke()) {
-						this.mc.effectRenderer.addEffect(new EntitySmokeFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ));
-					}
-				} else if(particle.equals("note")) {
-					this.mc.effectRenderer.addEffect(new EntityNoteFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ));
-				} else if(particle.equals("portal")) {
-					this.mc.effectRenderer.addEffect(new EntityPortalFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ));
-				} else if(particle.equals("explode")) {
-					if(Config.isAnimatedExplosion()) {
-						this.mc.effectRenderer.addEffect(new EntityExplodeFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ));
-					}
-				} else if(particle.equals("flame")) {
-					if(Config.isAnimatedFlame()) {
-						this.mc.effectRenderer.addEffect(new EntityFlameFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ));
-					}
-				} else if(particle.equals("lava")) {
-					this.mc.effectRenderer.addEffect(new EntityLavaFX(this.worldObj, posX, posY, posZ));
-				} else if(particle.equals("footstep")) {
-					this.mc.effectRenderer.addEffect(new EntityFootStepFX(this.renderEngine, this.worldObj, posX, posY, posZ));
-				} else if(particle.equals("splash")) {
-					this.mc.effectRenderer.addEffect(new EntitySplashFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ));
-				} else if(particle.equals("largesmoke")) {
-					if(Config.isAnimatedSmoke()) {
-						this.mc.effectRenderer.addEffect(new EntitySmokeFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ, 2.5F));
-					}
-				} else if(particle.equals("reddust")) {
-					if(Config.isAnimatedRedstone()) {
-						this.mc.effectRenderer.addEffect(new EntityReddustFX(this.worldObj, posX, posY, posZ, (float)motionX, (float)motionY, (float)motionZ));
-					}
-				} else if(particle.equals("glowdust")) {
-					if(Config.isAnimatedRedstone()) {
-						this.mc.effectRenderer.addEffect(new EntityGlowdustFX(this.worldObj, posX, posY, posZ));
-					}
-				} else if(particle.equals("snowballpoof")) {
-					this.mc.effectRenderer.addEffect(new EntitySlimeFX(this.worldObj, posX, posY, posZ, Item.snowball));
-				} else if(particle.equals("crackedpebble")) {
-					this.mc.effectRenderer.addEffect(new EntitySlimeFX(this.worldObj, posX, posY, posZ, Item.pebble));
-				} else if(particle.equals("crackedpotion")) {
-					this.mc.effectRenderer.addEffect(new EntitySlimeFX(this.worldObj, posX, posY, posZ, Item.potionEmpty));
-				} else if(particle.equals("snowshovel")) {
-					this.mc.effectRenderer.addEffect(new EntitySnowShovelFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ));
-				} else if(particle.equals("slime")) {
-					this.mc.effectRenderer.addEffect(new EntitySlimeFX(this.worldObj, posX, posY, posZ, Item.slimeBall));
-				} else if(particle.equals("heart")) {
-					this.mc.effectRenderer.addEffect(new EntityHeartFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ));
-				} else if (particle.equals("status_effect")) {
-					EntityStatusEffectFX entityFX = new EntityStatusEffectFX(this.worldObj, posX, posY, posZ, 0, 0, 0);
-					entityFX.setParticleColor((float)motionX, (float)motionY, (float)motionZ);
-					this.mc.effectRenderer.addEffect(entityFX);
+				// The dynamic "iconcrack_<itemId>" / "tilecrack_<blockId>" names can't be pre-registered in
+				// the fixed-name map above, so handle them before the dispatch lookup.
+				int itemId;
+				if(particle.startsWith("iconcrack_")) {
+					itemId = Integer.parseInt(particle.substring(particle.indexOf("_") + 1));
+					this.mc.effectRenderer.addEffect(new EntityBreakingFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ, Item.itemsList[itemId]));
+				} else if(particle.startsWith("tilecrack_")) {
+					itemId = Integer.parseInt(particle.substring(particle.indexOf("_") + 1));
+					this.mc.effectRenderer.addEffect(new EntityDiggingFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ, Block.blocksList[itemId], 0, 0));
 				} else {
-					int i24;
-					if(particle.startsWith("iconcrack_")) {
-						i24 = Integer.parseInt(particle.substring(particle.indexOf("_") + 1));
-						this.mc.effectRenderer.addEffect(new EntityBreakingFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ, Item.itemsList[i24]));
-					} else if(particle.startsWith("tilecrack_")) {
-						i24 = Integer.parseInt(particle.substring(particle.indexOf("_") + 1));
-						this.mc.effectRenderer.addEffect(new EntityDiggingFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ, Block.blocksList[i24], 0, 0));
+					Integer particleType = PARTICLE_TYPE_BY_NAME.get(particle);
+					if(particleType != null) {
+						switch(particleType.intValue()) {
+						case 0:
+							this.mc.effectRenderer.addEffect(new EntityBubbleFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ));
+							break;
+						case 1:
+							if(Config.isAnimatedSmoke()) {
+								this.mc.effectRenderer.addEffect(new EntitySmokeFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ));
+							}
+							break;
+						case 2:
+							this.mc.effectRenderer.addEffect(new EntityNoteFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ));
+							break;
+						case 3:
+							this.mc.effectRenderer.addEffect(new EntityPortalFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ));
+							break;
+						case 4:
+							if(Config.isAnimatedExplosion()) {
+								this.mc.effectRenderer.addEffect(new EntityExplodeFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ));
+							}
+							break;
+						case 5:
+							if(Config.isAnimatedFlame()) {
+								this.mc.effectRenderer.addEffect(new EntityFlameFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ));
+							}
+							break;
+						case 6:
+							this.mc.effectRenderer.addEffect(new EntityLavaFX(this.worldObj, posX, posY, posZ));
+							break;
+						case 7:
+							this.mc.effectRenderer.addEffect(new EntityFootStepFX(this.renderEngine, this.worldObj, posX, posY, posZ));
+							break;
+						case 8:
+							this.mc.effectRenderer.addEffect(new EntitySplashFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ));
+							break;
+						case 9:
+							if(Config.isAnimatedSmoke()) {
+								this.mc.effectRenderer.addEffect(new EntitySmokeFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ, 2.5F));
+							}
+							break;
+						case 10:
+							if(Config.isAnimatedRedstone()) {
+								this.mc.effectRenderer.addEffect(new EntityReddustFX(this.worldObj, posX, posY, posZ, (float)motionX, (float)motionY, (float)motionZ));
+							}
+							break;
+						case 11:
+							if(Config.isAnimatedRedstone()) {
+								this.mc.effectRenderer.addEffect(new EntityGlowdustFX(this.worldObj, posX, posY, posZ));
+							}
+							break;
+						case 12:
+							this.mc.effectRenderer.addEffect(new EntitySlimeFX(this.worldObj, posX, posY, posZ, Item.snowball));
+							break;
+						case 13:
+							this.mc.effectRenderer.addEffect(new EntitySlimeFX(this.worldObj, posX, posY, posZ, Item.pebble));
+							break;
+						case 14:
+							this.mc.effectRenderer.addEffect(new EntitySlimeFX(this.worldObj, posX, posY, posZ, Item.potionEmpty));
+							break;
+						case 15:
+							this.mc.effectRenderer.addEffect(new EntitySnowShovelFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ));
+							break;
+						case 16:
+							this.mc.effectRenderer.addEffect(new EntitySlimeFX(this.worldObj, posX, posY, posZ, Item.slimeBall));
+							break;
+						case 17:
+							this.mc.effectRenderer.addEffect(new EntityHeartFX(this.worldObj, posX, posY, posZ, motionX, motionY, motionZ));
+							break;
+						case 18:
+							EntityStatusEffectFX entityFX = new EntityStatusEffectFX(this.worldObj, posX, posY, posZ, 0, 0, 0);
+							entityFX.setParticleColor((float)motionX, (float)motionY, (float)motionZ);
+							this.mc.effectRenderer.addEffect(entityFX);
+							break;
+						}
 					}
 				}
 
@@ -1450,6 +1522,7 @@ public class LevelRenderer implements IWorldAccess {
 		if(this.worldRenderers != null) {
 			for(int i = 0; i < this.worldRenderers.length; ++i) {
 				if(this.worldRenderers[i].isChunkLit && !this.worldRenderers[i].needsUpdate) {
+					this.worldRenderersToUpdateSet.add(this.worldRenderers[i]);
 					this.worldRenderersToUpdate.add(this.worldRenderers[i]);
 					this.worldRenderers[i].markDirty();
 				}

@@ -6,6 +6,8 @@ import net.minecraft.world.GlobalVars;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.chunk.storage.IProgressUpdate;
+import net.minecraft.world.level.levelgen.ChunkProviderGenerate;
+import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 
 /**
  * Chunk provider for the finite Inslands worlds.
@@ -297,6 +299,10 @@ public class ChunkProvider implements IChunkProvider {
 
 		// Phase 2 + Phase 3 run only if something was actually created this pass.
 		if(anyGenerated) {
+			// Theme hook between terrain generation (phase 1) and population
+			// (phase 2): lets a theme prepare the freshly generated chunks.
+			LevelThemeGlobalSettings.getTheme().specialPrePopulation(this.world);
+
 			this.world.deferLightingUpdate = true;
 			try {
 				for(int chunkX = 0; chunkX < WorldSize.xChunks; chunkX ++) {
@@ -305,11 +311,15 @@ public class ChunkProvider implements IChunkProvider {
 						this.populate(this, chunkX, chunkZ);   // skips isTerrainPopulated (loaded) chunks
 					}
 				}
+				
+				// Theme-specific post generation, once the whole world is generated and populated
+				LevelThemeGlobalSettings.getTheme().specialPostGeneration(this.world);
+				
 			} finally {
 				// Always restore the flag: leaving it set would permanently stop all lighting.
 				this.world.deferLightingUpdate = false;
 			}
-
+			
 			// Relight the WHOLE world once if any chunk was generated — never just the new
 			// ones: populated features may have written across borders into loaded neighbours,
 			// and a single deterministic pass kills any seam between fresh and saved light.
@@ -323,7 +333,16 @@ public class ChunkProvider implements IChunkProvider {
 					chunk.initLightingForRealNotJustHeightmap(true);
 				}
 			}
+
 		}
+
+		// World generation is complete: every feature has been fully consumed, so drop the
+		// feature schedule and all schematic data. No-op on disk-loaded worlds (nothing was
+		// ever scheduled).
+		if(this.chunkGenerator instanceof ChunkProviderGenerate) {
+			((ChunkProviderGenerate) this.chunkGenerator).featureProvider.releaseFeatures();
+		}
+
 	}
 
 	/** Advances the loading progress by one step, if a progress sink was supplied. */

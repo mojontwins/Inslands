@@ -1,6 +1,7 @@
 package net.minecraft.world.level.levelgen;
 
 import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldChunkManager;
 import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.chunk.Chunk;
@@ -216,6 +217,114 @@ public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkPro
 		// 
 	}
 	
+	public Chunk justGenerateForHeight(int chunkX, int chunkZ) {
+		this.rand.setSeed((long)chunkX * 341873128712L + (long)chunkZ * 132897987541L);
+
+		// Height-only terrain: density lattice + height map + terraform, no 2 x 32 KB block arrays.
+		Chunk chunk = new Chunk(this.worldObj, chunkX, chunkZ);
+		byte[] surface = new byte[256];
+
+		double noiseScale = 0.25D;
+		double yscalingFactor = 0.125D;
+		double densityVariationSpeed = 0.125D;
+		byte quadrantSize = 2;
+		int cellSize = quadrantSize + 1;
+		byte columnSize = 33;
+		int cellSize2 = quadrantSize + 1;
+
+		this.terrainNoise = this.initializeNoiseField(this.terrainNoise, chunkX * quadrantSize, 0, chunkZ * quadrantSize, cellSize, columnSize, cellSize2, chunkX, chunkZ);
+
+		for(int xSection = 0; xSection < quadrantSize; ++xSection) {
+			for(int zSection = 0; zSection < quadrantSize; ++zSection) {
+				for(int ySection = 0; ySection < 32; ++ySection) {
+
+					double noiseA = this.terrainNoise[((xSection + 0) * cellSize2 + zSection + 0) * columnSize + ySection + 0];
+					double noiseB = this.terrainNoise[((xSection + 0) * cellSize2 + zSection + 1) * columnSize + ySection + 0];
+					double noiseC = this.terrainNoise[((xSection + 1) * cellSize2 + zSection + 0) * columnSize + ySection + 0];
+					double noiseD = this.terrainNoise[((xSection + 1) * cellSize2 + zSection + 1) * columnSize + ySection + 0];
+					double noiseAinc = (this.terrainNoise[((xSection + 0) * cellSize2 + zSection + 0) * columnSize + ySection + 1] - noiseA) * noiseScale;
+					double noiseBinc = (this.terrainNoise[((xSection + 0) * cellSize2 + zSection + 1) * columnSize + ySection + 1] - noiseB) * noiseScale;
+					double noiseCinc = (this.terrainNoise[((xSection + 1) * cellSize2 + zSection + 0) * columnSize + ySection + 1] - noiseC) * noiseScale;
+					double noiseDinc = (this.terrainNoise[((xSection + 1) * cellSize2 + zSection + 1) * columnSize + ySection + 1] - noiseD) * noiseScale;
+
+					for(int y = 0; y < 4; ++y) {
+						double curNoiseA = noiseA;
+						double curNoiseB = noiseB;
+						double curNoiseAinc = (noiseC - noiseA) * yscalingFactor;
+						double curNoiseBinc = (noiseD - noiseB) * yscalingFactor;
+
+						int yy = (ySection << 2) + y;
+
+						for(int x = 0; x < 8; ++x) {
+							double density = curNoiseA;
+							double densityIncrement = (curNoiseB - curNoiseA) * densityVariationSpeed;
+
+							for(int z = 0; z < 8; ++z) {
+								// Same density test as generateTerrain's block write: stone where density > 0.
+								if(density > 0.0D) {
+									surface[(z + (zSection << 3)) << 4 | (x + (xSection << 3))] = (byte)yy;
+								}
+
+								density += densityIncrement;
+							}
+
+							curNoiseA += curNoiseAinc;
+							curNoiseB += curNoiseBinc;
+						}
+
+						noiseA += noiseAinc;
+						noiseB += noiseBinc;
+						noiseC += noiseCinc;
+						noiseD += noiseDinc;
+					}
+				}
+			}
+		}
+
+		// Height-only half of terraform(): same erosion/raising formula, no block writes.
+		int xx = chunkX << 4;
+		for(int x = 0; x < 16; x ++) {
+			double dx = Math.abs(( extend_center((double)xx / (double)(WorldSize.width - 1)) - 0.5D) * 2.0D);
+
+			int zz = chunkZ << 4;
+			for(int z = 0; z < 16; z ++) {
+				double dz = Math.abs(( extend_center ((double)zz / (double)(WorldSize.length - 1)) - 0.5D) * 2.0D);
+
+				double d = Math.sqrt(dx * dx + dz * dz) * 1.2D;
+				double noise = this.noiseIslandGen.generateNoise(xx * 0.05D, zz * 0.05D) / 4.0D + 1.0D;
+				double factor = Math.max(Math.min(d, noise), Math.min(dx, dz));
+
+				if(factor > 1.0D) factor = 1.0D;
+				if(factor < 0.0D) factor = 0.0D;
+				factor *= factor;
+
+				int height = surface[z << 4 | x] & 255;
+				if(height > 1) {
+					double normalizedHeight = (double)height;
+					normalizedHeight = normalizedHeight * (1.0D - factor) - factor * 10.0D + 5.0D;
+
+					if(normalizedHeight < 0.0D) {
+						normalizedHeight -= normalizedHeight * normalizedHeight * 0.2D;
+					}
+
+					int newHeight = (int)normalizedHeight;
+					if(newHeight < 0) newHeight = 0;
+					if(newHeight > 127) newHeight = 127;
+
+					surface[z << 4 | x] = (byte)newHeight;
+				}
+
+				zz ++;
+			}
+			xx ++;
+		}
+
+		chunk.landSurfaceHeightMap = surface;
+		chunk.isOcean = false;
+
+		return chunk;
+	}
+
 	public Chunk provideChunk(int chunkX, int chunkZ) {
 		if(chunkX < 0 || chunkX >= WorldSize.xChunks || chunkZ < 0 || chunkZ >= WorldSize.zChunks) {
 			return new EmptyChunk(this.worldObj, new byte[32768], new byte[32768], 0, 0);
@@ -233,6 +342,18 @@ public class ChunkProviderSky extends ChunkProviderGenerate implements IChunkPro
 		
 		// Cache biomes in chunk
 		chunk.biomeGenCache = this.biomesForGeneration.clone();
+		
+		// Capture the post-processed temperature, humidity and biome codes for this chunk
+		// right now (see ChunkProviderGenerate.provideChunk for details).
+		WorldChunkManager worldChunkManager = this.worldObj.getWorldChunkManager();
+		chunk.temperatureCache = new float[256];
+		chunk.humidityCache = new float[256];
+		chunk.biomeIdCache = new byte[256];
+		for(int cacheIndex = 0; cacheIndex < 256; cacheIndex ++) {
+			chunk.temperatureCache[cacheIndex] = (float)worldChunkManager.temperatureScratch[cacheIndex];
+			chunk.humidityCache[cacheIndex] = (float)worldChunkManager.humidityScratch[cacheIndex];
+			chunk.biomeIdCache[cacheIndex] = (byte)this.biomesForGeneration[cacheIndex].biomeCode;
+		}
 
 		// Generate terrain for this chunk
 		this.generateTerrain(chunkX, chunkZ, blockArray);

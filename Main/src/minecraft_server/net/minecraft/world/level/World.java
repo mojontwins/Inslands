@@ -85,6 +85,10 @@ public class World implements IBlockAccess {
 	public final WorldProvider worldProvider;
 	public List<IWorldAccess> worldAccesses;
 	public IChunkProvider chunkProvider;
+
+	/** Memoises height-only results for not-yet-generated chunks (see {@link TerrainHeightQueryCache}). */
+	private final TerrainHeightQueryCache heightQueryCache = new TerrainHeightQueryCache();
+
 	protected final ISaveHandler saveHandler;
 	public WorldInfo worldInfo;
 	public boolean findingSpawnPoint;
@@ -98,6 +102,16 @@ public class World implements IBlockAccess {
 	private int soundCounter;
 	private List<Entity> entitiesWithinAABBExcludingEntity;
 	public boolean isRemote;
+
+	/**
+	 * Chebyshev radius (in chunks) of the square region centred on each player in which
+	 * entities are ticked in full.  Entities outside every player's square are frozen: only
+	 * {@code ticksExisted} is incremented and an isolated despawn pass runs (see
+	 * {@link #tickFrozenEntity}).  Defaults to 8, the same radius as block ticks and mob
+	 * spawns.
+	 */
+	public int entitySimulationRadiusChunks = 8;
+
 	public boolean colouredAthmospherics;
 	public long thisSessionTicks;
 
@@ -754,41 +768,37 @@ public class World implements IBlockAccess {
 	}
 
 	public int getLandSurfaceHeightValue(int blockX, int blockZ) {
-		Chunk chunk3 = null;
-		if(this.chunkExists(blockX >> 4, blockZ >> 4)) {
-			chunk3 = this.getChunkFromChunkCoords(blockX >> 4, blockZ >> 4);
-		} else {
-			chunk3 = this.chunkProvider.justGenerateForHeight(blockX >> 4, blockZ >> 4);
+		int chunkX = blockX >> 4;
+		int chunkZ = blockZ >> 4;
+		if(this.chunkExists(chunkX, chunkZ)) {
+			return this.getChunkFromChunkCoords(chunkX, chunkZ).getLandSurfaceHeightValue(blockX & 15, blockZ & 15);
 		}
-		return chunk3.getLandSurfaceHeightValue(blockX & 15, blockZ & 15);
+		return this.heightQueryCache.getOrCompute(chunkX, chunkZ, this).landSurfaceHeightMap[(blockZ & 15) << 4 | (blockX & 15)];
 	}
-		
+
 	public boolean isOceanChunk(int chunkX, int chunkZ) {
-		Chunk chunk = null;
 		if(this.chunkExists(chunkX, chunkZ)) {
-			chunk = this.getChunkFromChunkCoords(chunkX, chunkZ);
-		} else {
-			chunk = this.chunkProvider.justGenerateForHeight(chunkX, chunkZ);
+			return this.getChunkFromChunkCoords(chunkX, chunkZ).isOcean;
 		}
-		return chunk.isOcean;
+		return this.heightQueryCache.getOrCompute(chunkX, chunkZ, this).isOcean;
 	}
-	
+
 	public boolean isUrbanChunk(int chunkX, int chunkZ) {
-		Chunk chunk = null;
 		if(this.chunkExists(chunkX, chunkZ)) {
-			chunk = this.getChunkFromChunkCoords(chunkX, chunkZ);
-		} else {
-			chunk = this.chunkProvider.justGenerateForHeight(chunkX, chunkZ);
+			return this.getChunkFromChunkCoords(chunkX, chunkZ).isUrbanChunk;
 		}
-		return chunk.isUrbanChunk;
+		return this.heightQueryCache.getOrCompute(chunkX, chunkZ, this).isUrbanChunk;
 	}
 
 	public Chunk justGenerateForHeight(int chunkX, int chunkZ) {
 		if(this.chunkExists(chunkX, chunkZ)) {
 			return this.getChunkFromChunkCoords(chunkX, chunkZ);
-		} else {
-			return this.chunkProvider.justGenerateForHeight(chunkX, chunkZ);
 		}
+		return this.heightQueryCache.buildChunk(chunkX, chunkZ, this, this.heightQueryCache.getOrCompute(chunkX, chunkZ, this));
+	}
+
+	public void evictHeightQuery(int chunkX, int chunkZ) {
+		this.heightQueryCache.evict(chunkX, chunkZ);
 	}
 	
 	public int getHeightValueUnderWater (int x, int z) {
@@ -1518,76 +1528,93 @@ public class World implements IBlockAccess {
 		}
 	}
 
+	/*
+	 * Frozen entities (i.e. outside the simulation radius of every player) don't run their
+	 * AI, movement or collision code. They still age and are given a chance to despawn, so a
+	 * flood of idle mobs can't starve the mob cap. Client worlds never kill entities on their
+	 * own: the authoritative server sends the destroy packets.
+	 */
+	private void tickFrozenEntity(Entity entity) {
+		if(!entity.isDead && !this.isRemote && entity instanceof EntityLiving) {
+			EntityLiving living = (EntityLiving)entity;
+			++living.entityAge;
+			living.despawnEntity();
+		}
+	}
+
 	public void updateEntities() {
-		// Update only entities within 8 chunks of a player.
-		
-		int i;
-		Entity curEntity;
+		// Only entities within entitySimulationRadiusChunks of a player are ticked in full
+		// (AI, movement and collisions). Everything else frozen: only ticksExisted increments
+		// and an isolated despawn pass (see tickFrozenEntity above).
+
+		int index;
+		Entity entity;
 
 		// Weather entities
 
-		for(i = 0; i < this.weatherEffects.size(); ++i) {
-			curEntity = (Entity)this.weatherEffects.get(i);
-			curEntity.onUpdate();
-			if(curEntity.isDead) {
-				this.weatherEffects.remove(i--);
+		for(index = 0; index < this.weatherEffects.size(); ++index) {
+			entity = (Entity)this.weatherEffects.get(index);
+			entity.onUpdate();
+			if(entity.isDead) {
+				this.weatherEffects.remove(index--);
 			}
 		}
 
-		int x;
-		int z;
-		
+		// Build the set of chunks that lie inside the simulation radius of any player.
+
+		int radius = this.entitySimulationRadiusChunks;
+		HashSet<Integer> activeChunks = new HashSet<Integer>();
+		for(int playerIndex = 0; playerIndex < this.playerEntities.size(); ++playerIndex) {
+			EntityPlayer player = (EntityPlayer)this.playerEntities.get(playerIndex);
+			int playerChunkX = MathHelper.floor_double(player.posX / 16.0D);
+			int playerChunkZ = MathHelper.floor_double(player.posZ / 16.0D);
+			for(int chunkX = playerChunkX - radius; chunkX <= playerChunkX + radius; ++chunkX) {
+				for(int chunkZ = playerChunkZ - radius; chunkZ <= playerChunkZ + radius; ++chunkZ) {
+					activeChunks.add(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ));
+				}
+			}
+		}
 
 		// Process loaded entities
 
 		this.updatedEntities = 0;
-		for(i = 0; i < this.loadedEntityList.size(); ++i) {
-			curEntity = (Entity)this.loadedEntityList.get(i);
-			
-			if(curEntity.ridingEntity != null) {
-				if(!curEntity.ridingEntity.isDead && curEntity.ridingEntity.riddenByEntity == curEntity) {
+		for(index = 0; index < this.loadedEntityList.size(); ++index) {
+			entity = (Entity)this.loadedEntityList.get(index);
+
+			if(entity.ridingEntity != null) {
+				if(!entity.ridingEntity.isDead && entity.ridingEntity.riddenByEntity == entity) {
 					continue;
 				}
 
-				curEntity.ridingEntity.riddenByEntity = null;
-				curEntity.ridingEntity = null;
+				entity.ridingEntity.riddenByEntity = null;
+				entity.ridingEntity = null;
 			}
 
-			// Update this entity if not dead
-			
-			// Prune by near chunks
-			boolean processThis = false;
-			
-			if(curEntity instanceof EntityPlayer || this.isRemote || this.amITheServer()) {
-				processThis = true;
-			} else {
-				for(int j = 0; j < playerEntities.size(); j ++) {
-					EntityPlayer curPlayer = playerEntities.get(j);
-					if(
-							Math.abs(curPlayer.curChunkX - curEntity.chunkCoordX) < 8 &&
-							Math.abs(curPlayer.curChunkZ - curEntity.chunkCoordZ) < 8)  {
-						processThis = true;
-						break;
-					}
+			if(!entity.isDead) {
+				boolean active = entity instanceof EntityPlayer ||
+						activeChunks.contains(ChunkCoordIntPair.chunkXZ2Int(entity.chunkCoordX, entity.chunkCoordZ));
+
+				if(active) {
+					this.updateEntity(entity);
+					this.updatedEntities++;
+				} else {
+					// Frozen: no AI, no movement, no collisions - only age and maybe despawn.
+					entity.ticksExisted++;
+					this.tickFrozenEntity(entity);
 				}
-			}
-
-			if(!curEntity.isDead && processThis) {
-				this.updateEntity(curEntity);
-				this.updatedEntities ++;
 			}
 
 			// Remove entity if dead
 
-			if(curEntity.isDead) {
-				x = curEntity.chunkCoordX;
-				z = curEntity.chunkCoordZ;
-				if(curEntity.addedToChunk && this.chunkExists(x, z)) {
-					this.getChunkFromChunkCoords(x, z).removeEntity(curEntity);
+			if(entity.isDead) {
+				int entityChunkX = entity.chunkCoordX;
+				int entityChunkZ = entity.chunkCoordZ;
+				if(entity.addedToChunk && this.chunkExists(entityChunkX, entityChunkZ)) {
+					this.getChunkFromChunkCoords(entityChunkX, entityChunkZ).removeEntity(entity);
 				}
 
-				this.loadedEntityList.remove(i--);
-				this.releaseEntitySkin(curEntity);
+				this.loadedEntityList.remove(index--);
+				this.releaseEntitySkin(entity);
 			}
 		}
 
@@ -2520,25 +2547,30 @@ public class World implements IBlockAccess {
 				z = z0 + (tIndex >> 8 & 15);
 				y = this.findTopSolidBlockUsingBlockMaterial(x, z);
 
-				// Let's find a lightning rod - that is, a close iron block which is higher than
-				// y
-				byte rodRadius = 10;
-				outterRodCheck: for (int xx = x - rodRadius; xx <= x + rodRadius; xx++) {
-					for (int zz = z - rodRadius; zz <= z + rodRadius; zz++) {
-						int yy = this.findTopSolidBlockUsingBlockMaterial(xx, zz);
-						if (yy > y) {
-							if (this.getBlockID(xx, yy, zz) == Block.blockSteel.blockID) {
-								x = xx;
-								y = yy;
-								z = zz;
-								break outterRodCheck;
-							}
+				// A natural bolt would strike (x, y, z). Look for a lightning rod: an exposed iron
+				// block which tops its column and rises strictly above the strike point. Prefer the
+				// tallest rod, breaking ties in favour of the rod closest to the strike point. If no
+				// rod is found the bolt falls onto the originally selected column.
+				if (this.canBlockBeRainedOnForBolts(x, y, z)) {
+					int rodX = x;
+					int rodY = y;
+					int rodZ = z;
+					byte rodRadius = 10;
+					for (int xx = x - rodRadius; xx <= x + rodRadius; ++xx) {
+						if (xx < 0 || xx >= WorldSize.width) continue;
+						for (int zz = z - rodRadius; zz <= z + rodRadius; ++zz) {
+							if (zz < 0 || zz >= WorldSize.length) continue;
+							int yy = this.findTopSolidBlockUsingBlockMaterial(xx, zz);
+							if (yy <= y || yy < rodY) continue;
+							if (this.getBlockID(xx, yy - 1, zz) != Block.blockSteel.blockID) continue;
+							if (!this.canBlockBeRainedOnForBolts(xx, yy, zz)) continue;
+							if (yy == rodY && Math.abs(xx - x) + Math.abs(zz - z) >= Math.abs(rodX - x) + Math.abs(rodZ - z)) continue;
+							rodX = xx;
+							rodY = yy;
+							rodZ = zz;
 						}
 					}
-				}
-
-				if (this.canBlockBeRainedOnForBolts(x, y, z)) {
-					this.addWeatherEffect(new EntityLightningBolt(this, (double) x, (double) y, (double) z));
+					this.addWeatherEffect(new EntityLightningBolt(this, (double) rodX, (double) rodY, (double) rodZ));
 					this.lastLightningBolt = 2;
 				}
 			}
@@ -3326,6 +3358,26 @@ public class World implements IBlockAccess {
 
 	public BiomeGenBase getBiomeGenAt(int x, int z) {
 		return this.getChunkFromChunkCoords(x >> 4, z >> 4).getBiomeGenAt(x & 15, z & 15);
+	}
+	
+	// Per-block temperature from the per-chunk climate cache. Chunks generated before
+	// the cache existed fall back to the active theme temperature (or 0.5 default).
+	public float getTemperatureAt(int x, int z) {
+		Chunk chunk = this.getChunkFromChunkCoords(x >> 4, z >> 4);
+		if(chunk.temperatureCache == null) {
+			return (float)(LevelThemeGlobalSettings.levelThemeMainBiome != null ? LevelThemeGlobalSettings.temperature : 0.5D);
+		}
+		return chunk.temperatureCache[(x & 15) << 4 | (z & 15)];
+	}
+	
+	// Per-block humidity from the per-chunk climate cache. Chunks generated before the
+	// cache existed fall back to the active theme humidity (or 0.5 default).
+	public float getHumidityAt(int x, int z) {
+		Chunk chunk = this.getChunkFromChunkCoords(x >> 4, z >> 4);
+		if(chunk.humidityCache == null) {
+			return (float)(LevelThemeGlobalSettings.levelThemeMainBiome != null ? LevelThemeGlobalSettings.humidity : 0.5D);
+		}
+		return chunk.humidityCache[(x & 15) << 4 | (z & 15)];
 	}
 	
 	public IWorldAccess getWorldAccess(int i) {

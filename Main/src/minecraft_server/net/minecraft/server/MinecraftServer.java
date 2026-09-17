@@ -175,11 +175,11 @@ public class MinecraftServer implements Runnable, ICommandListener {
 			}
 		}
 
-		// Theme-specific post generation + spawn placement — overworld only.
+		// Spawn placement — overworld only. Theme-specific post generation now
+		// runs at the end of generateWholeWorld instead.
 		// The nether's getInitialSpawnLocation would build an indev house there, which
 		// is never wanted.  canRespawnHere() == false already prevents regular respawns.
 		if(isNew && world.worldProvider.worldType == 0) {
-			LevelThemeGlobalSettings.getTheme().specialPostGeneration(world);
 			world.worldProvider.getInitialSpawnLocation(world);
 		}
 	}

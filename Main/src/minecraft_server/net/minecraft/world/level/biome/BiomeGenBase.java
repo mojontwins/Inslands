@@ -2,7 +2,9 @@ package net.minecraft.world.level.biome;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.world.entity.EnumCreatureType;
@@ -31,6 +33,10 @@ import net.minecraft.world.level.theme.LevelThemeSettings;
 import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenBase {
+	// Must be declared before every static BiomeGenBase instance below so the constructor can
+	// safely register into it during class initialisation.
+	private static final Map<Integer, BiomeGenBase> biomesByCode = new HashMap<Integer, BiomeGenBase>();
+
 	public static final BiomeGenBase biomeDefault = new BiomeGenBase().setBiomeName("Default Alpha");
 	
 	// Level themes
@@ -82,6 +88,9 @@ public class BiomeGenBase {
 		this.spawnableWaterCreatureList.add(new SpawnListEntry(EntitySquid.class, 5));
 		
 		this.biomeCode = BiomeGenBase.currentBiomeCode ++;
+		
+		// Register this biome instance so the per-chunk biome cache can be restored by code.
+		biomesByCode.put(Integer.valueOf(this.biomeCode), this);
 	}
 	
 	public BiomeGenBase setCode(int code) {
@@ -234,6 +243,13 @@ public class BiomeGenBase {
 		int var4 = (int)(temperature * 63.0D);
 		int var5 = (int)(humidity * 63.0D);
 		return biomeLookupTable[var4 + var5 * 64];
+	}
+
+	// Restore a biome instance from its numeric code (saved in the per-chunk biome id
+	// cache). Falls back to the default biome if the code is unknown.
+	public static BiomeGenBase getBiomeFromCode(int code) {
+		BiomeGenBase biome = biomesByCode.get(Integer.valueOf(code));
+		return biome == null ? biomeDefault : biome;
 	}
 	
 	// Called during generation

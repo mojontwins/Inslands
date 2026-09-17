@@ -1368,8 +1368,8 @@ public abstract class Minecraft implements Runnable {
 			}
 
 			world7 = null;
-		world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(-1));
-		this.preloadWorld(world7, "Entering the Nether", true);
+			world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(-1));
+			this.preloadWorld(world7, "Entering the Nether", true);
 			if(world7.isNewWorld) world7.worldProvider.getInitialSpawnLocation(world7);
 			this.changeWorld(world7, "Entering the Nether", this.thePlayer);
 		} else {
@@ -1502,6 +1502,7 @@ public abstract class Minecraft implements Runnable {
 
 		if(isNew && (world.isNewWorld || world.worldProvider.worldType == -1)) {
 			// Client single-player always uses the modded finite-world ChunkProvider.
+			// Theme-specific post generation runs at the end of generateWholeWorld.
 			((ChunkProvider)world.chunkProvider).generateWholeWorld(this.loadingScreen);
 		} else {
 			BlockFire.dontSpread = true;
@@ -1513,16 +1514,6 @@ public abstract class Minecraft implements Runnable {
 				}
 			}
 			BlockFire.dontSpread = false;
-		}
-
-		// Extra theme-specific post generation, only if chunks had to be generated.
-		if(GlobalVars.didGenerateChunks) {
-			if(isNew) {
-				this.loadingScreen.displayLoadingString("Generating special stuff");
-			} else {
-				this.loadingScreen.displayLoadingString("Regenerating special stuff");
-			}
-			LevelThemeGlobalSettings.getTheme().specialPostGeneration(world);
 		}
 
 		this.loadingScreen.displayLoadingString("Simulating world for a bit");

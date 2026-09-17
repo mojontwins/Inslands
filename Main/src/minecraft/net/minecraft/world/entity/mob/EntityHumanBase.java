@@ -156,7 +156,7 @@ public class EntityHumanBase extends EntityMobWithLevel implements IMob, IMobWit
 	}
 
 	@Override
-	protected void despawnEntity() {
+	public void despawnEntity() {
 		if(this.despawn || this.isDead) {
 			super.despawnEntity();
 		}

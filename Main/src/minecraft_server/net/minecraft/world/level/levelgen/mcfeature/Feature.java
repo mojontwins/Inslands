@@ -25,6 +25,13 @@ public abstract class Feature {
 	public FeatureProvider featureProvider;
 	
 	/*
+	 * Whether setup() has run for this feature. Setup is deferred until the first consuming
+	 * chunk actually draws the feature, so big schematic arrays are only materialized for
+	 * features that end up in the world, and only when they're needed.
+	 */
+	private boolean isSetupComplete;
+	
+	/*
 	 * Base constructor stores the origin chunk coordinates and calculate the feature center in blocks
 	 */
 	public Feature(World world, int originChunkX, int originChunkZ, FeatureProvider featureProvider) {	
@@ -79,6 +86,31 @@ public abstract class Feature {
 	 */
 	public int minimumSeparation() {
 		return this.getFeatureRadius();
+	}
+	
+	/*
+	 * Ensures this feature's setup state exists, running setup() at most once. Called lazily
+	 * by the feature provider the first time a chunk consumes the feature (generation or
+	 * population), so heavy per-feature data is not built during the schedule pass.
+	 */
+	public void ensureSetup() {
+		if(this.isSetupComplete) return;
+		this.isSetupComplete = true;
+		
+		// Deterministic per feature: the rand handed to setup must not depend on how many
+		// gate probes ran before this feature won its cell, so it can be recreated reliably
+		// for every rebuild (the schedule only stores the anchor, not the gate's rand).
+		long seed = this.world.getRandomSeed() + this.originChunkX * 25117 + this.originChunkZ * 151121 + 51717L;
+		BiomeGenBase biome = this.world.getWorldChunkManager().getBiomeGenAt((this.originChunkX << 4) + 8, (this.originChunkZ << 4) + 8);
+		this.setup(this.world, new Random(seed), biome, this.originChunkX, this.originChunkZ);
+	}
+	
+	/*
+	 * Frees anything expensive this feature has built once the world knows its whole layout.
+	 * Schematic features drop their arrays here; called after the feature has been fully
+	 * consumed by the world generation pass, or when the provider is torn down.
+	 */
+	public void release() {
 	}
 	
 	/*

@@ -84,7 +84,7 @@ public class EntityPoisonWitch extends EntityMob implements IMob {
 	}
 
 	@Override
-	protected void despawnEntity() {
+	public void despawnEntity() {
 	}
 	
 	@Override

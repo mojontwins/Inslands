@@ -187,4 +187,10 @@ public abstract class FeatureDynamicSchematic extends Feature {
 			}
 		}
 	}
+	
+	@Override
+	public void release() {
+		this.schematic = null;
+		this.specialBlocks.clear();
+	}
 }

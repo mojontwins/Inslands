@@ -815,26 +815,25 @@ public abstract class EntityLiving extends Entity {
 		return true;
 	}
 
-	protected void despawnEntity() {
-		EntityPlayer entityPlayer1 = this.worldObj.getClosestPlayerToEntity(this, -1.0D);
-		if(this.canDespawn() && entityPlayer1 != null) {
-			double d2 = entityPlayer1.posX - this.posX;
-			double d4 = entityPlayer1.posY - this.posY;
-			double d6 = entityPlayer1.posZ - this.posZ;
-			double d8 = d2 * d2 + d4 * d4 + d6 * d6;
-			if(d8 > 16384.0D) {
+	public void despawnEntity() {
+		EntityPlayer player = this.worldObj.getClosestPlayerToEntity(this, -1.0D);
+		if(this.canDespawn() && player != null) {
+			double xDistance = player.posX - this.posX;
+			double yDistance = player.posY - this.posY;
+			double zDistance = player.posZ - this.posZ;
+			double distanceSquared = xDistance * xDistance + yDistance * yDistance + zDistance * zDistance;
+			if(distanceSquared > 16384.0D) {
 				this.setEntityDead();
 			}
 
 			if(this.entityAge > 600 && this.rand.nextInt(800) == 0) {
-				if(d8 < 1024.0D) {
+				if(distanceSquared < 1024.0D) {
 					this.entityAge = 0;
 				} else {
 					this.setEntityDead();
 				}
 			}
 		}
-
 	}
 
 	protected void updateEntityActionState() {
