@@ -9,6 +9,7 @@ import net.minecraft.world.level.levelgen.TFMaze;
 import net.minecraft.world.level.levelgen.TFTreasure;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.entity.TileEntityMobSpawner;
+import net.minecraft.world.level.tile.entity.TileEntityMobSpawnerOneshot;
 
 /**
  * Generates a stone maze inside a hill-shaped terrain mound.
@@ -598,6 +599,47 @@ public class TFGenHillMaze extends TFGenerator {
 		TileEntityMobSpawner spawner = (TileEntityMobSpawner)this.worldObj.getBlockTileEntity(dx, dy, dz);
 		if(spawner != null) {
 			spawner.setMobID(mobID);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Places a one-shot Minoshroom spawner at the centre of a random cell
+	 * that actually has a solid floor carved out. The hill maze is dug into
+	 * the floating islands, so most cells end up over the void and have no
+	 * floor at all; only floored cells are candidates. Used in sky worlds,
+	 * where the minotaur maze (and its Minoshroom boss) never generates.
+	 */
+	public boolean placeMinoshroomSpawner() {
+		int[] validCells = new int[this.maze.cellsWide * this.maze.cellsDeep];
+		int count = 0;
+
+		for(int cx = 0; cx < this.maze.cellsWide; cx++) {
+			for(int cz = 0; cz < this.maze.cellsDeep; cz++) {
+				if(this.maze.getCell(cx, cz) != TFMaze.WALL_RAW) {
+					int dx = this.maze.getWorldX(cx) + 1;
+					int dz = this.maze.getWorldZ(cz) + 1;
+					if(this.worldObj.isBlockOpaqueCube(dx, this.maze.originY - 1, dz)) {
+						validCells[count++] = cx * this.maze.cellsDeep + cz;
+					}
+				}
+			}
+		}
+
+		if(count == 0) return false;
+
+		int pick = validCells[this.rand.nextInt(count)];
+		int dx = this.maze.getWorldX(pick / this.maze.cellsDeep) + 1;
+		int dy = this.maze.originY;
+		int dz = this.maze.getWorldZ(pick % this.maze.cellsDeep) + 1;
+
+		this.worldObj.setBlockWithNotify(dx, dy, dz, Block.mobSpawnerOneshot.blockID);
+		TileEntityMobSpawnerOneshot spawner = (TileEntityMobSpawnerOneshot)this.worldObj.getBlockTileEntity(dx, dy, dz);
+		if(spawner != null) {
+			spawner.setMobID("Minoshroom");
+			System.out.println ("A wild Minoshroom appeared @ " + dx + " " + dy + " " + dz + "!");
 			return true;
 		} else {
 			return false;

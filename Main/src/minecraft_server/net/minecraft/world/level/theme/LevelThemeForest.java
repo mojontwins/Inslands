@@ -40,12 +40,13 @@ public class LevelThemeForest extends LevelThemeSettings {
 	}
 
 	@Override
-	public void specialPostGeneration(World world) {
+	public void specialPrePopulation(World world) {
 		// Seed properly
 		this.rand = new Random(world.getRandomSeed());
 		
 		// When this runs, the whole world is generated and
 		// we can perform special stuff and detections
+		// right before population (i.e. trees & small feats)
 		
 		this.skyGen = world.worldProvider instanceof WorldProviderSky;
 				
@@ -115,11 +116,18 @@ public class LevelThemeForest extends LevelThemeSettings {
 						16 + this.rand.nextInt(96)
 					:
 						16 + this.rand.nextInt(32);
-				valid = dungeonGen.generate(world, world.rand, x, y, z);
-				if(valid) {
-					GlobalVars.numHedgeMazes ++;
-					dungeonCenters.add(new CoordXZ(x, z));
+valid = dungeonGen.generate(world, world.rand, x, y, z);
+			if(valid) {
+				GlobalVars.numHedgeMazes ++;
+				dungeonCenters.add(new CoordXZ(x, z));
+				
+				// In sky worlds there is no minotaur maze (and therefore no
+				// Minoshroom boss), so give every underhill maze one of them
+				// via a one-shot spawner.
+				if(this.skyGen) {
+					((TFGenHillMaze)dungeonGen).placeMinoshroomSpawner();
 				}
+			}
 			}
 		}
 	}

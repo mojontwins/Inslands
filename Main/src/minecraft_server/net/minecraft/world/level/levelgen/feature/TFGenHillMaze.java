@@ -9,6 +9,7 @@ import net.minecraft.world.level.levelgen.TFMaze;
 import net.minecraft.world.level.levelgen.TFTreasure;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.entity.TileEntityMobSpawner;
+import net.minecraft.world.level.tile.entity.TileEntityMobSpawnerOneshot;
 
 /**
  * Generates a stone maze inside a hill-shaped terrain mound.
@@ -604,6 +605,46 @@ public class TFGenHillMaze extends TFGenerator {
 		}
 	}
 
+	/**
+	 * Places a one-shot Minoshroom spawner at the centre of a random cell
+	 * that actually has a solid floor carved out. The hill maze is dug into
+	 * the floating islands, so most cells end up over the void and have no
+	 * floor at all; only floored cells are candidates. Used in sky worlds,
+	 * where the minotaur maze (and its Minoshroom boss) never generates.
+	 */
+	public boolean placeMinoshroomSpawner() {
+		int[] validCells = new int[this.maze.cellsWide * this.maze.cellsDeep];
+		int count = 0;
+
+		for(int cx = 0; cx < this.maze.cellsWide; cx++) {
+			for(int cz = 0; cz < this.maze.cellsDeep; cz++) {
+				if(this.maze.getCell(cx, cz) != TFMaze.WALL_RAW) {
+					int dx = this.maze.getWorldX(cx) + 1;
+					int dz = this.maze.getWorldZ(cz) + 1;
+					if(this.worldObj.isBlockOpaqueCube(dx, this.maze.originY - 1, dz)) {
+						validCells[count++] = cx * this.maze.cellsDeep + cz;
+					}
+				}
+			}
+		}
+
+		if(count == 0) return false;
+
+		int pick = validCells[this.rand.nextInt(count)];
+		int dx = this.maze.getWorldX(pick / this.maze.cellsDeep) + 1;
+		int dy = this.maze.originY;
+		int dz = this.maze.getWorldZ(pick % this.maze.cellsDeep) + 1;
+
+		this.worldObj.setBlockWithNotify(dx, dy, dz, Block.mobSpawnerOneshot.blockID);
+		TileEntityMobSpawnerOneshot spawner = (TileEntityMobSpawnerOneshot)this.worldObj.getBlockTileEntity(dx, dy, dz);
+		if(spawner != null) {
+			spawner.setMobID("Minoshroom");
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	void decorate3x3Rooms(int[] roomCoords) {
 		for(int i = 0; i < roomCoords.length / 2; ++i) {
 			int roomCellX = roomCoords[i * 2];
@@ -627,7 +668,7 @@ public class TFGenHillMaze extends TFGenerator {
 	private boolean roomSpawner(int dx, int dy, int dz, int diameter) {
 		int rx = this.rand.nextInt(diameter) + dx - diameter / 2;
 		int rz = this.rand.nextInt(diameter) + dz - diameter / 2;
-		return this.placeMobSpawner(rx, dy, rz, "Skeleton");
+		return this.placeMobSpawner(rx, dy, rz, this.rand.nextInt(3) == 0 ? "Minotaur" : "Skeleton");
 	}
 
 	private boolean roomTreasure(int dx, int dy, int dz, int diameter) {

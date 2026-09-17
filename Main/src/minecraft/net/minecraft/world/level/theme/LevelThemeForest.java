@@ -43,83 +43,90 @@ public class LevelThemeForest extends LevelThemeSettings {
 	public void specialPrePopulation(World world) {
 		// Seed properly
 		this.rand = new Random(world.getRandomSeed());
-		
+
 		// When this runs, the whole world is generated and
 		// we can perform special stuff and detections
 		// right before population (i.e. trees & small feats)
-		
+
 		this.skyGen = world.worldProvider instanceof WorldProviderSky;
-				
+
 		// Generate hedge mazes.
 		this.generateHedgeMazes(world);
-		
+
 		// Generate underhill mazes.
 		this.generateUnderhillMazes(world);
 	}
 
 	private void generateUnderhillMazes(World world) {
 		// Underhill mazes are somewhat easier, at least on
-		// non foating gens. In floating world it can be 
-		// more fishy but I've modified the generator to 
+		// non foating gens. In floating world it can be
+		// more fishy but I've modified the generator to
 		// only carve the islands and not produce a ugly box
 		// around it.
-		
+
 		// The max amount of hedge mazes allowed depends on the
-		// level size. 
-		
+		// level size.
+
 		// small = 1,
 		// normal = 2,
 		// big = 4,
 		// huge = 8.
-		
+
 		int maxDungeons = WorldSize.zChunks / 8;
-		
+
 		int dungeonSize = 3;
 		int minSolid = 70;
-		
-		if(this.skyGen) {
+
+		if (this.skyGen) {
 			dungeonSize = 2;
 			minSolid = 15;
 		}
-		
+
 		WorldGenerator dungeonGen = new TFGenHillMaze(dungeonSize, true, minSolid);
-			
+
 		// We don't want them to spawn one on top of another se we
 		// are keeping track of their center.
-		
-		List<CoordXZ> dungeonCenters = new ArrayList<CoordXZ> ();
-		
-		for(int i = 0; i < maxDungeons; i ++) {
+
+		List<CoordXZ> dungeonCenters = new ArrayList<CoordXZ>();
+
+		for (int i = 0; i < maxDungeons; i++) {
 			// Pick random coordinates. Try several times
 			int attempts = 16;
 			boolean valid = false;
-			
-			while(attempts-- > 0 && !valid) {
+
+			while (attempts-- > 0 && !valid) {
 				boolean validCoord = false;
 				int coordAttempts = 8;
 				int x = 0, z = 0;
-				
-				while(coordAttempts-- > 0 && !validCoord) {
+
+				while (coordAttempts-- > 0 && !validCoord) {
 					x = 32 + this.rand.nextInt(WorldSize.width - 64);
 					z = 32 + this.rand.nextInt(WorldSize.width - 64);
-					
+
 					validCoord = true;
-					CoordXZ tempCoord = new CoordXZ(x, z); 
-					for(CoordXZ center : dungeonCenters) {
-						if(center.distSqFrom(tempCoord) < 64*64) validCoord = false;
+					CoordXZ tempCoord = new CoordXZ(x, z);
+					for (CoordXZ center : dungeonCenters) {
+						if (center.distSqFrom(tempCoord) < 64 * 64)
+							validCoord = false;
 					}
 				}
-				
-				if(!validCoord) break;
-				
-				int y = this.skyGen ? 
-						16 + this.rand.nextInt(96)
-					:
-						16 + this.rand.nextInt(32);
+
+				if (!validCoord)
+					break;
+
+				int y = this.skyGen ? 16 + this.rand.nextInt(96) : 16 + this.rand.nextInt(32);
+
 				valid = dungeonGen.generate(world, world.rand, x, y, z);
-				if(valid) {
-					GlobalVars.numHedgeMazes ++;
+				if (valid) {
+					GlobalVars.numHedgeMazes++;
 					dungeonCenters.add(new CoordXZ(x, z));
+
+					// In sky worlds there is no minotaur maze (and therefore no
+					// Minoshroom boss), so give every underhill maze one of them
+					// via a one-shot spawner.
+					if (this.skyGen) {
+						((TFGenHillMaze) dungeonGen).placeMinoshroomSpawner();
+					}
 				}
 			}
 		}
@@ -128,64 +135,66 @@ public class LevelThemeForest extends LevelThemeSettings {
 	private void generateHedgeMazes(World world) {
 		// To generate a hedge maze we'll have to clear a big
 		// area and then fix the trees.
-		
+
 		// But before we decide if the selected place is good.
-		
+
 		// The max amount of hedge mazes allowed depends on the
-		// level size. 
-		
+		// level size.
+
 		// small = 1,
 		// normal = 2,
 		// big = 4,
 		// huge = 8.
-		
+
 		int maxDungeons = WorldSize.zChunks / 8;
-		
+
 		int dungeonSize = 16; // size in maze cells
 		int minY = 58;
-		
+
 		WorldGenerator dungeonGen = new TFGenHedgeMaze(dungeonSize, minY);
-		
-		if(this.skyGen) {
+
+		if (this.skyGen) {
 			dungeonSize = 10;
 			minY = 8;
 		}
-		
+
 		// We don't want them to spawn one on top of another se we
 		// are keeping track of their center.
-		
-		List<CoordXZ> dungeonCenters = new ArrayList<CoordXZ> ();
-		
-		for(int i = 0; i < maxDungeons; i ++) {
+
+		List<CoordXZ> dungeonCenters = new ArrayList<CoordXZ>();
+
+		for (int i = 0; i < maxDungeons; i++) {
 			// Pick random coordinates. Try several times
 			int attempts = 16;
 			boolean valid = false;
-			
-			while(attempts-- > 0 && !valid) {
+
+			while (attempts-- > 0 && !valid) {
 				boolean validCoord = false;
 				int coordAttempts = 8;
 				int x = 0, z = 0;
-				
-				while(coordAttempts-- > 0 && !validCoord) {
+
+				while (coordAttempts-- > 0 && !validCoord) {
 					x = 32 + this.rand.nextInt(WorldSize.width - 64);
 					z = 32 + this.rand.nextInt(WorldSize.width - 64);
-					
+
 					validCoord = true;
-					CoordXZ tempCoord = new CoordXZ(x, z); 
-					for(CoordXZ center : dungeonCenters) {
-						if(center.distSqFrom(tempCoord) < 64*64) validCoord = false;
+					CoordXZ tempCoord = new CoordXZ(x, z);
+					for (CoordXZ center : dungeonCenters) {
+						if (center.distSqFrom(tempCoord) < 64 * 64)
+							validCoord = false;
 					}
 				}
-				
-				if(!validCoord) break;
-				
+
+				if (!validCoord)
+					break;
+
 				valid = dungeonGen.generate(world, world.rand, x, minY, z);
-				if(valid) {
-					GlobalVars.numHedgeMazes ++;
+				if (valid) {
+					GlobalVars.numHedgeMazes++;
 					dungeonCenters.add(new CoordXZ(x, z));
 				}
 			}
 		}
 	}
-	
+
 }
