@@ -18,7 +18,6 @@ import net.minecraft.world.level.WorldInfo;
 import net.minecraft.world.level.chunk.ChunkLoader;
 import net.minecraft.world.level.chunk.IChunkLoader;
 import net.minecraft.world.level.dimension.WorldProvider;
-import net.minecraft.world.level.dimension.WorldProviderHell;
 
 public class SaveHandler implements ISaveHandler {
 	private static final Logger logger = Logger.getLogger("Minecraft");
@@ -80,13 +79,10 @@ public class SaveHandler implements ISaveHandler {
 	}
 
 	public IChunkLoader getChunkLoader(WorldProvider worldProvider1) {
-		if(worldProvider1 instanceof WorldProviderHell) {
-			File file2 = new File(this.saveDirectory, "DIM-1");
-			file2.mkdirs();
-			return new ChunkLoader(file2, true);
-		} else {
-			return new ChunkLoader(this.saveDirectory, true);
-		}
+		String folder = worldProvider1.getSaveFolderName();
+		File file2 = folder == null ? this.saveDirectory : new File(this.saveDirectory, folder);
+		file2.mkdirs();
+		return new ChunkLoader(file2, true);
 	}
 
 	public WorldInfo loadWorldInfo() {

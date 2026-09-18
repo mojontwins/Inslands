@@ -19,6 +19,7 @@ public class WorldInfo {
 	private long sizeOnDisk;
 	private NBTTagCompound playerTag;
 	private int dimension;
+	private int worldId;
 	private String levelName;
 	private int saveVersion;
 	
@@ -85,9 +86,21 @@ public class WorldInfo {
 		this.snowing = nbt.getBoolean("snowing");
 		this.bloodMoon = nbt.getBoolean("BloodMoon");
 		Seasons.dayOfTheYear = nbt.getInteger("DayOfTheYear");
-		if(nbt.hasKey("Player")) {
+		if(nbt.hasKey("WorldId")) {
+			this.dimension = nbt.getInteger("WorldId");
+			this.worldId = this.dimension;
+			if(nbt.hasKey("Player")) {
+				this.playerTag = nbt.getCompoundTag("Player");
+			}
+		} else if(nbt.hasKey("Player")) {
 			this.playerTag = nbt.getCompoundTag("Player");
 			this.dimension = this.playerTag.getInteger("Dimension");
+			if(this.dimension == -1) {
+				this.dimension = 1;
+			} else if(this.dimension == 1 && "sky".equals(generatorName)) {
+				this.dimension = 0;
+			}
+			this.worldId = this.dimension;
 		}
 
 		this.themeId = nbt.getInteger("ThemeId");
@@ -117,7 +130,7 @@ public class WorldInfo {
 		this.generateCities = settings.isGenerateCities();
 		this.levelName = string2;
 		this.terrainType = settings.getTerrainType();
-		if(this.terrainType == WorldType.SKY) this.dimension = 1;
+		this.setDimension(0);
 	}
 
 	public WorldInfo(WorldInfo info) {
@@ -132,6 +145,7 @@ public class WorldInfo {
 		this.sizeOnDisk = info.sizeOnDisk;
 		this.playerTag = info.playerTag;
 		this.dimension = info.dimension;
+		this.worldId = info.worldId;
 		this.levelName = info.levelName;
 		this.saveVersion = info.saveVersion;
 		this.rainTime = info.rainTime;
@@ -194,6 +208,7 @@ public class WorldInfo {
 			nbt.setCompoundTag("Player", nBTTagCompound2);
 		}
 		nbt.setInteger("ThemeId", LevelThemeGlobalSettings.themeID);
+		nbt.setInteger("WorldId", this.worldId);
 		nbt.setInteger("WidthInChunks", WorldSize.xChunks);
 		nbt.setInteger("LengthInChunks", WorldSize.zChunks);
 		nbt.setInteger("noiseOffsetX", GlobalVars.noiseOffsetX);
@@ -231,6 +246,15 @@ public class WorldInfo {
 
 	public int getDimension() {
 		return this.dimension;
+	}
+
+	public void setDimension(int dimension) {
+		this.dimension = dimension;
+		this.worldId = dimension;
+	}
+
+	public int getWorldId() {
+		return this.worldId;
 	}
 
 	public void setSpawnX(int x) {

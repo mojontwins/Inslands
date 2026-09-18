@@ -292,10 +292,10 @@ public class World implements IBlockAccess {
 		
 		if(worldProvider5 != null) {
 			this.worldProvider = worldProvider5;
-		} else if(this.worldInfo != null && this.worldInfo.getDimension() == -1) {
-			this.worldProvider = WorldProvider.getProviderForDimension(-1);
-		} else if(this.worldInfo != null && (this.worldInfo.getDimension() == 1 || this.worldInfo.getTerrainType() == WorldType.SKY)) {
+		} else if(this.worldInfo != null && this.worldInfo.getDimension() == 1) {
 			this.worldProvider = WorldProvider.getProviderForDimension(1);
+		} else if(this.worldInfo != null && this.worldInfo.getDimension() >= 2) {
+			this.worldProvider = WorldProvider.getProviderForDimension(this.worldInfo.getDimension());
 		} else {
 			this.worldProvider = WorldProvider.getProviderForDimension(0);
 		}

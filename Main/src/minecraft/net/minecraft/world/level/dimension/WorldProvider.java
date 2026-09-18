@@ -19,6 +19,7 @@ import net.minecraft.world.phys.Vec3D;
 public abstract class WorldProvider {
 	public World worldObj;
 	public WorldChunkManager worldChunkMgr;
+	public int dimensionId = 0;
 	public boolean isNether = false;
 	public boolean isHellWorld = false;
 	public boolean hasNoSky = false;
@@ -207,7 +208,23 @@ public abstract class WorldProvider {
 	}
 
 	public static WorldProvider getProviderForDimension(int i0) {
-		return (WorldProvider)(i0 == -1 ? new WorldProviderHell() : (i0 == 0 ? new WorldProviderSurface() : (i0 == 1 ? new WorldProviderSky() : null)));
+		WorldProvider provider;
+		if(i0 == 1 || i0 == -1) {
+			provider = new WorldProviderHell();
+		} else {
+			provider = new WorldProviderSurface();
+		}
+		provider.dimensionId = i0;
+		if(i0 == -1) {
+			provider.dimensionId = 1;
+		}
+		return provider;
+	}
+
+	public String getSaveFolderName() {
+		if(this.dimensionId == 1) return "DIM-1";
+		if(this.dimensionId >= 2) return "DIM-" + this.dimensionId;
+		return null;
 	}
 
 	public float getCloudHeight() {
