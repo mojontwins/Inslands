@@ -98,8 +98,9 @@ re-applies theme + size "for free".
   broken by accident or by the *respawning* nether behaviour; destroying one is
   always deliberate (mined like obsidian). **Breaking it yields nothing and the
   portal block can't be reused** — no drops, no item pickup, the gate is gone
-  for good. Breaking a portal destroys / frees its destination world (reference
-  counting, §3.7).
+  for good. Breaking a portal does **not** destroy its destination world: the
+  `DIM-<id>` folder (and its id) stays on disk forever (§3.7), so the world just
+  becomes **unlinked from here** until a later portal re-links it (§3.6).
 - A portal with metadata **0 links back to world 0**.
 
 ### 3.4 The placement item — `ItemWorldPortal`
@@ -144,29 +145,33 @@ re-applies theme + size "for free".
 - A world whose stub level.dat exists but has **no chunks** is detected by
   `world.isNewWorld` / a `GenerationFlag` tag and only built on arrival.
 
-### 3.6 Id allocation — sequential, with gap reuse
+### 3.6 Id allocation — sequential; worlds are never freed
 
-- Starts at id **2**; ids are handed out in increasing order. On reaching
-  **256**, wrap back to **2** and scan for **gaps** (ids whose `DIM-<id>` folder
-  does not exist — destroyed worlds, §3.7).
-- If there is **no gap at all** (all 254 slots 2..255 alive): the portal does
-  NOT create a new world — it links to a **random existing world** id instead.
+- Starts at id **2**; ids are handed out in increasing order, 2, 3, 4, ...
+- **Worlds are never destroyed** (§3.7), so ids are **never freed**: there are no
+  gaps and no gap scan — the list simply fills 2 → 255 in order.
+- When **all 254 slots (2..255) are alive**, the portal does **not** create a new
+  world — it links to a **random existing world** id instead, chosen by the
+  craft:
+  - **white wool (damage 0)** → pick any id 2..255 **at random**; the wool's
+    theme is ignored and an unlinked world may be re-linked this way;
+  - **coloured wool (damage 1-15**, theme-selecting**) → link to a random world
+    whose frozen theme equals that wool's theme; if **none** exists, fall back to
+    the white-wool behaviour (any random id).
 - Allocation state lives in a save-root registry (see §5.8).
 
-### 3.7 Reference counting — destroying a world frees its id
+### 3.7 Worlds are permanent — breaking a portal only unlinks it
 
-- Every portal block holds a **reference on its destination world**: the placed
-  portal (§3.4) references the new/existing id it carries; the auto return
-  portal (§4) references the world you came from.
-- The registry tracks `refCount` per world id. **Breaking a portal decrements
-  the refCount of its destination**; when it reaches **0** the destination world
-  is destroyed: its `DIM-<id>` folder (chunks + level.dat) is deleted and its id
-  is freed for reuse (§3.6).
-- Because the return portal keeps your **source** world alive, a two-gate loop
-  (world A portal → B, plus B's return portal → A) survives until you physically
-  break a gate. Breaking the *only* gate to a world deletes that world, cascading
-  to any gates it contains (a deleted world's gates vanish with it — the registry
-  reconciles counts when a folder is removed).
+- **No world is ever destroyed.** Breaking a portal block removes just the gate:
+  the destination world keeps its `DIM-<id>` folder (chunks + `level.dat`) on
+  disk forever)Skip and its id is **never freed** (§3.6). No reference counting,
+  no folder deletion, no registry reconciliation.
+- Breaking a portal leaves its destination **not linked from where you are** —
+  the world still exists on disk, just not reachable from this spot.
+- An unlinked world is **re-linked automatically later**: once all 254 slots
+  (2..255) are taken, a new portal links to a **random existing world** (§3.6) —
+  which may be exactly a world that was unlinked. Nothing is ever lost and no
+  manual cleanup is needed.
 
 ### 3.8 The nether portal and "return to the world I left"
 
@@ -403,8 +408,8 @@ Behaviour:
 - Travel is triggered by the **block-attack hook** (§4), not `blockActivated`
   (right-click is used only by the item to *place* portals) and not
   `onEntityCollided`.
-- On `breakBlock`/`onBlockDestroyedByPlayer`: decrement the destination's
-  `refCount` and, if it hits 0, delete that world (§3.7, §5.8). No drops.
+- On `breakBlock`/`onBlockDestroyedByPlayer`: **unlink** the destination — the
+  world stays on disk, alive forever (§3.7, §5.8). No drops.
 - Hardness ≈ obsidian, high resistance; no-op in the nether.
 
 ### 5.7 `Block.java` (client + server)
@@ -437,7 +442,7 @@ colour) for creative/recipes. **Rendering uses the 3D block path** (Option A,
 - **Resolve the creation params** from the wool damage (rules below), then call
   the shared low-level API `BlockWorldPortal.placeNewWorldPortal(world, x, y, z,
   themeId, sizeId, worldTypeId)` (§5.14), which allocates the id, places the
-  block with that id as metadata, does `refCount[id]++`, and writes the stub
+  block with that id as metadata, and writes the stub
   `level.dat`. The damage is then effectively **discarded** — placed blocks keep
   only the world id.
 - Creation params for a brand-new world (frozen in the stub, §3.2):
@@ -457,9 +462,10 @@ colour) for creative/recipes. **Rendering uses the 3D block path** (Option A,
 
 **`WoolPortalRegistry`** — save-root bookkeeping (SP: a small NBT file, e.g.
 `portals.dat`, beside `level.dat`):
-- `nextId` cursor, plus per world id: `refCount`. Id allocation implements §3.6
-  (sequential, wrap at 256, gap scan, else random existing world).
-- Kept reconcilable when a `DIM-<id>` folder is deleted (§3.7).
+- `nextId` cursor (ids are permanent, never freed — §3.7). Id allocation
+  implements §3.6 (sequential, wrap at 256 → link to a random existing world).
+- The `DIM-<id>` folder is **never deleted** by the mod (§3.7); breaking a gate
+  only unlinks it.
 - No rendering data is stored here: placed portals look the same regardless of
   theme (glass core + light, §3.3); the theme lives in each world's `level.dat`.
 
@@ -617,10 +623,10 @@ Behaviour:
 - **Seed/name** ← `deriveSeed` / `WorldNameGen.getName(baseSeed, worldId)`, as
   for any other world (§5.13).
 - Allocate the id via the registry (§3.6), place `BlockWorldPortal` at `(x,y,z)`
-  with that id as metadata, `refCount[id]++`, write the stub `DIM-<id>/level.dat`
-  with the frozen theme/size/terrain/seed/name (§3.5).
+  with that id as metadata, write the stub `DIM-<id>/level.dat` with the frozen
+  theme/size/terrain/seed/name (§3.5).
 - The destination world is an ordinary linked world: first travel generates it,
-  builds the return portal (§4.1), and travel/refcounting behave identically —
+  builds the return portal (§4.1), and travel/lifecycle behave identically —
   only the *entry points* differ (no craftable item).
 - The structure builder chooses `(x,y,z)` (and the portal's orientation/clearance)
   so the portal is reachable; typically a hidden-theme world's set that the
@@ -693,11 +699,12 @@ for itself.
 6. Place a second portal crafted with **dark-green wool** → world 3 is Forest;
    place one with red wool → Hell; white wool → some random theme. Same-theme
    worlds get different seeds; sizes and terrain types vary randomly.
-7. Break the gate to world 3 → `DIM-3/` is deleted (refCount → 0) and the id is
-   reusable. Breaking the only gate to world 2 (its return portal sits *inside*
-   world 2 and points to 0, so it does not keep 2 alive) deletes world 2 too —
-   any references held by portals inside the vanished folder are reconciled in
-   the registry. A world with **two** gates pointing at it survives breaking one.
+7. Break the gate to world 3 → it just unlinks; `DIM-3/` stays on disk, alive
+   (worlds are permanent, ids are never freed — §3.7). Breaking the only gate to
+   world 2 (its return portal sits *inside* world 2 and points to 0) — even so,
+   world 2 also stays on disk, alive: permanence doesn't depend on who points at
+   a world (§3.7). A world with **two** gates pointing at it survives breaking
+   one, as does a world with one.
 8. Remove `DIM-2/region/*.mcr`, re-enter → regenerates, existing `level.dat`
    theme/seed/size kept.
 
@@ -729,9 +736,9 @@ for itself.
 ## 10. Resolved decisions
 
 1. **Id assignment: automatic & sequential.** Place a portal → next sequential id
-   (2..255, wrap at 256 → scan gaps from destroyed worlds → none found = link to
-   a random existing world). No dialling, no copy/paste (that was the old
-   key model). (§3.6)
+   (2..255, wrap at 256 → link to a random existing world; ids are permanent,
+   never freed — §3.7). No dialling, no copy/paste (that was the old key model).
+   (§3.6)
 2. **RESOLVED — theme/terrain/size of a new world (wool-driven).** Theme ← wool
    damage (0 white = uniform random over `isRandomWorldTheme` themes, red = Hell,
    blue = Paradise, dark-green = Forest, light-green = Poison Island, gray = White
