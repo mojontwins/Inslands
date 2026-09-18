@@ -22,6 +22,7 @@ import net.minecraft.world.item.ItemSlab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemTallGrass;
 import net.minecraft.world.item.ItemTerracotta;
+import net.minecraft.world.item.ItemWorldPortal;
 import net.minecraft.world.level.BlockState;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
