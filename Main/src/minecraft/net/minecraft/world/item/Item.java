@@ -400,6 +400,18 @@ public class Item {
 		return this.bFull3D;
 	}
 
+	public EnumToolMaterial getToolMaterial() {
+		return null;
+	}
+
+	public static boolean isDiamondTierTool(ItemStack stack) {
+		if(stack == null) return false;
+		if(stack.itemID < 0 || stack.itemID >= itemsList.length) return false;
+		Item item = itemsList[stack.itemID];
+		if(item == null) return false;
+		return item.getToolMaterial() == EnumToolMaterial.EMERALD;
+	}
+
 	public boolean shouldRotateAroundWhenRendering() {
 		return false;
 	}

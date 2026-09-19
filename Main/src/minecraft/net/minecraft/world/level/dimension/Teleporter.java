@@ -20,6 +20,15 @@ public class Teleporter {
 	}
 
 	public boolean findExitLocation(World world, Entity entity) {
+		return this.findExitLocation(world, entity, -1);
+	}
+
+	/**
+	 * Locates a portal near the entity. Matches vanilla obsidian portals plus any
+	 * linked world portal pointing at sourceWorldId (sourceWorldId >= 0); with -1
+	 * it behaves exactly like the vanilla nether search.
+	 */
+	public boolean findExitLocation(World world, Entity entity, int sourceWorldId) {
 		IChunkProvider chunkProvider = world.getChunkProvider().getChunkProviderGenerate();
 		short searchRange = 128;
 		double distance = -1.0D;
@@ -40,9 +49,14 @@ public class Teleporter {
 				double posZi = (double)zI + 0.5D - entity.posZ;
 
 				for(int yI = 127; yI >= 0; --yI) {
-					if(world.getBlockID(xI, yI, zI) == Block.portal.blockID) {
-						while(world.getBlockID(xI, yI - 1, zI) == Block.portal.blockID) {
-							--yI;
+					int blockId = world.getBlockID(xI, yI, zI);
+					boolean isPortalBlock = blockId == Block.portal.blockID;
+					boolean isWorldPortalBlock = blockId == Block.worldPortal.blockID && (sourceWorldId < 0 || world.getBlockMetadata(xI, yI, zI) == sourceWorldId);
+					if(isPortalBlock || isWorldPortalBlock) {
+						if(isPortalBlock) {
+							while(world.getBlockID(xI, yI - 1, zI) == Block.portal.blockID) {
+								--yI;
+							}
 						}
 
 						posYi = (double)yI + 0.5D - entity.posY;

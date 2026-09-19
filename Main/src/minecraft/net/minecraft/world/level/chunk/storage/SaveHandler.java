@@ -56,7 +56,7 @@ public class SaveHandler implements ISaveHandler {
 		}
 	}
 
-	protected File getSaveDirectory() {
+	public File getSaveDirectory() {
 		return this.saveDirectory;
 	}
 

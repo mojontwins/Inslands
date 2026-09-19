@@ -7,6 +7,7 @@ import net.minecraft.world.level.tile.Block;
 
 public class ItemSword extends Item {
 	protected int weaponDamage;
+	protected EnumToolMaterial toolMaterial;
 	
 	public static Block[] canHarvest = new Block[] {
 		Block.leaves,
@@ -17,10 +18,15 @@ public class ItemSword extends Item {
 		super(i1);
 		this.maxStackSize = 1;
 		this.setMaxDamage(enumToolMaterial2.getMaxUses());
+		this.toolMaterial = enumToolMaterial2;
 		this.weaponDamage = 4 + enumToolMaterial2.getDamageVsEntity() * 2;
 		this.silkTouch = silkTouch;
 
 		this.displayOnCreativeTab = CreativeTabs.tabCombat;
+	}
+
+	public EnumToolMaterial getToolMaterial() {
+		return this.toolMaterial;
 	}
 
 	public float getStrVsBlock(ItemStack itemStack1, Block block2) {

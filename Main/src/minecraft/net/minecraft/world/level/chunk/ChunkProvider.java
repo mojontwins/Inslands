@@ -209,7 +209,7 @@ public class ChunkProvider implements IChunkProvider {
 	public boolean saveChunks(boolean saveAll, IProgressUpdate progress) {
 		int savedCount = 0;
 
-		for(int cacheIndex = 0; cacheIndex < WorldSize.getTotalChunks(); cacheIndex ++) {
+		for(int cacheIndex = 0; cacheIndex < this.chunkCache.length; cacheIndex ++) {
 			Chunk chunk = this.chunkCache[cacheIndex];
 			if(chunk == null) {
 				continue;

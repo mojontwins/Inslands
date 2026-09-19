@@ -20,6 +20,8 @@ public interface ISaveHandler {
 	void saveWorldInfo(WorldInfo worldInfo1);
 
 	File getMapFileFromName(String string1);
+
+	File getSaveDirectory();
 	
 	void writePlayerData(EntityPlayer entityPlayer1);
 

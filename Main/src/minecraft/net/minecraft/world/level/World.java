@@ -3216,6 +3216,10 @@ public class World implements IBlockAccess {
 		return this.worldInfo;
 	}
 
+	public ISaveHandler getSaveHandler() {
+		return this.saveHandler;
+	}
+
 	public void updateAllPlayersSleepingFlag() {
 		this.allPlayersSleeping = !this.playerEntities.isEmpty();
 		Iterator<EntityPlayer> iterator1 = this.playerEntities.iterator();

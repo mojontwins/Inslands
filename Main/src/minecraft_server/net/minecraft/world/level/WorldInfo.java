@@ -37,8 +37,16 @@ public class WorldInfo {
 	private boolean layeredSand;
 	
 	private int themeId;
+	private int worldWidthChunks;
+	private int worldLengthChunks;
 	private boolean bloodMoon;
 	private boolean meltBuild;
+	private int lastPositionX;
+	private int lastPositionY;
+	private int lastPositionZ;
+	private float lastPositionYaw;
+	private float lastPositionPitch;
+	private boolean generated = true;
 		
 	public WorldInfo(NBTTagCompound nbt) {
 		this.randomSeed = nbt.getLong("RandomSeed");
@@ -106,6 +114,13 @@ public class WorldInfo {
 		this.themeId = nbt.getInteger("ThemeId");
 		LevelThemeGlobalSettings.loadThemeById(this.themeId);
 		LevelThemeGlobalSettings.worldTypeID = WorldType.getIdByName(generatorName);
+		
+		this.generated = nbt.hasKey("Generated") ? nbt.getBoolean("Generated") : true;
+		this.lastPositionX = nbt.getInteger("LastPositionX");
+		this.lastPositionY = nbt.getInteger("LastPositionY");
+		this.lastPositionZ = nbt.getInteger("LastPositionZ");
+		this.lastPositionYaw = nbt.getFloat("LastPositionYaw");
+		this.lastPositionPitch = nbt.getFloat("LastPositionPitch");
 	
 		//System.out.println ("Generator name = " + generatorName + ", worldTypeID = " + LevelThemeGlobalSettings.worldTypeID);
 		
@@ -118,6 +133,8 @@ public class WorldInfo {
 		}
 	
 		WorldSize.setSize(xChunks, zChunks);
+		this.worldWidthChunks = xChunks;
+		this.worldLengthChunks = zChunks;
 		
 		GlobalVars.noiseOffsetX = nbt.getInteger("noiseOffsetX");
 		GlobalVars.noiseOffsetZ = nbt.getInteger("noiseOffsetZ");
@@ -130,6 +147,9 @@ public class WorldInfo {
 		this.generateCities = settings.isGenerateCities();
 		this.levelName = string2;
 		this.terrainType = settings.getTerrainType();
+		this.themeId = LevelThemeGlobalSettings.themeID;
+		this.worldWidthChunks = WorldSize.xChunks;
+		this.worldLengthChunks = WorldSize.zChunks;
 		this.setDimension(0);
 	}
 
@@ -156,6 +176,15 @@ public class WorldInfo {
 		this.snowing = info.snowing;
 		this.bloodMoon = info.bloodMoon;
 		this.layeredSand = info.layeredSand;
+		this.lastPositionX = info.lastPositionX;
+		this.lastPositionY = info.lastPositionY;
+		this.lastPositionZ = info.lastPositionZ;
+		this.lastPositionYaw = info.lastPositionYaw;
+		this.lastPositionPitch = info.lastPositionPitch;
+		this.generated = info.generated;
+		this.themeId = info.themeId;
+		this.worldWidthChunks = info.worldWidthChunks;
+		this.worldLengthChunks = info.worldLengthChunks;
 	}
 
 	public NBTTagCompound getNBTTagCompound() {
@@ -207,12 +236,18 @@ public class WorldInfo {
 		if(nBTTagCompound2 != null) {
 			nbt.setCompoundTag("Player", nBTTagCompound2);
 		}
-		nbt.setInteger("ThemeId", LevelThemeGlobalSettings.themeID);
+		nbt.setInteger("ThemeId", this.themeId);
 		nbt.setInteger("WorldId", this.worldId);
-		nbt.setInteger("WidthInChunks", WorldSize.xChunks);
-		nbt.setInteger("LengthInChunks", WorldSize.zChunks);
+		nbt.setInteger("WidthInChunks", this.worldWidthChunks);
+		nbt.setInteger("LengthInChunks", this.worldLengthChunks);
 		nbt.setInteger("noiseOffsetX", GlobalVars.noiseOffsetX);
 		nbt.setInteger("noiseOffsetZ", GlobalVars.noiseOffsetZ);
+		nbt.setInteger("LastPositionX", this.lastPositionX);
+		nbt.setInteger("LastPositionY", this.lastPositionY);
+		nbt.setInteger("LastPositionZ", this.lastPositionZ);
+		nbt.setFloat("LastPositionYaw", this.lastPositionYaw);
+		nbt.setFloat("LastPositionPitch", this.lastPositionPitch);
+		nbt.setBoolean("Generated", this.generated);
 
 	}
 
@@ -293,6 +328,63 @@ public class WorldInfo {
 
 	public void setWorldName(String string1) {
 		this.levelName = string1;
+	}
+
+	public int getThemeId() {
+		return this.themeId;
+	}
+
+	public void setThemeId(int themeId) {
+		this.themeId = themeId;
+	}
+
+	public int getWorldWidthChunks() {
+		return this.worldWidthChunks;
+	}
+
+	public int getWorldLengthChunks() {
+		return this.worldLengthChunks;
+	}
+
+	public void setWorldSizeInChunks(int xChunks, int zChunks) {
+		this.worldWidthChunks = xChunks;
+		this.worldLengthChunks = zChunks;
+	}
+
+	public boolean isGenerated() {
+		return this.generated;
+	}
+
+	public void setGenerated(boolean generated) {
+		this.generated = generated;
+	}
+
+	public int getLastPositionX() {
+		return this.lastPositionX;
+	}
+
+	public int getLastPositionY() {
+		return this.lastPositionY;
+	}
+
+	public int getLastPositionZ() {
+		return this.lastPositionZ;
+	}
+
+	public float getLastPositionYaw() {
+		return this.lastPositionYaw;
+	}
+
+	public float getLastPositionPitch() {
+		return this.lastPositionPitch;
+	}
+
+	public void setLastPosition(int x, int y, int z, float yaw, float pitch) {
+		this.lastPositionX = x;
+		this.lastPositionY = y;
+		this.lastPositionZ = z;
+		this.lastPositionYaw = yaw;
+		this.lastPositionPitch = pitch;
 	}
 
 	public int getSaveVersion() {

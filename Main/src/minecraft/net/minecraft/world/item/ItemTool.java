@@ -48,6 +48,10 @@ public class ItemTool extends Item {
 		return this.damageVsEntity;
 	}
 
+	public EnumToolMaterial getToolMaterial() {
+		return this.toolMaterial;
+	}
+
 	public boolean isFull3D() {
 		return true;
 	}

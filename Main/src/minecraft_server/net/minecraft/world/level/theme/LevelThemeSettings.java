@@ -35,6 +35,8 @@ public class LevelThemeSettings {
 	public boolean forcedWorldType = false;
 	public boolean creepy = false;
 	public boolean hauntCows = false;
+	public boolean showsOnCreation = true;
+	public boolean isRandomWorldTheme = true;
 
 	public static List<LevelThemeSettings> allThemeSettings = new ArrayList<LevelThemeSettings> ();
 
@@ -189,6 +191,16 @@ public class LevelThemeSettings {
 	
 	public LevelThemeSettings setForcedWorldType(boolean forcedWorldType) {
 		this.forcedWorldType = forcedWorldType;
+		return this;
+	}
+	
+	public LevelThemeSettings setShowsOnCreation(boolean showsOnCreation) {
+		this.showsOnCreation = showsOnCreation;
+		return this;
+	}
+	
+	public LevelThemeSettings setIsRandomWorldTheme(boolean isRandomWorldTheme) {
+		this.isRandomWorldTheme = isRandomWorldTheme;
 		return this;
 	}
 	
