@@ -4759,6 +4759,7 @@ public class RenderBlocks {
 		float v1 = v0 + Texels.texelsV(16.0F);
 		float dim = brightness;
 
+		tes.startDrawingQuads();
 		tes.setColorRGBA_F(cr * dim, cg * dim, cb * dim, 1.0F);
 		tes.setNormal(0.0F, -1.0F, 0.0F);
 		tes.addVertexWithUV(x1, y1, z1, u0, v0);
@@ -4800,6 +4801,7 @@ public class RenderBlocks {
 		tes.addVertexWithUV(x1, y2, z2, u1, v0);
 		tes.addVertexWithUV(x1, y1, z2, u1, v1);
 		tes.addVertexWithUV(x1, y1, z1, u0, v1);
+		tes.draw();
 	}
 
 	// End
