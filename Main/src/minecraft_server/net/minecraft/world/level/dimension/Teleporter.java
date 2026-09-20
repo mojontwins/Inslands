@@ -35,6 +35,7 @@ public class Teleporter {
 		int x = 0;
 		int y = 0;
 		int z = 0;
+		boolean foundWorldPortal = false;
 
 		int x0 = MathHelper.floor_double(entity.posX);
 		int z0 = MathHelper.floor_double(entity.posZ);
@@ -66,6 +67,7 @@ public class Teleporter {
 							x = xI;
 							y = yI;
 							z = zI;
+							foundWorldPortal = isWorldPortalBlock;
 						}
 					}
 				}
@@ -74,22 +76,24 @@ public class Teleporter {
 
 		if(distance >= 0.0D) {
 			double xPos = (double)x + 0.5D;
-			double yPos = (double)y + 0.5D;
+			double yPos = foundWorldPortal ? (double)(y + 1) : (double)y + 0.5D;
 			double zPos = (double)z + 0.5D;
-			if(world.getBlockID(x - 1, y, z) == Block.portal.blockID) {
-				xPos -= 0.5D;
-			}
+			if(!foundWorldPortal) {
+				if(world.getBlockID(x - 1, y, z) == Block.portal.blockID) {
+					xPos -= 0.5D;
+				}
 
-			if(world.getBlockID(x + 1, y, z) == Block.portal.blockID) {
-				xPos += 0.5D;
-			}
+				if(world.getBlockID(x + 1, y, z) == Block.portal.blockID) {
+					xPos += 0.5D;
+				}
 
-			if(world.getBlockID(x, y, z - 1) == Block.portal.blockID) {
-				zPos -= 0.5D;
-			}
+				if(world.getBlockID(x, y, z - 1) == Block.portal.blockID) {
+					zPos -= 0.5D;
+				}
 
-			if(world.getBlockID(x, y, z + 1) == Block.portal.blockID) {
-				zPos += 0.5D;
+				if(world.getBlockID(x, y, z + 1) == Block.portal.blockID) {
+					zPos += 0.5D;
+				}
 			}
 
 			entity.setLocationAndAngles(xPos, yPos, zPos, entity.rotationYaw, 0.0F);

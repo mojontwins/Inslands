@@ -69,16 +69,16 @@ public abstract class WorldProvider {
 			int z = WorldSize.length / 2;
 			int y = world.getLandSurfaceHeightValue(x, z) + 1;
 	
-			// Try really hard
+		// Try really hard
 			int attemptsLeft = 1024;
-	
+
 			poti: while (attemptsLeft -- > 0 && (!this.canCoordinateBeSpawn(x, y, z) || y > 120)) {
 				
 				// Find near...
 				for(int xx = x - radius; xx <= x + radius; xx ++) {
 					for(int zz = z - radius; zz <= z + radius; zz ++) {
 						y = world.getLandSurfaceHeightValue(xx, zz);
-						if(this.canCoordinateBeSpawn(x, y, z) && y <= 120) {
+						if(this.canCoordinateBeSpawn(xx, y, zz) && y <= 120) {
 							x = xx;
 							z = zz;
 							y = world.getHeightValue(x, z);
@@ -93,8 +93,62 @@ public abstract class WorldProvider {
 				x = x % WorldSize.width;
 				z = z % WorldSize.length;
 				
+				// x / z can go negative after the modulo - wrap them back
+				if(x < 0) x += WorldSize.width;
+				if(z < 0) z += WorldSize.length;
+				
 				y = world.getLandSurfaceHeightValue(x, z) + 1;
 				
+			}
+			
+			// FAILSAFE: if even our 1024 random attempts could not find a valid
+			// spawn point, we never accept a non-valid one  - the player would
+			// spawn under the world and fall into the void. Instead, exhaustively
+			// scan every land column and pick the nearest one to map-center that
+			// can actually be spawned on. Island themes are small, so this is cheap.
+			if(!this.canCoordinateBeSpawn(x, y, z) || y > 120) {
+				int bestX = 0;
+				int bestY = 64;
+				int bestZ = 0;
+				boolean foundAny = false;
+				int bestDistSq = Integer.MAX_VALUE;
+				
+				int centerX = WorldSize.width / 2;
+				int centerZ = WorldSize.length / 2;
+				
+				for(int xx = 24; xx < WorldSize.width - 24; xx ++) {
+					for(int zz = 24; zz < WorldSize.length - 24; zz ++) {
+						int yy = world.getLandSurfaceHeightValue(xx, zz);
+						if(this.canCoordinateBeSpawn(xx, yy, zz) && yy <= 120) {
+							int dx = xx - centerX;
+							int dz = zz - centerZ;
+							int distSq = dx * dx + dz * dz;
+							if(distSq < bestDistSq) {
+								bestDistSq = distSq;
+								bestX = xx;
+								bestY = world.getHeightValue(xx, zz);
+								bestZ = zz;
+								foundAny = true;
+							}
+						}
+					}
+				}
+				
+				if(foundAny) {
+					x = bestX;
+					y = bestY;
+					z = bestZ;
+				} else {
+					// Not a single spawnable land column in the whole map - fall
+					// back to sea level @ map center. The indev house is still
+					// generated below/around this point, so the player always has
+					// a floor and can never fall into the void.
+					x = centerX;
+					z = centerZ;
+					y = 64;
+				}
+				
+				attemptsLeft = 1; // we settled on a guaranteed point
 			}
 	
 			world.worldInfo.setSpawn(x, y, z);

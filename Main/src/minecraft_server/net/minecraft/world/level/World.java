@@ -372,6 +372,13 @@ public class World implements IBlockAccess {
 				this.worldInfo.setPlayerNBTTagCompound((NBTTagCompound)null);
 			}
 
+			int px = MathHelper.floor_double(entityPlayer1.posX);
+			int py = MathHelper.floor_double(entityPlayer1.posY);
+			int pz = MathHelper.floor_double(entityPlayer1.posZ);
+			if(this.getBlockID(px, py, pz) == Block.worldPortal.blockID) {
+				entityPlayer1.posY += 1.0D;
+			}
+
 			this.spawnEntityInWorld(entityPlayer1);
 		} catch (Exception exception6) {
 			exception6.printStackTrace();

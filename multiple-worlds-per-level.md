@@ -648,11 +648,36 @@ enter world 2; hit the return portal → back to 0 **at the spot where you left
 world 0**; re-enter 2 (position restored). Hidden-world API:
 `placeNewWorldPortal(world, x, y, z, theme, size, terrain)` reserves a world
 with those exact params (verbatim; callers apply any `forcedWorldType`/random
-resolution first, as the item path does).
+resolution first, as the item path does). **DONE**
+(c05335b5. Crash fixes: per-world size/theme stored in WorldInfo not globals,
+`Chunk.refreshCaches` multi-biome allocation, `travelToDimension` player
+registration after real landing.)
 
 **M3 — player data sharing (§5.11).** Verify: take items in world 2, return to 0,
 items still there; each world's exit position/rotation is remembered and the
-first-entry / invalid-position fallbacks (§4.2) land correctly.
+first-entry / invalid-position fallbacks (§4.2) land correctly. Also: quit while
+inside a linked world → restart **in that same linked world** (per-world position
+restored, items intact); quit inside the shared nether → restart in the world
+you were returning to. Implemented in SP
+(client tree). Model: the live `EntityPlayer` is the single source of truth for a
+session; player data is shared because one player object is reused across all
+linked worlds. Edits: (a) `World.saveLevel()` refreshes the per-world
+`LastPosition` on every save; (b) while inside a linked world it copies the live
+player's inventory/stats/XP into world 0's `level.dat` Player tag (position
+rewired to the base world's remembered landing spot, else its spawn), written
+straight to the file — NOT via a second `SaveHandler`, which would rewrite
+`session.lock` and trip the running handler's `checkSessionLock`
+("Level save conflict"); (c) `changeWorld` stops re-hydrating the player from a
+destination Player tag on travel (`entityPlayer != null` skips
+`spawnPlayerWithLoadedChunks`) — only a true world load may reload the tag, so
+stale destination tags can no longer clobber the live inventory; vanilla
+per-world Player tags are still written each save and still serve respawn;
+(d) the player's current world id is carried on the singleton player as
+`EntityPlayer.currentWorldId` (NBT tag `CurrentWorldId`, part of the canonical
+snapshot at every save and on exit), `travelToDimension` updates it on arrival,
+and `Minecraft.startWorld`'s `resumeLastWorld()` travels back into that id right
+after the base world loads (nether quit → `netherReturnWorldId`; missing/invalid
+id or folder → stay in world 0).
 
 **M4 — polish (SP).** Theme flags + create-world gating (`showsOnCreation` skips
 hidden themes in the `GuiCreateWorld` theme button; `isRandomWorldTheme` narrows
