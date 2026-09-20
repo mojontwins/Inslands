@@ -261,6 +261,16 @@ public class GuiCreateWorld extends GuiScreen {
 					this.themeId = 0;
 				}
 
+				// Skip hidden themes (showsOnCreation == false), like the world-type cycle below
+				LevelThemeSettings candidateTheme = LevelThemeSettings.findThemeById(this.themeId);
+				while(!candidateTheme.showsOnCreation) {
+					this.themeId ++;
+					if(this.themeId == LevelThemeSettings.allThemeSettings.size()) {
+						this.themeId = 0;
+					}
+					candidateTheme = LevelThemeSettings.findThemeById(this.themeId);
+				}
+
 				/*
 				if(this.themeId == LevelThemeSettings.paradise.id) this.worldType = WorldType.SKY.id;
 				if(this.themeId == LevelThemeSettings.forest.id) this.worldType = WorldType.INFDEV.id;

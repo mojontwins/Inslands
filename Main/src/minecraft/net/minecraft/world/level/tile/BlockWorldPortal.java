@@ -29,6 +29,10 @@ public class BlockWorldPortal extends Block {
 		return true;
 	}
 
+	public int getRenderType() {
+		return 113;
+	}
+
 	public int getRenderBlockPass() {
 		return 1;
 	}

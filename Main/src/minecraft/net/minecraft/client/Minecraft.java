@@ -1585,7 +1585,7 @@ this.effectRenderer.updateEffects();
 			if(currentName != null) destName = currentName;
 		}
 
-		String caption = fromNether ? "Leaving the Nether" : "Entering world " + destId;
+		String caption = fromNether ? "Leaving the Nether" : "Entering " + destName;
 		destWorld = new World(destHandler, destName, new WorldSettings(destSeed, 0, true, false, true, sourceInfo.isLayeredSand(), WorldType.DEFAULT), WorldProvider.getProviderForDimension(0));
 		destWorld.getWorldInfo().setDimension(destId);
 		boolean brandNew = !destWorld.getWorldInfo().isGenerated();

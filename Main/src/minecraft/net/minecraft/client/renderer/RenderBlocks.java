@@ -16,6 +16,7 @@ import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.BlockBed;
+import net.minecraft.world.level.tile.BlockCloth;
 import net.minecraft.world.level.tile.BlockFlower;
 import net.minecraft.world.level.tile.BlockFluid;
 import net.minecraft.world.level.tile.BlockPane;
@@ -184,6 +185,7 @@ public class RenderBlocks {
 			case 110: return this.renderBlockChain(block, x, y, z);
 			case 111: return this.renderBlockSnowloggedPlant(block, x, y, z);
 			case 112: return this.renderBlockThinFeature(block, x, y, z);
+			case 113: return this.renderBlockWorldPortal(block, x, y, z);
 			case 250: return this.renderBlockModel(block, x, y, z);
 			default: return false;
 		}
@@ -4672,7 +4674,134 @@ public class RenderBlocks {
 		int meta = this.blockAccess.getBlockMetadata(x, y, z);
 		return RenderBlockModel.renderBlock(this.blockAccess, block, x, y, z, meta);
 	}
-	
+
+	// World portal render (render type 113): obsidian frame tile 145 (transparent
+	// centre) around a 12x12x12 glass core tile 49. The inventory/hotbar/dropped
+	// path renders the same frame with a wool core tinted by the item damage
+	// (renderBlockOnInventory callers pass the stack damage as meta).
+	public boolean renderBlockWorldPortal(Block block, int x, int y, int z) {
+		this.renderWorldPortalCube(block, x, y, z, x + 0.0F, y + 0.0F, z + 0.0F, x + 1.0F, y + 1.0F, z + 1.0F, 145);
+		this.renderWorldPortalCube(block, x, y, z, x + 0.125F, y + 0.125F, z + 0.125F, x + 0.875F, y + 0.875F, z + 0.875F, 49);
+		return true;
+	}
+
+	private void renderWorldPortalCube(Block block, int x, int y, int z, float x1, float y1, float z1, float x2, float y2, float z2, int textureIndex) {
+		Tessellator tessellator = Tessellator.instance;
+		float u0 = (float)((textureIndex & 0x0f) << 4) / TextureAtlasSize.w;
+		float v0 = (float)(textureIndex & 0xff0) / TextureAtlasSize.h;
+		float u1 = u0 + Texels.texelsU(16.0F);
+		float v1 = v0 + Texels.texelsV(16.0F);
+
+		// Top (+Y)
+		setLightValue(tessellator, this.blockAccess, block, x, y, z, 1.0F);
+		tessellator.setNormal(0.0F, 1.0F, 0.0F);
+		tessellator.addVertexWithUV(x1, y2, z1, u0, v0);
+		tessellator.addVertexWithUV(x1, y2, z2, u1, v0);
+		tessellator.addVertexWithUV(x2, y2, z2, u1, v1);
+		tessellator.addVertexWithUV(x2, y2, z1, u0, v1);
+
+		// Bottom (-Y)
+		setLightValue(tessellator, this.blockAccess, block, x, y, z, 0.5F);
+		tessellator.setNormal(0.0F, -1.0F, 0.0F);
+		tessellator.addVertexWithUV(x2, y1, z1, u0, v0);
+		tessellator.addVertexWithUV(x2, y1, z2, u1, v0);
+		tessellator.addVertexWithUV(x1, y1, z2, u1, v1);
+		tessellator.addVertexWithUV(x1, y1, z1, u0, v1);
+
+		// North (-Z)
+		setLightValue(tessellator, this.blockAccess, block, x, y, z, 0.8F);
+		tessellator.setNormal(0.0F, 0.0F, -1.0F);
+		tessellator.addVertexWithUV(x1, y2, z1, u0, v0);
+		tessellator.addVertexWithUV(x2, y2, z1, u1, v0);
+		tessellator.addVertexWithUV(x2, y1, z1, u1, v1);
+		tessellator.addVertexWithUV(x1, y1, z1, u0, v1);
+
+		// South (+Z)
+		setLightValue(tessellator, this.blockAccess, block, x, y, z, 0.8F);
+		tessellator.setNormal(0.0F, 0.0F, 1.0F);
+		tessellator.addVertexWithUV(x2, y2, z2, u0, v0);
+		tessellator.addVertexWithUV(x1, y2, z2, u1, v0);
+		tessellator.addVertexWithUV(x1, y1, z2, u1, v1);
+		tessellator.addVertexWithUV(x2, y1, z2, u0, v1);
+
+		// East (+X)
+		setLightValue(tessellator, this.blockAccess, block, x, y, z, 0.6F);
+		tessellator.setNormal(1.0F, 0.0F, 0.0F);
+		tessellator.addVertexWithUV(x2, y2, z1, u0, v0);
+		tessellator.addVertexWithUV(x2, y2, z2, u1, v0);
+		tessellator.addVertexWithUV(x2, y1, z2, u1, v1);
+		tessellator.addVertexWithUV(x2, y1, z1, u0, v1);
+
+		// West (-X)
+		setLightValue(tessellator, this.blockAccess, block, x, y, z, 0.6F);
+		tessellator.setNormal(-1.0F, 0.0F, 0.0F);
+		tessellator.addVertexWithUV(x1, y2, z2, u0, v0);
+		tessellator.addVertexWithUV(x1, y2, z1, u1, v0);
+		tessellator.addVertexWithUV(x1, y1, z1, u1, v1);
+		tessellator.addVertexWithUV(x1, y1, z2, u0, v1);
+	}
+
+	public void renderBlockWorldPortalOnInventory(Tessellator tes, Block block, int meta, float brightness) {
+		int wool = meta & 15;
+		int rgba = BlockCloth.clothColors[15 - wool];
+		float r = (float)(rgba >> 16 & 255) / 255.0F;
+		float g = (float)(rgba >> 8 & 255) / 255.0F;
+		float b = (float)(rgba & 255) / 255.0F;
+
+		this.renderWorldPortalInventoryCube(tes, 0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F, 145, 1.0F, 1.0F, 1.0F, brightness);
+		this.renderWorldPortalInventoryCube(tes, 0.125F, 0.125F, 0.125F, 0.875F, 0.875F, 0.875F, 64, r, g, b, brightness);
+	}
+
+	private void renderWorldPortalInventoryCube(Tessellator tes, float x1, float y1, float z1, float x2, float y2, float z2, int textureIndex, float cr, float cg, float cb, float brightness) {
+		float u0 = (float)((textureIndex & 0x0f) << 4) / TextureAtlasSize.w;
+		float v0 = (float)(textureIndex & 0xff0) / TextureAtlasSize.h;
+		float u1 = u0 + Texels.texelsU(16.0F);
+		float v1 = v0 + Texels.texelsV(16.0F);
+		float dim = brightness;
+
+		tes.setColorRGBA_F(cr * dim, cg * dim, cb * dim, 1.0F);
+		tes.setNormal(0.0F, -1.0F, 0.0F);
+		tes.addVertexWithUV(x1, y1, z1, u0, v0);
+		tes.addVertexWithUV(x1, y1, z2, u1, v0);
+		tes.addVertexWithUV(x2, y1, z2, u1, v1);
+		tes.addVertexWithUV(x2, y1, z1, u0, v1);
+
+		tes.setColorRGBA_F(cr * dim, cg * dim, cb * dim, 1.0F);
+		tes.setNormal(0.0F, 1.0F, 0.0F);
+		tes.addVertexWithUV(x1, y2, z1, u0, v0);
+		tes.addVertexWithUV(x2, y2, z1, u1, v0);
+		tes.addVertexWithUV(x2, y2, z2, u1, v1);
+		tes.addVertexWithUV(x1, y2, z2, u0, v1);
+
+		tes.setColorRGBA_F(cr * 0.8F * dim, cg * 0.8F * dim, cb * 0.8F * dim, 1.0F);
+		tes.setNormal(0.0F, 0.0F, -1.0F);
+		tes.addVertexWithUV(x1, y1, z1, u0, v1);
+		tes.addVertexWithUV(x2, y1, z1, u1, v1);
+		tes.addVertexWithUV(x2, y2, z1, u1, v0);
+		tes.addVertexWithUV(x1, y2, z1, u0, v0);
+
+		tes.setColorRGBA_F(cr * 0.8F * dim, cg * 0.8F * dim, cb * 0.8F * dim, 1.0F);
+		tes.setNormal(0.0F, 0.0F, 1.0F);
+		tes.addVertexWithUV(x1, y2, z2, u0, v0);
+		tes.addVertexWithUV(x2, y2, z2, u1, v0);
+		tes.addVertexWithUV(x2, y1, z2, u1, v1);
+		tes.addVertexWithUV(x1, y1, z2, u0, v1);
+
+		tes.setColorRGBA_F(cr * 0.6F * dim, cg * 0.6F * dim, cb * 0.6F * dim, 1.0F);
+		tes.setNormal(1.0F, 0.0F, 0.0F);
+		tes.addVertexWithUV(x2, y1, z1, u0, v0);
+		tes.addVertexWithUV(x2, y1, z2, u1, v0);
+		tes.addVertexWithUV(x2, y2, z2, u1, v1);
+		tes.addVertexWithUV(x2, y2, z1, u0, v1);
+
+		tes.setColorRGBA_F(cr * 0.6F * dim, cg * 0.6F * dim, cb * 0.6F * dim, 1.0F);
+		tes.setNormal(-1.0F, 0.0F, 0.0F);
+		tes.addVertexWithUV(x1, y2, z1, u0, v0);
+		tes.addVertexWithUV(x1, y2, z2, u1, v0);
+		tes.addVertexWithUV(x1, y1, z2, u1, v1);
+		tes.addVertexWithUV(x1, y1, z1, u0, v1);
+	}
+
 	// End
 	
 	public void renderBlockAsItem(Block block, float brightness) {
@@ -4734,6 +4863,9 @@ public class RenderBlocks {
 		
 		if(renderType == 250) {
 			RenderBlockModel.renderBlockAsItem(tes, block, meta);
+
+		} else if(renderType == 113) {
+			this.renderBlockWorldPortalOnInventory(tes, block, meta, brightness);
 
 		} else if(renderType != 0 && renderType != 16) {
 			if(renderType == 1 || renderType == 111) {
@@ -4957,6 +5089,7 @@ public class RenderBlocks {
 				i0 == 16 || 
 				(i0 >= 102 && i0 <= 109) || 
 				i0 == 112 || 
+				i0 == 113 || 
 				i0 == 255 || 
 				i0 == 250
 			);
