@@ -454,19 +454,24 @@ public abstract class Entity {
 			this.posY = this.boundingBox.minY + (double)this.yOffset - (double)this.ySize;
 			this.posZ = (this.boundingBox.minZ + this.boundingBox.maxZ) / 2.0D;
 			
-			// Stop at world boundaries.
-			if(this.posX < 0.5D) {
-				this.posX = 0; this.motionX = 0; moveX = 0;
+			// Keep the bounding box inside the finite world. Normal horizontal
+			// movement is stopped by the world-border collision boxes added in
+			// World.getCollidingBoundingBoxes; this only recovers entities that
+			// spawn, teleport or load outside the bounds.
+			if(this.boundingBox.minX < 0.0D) {
+				this.boundingBox.offset(-this.boundingBox.minX, 0.0D, 0.0D);
 			}
-			if(this.posZ < 0.5D) {
-				this.posZ = 0; this.motionZ = 0; moveZ = 0;
+			if(this.boundingBox.maxX > (double)WorldSize.width) {
+				this.boundingBox.offset((double)WorldSize.width - this.boundingBox.maxX, 0.0D, 0.0D);
 			}
-			if(this.posX > (double)WorldSize.width - 0.5D) {
-				this.posX = (double)WorldSize.width - 0.5D; this.motionX = 0; moveX = 0;
+			if(this.boundingBox.minZ < 0.0D) {
+				this.boundingBox.offset(0.0D, 0.0D, -this.boundingBox.minZ);
 			}
-			if(this.posZ > (double)WorldSize.length - 0.5D) {
-				this.posZ = (double)WorldSize.length - 0.5D; this.motionZ = 0; moveZ = 0;
+			if(this.boundingBox.maxZ > (double)WorldSize.length) {
+				this.boundingBox.offset(0.0D, 0.0D, (double)WorldSize.length - this.boundingBox.maxZ);
 			}
+			this.posX = (this.boundingBox.minX + this.boundingBox.maxX) / 2.0D;
+			this.posZ = (this.boundingBox.minZ + this.boundingBox.maxZ) / 2.0D;
 
 			this.isCollidedHorizontally = prevMoveX != moveX || prevMoveZ != moveZ;
 			this.isCollidedVertically = prevMoveY != moveY;

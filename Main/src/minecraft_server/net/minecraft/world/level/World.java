@@ -1234,6 +1234,7 @@ public class World implements IBlockAccess {
 			}
 		}
 		
+		this.addWorldBorderCollisionBoxes(axisAlignedBB2);
 		return this.collidingBoundingBoxes;
 	}
 
@@ -1274,7 +1275,24 @@ public class World implements IBlockAccess {
 			}
 		}
 
+		this.addWorldBorderCollisionBoxes(axisAlignedBB2);
 		return this.collidingBoundingBoxes;
+	}
+
+	private void addWorldBorderCollisionBoxes(AxisAlignedBB bb) {
+		double inf = 1.0E7D;
+		if(bb.minX <= 0.0D) {
+			this.collidingBoundingBoxes.add(AxisAlignedBB.getBoundingBox(-inf, -inf, -inf, 0.0D, inf, inf));
+		}
+		if(bb.maxX >= (double)WorldSize.width) {
+			this.collidingBoundingBoxes.add(AxisAlignedBB.getBoundingBox((double)WorldSize.width, -inf, -inf, inf, inf, inf));
+		}
+		if(bb.minZ <= 0.0D) {
+			this.collidingBoundingBoxes.add(AxisAlignedBB.getBoundingBox(-inf, -inf, -inf, inf, inf, 0.0D));
+		}
+		if(bb.maxZ >= (double)WorldSize.length) {
+			this.collidingBoundingBoxes.add(AxisAlignedBB.getBoundingBox(-inf, -inf, (double)WorldSize.length, inf, inf, inf));
+		}
 	}
 
 	public int calculateSkylightSubtracted(float renderPartialTick) {
