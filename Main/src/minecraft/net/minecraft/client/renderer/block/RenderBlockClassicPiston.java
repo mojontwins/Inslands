@@ -1,4 +1,4 @@
-package net.minecraft.client.renderer.tile;
+package net.minecraft.client.renderer.block;
 
 import org.lwjgl.opengl.GL11;
 
@@ -7,7 +7,16 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.tile.Block;
 
-public class RenderBlockClassicPiston {
+public class RenderBlockClassicPiston implements BlockRenderHandler {
+	@Override
+	public boolean renderBlock(RenderBlocks renderBlocks, Block block, int x, int y, int z) {
+		return RenderWorldBlock(renderBlocks, renderBlocks.blockAccess, x, y, z, block, 0);
+	}
+
+	@Override
+	public void renderBlockOnInventory(RenderBlocks renderBlocks, Block block, int meta, float brightness) {
+		RenderInvBlock(renderBlocks, block, 0, 0);
+	}
 	public static boolean RenderWorldBlock(RenderBlocks renderBlocks1, IBlockAccess iBlockAccess2, int i3, int i4, int i5, Block block6, int i7) {
 		int i8;
 		if(block6 != Block.classicPistonBase && block6 != Block.classicStickyPistonBase) {

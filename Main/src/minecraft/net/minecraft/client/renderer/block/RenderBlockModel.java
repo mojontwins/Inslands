@@ -1,7 +1,8 @@
-package net.minecraft.client.renderer.tile;
+package net.minecraft.client.renderer.block;
 
 import org.lwjgl.opengl.GL11;
 
+import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.util.TextureAtlasSize;
 import net.minecraft.world.level.IBlockAccess;
@@ -10,7 +11,17 @@ import net.minecraft.world.level.tile.model.BlockElement;
 import net.minecraft.world.level.tile.model.BlockFace;
 import net.minecraft.world.level.tile.model.BlockModel;
 
-public class RenderBlockModel {
+public class RenderBlockModel implements BlockRenderHandler {
+	@Override
+	public boolean renderBlock(RenderBlocks renderBlocks, Block block, int x, int y, int z) {
+		int meta = renderBlocks.blockAccess.getBlockMetadata(x, y, z);
+		return renderBlock(renderBlocks.blockAccess, block, x, y, z, meta);
+	}
+
+	@Override
+	public void renderBlockOnInventory(RenderBlocks renderBlocks, Block block, int meta, float brightness) {
+		renderBlockAsItem(Tessellator.instance, block, meta);
+	}
 	public static boolean renderBlock(IBlockAccess blockAccess, Block block, int x, int y, int z, int meta) {
 		int angle = meta & 3;
 		

@@ -1,12 +1,42 @@
-package net.minecraft.client.renderer.tile;
+package net.minecraft.client.renderer.block;
 
+import org.lwjgl.opengl.GL11;
+
+import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.util.Texels;
 import net.minecraft.client.renderer.util.TextureAtlasSize;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.tile.Block;
 
-public class RenderBlockHollowLog {
+public class RenderBlockHollowLog implements BlockRenderHandler {
+	@Override
+	public boolean renderBlock(RenderBlocks renderBlocks, Block block, int x, int y, int z) {
+		int meta = renderBlocks.blockAccess.getBlockMetadata(x, y, z);
+
+		int ti_0, ti_1, ti_2;
+		if (renderBlocks.overrideBlockTexture >= 0) {
+			ti_0 = ti_1 = ti_2 = renderBlocks.overrideBlockTexture;
+		} else {
+			ti_0 = block.getBlockTextureFromSide(0);
+			ti_1 = block.getBlockTextureFromSide(1);
+			ti_2 = block.getBlockTextureFromSide(2);
+		}
+
+		renderBlock(renderBlocks.blockAccess, block, meta, x, y, z, ti_0, ti_1, ti_2);
+		return true;
+	}
+
+	@Override
+	public void renderBlockOnInventory(RenderBlocks renderBlocks, Block block, int meta, float brightness) {
+		Tessellator tes = Tessellator.instance;
+		block.setBlockBoundsForItemRender();
+		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+		tes.startDrawingQuads();
+		renderAsItem(renderBlocks.blockAccess, block, block.getBlockTextureFromSide(0), block.getBlockTextureFromSide(1), block.getBlockTextureFromSide(2), tes, 1.0F);
+		tes.draw();
+		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+	}
 	/*
 	 * Texture lookup:
 	 * ti_0 = log_inside
