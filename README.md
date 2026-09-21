@@ -582,3 +582,5 @@ This would be completely impossible in the vanilla game lol.
 
 * [X] Whole generation in stages!
 * [ ] Now you have this, revise all themes so big, problematic structures are added in the right stage.
+* [ ] Add portal stuff as hints + achievements.
+* [ ] Create a new proper web to release this.

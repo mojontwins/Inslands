@@ -49,6 +49,12 @@ public class PlayerNBTManager implements ISaveHandler {
 	}
 
 	@Override
+	public File getSaveDirectory() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public void writePlayerData(EntityPlayer entityPlayer1) {
 		// TODO Auto-generated method stub
 		

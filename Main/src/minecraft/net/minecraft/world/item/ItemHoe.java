@@ -6,11 +6,18 @@ import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.tile.Block;
 
 public class ItemHoe extends Item {
+	protected EnumToolMaterial toolMaterial;
+
 	public ItemHoe(int i1, EnumToolMaterial enumToolMaterial2) {
 		super(i1);
 		this.maxStackSize = 1;
 		this.setMaxDamage(enumToolMaterial2.getMaxUses());
+		this.toolMaterial = enumToolMaterial2;
 		this.displayOnCreativeTab = CreativeTabs.tabTools;
+	}
+
+	public EnumToolMaterial getToolMaterial() {
+		return this.toolMaterial;
 	}
 
 	public boolean onItemUse(ItemStack itemStack1, EntityPlayer entityPlayer2, World world3, int i4, int i5, int i6, int i7) {

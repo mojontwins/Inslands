@@ -16,6 +16,7 @@ import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.BlockBed;
+import net.minecraft.world.level.tile.BlockCloth;
 import net.minecraft.world.level.tile.BlockFlower;
 import net.minecraft.world.level.tile.BlockFluid;
 import net.minecraft.world.level.tile.BlockPane;
@@ -184,6 +185,7 @@ public class RenderBlocks {
 			case 110: return this.renderBlockChain(block, x, y, z);
 			case 111: return this.renderBlockSnowloggedPlant(block, x, y, z);
 			case 112: return this.renderBlockThinFeature(block, x, y, z);
+			case 113: return this.renderBlockWorldPortal(block, x, y, z);
 			case 250: return this.renderBlockModel(block, x, y, z);
 			default: return false;
 		}
@@ -4413,13 +4415,6 @@ public class RenderBlocks {
 	}
 	
 	public static void setLightValue (Tessellator tessellator, IBlockAccess blockAccess, Block block, float x, float y, float z, float factor) {
-		/*
-		float f;
-		if (blockAccess == null) f = factor; else f = block.getBlockBrightness(blockAccess, (int) x, (int) y, (int) z) * factor;
-		if (Block.lightValue[block.blockID] > 0) f = factor;
-		tessellator.setColorOpaque_F(f, f, f);
-		*/
-		
 		tessellator.setBrightness(block.getMixedBrightnessForBlock(blockAccess, (int)x, (int)y, (int)z));
 		tessellator.setColorOpaque_F(factor, factor, factor);
 	}
@@ -4481,189 +4476,7 @@ public class RenderBlocks {
 		this.uvRotateBottom = 0;
 		return res;
 	}
-	
-	/*
-	public boolean renderBlockAxisOriented(Block block, int x, int y, int z) {	
-		int meta = this.blockAccess.getBlockMetadata(x, y, z);
-		return this.renderBlockAxisOriented(block, x, y, z, meta);
-	}
-	
-	public boolean renderBlockAxisOriented(Block block, int x, int y, int z, int meta) {
-		float x1, y1, z1, x2, y2, z2;
-		float u1, v1, u2, v2;
-		
-		Tessellator tessellator = Tessellator.instance;
-				
-		if(meta == 0) {
-			return this.renderStandardBlock(block, x, y, z);
-		} else if(meta == 4 || meta == 5) {
-			// facing North/South
-			
-			// Texture #1 (ends)
-			int ti_1 = block.getBlockTexture(blockAccess, x, y, z, 1); 	// CUSTOM : side = 1 means "ends"
-			float t1_u = (float) ((ti_1 & 0x0f) << 4) / 256.0F;
-			float t1_v = (float) (ti_1 & 0xff0) / 256.0F;
 
-			// Texture #2 (sides)
-			int ti_2 = block.getBlockTexture(blockAccess, x, y, z, 0); 	// CUSTOM : side = 1 means "sides"
-			float t2_u = (float) ((ti_2 & 0x0f) << 4) / 256.0F;
-			float t2_v = (float) (ti_2 & 0xff0) / 256.0F;
-			
-			x1 = x + 0.0000F;
-			y1 = y + 0.0000F;
-			z1 = z + 0.0000F;
-			x2 = x + 1.0000F;
-			y2 = y + 1.0000F;
-			z2 = z + 1.0000F;
-
-			setLightValue(tessellator, blockAccess, block, x, y + 1, z, 1.0F);
-			u1 = t2_u + 0.0000000F;
-			v1 = t2_v + 0.0000000F;
-			u2 = t2_u + 0.0625000F;
-			v2 = t2_v + 0.0625000F;
-			tessellator.addVertexWithUV(x2, y2, z2, u1, v1);
-			tessellator.addVertexWithUV(x2, y2, z1, u2, v1);
-			tessellator.addVertexWithUV(x1, y2, z1, u2, v2);
-			tessellator.addVertexWithUV(x1, y2, z2, u1, v2);
-
-			setLightValue(tessellator, blockAccess, block, x, y - 1, z, 0.5F);
-			u1 = t2_u + 0.0000000F;
-			v1 = t2_v + 0.0000000F;
-			u2 = t2_u + 0.0625000F;
-			v2 = t2_v + 0.0625000F;
-			tessellator.addVertexWithUV(x1, y1, z2, u1, v2);
-			tessellator.addVertexWithUV(x1, y1, z1, u2, v2);
-			tessellator.addVertexWithUV(x2, y1, z1, u2, v1);
-			tessellator.addVertexWithUV(x2, y1, z2, u1, v1);
-
-			setLightValue(tessellator, blockAccess, block, x, y, z - 1, 0.8F);
-			u1 = t2_u + 0.0000000F;
-			v1 = t2_v + 0.0000000F;
-			u2 = t2_u + 0.0625000F;
-			v2 = t2_v + 0.0625000F;
-			tessellator.addVertexWithUV(x1, y2, z1, u1, v2);
-			tessellator.addVertexWithUV(x2, y2, z1, u1, v1);
-			tessellator.addVertexWithUV(x2, y1, z1, u2, v1);
-			tessellator.addVertexWithUV(x1, y1, z1, u2, v2);
-
-			setLightValue(tessellator, blockAccess, block, x, y, z + 1, 0.8F);
-			u1 = t2_u + 0.0000000F;
-			v1 = t2_v + 0.0000000F;
-			u2 = t2_u + 0.0625000F;
-			v2 = t2_v + 0.0625000F;
-			tessellator.addVertexWithUV(x1, y2, z2, u1, v1);
-			tessellator.addVertexWithUV(x1, y1, z2, u2, v1);
-			tessellator.addVertexWithUV(x2, y1, z2, u2, v2);
-			tessellator.addVertexWithUV(x2, y2, z2, u1, v2);
-
-			setLightValue(tessellator, blockAccess, block, x + 1, y, z, 0.6F);
-			u1 = t1_u + 0.0000000F;
-			v1 = t1_v + 0.0000000F;
-			u2 = t1_u + 0.0625000F;
-			v2 = t1_v + 0.0625000F;
-			tessellator.addVertexWithUV(x2, y2, z1, u1, v2);
-			tessellator.addVertexWithUV(x2, y2, z2, u1, v1);
-			tessellator.addVertexWithUV(x2, y1, z2, u2, v1);
-			tessellator.addVertexWithUV(x2, y1, z1, u2, v2);
-
-			setLightValue(tessellator, blockAccess, block, x - 1, y, z, 0.6F);
-			u1 = t1_u + 0.0000000F;
-			v1 = t1_v + 0.0000000F;
-			u2 = t1_u + 0.0625000F;
-			v2 = t1_v + 0.0625000F;
-			tessellator.addVertexWithUV(x1, y2, z1, u1, v1);
-			tessellator.addVertexWithUV(x1, y1, z1, u2, v1);
-			tessellator.addVertexWithUV(x1, y1, z2, u2, v2);
-			tessellator.addVertexWithUV(x1, y2, z2, u1, v2);
-			
-			return true;
-		} else if(meta == 2 || meta == 3) {
-			// facing East/West
-			
-			// Texture #1 (ends)
-			int ti_1 = block.getBlockTexture(blockAccess, x, y, z, 1); 	// CUSTOM : side = 1 means "ends"
-			float t1_u = (float) ((ti_1 & 0x0f) << 4) / 256.0F;
-			float t1_v = (float) (ti_1 & 0xff0) / 256.0F;
-
-			// Texture #2 (sides)
-			int ti_2 = block.getBlockTexture(blockAccess, x, y, z, 0); 	// CUSTOM : side = 1 means "sides"
-			float t2_u = (float) ((ti_2 & 0x0f) << 4) / 256.0F;
-			float t2_v = (float) (ti_2 & 0xff0) / 256.0F;
-			
-			x1 = x + 1.0000F;
-			y1 = y + 0.0000F;
-			z1 = z + 1.0000F;
-			x2 = x + 0.0000F;
-			y2 = y + 1.0000F;
-			z2 = z + 0.0000F;
-
-			setLightValue(tessellator, blockAccess, block, x, y + 1, z, 1.0F);
-			u1 = t2_u + 0.0000000F;
-			v1 = t2_v + 0.0000000F;
-			u2 = t2_u + 0.0625000F;
-			v2 = t2_v + 0.0625000F;
-			tessellator.addVertexWithUV(x2, y2, z2, u1, v1);
-			tessellator.addVertexWithUV(x2, y2, z1, u1, v2);
-			tessellator.addVertexWithUV(x1, y2, z1, u2, v2);
-			tessellator.addVertexWithUV(x1, y2, z2, u2, v1);
-
-			setLightValue(tessellator, blockAccess, block, x, y - 1, z, 0.5F);
-			u1 = t2_u + 0.0000000F;
-			v1 = t2_v + 0.0000000F;
-			u2 = t2_u + 0.0625000F;
-			v2 = t2_v + 0.0625000F;
-			tessellator.addVertexWithUV(x1, y1, z2, u2, v1);
-			tessellator.addVertexWithUV(x1, y1, z1, u2, v2);
-			tessellator.addVertexWithUV(x2, y1, z1, u1, v2);
-			tessellator.addVertexWithUV(x2, y1, z2, u1, v1);
-
-			setLightValue(tessellator, blockAccess, block, x + 1, y, z, 0.6F);
-			u1 = t2_u + 0.0000000F;
-			v1 = t2_v + 0.0000000F;
-			u2 = t2_u + 0.0625000F;
-			v2 = t2_v + 0.0625000F;
-			tessellator.addVertexWithUV(x1, y2, z1, u1, v1);
-			tessellator.addVertexWithUV(x1, y1, z1, u2, v1);
-			tessellator.addVertexWithUV(x1, y1, z2, u2, v2);
-			tessellator.addVertexWithUV(x1, y2, z2, u1, v2);
-
-			setLightValue(tessellator, blockAccess, block, x - 1, y, z, 0.6F);
-			u1 = t2_u + 0.0000000F;
-			v1 = t2_v + 0.0000000F;
-			u2 = t2_u + 0.0625000F;
-			v2 = t2_v + 0.0625000F;
-			tessellator.addVertexWithUV(x2, y2, z1, u1, v2);
-			tessellator.addVertexWithUV(x2, y2, z2, u1, v1);
-			tessellator.addVertexWithUV(x2, y1, z2, u2, v1);
-			tessellator.addVertexWithUV(x2, y1, z1, u2, v2);
-
-			setLightValue(tessellator, blockAccess, block, x, y, z + 1, 0.8F);
-			u1 = t1_u + 0.0000000F;
-			v1 = t1_v + 0.0000000F;
-			u2 = t1_u + 0.0625000F;
-			v2 = t1_v + 0.0625000F;
-			tessellator.addVertexWithUV(x1, y2, z1, u2, v1);
-			tessellator.addVertexWithUV(x2, y2, z1, u1, v1);
-			tessellator.addVertexWithUV(x2, y1, z1, u1, v2);
-			tessellator.addVertexWithUV(x1, y1, z1, u2, v2);
-
-			setLightValue(tessellator, blockAccess, block, x, y, z - 1, 0.8F);
-			u1 = t1_u + 0.0000000F;
-			v1 = t1_v + 0.0000000F;
-			u2 = t1_u + 0.0625000F;
-			v2 = t1_v + 0.0625000F;
-			tessellator.addVertexWithUV(x1, y2, z2, u1, v1);
-			tessellator.addVertexWithUV(x1, y1, z2, u1, v2);
-			tessellator.addVertexWithUV(x2, y1, z2, u2, v2);
-			tessellator.addVertexWithUV(x2, y2, z2, u2, v1);
-			
-			return true;
-		}
-		
-		return false;
-	}
-	*/
-	
 	public boolean renderBlockClassicPiston(Block block, int x, int y, int z) {
 		return RenderBlockClassicPiston.RenderWorldBlock(this, this.blockAccess, x, y, z, block, 0);
 	}
@@ -4672,7 +4485,98 @@ public class RenderBlocks {
 		int meta = this.blockAccess.getBlockMetadata(x, y, z);
 		return RenderBlockModel.renderBlock(this.blockAccess, block, x, y, z, meta);
 	}
-	
+
+	// World portal render (render type 113): obsidian frame tile 145 (transparent
+	// centre) around a 12x12x12 glass core tile 49. The inventory/hotbar/dropped
+	// path renders the same frame with a wool core tinted by the item damage
+	// (renderBlockOnInventory callers pass the stack damage as meta).
+	public boolean renderBlockWorldPortal(Block block, int x, int y, int z) {
+		this.renderWorldPortalCube(block, (float)x, (float)y, (float)z, 0.0F, 1.0F, 145);
+		this.renderWorldPortalCube(block, (float)x, (float)y, (float)z, 0.125F, 0.875F, 49);
+		return true;
+	}
+
+	private void renderWorldPortalCube(Block block, float x, float y, float z, float min, float max, int textureIndex) {
+		block.setBlockBounds(min, min, min, max, max, max);
+		Tessellator tessellator = Tessellator.instance;
+
+		// Vanilla face windings (renderTopFace/renderEastFace/...) keep culling and
+		// normals correct; setLightValue bakes world brightness per face.
+		tessellator.setNormal(0.0F, -1.0F, 0.0F);
+		setLightValue(tessellator, this.blockAccess, block, x, y, z, 1.0F);
+		this.renderBottomFace(block, x, y, z, textureIndex);
+
+		tessellator.setNormal(0.0F, 1.0F, 0.0F);
+		setLightValue(tessellator, this.blockAccess, block, x, y, z, 0.5F);
+		this.renderTopFace(block, x, y, z, textureIndex);
+
+		tessellator.setNormal(0.0F, 0.0F, -1.0F);
+		setLightValue(tessellator, this.blockAccess, block, x, y, z, 0.8F);
+		this.renderNorthFace(block, x, y, z, textureIndex);
+
+		tessellator.setNormal(0.0F, 0.0F, 1.0F);
+		setLightValue(tessellator, this.blockAccess, block, x, y, z, 0.8F);
+		this.renderSouthFace(block, x, y, z, textureIndex);
+
+		tessellator.setNormal(1.0F, 0.0F, 0.0F);
+		setLightValue(tessellator, this.blockAccess, block, x, y, z, 0.6F);
+		this.renderEastFace(block, x, y, z, textureIndex);
+
+		tessellator.setNormal(-1.0F, 0.0F, 0.0F);
+		setLightValue(tessellator, this.blockAccess, block, x, y, z, 0.6F);
+		this.renderWestFace(block, x, y, z, textureIndex);
+
+		block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+	}
+
+	public void renderBlockWorldPortalOnInventory(Tessellator tes, Block block, int meta, float brightness) {
+		int wool = meta & 15;
+		int rgba = BlockCloth.clothColors[15 - wool];
+		float r = (float)(rgba >> 16 & 255) / 255.0F;
+		float g = (float)(rgba >> 8 & 255) / 255.0F;
+		float b = (float)(rgba & 255) / 255.0F;
+
+		this.renderWorldPortalInventoryCube(tes, block, 0.0F, 1.0F, 145, 1.0F, 1.0F, 1.0F, brightness);
+		this.renderWorldPortalInventoryCube(tes, block, 0.125F, 0.875F, 64, r, g, b, brightness);
+	}
+
+	private void renderWorldPortalInventoryCube(Tessellator tes, Block block, float min, float max, int textureIndex, float cr, float cg, float cb, float brightness) {
+		block.setBlockBounds(min, min, min, max, max, max);
+		float dim = brightness;
+
+		tes.startDrawingQuads();
+		tes.setColorRGBA_F(cr * dim, cg * dim, cb * dim, 1.0F);
+		this.renderBottomFace(block, 0.0D, 0.0D, 0.0D, textureIndex);
+		tes.draw();
+
+		tes.startDrawingQuads();
+		tes.setColorRGBA_F(cr * 0.5F * dim, cg * 0.5F * dim, cb * 0.5F * dim, 1.0F);
+		this.renderTopFace(block, 0.0D, 0.0D, 0.0D, textureIndex);
+		tes.draw();
+
+		tes.startDrawingQuads();
+		tes.setColorRGBA_F(cr * 0.8F * dim, cg * 0.8F * dim, cb * 0.8F * dim, 1.0F);
+		this.renderNorthFace(block, 0.0D, 0.0D, 0.0D, textureIndex);
+		tes.draw();
+
+		tes.startDrawingQuads();
+		tes.setColorRGBA_F(cr * 0.8F * dim, cg * 0.8F * dim, cb * 0.8F * dim, 1.0F);
+		this.renderSouthFace(block, 0.0D, 0.0D, 0.0D, textureIndex);
+		tes.draw();
+
+		tes.startDrawingQuads();
+		tes.setColorRGBA_F(cr * 0.6F * dim, cg * 0.6F * dim, cb * 0.6F * dim, 1.0F);
+		this.renderEastFace(block, 0.0D, 0.0D, 0.0D, textureIndex);
+		tes.draw();
+
+		tes.startDrawingQuads();
+		tes.setColorRGBA_F(cr * 0.6F * dim, cg * 0.6F * dim, cb * 0.6F * dim, 1.0F);
+		this.renderWestFace(block, 0.0D, 0.0D, 0.0D, textureIndex);
+		tes.draw();
+
+		block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+	}
+
 	// End
 	
 	public void renderBlockAsItem(Block block, float brightness) {
@@ -4734,6 +4638,9 @@ public class RenderBlocks {
 		
 		if(renderType == 250) {
 			RenderBlockModel.renderBlockAsItem(tes, block, meta);
+
+		} else if(renderType == 113) {
+			this.renderBlockWorldPortalOnInventory(tes, block, meta, brightness);
 
 		} else if(renderType != 0 && renderType != 16) {
 			if(renderType == 1 || renderType == 111) {
@@ -4957,6 +4864,7 @@ public class RenderBlocks {
 				i0 == 16 || 
 				(i0 >= 102 && i0 <= 109) || 
 				i0 == 112 || 
+				i0 == 113 || 
 				i0 == 255 || 
 				i0 == 250
 			);

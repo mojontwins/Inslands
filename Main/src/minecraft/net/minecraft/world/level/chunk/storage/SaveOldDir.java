@@ -7,7 +7,6 @@ import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.WorldInfo;
 import net.minecraft.world.level.chunk.IChunkLoader;
 import net.minecraft.world.level.dimension.WorldProvider;
-import net.minecraft.world.level.dimension.WorldProviderHell;
 
 public class SaveOldDir extends SaveHandler {
 	public SaveOldDir(File file1, String string2, boolean z3) {
@@ -15,14 +14,10 @@ public class SaveOldDir extends SaveHandler {
 	}
 
 	public IChunkLoader getChunkLoader(WorldProvider worldProvider1) {
-		File file2 = this.getSaveDirectory();
-		if(worldProvider1 instanceof WorldProviderHell) {
-			File file3 = new File(file2, "DIM-1");
-			file3.mkdirs();
-			return new McRegionChunkLoader(file3);
-		} else {
-			return new McRegionChunkLoader(file2);
-		}
+		String folder = worldProvider1.getSaveFolderName();
+		File file2 = folder == null ? this.getSaveDirectory() : new File(this.getSaveDirectory(), folder);
+		file2.mkdirs();
+		return new McRegionChunkLoader(file2);
 	}
 
 	public void saveWorldInfoAndPlayer(WorldInfo worldInfo1, List<EntityPlayer> list2) {

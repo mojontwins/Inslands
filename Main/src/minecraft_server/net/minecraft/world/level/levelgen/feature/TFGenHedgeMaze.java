@@ -2,14 +2,10 @@ package net.minecraft.world.level.levelgen.feature;
 
 import java.util.Random;
 
-import net.minecraft.world.level.BlockState;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.levelgen.TFMaze;
 import net.minecraft.world.level.levelgen.TFTreasure;
 import net.minecraft.world.level.tile.Block;
-import net.minecraft.world.level.tile.BlockBigMushroom;
-import net.minecraft.world.level.tile.BlockLog;
-import net.minecraft.world.level.tile.IBigPlants;
 import net.minecraft.world.level.tile.entity.TileEntityMobSpawner;
 
 /**
@@ -236,6 +232,7 @@ public class TFGenHedgeMaze extends TFGenerator {
 	 * extended downwards until it meets solid ground: an upright log, or a
 	 * mushroom stem (metadata 15).
 	 */
+	/*
 	private boolean verticalBranch(BlockState blockState) {
 		Block block = blockState.getBlock();
 		int meta = blockState.getMetadata();
@@ -245,6 +242,7 @@ public class TFGenHedgeMaze extends TFGenerator {
 				(block instanceof BlockBigMushroom && meta == 15)
 		);
 	}
+	*/
 
 	/** True if cell (dx, dz) sits within 3 cells of any already-picked room. */
 	protected boolean isNearRoom(int dx, int dz, int[] roomCoords) {

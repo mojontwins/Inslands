@@ -81,11 +81,15 @@ import net.minecraft.world.GlobalVars;
 import net.minecraft.world.Version;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldInfo;
+import net.minecraft.world.level.WorldNameGen;
 import net.minecraft.world.level.WorldSettings;
 import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.WorldType;
+import net.minecraft.world.level.WoolPortalRegistry;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.biome.BiomeGenThemeForest;
 import net.minecraft.world.level.biome.BiomeGenThemeHell;
@@ -757,6 +761,17 @@ public abstract class Minecraft implements Runnable {
 	}
 
 	public void shutdown() {
+		// Save the current world with the player's live position (and, via
+		// World.saveLevel's sync, the canonical CurrentWorldId + exact Pos/Rotation
+		// snapshot in the base level.dat) so quitting by any means resumes exactly.
+		if(this.theWorld != null) {
+			try {
+				this.theWorld.saveWorldIndirectly(this.loadingScreen);
+			} catch (Throwable throwable) {
+				throwable.printStackTrace();
+			}
+		}
+
 		this.running = false;
 	}
 
@@ -850,8 +865,16 @@ public abstract class Minecraft implements Runnable {
 				ItemStack itemStack = this.thePlayer.inventory.getCurrentItem();
 				
 				if(i1 == 0) {
-					override = this.playerController.clickBlock(this.thePlayer, this.theWorld, itemStack, x, y, z, face, xWithinFace, yWithinFace, zWithinFace);
-					if(override) this.leftClickCounter = 20;
+					int blockId = this.theWorld.getBlockID(x, y, z);
+					if(blockId == Block.worldPortal.blockID && this.theWorld.worldProvider != null && !this.theWorld.worldProvider.isNether && Item.isDiamondTierTool(itemStack)) {
+						// Left-clicking a linked world portal with a diamond-tier tool travels to that world.
+						this.travelToDimension(this.theWorld.getBlockMetadata(x, y, z), false);
+						override = true;
+						this.leftClickCounter = 20;
+					} else {
+						override = this.playerController.clickBlock(this.thePlayer, this.theWorld, itemStack, x, y, z, face, xWithinFace, yWithinFace, zWithinFace);
+						if(override) this.leftClickCounter = 20;
+					}
 				} else {
 					int stackSize = itemStack != null ? itemStack.stackSize : 0;
 					if(this.playerController.sendPlaceBlock(this.thePlayer, this.theWorld, itemStack, x, y, z, face, xWithinFace, yWithinFace, zWithinFace)) {
@@ -1232,9 +1255,9 @@ public abstract class Minecraft implements Runnable {
 				this.theWorld.randomDisplayUpdates(MathHelper.floor_double(this.thePlayer.posX), MathHelper.floor_double(this.thePlayer.posY), MathHelper.floor_double(this.thePlayer.posZ));
 			}
 
-			if(!this.isGamePaused) {
-				this.effectRenderer.updateEffects();
-			}
+if(!this.isGamePaused) {
+this.effectRenderer.updateEffects();
+		}
 		}
 		
 		if(this.theWorld != null && this.thePlayer != null) {
@@ -1289,7 +1312,7 @@ public abstract class Minecraft implements Runnable {
 				
 				// But I've removed it from there...
 				boolean isNew = world.isNewWorld;
-				this.preloadWorld(world, generating, isNew);
+				this.preloadWorld(world, generating, isNew, false);
 				
 				// I need to call it once the whole world has been generated.
 				if(isNew) {
@@ -1328,81 +1351,358 @@ public abstract class Minecraft implements Runnable {
 				this.statFileWriter.readStat(StatList.startGameStat, 1);
 				this.changeWorld(world, "Loading level");
 			}
+
+			this.resumeLastWorld();
 		}
 
 	}
 
-	public void usePortal() {
-		System.out.println("Toggling dimension!!");
-		if(this.thePlayer.dimension == -1) {
-			this.thePlayer.dimension = 0;
-		} else {
-			this.thePlayer.dimension = -1;
+	/**
+	 * §5.11 / M3. On reopening a save, travel straight back into the world the
+	 * player was last playing in — world 0, the shared nether (1), or a linked
+	 * world (2..255) — and drop them at the exact position/angles they quit with.
+	 * The target world is read from the base level.dat's Player tag
+	 * ({@code CurrentWorldId}, kept fresh by World.saveLevel's sync routine and
+	 * written on exit). Stays in world 0 when the stored id is missing, invalid,
+	 * or its folder is gone.
+	 */
+	private void resumeLastWorld() {
+		if(this.theWorld == null || this.thePlayer == null) return;
+		if(this.isRemote()) return;
+
+		int resume = this.thePlayer.currentWorldId;
+		if(resume != 0) {
+			File base = WoolPortalRegistry.getBaseSaveDirectory(this.theWorld);
+			if(base == null || !new File(base, "DIM-" + resume + File.separator + "level.dat").isFile()) {
+				resume = 0;
+			}
+		}
+		if(resume == 0) {
+			return;
 		}
 
-		this.theWorld.setEntityDead(this.thePlayer);
-		this.thePlayer.isDead = false;
+		System.out.println("Resuming in world " + resume);
+		this.travelToDimension(resume, false);
+
+		// Place the player back at the exact position/rotation they quit with, read from
+		// the canonical snapshot kept in the base level.dat's Player tag. The in-memory
+		// tag was already consumed by spawnPlayerWithLoadedChunks, so re-read disk.
+		PlayerSnapshot snapshot = this.readCanonicalPlayerSnapshot(this.theWorld);
+		if(snapshot != null) {
+			System.out.println("[RESUME][FIX] landed snapshot=(" + snapshot.x + "," + snapshot.y + "," + snapshot.z + ") yaw=" + snapshot.yaw + " pitch=" + snapshot.pitch);
+			this.thePlayer.setLocationAndAngles(snapshot.x, snapshot.y - (double)this.thePlayer.yOffset, snapshot.z, snapshot.yaw, snapshot.pitch);
+			this.settlePlayerOnGround(this.theWorld, this.thePlayer);
+			this.theWorld.updateEntityWithOptionalForce(this.thePlayer, false);
+			this.theWorld.joinEntityInSurroundings(this.thePlayer);
+		}
+	}
+
+	/**
+	 * §5.11 / M3. After placing the player at the exact saved position, settle
+	 * them down onto the surface immediately below within a small drop (at most
+	 * 3 blocks). Without this, a resumed player briefly floats one eye-height
+	 * above their saved spot for the first few ticks — the transient leaves the
+	 * bounding box embedded in solid blocks (suffocation damage) and, because a
+	 * quick save can capture it, permanently pollutes the stored position so
+	 * every reload re-falls. Larger gaps (genuinely airborne saves) are left
+	 * untouched so a mid-air quit is still honoured.
+	 */
+	private void settlePlayerOnGround(World world, EntityPlayer player) {
+		double feet = player.posY - (double)player.yOffset;
+		int x = MathHelper.floor_double(player.posX);
+		int z = MathHelper.floor_double(player.posZ);
+		int startY = MathHelper.floor_double(feet - 0.001D) - 1;
+		for(int y = startY; y >= startY - 3; y--) {
+			int id = world.getBlockID(x, y, z);
+			if(id == 0) {
+				continue;
+			}
+			Block block = Block.blocksList[id];
+			if(block == null || !block.isOpaqueCube()) {
+				continue;
+			}
+			double top = (double)(y + 1);
+			double eye = top + (double)player.yOffset;
+			System.out.println("[RESUME][SETTLE] floor=" + top + " drop=" + (feet - top));
+			player.lastTickPosY = player.prevPosY = player.posY = eye;
+			player.setPosition(player.posX, eye, player.posZ);
+			player.onGround = true;
+			player.fallDistance = 0.0F;
+			return;
+		}
+	}
+
+	private static class PlayerSnapshot {
+		final double x;
+		final double y;
+		final double z;
+		final float yaw;
+		final float pitch;
+
+		PlayerSnapshot(double x, double y, double z, float yaw, float pitch) {
+			this.x = x;
+			this.y = y;
+			this.z = z;
+			this.yaw = yaw;
+			this.pitch = pitch;
+		}
+	}
+
+	private PlayerSnapshot readCanonicalPlayerSnapshot(World world) {
+		File baseDir = WoolPortalRegistry.getBaseSaveDirectory(world);
+		if(baseDir == null) return null;
+		File levelFile = new File(baseDir, "level.dat");
+		if(!levelFile.isFile()) levelFile = new File(baseDir, "level.dat_old");
+		if(!levelFile.isFile()) return null;
+
+		java.io.FileInputStream in = null;
+		try {
+			in = new java.io.FileInputStream(levelFile);
+			com.mojang.nbt.NBTTagCompound root = com.mojang.nbt.CompressedStreamTools.readCompressed(in);
+			if(root == null || !root.hasKey("Data")) return null;
+			com.mojang.nbt.NBTTagCompound data = root.getCompoundTag("Data");
+			if(data == null || !data.hasKey("Player")) return null;
+			com.mojang.nbt.NBTTagCompound player = data.getCompoundTag("Player");
+			com.mojang.nbt.NBTTagList pos = player.getTagList("Pos");
+			com.mojang.nbt.NBTTagList rot = player.getTagList("Rotation");
+			if(pos == null || pos.tagCount() < 3 || rot == null || rot.tagCount() < 2) return null;
+			return new PlayerSnapshot(
+					((com.mojang.nbt.NBTTagDouble)pos.tagAt(0)).doubleValue,
+					((com.mojang.nbt.NBTTagDouble)pos.tagAt(1)).doubleValue,
+					((com.mojang.nbt.NBTTagDouble)pos.tagAt(2)).doubleValue,
+					((com.mojang.nbt.NBTTagFloat)rot.tagAt(0)).floatValue,
+					((com.mojang.nbt.NBTTagFloat)rot.tagAt(1)).floatValue);
+		} catch (Exception exception) {
+			return null;
+		} finally {
+			try {
+				if(in != null) in.close();
+			} catch (java.io.IOException ignored) {
+			}
+		}
+	}
+
+	public void usePortal() {
+		if(this.theWorld == null || this.thePlayer == null) return;
+
+		int worldId = this.theWorld.getWorldInfo().getWorldId();
+		if(worldId == 1) {
+			// Coming back out of the nether (or going into it from a linked world's
+			// own nether). Use the remembered origin world, falling back to the main world.
+			int target = this.thePlayer.netherReturnWorldId;
+			File base = this.theWorld != null ? WoolPortalRegistry.getBaseSaveDirectory(this.theWorld) : null;
+			if(target < 2 || base == null || !new File(base, "DIM-" + target + File.separator + "level.dat").isFile()) {
+				target = 0;
+			}
+			this.travelToDimension(target, false);
+		} else {
+			// Walking through a normal nether portal from a world (main or linked).
+			this.thePlayer.netherReturnWorldId = worldId;
+			this.travelToDimension(1, false);
+		}
+	}
+
+	public void travelToDimension(int destId, boolean isResuming) {
+		if(this.theWorld == null || this.thePlayer == null) return;
+		if(this.isRemote()) return;
+
+		int sourceId = this.theWorld.getWorldInfo().getWorldId();
+		if(destId == sourceId) return;
+
+		boolean toNether = destId == 1;
+		boolean fromNether = sourceId == 1;
+
+		// Remember where the player left this world; it is stored in its level.dat and
+		// used as the landing hint when coming back.
+		WorldInfo sourceInfo = this.theWorld.getWorldInfo();
+		sourceInfo.setLastPosition(MathHelper.floor_double(this.thePlayer.posX), MathHelper.floor_double(this.thePlayer.posY), MathHelper.floor_double(this.thePlayer.posZ), this.thePlayer.rotationYaw, this.thePlayer.rotationPitch);
+
+		// Save the source world BEFORE opening the destination save folder. Creating a
+		// fresh SaveHandler writes a new session.lock; opening it while the source world
+		// is still live would invalidate the source handler's lock check.
+		this.theWorld.saveWorldIndirectly(this.loadingScreen);
+
+		// Nether <-> world coordinate scaling (vanilla behaviour, kept intact).
 		double d1 = this.thePlayer.posX;
 		double d3 = this.thePlayer.posZ;
-		
-		//double d5 = (WorldSize.xChunks >= 16 && WorldSize.zChunks >= 16) ? 2.0D : 1.0D;
-		
-		World world7;
-		if(this.thePlayer.dimension == -1) {
+		if(fromNether) {
+			if(WorldSize.xChunks >= 16 && WorldSize.zChunks >= 16) {
+				d1 = (d1 - WorldSize.xChunks / 4) * 2;
+				d3 = (d3 - WorldSize.zChunks / 4) * 2;
+			}
+		} else if(toNether) {
 			if(WorldSize.xChunks >= 16 && WorldSize.zChunks >= 16) {
 				d1 = WorldSize.xChunks / 4 + d1 / 2;
 				d3 = WorldSize.zChunks / 4 + d3 / 2;
 			} else {
 				if(d1 == 0) d1 = 0;
-				if(d1 == WorldSize.xChunks - 1) d1 --;
+				if(d1 >= WorldSize.xChunks - 1) d1 --;
 				if(d3 == 0) d3 = 0;
-				if(d3 == WorldSize.zChunks - 1) d3 --;
+				if(d3 >= WorldSize.zChunks - 1) d3 --;
 			}
-			/*
-			d1 /= d5;
-			d3 /= d5;
-			*/
-			this.thePlayer.setLocationAndAngles(d1, this.thePlayer.posY, d3, this.thePlayer.rotationYaw, this.thePlayer.rotationPitch);
-			if(this.thePlayer.isEntityAlive()) {
-				this.theWorld.updateEntityWithOptionalForce(this.thePlayer, false);
-			}
-
-			world7 = null;
-			world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(-1));
-			this.preloadWorld(world7, "Entering the Nether", true);
-			if(world7.isNewWorld) world7.worldProvider.getInitialSpawnLocation(world7);
-			this.changeWorld(world7, "Entering the Nether", this.thePlayer);
-		} else {
-			if(WorldSize.xChunks >= 16 && WorldSize.zChunks >= 16) {
-				d1 = (d1 - WorldSize.xChunks / 4) * 2;
-				d3 = (d3 - WorldSize.zChunks / 4) * 2;
-			} 
-			/*
-			d1 *= d5;
-			d3 *= d5;
-			*/
-			this.thePlayer.setLocationAndAngles(d1, this.thePlayer.posY, d3, this.thePlayer.rotationYaw, this.thePlayer.rotationPitch);
-			if(this.thePlayer.isEntityAlive()) {
-				this.theWorld.updateEntityWithOptionalForce(this.thePlayer, false);
-			}
-
-			world7 = null;
-			world7 = new World(this.theWorld, WorldProvider.getProviderForDimension(0)); 
-			this.preloadWorld(world7, "Leaving the Nether", false);
-			this.changeWorld(world7, "Leaving the Nether", this.thePlayer);
 		}
 
-		this.thePlayer.worldObj = this.theWorld;
+		this.thePlayer.setLocationAndAngles(d1, this.thePlayer.posY, d3, this.thePlayer.rotationYaw, this.thePlayer.rotationPitch);
 		if(this.thePlayer.isEntityAlive()) {
-			System.out.println("Setting location and angles " + d1 + " " + d3);
-			this.thePlayer.setLocationAndAngles(d1, this.thePlayer.posY, d3, this.thePlayer.rotationYaw, this.thePlayer.rotationPitch);
-			System.out.println("Updating entity player");
 			this.theWorld.updateEntityWithOptionalForce(this.thePlayer, false);
-			System.out.println("Setting exit location in teleporter");
-			(new Teleporter()).setExitLocation(this.theWorld, this.thePlayer);
 		}
-		
-		System.out.println("Finished usePortal");
+
+		String baseName = this.getBaseWorldSaveFolderName(this.theWorld);
+		World destWorld;
+
+		if(toNether) {
+			// Classic nether: nested world sharing the source handler when arriving from
+			// the main world; a base-root handler when arriving from a linked world, so
+			// nether chunks still live under the base folder's DIM-1.
+			if(sourceId == 0) {
+				destWorld = new World(this.theWorld, WorldProvider.getProviderForDimension(1));
+			} else {
+				long baseSeed = WoolPortalRegistry.getBaseSeed(this.theWorld);
+				ISaveHandler baseHandler = this.saveLoader.getSaveLoader(baseName, false);
+				destWorld = new World(baseHandler, WorldNameGen.getName(baseSeed, 0), new WorldSettings(baseSeed, 0, true, false, true, sourceInfo.isLayeredSand(), WorldType.DEFAULT), WorldProvider.getProviderForDimension(1));
+			}
+			this.preloadWorld(destWorld, "Entering the Nether", true, !isResuming);
+			if(destWorld.isNewWorld) destWorld.worldProvider.getInitialSpawnLocation(destWorld);
+			this.changeWorld(destWorld, "Entering the Nether", this.thePlayer);
+			this.thePlayer.worldObj = this.theWorld;
+			this.thePlayer.currentWorldId = 1;
+			if(this.thePlayer.isEntityAlive()) {
+				this.thePlayer.setLocationAndAngles(d1, this.thePlayer.posY, d3, this.thePlayer.rotationYaw, this.thePlayer.rotationPitch);
+				this.theWorld.updateEntityWithOptionalForce(this.thePlayer, false);
+				(new Teleporter()).setExitLocation(this.theWorld, this.thePlayer);
+			}
+			return;
+		}
+
+		// Main world (0) or a linked world (2..255), both stored as real sub-folders.
+		long baseSeed = WoolPortalRegistry.getBaseSeed(this.theWorld);
+		String folder = destId == 0 ? baseName : baseName + "/DIM-" + destId;
+		ISaveHandler destHandler = this.saveLoader.getSaveLoader(folder, false);
+		long destSeed = WorldNameGen.deriveSeed(baseSeed, destId);
+		String destName = WorldNameGen.getName(baseSeed, destId);
+		if(destId == 0) {
+			String currentName = this.readBaseWorldName(WoolPortalRegistry.getBaseSaveDirectory(this.theWorld));
+			if(currentName != null) destName = currentName;
+		}
+
+		String caption = fromNether ? "Leaving the Nether" : "Entering " + destName;
+		destWorld = new World(destHandler, destName, new WorldSettings(destSeed, 0, true, false, true, sourceInfo.isLayeredSand(), WorldType.DEFAULT), WorldProvider.getProviderForDimension(0));
+		destWorld.getWorldInfo().setDimension(destId);
+		boolean brandNew = !destWorld.getWorldInfo().isGenerated();
+
+		if(brandNew) {
+			this.preloadWorld(destWorld, caption, true, true);
+			this.loadingScreen.displayLoadingString("Finding spawn point");
+			destWorld.worldProvider.getInitialSpawnLocation(destWorld);
+		} else {
+			this.preloadWorld(destWorld, caption, false, true);
+		}
+
+		this.changeWorld(destWorld, caption, this.thePlayer);
+		this.thePlayer.worldObj = this.theWorld;
+		this.thePlayer.currentWorldId = destId;
+		if(!this.thePlayer.isEntityAlive()) return;
+
+		if(fromNether) {
+			// Arriving from the nether: find/create the vanilla nether portal in this world.
+			(new Teleporter()).setExitLocation(this.theWorld, this.thePlayer);
+			this.theWorld.updateEntityWithOptionalForce(this.thePlayer, false);
+		} else if(brandNew) {
+			// First visit: build the return portal at the spawn point and stand the player on it.
+			this.placeFirstWorldPortal(destWorld, sourceId);
+		} else {
+			// Re-entry: restore the remembered position, or the partner portal, if still usable.
+			this.restoreLinkedWorldPosition(destWorld, sourceId);
+		}
+	}
+
+	private void placeFirstWorldPortal(World world, int sourceId) {
+		WorldInfo info = world.getWorldInfo();
+		int sx = info.getSpawnX();
+		int sy = info.getSpawnY();
+		int sz = info.getSpawnZ();
+		if(sy <= 1 || sy >= 127) {
+			sy = 64;
+		}
+
+		// Replace the floor tile the player stands on with the return portal; keep
+		// the landing tile (just above it) clear so the player can stand and act.
+		world.setBlockAndMetadataWithNotify(sx, sy, sz, Block.worldPortal.blockID, sourceId);
+		world.setBlockWithNotify(sx, sy + 1, sz, 0);
+
+		info.setSpawn(sx, sy + 1, sz);
+		info.setLastPosition(sx, sy + 1, sz, this.thePlayer.rotationYaw, this.thePlayer.rotationPitch);
+		info.setGenerated(true);
+		world.saveWorldIndirectly(this.loadingScreen);
+
+		this.thePlayer.setLocationAndAngles((double)sx + 0.5D, (double)(sy + 1), (double)sz + 0.5D, this.thePlayer.rotationYaw, this.thePlayer.rotationPitch);
+		this.theWorld.updateEntityWithOptionalForce(this.thePlayer, false);
+	}
+
+	private void restoreLinkedWorldPosition(World world, int sourceId) {
+		WorldInfo info = world.getWorldInfo();
+		int lx = info.getLastPositionX();
+		int ly = info.getLastPositionY();
+		int lz = info.getLastPositionZ();
+		boolean restored = false;
+
+		if(ly > 1 && ly < 127 && lx >= 0 && lx < WorldSize.width && lz >= 0 && lz < WorldSize.length) {
+			int blockId = world.getBlockID(lx, ly, lz);
+			if(blockId == Block.worldPortal.blockID && world.getBlockMetadata(lx, ly, lz) == sourceId) {
+				// The return portal is intact; drop the player onto it.
+				this.thePlayer.setLocationAndAngles((double)lx + 0.5D, (double)(ly + 1), (double)lz + 0.5D, info.getLastPositionYaw(), info.getLastPositionPitch());
+				restored = true;
+			} else if((blockId == 0 || blockId == Block.worldPortal.blockID) && world.getBlockMaterial(lx, ly - 1, lz).isSolid()) {
+				// Open, walkable spot, or standing on the return portal; restore the remembered
+				// exit position, landing ON TOP of a portal tile so the player is never inside it.
+				int ly2 = blockId == Block.worldPortal.blockID ? ly + 1 : ly;
+				this.thePlayer.setLocationAndAngles((double)lx + 0.5D, (double)ly2, (double)lz + 0.5D, info.getLastPositionYaw(), info.getLastPositionPitch());
+				restored = true;
+			}
+		}
+
+		if(!restored) {
+			// Fall back to the partner portal (a world portal pointing back at the source world).
+			if(!(new Teleporter()).findExitLocation(world, this.thePlayer, sourceId)) {
+				// No partner portal either; fall back to the world's natural spawn point.
+				this.thePlayer.setLocationAndAngles((double)info.getSpawnX() + 0.5D, (double)(info.getSpawnY() + 1), (double)info.getSpawnZ() + 0.5D, this.thePlayer.rotationYaw, this.thePlayer.rotationPitch);
+			}
+		}
+		this.theWorld.updateEntityWithOptionalForce(this.thePlayer, false);
+	}
+
+	private String getBaseWorldSaveFolderName(World world) {
+		if(world == null || world.getSaveHandler() == null) return null;
+		File dir = world.getSaveHandler().getSaveDirectory();
+		if(dir == null) return null;
+		if(dir.getName().matches("DIM-\\d+")) {
+			File parent = dir.getParentFile();
+			return parent != null ? parent.getName() : dir.getName();
+		}
+		return dir.getName();
+	}
+
+	private String readBaseWorldName(File baseDir) {
+		java.io.FileInputStream in = null;
+		try {
+			File file = new File(baseDir, "level.dat");
+			if(file.isFile()) {
+				in = new java.io.FileInputStream(file);
+				com.mojang.nbt.NBTTagCompound root = com.mojang.nbt.CompressedStreamTools.readCompressed(in);
+				if(root != null) {
+					com.mojang.nbt.NBTTagCompound data = root.getCompoundTag("Data");
+					if(data != null && data.hasKey("LevelName")) return data.getString("LevelName");
+				}
+			}
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		} finally {
+			try {
+				if(in != null) in.close();
+			} catch (java.io.IOException ignored) {
+			}
+		}
+		return null;
 	}
 
 	public void changeWorld(World world1) {
@@ -1454,7 +1754,20 @@ public abstract class Minecraft implements Runnable {
 				this.playerController.flipPlayer(this.thePlayer);
 			}
 
-			this.thePlayer.movementInput = new MovementInputFromOptions(this.gameSettings);
+this.thePlayer.movementInput = new MovementInputFromOptions(this.gameSettings);
+
+			if(!this.isRemote() && entityPlayer != null && this.thePlayer != null && world != null) {
+				// §5.11 (SP): a player handed in from another world must be registered in
+				// the destination world like any spawned player. Vanilla b1.7.3 only ever
+				// re-adds it to loadedEntityList (30-tick joinEntityInSurroundings drip);
+				// without playerEntities membership the destination never writes its own
+				// Player tag, never refreshes LastPosition, and the base-CVW canonical
+				// snapshot (World.saveLevel) never runs for it.
+				if(!world.playerEntities.contains(this.thePlayer)) {
+					world.playerEntities.add(this.thePlayer);
+					world.updateAllPlayersSleepingFlag();
+				}
+			}
 			if(this.renderGlobal != null) {
 				this.renderGlobal.changeWorld(world);
 			}
@@ -1463,9 +1776,19 @@ public abstract class Minecraft implements Runnable {
 				this.effectRenderer.clearEffects(world);
 			}
 
-			this.playerController.func_6473_b(this.thePlayer);
+this.playerController.func_6473_b(this.thePlayer);
 
-			world.spawnPlayerWithLoadedChunks(this.thePlayer);
+			// §5.11: single-player reuses one EntityPlayer across all linked worlds for the
+			// whole session; it already holds the live inventory/stats and is the source of
+			// truth. Only a true (fresh) world load may re-hydrate the player from a
+			// level.dat Player tag. Re-loading here during travel would clobber the live
+			// player with the destination world's snapshot, so it is skipped when a player
+			// is handed in; the landing code sets the exact position and registers the
+			// player afterwards.
+			if(entityPlayer == null) {
+				world.spawnPlayerWithLoadedChunks(this.thePlayer);
+			}
+
 			if(world.isNewWorld) {
 				System.out.println("Saving NEW world");
 				world.saveWorldIndirectly(this.loadingScreen);
@@ -1496,11 +1819,11 @@ public abstract class Minecraft implements Runnable {
 	 * keep the original chunk-by-chunk preload. The new world is saved later when
 	 * {@code changeWorld} sees {@code world.isNewWorld}.
 	 */
-	private void preloadWorld(World world, String caption, boolean isNew) {
+	private void preloadWorld(World world, String caption, boolean isNew, boolean isTravelling) {
 		this.loadingScreen.printText(caption);
 		this.loadingScreen.displayLoadingString(isNew ? "Building terrain" : "Loading terrain");
 
-		if(isNew && (world.isNewWorld || world.worldProvider.worldType == -1)) {
+		if(isNew && (world.isNewWorld || world.worldProvider.worldType == -1 || (world.getWorldInfo() != null && !world.getWorldInfo().isGenerated()))) {
 			// Client single-player always uses the modded finite-world ChunkProvider.
 			// Theme-specific post generation runs at the end of generateWholeWorld.
 			((ChunkProvider)world.chunkProvider).generateWholeWorld(this.loadingScreen);
@@ -1516,7 +1839,16 @@ public abstract class Minecraft implements Runnable {
 			BlockFire.dontSpread = false;
 		}
 
-		this.loadingScreen.displayLoadingString("Simulating world for a bit");
+		if(isTravelling) {
+			this.loadingScreen.displayLoadingString("Simulating world for a bit");
+			int wait = 1000 + world.rand.nextInt(1000);
+			long startTime = System.currentTimeMillis();
+			long endTime = startTime + wait;
+			long curTime;
+			while(endTime > (curTime = System.currentTimeMillis())) {
+				this.loadingScreen.setLoadingProgress((int)(curTime - startTime) * 100 / wait);
+			}
+		}
 	}
 
 	public void installResource(String string1, File file2) {
@@ -1625,7 +1957,7 @@ public abstract class Minecraft implements Runnable {
 		this.thePlayer.entityId = i8;
 		this.thePlayer.func_6420_o();
 		this.playerController.func_6473_b(this.thePlayer);
-		this.preloadWorld(this.theWorld, "Respawning", false);
+		this.preloadWorld(this.theWorld, "Respawning", false, false);
 		if(this.currentScreen instanceof GuiGameOver) {
 			this.displayGuiScreen((GuiScreen)null);
 		}

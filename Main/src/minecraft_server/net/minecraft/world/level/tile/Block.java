@@ -22,6 +22,7 @@ import net.minecraft.world.item.ItemSlab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemTallGrass;
 import net.minecraft.world.item.ItemTerracotta;
+import net.minecraft.world.item.ItemWorldPortal;
 import net.minecraft.world.level.BlockState;
 import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
@@ -245,7 +246,8 @@ public class Block {
 	public static final Block boneBlock = (new BlockBone(167)).setHardness(1.0F).setResistance(10.0F).setStepSound(soundStoneFootstep).setBlockName("boneBlock");
 	public static final Block leafPile = (new BlockLeafPile(168)).setHardness(0.1F).setResistance(0.1F).setStepSound(soundGrassFootstep).setBlockName("leafPile");
 	
-	// 169
+	public static final BlockWorldPortal worldPortal = (BlockWorldPortal)(new BlockWorldPortal(169, 145)).setHardness(50.0F).setResistance(2000.0F).setStepSound(soundMetalFootstep).setLightValue(1.0F).setBlockName("worldPortal");
+	
 	// 170
 	// 171
 	// 172
@@ -910,6 +912,7 @@ public class Block {
 		Item.itemsList[ice.blockID] = (new ItemIce(ice.blockID - 256)).setItemName("ice");
 		Item.itemsList[tallGrass.blockID] = (new ItemTallGrass(tallGrass.blockID - 256)).setItemName("tallGrass");		
 		Item.itemsList[cauldron.blockID] = (new ItemCauldron(cauldron.blockID - 256)).setItemName("cauldron");		
+		Item.itemsList[worldPortal.blockID] = (new ItemWorldPortal(worldPortal.blockID - 256)).setItemName("worldPortal");		
 		
 		for(int id = 0; id < 256; ++id) {
 

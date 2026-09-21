@@ -944,6 +944,8 @@ public class Chunk {
 				this.temperatureCache = new float[256];
 				this.humidityCache = new float[256];
 				this.biomeIdCache = new byte[256];
+				this.grassColorCache = new int[256];
+				this.foliageColorCache = new int[256];
 				for (int cacheIndex = 0; cacheIndex < 256; cacheIndex++) {
 					this.temperatureCache[cacheIndex] = (float)worldChunkManager.temperatureScratch[cacheIndex];
 					this.humidityCache[cacheIndex] = (float)worldChunkManager.humidityScratch[cacheIndex];

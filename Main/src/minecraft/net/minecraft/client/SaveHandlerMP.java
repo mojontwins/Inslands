@@ -31,6 +31,10 @@ public class SaveHandlerMP implements ISaveHandler {
 		return null;
 	}
 
+	public File getSaveDirectory() {
+		return null;
+	}
+
 	@Override
 	public void writePlayerData(EntityPlayer entityPlayer1) {
 		// TODO Auto-generated method stub

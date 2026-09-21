@@ -1,5 +1,8 @@
 package net.minecraft.world.level;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,10 +14,15 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.mojang.nbt.CompressedStreamTools;
 import com.mojang.nbt.NBTTagCompound;
+import com.mojang.nbt.NBTTagDouble;
+import com.mojang.nbt.NBTTagFloat;
+import com.mojang.nbt.NBTTagList;
 import com.mojontwins.minecraft.worldedit.WorldEdit;
 
 import ca.spottedleaf.starlight.StarlightEngine;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.GlobalVars;
 import net.minecraft.world.entity.Entity;
@@ -292,10 +300,10 @@ public class World implements IBlockAccess {
 		
 		if(worldProvider5 != null) {
 			this.worldProvider = worldProvider5;
-		} else if(this.worldInfo != null && this.worldInfo.getDimension() == -1) {
-			this.worldProvider = WorldProvider.getProviderForDimension(-1);
-		} else if(this.worldInfo != null && (this.worldInfo.getDimension() == 1 || this.worldInfo.getTerrainType() == WorldType.SKY)) {
+		} else if(this.worldInfo != null && this.worldInfo.getDimension() == 1) {
 			this.worldProvider = WorldProvider.getProviderForDimension(1);
+		} else if(this.worldInfo != null && this.worldInfo.getDimension() >= 2) {
+			this.worldProvider = WorldProvider.getProviderForDimension(this.worldInfo.getDimension());
 		} else {
 			this.worldProvider = WorldProvider.getProviderForDimension(0);
 		}
@@ -372,6 +380,13 @@ public class World implements IBlockAccess {
 				this.worldInfo.setPlayerNBTTagCompound((NBTTagCompound)null);
 			}
 
+			int px = MathHelper.floor_double(entityPlayer1.posX);
+			int py = MathHelper.floor_double(entityPlayer1.posY);
+			int pz = MathHelper.floor_double(entityPlayer1.posZ);
+			if(this.getBlockID(px, py, pz) == Block.worldPortal.blockID) {
+				entityPlayer1.posY += 1.0D;
+			}
+
 			this.spawnEntityInWorld(entityPlayer1);
 		} catch (Exception exception6) {
 			exception6.printStackTrace();
@@ -396,8 +411,105 @@ public class World implements IBlockAccess {
 
 	private void saveLevel() {
 		this.checkSessionLock();
+
+		// §4.2: keep the per-world remembered exit position fresh in level.dat so a
+		// crash cannot lose it. Skipped for the nether, whose level.dat is shared
+		// with its parent world.
+		if(this.worldProvider.dimensionId != 1 && this.playerEntities.size() > 0) {
+			EntityPlayer player = (EntityPlayer)this.playerEntities.get(0);
+			if(player != null) {
+				this.worldInfo.setLastPosition(MathHelper.floor_double(player.posX), MathHelper.floor_double(player.posY), MathHelper.floor_double(player.posZ), player.rotationYaw, player.rotationPitch);
+			}
+		}
+
 		this.saveHandler.saveWorldInfoAndPlayer(this.worldInfo, this.playerEntities);
 		this.mapStorage.saveAllData();
+
+		// §5.11 (SP): while playing inside a linked world (or the shared nether),
+		// keep the canonical player snapshot fresh in world 0's level.dat so a
+		// restart never loses inventory/stats and always resumes in the right world.
+		// The base world itself (id 0) writes its own Player tag via
+		// saveWorldInfoAndPlayer.
+		if(Minecraft.getMinecraft().theWorld == this && (this.worldInfo.getWorldId() != 0 || this.worldProvider.dimensionId == 1) && this.playerEntities.size() > 0) {
+			this.syncCanonicalPlayerToBaseWorld((EntityPlayer)this.playerEntities.get(0));
+		}
+	}
+
+	/**
+	 * §5.11 (SP). Copies the live player's inventory/stats/XP and exact
+	 * position/rotation (the canonical snapshot) into the base world's level.dat
+	 * Player tag, ready for the next restart. world 0's Player tag is the only one
+	 * a fresh world load ever reads, so {@code CurrentWorldId} in this snapshot is
+	 * what {@code M3 resumeLastWorld} uses to decide which world to reopen.
+	 *
+	 * Deliberately written straight to the file: going through ISaveFormat
+	 * getSaveLoader() would construct a second SaveHandler for the base folder,
+	 * overwrite its session.lock and trip the running world's checkSessionLock on
+	 * the next save ("Level save conflict").
+	 */
+	private void syncCanonicalPlayerToBaseWorld(EntityPlayer player) {
+		try {
+			File baseDir = WoolPortalRegistry.getBaseSaveDirectory(this);
+			if(baseDir == null || !baseDir.exists()) {
+				return;
+			}
+
+			File levelFile = new File(baseDir, "level.dat");
+			if(!levelFile.isFile()) {
+				levelFile = new File(baseDir, "level.dat_old");
+			}
+
+			NBTTagCompound root = CompressedStreamTools.readCompressed(new FileInputStream(levelFile));
+			if(root == null || !root.hasKey("Data")) {
+				return;
+			}
+
+			NBTTagCompound data = root.getCompoundTag("Data");
+
+			NBTTagCompound canonical = new NBTTagCompound();
+			player.writeToNBT(canonical);
+
+			// The canonical snapshot keeps the player's LIVE position and rotation so a
+			// restart can drop them back precisely where they quit, in whatever world
+			// (0, nether 1, or a linked world) they were last in. The base world's own
+			// Player tag / last-position fields are refreshed independently by the base's
+			// saveLevel when the player is actually in world 0.
+			canonical.setTag("Pos", newDoubleNBTList(new double[] { player.posX, player.posY, player.posZ }));
+			canonical.setTag("Rotation", newFloatNBTList(new float[] { player.rotationYaw, player.rotationPitch }));
+			canonical.setInteger("Dimension", 0);
+
+			data.setTag("Player", canonical);
+
+			// level.dat _new/_old rotation, mirroring SaveHandler.writeLevelData().
+			File newFile = new File(baseDir, "level.dat_new");
+			File oldFile = new File(baseDir, "level.dat_old");
+			NBTTagCompound outRoot = new NBTTagCompound();
+			outRoot.setTag("Data", data);
+			CompressedStreamTools.writeCompressed(outRoot, new FileOutputStream(newFile));
+			if(oldFile.exists()) oldFile.delete();
+			levelFile.renameTo(oldFile);
+			if(levelFile.exists()) levelFile.delete();
+			newFile.renameTo(levelFile);
+			if(newFile.exists()) newFile.delete();
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+	}
+
+	private static NBTTagList newDoubleNBTList(double[] doubles) {
+		NBTTagList list = new NBTTagList();
+		for(int i = 0; i < doubles.length; i++) {
+			list.setTag(new NBTTagDouble(doubles[i]));
+		}
+		return list;
+	}
+
+	private static NBTTagList newFloatNBTList(float[] floats) {
+		NBTTagList list = new NBTTagList();
+		for(int i = 0; i < floats.length; i++) {
+			list.setTag(new NBTTagFloat(floats[i]));
+		}
+		return list;
 	}
 
 	public boolean quickSaveWorld(int i1) {
@@ -3214,6 +3326,10 @@ public class World implements IBlockAccess {
 
 	public WorldInfo getWorldInfo() {
 		return this.worldInfo;
+	}
+
+	public ISaveHandler getSaveHandler() {
+		return this.saveHandler;
 	}
 
 	public void updateAllPlayersSleepingFlag() {

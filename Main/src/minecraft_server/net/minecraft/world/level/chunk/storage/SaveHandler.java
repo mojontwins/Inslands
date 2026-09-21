@@ -18,7 +18,6 @@ import net.minecraft.world.level.WorldInfo;
 import net.minecraft.world.level.chunk.ChunkLoader;
 import net.minecraft.world.level.chunk.IChunkLoader;
 import net.minecraft.world.level.dimension.WorldProvider;
-import net.minecraft.world.level.dimension.WorldProviderHell;
 
 public class SaveHandler implements ISaveHandler {
 	private static final Logger logger = Logger.getLogger("Minecraft");
@@ -57,7 +56,7 @@ public class SaveHandler implements ISaveHandler {
 		}
 	}
 
-	protected File getSaveDirectory() {
+	public File getSaveDirectory() {
 		return this.saveDirectory;
 	}
 
@@ -80,13 +79,10 @@ public class SaveHandler implements ISaveHandler {
 	}
 
 	public IChunkLoader getChunkLoader(WorldProvider worldProvider1) {
-		if(worldProvider1 instanceof WorldProviderHell) {
-			File file2 = new File(this.saveDirectory, "DIM-1");
-			file2.mkdirs();
-			return new ChunkLoader(file2, true);
-		} else {
-			return new ChunkLoader(this.saveDirectory, true);
-		}
+		String folder = worldProvider1.getSaveFolderName();
+		File file2 = folder == null ? this.saveDirectory : new File(this.saveDirectory, folder);
+		file2.mkdirs();
+		return new ChunkLoader(file2, true);
 	}
 
 	public WorldInfo loadWorldInfo() {
@@ -118,9 +114,13 @@ public class SaveHandler implements ISaveHandler {
 	}
 
 	public void saveWorldInfoAndPlayer(WorldInfo worldInfo1, List<EntityPlayer> list2) {
-		NBTTagCompound nBTTagCompound3 = worldInfo1.getNBTTagCompoundWithPlayer(list2);
+		this.writeLevelData(worldInfo1.getNBTTagCompoundWithPlayer(list2));
+	}
+
+	/** Writes the Data compound to level.dat using the standard _new/_old rotation. */
+	private void writeLevelData(NBTTagCompound data) {
 		NBTTagCompound nBTTagCompound4 = new NBTTagCompound();
-		nBTTagCompound4.setTag("Data", nBTTagCompound3);
+		nBTTagCompound4.setTag("Data", data);
 
 		try {
 			File file5 = new File(this.saveDirectory, "level.dat_new");
@@ -147,32 +147,7 @@ public class SaveHandler implements ISaveHandler {
 	}
 
 	public void saveWorldInfo(WorldInfo worldInfo1) {
-		NBTTagCompound nBTTagCompound2 = worldInfo1.getNBTTagCompound();
-		NBTTagCompound nBTTagCompound3 = new NBTTagCompound();
-		nBTTagCompound3.setTag("Data", nBTTagCompound2);
-
-		try {
-			File file4 = new File(this.saveDirectory, "level.dat_new");
-			File file5 = new File(this.saveDirectory, "level.dat_old");
-			File file6 = new File(this.saveDirectory, "level.dat");
-			CompressedStreamTools.writeCompressed(nBTTagCompound3, new FileOutputStream(file4));
-			if(file5.exists()) {
-				file5.delete();
-			}
-
-			file6.renameTo(file5);
-			if(file6.exists()) {
-				file6.delete();
-			}
-
-			file4.renameTo(file6);
-			if(file4.exists()) {
-				file4.delete();
-			}
-		} catch (Exception exception7) {
-			exception7.printStackTrace();
-		}
-
+		this.writeLevelData(worldInfo1.getNBTTagCompound());
 	}
 
 	public void writePlayerData(EntityPlayer entityPlayer1) {

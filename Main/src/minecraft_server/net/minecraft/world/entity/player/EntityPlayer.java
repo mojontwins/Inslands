@@ -96,6 +96,8 @@ public abstract class EntityPlayer extends EntityLiving {
 	public boolean isCreative = false;
 	public boolean enableCheats = false;
 	public boolean deadManChest = false;
+	public int netherReturnWorldId = 0;
+	public int currentWorldId = 0;
 	public boolean enableCraftingGuide = false;
 	public boolean isSprinting = false;
 	public int freezeLevel = 0;
@@ -644,6 +646,8 @@ public abstract class EntityPlayer extends EntityLiving {
 		this.deadManChest = nBTTagCompound1.getBoolean("deadManChest");
 		this.enableCraftingGuide = nBTTagCompound1.getBoolean("enableCraftingGuide");
 		this.freezeLevel = nBTTagCompound1.getInteger("freezeLevel");
+		this.netherReturnWorldId = nBTTagCompound1.getInteger("NetherReturnWorldId");
+		this.currentWorldId = nBTTagCompound1.getInteger("CurrentWorldId");
 	}
 
 	public void writeEntityToNBT(NBTTagCompound nBTTagCompound1) {
@@ -670,6 +674,8 @@ public abstract class EntityPlayer extends EntityLiving {
 		nBTTagCompound1.setBoolean("deadManChest", this.deadManChest);
 		nBTTagCompound1.setBoolean("enableCraftingGuide", this.enableCraftingGuide);
 		nBTTagCompound1.setInteger("freezeLevel", this.freezeLevel);
+		nBTTagCompound1.setInteger("NetherReturnWorldId", this.netherReturnWorldId);
+		nBTTagCompound1.setInteger("CurrentWorldId", this.currentWorldId);
 	}
 
 	public void displayGUIChest(IInventory iInventory1) {

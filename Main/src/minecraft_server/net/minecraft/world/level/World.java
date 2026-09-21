@@ -292,10 +292,10 @@ public class World implements IBlockAccess {
 		
 		if(worldProvider5 != null) {
 			this.worldProvider = worldProvider5;
-		} else if(this.worldInfo != null && this.worldInfo.getDimension() == -1) {
-			this.worldProvider = WorldProvider.getProviderForDimension(-1);
-		} else if(this.worldInfo != null && (this.worldInfo.getDimension() == 1 || this.worldInfo.getTerrainType() == WorldType.SKY)) {
+		} else if(this.worldInfo != null && this.worldInfo.getDimension() == 1) {
 			this.worldProvider = WorldProvider.getProviderForDimension(1);
+		} else if(this.worldInfo != null && this.worldInfo.getDimension() >= 2) {
+			this.worldProvider = WorldProvider.getProviderForDimension(this.worldInfo.getDimension());
 		} else {
 			this.worldProvider = WorldProvider.getProviderForDimension(0);
 		}
@@ -370,6 +370,13 @@ public class World implements IBlockAccess {
 			if(nBTTagCompound2 != null) {
 				entityPlayer1.readFromNBT(nBTTagCompound2);
 				this.worldInfo.setPlayerNBTTagCompound((NBTTagCompound)null);
+			}
+
+			int px = MathHelper.floor_double(entityPlayer1.posX);
+			int py = MathHelper.floor_double(entityPlayer1.posY);
+			int pz = MathHelper.floor_double(entityPlayer1.posZ);
+			if(this.getBlockID(px, py, pz) == Block.worldPortal.blockID) {
+				entityPlayer1.posY += 1.0D;
 			}
 
 			this.spawnEntityInWorld(entityPlayer1);
@@ -3216,6 +3223,10 @@ public class World implements IBlockAccess {
 
 	public WorldInfo getWorldInfo() {
 		return this.worldInfo;
+	}
+
+	public ISaveHandler getSaveHandler() {
+		return this.saveHandler;
 	}
 
 	public void updateAllPlayersSleepingFlag() {

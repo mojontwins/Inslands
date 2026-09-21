@@ -103,6 +103,7 @@ public class CraftingManager {
 		(new RecipesMine()).addRecipes(this);
 		(new RecipesNether()).addRecipes(this);
 		RecipesPoisonIsland.addRecipes(this);
+		this.recipes.add(new RecipesWorldPortal());
 		
 		Collections.sort(this.recipes, new RecipeSorter(this));
 		System.out.println(this.recipes.size() + " recipes");
