@@ -106,19 +106,17 @@ public class LoadingScreenRenderer implements IProgressUpdate {
 	public void runSimulation(long durationMillis) {
 		if(!this.mc.running) return;
 		long startMillis = System.currentTimeMillis();
-		long lastRedraw = 0L;
-		int progress = 0;
-		while(progress < 100) {
-			if(!this.mc.running) return;
-			progress = (int)((System.currentTimeMillis() - startMillis) * 100L / durationMillis);
+		while(this.mc.running) {
+			int progress = (int)((System.currentTimeMillis() - startMillis) * 100L / durationMillis);
 			if(progress < 0) progress = 0;
 			if(progress > 100) progress = 100;
-			long now = System.currentTimeMillis();
-			if(now - lastRedraw >= 20L) {
-				lastRedraw = now;
-				this.drawLoadingScreen(this.currentlyDisplayedText, this.loadingString, -1, progress);
-				Display.update();
-				Thread.yield();
+			this.drawLoadingScreen(this.currentlyDisplayedText, this.loadingString, progress, progress);
+			Display.update();
+			if(progress >= 100) return;
+			try {
+				Thread.sleep(16L);
+			} catch(InterruptedException e) {
+				return;
 			}
 		}
 	}
