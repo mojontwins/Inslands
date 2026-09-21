@@ -5,7 +5,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.util.Idx2uvF;
 import net.minecraft.client.renderer.util.Texels;
 import net.minecraft.world.level.tile.Block;
-import org.lwjgl.opengl.GL11;
 
 public class RenderBlockFire implements BlockRenderHandler {
 	@Override

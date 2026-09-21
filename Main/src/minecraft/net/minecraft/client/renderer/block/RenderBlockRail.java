@@ -5,7 +5,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.util.Idx2uvF;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.BlockRail;
-import org.lwjgl.opengl.GL11;
 
 public class RenderBlockRail implements BlockRenderHandler {
 	@Override

@@ -6,7 +6,6 @@ import net.minecraft.client.renderer.util.Idx2uvF;
 import net.minecraft.client.renderer.util.Texels;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.BlockRedstoneWire;
-import org.lwjgl.opengl.GL11;
 
 public class RenderBlockRedstoneWire implements BlockRenderHandler {
 	@Override

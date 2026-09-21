@@ -4,7 +4,6 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.util.Idx2uvF;
 import net.minecraft.world.level.tile.Block;
-import org.lwjgl.opengl.GL11;
 
 public class RenderBlockLadder implements BlockRenderHandler {
 	@Override

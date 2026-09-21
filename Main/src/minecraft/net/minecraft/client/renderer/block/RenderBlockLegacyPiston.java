@@ -1,7 +1,6 @@
 package net.minecraft.client.renderer.block;
 
 import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.level.tile.Block;
 
 public class RenderBlockLegacyPiston implements BlockRenderHandler {
