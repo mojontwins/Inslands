@@ -868,7 +868,7 @@ public abstract class Minecraft implements Runnable {
 					int blockId = this.theWorld.getBlockID(x, y, z);
 					if(blockId == Block.worldPortal.blockID && this.theWorld.worldProvider != null && !this.theWorld.worldProvider.isNether && Item.isDiamondTierTool(itemStack)) {
 						// Left-clicking a linked world portal with a diamond-tier tool travels to that world.
-						this.travelToDimension(this.theWorld.getBlockMetadata(x, y, z));
+						this.travelToDimension(this.theWorld.getBlockMetadata(x, y, z), false);
 						override = true;
 						this.leftClickCounter = 20;
 					} else {
@@ -1312,7 +1312,7 @@ this.effectRenderer.updateEffects();
 				
 				// But I've removed it from there...
 				boolean isNew = world.isNewWorld;
-				this.preloadWorld(world, generating, isNew);
+				this.preloadWorld(world, generating, isNew, false);
 				
 				// I need to call it once the whole world has been generated.
 				if(isNew) {
@@ -1382,7 +1382,7 @@ this.effectRenderer.updateEffects();
 		}
 
 		System.out.println("Resuming in world " + resume);
-		this.travelToDimension(resume);
+		this.travelToDimension(resume, false);
 
 		// Place the player back at the exact position/rotation they quit with, read from
 		// the canonical snapshot kept in the base level.dat's Player tag. The in-memory
@@ -1494,15 +1494,15 @@ this.effectRenderer.updateEffects();
 			if(target < 2 || base == null || !new File(base, "DIM-" + target + File.separator + "level.dat").isFile()) {
 				target = 0;
 			}
-			this.travelToDimension(target);
+			this.travelToDimension(target, false);
 		} else {
 			// Walking through a normal nether portal from a world (main or linked).
 			this.thePlayer.netherReturnWorldId = worldId;
-			this.travelToDimension(1);
+			this.travelToDimension(1, false);
 		}
 	}
 
-	public void travelToDimension(int destId) {
+	public void travelToDimension(int destId, boolean isResuming) {
 		if(this.theWorld == null || this.thePlayer == null) return;
 		if(this.isRemote()) return;
 
@@ -1561,7 +1561,7 @@ this.effectRenderer.updateEffects();
 				ISaveHandler baseHandler = this.saveLoader.getSaveLoader(baseName, false);
 				destWorld = new World(baseHandler, WorldNameGen.getName(baseSeed, 0), new WorldSettings(baseSeed, 0, true, false, true, sourceInfo.isLayeredSand(), WorldType.DEFAULT), WorldProvider.getProviderForDimension(1));
 			}
-			this.preloadWorld(destWorld, "Entering the Nether", true);
+			this.preloadWorld(destWorld, "Entering the Nether", true, !isResuming);
 			if(destWorld.isNewWorld) destWorld.worldProvider.getInitialSpawnLocation(destWorld);
 			this.changeWorld(destWorld, "Entering the Nether", this.thePlayer);
 			this.thePlayer.worldObj = this.theWorld;
@@ -1591,11 +1591,11 @@ this.effectRenderer.updateEffects();
 		boolean brandNew = !destWorld.getWorldInfo().isGenerated();
 
 		if(brandNew) {
-			this.preloadWorld(destWorld, caption, true);
+			this.preloadWorld(destWorld, caption, true, true);
 			this.loadingScreen.displayLoadingString("Finding spawn point");
 			destWorld.worldProvider.getInitialSpawnLocation(destWorld);
 		} else {
-			this.preloadWorld(destWorld, caption, false);
+			this.preloadWorld(destWorld, caption, false, true);
 		}
 
 		this.changeWorld(destWorld, caption, this.thePlayer);
@@ -1819,7 +1819,7 @@ this.playerController.func_6473_b(this.thePlayer);
 	 * keep the original chunk-by-chunk preload. The new world is saved later when
 	 * {@code changeWorld} sees {@code world.isNewWorld}.
 	 */
-	private void preloadWorld(World world, String caption, boolean isNew) {
+	private void preloadWorld(World world, String caption, boolean isNew, boolean isTravelling) {
 		this.loadingScreen.printText(caption);
 		this.loadingScreen.displayLoadingString(isNew ? "Building terrain" : "Loading terrain");
 
@@ -1839,8 +1839,16 @@ this.playerController.func_6473_b(this.thePlayer);
 			BlockFire.dontSpread = false;
 		}
 
-		this.loadingScreen.displayLoadingString("Simulating world for a bit");
-		this.loadingScreen.runSimulation(3000L);
+		if(isTravelling) {
+			this.loadingScreen.displayLoadingString("Simulating world for a bit");
+			int wait = 1000 + world.rand.nextInt(1000);
+			long startTime = System.currentTimeMillis();
+			long endTime = startTime + wait;
+			long curTime;
+			while(endTime > (curTime = System.currentTimeMillis())) {
+				this.loadingScreen.setLoadingProgress((int)(curTime - startTime) * 100 / wait);
+			}
+		}
 	}
 
 	public void installResource(String string1, File file2) {
@@ -1949,7 +1957,7 @@ this.playerController.func_6473_b(this.thePlayer);
 		this.thePlayer.entityId = i8;
 		this.thePlayer.func_6420_o();
 		this.playerController.func_6473_b(this.thePlayer);
-		this.preloadWorld(this.theWorld, "Respawning", false);
+		this.preloadWorld(this.theWorld, "Respawning", false, false);
 		if(this.currentScreen instanceof GuiGameOver) {
 			this.displayGuiScreen((GuiScreen)null);
 		}

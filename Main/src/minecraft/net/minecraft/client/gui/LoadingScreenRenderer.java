@@ -98,29 +98,6 @@ public class LoadingScreenRenderer implements IProgressUpdate {
 		}
 	}
 
-	/**
-	 * Dummy second progress bar: holds the current caption (e.g. the destination
-	 * world's name) on screen for a moment and fills a white bar from 0 to 100 over
-	 * the requested duration. Runs on the calling thread.
-	 */
-	public void runSimulation(long durationMillis) {
-		if(!this.mc.running) return;
-		long startMillis = System.currentTimeMillis();
-		while(this.mc.running) {
-			int progress = (int)((System.currentTimeMillis() - startMillis) * 100L / durationMillis);
-			if(progress < 0) progress = 0;
-			if(progress > 100) progress = 100;
-			this.drawLoadingScreen(this.currentlyDisplayedText, this.loadingString, progress, progress);
-			Display.update();
-			if(progress >= 100) return;
-			try {
-				Thread.sleep(16L);
-			} catch(InterruptedException e) {
-				return;
-			}
-		}
-	}
-
 	private void drawLoadingScreen(String title, String label, int mainProgress, int dummyProgress) {
 		ScaledResolution scaledResolution4 = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
 		int w = scaledResolution4.getScaledWidth();
