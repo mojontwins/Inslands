@@ -4537,7 +4537,7 @@ public class RenderBlocks {
 		float b = (float)(rgba & 255) / 255.0F;
 
 		this.renderWorldPortalInventoryCube(tes, block, 0.0F, 1.0F, 145, 1.0F, 1.0F, 1.0F, brightness);
-		this.renderWorldPortalInventoryCube(tes, block, 0.125F,  0.875F, 64, r, g, b, brightness);
+		this.renderWorldPortalInventoryCube(tes, block, 0.125F, 0.875F, 64, r, g, b, brightness);
 	}
 
 	private void renderWorldPortalInventoryCube(Tessellator tes, Block block, float min, float max, int textureIndex, float cr, float cg, float cb, float brightness) {
