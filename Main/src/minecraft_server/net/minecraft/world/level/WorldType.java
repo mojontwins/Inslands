@@ -6,38 +6,89 @@ import net.minecraft.world.level.levelgen.ChunkProviderIndev;
 import net.minecraft.world.level.levelgen.ChunkProviderInfdev;
 import net.minecraft.world.level.levelgen.ChunkProviderSky;
 
-public class WorldType {
+public enum WorldType {
+	INFDEV(0, "infdev", 1) {
+		@Override
+		public IChunkProvider getChunkGenerator(World world) {
+			return new ChunkProviderInfdev(world, world.getRandomSeed(), world.getWorldInfo().isMapFeaturesEnabled(), world.getWorldInfo().isLayeredSand());
+		}
+	},
+	FLAT(1, "flat", 0, false) {
+		@Override
+		public int getMinimumSpawnHeight(World world) {
+			return 4;
+		}
+
+		@Override
+		public double getHorizon(World world) {
+			return 0.0D;
+		}
+
+		@Override
+		public boolean hasVoidParticles(boolean hasVoidParticles) {
+			return false;
+		}
+
+		@Override
+		public double voidFadeMagnitude() {
+			return 1.0D;
+		}
+	},
+	SKY(2, "sky", 1) {
+		@Override
+		public IChunkProvider getChunkGenerator(World world) {
+			return new ChunkProviderSky(world, world.getRandomSeed(), world.getWorldInfo().isMapFeaturesEnabled(), world.getWorldInfo().isLayeredSand());
+		}
+
+		@Override
+		public boolean isIslandTerrain() {
+			return true;
+		}
+
+		@Override
+		public boolean hasSurfaceSea() {
+			return false;
+		}
+	},
+	DEFAULT(3, "default", 1),
+	INDEV(4, "indev", 1) {
+		@Override
+		public IChunkProvider getChunkGenerator(World world) {
+			return new ChunkProviderIndev(world, world.getRandomSeed(), world.getWorldInfo().isMapFeaturesEnabled(), world.getWorldInfo().isLayeredSand());
+		}
+	};
+
 	public static final WorldType[] worldTypes = new WorldType[16];
-	public static final WorldType DEFAULT = (new WorldType(3, "default", 1));
-	public static final WorldType FLAT = (new WorldType(1, "flat")).setCanBeCreated(false);
-	public static final WorldType SKY = (new WorldType(2, "sky", 1));
-	public static final WorldType INFDEV = (new WorldType(0, "infdev", 1));
-	public static final WorldType INDEV = (new WorldType(4, "indev", 1));
+
+	static {
+		for(WorldType worldType : values()) {
+			worldTypes[worldType.id] = worldType;
+		}
+	}
 
 	private final String worldType;
 	private final int generatorVersion;
-	private boolean canBeCreated;
+	private final boolean canBeCreated;
 	public final int id;
 
-	protected WorldType(int id, String name) {
-		this(id, name, 0);
+	WorldType(int id, String name, int generatorVersion) {
+		this(id, name, generatorVersion, true);
 	}
 
-	protected WorldType(int id, String name, int generatorVersion) {
+	WorldType(int id, String name, int generatorVersion, boolean canBeCreated) {
 		this.worldType = name;
 		this.generatorVersion = generatorVersion;
-		this.canBeCreated = true;
+		this.canBeCreated = canBeCreated;
 		this.id = id;
-		worldTypes[id] = this;
 	}
-	
+
 	public static int getIdByName(String worldType) {
 		if(worldType != null && !"".equals(worldType)) {
 			for(int i = 0; i < worldTypes.length; i ++) {
 				if(worldTypes[i] != null && worldType.equals(worldTypes[i].worldType)) return i;
 			}
 		}
-			
+
 		return 0;
 	}
 
@@ -51,11 +102,6 @@ public class WorldType {
 
 	public int getGeneratorVersion() {
 		return this.generatorVersion;
-	}
-
-	private WorldType setCanBeCreated(boolean canBeCreated) {
-		this.canBeCreated = canBeCreated;
-		return this;
 	}
 
 	public boolean getCanBeCreated() {
@@ -72,14 +118,15 @@ public class WorldType {
 		return null;
 	}
 
+	public static WorldType getById(int id) {
+		return id >= 0 && id < worldTypes.length && worldTypes[id] != null ? worldTypes[id] : DEFAULT;
+	}
+
 	public WorldChunkManager getChunkManager(World world) {
-		return (WorldChunkManager)(this == SKY ? new WorldChunkManager(world) : new WorldChunkManager(world));
+		return new WorldChunkManager(world);
 	}
 
 	public IChunkProvider getChunkGenerator(World world) {
-		if(this == SKY) return 	new ChunkProviderSky(world, world.getRandomSeed(), world.getWorldInfo().isMapFeaturesEnabled(), world.getWorldInfo().isLayeredSand());
-		if(this == INFDEV) return new ChunkProviderInfdev(world, world.getRandomSeed(), world.getWorldInfo().isMapFeaturesEnabled(), world.getWorldInfo().isLayeredSand());
-		if(this == INDEV) return new ChunkProviderIndev(world, world.getRandomSeed(), world.getWorldInfo().isMapFeaturesEnabled(), world.getWorldInfo().isLayeredSand());
 		return new ChunkProviderGenerate(world, world.getRandomSeed(), world.getWorldInfo().isMapFeaturesEnabled(), world.getWorldInfo().isLayeredSand());
 	}
 
@@ -88,19 +135,27 @@ public class WorldType {
 	}
 
 	public int getMinimumSpawnHeight(World world) {
-		return this == FLAT ? 4 : 64;
+		return 64;
 	}
 
 	public double getHorizon(World world) {
-		return this == FLAT ? 0.0D : 63.0D;
+		return 63.0D;
 	}
 
 	public boolean hasVoidParticles(boolean hasVoidParticles) {
-		return this != FLAT && !hasVoidParticles;
+		return !hasVoidParticles;
 	}
 
 	public double voidFadeMagnitude() {
-		return this == FLAT ? 1.0D : 8.0D / 256D;
+		return 8.0D / 256D;
+	}
+
+	public boolean isIslandTerrain() {
+		return false;
+	}
+
+	public boolean hasSurfaceSea() {
+		return true;
 	}
 
 	public void onGUICreateWorldPress() {

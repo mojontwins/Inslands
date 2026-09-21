@@ -78,6 +78,8 @@ public class LevelThemeSettings {
 	
 	public static LevelThemeSettings white = new LevelThemeWhiteForest(6);
 
+	public static LevelThemeSettings caves = new LevelThemeCaves(7);
+	
 	public LevelThemeSettings(int id) {
 		this.id = id;
 		allThemeSettings.add(id, this);

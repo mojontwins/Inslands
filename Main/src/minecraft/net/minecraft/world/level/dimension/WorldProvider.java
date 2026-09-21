@@ -69,7 +69,7 @@ public abstract class WorldProvider {
 			int z = WorldSize.length / 2;
 			int y = world.getLandSurfaceHeightValue(x, z) + 1;
 	
-		// Try really hard
+			// Try really hard
 			int attemptsLeft = 1024;
 
 			poti: while (attemptsLeft -- > 0 && (!this.canCoordinateBeSpawn(x, y, z) || y > 120)) {

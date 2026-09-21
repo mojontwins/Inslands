@@ -1302,46 +1302,24 @@ this.effectRenderer.updateEffects();
 			
 			boolean valid = true;
 			String generating = "Generating Level";
-			do {
-				System.gc();
+			
+			System.gc();
 				
-				GlobalVars.initializeGameFlags();
-				
-				// Originally, vanilla Minecraft finds the spawn point at the end of this constructor:
-				world = new World(saveHandler, worldName, worldSettings);
-				
-				// But I've removed it from there...
-				boolean isNew = world.isNewWorld;
-				this.preloadWorld(world, generating, isNew, false);
-				
-				// I need to call it once the whole world has been generated.
-				if(isNew) {
-					this.loadingScreen.displayLoadingString("Finding spawn point");
-					world.worldProvider.getInitialSpawnLocation(world);
-				
-					valid = world.levelIsValidUponWorldTheme();
-					if(world.findingSpawnPoint || !valid) {
-					
-						System.out.println("World not valid [ Found spawn point? " + !world.findingSpawnPoint + 
-								", Valid upon theme? " + valid + 
-								" ] - trying again!");
-						
-						Random rand = new Random(worldSettings.getSeed());
-						
-						worldSettings = new WorldSettings(
-							rand.nextLong(), 
-							worldSettings.getGameType(),
-							worldSettings.isMapFeaturesEnabled(), 
-							worldSettings.getHardcoreEnabled(), 
-							worldSettings.isGenerateCities(),
-							worldSettings.isLayeredSand(),
-							worldSettings.getTerrainType());
-					
-						generating = "Regenerating Level :(";
-					}
-				}
-			} while(world.findingSpawnPoint || !valid);
-				
+			GlobalVars.initializeGameFlags();
+			
+			// Originally, vanilla Minecraft finds the spawn point at the end of this constructor:
+			world = new World(saveHandler, worldName, worldSettings);
+			
+			// But I've removed it from there...
+			boolean isNew = world.isNewWorld;
+			this.preloadWorld(world, generating, isNew, false);
+			
+			// I need to call it once the whole world has been generated.
+			if(isNew) {
+				this.loadingScreen.displayLoadingString("Finding spawn point");
+				world.worldProvider.getInitialSpawnLocation(world);
+			}
+			
 			if(world.isNewWorld) {
 				this.statFileWriter.readStat(StatList.createWorldStat, 1);
 				this.statFileWriter.readStat(StatList.startGameStat, 1);

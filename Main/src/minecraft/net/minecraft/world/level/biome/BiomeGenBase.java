@@ -47,6 +47,7 @@ public class BiomeGenBase {
 	public static final BiomeGenBase themeHellHell = new BiomeGenThemeHellHell().setBiomeName("Hell Hell").setDisableRain().setTemperatureRainfall(1, 0);
 	public static final BiomeGenBase themePoison = new BiomeGenThemePoisonIsland().setBiomeName("Poison Island").setTemperatureRainfall(.5, .5);
 	public static final BiomeGenBase themeWhiteForest = new BiomeGenThemeWhiteForest().setBiomeName("White Jungle").setTemperatureRainfall(.2, .9);
+	public static final BiomeGenBase themeCaves = new BiomeGenThemeCaves().setBiomeName("Cave").setTemperatureRainfall(.6, 0);
 	
 	// Leave these for compatibility
 	public static final BiomeGenBase hell = (new BiomeGenHell()).setColor(16711680).setBiomeName("Hell").setDisableRain();

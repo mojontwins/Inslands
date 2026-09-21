@@ -3552,40 +3552,6 @@ public class World implements IBlockAccess {
 		this.setBlockAndMetadata(x, y, z, blockState.getBlock().blockID, blockState.getMetadata());
 	}
 
-	public boolean levelIsValidUponWorldTheme() {
-		System.out.println ("Running level theme specific inits");
-		LevelThemeGlobalSettings.getTheme().levelThemeSpecificInits(this);
-		
-		if(this.isNewWorld && LevelThemeGlobalSettings.levelChecks) {	
-			// World theme based invalidations ahead!
-			
-			// Paradise must have at least one bronze dungeon
-			if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.paradise.id) {
-				if(!GlobalVars.hasBronzeDungeon) {
-					System.out.println ("No bronze dungeon in paradise -> bad level");
-					return false;
-				}
-			}
-			
-			// Forest must have 
-			if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.forest.id) { 
-				if(this.worldInfo.getTerrainType() != WorldType.SKY) {
-					// a) A minotaur maze which main body is under y = 64, for island terrain.
-					System.out.println ("No minoshroom maze -> bad level");
-					if(!GlobalVars.hasCorrectMinoshroomMaze) return false;
-				} 
-				
-				// b) At least one maze
-				if(GlobalVars.numUnderHillMazes + GlobalVars.numHedgeMazes == 0) {
-					System.out.println ("Hill mazes = " + GlobalVars.numUnderHillMazes + ", hedge mazes = " + GlobalVars.numHedgeMazes + " -> bad level.");
-					return false;
-				}
-			}
-		}
-		
-		return true;
-	}
-
 	@Override
 	public int getGrassColorFromCache(int x, int z) {
 		return x >= 0 && z >= 0 && x < WorldSize.width && z < WorldSize.length ? this.getChunkFromChunkCoords(x >> 4, z >> 4).getGrassColorFromCache(x & 15, z & 15) : 0;

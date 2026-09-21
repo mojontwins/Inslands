@@ -1114,7 +1114,7 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		if (LevelThemeGlobalSettings.levelThemeMainBiome != null) mainLiquidFromBiome = LevelThemeGlobalSettings.levelThemeMainBiome.mainLiquid;
 		Block mainLiquid = Block.blocksList[mainLiquidFromBiome];
 		
-		if(LevelThemeGlobalSettings.worldTypeID != WorldType.SKY.getId()) {
+		if(WorldType.getById(LevelThemeGlobalSettings.worldTypeID).hasSurfaceSea()) {
 			// Fill with water up to y = 63
 			for(int x = 0; x < 16; x ++) {
 				for(int z = 0; z < 16; z ++) {

@@ -111,6 +111,32 @@ public class ChunkProviderCaves extends ChunkProviderGenerate {
 		}
 
 	}	
+
+	@Override
+	public void terraform(int chunkX, int chunkZ, Chunk chunk, BiomeGenBase[] biomes) {
+		
+	}
+	
+	@Override
+	public void replaceBlocksForBiome(int chunkX, int chunkZ, byte[] blocks, byte[] metadata, BiomeGenBase[] biomes) {
+		byte seaLevel = SEA_LEVEL;
+		double d6 = 8.0D / 256D;
+		this.sandNoise = this.noiseGenSandOrGravel.generateNoiseOctaves(this.sandNoise, (double)(chunkX * 16), (double)(chunkZ * 16), 0.0D, 16, 16, 1, d6, d6, 1.0D);
+		this.gravelNoise = this.noiseGenSandOrGravel.generateNoiseOctaves(this.gravelNoise, (double)(chunkX * 16), 109.0134D, (double)(chunkZ * 16), 16, 1, 16, d6, 1.0D, d6);
+		this.stoneNoise = this.noiseStone.generateNoiseOctaves(this.stoneNoise, (double)(chunkX * 16), (double)(chunkZ * 16), 0.0D, 16, 16, 1, d6 * 2.0D, d6 * 2.0D, d6 * 2.0D);
+
+		BiomeGenBase biomeGen;
+
+		for(int z = 0; z < 16; ++z) {
+			for(int x = 0; x < 16; ++x) {
+				biomeGen = biomes[z | (x << 4)];
+				
+				int noiseIndex = z | (x << 4);
+				biomeGen.replaceBlocksForBiome(this, this.worldObj, this.rand, chunkX, chunkZ, x, z, blocks, metadata, seaLevel, this.sandNoise[noiseIndex], this.gravelNoise[noiseIndex], this.stoneNoise[noiseIndex]);
+			}
+		}
+
+	}
 	
 	/*
 	 * Nether's noise field generator:

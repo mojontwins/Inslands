@@ -3466,7 +3466,7 @@ public class World implements IBlockAccess {
 			
 			// Forest must have 
 			if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.forest.id) { 
-				if(this.worldInfo.getTerrainType() != WorldType.SKY) {
+				if(!this.worldInfo.getTerrainType().isIslandTerrain()) {
 					// a) A minotaur maze which main body is under y = 64, for island terrain.
 					System.out.println ("No minoshroom maze -> bad level");
 					if(!GlobalVars.hasCorrectMinoshroomMaze) return false;
