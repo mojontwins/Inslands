@@ -1840,6 +1840,7 @@ this.playerController.func_6473_b(this.thePlayer);
 		}
 
 		this.loadingScreen.displayLoadingString("Simulating world for a bit");
+		this.loadingScreen.runSimulation(3000L);
 	}
 
 	public void installResource(String string1, File file2) {
