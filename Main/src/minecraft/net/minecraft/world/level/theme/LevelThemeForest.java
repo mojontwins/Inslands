@@ -11,7 +11,6 @@ import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.WorldType;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.dimension.WorldProviderHell;
-import net.minecraft.world.level.dimension.WorldProviderSky;
 import net.minecraft.world.level.levelgen.feature.TFGenHedgeMaze;
 import net.minecraft.world.level.levelgen.feature.TFGenHillMaze;
 import net.minecraft.world.level.levelgen.feature.WorldGenerator;
@@ -51,7 +50,7 @@ public class LevelThemeForest extends LevelThemeSettings {
 		// we can perform special stuff and detections
 		// right before population (i.e. trees & small feats)
 
-		this.skyGen = world.worldProvider instanceof WorldProviderSky;
+		this.skyGen = world.getWorldInfo().getTerrainType() == WorldType.SKY;
 
 		// Generate hedge mazes.
 		this.generateHedgeMazes(world);

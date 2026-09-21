@@ -11,6 +11,8 @@ import net.minecraft.world.level.World;
 import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.WorldType;
 import net.minecraft.world.level.biome.BiomeGenBase;
+import net.minecraft.world.level.dimension.WorldProvider;
+import net.minecraft.world.level.dimension.WorldProviderSky;
 import net.minecraft.world.level.levelgen.feature.AetherGenDungeonBronze;
 import net.minecraft.world.level.levelgen.feature.WorldGenerator;
 import net.minecraft.world.level.tile.Block;
@@ -45,6 +47,11 @@ public class LevelThemeParadise extends LevelThemeSettings {
 		this.canRain = false;
 		this.canSnow = false;
 		this.canThunder = false;
+	}
+
+	@Override
+	public WorldProvider createWorldProvider() {
+		return new WorldProviderSky();
 	}
 
 	@Override

@@ -6,6 +6,8 @@ import net.minecraft.world.level.World;
 import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.WorldType;
 import net.minecraft.world.level.biome.BiomeGenBase;
+import net.minecraft.world.level.dimension.WorldProvider;
+import net.minecraft.world.level.dimension.WorldProviderPoisonIsland;
 import net.minecraft.world.level.levelgen.MapGenBase;
 import net.minecraft.world.level.levelgen.MapGenPoisonCaves;
 import net.minecraft.world.level.levelgen.feature.WorldGenWitchHut;
@@ -42,26 +44,8 @@ public class LevelThemePoisonIsland extends LevelThemeSettings {
 	}
 	
 	@Override
-	public boolean getInitialSpawnLocation(World world) {
-		// Find somewhere low but above sea level, and try VERY hard.
-		int x, y, z;
-		
-		int attemptsLeft = 4096;
-		
-		while(attemptsLeft -- > 0) {
-			x = 8 + world.rand.nextInt(WorldSize.width - 16);
-			z = 8 + world.rand.nextInt(WorldSize.length - 16);
-			y = world.getHeightValue(x, z) + 1;
-			
-			if(world.canBlockSeeTheSky(x, y, z) && y <= 70 && y >= 64) {
-				world.getWorldInfo().setSpawn(x, y, z);
-				break;
-			}
-			
-		}
-		
-		// TRUE if still not found
-		return attemptsLeft <= 0;
+	public WorldProvider createWorldProvider() {
+		return new WorldProviderPoisonIsland();
 	}
 	
 	@Override

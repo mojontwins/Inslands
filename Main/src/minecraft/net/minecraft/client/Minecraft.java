@@ -1317,7 +1317,7 @@ this.effectRenderer.updateEffects();
 			// I need to call it once the whole world has been generated.
 			if(isNew) {
 				this.loadingScreen.displayLoadingString("Finding spawn point");
-				world.worldProvider.getInitialSpawnLocation(world);
+				world.worldProvider.setInitialSpawnLocation(world);
 			}
 			
 			if(world.isNewWorld) {
@@ -1533,14 +1533,14 @@ this.effectRenderer.updateEffects();
 			// the main world; a base-root handler when arriving from a linked world, so
 			// nether chunks still live under the base folder's DIM-1.
 			if(sourceId == 0) {
-				destWorld = new World(this.theWorld, WorldProvider.getProviderForDimension(1));
+				destWorld = new World(this.theWorld, WorldProvider.createNetherProvider());
 			} else {
 				long baseSeed = WoolPortalRegistry.getBaseSeed(this.theWorld);
 				ISaveHandler baseHandler = this.saveLoader.getSaveLoader(baseName, false);
-				destWorld = new World(baseHandler, WorldNameGen.getName(baseSeed, 0), new WorldSettings(baseSeed, 0, true, false, true, sourceInfo.isLayeredSand(), WorldType.DEFAULT), WorldProvider.getProviderForDimension(1));
+				destWorld = new World(baseHandler, WorldNameGen.getName(baseSeed, 0), new WorldSettings(baseSeed, 0, true, false, true, sourceInfo.isLayeredSand(), WorldType.DEFAULT), WorldProvider.createNetherProvider());
 			}
 			this.preloadWorld(destWorld, "Entering the Nether", true, !isResuming);
-			if(destWorld.isNewWorld) destWorld.worldProvider.getInitialSpawnLocation(destWorld);
+			if(destWorld.isNewWorld) destWorld.worldProvider.setInitialSpawnLocation(destWorld);
 			this.changeWorld(destWorld, "Entering the Nether", this.thePlayer);
 			this.thePlayer.worldObj = this.theWorld;
 			this.thePlayer.currentWorldId = 1;
@@ -1564,14 +1564,14 @@ this.effectRenderer.updateEffects();
 		}
 
 		String caption = fromNether ? "Leaving the Nether" : "Entering " + destName;
-		destWorld = new World(destHandler, destName, new WorldSettings(destSeed, 0, true, false, true, sourceInfo.isLayeredSand(), WorldType.DEFAULT), WorldProvider.getProviderForDimension(0));
+		destWorld = new World(destHandler, destName, new WorldSettings(destSeed, 0, true, false, true, sourceInfo.isLayeredSand(), WorldType.DEFAULT), null);
 		destWorld.getWorldInfo().setDimension(destId);
 		boolean brandNew = !destWorld.getWorldInfo().isGenerated();
 
 		if(brandNew) {
 			this.preloadWorld(destWorld, caption, true, true);
 			this.loadingScreen.displayLoadingString("Finding spawn point");
-			destWorld.worldProvider.getInitialSpawnLocation(destWorld);
+			destWorld.worldProvider.setInitialSpawnLocation(destWorld);
 		} else {
 			this.preloadWorld(destWorld, caption, false, true);
 		}

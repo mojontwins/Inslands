@@ -292,18 +292,14 @@ public class World implements IBlockAccess {
 		
 		if(worldProvider5 != null) {
 			this.worldProvider = worldProvider5;
-		} else if(this.worldInfo != null && this.worldInfo.getDimension() == 1) {
-			this.worldProvider = WorldProvider.getProviderForDimension(1);
-		} else if(this.worldInfo != null && this.worldInfo.getDimension() >= 2) {
-			this.worldProvider = WorldProvider.getProviderForDimension(this.worldInfo.getDimension());
 		} else {
-			this.worldProvider = WorldProvider.getProviderForDimension(0);
+			this.worldProvider = LevelThemeGlobalSettings.getTheme().createWorldProvider();
 		}
 
 		this.worldProvider.registerWorld(this);
 		this.chunkProvider = this.getChunkProvider();
 		if(z6) {
-			//this.worldProvider.getInitialSpawnLocation(this);
+			//this.worldProvider.setInitialSpawnLocation(this);
 			//I've moved this elsewhere...
 			this.initializeWeather();
 		}

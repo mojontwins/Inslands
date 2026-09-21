@@ -24,7 +24,6 @@ import com.mojontwins.minecraft.worldedit.WorldEdit;
 import ca.spottedleaf.starlight.StarlightEngine;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.GlobalVars;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLightningBolt;
 import net.minecraft.world.entity.EntityLiving;
@@ -49,7 +48,6 @@ import net.minecraft.world.level.pathfinder.PathEntity;
 import net.minecraft.world.level.pathfinder.Pathfinder;
 import net.minecraft.world.level.pathfinder.PathfinderRelease;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
-import net.minecraft.world.level.theme.LevelThemeSettings;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.BlockFluid;
 import net.minecraft.world.level.tile.entity.TileEntity;
@@ -300,18 +298,14 @@ public class World implements IBlockAccess {
 		
 		if(worldProvider5 != null) {
 			this.worldProvider = worldProvider5;
-		} else if(this.worldInfo != null && this.worldInfo.getDimension() == 1) {
-			this.worldProvider = WorldProvider.getProviderForDimension(1);
-		} else if(this.worldInfo != null && this.worldInfo.getDimension() >= 2) {
-			this.worldProvider = WorldProvider.getProviderForDimension(this.worldInfo.getDimension());
 		} else {
-			this.worldProvider = WorldProvider.getProviderForDimension(0);
+			this.worldProvider = LevelThemeGlobalSettings.getTheme().createWorldProvider();
 		}
 
 		this.worldProvider.registerWorld(this);
 		this.chunkProvider = this.getChunkProvider();
 		if(z6) {
-			//this.worldProvider.getInitialSpawnLocation(this);
+			//this.worldProvider.setInitialSpawnLocation(this);
 			//I've moved this elsewhere...
 			this.initializeWeather();
 		}

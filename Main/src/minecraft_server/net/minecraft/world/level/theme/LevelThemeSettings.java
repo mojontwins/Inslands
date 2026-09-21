@@ -7,6 +7,8 @@ import java.util.List;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.WorldType;
 import net.minecraft.world.level.biome.BiomeGenBase;
+import net.minecraft.world.level.dimension.WorldProvider;
+import net.minecraft.world.level.dimension.WorldProviderSurface;
 import net.minecraft.world.level.levelgen.MapGenBase;
 import net.minecraft.world.level.levelgen.MapGenCaves;
 import net.minecraft.world.level.levelgen.mcfeature.Feature;
@@ -208,9 +210,8 @@ public class LevelThemeSettings {
 		return height;
 	}
 
-	// Return true to use the default method in World
-	public boolean getInitialSpawnLocation(World world) {
-		return true;
+	public WorldProvider createWorldProvider() {
+		return new WorldProviderSurface();
 	}
 	
 	public MapGenBase overrideCaveGenerator() {

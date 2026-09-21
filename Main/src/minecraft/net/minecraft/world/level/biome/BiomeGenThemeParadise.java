@@ -13,7 +13,7 @@ import net.minecraft.world.entity.mob.spider.EntitySpider;
 import net.minecraft.world.entity.mob.undead.EntityZombie;
 import net.minecraft.world.level.SpawnListEntry;
 import net.minecraft.world.level.World;
-import net.minecraft.world.level.dimension.WorldProviderSky;
+import net.minecraft.world.level.WorldType;
 import net.minecraft.world.level.levelgen.feature.AetherGenClouds;
 import net.minecraft.world.level.levelgen.feature.WorldGenFlowers;
 import net.minecraft.world.level.levelgen.feature.WorldGenLilypad;
@@ -111,7 +111,7 @@ public class BiomeGenThemeParadise extends BiomeGenBase {
 		
 		// Aerclouds
 		
-		if (world.worldProvider instanceof WorldProviderSky) {
+		if (world.getWorldInfo().getTerrainType() == WorldType.SKY) {
 			if(rand.nextInt(50) == 0) {
 				x = chunkX + rand.nextInt(16);
 				y = rand.nextInt(32) + 96;

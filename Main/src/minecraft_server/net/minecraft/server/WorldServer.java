@@ -32,7 +32,7 @@ public class WorldServer extends World {
 	private MCHash entityRemoval;
 
 	public WorldServer(MinecraftServer minecraftServer1, ISaveHandler iSaveHandler2, String string3, int i4, WorldSettings worldSettings5) {
-		super(iSaveHandler2, string3, worldSettings5, WorldProvider.getProviderForDimension(i4));
+		super(iSaveHandler2, string3, worldSettings5, i4 == -1 ? WorldProvider.createNetherProvider() : null);
 		this.mcServer = minecraftServer1;
 		this.entityRemoval = new MCHash();
 	}
