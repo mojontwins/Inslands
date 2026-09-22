@@ -3,6 +3,7 @@ package net.minecraft.world.item.crafting;
 import net.minecraft.world.inventory.InventoryCrafting;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.BlockCloth;
 
 public class RecipesWorldPortal implements IRecipe {
 
@@ -28,7 +29,7 @@ public class RecipesWorldPortal implements IRecipe {
 			}
 		}
 		if(wool == null) return null;
-		return new ItemStack(Block.worldPortal, 1, wool.getItemDamage() & 15);
+		return new ItemStack(Block.worldPortal, 1, wool.getItemDamage() & BlockCloth.META_MASK);
 	}
 
 	@Override
@@ -38,7 +39,7 @@ public class RecipesWorldPortal implements IRecipe {
 
 	@Override
 	public ItemStack getRecipeOutput() {
-		return new ItemStack(Block.worldPortal, 1, 0);
+		return new ItemStack(Block.worldPortal, 1, BlockCloth.WHITE);
 	}
 
 	@Override

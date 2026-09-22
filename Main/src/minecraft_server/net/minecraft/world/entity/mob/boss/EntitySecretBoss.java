@@ -2,16 +2,25 @@ package net.minecraft.world.entity.mob.boss;
 
 import com.mojang.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.mob.slime.EntitySlime;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.World;
+import net.minecraft.world.level.tile.Block;
+import net.minecraft.world.level.tile.entity.TileEntityChest;
 
 public class EntitySecretBoss extends EntitySlime {
 	int lvl = 0;
 	public float b;
 	public float c;
 	public int fullHealth = 20;
+	public int bossFamilyId = 0;
+	public int rootSpawnX = 0;
+	public int rootSpawnY = 0;
+	public int rootSpawnZ = 0;
+	public static int rewardedFamilyId = -1;
 	
 	public EntitySecretBoss(World world) {
 		/*
@@ -54,11 +63,19 @@ public class EntitySecretBoss extends EntitySlime {
 	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
 		super.writeEntityToNBT(nbttagcompound);
 		nbttagcompound.setInteger("Size", this.lvl);
+		nbttagcompound.setInteger("BossFamilyId", this.bossFamilyId);
+		nbttagcompound.setInteger("RootSpawnX", this.rootSpawnX);
+		nbttagcompound.setInteger("RootSpawnY", this.rootSpawnY);
+		nbttagcompound.setInteger("RootSpawnZ", this.rootSpawnZ);
 	}
 
 	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
 		super.readEntityFromNBT(nbttagcompound);
 		this.lvl = nbttagcompound.getInteger("Size");
+		this.bossFamilyId = nbttagcompound.getInteger("BossFamilyId");
+		this.rootSpawnX = nbttagcompound.getInteger("RootSpawnX");
+		this.rootSpawnY = nbttagcompound.getInteger("RootSpawnY");
+		this.rootSpawnZ = nbttagcompound.getInteger("RootSpawnZ");
 		this.initBoss();
 	}
 
@@ -117,6 +134,17 @@ public class EntitySecretBoss extends EntitySlime {
 	}
 
 	public void setEntityDead() {
+		boolean flag = !this.worldObj.isRemote;
+		
+		// Family bookkeeping: assign a family id to the root if it never went through the lair spawner.
+		if(flag && this.bossFamilyId == 0) {
+			if(this.rootSpawnX != 0 || this.rootSpawnY != 0 || this.rootSpawnZ != 0) {
+				this.bossFamilyId = this.rootSpawnX * 374761 + this.rootSpawnY * 668265 + this.rootSpawnZ * 154049;
+			} else {
+				this.bossFamilyId = MathHelper.floor_double(this.posX) * 374761 + MathHelper.floor_double(this.posZ) * 668265 + this.entityId;
+			}
+		}
+		
 		int j;
 		float f1;
 		int size = this.getSlimeSize();
@@ -132,18 +160,52 @@ public class EntitySecretBoss extends EntitySlime {
 				}
 			}
 		} else {
-			if(!this.worldObj.isRemote && this.lvl > 1 && this.health <= 0) {
+			if(flag && this.lvl > 1 && this.health <= 0) {
 				for(j = 0; j < 2; ++j) {
 					float f6 = ((float)(j % 2) - 0.5F) * (float)this.lvl / 10.0F / 4.0F;
 					f1 = ((float)(j / 2) - 0.5F) * (float)this.lvl / 10.0F / 4.0F;
 					EntitySecretBoss EntitySecretBoss7 = new EntitySecretBoss(this.worldObj, this.lvl - 1);
 					EntitySecretBoss7.setLocationAndAngles(this.posX + (double)f6, this.posY + 0.5D, this.posZ + (double)f1, this.rand.nextFloat() * 360.0F, 0.0F);
+					EntitySecretBoss7.bossFamilyId = this.bossFamilyId;
+					EntitySecretBoss7.rootSpawnX = this.rootSpawnX;
+					EntitySecretBoss7.rootSpawnY = this.rootSpawnY;
+					EntitySecretBoss7.rootSpawnZ = this.rootSpawnZ;
 					this.worldObj.spawnEntityInWorld(EntitySecretBoss7);
 				}
 			}
 		}
+		
+		if(flag && this.health <= 0 && this.isLastOfFamily() && EntitySecretBoss.rewardedFamilyId != this.bossFamilyId) {
+			EntitySecretBoss.rewardedFamilyId = this.bossFamilyId;
+			this.dropRewardChest();
+		}
 
 		this.isDead = true;
+	}
+
+	public boolean isLastOfFamily() {
+		if(this.worldObj.isRemote) return false;
+		
+		for(int i = 0; i < this.worldObj.loadedEntityList.size(); i ++) {
+			Entity entity = this.worldObj.loadedEntityList.get(i);
+			if(entity != this && !entity.isDead
+					&& entity instanceof EntitySecretBoss
+					&& ((EntitySecretBoss)entity).bossFamilyId == this.bossFamilyId) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public void dropRewardChest() {
+		if(this.worldObj.isRemote) return;
+		
+		this.worldObj.setBlockWithNotify(this.rootSpawnX, this.rootSpawnY, this.rootSpawnZ, Block.chest.blockID);
+		TileEntityChest chest = (TileEntityChest)this.worldObj.getBlockTileEntity(this.rootSpawnX, this.rootSpawnY, this.rootSpawnZ);
+		if(chest != null) {
+			chest.setInventorySlotContents(0, new ItemStack(Item.superPickaxe, 1));
+		}
 	}
 
 	public void onCollideWithPlayer(EntityPlayer entityplayer) {

@@ -1175,7 +1175,8 @@ public abstract class EntityPlayer extends EntityLiving {
 			this.triggerAchievement(AchievementList.killEnemy);
 		}
 
-		if(entityLiving1 instanceof net.minecraft.world.entity.mob.boss.EntitySecretBoss) {
+		if(entityLiving1 instanceof net.minecraft.world.entity.mob.boss.EntitySecretBoss
+				&& ((net.minecraft.world.entity.mob.boss.EntitySecretBoss)entityLiving1).isLastOfFamily()) {
 			this.triggerAchievement(AchievementList.slimeBoss);
 		}
 	}

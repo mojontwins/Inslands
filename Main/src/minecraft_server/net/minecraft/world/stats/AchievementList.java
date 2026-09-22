@@ -36,7 +36,7 @@ public class AchievementList {
 	public static Achievement hireAmazon = (new Achievement(19, "hireAmazon",       -2,  6, Item.amazonFace, currency)).registerAchievement();
 	public static Achievement bootsOfLeather = (new Achievement(20, "bootsOfLeather",8, -3, Item.bootsLeather, killCow)).setSpecial().registerAchievement();
 	public static Achievement bangBang = (new Achievement(21, "bangBang",            9, -1, Item.slingshot, killEnemy)).registerAchievement();
-	public static Achievement slimeBoss = (new Achievement(22, "slimeBoss",          9,  0, Item.slimeBall, killEnemy)).setSpecial().registerAchievement();
+	
 	public static Achievement chestRobber = (new Achievement(23, "chestRobber",     -2,  2, Block.chest, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
 	
 	public static Achievement gotDizzy = (new Achievement(24, "gotDizzy",           -4,  7, Item.dizzy, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
@@ -63,6 +63,7 @@ public class AchievementList {
 	public static Achievement themeHell = (new Achievement(50, "themeHell",         12, -6, Item.achievementHell, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
 	public static Achievement themeForest = (new Achievement(51, "themeForest",     12, -1, Item.achievementForest, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
 	public static Achievement themeParadise = (new Achievement(52, "themeParadise", 12,  4, Item.achievementParadise, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
+	public static Achievement themeWForest = (new Achievement(65, "themeWForest",   12, 9, Item.achievementForest, (Achievement) null)).setSpecial().setIndependent().registerAchievement();
 	
 	public static Achievement charcoal = (new Achievement(53, "charcoal",           14, -7, Item.charcoal, themeHell)).registerAchievement();
 	public static Achievement grassFromSoil = (new Achievement(54, "grassFromSoil", 14, -6, Block.grass, themeHell)).registerAchievement();
@@ -83,6 +84,10 @@ public class AchievementList {
 	public static Achievement bucketMilkGoat = (new Achievement(47, "bucketMilkGoat", -1,  9, Item.bucketMilk, acquireIron)).registerAchievement();
 	public static Achievement bucketMilkCursed = (new Achievement(48, "bucketMilkCursed", -1, 10, Item.bucketMilk, acquireIron)).registerAchievement();
 	
+	public static Achievement slimeBoss = (new Achievement(22, "slimeBoss",          14,  9, Item.slimeBall, themeWForest)).setSpecial().registerAchievement();
+	public static Achievement superPickaxe = (new Achievement(66, "superPickaxe",          14,  9, Item.superPickaxe, slimeBoss)).setSpecial().registerAchievement();
+	
+	// LAST: 66
 	
 	public static void func_27374_a() {
 	}

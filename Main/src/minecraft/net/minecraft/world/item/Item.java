@@ -173,6 +173,8 @@ public class Item {
 	public static Item boat_iron = (new ItemBoat(1102, true)).setIconIndex(13*16+1).setItemName("ironBoat");
 	public static Item key = (new ItemAetherKey(1103)).setItemName("AetherKey");
 	public static Item superAxe = (new ItemAxe(1104, EnumToolMaterial.SUPER, false)).setIconIndex(13*16+3).setItemName("superAxe");
+	public static Item superSword = (new ItemSword(1105, EnumToolMaterial.SUPER, false)).setIconIndex(11*16+8).setItemName("superSword");
+	public static Item superPickaxe = (new ItemPickaxe(1106, EnumToolMaterial.SUPER, false)).setIconIndex(11*16+9).setItemName("superPickaxe");
 	
 	public static Item achievementHell = new Item(1200).setIconIndex(12*16+5).setShowInCreative(false);
 	public static Item achievementForest = new Item(1201).setIconIndex(12*16+6).setShowInCreative(false);

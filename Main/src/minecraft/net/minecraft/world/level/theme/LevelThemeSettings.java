@@ -3,6 +3,7 @@ package net.minecraft.world.level.theme;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.WorldType;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.levelgen.MapGenBase;
 import net.minecraft.world.level.levelgen.MapGenCaves;
 import net.minecraft.world.level.levelgen.mcfeature.Feature;
 import net.minecraft.world.level.levelgen.mcfeature.FeatureProvider;
+import net.minecraft.world.level.tile.BlockCloth;
 
 public class LevelThemeSettings {
 	public int id;
@@ -39,6 +41,7 @@ public class LevelThemeSettings {
 	public boolean hauntCows = false;
 	public boolean showsOnCreation = true;
 	public boolean isRandomWorldTheme = true;
+	public int portalWoolColor = -1;
 
 	public static List<LevelThemeSettings> allThemeSettings = new ArrayList<LevelThemeSettings> ();
 
@@ -50,8 +53,9 @@ public class LevelThemeSettings {
 			.setTemperature(0.6D)
 			.setHumidity(0.6D)
 			.setCanSnow(false)
-			.setOverlay(-1);
-	
+			.setOverlay(-1)
+			.withPortalWoolColor(BlockCloth.RED);
+
 	public static LevelThemeSettings hell = new LevelThemeSettings(1)
 			.setName("Hell")
 			.setLightMultiplier(0.4F)
@@ -61,11 +65,14 @@ public class LevelThemeSettings {
 			.setTemperature(1.0D)
 			.setHumidity(0.1D)
 			.setCanSnow(false)
-			.setOverlay(-1);
-	
-	public static LevelThemeSettings forest = new LevelThemeForest(2);
-	
-	public static LevelThemeSettings paradise = new LevelThemeParadise(3);
+			.setOverlay(-1)
+			.withPortalWoolColor(BlockCloth.GREEN);
+
+	public static LevelThemeSettings forest = new LevelThemeForest(2)
+			.withPortalWoolColor(BlockCloth.BLUE);
+
+	public static LevelThemeSettings paradise = new LevelThemeParadise(3)
+			.withPortalWoolColor(BlockCloth.LIGHT_BLUE);
 	
 	public static LevelThemeSettings biomes = new LevelThemeSettings(4)
 			.setName("Biomes")
@@ -76,11 +83,15 @@ public class LevelThemeSettings {
 			.withColorizedPlants(true)
 			.withDynamicSnow(true);
 	
-	public static LevelThemeSettings poison = new LevelThemePoisonIsland(5).setOverlay(-1);
-	
-	public static LevelThemeSettings white = new LevelThemeWhiteForest(6);
+	public static LevelThemeSettings poison = new LevelThemePoisonIsland(5)
+			.setOverlay(-1)
+			.withPortalWoolColor(BlockCloth.LIME);
 
-	public static LevelThemeSettings caves = new LevelThemeCaves(7);
+	public static LevelThemeSettings white = new LevelThemeWhiteForest(6)
+			.withPortalWoolColor(BlockCloth.SILVER);
+
+	public static LevelThemeSettings caves = new LevelThemeCaves(7)
+			.withPortalWoolColor(BlockCloth.GRAY);
 	
 	public LevelThemeSettings(int id) {
 		this.id = id;
@@ -99,6 +110,11 @@ public class LevelThemeSettings {
 
 	protected LevelThemeSettings withPreferredWorldType(int id2) {
 		this.preferredWorldType = id2;
+		return this;
+	}
+
+	protected LevelThemeSettings withPortalWoolColor(int portalWoolColor) {
+		this.portalWoolColor = portalWoolColor;
 		return this;
 	}
 
@@ -121,6 +137,24 @@ public class LevelThemeSettings {
 		}
 		
 		return normal;
+	}
+
+	public static int findThemeIdByWoolColor(int woolColor, Random random) {
+		for(int i = 0; i < allThemeSettings.size(); i++) {
+			LevelThemeSettings themeSettings = allThemeSettings.get(i);
+			if(themeSettings != null && themeSettings.portalWoolColor == woolColor) return themeSettings.id;
+		}
+
+		if(woolColor == BlockCloth.WHITE) {
+			List<LevelThemeSettings> randomThemes = new ArrayList<LevelThemeSettings>();
+			for(int i = 0; i < allThemeSettings.size(); i++) {
+				LevelThemeSettings themeSettings = allThemeSettings.get(i);
+				if(themeSettings != null && themeSettings.isRandomWorldTheme) randomThemes.add(themeSettings);
+			}
+			return randomThemes.isEmpty() ? biomes.id : randomThemes.get(random.nextInt(randomThemes.size())).id;
+		}
+
+		return biomes.id;
 	}
 	
 	public LevelThemeSettings setName(String name) {

@@ -43,26 +43,6 @@ public class ItemWorldPortal extends ItemBlock {
 		return super.getItemName() + "." + ItemDye.dyeColorNames[BlockCloth.getBlockFromDye(itemStack1.getItemDamage())];
 	}
 
-	private int resolveThemeId(int woolColor, Random random) {
-		switch(woolColor) {
-			case 14: return LevelThemeSettings.normal.id;
-			case 11: return LevelThemeSettings.forest.id;
-			case 13: return LevelThemeSettings.hell.id;
-			case 5:  return LevelThemeSettings.poison.id;
-			case 7:  return LevelThemeSettings.caves.id;
-			case 8:  return LevelThemeSettings.white.id;
-			case 3:  return LevelThemeSettings.paradise.id;
-			case 0:
-				List<LevelThemeSettings> randomThemes = new java.util.ArrayList<LevelThemeSettings>();
-				for(int i = 0; i < LevelThemeSettings.allThemeSettings.size(); i++) {
-					LevelThemeSettings s = LevelThemeSettings.allThemeSettings.get(i);
-					if(s != null && s.isRandomWorldTheme) randomThemes.add(s);
-				}
-				return randomThemes.isEmpty() ? 0 : randomThemes.get(random.nextInt(randomThemes.size())).id;
-			default: return 4;
-		}
-	}
-
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float xWithinFace, float yWithinFace, float zWithinFace) {
 		if(world == null) return false;
@@ -89,7 +69,7 @@ public class ItemWorldPortal extends ItemBlock {
 
 		Random random = new Random();
 
-		int themeId = this.resolveThemeId(stack.getItemDamage(), random);
+		int themeId = LevelThemeSettings.findThemeIdByWoolColor(stack.getItemDamage(), random);
 		if(themeId < 0 || themeId >= LevelThemeSettings.allThemeSettings.size()) return false;
 		LevelThemeSettings themeSettings = LevelThemeSettings.allThemeSettings.get(themeId);
 		if(themeSettings == null) return false;

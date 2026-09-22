@@ -159,6 +159,8 @@ achievement.scareKobold=Booo!
 achievement.scareKobold.desc=Scare a Kobold to death!
 achievement.fungalInfection=Lucy in the Sky with Diamonds
 achievement.fungalInfection.desc=Get infected by a Fungal Calamity!
+achievement.themeWForest=A rest for the soul
+achievement.themeWForest.desc=Start a new world with the "White Jungle" theme!
 
 achievement.themeParadise=Up here in heaven
 achievement.themeParadise.desc=Start a new word  with the  "Paradise" theme!
@@ -168,3 +170,6 @@ achievement.defeatBronze=Like a Bossaru!
 achievement.defeatBronze.desc=Defeat the bronze boss
 achievement.flyingPig=Where the pigs don't fly
 achievement.flyingPig.desc=Fly on a pig!
+
+achievement.superPickaxe=A treasure for the miner
+achievement.superPickaxe.desc=Grab what the slime boss has in store!

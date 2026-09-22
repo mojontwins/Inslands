@@ -4,6 +4,7 @@ import net.minecraft.world.entity.EntityList;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.IMobWithLevel;
 import net.minecraft.world.entity.mob.boss.EntityAlphaWitch;
+import net.minecraft.world.entity.mob.boss.EntitySecretBoss;
 
 public class TileEntityMobSpawnerOneshot extends TileEntityMobSpawner {
 	// Just spawns its mob once when the player approaches.
@@ -33,6 +34,14 @@ public class TileEntityMobSpawnerOneshot extends TileEntityMobSpawner {
 			// Special inits
 			if(entityLiving instanceof EntityAlphaWitch) {
 				((EntityAlphaWitch)entityLiving).fillInventory();
+			}
+			
+			if(entityLiving instanceof EntitySecretBoss) {
+				EntitySecretBoss entitySecretBoss = (EntitySecretBoss)entityLiving;
+				entitySecretBoss.rootSpawnX = this.xCoord;
+				entitySecretBoss.rootSpawnY = this.yCoord;
+				entitySecretBoss.rootSpawnZ = this.zCoord;
+				entitySecretBoss.bossFamilyId = this.xCoord * 374761 + this.yCoord * 668265 + this.zCoord * 154049 + (int)this.worldObj.getRandomSeed();
 			}
 			
 			this.worldObj.spawnEntityInWorld(entityLiving);
