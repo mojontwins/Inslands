@@ -9,6 +9,8 @@ import org.lwjgl.opengl.GL12;
 import net.minecraft.client.StatFileWriter;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.util.Idx2uvF;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.stats.Achievement;
@@ -203,7 +205,16 @@ public class GuiAchievements extends GuiScreen {
 					i26 = Block.bedrock.blockIndexInTexture;
 				}
 
-				this.drawTexturedModalRect(i10 + i24 * 16 - i14, i11 + i22 * 16 - i15, i26 % 16 << 4, i26 >> 4 << 4, 16, 16);
+				Idx2uvF.calc(i26);
+				Tessellator tessellator = Tessellator.instance;
+				int i40 = i10 + i24 * 16 - i14;
+				int i41 = i11 + i22 * 16 - i15;
+				tessellator.startDrawingQuads();
+				tessellator.addVertexWithUV((double)i40, (double)(i41 + 16), (double)this.zLevel, Idx2uvF.u1, Idx2uvF.v2);
+				tessellator.addVertexWithUV((double)(i40 + 16), (double)(i41 + 16), (double)this.zLevel, Idx2uvF.u2, Idx2uvF.v2);
+				tessellator.addVertexWithUV((double)(i40 + 16), (double)i41, (double)this.zLevel, Idx2uvF.u2, Idx2uvF.v1);
+				tessellator.addVertexWithUV((double)i40, (double)i41, (double)this.zLevel, Idx2uvF.u1, Idx2uvF.v1);
+				tessellator.draw();
 			}
 		}
 
