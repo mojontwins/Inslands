@@ -3,13 +3,14 @@ package net.minecraft.world.level.levelgen.feature;
 import java.util.Random;
 
 import net.minecraft.world.level.World;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.tile.Block;
 
 public class WorldGenGlowStone1 extends WorldGenerator {
 	public boolean generate(World world1, Random random2, int i3, int i4, int i5) {
 		if(!world1.isAirBlock(i3, i4, i5)) {
 			return false;
-		} else if(world1.getBlockID(i3, i4 + 1, i5) != Block.bloodStone.blockID) {
+		} else if(world1.getBlockMaterial(i3, i4 + 1, i5) != Material.rock) {
 			return false;
 		} else {
 			world1.setBlockWithNotify(i3, i4, i5, Block.glowStone.blockID);

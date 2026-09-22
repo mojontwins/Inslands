@@ -22,7 +22,9 @@ import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenThemeParadise extends BiomeGenBase {
 
-	public BiomeGenThemeParadise() {
+	public BiomeGenThemeParadise(int id) {
+		super (id);
+		
 		this.overrideSkyColor = 0xC6DEFF;
 		this.overrideFogColor = 0xC6DEFF;
 		this.overrideCloudColor = 0xEEEEFF;

@@ -1,9 +1,7 @@
 package net.minecraft.world.level.chunk.storage;
 
 import java.io.File;
-import java.util.List;
 
-import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.WorldInfo;
 import net.minecraft.world.level.chunk.IChunkLoader;
 import net.minecraft.world.level.dimension.WorldProvider;
@@ -20,9 +18,9 @@ public class SaveOldDir extends SaveHandler {
 		return new McRegionChunkLoader(file2);
 	}
 
-	public void saveWorldInfoAndPlayer(WorldInfo worldInfo1, List<EntityPlayer> list2) {
+	public void saveWorldInfo(WorldInfo worldInfo1) {
 		worldInfo1.setSaveVersion(19132);
-		super.saveWorldInfoAndPlayer(worldInfo1, list2);
+		super.saveWorldInfo(worldInfo1);
 	}
 
 	public void s_func_22093_e() {

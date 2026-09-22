@@ -27,8 +27,8 @@ import net.minecraft.world.level.levelgen.feature.trees.WorldGenTaigaTree2;
 import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenTaiga extends BiomeGenForest {
-	public BiomeGenTaiga() {
-		super();
+	public BiomeGenTaiga(int id) {
+		super(id);
 		this.bigTreesEach10Trees = 5;
 		this.treeBaseAttemptsModifier = 7;
 		this.tallGrassAttempts = 128;

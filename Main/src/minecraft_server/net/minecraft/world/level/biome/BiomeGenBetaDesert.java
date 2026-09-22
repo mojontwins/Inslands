@@ -20,8 +20,8 @@ import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenBetaDesert extends BiomeGenBeta {
 
-	public BiomeGenBetaDesert() {
-		super();
+	public BiomeGenBetaDesert(int id) {
+		super(id);
 		
 		this.biomeColor = 16421912;
 		this.treeBaseAttemptsModifier = -20;

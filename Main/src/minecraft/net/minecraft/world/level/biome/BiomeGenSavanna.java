@@ -17,8 +17,8 @@ import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenSavanna extends BiomeGenBeta {
 
-	public BiomeGenSavanna() {
-		super();
+	public BiomeGenSavanna(int id) {
+		super(id);
 		this.bigTreesEach10Trees = 5;
 		this.treeBaseAttemptsModifier = -2;
 		this.tallGrassAttempts = 32;

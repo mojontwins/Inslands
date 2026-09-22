@@ -11,8 +11,8 @@ import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenIceDesert extends BiomeGenBetaDesert {
 
-	public BiomeGenIceDesert() {
-		super();
+	public BiomeGenIceDesert(int id) {
+		super(id);
 		
 		this.weather = Weather.cold;
 		this.cactusAttempts = 2;

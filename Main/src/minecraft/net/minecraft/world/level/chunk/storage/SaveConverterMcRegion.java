@@ -1,22 +1,26 @@
 package net.minecraft.world.level.chunk.storage;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.zip.GZIPInputStream;
+
+import com.mojang.nbt.CompressedStreamTools;
+import com.mojang.nbt.NBTTagCompound;
 
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.level.WorldInfo;
 
-public class SaveConverterMcRegion extends SaveFormatOld {
+public class SaveConverterMcRegion implements ISaveFormat {
+	protected final File savesDirectory;
+
 	public SaveConverterMcRegion(File file1) {
-		super(file1);
+		if(!file1.exists()) {
+			file1.mkdirs();
+		}
+
+		this.savesDirectory = file1;
 	}
 
 	public String getFormatName() {
@@ -57,115 +61,72 @@ public class SaveConverterMcRegion extends SaveFormatOld {
 		return new SaveOldDir(this.savesDirectory, string1, z2);
 	}
 
-	public boolean isOldMapFormat(String string1) {
-		WorldInfo worldInfo2 = this.getWorldInfo(string1);
-		return worldInfo2 != null && worldInfo2.getSaveVersion() == 0;
-	}
-
-	public boolean converMapToMCRegion(String string1, IProgressUpdate iProgressUpdate2) {
-		iProgressUpdate2.setLoadingProgress(0);
-		ArrayList<ChunkFile> arrayList3 = new ArrayList<ChunkFile>();
-		ArrayList<File> arrayList4 = new ArrayList<File>();
-		ArrayList<ChunkFile> arrayList5 = new ArrayList<ChunkFile>();
-		ArrayList<File> arrayList6 = new ArrayList<File>();
-		File file7 = new File(this.savesDirectory, string1);
-		File file8 = new File(file7, "DIM-1");
-		System.out.println("Scanning folders...");
-		this.func_22183_a(file7, arrayList3, arrayList4);
-		if(file8.exists()) {
-			this.func_22183_a(file8, arrayList5, arrayList6);
-		}
-
-		int i9 = arrayList3.size() + arrayList5.size() + arrayList4.size() + arrayList6.size();
-		System.out.println("Total conversion count is " + i9);
-		this.func_22181_a(file7, arrayList3, 0, i9, iProgressUpdate2);
-		this.func_22181_a(file8, arrayList5, arrayList3.size(), i9, iProgressUpdate2);
-		WorldInfo worldInfo10 = this.getWorldInfo(string1);
-		worldInfo10.setSaveVersion(19132);
-		ISaveHandler iSaveHandler11 = this.getSaveLoader(string1, false);
-		iSaveHandler11.saveWorldInfo(worldInfo10);
-		this.func_22182_a(arrayList4, arrayList3.size() + arrayList5.size(), i9, iProgressUpdate2);
-		if(file8.exists()) {
-			this.func_22182_a(arrayList6, arrayList3.size() + arrayList5.size() + arrayList4.size(), i9, iProgressUpdate2);
-		}
-
-		return true;
-	}
-
-	private void func_22183_a(File file1, ArrayList<ChunkFile> arrayList2, ArrayList<File> arrayList3) {
-		ChunkFolderPattern chunkFolderPattern4 = new ChunkFolderPattern();
-		ChunkFilePattern chunkFilePattern5 = new ChunkFilePattern();
-		File[] file6 = file1.listFiles(chunkFolderPattern4);
-		File[] file7 = file6;
-		int i8 = file6.length;
-
-		for(int i9 = 0; i9 < i8; ++i9) {
-			File file10 = file7[i9];
-			arrayList3.add(file10);
-			File[] file11 = file10.listFiles(chunkFolderPattern4);
-			File[] file12 = file11;
-			int i13 = file11.length;
-
-			for(int i14 = 0; i14 < i13; ++i14) {
-				File file15 = file12[i14];
-				File[] file16 = file15.listFiles(chunkFilePattern5);
-				File[] file17 = file16;
-				int i18 = file16.length;
-
-				for(int i19 = 0; i19 < i18; ++i19) {
-					File file20 = file17[i19];
-					arrayList2.add(new ChunkFile(file20));
-				}
-			}
-		}
-
-	}
-
-	private void func_22181_a(File file1, ArrayList<ChunkFile> arrayList2, int i3, int i4, IProgressUpdate iProgressUpdate5) {
-		Collections.sort(arrayList2);
-		byte[] b6 = new byte[4096];
-		Iterator<ChunkFile> iterator7 = arrayList2.iterator();
-
-		while(iterator7.hasNext()) {
-			ChunkFile chunkFile8 = (ChunkFile)iterator7.next();
-			int i9 = chunkFile8.getXpos();
-			int i10 = chunkFile8.getZpos();
-			RegionFile regionFile11 = RegionFileCache.getRegionFile(file1, i9, i10);
-			if(!regionFile11.isChunkSaved(i9 & 31, i10 & 31)) {
+	public WorldInfo getWorldInfo(String string1) {
+		File file2 = new File(this.savesDirectory, string1);
+		if(!file2.exists()) {
+			return null;
+		} else {
+			File file3 = new File(file2, "level.dat");
+			NBTTagCompound nBTTagCompound4;
+			NBTTagCompound nBTTagCompound5;
+			if(file3.exists()) {
 				try {
-					DataInputStream dataInputStream12 = new DataInputStream(new GZIPInputStream(new FileInputStream(chunkFile8.getFile())));
-					DataOutputStream dataOutputStream13 = regionFile11.getChunkDataOutputStream(i9 & 31, i10 & 31);
-					int i17;
-					while((i17 = dataInputStream12.read(b6)) != -1) {
-						dataOutputStream13.write(b6, 0, i17);
-					}
-
-					dataOutputStream13.close();
-					dataInputStream12.close();
-				} catch (IOException iOException15) {
-					iOException15.printStackTrace();
+					nBTTagCompound4 = CompressedStreamTools.readCompressed(new FileInputStream(file3));
+					nBTTagCompound5 = nBTTagCompound4.getCompoundTag("Data");
+					return new WorldInfo(nBTTagCompound5);
+				} catch (Exception exception7) {
+					exception7.printStackTrace();
 				}
 			}
 
-			++i3;
-			int i16 = (int)Math.round(100.0D * (double)i3 / (double)i4);
-			iProgressUpdate5.setLoadingProgress(i16);
-		}
+			file3 = new File(file2, "level.dat_old");
+			if(file3.exists()) {
+				try {
+					nBTTagCompound4 = CompressedStreamTools.readCompressed(new FileInputStream(file3));
+					nBTTagCompound5 = nBTTagCompound4.getCompoundTag("Data");
+					return new WorldInfo(nBTTagCompound5);
+				} catch (Exception exception6) {
+					exception6.printStackTrace();
+				}
+			}
 
-		RegionFileCache.closeRegionFiles();
+			return null;
+		}
 	}
 
-	private void func_22182_a(ArrayList<File> arrayList1, int i2, int i3, IProgressUpdate iProgressUpdate4) {
-		Iterator<File> iterator5 = arrayList1.iterator();
+	public void renameWorld(String string1, String string2) {
+		File file3 = new File(this.savesDirectory, string1);
+		if(file3.exists()) {
+			File file4 = new File(file3, "level.dat");
+			if(file4.exists()) {
+				try {
+					NBTTagCompound nBTTagCompound5 = CompressedStreamTools.readCompressed(new FileInputStream(file4));
+					NBTTagCompound nBTTagCompound6 = nBTTagCompound5.getCompoundTag("Data");
+					nBTTagCompound6.setString("LevelName", string2);
+					CompressedStreamTools.writeCompressed(nBTTagCompound5, new FileOutputStream(file4));
+				} catch (Exception exception7) {
+					exception7.printStackTrace();
+				}
+			}
 
-		while(iterator5.hasNext()) {
-			File file6 = (File)iterator5.next();
-			File[] file7 = file6.listFiles();
-			deleteRecursively(file7);
-			file6.delete();
-			++i2;
-			int i8 = (int)Math.round(100.0D * (double)i2 / (double)i3);
-			iProgressUpdate4.setLoadingProgress(i8);
+		}
+	}
+
+	public void deleteWorldDirectory(String string1) {
+		File file2 = new File(this.savesDirectory, string1);
+		if(file2.exists()) {
+			deleteRecursively(file2.listFiles());
+			file2.delete();
+		}
+	}
+
+	protected static void deleteRecursively(File[] file0) {
+		for(int i1 = 0; i1 < file0.length; ++i1) {
+			if(file0[i1].isDirectory()) {
+				deleteRecursively(file0[i1].listFiles());
+			}
+
+			file0[i1].delete();
 		}
 
 	}

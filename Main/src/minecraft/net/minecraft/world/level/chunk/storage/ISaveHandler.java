@@ -1,7 +1,6 @@
 package net.minecraft.world.level.chunk.storage;
 
 import java.io.File;
-import java.util.List;
 
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.WorldInfo;
@@ -14,8 +13,6 @@ public interface ISaveHandler {
 	void checkSessionLock();
 
 	IChunkLoader getChunkLoader(WorldProvider worldProvider1);
-
-	void saveWorldInfoAndPlayer(WorldInfo worldInfo1, List<EntityPlayer> list2);
 
 	void saveWorldInfo(WorldInfo worldInfo1);
 

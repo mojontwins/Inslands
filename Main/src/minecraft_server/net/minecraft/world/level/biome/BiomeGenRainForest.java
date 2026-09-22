@@ -1,8 +1,8 @@
 package net.minecraft.world.level.biome;
 
 public class BiomeGenRainForest extends BiomeGenBetaForest {
-	public BiomeGenRainForest() {
-		super();
+	public BiomeGenRainForest(int id) {
+		super(id);
 		
 		this.biomeColor = 588432;
 		

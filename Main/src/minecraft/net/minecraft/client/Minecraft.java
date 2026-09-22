@@ -9,7 +9,6 @@ import java.awt.Frame;
 import java.awt.Graphics;
 import java.io.File;
 import java.net.URL;
-import java.util.Random;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Controllers;
@@ -57,6 +56,8 @@ import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MouseHelper;
 import net.minecraft.client.renderer.OpenGlCapsChecker;
+import net.minecraft.client.model.aether.ModelFlyingCow2;
+import net.minecraft.client.model.aether.ModelFlyingPig2;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.RenderEngine;
@@ -83,13 +84,14 @@ import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.PlayerSaveData;
+import net.minecraft.world.level.PortalRegistry;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.WorldInfo;
 import net.minecraft.world.level.WorldNameGen;
 import net.minecraft.world.level.WorldSettings;
 import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.WorldType;
-import net.minecraft.world.level.WoolPortalRegistry;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.biome.BiomeGenThemeForest;
 import net.minecraft.world.level.biome.BiomeGenThemeHell;
@@ -1292,87 +1294,130 @@ this.effectRenderer.updateEffects();
 		System.gc();
 		
 		BiomeGenBase.generateBiomeLookup();
-		
-		if(this.saveLoader.isOldMapFormat(forlderName)) {
-			this.converMapToMCRegion(forlderName, worldName);
-		} else {
-			ISaveHandler saveHandler = this.saveLoader.getSaveLoader(forlderName, false);
-			
-			World world = null;
-			
-			boolean valid = true;
-			String generating = "Generating Level";
-			
-			System.gc();
-				
-			GlobalVars.initializeGameFlags();
-			
-			// Originally, vanilla Minecraft finds the spawn point at the end of this constructor:
-			world = new World(saveHandler, worldName, worldSettings);
-			
-			// But I've removed it from there...
-			boolean isNew = world.isNewWorld;
-			this.preloadWorld(world, generating, isNew, false);
-			
-			// I need to call it once the whole world has been generated.
-			if(isNew) {
-				this.loadingScreen.displayLoadingString("Finding spawn point");
-				world.worldProvider.setInitialSpawnLocation(world);
-			}
-			
-			if(world.isNewWorld) {
-				this.statFileWriter.readStat(StatList.createWorldStat, 1);
-				this.statFileWriter.readStat(StatList.startGameStat, 1);
-				this.changeWorld(world, "Generating level");
-			} else {
-				this.statFileWriter.readStat(StatList.loadWorldStat, 1);
-				this.statFileWriter.readStat(StatList.startGameStat, 1);
-				this.changeWorld(world, "Loading level");
-			}
 
-			this.resumeLastWorld();
+		// §5.11 / M3. The single root player.dat decides which world to boot into
+		// directly. Read it before any world is built: it holds the last session's
+		// exact position/rotation/inventory plus CurrentWorldId (0 = main world,
+		// 1 = the shared nether, 2..255 = a linked world). Missing, unreadable or
+		// pointing at an absent world falls back to the main world below.
+		PlayerSaveData.startSession();
+		ISaveHandler baseHandler = null;
+		File baseDir = null;
+		try {
+			baseHandler = this.saveLoader.getSaveLoader(forlderName, false);
+			if(baseHandler != null) baseDir = baseHandler.getSaveDirectory();
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 
+		int resumeId = 0;
+		com.mojang.nbt.NBTTagCompound resumePlayer = PlayerSaveData.readTag(baseDir);
+		if(resumePlayer != null && resumePlayer.hasKey("CurrentWorldId")) {
+			resumeId = resumePlayer.getInteger("CurrentWorldId");
+		}
+		if(resumeId < 0 || resumeId > PortalRegistry.LAST_WORLD_ID) {
+			resumeId = 0;
+		}
+
+		System.gc();
+		GlobalVars.initializeGameFlags();
+
+		World world = null;
+		String generating = "Generating Level";
+
+		if(resumeId >= PortalRegistry.FIRST_WORLD_ID) {
+			// Boot straight into the linked world under base/DIM-<id>.
+			long baseSeed = this.readBaseWorldSeed(baseDir);
+			boolean dimExists = baseDir != null && new File(baseDir, "DIM-" + resumeId + File.separator + "level.dat").isFile();
+			if(dimExists && baseSeed != 0L) {
+				long destSeed = WorldNameGen.deriveSeed(baseSeed, resumeId);
+				String destName = WorldNameGen.getName(baseSeed, resumeId);
+				ISaveHandler destHandler = this.saveLoader.getSaveLoader(forlderName + "/DIM-" + resumeId, false);
+				WorldSettings destSettings = new WorldSettings(destSeed, 0, true, false, true, false, WorldType.DEFAULT);
+				world = new World(destHandler, destName, destSettings, null);
+				world.getWorldInfo().setDimension(resumeId);
+				boolean brandNew = !world.getWorldInfo().isGenerated();
+				String caption = "Entering " + destName;
+				if(brandNew) {
+					this.preloadWorld(world, caption, true, true);
+					this.loadingScreen.displayLoadingString("Finding spawn point");
+					world.worldProvider.setInitialSpawnLocation(world);
+				} else {
+					this.preloadWorld(world, caption, false, true);
+				}
+				System.out.println("Resuming in world " + resumeId);
+				this.changeWorld(world, caption);
+				this.thePlayer.currentWorldId = resumeId;
+				this.placeResumedPlayer(world);
+				return;
+			}
+			// The referenced linked world is gone: fall back to the main world and
+			// consume the snapshot so a respawn cannot re-apply a stale position.
+			System.out.println("Linked world " + resumeId + " not found; resuming in world 0");
+			PlayerSaveData.markConsumed();
+			resumeId = 0;
+		} else if(resumeId == 1) {
+			// Boot straight into the nether. It shares the base level.dat but keeps
+			// its chunks under base/DIM-1, so a base-root handler + nether provider.
+			long baseSeed = this.readBaseWorldSeed(baseDir);
+			if(baseDir != null && new File(baseDir, "level.dat").isFile() && baseSeed != 0L) {
+				String currentName = this.readBaseWorldName(baseDir);
+				if(currentName != null) worldName = currentName;
+				WorldSettings netherSettings = new WorldSettings(baseSeed, 0, true, false, true, false, WorldType.DEFAULT);
+				world = new World(baseHandler, worldName, netherSettings, WorldProvider.createNetherProvider());
+				if(world.isNewWorld) {
+					world.worldProvider.setInitialSpawnLocation(world);
+				}
+				System.out.println("Resuming in the nether");
+				this.preloadWorld(world, "Entering the Nether", false, true);
+				this.changeWorld(world, "Entering the Nether");
+				this.thePlayer.currentWorldId = 1;
+				this.placeResumedPlayer(world);
+				return;
+			}
+			System.out.println("Nether not found; resuming in world 0");
+			PlayerSaveData.markConsumed();
+			resumeId = 0;
+		}
+
+		// Main world (also the fallback when the resume target is missing).
+		// Originally, vanilla Minecraft finds the spawn point at the end of this constructor:
+		world = new World(baseHandler, worldName, worldSettings);
+		
+		// But I've removed it from there...
+		boolean isNew = world.isNewWorld;
+		this.preloadWorld(world, generating, isNew, false);
+		
+		// I need to call it once the whole world has been generated.
+		if(isNew) {
+			this.loadingScreen.displayLoadingString("Finding spawn point");
+			world.worldProvider.setInitialSpawnLocation(world);
+		}
+		
+		if(world.isNewWorld) {
+			this.statFileWriter.readStat(StatList.createWorldStat, 1);
+			this.statFileWriter.readStat(StatList.startGameStat, 1);
+			this.changeWorld(world, "Generating level");
+		} else {
+			this.statFileWriter.readStat(StatList.loadWorldStat, 1);
+			this.statFileWriter.readStat(StatList.startGameStat, 1);
+			this.changeWorld(world, "Loading level");
+		}
 	}
 
 	/**
-	 * §5.11 / M3. On reopening a save, travel straight back into the world the
-	 * player was last playing in — world 0, the shared nether (1), or a linked
-	 * world (2..255) — and drop them at the exact position/angles they quit with.
-	 * The target world is read from the base level.dat's Player tag
-	 * ({@code CurrentWorldId}, kept fresh by World.saveLevel's sync routine and
-	 * written on exit). Stays in world 0 when the stored id is missing, invalid,
-	 * or its folder is gone.
+	 * §5.11 / M3. After a direct boot into a linked world or the nether, place the
+	 * player at the exact saved position (already hydrated from the root player.dat
+	 * by changeWorld -> spawnPlayerWithLoadedChunks) and settle them onto the
+	 * surface, mirroring the old resumeLastWorld post-travel dance.
 	 */
-	private void resumeLastWorld() {
-		if(this.theWorld == null || this.thePlayer == null) return;
-		if(this.isRemote()) return;
-
-		int resume = this.thePlayer.currentWorldId;
-		if(resume != 0) {
-			File base = WoolPortalRegistry.getBaseSaveDirectory(this.theWorld);
-			if(base == null || !new File(base, "DIM-" + resume + File.separator + "level.dat").isFile()) {
-				resume = 0;
-			}
-		}
-		if(resume == 0) {
-			return;
-		}
-
-		System.out.println("Resuming in world " + resume);
-		this.travelToDimension(resume, false);
-
-		// Place the player back at the exact position/rotation they quit with, read from
-		// the canonical snapshot kept in the base level.dat's Player tag. The in-memory
-		// tag was already consumed by spawnPlayerWithLoadedChunks, so re-read disk.
-		PlayerSnapshot snapshot = this.readCanonicalPlayerSnapshot(this.theWorld);
-		if(snapshot != null) {
-			System.out.println("[RESUME][FIX] landed snapshot=(" + snapshot.x + "," + snapshot.y + "," + snapshot.z + ") yaw=" + snapshot.yaw + " pitch=" + snapshot.pitch);
-			this.thePlayer.setLocationAndAngles(snapshot.x, snapshot.y - (double)this.thePlayer.yOffset, snapshot.z, snapshot.yaw, snapshot.pitch);
-			this.settlePlayerOnGround(this.theWorld, this.thePlayer);
-			this.theWorld.updateEntityWithOptionalForce(this.thePlayer, false);
-			this.theWorld.joinEntityInSurroundings(this.thePlayer);
-		}
+	private void placeResumedPlayer(World world) {
+		if(world == null || this.thePlayer == null) return;
+		System.out.println("[RESUME][FIX] landed snapshot=(" + this.thePlayer.posX + "," + this.thePlayer.posY + "," + this.thePlayer.posZ + ") yaw=" + this.thePlayer.rotationYaw + " pitch=" + this.thePlayer.rotationPitch);
+		this.thePlayer.setLocationAndAngles(this.thePlayer.posX, this.thePlayer.posY - (double)this.thePlayer.yOffset, this.thePlayer.posZ, this.thePlayer.rotationYaw, this.thePlayer.rotationPitch);
+		this.settlePlayerOnGround(world, this.thePlayer);
+		world.updateEntityWithOptionalForce(this.thePlayer, false);
+		world.joinEntityInSurroundings(this.thePlayer);
 	}
 
 	/**
@@ -1410,56 +1455,6 @@ this.effectRenderer.updateEffects();
 		}
 	}
 
-	private static class PlayerSnapshot {
-		final double x;
-		final double y;
-		final double z;
-		final float yaw;
-		final float pitch;
-
-		PlayerSnapshot(double x, double y, double z, float yaw, float pitch) {
-			this.x = x;
-			this.y = y;
-			this.z = z;
-			this.yaw = yaw;
-			this.pitch = pitch;
-		}
-	}
-
-	private PlayerSnapshot readCanonicalPlayerSnapshot(World world) {
-		File baseDir = WoolPortalRegistry.getBaseSaveDirectory(world);
-		if(baseDir == null) return null;
-		File levelFile = new File(baseDir, "level.dat");
-		if(!levelFile.isFile()) levelFile = new File(baseDir, "level.dat_old");
-		if(!levelFile.isFile()) return null;
-
-		java.io.FileInputStream in = null;
-		try {
-			in = new java.io.FileInputStream(levelFile);
-			com.mojang.nbt.NBTTagCompound root = com.mojang.nbt.CompressedStreamTools.readCompressed(in);
-			if(root == null || !root.hasKey("Data")) return null;
-			com.mojang.nbt.NBTTagCompound data = root.getCompoundTag("Data");
-			if(data == null || !data.hasKey("Player")) return null;
-			com.mojang.nbt.NBTTagCompound player = data.getCompoundTag("Player");
-			com.mojang.nbt.NBTTagList pos = player.getTagList("Pos");
-			com.mojang.nbt.NBTTagList rot = player.getTagList("Rotation");
-			if(pos == null || pos.tagCount() < 3 || rot == null || rot.tagCount() < 2) return null;
-			return new PlayerSnapshot(
-					((com.mojang.nbt.NBTTagDouble)pos.tagAt(0)).doubleValue,
-					((com.mojang.nbt.NBTTagDouble)pos.tagAt(1)).doubleValue,
-					((com.mojang.nbt.NBTTagDouble)pos.tagAt(2)).doubleValue,
-					((com.mojang.nbt.NBTTagFloat)rot.tagAt(0)).floatValue,
-					((com.mojang.nbt.NBTTagFloat)rot.tagAt(1)).floatValue);
-		} catch (Exception exception) {
-			return null;
-		} finally {
-			try {
-				if(in != null) in.close();
-			} catch (java.io.IOException ignored) {
-			}
-		}
-	}
-
 	public void usePortal() {
 		if(this.theWorld == null || this.thePlayer == null) return;
 
@@ -1468,7 +1463,7 @@ this.effectRenderer.updateEffects();
 			// Coming back out of the nether (or going into it from a linked world's
 			// own nether). Use the remembered origin world, falling back to the main world.
 			int target = this.thePlayer.netherReturnWorldId;
-			File base = this.theWorld != null ? WoolPortalRegistry.getBaseSaveDirectory(this.theWorld) : null;
+			File base = this.theWorld != null ? PortalRegistry.getBaseSaveDirectory(this.theWorld) : null;
 			if(target < 2 || base == null || !new File(base, "DIM-" + target + File.separator + "level.dat").isFile()) {
 				target = 0;
 			}
@@ -1490,10 +1485,7 @@ this.effectRenderer.updateEffects();
 		boolean toNether = destId == 1;
 		boolean fromNether = sourceId == 1;
 
-		// Remember where the player left this world; it is stored in its level.dat and
-		// used as the landing hint when coming back.
 		WorldInfo sourceInfo = this.theWorld.getWorldInfo();
-		sourceInfo.setLastPosition(MathHelper.floor_double(this.thePlayer.posX), MathHelper.floor_double(this.thePlayer.posY), MathHelper.floor_double(this.thePlayer.posZ), this.thePlayer.rotationYaw, this.thePlayer.rotationPitch);
 
 		// Save the source world BEFORE opening the destination save folder. Creating a
 		// fresh SaveHandler writes a new session.lock; opening it while the source world
@@ -1535,7 +1527,7 @@ this.effectRenderer.updateEffects();
 			if(sourceId == 0) {
 				destWorld = new World(this.theWorld, WorldProvider.createNetherProvider());
 			} else {
-				long baseSeed = WoolPortalRegistry.getBaseSeed(this.theWorld);
+				long baseSeed = PortalRegistry.getBaseSeed(this.theWorld);
 				ISaveHandler baseHandler = this.saveLoader.getSaveLoader(baseName, false);
 				destWorld = new World(baseHandler, WorldNameGen.getName(baseSeed, 0), new WorldSettings(baseSeed, 0, true, false, true, sourceInfo.isLayeredSand(), WorldType.DEFAULT), WorldProvider.createNetherProvider());
 			}
@@ -1553,13 +1545,13 @@ this.effectRenderer.updateEffects();
 		}
 
 		// Main world (0) or a linked world (2..255), both stored as real sub-folders.
-		long baseSeed = WoolPortalRegistry.getBaseSeed(this.theWorld);
+		long baseSeed = PortalRegistry.getBaseSeed(this.theWorld);
 		String folder = destId == 0 ? baseName : baseName + "/DIM-" + destId;
 		ISaveHandler destHandler = this.saveLoader.getSaveLoader(folder, false);
 		long destSeed = WorldNameGen.deriveSeed(baseSeed, destId);
 		String destName = WorldNameGen.getName(baseSeed, destId);
 		if(destId == 0) {
-			String currentName = this.readBaseWorldName(WoolPortalRegistry.getBaseSaveDirectory(this.theWorld));
+			String currentName = this.readBaseWorldName(PortalRegistry.getBaseSaveDirectory(this.theWorld));
 			if(currentName != null) destName = currentName;
 		}
 
@@ -1609,7 +1601,6 @@ this.effectRenderer.updateEffects();
 		world.setBlockWithNotify(sx, sy + 1, sz, 0);
 
 		info.setSpawn(sx, sy + 1, sz);
-		info.setLastPosition(sx, sy + 1, sz, this.thePlayer.rotationYaw, this.thePlayer.rotationPitch);
 		info.setGenerated(true);
 		world.saveWorldIndirectly(this.loadingScreen);
 
@@ -1618,33 +1609,14 @@ this.effectRenderer.updateEffects();
 	}
 
 	private void restoreLinkedWorldPosition(World world, int sourceId) {
-		WorldInfo info = world.getWorldInfo();
-		int lx = info.getLastPositionX();
-		int ly = info.getLastPositionY();
-		int lz = info.getLastPositionZ();
-		boolean restored = false;
-
-		if(ly > 1 && ly < 127 && lx >= 0 && lx < WorldSize.width && lz >= 0 && lz < WorldSize.length) {
-			int blockId = world.getBlockID(lx, ly, lz);
-			if(blockId == Block.worldPortal.blockID && world.getBlockMetadata(lx, ly, lz) == sourceId) {
-				// The return portal is intact; drop the player onto it.
-				this.thePlayer.setLocationAndAngles((double)lx + 0.5D, (double)(ly + 1), (double)lz + 0.5D, info.getLastPositionYaw(), info.getLastPositionPitch());
-				restored = true;
-			} else if((blockId == 0 || blockId == Block.worldPortal.blockID) && world.getBlockMaterial(lx, ly - 1, lz).isSolid()) {
-				// Open, walkable spot, or standing on the return portal; restore the remembered
-				// exit position, landing ON TOP of a portal tile so the player is never inside it.
-				int ly2 = blockId == Block.worldPortal.blockID ? ly + 1 : ly;
-				this.thePlayer.setLocationAndAngles((double)lx + 0.5D, (double)ly2, (double)lz + 0.5D, info.getLastPositionYaw(), info.getLastPositionPitch());
-				restored = true;
-			}
-		}
-
-		if(!restored) {
-			// Fall back to the partner portal (a world portal pointing back at the source world).
-			if(!(new Teleporter()).findExitLocation(world, this.thePlayer, sourceId)) {
-				// No partner portal either; fall back to the world's natural spawn point.
-				this.thePlayer.setLocationAndAngles((double)info.getSpawnX() + 0.5D, (double)(info.getSpawnY() + 1), (double)info.getSpawnZ() + 0.5D, this.thePlayer.rotationYaw, this.thePlayer.rotationPitch);
-			}
+		int[] portal = (new Teleporter()).findWorldPortalTo(world, sourceId);
+		if(portal != null) {
+			// Land the player on top of the partner portal (it is a floor tile).
+			this.thePlayer.setLocationAndAngles((double)portal[0] + 0.5D, (double)(portal[1] + 1), (double)portal[2] + 0.5D, this.thePlayer.rotationYaw, this.thePlayer.rotationPitch);
+		} else {
+			// No partner portal either; fall back to the world's natural spawn point.
+			WorldInfo info = world.getWorldInfo();
+			this.thePlayer.setLocationAndAngles((double)info.getSpawnX() + 0.5D, (double)(info.getSpawnY() + 1), (double)info.getSpawnZ() + 0.5D, this.thePlayer.rotationYaw, this.thePlayer.rotationPitch);
 		}
 		this.theWorld.updateEntityWithOptionalForce(this.thePlayer, false);
 	}
@@ -1683,6 +1655,29 @@ this.effectRenderer.updateEffects();
 		return null;
 	}
 
+	private long readBaseWorldSeed(File baseDir) {
+		java.io.FileInputStream in = null;
+		try {
+			File file = new File(baseDir, "level.dat");
+			if(file.isFile()) {
+				in = new java.io.FileInputStream(file);
+				com.mojang.nbt.NBTTagCompound root = com.mojang.nbt.CompressedStreamTools.readCompressed(in);
+				if(root != null) {
+					com.mojang.nbt.NBTTagCompound data = root.getCompoundTag("Data");
+					if(data != null && data.hasKey("RandomSeed")) return data.getLong("RandomSeed");
+				}
+			}
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		} finally {
+			try {
+				if(in != null) in.close();
+			} catch (java.io.IOException ignored) {
+			}
+		}
+		return 0L;
+	}
+
 	public void changeWorld(World world1) {
 		this.changeWorld(world1, "");
 	}
@@ -1704,6 +1699,14 @@ this.effectRenderer.updateEffects();
 			System.out.println("Saving");
 			this.theWorld.saveWorldIndirectly(this.loadingScreen);
 		}
+
+		// Release statics that pin the world being abandoned: an unfinished boss
+		// fight marker and the render-pass model entities. The slider re-pins
+		// currentBoss when its chunk reloads (EntitySlider.readEntityFromNBT), and
+		// the model statics repopulate only when the new world renders those mobs.
+		GlobalVars.currentBoss = null;
+		ModelFlyingCow2.flyingcow = null;
+		ModelFlyingPig2.pig = null;
 
 		// Make new world the current world
 		this.theWorld = world;
@@ -1780,13 +1783,6 @@ this.playerController.func_6473_b(this.thePlayer);
 		System.gc();
 		this.systemTime = 0L;
 		System.out.println("World changed");
-	}
-
-	private void converMapToMCRegion(String string1, String string2) {
-		this.loadingScreen.printText("Converting World to " + this.saveLoader.getFormatName());
-		this.loadingScreen.displayLoadingString("This may take a while :)");
-		this.saveLoader.converMapToMCRegion(string1, this.loadingScreen);
-		this.startWorld(string1, string2, new WorldSettings(0L, 0, true, false, false, true, WorldType.DEFAULT));
 	}
 
 	/**

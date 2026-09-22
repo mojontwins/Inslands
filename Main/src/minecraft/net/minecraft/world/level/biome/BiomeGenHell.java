@@ -5,7 +5,8 @@ import net.minecraft.world.entity.mob.undead.EntityPigZombie;
 import net.minecraft.world.level.SpawnListEntry;
 
 public class BiomeGenHell extends BiomeGenBase {
-	public BiomeGenHell() {
+	public BiomeGenHell(int id) {
+		super (id);
 		this.spawnableMonsterList.clear();
 		this.spawnableCreatureList.clear();
 		this.spawnableWaterCreatureList.clear();

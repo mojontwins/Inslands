@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldInfo;
 import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.tile.Block;
@@ -102,6 +103,64 @@ public class Teleporter {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Locates the linked-world portal pointing back at sourceWorldId anywhere in
+	 * the (finite) world. Searches outward from the spawn point, so arrival
+	 * portals - which are placed at the world's spawn - are found almost
+	 * immediately; far portals are still found by letting the spiral run to the
+	 * world's edge. Each column scans downward from the heightmap, which bounds
+	 * every portal block (portalY <= getHeightValue). Returns the portal
+	 * coordinates, or null when no matching portal exists.
+	 */
+	public int[] findWorldPortalTo(World world, int sourceWorldId) {
+		int cx = world.getWorldInfo().getSpawnX();
+		int cz = world.getWorldInfo().getSpawnZ();
+		if(cx < 0) {
+			cx = 0;
+		} else if(cx >= WorldSize.width) {
+			cx = WorldSize.width - 1;
+		}
+		if(cz < 0) {
+			cz = 0;
+		} else if(cz >= WorldSize.length) {
+			cz = WorldSize.length - 1;
+		}
+
+		int maxRadius = Math.max(Math.max(cx, WorldSize.width - 1 - cx), Math.max(cz, WorldSize.length - 1 - cz));
+		for(int d = 0; d <= maxRadius; ++d) {
+			int x0 = cx - d;
+			int x1 = cx + d;
+			int z0 = cz - d;
+			int z1 = cz + d;
+
+			int[] result;
+			for(int x = x0; x <= x1; ++x) {
+				result = this.scanColumn(world, x, z0, sourceWorldId);
+				if(result != null) return result;
+				result = this.scanColumn(world, x, z1, sourceWorldId);
+				if(result != null) return result;
+			}
+			for(int z = z0 + 1; z <= z1 - 1; ++z) {
+				result = this.scanColumn(world, x0, z, sourceWorldId);
+				if(result != null) return result;
+				result = this.scanColumn(world, x1, z, sourceWorldId);
+				if(result != null) return result;
+			}
+		}
+
+		return null;
+	}
+
+	private int[] scanColumn(World world, int x, int z, int sourceWorldId) {
+		if(x < 0 || x >= WorldSize.width || z < 0 || z >= WorldSize.length) return null;
+		for(int y = world.getHeightValue(x, z); y >= 0; --y) {
+			if(world.getBlockID(x, y, z) == Block.worldPortal.blockID && world.getBlockMetadata(x, y, z) == sourceWorldId) {
+				return new int[] { x, y, z };
+			}
+		}
+		return null;
 	}
 
 	public boolean createExitLocation(World world, Entity entity) {

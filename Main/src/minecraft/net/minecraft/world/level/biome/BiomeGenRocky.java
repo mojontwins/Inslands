@@ -13,8 +13,8 @@ import net.minecraft.world.level.levelgen.feature.WorldGenRockBoulder;
 import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenRocky extends BiomeGenBase {
-	public BiomeGenRocky() {
-		super();
+	public BiomeGenRocky(int id) {
+		super(id);
 		this.topBlock = this.fillerBlock = (byte)Block.stone.blockID;
 		this.dirtLumpAttempts = 50;
 		this.gravelLumpAttempts = 30;

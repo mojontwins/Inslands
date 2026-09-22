@@ -1,8 +1,6 @@
 package net.minecraft.world.level;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -14,15 +12,11 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.mojang.nbt.CompressedStreamTools;
 import com.mojang.nbt.NBTTagCompound;
-import com.mojang.nbt.NBTTagDouble;
-import com.mojang.nbt.NBTTagFloat;
-import com.mojang.nbt.NBTTagList;
 import com.mojontwins.minecraft.worldedit.WorldEdit;
 
 import ca.spottedleaf.starlight.StarlightEngine;
-import net.minecraft.client.Minecraft;
+
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLightningBolt;
@@ -368,10 +362,9 @@ public class World implements IBlockAccess {
 
 	public void spawnPlayerWithLoadedChunks(EntityPlayer entityPlayer1) {
 		try {
-			NBTTagCompound nBTTagCompound2 = this.worldInfo.getPlayerNBTTagCompound();
+			NBTTagCompound nBTTagCompound2 = PlayerSaveData.read(this);
 			if(nBTTagCompound2 != null) {
 				entityPlayer1.readFromNBT(nBTTagCompound2);
-				this.worldInfo.setPlayerNBTTagCompound((NBTTagCompound)null);
 			}
 
 			int px = MathHelper.floor_double(entityPlayer1.posX);
@@ -416,94 +409,21 @@ public class World implements IBlockAccess {
 			}
 		}
 
-		this.saveHandler.saveWorldInfoAndPlayer(this.worldInfo, this.playerEntities);
+		this.saveHandler.saveWorldInfo(this.worldInfo);
 		this.mapStorage.saveAllData();
 
-		// §5.11 (SP): while playing inside a linked world (or the shared nether),
-		// keep the canonical player snapshot fresh in world 0's level.dat so a
-		// restart never loses inventory/stats and always resumes in the right world.
-		// The base world itself (id 0) writes its own Player tag via
-		// saveWorldInfoAndPlayer.
-		if(Minecraft.getMinecraft().theWorld == this && (this.worldInfo.getWorldId() != 0 || this.worldProvider.dimensionId == 1) && this.playerEntities.size() > 0) {
-			this.syncCanonicalPlayerToBaseWorld((EntityPlayer)this.playerEntities.get(0));
-		}
-	}
-
-	/**
-	 * §5.11 (SP). Copies the live player's inventory/stats/XP and exact
-	 * position/rotation (the canonical snapshot) into the base world's level.dat
-	 * Player tag, ready for the next restart. world 0's Player tag is the only one
-	 * a fresh world load ever reads, so {@code CurrentWorldId} in this snapshot is
-	 * what {@code M3 resumeLastWorld} uses to decide which world to reopen.
-	 *
-	 * Deliberately written straight to the file: going through ISaveFormat
-	 * getSaveLoader() would construct a second SaveHandler for the base folder,
-	 * overwrite its session.lock and trip the running world's checkSessionLock on
-	 * the next save ("Level save conflict").
-	 */
-	private void syncCanonicalPlayerToBaseWorld(EntityPlayer player) {
-		try {
-			File baseDir = WoolPortalRegistry.getBaseSaveDirectory(this);
-			if(baseDir == null || !baseDir.exists()) {
-				return;
+		// §5.11 (SP): the active world refreshes the canonical player snapshot in
+		// the save root's player.dat (position, rotation, inventory, stats, XP,
+		// CurrentWorldId). The snapshot is what the next startWorld reads to decide
+		// which world to boot into and where to drop the player. Guarded by
+		// player.worldObj == this so a stale world left over from a portal
+		// transition never stamps the root snapshot.
+		if(this.playerEntities.size() > 0) {
+			EntityPlayer player = (EntityPlayer)this.playerEntities.get(0);
+			if(player.worldObj == this) {
+				PlayerSaveData.write(this, player);
 			}
-
-			File levelFile = new File(baseDir, "level.dat");
-			if(!levelFile.isFile()) {
-				levelFile = new File(baseDir, "level.dat_old");
-			}
-
-			NBTTagCompound root = CompressedStreamTools.readCompressed(new FileInputStream(levelFile));
-			if(root == null || !root.hasKey("Data")) {
-				return;
-			}
-
-			NBTTagCompound data = root.getCompoundTag("Data");
-
-			NBTTagCompound canonical = new NBTTagCompound();
-			player.writeToNBT(canonical);
-
-			// The canonical snapshot keeps the player's LIVE position and rotation so a
-			// restart can drop them back precisely where they quit, in whatever world
-			// (0, nether 1, or a linked world) they were last in. The base world's own
-			// Player tag / last-position fields are refreshed independently by the base's
-			// saveLevel when the player is actually in world 0.
-			canonical.setTag("Pos", newDoubleNBTList(new double[] { player.posX, player.posY, player.posZ }));
-			canonical.setTag("Rotation", newFloatNBTList(new float[] { player.rotationYaw, player.rotationPitch }));
-			canonical.setInteger("Dimension", 0);
-
-			data.setTag("Player", canonical);
-
-			// level.dat _new/_old rotation, mirroring SaveHandler.writeLevelData().
-			File newFile = new File(baseDir, "level.dat_new");
-			File oldFile = new File(baseDir, "level.dat_old");
-			NBTTagCompound outRoot = new NBTTagCompound();
-			outRoot.setTag("Data", data);
-			CompressedStreamTools.writeCompressed(outRoot, new FileOutputStream(newFile));
-			if(oldFile.exists()) oldFile.delete();
-			levelFile.renameTo(oldFile);
-			if(levelFile.exists()) levelFile.delete();
-			newFile.renameTo(levelFile);
-			if(newFile.exists()) newFile.delete();
-		} catch (Exception exception) {
-			exception.printStackTrace();
 		}
-	}
-
-	private static NBTTagList newDoubleNBTList(double[] doubles) {
-		NBTTagList list = new NBTTagList();
-		for(int i = 0; i < doubles.length; i++) {
-			list.setTag(new NBTTagDouble(doubles[i]));
-		}
-		return list;
-	}
-
-	private static NBTTagList newFloatNBTList(float[] floats) {
-		NBTTagList list = new NBTTagList();
-		for(int i = 0; i < floats.length; i++) {
-			list.setTag(new NBTTagFloat(floats[i]));
-		}
-		return list;
 	}
 
 	public boolean quickSaveWorld(int i1) {
@@ -1443,85 +1363,7 @@ public class World implements IBlockAccess {
 	}
 	
 	public Vec3D getSkyColor(Entity entity1, float renderPartialTick) {
-		float celestialAngle = this.getCelestialAngle(renderPartialTick);
-		float celestialLight = MathHelper.cos(celestialAngle * (float)Math.PI * 2.0F) * 2.0F + 0.5F;
-		if(celestialLight < 0.0F) {
-			celestialLight = 0.0F;
-		}
-
-		if(celestialLight > 1.0F) {
-			celestialLight = 1.0F;
-		}
-
-		int skyColor;
-		int x = (int)entity1.posX;
-		int z = (int)entity1.posZ;
-		BiomeGenBase biome = this.getBiomeGenAt(x, z);
-		
-		if(biome != null && biome.overrideSkyColor != -1) {
-			skyColor = biome.overrideSkyColor;
-		} else {
-			skyColor = Seasons.getSkyColorForToday();
-		}
-		
-		float r = (float)(skyColor >> 16 & 255L) / 255.0F;
-		float g = (float)(skyColor >> 8 & 255L) / 255.0F;
-		float b = (float)(skyColor & 255L) / 255.0F;
-		r *= celestialLight;
-		g *= celestialLight;
-		b *= celestialLight;
-		
-		/*
-		float skyColorComponent;
-		float skyColorAtenuation;
-		
-		float rainAtenuation = this.getRainStrength(renderPartialTick);
-		
-		if(rainAtenuation > 0.0F) {
-			skyColorComponent = (r * 0.3F + g * 0.59F + b * 0.11F) * 0.6F;
-			skyColorAtenuation = 1.0F - rainAtenuation * 0.75F;
-			r = r * skyColorAtenuation + skyColorComponent * (1.0F - skyColorAtenuation);
-			g = g * skyColorAtenuation + skyColorComponent * (1.0F - skyColorAtenuation);
-			b = b * skyColorAtenuation + skyColorComponent * (1.0F - skyColorAtenuation);
-		}
-
-		float thunderingAtenuation = this.getWeightedThunderStrength(renderPartialTick);
-		if(thunderingAtenuation > 0.0F) {
-			skyColorComponent = (r * 0.3F + g * 0.59F + b * 0.11F) * 0.2F;
-			skyColorAtenuation = 1.0F - thunderingAtenuation * 0.75F;
-			r = r * skyColorAtenuation + skyColorComponent * (1.0F - skyColorAtenuation);
-			g = g * skyColorAtenuation + skyColorComponent * (1.0F - skyColorAtenuation);
-			b = b * skyColorAtenuation + skyColorComponent * (1.0F - skyColorAtenuation);
-		}
-		*/
-		
-		float atenuationStrength = this.getRainStrength(renderPartialTick) + this.getWeightedThunderStrength(renderPartialTick) - this.getSnowStrength(renderPartialTick);
-		if(atenuationStrength >= 0.0F) {
-			if(atenuationStrength >= 1.0F) atenuationStrength = 1.0F;
-			float skyColorComponent = (r * 0.3F + g * 0.59F + b * 0.11F) * 0.2F;
-			float skyColorAtenuation = 1.0F - atenuationStrength * 0.75F;
-			r = r * skyColorAtenuation + skyColorComponent * (1.0F - skyColorAtenuation);
-			g = g * skyColorAtenuation + skyColorComponent * (1.0F - skyColorAtenuation);
-			b = b * skyColorAtenuation + skyColorComponent * (1.0F - skyColorAtenuation);
-		}		
-
-		if(this.lightningFlash > 0) {
-			float lightning = (float)this.lightningFlash - renderPartialTick;
-			if(lightning > 1.0F) {
-				lightning = 1.0F;
-			}
-
-			lightning *= 0.45F;
-			r = r * (1.0F - lightning) + 0.8F * lightning;
-			g = g * (1.0F - lightning) + 0.8F * lightning;
-			b = b * (1.0F - lightning) + 1.0F * lightning;
-		} else {
-			r *= LevelThemeGlobalSettings.lightMultiplier;
-			g *= LevelThemeGlobalSettings.lightMultiplier;
-			b *= LevelThemeGlobalSettings.lightMultiplier;
-		}
-
-		return Vec3D.createVector((double)r, (double)g, (double)b);
+		return this.worldProvider.getSkyColor(this, entity1, renderPartialTick);
 	}
 
 	public float getCelestialAngle(float f1) {

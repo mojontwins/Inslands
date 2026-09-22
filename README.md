@@ -545,7 +545,7 @@ This would be completely impossible in the vanilla game lol.
 
 # A bit low on block IDs... 
 
-* [ ] This uses 8 bit IDs for simplicity / speed. And I'm running out of IDs. I think I'll have, at some point, to rehash some decorative blocks as blocks + meta or combine simmilar blocks making use of the extended 8 bits meta to free up some slots.
+* [-] This uses 8 bit IDs for simplicity / speed. And I'm running out of IDs. I think I'll have, at some point, to rehash some decorative blocks as blocks + meta or combine simmilar blocks making use of the extended 8 bits meta to free up some slots.
 	* Blocks
 		* All flowers in the yellow flower id with meta?
 # When I'm ready to add new stuff
@@ -561,7 +561,7 @@ This would be completely impossible in the vanilla game lol.
 	* [ ] cold mechanics. Need to reactivate code for freeze
 	* [ ] The ice palace in glacier.
 
-* [ ] Cursed cow - make mechanic configurable per theme.
+* [X] Cursed cow - make mechanic configurable per theme.
 
 * [ ] Item icon!
 * [ ] Achievement for the white forest.
@@ -569,8 +569,8 @@ This would be completely impossible in the vanilla game lol.
 
 # A wild bug appears
 
-* [ ] Fix whatever happens with naming creatures (I had to add a dirty try/catch so it doesn't crash).
-* [ ] Wrong icon for name tag.
+* [X] Fix whatever happens with naming creatures (I had to add a dirty try/catch so it doesn't crash).
+* [X] Wrong icon for name tag.
 * [X] Check new leaves and make sure they decay and drop the right sapling (!) All leaves subclass `BlockLeaves` which uses `EnumTreeType` to determine sapling type. Check this, all tree types, all tree generators. I was passing the wrong metadata when finding the tree types.
 * [X] Make sure new wood is included in the axe tool efficiency list.
 * [X] Sandstone slabs don't pile up correctly when placed (probably every slab of the new type). This happens if you place the upper half first and click on the bottom (face = 0). Wrong logics when comparing metadata, solved.
@@ -581,8 +581,10 @@ This would be completely impossible in the vanilla game lol.
 # Rounding up what's there
 
 * [X] Whole generation in stages!
-* [ ] Now you have this, revise all themes so big, problematic structures are added in the right stage.
+* [X] Now you have this, revise all themes so big, problematic structures are added in the right stage.
 * [ ] Add portal stuff as hints + achievements.
 * [ ] Create a new proper web to release this.
-* [ ] Not selectable new world themes: Caves.
-* [ ] Completely hidden world themes via custom portals: The Barren.
+* [X] Not selectable new world themes: Caves.
+* [ ] Completely hidden world themes via custom portals: The Barren.1
+* [ ] SMP pre-work in multi world: remove Minecraft.java references, world HAS to be shared!
+* [ ] What's up with sky / horizon color?

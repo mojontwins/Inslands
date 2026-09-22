@@ -19,8 +19,8 @@ import net.minecraft.world.level.levelgen.feature.trees.WorldGenBigTreeDead;
 import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenDesert extends BiomeGenBase {
-	public BiomeGenDesert() {
-		super();
+	public BiomeGenDesert(int id) {
+		super(id);
 		this.dungeonAttempts = 10;
 		this.clayAttempts = 20;
 		this.dirtLumpAttempts = 10;

@@ -40,7 +40,7 @@ public class GuiCreateWorld extends GuiScreen {
 	private GuiButton layeredSandButton;
 	private String seed;
 	private String localizedNewWorldText;
-	private int worldType = -1;
+	private int worldType = 0;
 	private int themeId = 0;
 	private int sizeId = 1;
 	
@@ -276,7 +276,14 @@ public class GuiCreateWorld extends GuiScreen {
 				if(this.themeId == LevelThemeSettings.forest.id) this.worldType = WorldType.INFDEV.id;
 				*/
 				int tentativeWorldType = LevelThemeSettings.findThemeById(this.themeId).preferredWorldType;
-				if(tentativeWorldType >= 0) this.worldType = tentativeWorldType;
+				if(tentativeWorldType >= 0) this.worldType = tentativeWorldType; else {
+					
+					// Beware: changing to a new theme can render the selected world type invalid.
+					if(WorldType.worldTypes[this.worldType] == null || !WorldType.worldTypes[this.worldType].getCanBeCreated()) {
+						this.worldType = 0;
+					}
+
+				}
 				
 				this.updateCaptions();
 			} else if(button.id == 9) {

@@ -1,11 +1,8 @@
 package net.minecraft.world.level;
 
-import java.util.List;
-
 import com.mojang.nbt.NBTTagCompound;
 
 import net.minecraft.world.GlobalVars;
-import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 
 public class WorldInfo {
@@ -17,7 +14,6 @@ public class WorldInfo {
 	private long worldTime;
 	private long lastTimePlayed;
 	private long sizeOnDisk;
-	private NBTTagCompound playerTag;
 	private int dimension;
 	private int worldId;
 	private String levelName;
@@ -97,18 +93,9 @@ public class WorldInfo {
 		if(nbt.hasKey("WorldId")) {
 			this.dimension = nbt.getInteger("WorldId");
 			this.worldId = this.dimension;
-			if(nbt.hasKey("Player")) {
-				this.playerTag = nbt.getCompoundTag("Player");
-			}
-		} else if(nbt.hasKey("Player")) {
-			this.playerTag = nbt.getCompoundTag("Player");
-			this.dimension = this.playerTag.getInteger("Dimension");
-			if(this.dimension == -1) {
-				this.dimension = 1;
-			} else if(this.dimension == 1 && "sky".equals(generatorName)) {
-				this.dimension = 0;
-			}
-			this.worldId = this.dimension;
+		} else {
+			this.dimension = 0;
+			this.worldId = 0;
 		}
 
 		this.themeId = nbt.getInteger("ThemeId");
@@ -163,7 +150,6 @@ public class WorldInfo {
 		this.worldTime = info.worldTime;
 		this.lastTimePlayed = info.lastTimePlayed;
 		this.sizeOnDisk = info.sizeOnDisk;
-		this.playerTag = info.playerTag;
 		this.dimension = info.dimension;
 		this.worldId = info.worldId;
 		this.levelName = info.levelName;
@@ -189,28 +175,11 @@ public class WorldInfo {
 
 	public NBTTagCompound getNBTTagCompound() {
 		NBTTagCompound nbt = new NBTTagCompound();
-		this.updateTagCompound(nbt, this.playerTag);
+		this.updateTagCompound(nbt);
 		return nbt;
 	}
 
-	public NBTTagCompound getNBTTagCompoundWithPlayer(List<EntityPlayer> list1) {
-		NBTTagCompound nBTTagCompound2 = new NBTTagCompound();
-		EntityPlayer entityPlayer3 = null;
-		NBTTagCompound nBTTagCompound4 = null;
-		if(list1.size() > 0) {
-			entityPlayer3 = (EntityPlayer)list1.get(0);
-		}
-
-		if(entityPlayer3 != null) {
-			nBTTagCompound4 = new NBTTagCompound();
-			entityPlayer3.writeToNBT(nBTTagCompound4);
-		}
-
-		this.updateTagCompound(nBTTagCompound2, nBTTagCompound4);
-		return nBTTagCompound2;
-	}
-
-	private void updateTagCompound(NBTTagCompound nbt, NBTTagCompound nBTTagCompound2) {
+	private void updateTagCompound(NBTTagCompound nbt) {
 		nbt.setLong("RandomSeed", this.randomSeed);
 		nbt.setString("generatorName", this.terrainType.getWorldType());
 		nbt.setInteger("generatorVersion", this.terrainType.getGeneratorVersion());
@@ -233,9 +202,6 @@ public class WorldInfo {
 		nbt.setBoolean("snowing", this.snowing);
 		nbt.setBoolean("BloodMoon", this.bloodMoon);
 		nbt.setInteger("DayOfTheYear", Seasons.dayOfTheYear);
-		if(nBTTagCompound2 != null) {
-			nbt.setCompoundTag("Player", nBTTagCompound2);
-		}
 		nbt.setInteger("ThemeId", this.themeId);
 		nbt.setInteger("WorldId", this.worldId);
 		nbt.setInteger("WidthInChunks", this.worldWidthChunks);
@@ -275,10 +241,6 @@ public class WorldInfo {
 		return this.sizeOnDisk;
 	}
 
-	public NBTTagCompound getPlayerNBTTagCompound() {
-		return this.playerTag;
-	}
-
 	public int getDimension() {
 		return this.dimension;
 	}
@@ -310,10 +272,6 @@ public class WorldInfo {
 
 	public void setSizeOnDisk(long d) {
 		this.sizeOnDisk = d;
-	}
-
-	public void setPlayerNBTTagCompound(NBTTagCompound nbt) {
-		this.playerTag = nbt;
 	}
 
 	public void setSpawn(int x, int y, int z) {

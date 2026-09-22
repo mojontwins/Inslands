@@ -19,8 +19,8 @@ import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenBetaTundra extends BiomeGenBeta {
 
-	public BiomeGenBetaTundra() {
-		super ();
+	public BiomeGenBetaTundra(int id) {
+		super(id);
 		
 		this.spawnableCreatureList.clear();
 		this.spawnableCreatureList.add(new SpawnListEntry(EntityColdCow.class, 10));

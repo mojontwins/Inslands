@@ -8,8 +8,8 @@ import net.minecraft.world.level.levelgen.feature.trees.WorldGenBloodTree;
 
 public class BiomeGenThemeHellHell extends BiomeGenHell {
 
-	public BiomeGenThemeHellHell() {
-		super();
+	public BiomeGenThemeHellHell(int id) {
+		super(id);
 		this.hellFireExtraAttempts = 4;
 		this.hellLavaExtraAttemtps = 4;
 	}

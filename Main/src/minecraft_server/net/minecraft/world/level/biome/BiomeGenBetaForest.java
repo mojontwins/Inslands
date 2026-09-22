@@ -9,8 +9,8 @@ import net.minecraft.world.level.levelgen.feature.trees.WorldGenTrees;
 
 public class BiomeGenBetaForest extends BiomeGenBeta {
 
-	public BiomeGenBetaForest() {
-		super ();
+	public BiomeGenBetaForest(int id) {
+		super(id);
 		
 		this.biomeColor = 353825;
 		this.redFlowersAttempts = 4;

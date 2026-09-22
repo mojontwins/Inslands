@@ -20,8 +20,8 @@ import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenThemeHell extends BiomeGenBase {
 
-	public BiomeGenThemeHell() {
-		super();
+	public BiomeGenThemeHell(int id) {
+		super(id);
 		this.overrideSkyColor = 0x100400;
 		this.overrideFogColor = 0x100400;
 		this.overrideCloudColor = 0x210800;

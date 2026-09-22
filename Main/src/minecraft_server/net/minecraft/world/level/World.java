@@ -1,5 +1,6 @@
 package net.minecraft.world.level;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,8 +16,8 @@ import com.mojang.nbt.NBTTagCompound;
 import com.mojontwins.minecraft.worldedit.WorldEdit;
 
 import ca.spottedleaf.starlight.StarlightEngine;
+
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.GlobalVars;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLightningBolt;
 import net.minecraft.world.entity.EntityLiving;
@@ -41,7 +42,6 @@ import net.minecraft.world.level.pathfinder.PathEntity;
 import net.minecraft.world.level.pathfinder.Pathfinder;
 import net.minecraft.world.level.pathfinder.PathfinderRelease;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
-import net.minecraft.world.level.theme.LevelThemeSettings;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.BlockFluid;
 import net.minecraft.world.level.tile.entity.TileEntity;
@@ -362,10 +362,9 @@ public class World implements IBlockAccess {
 
 	public void spawnPlayerWithLoadedChunks(EntityPlayer entityPlayer1) {
 		try {
-			NBTTagCompound nBTTagCompound2 = this.worldInfo.getPlayerNBTTagCompound();
+			NBTTagCompound nBTTagCompound2 = PlayerSaveData.read(this);
 			if(nBTTagCompound2 != null) {
 				entityPlayer1.readFromNBT(nBTTagCompound2);
-				this.worldInfo.setPlayerNBTTagCompound((NBTTagCompound)null);
 			}
 
 			int px = MathHelper.floor_double(entityPlayer1.posX);
@@ -399,8 +398,32 @@ public class World implements IBlockAccess {
 
 	private void saveLevel() {
 		this.checkSessionLock();
-		this.saveHandler.saveWorldInfoAndPlayer(this.worldInfo, this.playerEntities);
+
+		// §4.2: keep the per-world remembered exit position fresh in level.dat so a
+		// crash cannot lose it. Skipped for the nether, whose level.dat is shared
+		// with its parent world.
+		if(this.worldProvider.dimensionId != 1 && this.playerEntities.size() > 0) {
+			EntityPlayer player = (EntityPlayer)this.playerEntities.get(0);
+			if(player != null) {
+				this.worldInfo.setLastPosition(MathHelper.floor_double(player.posX), MathHelper.floor_double(player.posY), MathHelper.floor_double(player.posZ), player.rotationYaw, player.rotationPitch);
+			}
+		}
+
+		this.saveHandler.saveWorldInfo(this.worldInfo);
 		this.mapStorage.saveAllData();
+
+		// §5.11 (SP): the active world refreshes the canonical player snapshot in
+		// the save root's player.dat (position, rotation, inventory, stats, XP,
+		// CurrentWorldId). The snapshot is what the next startWorld reads to decide
+		// which world to boot into and where to drop the player. Guarded by
+		// player.worldObj == this so a stale world left over from a portal
+		// transition never stamps the root snapshot.
+		if(this.playerEntities.size() > 0) {
+			EntityPlayer player = (EntityPlayer)this.playerEntities.get(0);
+			if(player.worldObj == this) {
+				PlayerSaveData.write(this, player);
+			}
+		}
 	}
 
 	public boolean quickSaveWorld(int i1) {
@@ -1340,85 +1363,7 @@ public class World implements IBlockAccess {
 	}
 	
 	public Vec3D getSkyColor(Entity entity1, float renderPartialTick) {
-		float celestialAngle = this.getCelestialAngle(renderPartialTick);
-		float celestialLight = MathHelper.cos(celestialAngle * (float)Math.PI * 2.0F) * 2.0F + 0.5F;
-		if(celestialLight < 0.0F) {
-			celestialLight = 0.0F;
-		}
-
-		if(celestialLight > 1.0F) {
-			celestialLight = 1.0F;
-		}
-
-		int skyColor;
-		int x = (int)entity1.posX;
-		int z = (int)entity1.posZ;
-		BiomeGenBase biome = this.getBiomeGenAt(x, z);
-		
-		if(biome != null && biome.overrideSkyColor != -1) {
-			skyColor = biome.overrideSkyColor;
-		} else {
-			skyColor = Seasons.getSkyColorForToday();
-		}
-		
-		float r = (float)(skyColor >> 16 & 255L) / 255.0F;
-		float g = (float)(skyColor >> 8 & 255L) / 255.0F;
-		float b = (float)(skyColor & 255L) / 255.0F;
-		r *= celestialLight;
-		g *= celestialLight;
-		b *= celestialLight;
-		
-		/*
-		float skyColorComponent;
-		float skyColorAtenuation;
-		
-		float rainAtenuation = this.getRainStrength(renderPartialTick);
-		
-		if(rainAtenuation > 0.0F) {
-			skyColorComponent = (r * 0.3F + g * 0.59F + b * 0.11F) * 0.6F;
-			skyColorAtenuation = 1.0F - rainAtenuation * 0.75F;
-			r = r * skyColorAtenuation + skyColorComponent * (1.0F - skyColorAtenuation);
-			g = g * skyColorAtenuation + skyColorComponent * (1.0F - skyColorAtenuation);
-			b = b * skyColorAtenuation + skyColorComponent * (1.0F - skyColorAtenuation);
-		}
-
-		float thunderingAtenuation = this.getWeightedThunderStrength(renderPartialTick);
-		if(thunderingAtenuation > 0.0F) {
-			skyColorComponent = (r * 0.3F + g * 0.59F + b * 0.11F) * 0.2F;
-			skyColorAtenuation = 1.0F - thunderingAtenuation * 0.75F;
-			r = r * skyColorAtenuation + skyColorComponent * (1.0F - skyColorAtenuation);
-			g = g * skyColorAtenuation + skyColorComponent * (1.0F - skyColorAtenuation);
-			b = b * skyColorAtenuation + skyColorComponent * (1.0F - skyColorAtenuation);
-		}
-		*/
-		
-		float atenuationStrength = this.getRainStrength(renderPartialTick) + this.getWeightedThunderStrength(renderPartialTick) - this.getSnowStrength(renderPartialTick);
-		if(atenuationStrength >= 0.0F) {
-			if(atenuationStrength >= 1.0F) atenuationStrength = 1.0F;
-			float skyColorComponent = (r * 0.3F + g * 0.59F + b * 0.11F) * 0.2F;
-			float skyColorAtenuation = 1.0F - atenuationStrength * 0.75F;
-			r = r * skyColorAtenuation + skyColorComponent * (1.0F - skyColorAtenuation);
-			g = g * skyColorAtenuation + skyColorComponent * (1.0F - skyColorAtenuation);
-			b = b * skyColorAtenuation + skyColorComponent * (1.0F - skyColorAtenuation);
-		}		
-
-		if(this.lightningFlash > 0) {
-			float lightning = (float)this.lightningFlash - renderPartialTick;
-			if(lightning > 1.0F) {
-				lightning = 1.0F;
-			}
-
-			lightning *= 0.45F;
-			r = r * (1.0F - lightning) + 0.8F * lightning;
-			g = g * (1.0F - lightning) + 0.8F * lightning;
-			b = b * (1.0F - lightning) + 1.0F * lightning;
-		} else {
-			r *= LevelThemeGlobalSettings.lightMultiplier;
-			g *= LevelThemeGlobalSettings.lightMultiplier;
-			b *= LevelThemeGlobalSettings.lightMultiplier;
-		}
-
-		return Vec3D.createVector((double)r, (double)g, (double)b);
+		return this.worldProvider.getSkyColor(this, entity1, renderPartialTick);
 	}
 
 	public float getCelestialAngle(float f1) {
@@ -1535,7 +1480,6 @@ public class World implements IBlockAccess {
 			if(i8 == nextTickListEntry6.blockID && i8 > 0) {
 				Block.blocksList[i8].updateTick(this, nextTickListEntry6.xCoord, nextTickListEntry6.yCoord, nextTickListEntry6.zCoord, this.rand);
 			}
-
 		} else {
 			if(i4 > 0) {
 				nextTickListEntry6.setScheduledTime((long)i5 + this.worldInfo.getWorldTime());
@@ -1545,7 +1489,6 @@ public class World implements IBlockAccess {
 				this.scheduledTickSet.add(nextTickListEntry6);
 				this.scheduledTickTreeSet.add(nextTickListEntry6);
 			}
-
 		}
 	}
 
@@ -3193,7 +3136,7 @@ public class World implements IBlockAccess {
 		Entity entity2;
 		int i3;
 		int i4;
-
+		
 		for(i1 = 0; i1 < this.loadedEntityList.size(); ++i1) {
 			entity2 = (Entity)this.loadedEntityList.get(i1);
 			if(entity2.ridingEntity != null) {
@@ -3443,40 +3386,6 @@ public class World implements IBlockAccess {
 
 	public void setBlockAndMetadata(int x, int y, int z, BlockState blockState) {
 		this.setBlockAndMetadata(x, y, z, blockState.getBlock().blockID, blockState.getMetadata());
-	}
-
-	public boolean levelIsValidUponWorldTheme() {
-		System.out.println ("Running level theme specific inits");
-		LevelThemeGlobalSettings.getTheme().levelThemeSpecificInits(this);
-		
-		if(this.isNewWorld && LevelThemeGlobalSettings.levelChecks) {	
-			// World theme based invalidations ahead!
-			
-			// Paradise must have at least one bronze dungeon
-			if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.paradise.id) {
-				if(!GlobalVars.hasBronzeDungeon) {
-					System.out.println ("No bronze dungeon in paradise -> bad level");
-					return false;
-				}
-			}
-			
-			// Forest must have 
-			if(LevelThemeGlobalSettings.themeID == LevelThemeSettings.forest.id) { 
-				if(!this.worldInfo.getTerrainType().isIslandTerrain()) {
-					// a) A minotaur maze which main body is under y = 64, for island terrain.
-					System.out.println ("No minoshroom maze -> bad level");
-					if(!GlobalVars.hasCorrectMinoshroomMaze) return false;
-				} 
-				
-				// b) At least one maze
-				if(GlobalVars.numUnderHillMazes + GlobalVars.numHedgeMazes == 0) {
-					System.out.println ("Hill mazes = " + GlobalVars.numUnderHillMazes + ", hedge mazes = " + GlobalVars.numHedgeMazes + " -> bad level.");
-					return false;
-				}
-			}
-		}
-		
-		return true;
 	}
 
 	@Override

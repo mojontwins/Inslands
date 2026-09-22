@@ -13,14 +13,20 @@ import com.mojang.nbt.NBTTagCompound;
 import net.minecraft.world.level.chunk.storage.ISaveHandler;
 import net.minecraft.world.level.chunk.storage.SaveHandler;
 
-public class WoolPortalRegistry {
+/**
+ * Portal linking and linked-world identity. Allocates permanent world ids
+ * (2..255), persists the counter in portals.dat, resolves the base save folder
+ * and main seed for any world (including linked worlds and the shared nether),
+ * and picks random linked worlds for portal travel.
+ */
+public class PortalRegistry {
 	public static final int FIRST_WORLD_ID = 2;
 	public static final int LAST_WORLD_ID = 255;
 
 	private final File saveDirectory;
 	private int nextId;
 
-	public WoolPortalRegistry(File saveDirectory) {
+	public PortalRegistry(File saveDirectory) {
 		this.saveDirectory = saveDirectory;
 		this.nextId = FIRST_WORLD_ID;
 		if(this.saveDirectory != null) {

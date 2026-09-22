@@ -1,21 +1,21 @@
 package net.minecraft.world.level.biome;
 
 public class BiomeGenBeta extends BiomeGenBase {
-	public static BiomeGenBase iceDesert = new BiomeGenIceDesert().setBiomeName("Ice Desert");
-	public static BiomeGenBase betaTundra = new BiomeGenBetaTundra().setBiomeName("Tundra");
-	public static BiomeGenBase arctic = new BiomeGenArctic().setBiomeName("Arctic");
-	public static BiomeGenBase savanna = new BiomeGenSavanna().setBiomeName("Savanna");
-	public static BiomeGenBase betaDesert = new BiomeGenBetaDesert().setBiomeName("Desert");
-	public static BiomeGenBase swamp = new BiomeGenSwampLand().setBiomeName("Swamp");
-	public static BiomeGenBase betaTaiga = new BiomeGenBetaTaiga().setBiomeName("Taiga");
-	public static BiomeGenBase shrubland = new BiomeGenShrubland().setBiomeName("Shrubland");
-	public static BiomeGenBase betaForest = new BiomeGenBetaForest().setBiomeName("Forest");
-	public static BiomeGenBase betaPlains = new BiomeGenBetaPlains().setBiomeName("Plains");
-	public static BiomeGenBase rainForest = new BiomeGenRainForest().setBiomeName("Rainforest");
-	public static BiomeGenBase seasonalForest = new BiomeGenSeasonalForest().setBiomeName("Seasonal Forest");
+	public static BiomeGenBase iceDesert = new BiomeGenIceDesert(32).setBiomeName("Ice Desert");
+	public static BiomeGenBase betaTundra = new BiomeGenBetaTundra(33).setBiomeName("Tundra");
+	public static BiomeGenBase arctic = new BiomeGenArctic(34).setBiomeName("Arctic");
+	public static BiomeGenBase savanna = new BiomeGenSavanna(35).setBiomeName("Savanna");
+	public static BiomeGenBase betaDesert = new BiomeGenBetaDesert(36).setBiomeName("Desert");
+	public static BiomeGenBase swamp = new BiomeGenSwampLand(37).setBiomeName("Swamp");
+	public static BiomeGenBase betaTaiga = new BiomeGenBetaTaiga(38).setBiomeName("Taiga");
+	public static BiomeGenBase shrubland = new BiomeGenShrubland(39).setBiomeName("Shrubland");
+	public static BiomeGenBase betaForest = new BiomeGenBetaForest(40).setBiomeName("Forest");
+	public static BiomeGenBase betaPlains = new BiomeGenBetaPlains(41).setBiomeName("Plains");
+	public static BiomeGenBase rainForest = new BiomeGenRainForest(42).setBiomeName("Rainforest");
+	public static BiomeGenBase seasonalForest = new BiomeGenSeasonalForest(43).setBiomeName("Seasonal Forest");
 	
-	public BiomeGenBeta() {
-		super();
+	public BiomeGenBeta(int id) {
+		super(id);
 	}
 	
 	public static BiomeGenBase getBiome(float temperature, float humidity) {

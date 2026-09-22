@@ -734,24 +734,19 @@ public class LevelRenderer implements IWorldAccess {
 		if(!this.mc.theWorld.worldProvider.isNether) {
 			// ## SKY ##
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			// 
 			Vec3D skyColor = this.worldObj.getSkyColor(this.mc.renderViewEntity, partialTicks);
 			float skyRed = (float)skyColor.xCoord;
 			float skyGreen = (float)skyColor.yCoord;
 			float skyBlue = (float)skyColor.zCoord;
-			if(this.mc.gameSettings.anaglyph) {
-				// Split the sky color into the two anaglyph eye images.
-				float luma = (skyRed * 30.0F + skyGreen * 59.0F + skyBlue * 11.0F) / 100.0F;
-				float redChannel = (skyRed * 30.0F + skyGreen * 70.0F) / 100.0F;
-				float blueChannel = (skyRed * 30.0F + skyBlue * 70.0F) / 100.0F;
-				skyRed = luma;
-				skyGreen = redChannel;
-				skyBlue = blueChannel;
-			}
-
+			
 			GL11.glColor3f(skyRed, skyGreen, skyBlue);
+			
 			Tessellator tessellator = Tessellator.instance;
 			GL11.glDepthMask(false);
 			if(Config.isSkyEnabled()) {
+				GL11.glEnable(GL11.GL_FOG);
+				GL11.glColor3f(skyRed, skyGreen, skyBlue);
 				GL11.glCallList(this.glSkyList);
 			}
 
@@ -803,8 +798,10 @@ public class LevelRenderer implements IWorldAccess {
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 			GL11.glPushMatrix();
+			
 			// Sun and moon with additive blending, dimmed while it rains. During a blood moon the
 			// moon turns red and grows to 2.5x its normal size.
+			
 			float daylightFactor = 1.0F - this.worldObj.getRainStrength(partialTicks);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, daylightFactor);
 			GL11.glRotatef(this.worldObj.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
@@ -831,6 +828,9 @@ public class LevelRenderer implements IWorldAccess {
 			tessellator.addVertexWithUV((double)(-sunMoonSize), -100.0D, (double)(-sunMoonSize), 1.0D, 0.0D);
 			tessellator.draw();
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			
+			// Stars
+			
 			float starBrightness = this.worldObj.getStarBrightness(partialTicks) * daylightFactor;
 			if(starBrightness > 0.0F) {
 				GL11.glColor4f(starBrightness, starBrightness, starBrightness, starBrightness);
@@ -844,13 +844,11 @@ public class LevelRenderer implements IWorldAccess {
 			GL11.glEnable(GL11.GL_ALPHA_TEST);
 			GL11.glEnable(GL11.GL_FOG);
 			GL11.glPopMatrix();
-			if(this.worldObj.worldProvider.func_28112_c()) {
-				GL11.glColor3f(skyRed * 0.2F + 0.04F, skyGreen * 0.2F + 0.04F, skyBlue * 0.6F + 0.1F);
-			} else {
-				GL11.glColor3f(skyRed, skyGreen, skyBlue);
-			}
-
+			
+			GL11.glColor3f(skyRed, skyGreen, skyBlue);
+	
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			
 			if(Config.isSkyEnabled()) {
 				GL11.glCallList(this.glSkyList2);
 			}

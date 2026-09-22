@@ -22,8 +22,8 @@ public class BiomeGenMesa extends BiomeGenBase {
 	private NoiseGeneratorPerlin layerNoiseGen;
 	private boolean forested = false;
 	
-	public BiomeGenMesa(boolean forested) {
-		super();
+	public BiomeGenMesa(int id, boolean forested) {
+		super(id);
 		this.forested = forested;
 		
 		this.treeBaseAttemptsModifier = -10;

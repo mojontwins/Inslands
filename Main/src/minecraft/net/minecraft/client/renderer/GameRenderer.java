@@ -1030,15 +1030,6 @@ public class GameRenderer {
 			this.fogColorBlue  = this.fogColorBlue  * (1.0F - nVB) + this.fogColorBlue  * fNV * nVB;
 		}
 
-		if(this.mc.gameSettings.anaglyph) {
-			float f13 = (this.fogColorRed * 30.0F + this.fogColorGreen * 59.0F + this.fogColorBlue * 11.0F) / 100.0F;
-			float f14 = (this.fogColorRed * 30.0F + this.fogColorGreen * 70.0F) / 100.0F;
-			float f15 = (this.fogColorRed * 30.0F + this.fogColorBlue * 70.0F) / 100.0F;
-			this.fogColorRed = f13;
-			this.fogColorGreen = f14;
-			this.fogColorBlue = f15;
-		}
-
 		GL11.glClearColor(this.fogColorRed, this.fogColorGreen, this.fogColorBlue, 0.0F);
 	}
 
@@ -1074,23 +1065,15 @@ public class GameRenderer {
 			if(this.cloudFog) {
 				GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
 				GL11.glFogf(GL11.GL_FOG_DENSITY, 0.1F);
-				if(this.mc.gameSettings.anaglyph) {
-				}
 			} else if(entityLiving3.isInsideOfMaterial(Material.water) && !((EntityPlayer)entityLiving3).divingHelmetOn()) {
 				GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
 				GL11.glFogf(GL11.GL_FOG_DENSITY, 0.1F);
-				if(this.mc.gameSettings.anaglyph) {
-				}
 			} else if(entityLiving3.isInsideOfMaterial(Material.acid)) {
 				GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
 				GL11.glFogf(GL11.GL_FOG_DENSITY, 0.1F);
-				if(this.mc.gameSettings.anaglyph) {
-				}
 			} else if(entityLiving3.isInsideOfMaterial(Material.lava)) {
 				GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
 				GL11.glFogf(GL11.GL_FOG_DENSITY, 2.0F);
-				if(this.mc.gameSettings.anaglyph) {
-				}
 			} else {
 				GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_LINEAR);
 				GL11.glFogf(GL11.GL_FOG_START, this.farPlaneDistance * 0.25F);

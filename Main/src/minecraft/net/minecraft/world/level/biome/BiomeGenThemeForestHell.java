@@ -10,8 +10,8 @@ import net.minecraft.world.level.levelgen.feature.trees.WorldGenPopsicleshroom;
 
 public class BiomeGenThemeForestHell extends BiomeGenHell {
 
-	public BiomeGenThemeForestHell() {
-		super();
+	public BiomeGenThemeForestHell(int id) {
+		super(id);
 	}
 
 	public void populate(World world, Random rand, int chunkX, int chunkZ) {

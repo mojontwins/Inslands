@@ -54,8 +54,8 @@ public class BiomeGenThemeForest extends BiomeGenForest {
 	
 	private int myceliumPerChunk = 8;
 	
-	public BiomeGenThemeForest() {
-		super();
+	public BiomeGenThemeForest(int id) {
+		super(id);
 		this.overrideSkyColor = 0x757D87;
 		this.overrideFogColor = 0x4D5A5B;
 		this.overrideCloudColor = 0x4D5A5B;

@@ -23,8 +23,8 @@ import net.minecraft.world.level.levelgen.feature.trees.WorldGenSwamp;
 import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenSwampLand extends BiomeGenBeta {
-	public BiomeGenSwampLand () {
-		super();
+	public BiomeGenSwampLand(int id) {
+		super(id);
 		
 		this.biomeColor = 522674;
 		

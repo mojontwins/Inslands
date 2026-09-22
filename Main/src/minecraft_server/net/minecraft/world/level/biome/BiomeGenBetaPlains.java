@@ -9,8 +9,8 @@ import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenBetaPlains extends BiomeGenBeta {
 
-	public BiomeGenBetaPlains() {
-		super();
+	public BiomeGenBetaPlains(int id) {
+		super(id);
 		this.treeBaseAttemptsModifier = -5;
 		this.yellowFlowersAttempts = 12;
 		this.redFlowersAttempts = 12;

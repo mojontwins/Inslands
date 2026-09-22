@@ -19,8 +19,8 @@ import net.minecraft.world.level.levelgen.feature.trees.WorldGenShrub;
 import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenTundra extends BiomeGenPlains {
-	public BiomeGenTundra() {
-		super();
+	public BiomeGenTundra(int id) {
+		super(id);
 		this.pumpkinChance = 0;
 		
 		this.weather = Weather.cold;

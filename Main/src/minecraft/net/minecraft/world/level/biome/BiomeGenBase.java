@@ -37,25 +37,24 @@ public class BiomeGenBase {
 	// safely register into it during class initialisation.
 	private static final Map<Integer, BiomeGenBase> biomesByCode = new HashMap<Integer, BiomeGenBase>();
 
-	public static final BiomeGenBase biomeDefault = new BiomeGenBase().setBiomeName("Default Alpha");
+	public static final BiomeGenBase biomeDefault = new BiomeGenBase(0).setBiomeName("Default Alpha");
 	
 	// Level themes
-	public static final BiomeGenBase themeHell = new BiomeGenThemeHell().setBiomeName("Hell").setTemperatureRainfall(1.0, 0);
-	public static final BiomeGenBase themeForest = new BiomeGenThemeForest().setBiomeName("Forest").setTemperatureRainfall(.5, .8);
-	public static final BiomeGenBase themeParadise = new BiomeGenThemeParadise().setBiomeName("Paradise").setTemperatureRainfall(.6, .6);
-	public static final BiomeGenBase themeForestHell = new BiomeGenThemeForestHell().setBiomeName("Forest Hell").setDisableRain().setTemperatureRainfall(1, 0);
-	public static final BiomeGenBase themeHellHell = new BiomeGenThemeHellHell().setBiomeName("Hell Hell").setDisableRain().setTemperatureRainfall(1, 0);
-	public static final BiomeGenBase themePoison = new BiomeGenThemePoisonIsland().setBiomeName("Poison Island").setTemperatureRainfall(.5, .5);
-	public static final BiomeGenBase themeWhiteForest = new BiomeGenThemeWhiteForest().setBiomeName("White Jungle").setTemperatureRainfall(.2, .9);
-	public static final BiomeGenBase themeCaves = new BiomeGenThemeCaves().setBiomeName("Cave").setTemperatureRainfall(.6, 0);
+	public static final BiomeGenBase themeHell = new BiomeGenThemeHell(1).setBiomeName("Hell").setTemperatureRainfall(1.0, 0);
+	public static final BiomeGenBase themeForest = new BiomeGenThemeForest(2).setBiomeName("Forest").setTemperatureRainfall(.5, .8);
+	public static final BiomeGenBase themeParadise = new BiomeGenThemeParadise(3).setBiomeName("Paradise").setTemperatureRainfall(.6, .6);
+	public static final BiomeGenBase themeForestHell = new BiomeGenThemeForestHell(4).setBiomeName("Forest Hell").setDisableRain().setTemperatureRainfall(1, 0);
+	public static final BiomeGenBase themeHellHell = new BiomeGenThemeHellHell(5).setBiomeName("Hell Hell").setDisableRain().setTemperatureRainfall(1, 0);
+	public static final BiomeGenBase themePoison = new BiomeGenThemePoisonIsland(6).setBiomeName("Poison Island").setTemperatureRainfall(.5, .5);
+	public static final BiomeGenBase themeWhiteForest = new BiomeGenThemeWhiteForest(7).setBiomeName("White Jungle").setTemperatureRainfall(.2, .9);
+	public static final BiomeGenBase themeCaves = new BiomeGenThemeCaves(8).setBiomeName("Cave").setTemperatureRainfall(.6, 0);
 	
 	// Leave these for compatibility
-	public static final BiomeGenBase hell = (new BiomeGenHell()).setColor(16711680).setBiomeName("Hell").setDisableRain();
-	public static final BiomeGenBase sky = (new BiomeGenSky()).setColor(8421631).setBiomeName("Sky").setDisableRain();
+	public static final BiomeGenBase hell = (new BiomeGenHell(64)).setColor(16711680).setBiomeName("Hell").setDisableRain();
+	public static final BiomeGenBase sky = (new BiomeGenSky(65)).setColor(8421631).setBiomeName("Sky").setDisableRain();
 
 	public String biomeName = "Default Alpha";
 	public int biomeCode = 0;
-	public static int currentBiomeCode = 0;
 	
 	private static BiomeGenBase biomeLookupTable [] = new BiomeGenBase[64*64];
 
@@ -74,7 +73,7 @@ public class BiomeGenBase {
 	
 	public WorldGenBo3Tree bo3Tree = new WorldGenBo3Tree();
 
-	protected BiomeGenBase() {
+	protected BiomeGenBase(int id) {
 		this.spawnableMonsterList.add(new SpawnListEntry(EntitySpider.class, 10));
 		this.spawnableMonsterList.add(new SpawnListEntry(EntityZombie.class, 10));
 		this.spawnableMonsterList.add(new SpawnListEntry(EntitySkeleton.class, 10));
@@ -88,7 +87,7 @@ public class BiomeGenBase {
 		
 		this.spawnableWaterCreatureList.add(new SpawnListEntry(EntitySquid.class, 5));
 		
-		this.biomeCode = BiomeGenBase.currentBiomeCode ++;
+		this.biomeCode = id;
 		
 		// Register this biome instance so the per-chunk biome cache can be restored by code.
 		biomesByCode.put(Integer.valueOf(this.biomeCode), this);

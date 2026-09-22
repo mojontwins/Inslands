@@ -10,18 +10,6 @@ import net.minecraft.world.level.tile.Block;
 
 public class WorldProviderSky extends WorldProvider {
 
-	/*
-	public float calculateCelestialAngle(long j1, float f3) {
-		return 0.0F;
-	}
-	*/
-
-	/*
-	public float[] calcSunriseSunsetColors(float f1, float f2) {
-		return null;
-	}
-	*/
-
 	public boolean func_28112_c() {
 		return false;
 	}
@@ -66,8 +54,12 @@ public class WorldProviderSky extends WorldProvider {
 			}
 		}
 		
-		if(!world.findingSpawnPoint) {
-			this.generateSpawnHouse(world);
-		}
+		if(world.findingSpawnPoint) {
+			// Fall back
+			super.setInitialSpawnLocation(world);
+			return;
+		} 
+		
+		this.generateSpawnHouse(world);
 	}
 }

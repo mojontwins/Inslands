@@ -1,7 +1,6 @@
 package net.minecraft.server;
 
 import java.io.File;
-import java.util.List;
 
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.WorldInfo;
@@ -28,12 +27,6 @@ public class PlayerNBTManager implements ISaveHandler {
 	public IChunkLoader getChunkLoader(WorldProvider worldProvider1) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void saveWorldInfoAndPlayer(WorldInfo worldInfo1, List<EntityPlayer> list2) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

@@ -59,6 +59,8 @@ Main/src/
 | `GlobalVars.java` | `src/minecraft_server/net/minecraft/world/` | Mod-wide global state flags |
 | `Seasons.java` | Both source trees | 4-season cycle system |
 | `WorldSize.java` | Both source trees | Configurable limited world sizes |
+| `PlayerSaveData.java` | Both source trees | Single root `player.dat` persistence (inventory, stats, position, CurrentWorldId) |
+| `PortalRegistry.java` | Both source trees | Linked-world id allocation (`portals.dat`), base save folder / seed resolution |
 
 ## Theme system
 

@@ -10,8 +10,8 @@ import net.minecraft.world.level.levelgen.feature.trees.WorldGenWillow;
 
 public class BiomeGenShrubland extends BiomeGenBetaForest {
 
-	public BiomeGenShrubland() {
-		super();
+	public BiomeGenShrubland(int id) {
+		super(id);
 		
 		this.deadBushAttempts = 4;
 		this.tallGrassAttempts = 8;

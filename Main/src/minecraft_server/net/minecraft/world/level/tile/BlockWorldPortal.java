@@ -9,7 +9,7 @@ import net.minecraft.world.level.WorldSettings;
 import net.minecraft.world.level.WorldNameGen;
 import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.WorldType;
-import net.minecraft.world.level.WoolPortalRegistry;
+import net.minecraft.world.level.PortalRegistry;
 import net.minecraft.world.level.chunk.storage.SaveOldDir;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
@@ -63,10 +63,10 @@ public class BlockWorldPortal extends Block {
 		if(world == null || world.worldProvider.isNether) return -1;
 		if(themeId < 0 || themeId >= LevelThemeSettings.allThemeSettings.size()) return -1;
 
-		File saveDirectory = WoolPortalRegistry.getBaseSaveDirectory(world);
+		File saveDirectory = PortalRegistry.getBaseSaveDirectory(world);
 		if(saveDirectory == null) return -1;
 
-		WoolPortalRegistry registry = new WoolPortalRegistry(saveDirectory);
+		PortalRegistry registry = new PortalRegistry(saveDirectory);
 		int worldId = registry.allocateWorldId();
 		boolean brandNew = worldId >= 0;
 		if(!brandNew) {
@@ -75,7 +75,7 @@ public class BlockWorldPortal extends Block {
 		}
 
 		if(brandNew) {
-			long baseSeed = WoolPortalRegistry.getBaseSeed(world);
+			long baseSeed = PortalRegistry.getBaseSeed(world);
 			long seed = WorldNameGen.deriveSeed(baseSeed, worldId);
 			String name = WorldNameGen.getName(baseSeed, worldId);
 

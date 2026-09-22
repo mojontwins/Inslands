@@ -423,5 +423,63 @@ public abstract class WorldProvider {
 		
 		return lightmapColors;
 	}
+	
+	public Vec3D getSkyColor(World world, Entity entity1, float renderPartialTick) {
+		float celestialAngle = world.getCelestialAngle(renderPartialTick);
+		float celestialLight = MathHelper.cos(celestialAngle * (float)Math.PI * 2.0F) * 2.0F + 0.5F;
+		if(celestialLight < 0.0F) {
+			celestialLight = 0.0F;
+		}
+
+		if(celestialLight > 1.0F) {
+			celestialLight = 1.0F;
+		}
+
+		int skyColor;
+		int x = (int)entity1.posX;
+		int z = (int)entity1.posZ;
+		BiomeGenBase biome = world.getBiomeGenAt(x, z);
+		
+		if(biome != null && biome.overrideSkyColor != -1) {
+			skyColor = biome.overrideSkyColor;
+		} else {
+			skyColor = Seasons.getSkyColorForToday();
+		}
+		
+		float r = (float)(skyColor >> 16 & 255L) / 255.0F;
+		float g = (float)(skyColor >> 8 & 255L) / 255.0F;
+		float b = (float)(skyColor & 255L) / 255.0F;
+		r *= celestialLight;
+		g *= celestialLight;
+		b *= celestialLight;
+		
+		float atenuationStrength = world.getRainStrength(renderPartialTick) + world.getWeightedThunderStrength(renderPartialTick) - world.getSnowStrength(renderPartialTick);
+		if(atenuationStrength >= 0.0F) {
+			if(atenuationStrength >= 1.0F) atenuationStrength = 1.0F;
+			float skyColorComponent = (r * 0.3F + g * 0.59F + b * 0.11F) * 0.2F;
+			float skyColorAtenuation = 1.0F - atenuationStrength * 0.75F;
+			r = r * skyColorAtenuation + skyColorComponent * (1.0F - skyColorAtenuation);
+			g = g * skyColorAtenuation + skyColorComponent * (1.0F - skyColorAtenuation);
+			b = b * skyColorAtenuation + skyColorComponent * (1.0F - skyColorAtenuation);
+		}		
+
+		if(world.lightningFlash > 0) {
+			float lightning = (float)world.lightningFlash - renderPartialTick;
+			if(lightning > 1.0F) {
+				lightning = 1.0F;
+			}
+
+			lightning *= 0.45F;
+			r = r * (1.0F - lightning) + 0.8F * lightning;
+			g = g * (1.0F - lightning) + 0.8F * lightning;
+			b = b * (1.0F - lightning) + 1.0F * lightning;
+		} else {
+			r *= LevelThemeGlobalSettings.lightMultiplier;
+			g *= LevelThemeGlobalSettings.lightMultiplier;
+			b *= LevelThemeGlobalSettings.lightMultiplier;
+		}
+
+		return Vec3D.createVector((double)r, (double)g, (double)b);
+	}
 
 }

@@ -18,8 +18,4 @@ public interface ISaveFormat {
 	void deleteWorldDirectory(String string1);
 
 	void renameWorld(String string1, String string2);
-
-	boolean isOldMapFormat(String string1);
-
-	boolean converMapToMCRegion(String string1, IProgressUpdate iProgressUpdate2);
 }

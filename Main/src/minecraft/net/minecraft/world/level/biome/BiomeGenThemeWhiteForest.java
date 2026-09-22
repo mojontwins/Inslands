@@ -25,8 +25,8 @@ import net.minecraft.world.level.levelgen.feature.trees.WorldGenForest;
 import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenThemeWhiteForest extends BiomeGenBase {
-	public BiomeGenThemeWhiteForest() {
-		super();
+	public BiomeGenThemeWhiteForest(int id) {
+		super(id);
 		this.overrideSkyColor = 0xCCCCCC;
 		this.overrideFogColor = 0xEEEEEE;
 		this.overrideCloudColor = 0xEEEEFF;

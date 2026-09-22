@@ -1,6 +1,7 @@
 package net.minecraft.world;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.levelgen.city.MapGenCity;
 import net.minecraft.world.level.levelgen.mcfeature.FeatureAABB;
 
 public class GlobalVars {
@@ -21,6 +22,7 @@ public class GlobalVars {
 	public static int noiseOffsetZ = 0;
 	
 	public static void initializeGameFlags() {
+		MapGenCity.cityChunks.clear();
 		hasBronzeDungeon = false;
 		hasCorrectMinoshroomMaze = false;
 		numUnderHillMazes = 0;

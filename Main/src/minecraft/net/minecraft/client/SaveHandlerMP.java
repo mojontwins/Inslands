@@ -1,7 +1,6 @@
 package net.minecraft.client;
 
 import java.io.File;
-import java.util.List;
 
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.WorldInfo;
@@ -19,9 +18,6 @@ public class SaveHandlerMP implements ISaveHandler {
 
 	public IChunkLoader getChunkLoader(WorldProvider worldProvider1) {
 		return null;
-	}
-
-	public void saveWorldInfoAndPlayer(WorldInfo worldInfo1, List<EntityPlayer> list2) {
 	}
 
 	public void saveWorldInfo(WorldInfo worldInfo1) {

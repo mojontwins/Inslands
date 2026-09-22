@@ -23,8 +23,8 @@ public class BiomeGenThemePoisonIsland extends BiomeGenBase {
 
 	WorldGenerator treeGen = new WorldGenTrees();
 	
-	public BiomeGenThemePoisonIsland() {
-		super();
+	public BiomeGenThemePoisonIsland(int id) {
+		super(id);
 		this.overrideSkyColor = 0x0b0c33;
 		this.overrideFogColor = 0x3ab14e;
 		this.overrideCloudColor = 0x4d4fa0;

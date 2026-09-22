@@ -186,11 +186,6 @@ public class MinecraftServer implements Runnable, ICommandListener {
 
 	private void initWorld(ISaveFormat saveHandler, String folderName, long seed, WorldType worldType) {
 		BiomeGenBase.generateBiomeLookup();
-		
-		if(saveHandler.isOldMapFormat(folderName)) {
-			logger.info("Converting map!");
-			saveHandler.converMapToMCRegion(folderName, new ConvertProgressUpdater(this));
-		}
 
 		this.worldMngr = new WorldServer[2];
 		boolean generateStructures = this.propertyManagerObj.getBooleanProperty("generate-structures", true);
@@ -235,18 +230,6 @@ public class MinecraftServer implements Runnable, ICommandListener {
 				// Pregenerate/preload all level
 				this.preloadWorld(worldMngr, newWorld);
 
-				if(newWorld && i == 0) {
-					if(worldMngr.findingSpawnPoint) {
-						logger.info("Could not find a valid spawn point for dim " + (i == 0 ? 0 : -1) + ". Retrying");
-						levelsAreOk = false;
-						break;
-					} else if(!worldMngr.levelIsValidUponWorldTheme()) {
-						logger.info("Generated overworld doesn't meet requirements for selected level theme " + LevelThemeSettings.findThemeById(LevelThemeGlobalSettings.themeID).name + ". Retrying");
-						levelsAreOk = false;
-						seed = worldMngr.rand.nextLong();
-						break;
-					}
-				}
 	
 			}
 			if(!levelsAreOk) {

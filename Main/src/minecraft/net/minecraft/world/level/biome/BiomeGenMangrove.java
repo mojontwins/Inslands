@@ -25,8 +25,8 @@ import net.minecraft.world.level.levelgen.feature.trees.WorldGenTrees;
 import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenMangrove extends BiomeGenBase {
-	public BiomeGenMangrove() {
-		super();
+	public BiomeGenMangrove(int id) {
+		super(id);
 		
 		this.bigTreesEach10Trees = 9;
 		this.treeBaseAttemptsModifier = 5;

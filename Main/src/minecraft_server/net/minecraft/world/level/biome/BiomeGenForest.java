@@ -14,8 +14,8 @@ import net.minecraft.world.level.levelgen.feature.WorldGenSeaweed;
 import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenForest extends BiomeGenBase {
-	public BiomeGenForest() {
-		super();
+	public BiomeGenForest(int id) {
+		super(id);
 	}
 	
 	public int getAlgaeAmount() {

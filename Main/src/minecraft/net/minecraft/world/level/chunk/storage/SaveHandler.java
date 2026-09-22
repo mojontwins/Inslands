@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Logger;
 
 import com.mojang.nbt.CompressedStreamTools;
@@ -111,10 +110,6 @@ public class SaveHandler implements ISaveHandler {
 		}
 
 		return null;
-	}
-
-	public void saveWorldInfoAndPlayer(WorldInfo worldInfo1, List<EntityPlayer> list2) {
-		this.writeLevelData(worldInfo1.getNBTTagCompoundWithPlayer(list2));
 	}
 
 	/** Writes the Data compound to level.dat using the standard _new/_old rotation. */

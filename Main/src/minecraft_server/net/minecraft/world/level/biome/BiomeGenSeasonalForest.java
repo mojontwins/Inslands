@@ -2,8 +2,8 @@ package net.minecraft.world.level.biome;
 
 public class BiomeGenSeasonalForest extends BiomeGenBetaForest {
 
-	public BiomeGenSeasonalForest() {
-		super ();
+	public BiomeGenSeasonalForest(int id) {
+		super(id);
 		
 		this.biomeColor = 10215459;
 		this.redFlowersAttempts = 4;

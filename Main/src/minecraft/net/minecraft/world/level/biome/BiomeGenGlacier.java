@@ -39,7 +39,9 @@ public class BiomeGenGlacier extends BiomeGenBase {
 	private PerlinNoiseGenerator noiseGen1;
 	private PerlinNoiseGenerator noiseGen2;
 
-	public BiomeGenGlacier() {
+	public BiomeGenGlacier(int id) {
+		super (id);
+		
 		this.topBlock = (byte)Block.blockSnow.blockID;
 		this.fillerBlock = (byte)Block.ice.blockID;
 		

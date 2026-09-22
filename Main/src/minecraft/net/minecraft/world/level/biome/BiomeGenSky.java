@@ -1,7 +1,8 @@
 package net.minecraft.world.level.biome;
 
 public class BiomeGenSky extends BiomeGenBase {
-	public BiomeGenSky() {
+	public BiomeGenSky(int id) {
+		super(id);
 		/*
 		this.spawnableMonsterList.clear();
 		this.spawnableCreatureList.clear();

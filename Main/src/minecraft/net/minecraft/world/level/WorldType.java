@@ -58,7 +58,7 @@ public enum WorldType {
 			return new ChunkProviderIndev(world, world.getRandomSeed(), world.getWorldInfo().isMapFeaturesEnabled(), world.getWorldInfo().isLayeredSand());
 		}
 	},
-	CAVES(5, "caves", 1) {
+	CAVES(5, "caves", 1, false) {
 		@Override
 		public IChunkProvider getChunkGenerator(World world) {
 			return new ChunkProviderCaves(world, world.getRandomSeed(), world.getWorldInfo().isMapFeaturesEnabled(), world.getWorldInfo().isLayeredSand());

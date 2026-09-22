@@ -639,6 +639,7 @@ public class TFGenHillMaze extends TFGenerator {
 		TileEntityMobSpawnerOneshot spawner = (TileEntityMobSpawnerOneshot)this.worldObj.getBlockTileEntity(dx, dy, dz);
 		if(spawner != null) {
 			spawner.setMobID("Minoshroom");
+			System.out.println ("A wild Minoshroom appeared @ " + dx + " " + dy + " " + dz + "!");
 			return true;
 		} else {
 			return false;

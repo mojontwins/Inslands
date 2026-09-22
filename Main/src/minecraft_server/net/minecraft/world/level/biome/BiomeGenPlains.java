@@ -8,8 +8,8 @@ import net.minecraft.world.level.levelgen.feature.WorldGenLakes;
 import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenPlains extends BiomeGenBase {
-	public BiomeGenPlains() {
-		super();
+	public BiomeGenPlains(int id) {
+		super(id);
 		this.treeBaseAttemptsModifier = -5;
 		this.yellowFlowersAttempts = 12;
 		this.redFlowersAttempts = 12;

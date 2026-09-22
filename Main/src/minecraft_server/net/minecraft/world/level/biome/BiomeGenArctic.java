@@ -19,8 +19,8 @@ import net.minecraft.world.level.tile.Block;
 
 public class BiomeGenArctic extends BiomeGenBeta {
 
-	public BiomeGenArctic() {
-		super ();
+	public BiomeGenArctic(int id) {
+		super(id);
 		
 		this.weather = Weather.cold;
 		this.biomeColor = 0xFEFEFE;

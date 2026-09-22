@@ -1,6 +1,7 @@
 package net.minecraft.world.level;
 
 import net.minecraft.world.level.chunk.IChunkProvider;
+import net.minecraft.world.level.levelgen.ChunkProviderCaves;
 import net.minecraft.world.level.levelgen.ChunkProviderGenerate;
 import net.minecraft.world.level.levelgen.ChunkProviderIndev;
 import net.minecraft.world.level.levelgen.ChunkProviderInfdev;
@@ -55,6 +56,17 @@ public enum WorldType {
 		@Override
 		public IChunkProvider getChunkGenerator(World world) {
 			return new ChunkProviderIndev(world, world.getRandomSeed(), world.getWorldInfo().isMapFeaturesEnabled(), world.getWorldInfo().isLayeredSand());
+		}
+	},
+	CAVES(5, "caves", 1, false) {
+		@Override
+		public IChunkProvider getChunkGenerator(World world) {
+			return new ChunkProviderCaves(world, world.getRandomSeed(), world.getWorldInfo().isMapFeaturesEnabled(), world.getWorldInfo().isLayeredSand());
+		}
+
+		@Override
+		public int getSeaLevel(World world) {
+			return 32;
 		}
 	};
 

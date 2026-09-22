@@ -45,11 +45,13 @@ public class ItemWorldPortal extends ItemBlock {
 
 	private int resolveThemeId(int woolColor, Random random) {
 		switch(woolColor) {
-			case 14: return 1;
-			case 11: return 3;
-			case 13: return 2;
-			case 5:  return 5;
-			case 7:  return 6;
+			case 14: return LevelThemeSettings.normal.id;
+			case 11: return LevelThemeSettings.forest.id;
+			case 13: return LevelThemeSettings.hell.id;
+			case 5:  return LevelThemeSettings.poison.id;
+			case 7:  return LevelThemeSettings.caves.id;
+			case 8:  return LevelThemeSettings.white.id;
+			case 3:  return LevelThemeSettings.paradise.id;
 			case 0:
 				List<LevelThemeSettings> randomThemes = new java.util.ArrayList<LevelThemeSettings>();
 				for(int i = 0; i < LevelThemeSettings.allThemeSettings.size(); i++) {
