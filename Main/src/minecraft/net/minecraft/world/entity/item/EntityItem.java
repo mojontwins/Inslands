@@ -164,6 +164,14 @@ public class EntityItem extends Entity {
 				if(this.item.itemID == Item.rottenFlesh.shiftedIndex) {
 					entityPlayer1.triggerAchievement(AchievementList.zombieMeat);
 				}
+				
+				if(this.item.itemID == Item.superAxe.shiftedIndex) {
+					entityPlayer1.triggerAchievement(AchievementList.superAxe);
+				}
+				
+				if(this.item.itemID == Item.superPickaxe.shiftedIndex) {
+					entityPlayer1.triggerAchievement(AchievementList.superPickaxe);
+				}
 
 				this.worldObj.playSoundAtEntity(this, "random.pop", 0.2F, ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
 				entityPlayer1.onItemPickup(this, i2);

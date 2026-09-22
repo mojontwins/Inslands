@@ -201,6 +201,15 @@ public class GameSettings {
 			this.mc.renderGlobal.loadRenderers();
 		}
 
+		if(opt == EnumOptions.DISPLAY_MODES) {
+			if(MODES.size() > 1) {
+				int idx = Math.round(f2 * (float)(MODES.size() - 1));
+				if(idx < 0) idx = 0;
+				if(idx >= MODES.size()) idx = MODES.size() - 1;
+				this.displayMode = MODES.get(idx);
+			}
+		}
+
 	}
 
 	private void updateWaterOpacity() {
@@ -523,6 +532,11 @@ public class GameSettings {
 		if(opt == EnumOptions.GAMMA) return this.gammaSetting;
 		if(opt == EnumOptions.CLOUD_HEIGHT) return this.gammaSetting;
 		if(opt == EnumOptions.AO_LEVEL) return this.ofAoLevel;
+		if(opt == EnumOptions.DISPLAY_MODES) {
+			int idx = MODES.indexOf(this.displayMode);
+			if(idx < 0) idx = 0;
+			return MODES.size() > 1 ? (float)idx / (float)(MODES.size() - 1) : 0.0F;
+		}
 		
 		return 0.0F;
 	}
@@ -572,7 +586,7 @@ public class GameSettings {
 				df.setMaximumFractionDigits(2);
 				return s + df.format(f5);
 			} else if(opt == EnumOptions.FOV) {
-				return s + (70 + (int)(f5 * 60)) + "º";
+				return s + (70 + (int)(f5 * 60)) + "ï¿½";
 			} else if(opt == EnumOptions.AO_LEVEL) {
 				if(f5 == 0.0F) {
 					return s + translator.translateKey("options.off");
@@ -581,6 +595,8 @@ public class GameSettings {
 				} else {
 					return s + (int)(f5 * 100.0F) + "%";
 				}
+			} else if(opt == EnumOptions.DISPLAY_MODES) {
+				return s + this.displayMode;
 			} else {
 				if(f5 == 0.0F) {
 					return s + translator.translateKey("options.off");

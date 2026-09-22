@@ -23,20 +23,7 @@ public class EntitySecretBoss extends EntitySlime {
 	public static int rewardedFamilyId = -1;
 	
 	public EntitySecretBoss(World world) {
-		/*
-		super(world);
-		this.yOffset = 0.0F;
-		if(this.lvl == 0) {
-			this.slimeJumpDelay = this.rand.nextInt(20) + 10;
-			this.setSlimeSize(1);
-			this.size = 1.0F;
-		} else {
-			this.slimeJumpDelay = this.rand.nextInt(20) + 10;
-			this.size = (float)(1 + this.lvl);
-			this.health = (1 + this.lvl + world.difficultySetting) * 2;
-			this.setSize(this.size * 0.6F, this.size * 0.6F);
-		}
-		*/
+
 		this(world, 8);
 	}
 
@@ -47,7 +34,6 @@ public class EntitySecretBoss extends EntitySlime {
 		this.lvl = lvl;
 		this.setSlimeSize(1 + this.lvl);
 		this.moveSpeed = 0.5F + (float)(lvl / 10);
-		//this.health = (1 + lvl + world.difficultySetting) * 2;
 	}
 
 	public void initBoss() {
@@ -57,7 +43,7 @@ public class EntitySecretBoss extends EntitySlime {
 		this.slimeJumpDelay = this.rand.nextInt(20) + 10;
 		this.setSlimeSize(1 + this.lvl);
 		this.moveSpeed = 0.5F + (float)(this.lvl / 10);
-		this.health = (1 + this.lvl + this.worldObj.difficultySetting) * 2;
+		this.health = (1 + this.lvl) * 2;
 	}
 
 	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
@@ -225,13 +211,13 @@ public class EntitySecretBoss extends EntitySlime {
 	}
 
 	protected int getDropItemId() {
-		if(this.lvl > 1) {
-			int r = this.rand.nextInt(20);
-			if(r < 10) return Item.slimeBall.shiftedIndex;
-			if(r < 12) return Item.ingotGold.shiftedIndex;
-			if(r < 15) return Item.ingotIron.shiftedIndex;
-			if(r < 17) return Item.ruby.shiftedIndex;
-			if(r < 19) return Item.emerald.shiftedIndex;		
+		if(this.lvl > 1 && this.rand.nextBoolean()) {
+			int r = this.rand.nextInt(30);
+			if(r < 20) return Item.slimeBall.shiftedIndex;
+			if(r < 22) return Item.ingotGold.shiftedIndex;
+			if(r < 25) return Item.ingotIron.shiftedIndex;
+			if(r < 27) return Item.ruby.shiftedIndex;
+			if(r < 29) return Item.emerald.shiftedIndex;		
 			return Item.diamond.shiftedIndex;
 		} else {
 			return 0;

@@ -75,7 +75,7 @@ public class AchievementList {
 	public static Achievement defeatBronze = (new Achievement(59, "defeatBronze",  14,  4, Item.key, themeParadise)).registerAchievement();
 	public static Achievement flyingPig = (new Achievement(60, "flyingPig",        14,  5, Item.saddle, themeParadise)).registerAchievement();
 	
-	public static Achievement minoshroom = (new Achievement(61, "minoshroom",      14, -2, Item.superAxe, themeForest)).setSpecial().registerAchievement();
+	public static Achievement minoshroom = (new Achievement(61, "minoshroom",      14, -2, Item.leather, themeForest)).setSpecial().registerAchievement();
 	public static Achievement scareKobold = (new Achievement(62, "scareKobold",    14, -1, Item.koboldFace, themeForest)).registerAchievement();
 	public static Achievement twilightHunter = (new Achievement(63, "forestHunter",14, 0, Item.bow, themeForest)).registerAchievement();
 	public static Achievement fungalInfection = (new Achievement(64, "fungalInfection", 14, 1, Item.fungaInfection, themeForest)).registerAchievement();
@@ -85,9 +85,10 @@ public class AchievementList {
 	public static Achievement bucketMilkCursed = (new Achievement(48, "bucketMilkCursed", -1, 10, Item.bucketMilk, acquireIron)).registerAchievement();
 	
 	public static Achievement slimeBoss = (new Achievement(22, "slimeBoss",          14,  9, Item.slimeBall, themeWForest)).setSpecial().registerAchievement();
-	public static Achievement superPickaxe = (new Achievement(66, "superPickaxe",          14,  9, Item.superPickaxe, slimeBoss)).setSpecial().registerAchievement();
+	public static Achievement superPickaxe = (new Achievement(66, "superPickaxe",    16,  9, Item.superPickaxe, slimeBoss)).setSpecial().registerAchievement();
+	public static Achievement superAxe = (new Achievement(67, "superAxe",      16, -2, Item.superAxe, minoshroom)).setSpecial().registerAchievement();
 	
-	// LAST: 66
+	// LAST: 67
 	
 	public static void func_27374_a() {
 	}

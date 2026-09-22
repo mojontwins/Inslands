@@ -41,6 +41,8 @@ import net.minecraft.client.gui.creative.GuiContainerCreative;
 import net.minecraft.client.gui.inventory.GuiCreativeInventory;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.aether.ModelFlyingCow2;
+import net.minecraft.client.model.aether.ModelFlyingPig2;
 import net.minecraft.client.multiplayer.EntityClientPlayerMP;
 import net.minecraft.client.multiplayer.NetClientHandler;
 import net.minecraft.client.player.EntityPlayerSP;
@@ -56,8 +58,6 @@ import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MouseHelper;
 import net.minecraft.client.renderer.OpenGlCapsChecker;
-import net.minecraft.client.model.aether.ModelFlyingCow2;
-import net.minecraft.client.model.aether.ModelFlyingPig2;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.RenderEngine;
@@ -96,6 +96,7 @@ import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.biome.BiomeGenThemeForest;
 import net.minecraft.world.level.biome.BiomeGenThemeHell;
 import net.minecraft.world.level.biome.BiomeGenThemeParadise;
+import net.minecraft.world.level.biome.BiomeGenThemeWhiteForest;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
 import net.minecraft.world.level.chunk.ChunkProvider;
 import net.minecraft.world.level.chunk.storage.ISaveFormat;
@@ -1271,6 +1272,8 @@ this.effectRenderer.updateEffects();
 					this.thePlayer.triggerAchievement(AchievementList.themeForest);
 				} else if(biome instanceof BiomeGenThemeParadise) {
 					this.thePlayer.triggerAchievement(AchievementList.themeParadise);
+				}  else if(biome instanceof BiomeGenThemeWhiteForest) {
+					this.thePlayer.triggerAchievement(AchievementList.themeWForest);
 				}
 			}
 		}
