@@ -76,6 +76,7 @@ import net.minecraft.client.renderer.ptexture.TextureWaterFlowFX;
 import net.minecraft.client.skins.TexturePackList;
 import net.minecraft.client.sound.SoundManager;
 import net.minecraft.client.title.GuiMainMenu;
+import net.minecraft.network.packet.Packet14BlockDig;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MinecraftException;
 import net.minecraft.world.GlobalVars;
@@ -871,7 +872,12 @@ public abstract class Minecraft implements Runnable {
 					int blockId = this.theWorld.getBlockID(x, y, z);
 					if(blockId == Block.worldPortal.blockID && this.theWorld.worldProvider != null && !this.theWorld.worldProvider.isNether && Item.isDiamondTierTool(itemStack)) {
 						// Left-clicking a linked world portal with a diamond-tier tool travels to that world.
-						this.travelToDimension(this.theWorld.getBlockMetadata(x, y, z), false);
+						if(this.theWorld.isRemote) {
+							// Multiplayer: ask the server to perform the travel.
+							((EntityClientPlayerMP)this.thePlayer).sendQueue.addToSendQueue(new Packet14BlockDig(0, x, y, z, face, itemStack, xWithinFace, yWithinFace, zWithinFace));
+						} else {
+							this.travelToDimension(this.theWorld.getBlockMetadata(x, y, z), false);
+						}
 						override = true;
 						this.leftClickCounter = 20;
 					} else {

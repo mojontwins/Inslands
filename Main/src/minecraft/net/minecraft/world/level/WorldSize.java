@@ -112,6 +112,14 @@ public class WorldSize {
 		WorldSize.sizeID = sizeId;
 	}
 
+	public static int getSizeId(int x, int z) {
+		if(x == 64 && z == 64) return 3;
+		if(x == 32 && z == 32) return 2;
+		if(x == 16 && z == 128) return 4;
+		if(x == 16 && z == 16) return 1;
+		return 0;
+	}
+
 	public static void setSizeByName(String stringProperty) {
 		if(stringProperty == null || "".equals(stringProperty)) {
 			setSizeById(1);

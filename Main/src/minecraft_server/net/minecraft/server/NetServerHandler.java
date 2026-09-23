@@ -1,5 +1,6 @@
 package net.minecraft.server;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,8 +38,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityCreature;
 import net.minecraft.world.inventory.InventoryPlayer;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
+import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.entity.TileEntity;
 import net.minecraft.world.level.tile.entity.TileEntitySign;
 import net.minecraft.world.phys.AxisAlignedBB;
@@ -314,6 +317,14 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 			}
 
 			if(packet14BlockDig1.status == 0) {
+				// Left-clicking a linked world portal with a diamond-tier tool travels
+				// to that world instead of breaking the block (mirrors single-player).
+				int i30 = worldServer2.getBlockID(i5, i6, i7);
+				if(i30 == Block.worldPortal.blockID && worldServer2.worldProvider != null && !worldServer2.worldProvider.isNether && Item.isDiamondTierTool(this.playerEntity.inventory.getCurrentItem())) {
+					this.mcServer.configManager.sendPlayerToOtherDimension(this.playerEntity, worldServer2.getBlockMetadata(i5, i6, i7));
+					return;
+				}
+
 				if(i20 <= 16 && !z3) {
 					this.playerEntity.playerNetServerHandler
 							.sendPacket(new Packet53BlockChange(i5, i6, i7, worldServer2));
@@ -567,7 +578,14 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 
 	public void handleRespawnPacket(Packet9Respawn packet9Respawn1) {
 		if(this.playerEntity.health <= 0) {
-			this.playerEntity = this.mcServer.configManager.recreatePlayerEntity(this.playerEntity, 0);
+			// Dying in the nether returns the player to the world they came from;
+			// dying anywhere else respawns them in that same world.
+			int i2 = this.playerEntity.dimension == 1 ? this.playerEntity.netherReturnWorldId : this.playerEntity.dimension;
+			if(i2 < 0 || i2 >= 2 && i2 != this.playerEntity.dimension && !new File(new File("."), "DIM-" + i2 + File.separator + "level.dat").isFile()) {
+				i2 = 0;
+			}
+
+			this.playerEntity = this.mcServer.configManager.recreatePlayerEntity(this.playerEntity, i2);
 		}
 	}
 

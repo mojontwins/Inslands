@@ -10,7 +10,7 @@ public class Packet1Login extends Packet {
 	public int protocolVersion;
 	public String username;
 	public long mapSeed;
-	public byte dimension;
+	public int dimension;
 
 	public Packet1Login() {
 	}
@@ -20,18 +20,18 @@ public class Packet1Login extends Packet {
 		this.protocolVersion = i2;
 	}
 
-	public Packet1Login(String string1, int i2, long j3, byte b5) {
+	public Packet1Login(String string1, int i2, long j3, int i5) {
 		this.username = string1;
 		this.protocolVersion = i2;
 		this.mapSeed = j3;
-		this.dimension = b5;
+		this.dimension = i5;
 	}
 
 	public void readPacketData(DataInputStream dataInputStream1) throws IOException {
 		this.protocolVersion = dataInputStream1.readInt();
 		this.username = readString(dataInputStream1, 16);
 		this.mapSeed = dataInputStream1.readLong();
-		this.dimension = dataInputStream1.readByte();
+		this.dimension = dataInputStream1.readUnsignedByte();
 	}
 
 	public void writePacketData(DataOutputStream dataOutputStream1) throws IOException {

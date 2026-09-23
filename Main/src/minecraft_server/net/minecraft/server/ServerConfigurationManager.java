@@ -6,9 +6,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -17,17 +19,23 @@ import net.minecraft.network.packet.Packet3Chat;
 import net.minecraft.network.packet.Packet4UpdateTime;
 import net.minecraft.network.packet.Packet70Bed;
 import net.minecraft.network.packet.Packet9Respawn;
+import net.minecraft.network.packet.Packet93FiniteWorldSettings;
+import net.minecraft.network.packet.Packet95UpdateDayOfTheYear;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.WorldInfo;
+import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
 import net.minecraft.world.level.chunk.storage.ISaveHandler;
 import net.minecraft.world.level.dimension.Teleporter;
+import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 import net.minecraft.world.level.tile.entity.TileEntity;
 
 public class ServerConfigurationManager {
 	public static Logger logger = Logger.getLogger("Minecraft");
 	public List<EntityPlayerMP> playerEntities = new ArrayList<EntityPlayerMP>();
 	private MinecraftServer mcServer;
-	private PlayerManager[] playerManagerObj = new PlayerManager[2];
+	private Map<Integer,PlayerManager> playerManagerObj = new HashMap<Integer,PlayerManager>();
+	private final int playerManagerViewDistance;
 	private int maxPlayers;
 	private Set<String> bannedPlayers = new HashSet<String>();
 	private Set<String> bannedIPs = new HashSet<String>();
@@ -47,8 +55,9 @@ public class ServerConfigurationManager {
 		this.opFile = minecraftServer1.getFile("ops.txt");
 		this.whitelistPlayersFile = minecraftServer1.getFile("white-list.txt");
 		int i2 = minecraftServer1.propertyManagerObj.getIntProperty("view-distance", 10);
-		this.playerManagerObj[0] = new PlayerManager(minecraftServer1, 0, i2);
-		this.playerManagerObj[1] = new PlayerManager(minecraftServer1, -1, i2);
+		this.playerManagerViewDistance = i2;
+		this.playerManagerObj.put(0, new PlayerManager(minecraftServer1, 0, i2));
+		this.playerManagerObj.put(1, new PlayerManager(minecraftServer1, 1, i2));
 		this.maxPlayers = minecraftServer1.propertyManagerObj.getIntProperty("max-players", 20);
 		this.whiteListEnforced = minecraftServer1.propertyManagerObj.getBooleanProperty("white-list", false);
 		this.readBannedPlayers();
@@ -61,24 +70,41 @@ public class ServerConfigurationManager {
 		this.saveWhiteList();
 	}
 
-	public void setPlayerManager(WorldServer[] worldServer1) {
-		this.playerNBTManagerObj = worldServer1[0].getWorldFile().getSaveHandler();
+	public void setPlayerManager(WorldServer worldServer1) {
+		this.playerNBTManagerObj = worldServer1.getWorldFile().getSaveHandler();
+	}
+
+	/**
+	 * Makes sure a player manager exists for the given world. Called when a world
+	 * is created (startup or lazily loaded); getPlayerManager() creates one on
+	 * demand as a fallback so no lookup can miss.
+	 */
+	public void registerPlayerManager(WorldServer world) {
+		int worldId = world.worldProvider.dimensionId;
+		if(!this.playerManagerObj.containsKey(worldId)) {
+			this.playerManagerObj.put(worldId, new PlayerManager(this.mcServer, worldId, this.playerManagerViewDistance));
+		}
 	}
 
 	public void s_func_28172_a(EntityPlayerMP entityPlayerMP1) {
-		this.playerManagerObj[0].removePlayer(entityPlayerMP1);
-		this.playerManagerObj[1].removePlayer(entityPlayerMP1);
+		this.getPlayerManager(entityPlayerMP1.dimension).removePlayer(entityPlayerMP1);
 		this.getPlayerManager(entityPlayerMP1.dimension).addPlayer(entityPlayerMP1);
 		WorldServer worldServer2 = this.mcServer.getWorldManager(entityPlayerMP1.dimension);
 		worldServer2.chunkProviderServer.prepareChunk((int)entityPlayerMP1.posX >> 4, (int)entityPlayerMP1.posZ >> 4);
 	}
 
 	public int getMaxTrackingDistance() {
-		return this.playerManagerObj[0].getMaxTrackingDistance();
+		return this.getPlayerManager(0).getMaxTrackingDistance();
 	}
 
 	private PlayerManager getPlayerManager(int i1) {
-		return i1 == -1 ? this.playerManagerObj[1] : this.playerManagerObj[0];
+		if(i1 == -1) i1 = 1;
+		PlayerManager playerManager2 = this.playerManagerObj.get(i1);
+		if(playerManager2 == null) {
+			playerManager2 = new PlayerManager(this.mcServer, i1, this.playerManagerViewDistance);
+			this.playerManagerObj.put(i1, playerManager2);
+		}
+		return playerManager2;
 	}
 
 	public void readPlayerDataFromFile(EntityPlayerMP entityPlayerMP1) {
@@ -173,7 +199,7 @@ public class ServerConfigurationManager {
 			entityPlayerMP4.setPosition(entityPlayerMP4.posX, entityPlayerMP4.posY + 1.0D, entityPlayerMP4.posZ);
 		}
 
-		entityPlayerMP4.playerNetServerHandler.sendPacket(new Packet9Respawn((byte)entityPlayerMP4.dimension));
+		entityPlayerMP4.playerNetServerHandler.sendPacket(new Packet9Respawn(entityPlayerMP4.dimension));
 		entityPlayerMP4.playerNetServerHandler.teleportTo(entityPlayerMP4.posX, entityPlayerMP4.posY, entityPlayerMP4.posZ, entityPlayerMP4.rotationYaw, entityPlayerMP4.rotationPitch);
 		this.joinNewPlayerManager(entityPlayerMP4, worldServer5);
 		this.getPlayerManager(entityPlayerMP4.dimension).addPlayer(entityPlayerMP4);
@@ -184,58 +210,106 @@ public class ServerConfigurationManager {
 		return entityPlayerMP4;
 	}
 
-	public void sendPlayerToOtherDimension(EntityPlayerMP entityPlayerMP1) {
-		WorldServer worldServer2 = this.mcServer.getWorldManager(entityPlayerMP1.dimension);
-		byte b11;
-		if(entityPlayerMP1.dimension == -1) {
-			b11 = 0;
-		} else {
-			b11 = -1;
+	public void sendPlayerToOtherDimension(EntityPlayerMP entityPlayerMP1, int destId) {
+		if(destId == -1) destId = 1;
+		int sourceId = entityPlayerMP1.dimension;
+		if(destId == sourceId) return;
+
+		// Broken or stale linked-world destination: fall back to the main world.
+		if(destId >= 2 && !new File(new File("."), "DIM-" + destId + File.separator + "level.dat").isFile()) {
+			if(sourceId == 0) return;
+			destId = 0;
 		}
 
-		entityPlayerMP1.dimension = b11;
-		WorldServer worldServer4 = this.mcServer.getWorldManager(entityPlayerMP1.dimension);
-		entityPlayerMP1.playerNetServerHandler.sendPacket(new Packet9Respawn((byte)entityPlayerMP1.dimension));
-		worldServer2.removePlayer(entityPlayerMP1);
-		entityPlayerMP1.isDead = false;
+		boolean toNether = destId == 1;
+		boolean fromNether = sourceId == 1;
+		if(toNether) {
+			// Remember where the player came from so leaving the nether returns there.
+			entityPlayerMP1.netherReturnWorldId = sourceId;
+		}
+
+		WorldServer sourceWorld = this.mcServer.getWorldManager(sourceId);
+
+		// Nether <-> world coordinate scaling (mirrors the single-player travel path).
 		double d5 = entityPlayerMP1.posX;
 		double d7 = entityPlayerMP1.posZ;
-		double d9 = 8.0D;
-		if(entityPlayerMP1.dimension == -1) {
-			d5 /= d9;
-			d7 /= d9;
-			entityPlayerMP1.setLocationAndAngles(d5, entityPlayerMP1.posY, d7, entityPlayerMP1.rotationYaw, entityPlayerMP1.rotationPitch);
-			if(entityPlayerMP1.isEntityAlive()) {
-				worldServer2.updateEntityWithOptionalForce(entityPlayerMP1, false);
+		if(fromNether) {
+			if(WorldSize.xChunks >= 16 && WorldSize.zChunks >= 16) {
+				d5 = (d5 - WorldSize.xChunks / 4) * 2;
+				d7 = (d7 - WorldSize.zChunks / 4) * 2;
 			}
-		} else {
-			d5 *= d9;
-			d7 *= d9;
-			entityPlayerMP1.setLocationAndAngles(d5, entityPlayerMP1.posY, d7, entityPlayerMP1.rotationYaw, entityPlayerMP1.rotationPitch);
-			if(entityPlayerMP1.isEntityAlive()) {
-				worldServer2.updateEntityWithOptionalForce(entityPlayerMP1, false);
+		} else if(toNether) {
+			if(WorldSize.xChunks >= 16 && WorldSize.zChunks >= 16) {
+				d5 = WorldSize.xChunks / 4 + d5 / 2;
+				d7 = WorldSize.zChunks / 4 + d7 / 2;
+			} else {
+				if(d5 == 0) d5 = 0;
+				if(d5 >= WorldSize.xChunks - 1) d5 --;
+				if(d7 == 0) d7 = 0;
+				if(d7 >= WorldSize.zChunks - 1) d7 --;
 			}
 		}
 
+		entityPlayerMP1.dimension = destId;
+		WorldServer destWorld = this.mcServer.getWorldManager(destId);
+		entityPlayerMP1.playerNetServerHandler.sendPacket(new Packet9Respawn(destId));
+		sourceWorld.removePlayer(entityPlayerMP1);
+		entityPlayerMP1.isDead = false;
+		entityPlayerMP1.setLocationAndAngles(d5, entityPlayerMP1.posY, d7, entityPlayerMP1.rotationYaw, entityPlayerMP1.rotationPitch);
+
 		if(entityPlayerMP1.isEntityAlive()) {
-			worldServer4.spawnEntityInWorld(entityPlayerMP1);
+			// Apply the destination world's frozen theme/size so the globals agree
+			// with it for the rest of this travel (teleporter bounds, spawning...).
+			WorldInfo destInfo = destWorld.getWorldInfo();
+			LevelThemeGlobalSettings.loadThemeById(destInfo.getThemeId());
+			WorldSize.setSize(destInfo.getWorldWidthChunks(), destInfo.getWorldLengthChunks());
+
+			boolean brandNew = !destInfo.isGenerated();
+			if(brandNew) {
+				// First visit: generate the whole level and build the return portal.
+				this.mcServer.prepareWorldForEntry(destWorld, sourceId);
+			}
+
+			destWorld.spawnEntityInWorld(entityPlayerMP1);
 			entityPlayerMP1.setLocationAndAngles(d5, entityPlayerMP1.posY, d7, entityPlayerMP1.rotationYaw, entityPlayerMP1.rotationPitch);
-			worldServer4.updateEntityWithOptionalForce(entityPlayerMP1, false);
-			worldServer4.chunkProviderServer.chunkLoadOverride = true;
-			(new Teleporter()).setExitLocation(worldServer4, entityPlayerMP1);
-			worldServer4.chunkProviderServer.chunkLoadOverride = false;
+			destWorld.updateEntityWithOptionalForce(entityPlayerMP1, false);
+			destWorld.chunkProviderServer.chunkLoadOverride = true;
+			if(toNether || fromNether) {
+				// Nether involved on either side: find/create the vanilla nether portal.
+				(new Teleporter()).setExitLocation(destWorld, entityPlayerMP1);
+			} else if(brandNew) {
+				// First visit: stand the player on the return portal at the spawn point.
+				destInfo = destWorld.getWorldInfo();
+				entityPlayerMP1.setLocationAndAngles((double)destInfo.getSpawnX() + 0.5D, (double)(destInfo.getSpawnY() + 1), (double)destInfo.getSpawnZ() + 0.5D, entityPlayerMP1.rotationYaw, entityPlayerMP1.rotationPitch);
+			} else {
+				// Re-entry: land on the partner portal, or fall back to the natural spawn.
+				int[] portal = (new Teleporter()).findWorldPortalTo(destWorld, sourceId);
+				if(portal != null) {
+					entityPlayerMP1.setLocationAndAngles((double)portal[0] + 0.5D, (double)(portal[1] + 1), (double)portal[2] + 0.5D, entityPlayerMP1.rotationYaw, entityPlayerMP1.rotationPitch);
+				} else {
+					destInfo = destWorld.getWorldInfo();
+					entityPlayerMP1.setLocationAndAngles((double)destInfo.getSpawnX() + 0.5D, (double)(destInfo.getSpawnY() + 1), (double)destInfo.getSpawnZ() + 0.5D, entityPlayerMP1.rotationYaw, entityPlayerMP1.rotationPitch);
+				}
+			}
+			destWorld.chunkProviderServer.chunkLoadOverride = false;
 		}
 
 		this.s_func_28172_a(entityPlayerMP1);
 		entityPlayerMP1.playerNetServerHandler.teleportTo(entityPlayerMP1.posX, entityPlayerMP1.posY, entityPlayerMP1.posZ, entityPlayerMP1.rotationYaw, entityPlayerMP1.rotationPitch);
-		entityPlayerMP1.setWorldHandler(worldServer4);
-		this.joinNewPlayerManager(entityPlayerMP1, worldServer4);
+		entityPlayerMP1.setWorldHandler(destWorld);
+		this.joinNewPlayerManager(entityPlayerMP1, destWorld);
+
+		// Sync theme, size and day of year with the destination world.
+		WorldInfo syncInfo = destWorld.getWorldInfo();
+		entityPlayerMP1.playerNetServerHandler.sendPacket(new Packet93FiniteWorldSettings(syncInfo.getThemeId(), WorldSize.getSizeId(syncInfo.getWorldWidthChunks(), syncInfo.getWorldLengthChunks())));
+		entityPlayerMP1.playerNetServerHandler.sendPacket(new Packet95UpdateDayOfTheYear(syncInfo.getDayOfTheYear()));
+
 		this.s_func_30008_g(entityPlayerMP1);
 	}
 
 	public void onTick() {
-		for(int i1 = 0; i1 < this.playerManagerObj.length; ++i1) {
-			this.playerManagerObj[i1].updatePlayerInstances();
+		for(PlayerManager playerManager1 : this.playerManagerObj.values()) {
+			playerManager1.updatePlayerInstances();
 		}
 
 	}

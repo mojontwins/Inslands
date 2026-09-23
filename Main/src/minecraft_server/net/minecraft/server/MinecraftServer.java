@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,13 +20,17 @@ import net.minecraft.network.packet.Packet95UpdateDayOfTheYear;
 import net.minecraft.world.GlobalVars;
 import net.minecraft.world.Version;
 import net.minecraft.world.level.Seasons;
+import net.minecraft.world.level.WorldInfo;
 import net.minecraft.world.level.WorldSettings;
 import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.WorldType;
+import net.minecraft.world.level.PortalRegistry;
+import net.minecraft.world.level.WorldNameGen;
 import net.minecraft.world.level.biome.BiomeGenBase;
 import net.minecraft.world.level.chunk.storage.IProgressUpdate;
 import net.minecraft.world.level.chunk.storage.ISaveFormat;
 import net.minecraft.world.level.chunk.storage.SaveConverterMcRegion;
+import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.chunk.storage.SaveOldDir;
 import net.minecraft.world.level.theme.LevelThemeGlobalSettings;
 import net.minecraft.world.level.theme.LevelThemeSettings;
@@ -38,7 +43,7 @@ public class MinecraftServer implements Runnable, ICommandListener {
 	public static HashMap<String,Integer> s_field_6037_b = new HashMap<String,Integer>();
 	public NetworkListenThread networkServer;
 	public PropertyManager propertyManagerObj;
-	public WorldServer[] worldMngr;
+	public Map<Integer,WorldServer> worldMngr = new HashMap<Integer,WorldServer>();
 	public ServerConfigurationManager configManager;
 	private ConsoleCommandHandler commandHandler;
 	private boolean serverRunning = true;
@@ -48,7 +53,7 @@ public class MinecraftServer implements Runnable, ICommandListener {
 	public int percentDone;
 	private List<IUpdatePlayerListBox> playersOnline = new ArrayList<IUpdatePlayerListBox>();
 	private List<ServerCommand> commands = Collections.synchronizedList(new ArrayList<ServerCommand>());
-	public EntityTracker[] entityTracker = new EntityTracker[2];
+	public Map<Integer,EntityTracker> entityTracker = new HashMap<Integer,EntityTracker>();
 	public boolean onlineMode;
 	public boolean spawnPeacefulMobs;
 	public boolean pvpOn;
@@ -109,8 +114,9 @@ public class MinecraftServer implements Runnable, ICommandListener {
 		}
 
 		this.configManager = new ServerConfigurationManager(this);
-		this.entityTracker[0] = new EntityTracker(this, 0);
-		this.entityTracker[1] = new EntityTracker(this, -1);
+		this.entityTracker.clear();
+		this.entityTracker.put(0, new EntityTracker(this, 0));
+		this.entityTracker.put(1, new EntityTracker(this, 1));
 		long j5 = System.nanoTime();
 		String string7 = this.propertyManagerObj.getStringProperty("level-name", "world");
 		String string8 = this.propertyManagerObj.getStringProperty("level-seed", "");
@@ -187,58 +193,53 @@ public class MinecraftServer implements Runnable, ICommandListener {
 	private void initWorld(ISaveFormat saveHandler, String folderName, long seed, WorldType worldType) {
 		BiomeGenBase.generateBiomeLookup();
 
-		this.worldMngr = new WorldServer[2];
+		this.worldMngr.clear();
+		this.entityTracker.clear();
 		boolean generateStructures = this.propertyManagerObj.getBooleanProperty("generate-structures", true);
 		boolean layeredSand = this.propertyManagerObj.getBooleanProperty("layered-sand", true);
-		
+
 		SaveOldDir saveOldDir = new SaveOldDir(new File("."), folderName, true);
+		WorldSettings settings = new WorldSettings(seed, 0, generateStructures, false, false, layeredSand, worldType);
 
-		boolean levelsAreOk;
-		do {
-			levelsAreOk = true;
-			WorldSettings settings = new WorldSettings(seed, 0, generateStructures, false, false, layeredSand, worldType);
-			
-			for(int i = 0; i < this.worldMngr.length; ++i) {
-				logger.info("** DIM " + ( i == 0 ? 0 : -1));
-				GlobalVars.initializeGameFlags();
-				
-				if(i == 0) {
-					this.worldMngr[i] = new WorldServer(this, saveOldDir, folderName, i == 0 ? 0 : -1, settings);
-				} else {
-					this.worldMngr[i] = new WorldServerMulti(this, saveOldDir, folderName, i == 0 ? 0 : -1, settings, this.worldMngr[0]);
-				}
-				
-				WorldServer worldMngr = this.worldMngr[i];				
-				
-				worldMngr.addWorldAccess(new WorldManager(this, this.worldMngr[i]));
-				worldMngr.difficultySetting = this.propertyManagerObj.getBooleanProperty("spawn-monsters", true) ? 1 : 0;
-				worldMngr.setAllowedMobSpawns(this.propertyManagerObj.getBooleanProperty("spawn-monsters", true), this.spawnPeacefulMobs);
-				this.configManager.setPlayerManager(this.worldMngr);
-				
-				// Check if valid
-				boolean newWorld = worldMngr.isNewWorld;
+		int[] worldIds = new int[] { 0, 1 };
+		for(int i = 0; i < worldIds.length; ++i) {
+			int worldId = worldIds[i];
+			logger.info("** DIM " + worldId);
+			GlobalVars.initializeGameFlags();
 
-				// The nether (DIM-1) shares the world folder: it is "new" exactly when the
-				// overworld was just created, so propagate the flag.
-				if(i == 1) newWorld = this.worldMngr[0].isNewWorld;
-				if(newWorld) {
-					logger.info("Generating new world");
-				} else {
-					logger.info("Loading existing world");
-				}
-
-				// Pregenerate/preload all level
-				this.preloadWorld(worldMngr, newWorld);
-
-	
+			WorldServer world;
+			if(worldId == 0) {
+				world = new WorldServer(this, saveOldDir, folderName, 0, settings);
+			} else {
+				world = new WorldServerMulti(this, saveOldDir, folderName, 1, settings, this.worldMngr.get(0));
 			}
-			if(!levelsAreOk) {
-				for(int i = 0; i < this.worldMngr.length; i ++) {
-					this.worldMngr[i] = null;
-				}
-				System.gc();
+
+			this.worldMngr.put(worldId, world);
+			this.entityTracker.put(worldId, new EntityTracker(this, worldId));
+
+			world.addWorldAccess(new WorldManager(this, world));
+			world.difficultySetting = this.propertyManagerObj.getBooleanProperty("spawn-monsters", true) ? 1 : 0;
+			world.setAllowedMobSpawns(this.propertyManagerObj.getBooleanProperty("spawn-monsters", true), this.spawnPeacefulMobs);
+
+			// Check if valid
+			boolean newWorld = world.isNewWorld;
+
+			// The nether (DIM-1) shares the world folder: it is "new" exactly when the
+			// overworld was just created, so propagate the flag.
+			if(worldId == 1) newWorld = this.worldMngr.get(0).isNewWorld;
+			if(newWorld) {
+				logger.info("Generating new world");
+			} else {
+				logger.info("Loading existing world");
 			}
-		} while (!levelsAreOk);
+
+			// Pregenerate/preload all level
+			this.preloadWorld(world, newWorld);
+		}
+
+		this.configManager.setPlayerManager(getWorldManager(0));
+		this.configManager.registerPlayerManager(getWorldManager(0));
+		this.configManager.registerPlayerManager(getWorldManager(1));
 
 		this.clearCurrentTask();
 	}
@@ -257,10 +258,11 @@ public class MinecraftServer implements Runnable, ICommandListener {
 	private void saveServerWorld() {
 		logger.info("Saving chunks");
 
-		for(int i1 = 0; i1 < this.worldMngr.length; ++i1) {
-			WorldServer worldServer2 = this.worldMngr[i1];
-			worldServer2.saveWorld(true, (IProgressUpdate)null);
-			worldServer2.s_func_30006_w();
+		for(WorldServer worldServer2 : this.worldMngr.values()) {
+			if(worldServer2 != null) {
+				worldServer2.saveWorld(true, (IProgressUpdate)null);
+				worldServer2.s_func_30006_w();
+			}
 		}
 
 	}
@@ -271,13 +273,7 @@ public class MinecraftServer implements Runnable, ICommandListener {
 			this.configManager.savePlayerStates();
 		}
 
-		for(int i1 = 0; i1 < this.worldMngr.length; ++i1) {
-			WorldServer worldServer2 = this.worldMngr[i1];
-			if(worldServer2 != null) {
-				this.saveServerWorld();
-			}
-		}
-
+		this.saveServerWorld();
 	}
 
 	public void initiateShutdown() {
@@ -304,7 +300,7 @@ public class MinecraftServer implements Runnable, ICommandListener {
 
 					j3 += j7;
 					j1 = j5;
-					if(this.worldMngr[0].isAllPlayersFullyAsleep()) {
+					if(this.getWorldManager(0).isAllPlayersFullyAsleep()) {
 						this.doTick();
 						j3 = 0L;
 					} else {
@@ -375,28 +371,50 @@ public class MinecraftServer implements Runnable, ICommandListener {
 		Vec3D.initialize();
 		++this.deathTime;
 
-		for(i6 = 0; i6 < this.worldMngr.length; ++i6) {
-			if(i6 == 0 || this.propertyManagerObj.getBooleanProperty("allow-nether", true)) {
-				WorldServer worldServer7 = this.worldMngr[i6];
-				if(this.deathTime % 20 == 0) {
-					this.configManager.sendPacketToAllPlayersInDimension(new Packet4UpdateTime(worldServer7.getWorldTime()), worldServer7.worldProvider.worldType);
-				}
+		for(WorldServer worldServer7 : this.worldMngr.values()) {
+			if(worldServer7 == null) continue;
+			int worldId = worldServer7.worldProvider.dimensionId;
+			if(worldId != 0 && !this.propertyManagerObj.getBooleanProperty("allow-nether", true)) continue;
 
-				int dayOfTheYear = Seasons.dayOfTheYear;
-				worldServer7.tick();
-				if (Seasons.dayOfTheYear != dayOfTheYear) {
-					this.configManager.sendPacketToAllPlayersInDimension(new Packet95UpdateDayOfTheYear(Seasons.dayOfTheYear), worldServer7.worldProvider.worldType);
-				}
-
-				worldServer7.updateEntities();
+			// Re-apply this world's theme and size so the per-world settings drive the globals.
+			WorldInfo worldInfo = worldServer7.getWorldInfo();
+			if(worldInfo != null) {
+				LevelThemeGlobalSettings.loadThemeById(worldInfo.getThemeId());
+				WorldSize.setSize(worldInfo.getWorldWidthChunks(), worldInfo.getWorldLengthChunks());
 			}
+
+			// Idle linked worlds (no players in them) are kept loaded but paused:
+			// no tick, no entity updates, no time/day/weather broadcasts. They are
+			// still periodically saved so a crash does not lose recent travel.
+			boolean worldIsIdle = worldId != 0 && worldId != 1 && (worldServer7.playerEntities == null || worldServer7.playerEntities.size() == 0);
+			if(worldIsIdle) {
+				if(this.deathTime % 1200 == 0) {
+					worldServer7.saveWorld(false, (IProgressUpdate)null);
+					worldServer7.s_func_30006_w();
+				}
+				continue;
+			}
+
+			if(this.deathTime % 20 == 0) {
+				this.configManager.sendPacketToAllPlayersInDimension(new Packet4UpdateTime(worldServer7.getWorldTime()), worldId);
+			}
+
+			int dayOfTheYear = worldInfo != null ? worldInfo.getDayOfTheYear() : Seasons.dayOfTheYear;
+			worldServer7.tick();
+			if(worldInfo != null && worldInfo.getDayOfTheYear() != dayOfTheYear) {
+				this.configManager.sendPacketToAllPlayersInDimension(new Packet95UpdateDayOfTheYear(worldInfo.getDayOfTheYear()), worldId);
+			}
+
+			worldServer7.updateEntities();
 		}
 
 		this.networkServer.handleNetworkListenThread();
 		this.configManager.onTick();
 
-		for(i6 = 0; i6 < this.entityTracker.length; ++i6) {
-			this.entityTracker[i6].updateTrackedEntities();
+		for(EntityTracker entityTracker2 : this.entityTracker.values()) {
+			if(entityTracker2 != null) {
+				entityTracker2.updateTrackedEntities();
+			}
 		}
 
 		for(i6 = 0; i6 < this.playersOnline.size(); ++i6) {
@@ -460,11 +478,92 @@ public class MinecraftServer implements Runnable, ICommandListener {
 	}
 
 	public WorldServer getWorldManager(int i1) {
-		return i1 == -1 ? this.worldMngr[1] : this.worldMngr[0];
+		if(i1 == -1) i1 = 1;
+		WorldServer world = this.worldMngr.get(i1);
+		if(world != null) return world;
+		return this.loadWorld(i1);
+	}
+
+	/**
+	 * Lazily loads a linked world (2..255) into memory and registers its entity
+	 * tracker and player manager. The world is NOT generated or preloaded here —
+	 * that only happens on a player's first visit (see prepareWorldForEntry).
+	 */
+	private WorldServer loadWorld(int worldId) {
+		if(worldId != 0 && worldId != 1 && !PortalRegistry.isLinkedWorldId(worldId)) {
+			logger.warning("Invalid world id " + worldId + ", redirecting to the main world");
+			worldId = 0;
+		}
+		WorldServer existing = this.worldMngr.get(worldId);
+		if(existing != null || worldId == 0 || worldId == 1) {
+			return existing != null ? existing : this.worldMngr.get(0);
+		}
+
+		WorldServer mainWorld = this.worldMngr.get(0);
+		if(mainWorld == null) return null;
+
+		long baseSeed = PortalRegistry.getBaseSeed(mainWorld);
+		String name = WorldNameGen.getName(baseSeed, worldId);
+		WorldSettings settings = new WorldSettings(WorldNameGen.deriveSeed(baseSeed, worldId), 0,
+				this.propertyManagerObj.getBooleanProperty("generate-structures", true), false,
+				this.propertyManagerObj.getBooleanProperty("allow-nether", true),
+				mainWorld.getWorldInfo().isLayeredSand(), WorldType.DEFAULT);
+
+		// Linked worlds live in their own DIM-<id> save folder with their own level.dat.
+		// The folder name already addresses the world, so the provider must not nest again
+		// (SaveOldDir skips the provider folder when it matches its own directory name).
+		logger.info("Loading DIM " + worldId + " (" + name + ")");
+		GlobalVars.initializeGameFlags();
+		SaveOldDir handler = new SaveOldDir(new File("."), "DIM-" + worldId, true);
+		WorldServer world = new WorldServerMulti(this, handler, name, worldId, settings, mainWorld);
+		WorldInfo worldInfo = world.getWorldInfo();
+		if(worldInfo != null) {
+			worldInfo.setDimension(worldId);
+		}
+		// Route packets, entity tracking and player-manager lookups by the world id.
+		world.worldProvider.dimensionId = worldId;
+
+		this.entityTracker.put(worldId, new EntityTracker(this, worldId));
+		this.configManager.registerPlayerManager(world);
+		this.worldMngr.put(worldId, world);
+
+		world.addWorldAccess(new WorldManager(this, world));
+		world.difficultySetting = this.propertyManagerObj.getBooleanProperty("spawn-monsters", true) ? 1 : 0;
+		world.setAllowedMobSpawns(this.propertyManagerObj.getBooleanProperty("spawn-monsters", true), this.spawnPeacefulMobs);
+		return world;
+	}
+
+	/**
+	 * First-visit step for a linked world: apply the world's frozen theme/size,
+	 * generate the whole level, place the overworld-style spawn, build the return
+	 * portal to the source world on the spawn tile, mark the world generated and
+	 * save it. Mirrors the single-player travel path (Minecraft.travelToDimension).
+	 */
+	public void prepareWorldForEntry(WorldServer world, int sourceId) {
+		WorldInfo worldInfo = world.getWorldInfo();
+		LevelThemeGlobalSettings.loadThemeById(worldInfo.getThemeId());
+		WorldSize.setSize(worldInfo.getWorldWidthChunks(), worldInfo.getWorldLengthChunks());
+		world.chunkProviderServer.generateWholeWorld(new ConvertProgressUpdater(this));
+
+		logger.info("Finding spawn point for DIM " + world.worldProvider.dimensionId + " (" + worldInfo.getWorldName() + ")");
+		world.worldProvider.setInitialSpawnLocation(world);
+
+		// Build the return portal on the spawn tile; keep the landing tile clear.
+		int sx = worldInfo.getSpawnX();
+		int sy = worldInfo.getSpawnY();
+		int sz = worldInfo.getSpawnZ();
+		if(sy <= 1 || sy >= 127) sy = 64;
+		world.setBlockAndMetadataWithNotify(sx, sy, sz, Block.worldPortal.blockID, sourceId);
+		world.setBlockWithNotify(sx, sy + 1, sz, 0);
+
+		worldInfo.setSpawn(sx, sy + 1, sz);
+		worldInfo.setGenerated(true);
+		world.saveWorld(true, (IProgressUpdate)null);
 	}
 
 	public EntityTracker getEntityTracker(int i1) {
-		return i1 == -1 ? this.entityTracker[1] : this.entityTracker[0];
+		if(i1 == -1) i1 = 1;
+		return this.entityTracker.get(i1);
 	}
 
 	public static boolean isServerRunning(MinecraftServer minecraftServer0) {

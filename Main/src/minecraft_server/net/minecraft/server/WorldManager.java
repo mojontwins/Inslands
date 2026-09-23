@@ -19,11 +19,11 @@ public class WorldManager implements IWorldAccess {
 	}
 
 	public void obtainEntitySkin(Entity entity1) {
-		this.mcServer.getEntityTracker(this.worldServer.worldProvider.worldType).trackEntity(entity1);
+		this.mcServer.getEntityTracker(this.worldServer.worldProvider.dimensionId).trackEntity(entity1);
 	}
 
 	public void releaseEntitySkin(Entity entity1) {
-		this.mcServer.getEntityTracker(this.worldServer.worldProvider.worldType).untrackEntity(entity1);
+		this.mcServer.getEntityTracker(this.worldServer.worldProvider.dimensionId).untrackEntity(entity1);
 	}
 
 	public void playSound(String string1, double d2, double d4, double d6, float f8, float f9) {
@@ -36,7 +36,7 @@ public class WorldManager implements IWorldAccess {
 	}
 
 	public void markBlockNeedsUpdate(int i1, int i2, int i3) {
-		this.mcServer.configManager.markBlockNeedsUpdate(i1, i2, i3, this.worldServer.worldProvider.worldType);
+		this.mcServer.configManager.markBlockNeedsUpdate(i1, i2, i3, this.worldServer.worldProvider.dimensionId);
 	}
 
 	public void playRecord(String string1, int i2, int i3, int i4) {
@@ -47,7 +47,7 @@ public class WorldManager implements IWorldAccess {
 	}
 
 	public void playAuxSFX(EntityPlayer entityPlayer1, int i2, int i3, int i4, int i5, int i6) {
-		this.mcServer.configManager.s_func_28171_a(entityPlayer1, (double)i3, (double)i4, (double)i5, 64.0D, this.worldServer.worldProvider.worldType, new Packet61DoorChange(i2, i3, i4, i5, i6));
+		this.mcServer.configManager.s_func_28171_a(entityPlayer1, (double)i3, (double)i4, (double)i5, 64.0D, this.worldServer.worldProvider.dimensionId, new Packet61DoorChange(i2, i3, i4, i5, i6));
 	}
 	
 	public void showString(String s) {

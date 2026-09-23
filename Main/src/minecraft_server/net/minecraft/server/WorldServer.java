@@ -32,7 +32,7 @@ public class WorldServer extends World {
 	private MCHash entityRemoval;
 
 	public WorldServer(MinecraftServer minecraftServer1, ISaveHandler iSaveHandler2, String string3, int i4, WorldSettings worldSettings5) {
-		super(iSaveHandler2, string3, worldSettings5, i4 == -1 ? WorldProvider.createNetherProvider() : null);
+		super(iSaveHandler2, string3, worldSettings5, i4 == -1 || i4 == 1 ? WorldProvider.createNetherProvider() : null);
 		this.mcServer = minecraftServer1;
 		this.entityRemoval = new MCHash();
 	}
@@ -98,7 +98,7 @@ public class WorldServer extends World {
 
 	public boolean addWeatherEffect(Entity entity1) {
 		if(super.addWeatherEffect(entity1)) {
-			this.mcServer.configManager.sendPacketToPlayersAroundPoint(entity1.posX, entity1.posY, entity1.posZ, 512.0D, this.worldProvider.worldType, new Packet71Weather(entity1));
+			this.mcServer.configManager.sendPacketToPlayersAroundPoint(entity1.posX, entity1.posY, entity1.posZ, 512.0D, this.worldProvider.dimensionId, new Packet71Weather(entity1));
 			return true;
 		} else {
 			return false;
@@ -107,7 +107,7 @@ public class WorldServer extends World {
 
 	public void setEntityState(Entity entity1, byte b2) {
 		Packet38EntityStatus packet38EntityStatus3 = new Packet38EntityStatus(entity1.entityId, b2);
-		this.mcServer.getEntityTracker(this.worldProvider.worldType).sendPacketToTrackedPlayersAndTrackedEntity(entity1, packet38EntityStatus3);
+		this.mcServer.getEntityTracker(this.worldProvider.dimensionId).sendPacketToTrackedPlayersAndTrackedEntity(entity1, packet38EntityStatus3);
 	}
 
 	public Explosion newExplosion(Entity entity1, double d2, double d4, double d6, float f8, boolean z9) {
@@ -115,7 +115,7 @@ public class WorldServer extends World {
 		explosion10.isFlaming = z9;
 		explosion10.doExplosion();
 		explosion10.doEffects(false);
-		this.mcServer.configManager.sendPacketToPlayersAroundPoint(d2, d4, d6, 64.0D, this.worldProvider.worldType, new Packet60Explosion(d2, d4, d6, f8, explosion10.destroyedBlockPositions, 0));
+		this.mcServer.configManager.sendPacketToPlayersAroundPoint(d2, d4, d6, 64.0D, this.worldProvider.dimensionId, new Packet60Explosion(d2, d4, d6, f8, explosion10.destroyedBlockPositions, 0));
 		return explosion10;
 	}
 	
@@ -124,13 +124,13 @@ public class WorldServer extends World {
 		explosion10.isFlaming = z9;
 		explosion10.doExplosion();
 		explosion10.doEffects(false);
-		this.mcServer.configManager.sendPacketToPlayersAroundPoint(d2, d4, d6, 64.0D, this.worldProvider.worldType, new Packet60Explosion(d2, d4, d6, f8, explosion10.destroyedBlockPositions, blockID));
+		this.mcServer.configManager.sendPacketToPlayersAroundPoint(d2, d4, d6, 64.0D, this.worldProvider.dimensionId, new Packet60Explosion(d2, d4, d6, f8, explosion10.destroyedBlockPositions, blockID));
 		return explosion10;
 	}
 
 	public void playNoteAt(int i1, int i2, int i3, int i4, int i5) {
 		super.playNoteAt(i1, i2, i3, i4, i5);
-		this.mcServer.configManager.sendPacketToPlayersAroundPoint((double)i1, (double)i2, (double)i3, 64.0D, this.worldProvider.worldType, new Packet54PlayNoteBlock(i1, i2, i3, i4, i5));
+		this.mcServer.configManager.sendPacketToPlayersAroundPoint((double)i1, (double)i2, (double)i3, 64.0D, this.worldProvider.dimensionId, new Packet54PlayNoteBlock(i1, i2, i3, i4, i5));
 	}
 
 	public void s_func_30006_w() {
@@ -145,7 +145,7 @@ public class WorldServer extends World {
 		super.updateWeather();
 
 		if (snowing != this.worldInfo.getSnowing() || raining != this.worldInfo.getRaining() || thundering != this.worldInfo.getThundering()) {
-			this.mcServer.configManager.sendPacketToAllPlayers(new Packet98UpdateWeather(this.worldInfo.getRaining(), this.worldInfo.getSnowing(), this.worldInfo.getThundering()));
+			this.mcServer.configManager.sendPacketToAllPlayersInDimension(new Packet98UpdateWeather(this.worldInfo.getRaining(), this.worldInfo.getSnowing(), this.worldInfo.getThundering()), this.worldProvider.dimensionId);
 			}
 
 		}
@@ -155,7 +155,7 @@ public class WorldServer extends World {
 		super.badMoonDecide(worldTime, hourOfTheDay);
 		
 		if(prevBadMoonDecide != this.badMoonDecide) {
-			this.mcServer.configManager.sendPacketToAllPlayers(new Packet96BadMoonDecide(this.badMoonDecide));
+			this.mcServer.configManager.sendPacketToAllPlayersInDimension(new Packet96BadMoonDecide(this.badMoonDecide), this.worldProvider.dimensionId);
 		}
 	}
 	

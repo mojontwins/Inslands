@@ -141,7 +141,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP {
 
 	public void respawnPlayer() {
 		this.sendInventoryChanged();
-		this.sendQueue.addToSendQueue(new Packet9Respawn((byte)this.dimension));
+		this.sendQueue.addToSendQueue(new Packet9Respawn(this.dimension));
 	}
 
 	protected void damageEntity(int i1) {

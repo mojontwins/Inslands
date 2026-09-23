@@ -43,6 +43,7 @@ public class WorldInfo {
 	private float lastPositionYaw;
 	private float lastPositionPitch;
 	private boolean generated = true;
+	private int dayOfTheYear;
 		
 	public WorldInfo(NBTTagCompound nbt) {
 		this.randomSeed = nbt.getLong("RandomSeed");
@@ -89,7 +90,8 @@ public class WorldInfo {
 		this.snowingTime = nbt.getInteger("snowingTime");
 		this.snowing = nbt.getBoolean("snowing");
 		this.bloodMoon = nbt.getBoolean("BloodMoon");
-		Seasons.dayOfTheYear = nbt.getInteger("DayOfTheYear");
+		this.dayOfTheYear = nbt.getInteger("DayOfTheYear");
+		Seasons.dayOfTheYear = this.dayOfTheYear;
 		if(nbt.hasKey("WorldId")) {
 			this.dimension = nbt.getInteger("WorldId");
 			this.worldId = this.dimension;
@@ -171,6 +173,7 @@ public class WorldInfo {
 		this.themeId = info.themeId;
 		this.worldWidthChunks = info.worldWidthChunks;
 		this.worldLengthChunks = info.worldLengthChunks;
+		this.dayOfTheYear = info.dayOfTheYear;
 	}
 
 	public NBTTagCompound getNBTTagCompound() {
@@ -201,7 +204,7 @@ public class WorldInfo {
 		nbt.setInteger("snowingTime", this.snowingTime);
 		nbt.setBoolean("snowing", this.snowing);
 		nbt.setBoolean("BloodMoon", this.bloodMoon);
-		nbt.setInteger("DayOfTheYear", Seasons.dayOfTheYear);
+		nbt.setInteger("DayOfTheYear", this.dayOfTheYear);
 		nbt.setInteger("ThemeId", this.themeId);
 		nbt.setInteger("WorldId", this.worldId);
 		nbt.setInteger("WidthInChunks", this.worldWidthChunks);
@@ -278,6 +281,15 @@ public class WorldInfo {
 		this.spawnX = x;
 		this.spawnY = y;
 		this.spawnZ = z;
+	}
+
+	public int getDayOfTheYear() {
+		return this.dayOfTheYear;
+	}
+
+	public void setDayOfTheYear(int dayOfTheYear) {
+		this.dayOfTheYear = dayOfTheYear;
+		Seasons.dayOfTheYear = dayOfTheYear;
 	}
 
 	public String getWorldName() {

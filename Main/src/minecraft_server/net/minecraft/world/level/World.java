@@ -312,6 +312,10 @@ public class World implements IBlockAccess {
 		}
 		Seasons.updateSeasonCounters();
 
+		// Mirror the resolved global day into this world's info so its own saves,
+		// packets and day counts stay consistent once multiple worlds coexist.
+		this.worldInfo.setDayOfTheYear(Seasons.dayOfTheYear);
+
 		this.calculateInitialSkylight();
 		this.calculateInitialWeather();
 		
@@ -2211,6 +2215,7 @@ public class World implements IBlockAccess {
 				int oldCurrentSeason = Seasons.currentSeason;
 				
 				Seasons.dayOfTheYear ++;
+				this.worldInfo.setDayOfTheYear(Seasons.dayOfTheYear);
 				Seasons.updateSeasonCounters();
 				
 				// Leaves change colours so

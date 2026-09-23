@@ -204,7 +204,9 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 					if(this.timeInPortal >= 1.0F) {
 						this.timeInPortal = 1.0F;
 						this.timeUntilPortal = 10;
-						this.mcServer.configManager.sendPlayerToOtherDimension(this);
+						// Portals lead to the nether from any world; leaving the nether
+						// returns to the last world the player entered it from.
+						this.mcServer.configManager.sendPlayerToOtherDimension(this, this.dimension == 1 ? (this.netherReturnWorldId < 2 ? 0 : this.netherReturnWorldId) : 1);
 					}
 				}
 

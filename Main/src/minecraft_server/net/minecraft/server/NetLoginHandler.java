@@ -104,9 +104,9 @@ public class NetLoginHandler extends NetHandler {
 			ChunkCoordinates chunkCoordinates = worldServer.getSpawnPoint();
 			NetServerHandler netServerHandler = new NetServerHandler(this.mcServer, this.netManager, entityPlayerMP);
 			
-			netServerHandler.sendPacket(new Packet1Login("", entityPlayerMP.entityId, worldServer.getRandomSeed(), (byte)worldServer.worldProvider.worldType));
+			netServerHandler.sendPacket(new Packet1Login("", entityPlayerMP.entityId, worldServer.getRandomSeed(), worldServer.worldProvider.dimensionId));
 			netServerHandler.sendPacket(new Packet6SpawnPosition(chunkCoordinates.posX, chunkCoordinates.posY, chunkCoordinates.posZ));
-			netServerHandler.sendPacket(new Packet93FiniteWorldSettings(LevelThemeGlobalSettings.themeID, WorldSize.sizeID));
+			netServerHandler.sendPacket(new Packet93FiniteWorldSettings(worldServer.getWorldInfo().getThemeId(), WorldSize.getSizeId(worldServer.getWorldInfo().getWorldWidthChunks(), worldServer.getWorldInfo().getWorldLengthChunks())));
 			
 			this.mcServer.configManager.joinNewPlayerManager(entityPlayerMP, worldServer);
 			this.mcServer.configManager.sendPacketToAllPlayers(new Packet3Chat("\u00a7e" + entityPlayerMP.username + " joined the game."));
@@ -117,7 +117,7 @@ public class NetLoginHandler extends NetHandler {
 
 			this.mcServer.networkServer.addPlayer(netServerHandler);
 			netServerHandler.sendPacket(new Packet4UpdateTime(worldServer.getWorldTime()));
-			netServerHandler.sendPacket(new Packet95UpdateDayOfTheYear(Seasons.dayOfTheYear));
+			netServerHandler.sendPacket(new Packet95UpdateDayOfTheYear(worldServer.getWorldInfo().getDayOfTheYear()));
 			entityPlayerMP.sendUpdateTimeAndWeather();
 		}
 

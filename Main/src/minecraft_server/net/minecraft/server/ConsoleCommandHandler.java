@@ -40,25 +40,22 @@ public class ConsoleCommandHandler {
 						serverConfigurationManager.savePlayerStates();
 					}
 
-					for(i6 = 0; i6 < this.minecraftServer.worldMngr.length; ++i6) {
-						worldServer = this.minecraftServer.worldMngr[i6];
-						worldServer.saveWorld(true, (IProgressUpdate)null);
+					for(WorldServer wx : this.minecraftServer.worldMngr.values()) {
+						wx.saveWorld(true, (IProgressUpdate)null);
 					}
 
 					this.sendNoticeToOps(username, "Save complete.");
 				} else if(command.toLowerCase().startsWith("save-off")) {
 					this.sendNoticeToOps(username, "Disabling level saving..");
 
-					for(i6 = 0; i6 < this.minecraftServer.worldMngr.length; ++i6) {
-						worldServer = this.minecraftServer.worldMngr[i6];
-						worldServer.levelSaving = true;
+					for(WorldServer wx : this.minecraftServer.worldMngr.values()) {
+						wx.levelSaving = true;
 					}
 				} else if(command.toLowerCase().startsWith("save-on")) {
 					this.sendNoticeToOps(username, "Enabling level saving..");
 
-					for(i6 = 0; i6 < this.minecraftServer.worldMngr.length; ++i6) {
-						worldServer = this.minecraftServer.worldMngr[i6];
-						worldServer.levelSaving = false;
+					for(WorldServer wx : this.minecraftServer.worldMngr.values()) {
+						wx.levelSaving = false;
 					}
 				} else {
 					String argument;
@@ -98,7 +95,7 @@ public class ConsoleCommandHandler {
 							}
 						}
 						if (timeChanged) {
-							worldServer = this.minecraftServer.worldMngr[0];
+							worldServer = this.minecraftServer.getWorldManager(0);
 							long worldTime = worldServer.getWorldTime();
 							long timeBaseDay = worldTime / 24000L * 24000L;
 							long remaining = worldTime % 24000L;
@@ -111,7 +108,7 @@ public class ConsoleCommandHandler {
 							commandListener.log("Syntax error, use time set [night|day|0-23999].");
 						}	
 					} else if (command.toLowerCase().startsWith("summon ")) {
-						worldServer = this.minecraftServer.worldMngr[0];
+						worldServer = this.minecraftServer.getWorldManager(0);
 						argument = command.substring(command.indexOf(" ")).trim();
 						boolean spawned = false;
 						EntityLiving entity = (EntityLiving) EntityList.createEntityByName(argument, worldServer);
@@ -252,16 +249,14 @@ public class ConsoleCommandHandler {
 											i8 = Integer.parseInt(string18[2]);
 											WorldServer worldServer19;
 											if("add".equalsIgnoreCase(string16)) {
-												for(i17 = 0; i17 < this.minecraftServer.worldMngr.length; ++i17) {
-													worldServer19 = this.minecraftServer.worldMngr[i17];
-													worldServer19.s_func_32005_b(worldServer19.getWorldTime() + (long)i8);
+												for(WorldServer wx : this.minecraftServer.worldMngr.values()) {
+													wx.s_func_32005_b(wx.getWorldTime() + (long)i8);
 												}
 
 												this.sendNoticeToOps(username, "Added " + i8 + " to time");
 											} else if("set".equalsIgnoreCase(string16)) {
-												for(i17 = 0; i17 < this.minecraftServer.worldMngr.length; ++i17) {
-													worldServer19 = this.minecraftServer.worldMngr[i17];
-													worldServer19.s_func_32005_b((long)i8);
+												for(WorldServer wx : this.minecraftServer.worldMngr.values()) {
+													wx.s_func_32005_b((long)i8);
 												}
 
 												this.sendNoticeToOps(username, "Set time to " + i8);
