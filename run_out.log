@@ -1,0 +1,11 @@
+Exception in thread "main" java.lang.ExceptionInInitializerError
+	at net.minecraft.world.stats.StatCollector.<clinit>(StatCollector.java:6)
+	at net.minecraft.world.stats.StatList.<clinit>(StatList.java:23)
+	at net.minecraft.server.MinecraftServer.main(MinecraftServer.java:446)
+Caused by: java.lang.NullPointerException
+	at java.util.Properties$LineReader.readLine(Properties.java:434)
+	at java.util.Properties.load0(Properties.java:353)
+	at java.util.Properties.load(Properties.java:341)
+	at net.minecraft.util.StringTranslate.<init>(StringTranslate.java:12)
+	at net.minecraft.util.StringTranslate.<clinit>(StringTranslate.java:7)
+	... 3 more

@@ -1,0 +1,35 @@
+2026-09-23 12:14:12 [INFO] Starting minecraft server InSlands v250901
+2026-09-23 12:14:12 [INFO] Loading properties
+2026-09-23 12:14:12 [WARNING] server.properties does not exist
+2026-09-23 12:14:12 [INFO] Generating new properties file
+2026-09-23 12:14:12 [INFO] Starting Minecraft server on *:25565
+2026-09-23 12:14:12 [WARNING] Failed to load ban list: java.io.FileNotFoundException: banned-players.txt (El sistema no puede encontrar el archivo especificado)
+2026-09-23 12:14:12 [WARNING] Failed to load ip ban list: java.io.FileNotFoundException: banned-ips.txt (El sistema no puede encontrar el archivo especificado)
+2026-09-23 12:14:12 [WARNING] Failed to load ip ban list: java.io.FileNotFoundException: ops.txt (El sistema no puede encontrar el archivo especificado)
+2026-09-23 12:14:12 [WARNING] Failed to load white-list: java.io.FileNotFoundException: white-list.txt (El sistema no puede encontrar el archivo especificado)
+2026-09-23 12:14:12 [INFO] Preparing level "world"
+2026-09-23 12:14:12 [INFO] ** DIM 0
+2026-09-23 12:14:12 [INFO] Generating new world
+2026-09-23 12:14:12 [INFO] Building terrain: 0%
+2026-09-23 12:14:13 [INFO] Converting... 32%
+2026-09-23 12:14:14 [INFO] Saving level: 0%
+2026-09-23 12:14:15 [INFO] ** DIM 1
+2026-09-23 12:14:15 [INFO] Generating new world
+2026-09-23 12:14:15 [INFO] Building nether: 0%
+2026-09-23 12:14:15 [INFO] Saving nether: 0%
+2026-09-23 12:14:16 [INFO] Done (3698457000ns)! For help, type "help" or "?"
+2026-09-23 12:17:23 [INFO] /127.0.0.1:55193 lost connection
+2026-09-23 12:17:35 [INFO] Stopping server
+2026-09-23 12:17:35 [INFO] Saving chunks
+2026-09-23 12:18:41 [INFO] Starting minecraft server InSlands v250901
+2026-09-23 12:18:41 [INFO] Loading properties
+2026-09-23 12:18:41 [INFO] Starting Minecraft server on *:25565
+2026-09-23 12:18:41 [INFO] Preparing level "world"
+2026-09-23 12:18:41 [INFO] ** DIM 0
+2026-09-23 12:18:41 [INFO] Loading existing world
+2026-09-23 12:18:41 [INFO] ** DIM 1
+2026-09-23 12:18:41 [INFO] Loading existing world
+2026-09-23 12:18:41 [INFO] Done (500722900ns)! For help, type "help" or "?"
+2026-09-23 12:18:46 [INFO] /127.0.0.1:49723 lost connection
+2026-09-23 12:29:19 [INFO] Stopping server
+2026-09-23 12:29:19 [INFO] Saving chunks

@@ -413,7 +413,9 @@ public class World implements IBlockAccess {
 			}
 		}
 
-		this.saveHandler.saveWorldInfo(this.worldInfo);
+		if(this.worldProvider.dimensionId != 1) {
+			this.saveHandler.saveWorldInfo(this.worldInfo);
+		}
 		this.mapStorage.saveAllData();
 
 		// §5.11 (SP): the active world refreshes the canonical player snapshot in

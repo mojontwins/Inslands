@@ -152,9 +152,14 @@ public class MinecraftServer implements Runnable, ICommandListener {
 	 */
 	private void preloadWorld(WorldServer world, boolean isNew) {
 		if(isNew && world.worldProvider.worldType == 0) {
-			// Overworld: bulk generation + single full save.
+			// Overworld: bulk generation + spawn placement FIRST (so the first
+			// level.dat already carries a valid spawn, never 0,0,0) + single full save.
 			this.outputPercentRemaining("Building terrain", 0);
 			world.chunkProviderServer.generateWholeWorld(new ConvertProgressUpdater(this));
+			// Theme-specific post generation runs at the end of generateWholeWorld.
+			// The nether's setInitialSpawnLocation would build an indev house there,
+			// which is never wanted.  canRespawnHere() == false already prevents regular respawns.
+			world.worldProvider.setInitialSpawnLocation(world);
 			this.outputPercentRemaining("Saving level", 0);
 			world.saveWorld(true, new ConvertProgressUpdater(this));
 		} else if(isNew && world.worldProvider.worldType == -1) {
@@ -179,14 +184,6 @@ public class MinecraftServer implements Runnable, ICommandListener {
 					world.chunkProviderServer.prepareChunk(chunkX, chunkZ);
 				}
 			}
-		}
-
-		// Spawn placement — overworld only. Theme-specific post generation now
-		// runs at the end of generateWholeWorld instead.
-		// The nether's setInitialSpawnLocation would build an indev house there, which
-		// is never wanted.  canRespawnHere() == false already prevents regular respawns.
-		if(isNew && world.worldProvider.worldType == 0) {
-			world.worldProvider.setInitialSpawnLocation(world);
 		}
 	}
 

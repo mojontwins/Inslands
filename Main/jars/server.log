@@ -4593,3 +4593,165 @@ java.lang.NullPointerException
 2025-09-01 08:21:36 [INFO] Stopping server
 2025-09-01 08:21:36 [INFO] Saving chunks
 2025-09-01 08:21:37 [INFO] Saving chunks
+2026-09-23 12:28:36 [INFO] Starting minecraft server InSlands v250901
+2026-09-23 12:28:36 [INFO] Loading properties
+2026-09-23 12:28:36 [INFO] Starting Minecraft server on *:25565
+2026-09-23 12:28:36 [WARNING] **** FAILED TO BIND TO PORT!
+2026-09-23 12:28:36 [WARNING] The exception was: java.net.BindException: Address already in use: JVM_Bind
+2026-09-23 12:28:36 [WARNING] Perhaps a server is already running on that port?
+2026-09-23 12:29:18 [INFO] Stopping server
+2026-09-23 12:29:18 [INFO] Saving chunks
+2026-09-23 12:29:24 [INFO] Starting minecraft server InSlands v250901
+2026-09-23 12:29:24 [INFO] Loading properties
+2026-09-23 12:29:24 [INFO] Starting Minecraft server on *:25565
+2026-09-23 12:29:24 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2026-09-23 12:29:24 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2026-09-23 12:29:24 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2026-09-23 12:29:24 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2026-09-23 12:29:24 [INFO] Preparing level "world"
+2026-09-23 12:29:24 [INFO] ** DIM 0
+2026-09-23 12:29:24 [INFO] Generating new world
+2026-09-23 12:29:24 [INFO] Building terrain: 0%
+2026-09-23 12:29:25 [INFO] Converting... 30%
+2026-09-23 12:29:54 [INFO] Starting minecraft server InSlands v250901
+2026-09-23 12:29:54 [INFO] Loading properties
+2026-09-23 12:29:54 [INFO] Starting Minecraft server on *:25565
+2026-09-23 12:29:54 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2026-09-23 12:29:54 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2026-09-23 12:29:54 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2026-09-23 12:29:54 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2026-09-23 12:29:54 [INFO] Preparing level "world"
+2026-09-23 12:29:54 [INFO] ** DIM 0
+2026-09-23 12:29:54 [INFO] Generating new world
+2026-09-23 12:29:54 [INFO] Building terrain: 0%
+2026-09-23 12:29:55 [INFO] Converting... 33%
+2026-09-23 12:29:56 [INFO] Converting... 69%
+2026-09-23 12:29:57 [INFO] Saving level: 0%
+2026-09-23 12:29:57 [INFO] ** DIM 1
+2026-09-23 12:29:57 [INFO] Generating new world
+2026-09-23 12:29:57 [INFO] Building nether: 0%
+2026-09-23 12:29:58 [INFO] Saving nether: 0%
+2026-09-23 12:29:58 [INFO] Done (4659540200ns)! For help, type "help" or "?"
+2026-09-23 12:30:16 [WARNING] Failed to load player data for Player288
+2026-09-23 12:30:16 [INFO] Player288 [/127.0.0.1:57919] logged in with entity id 118 at (163.5, 70.62000000476837, 98.5)
+2026-09-23 12:31:06 [INFO] Unknown console command. Type "help" for help.
+2026-09-23 12:31:09 [INFO] CONSOLE: Opping Player288
+2026-09-23 12:31:16 [INFO] Player288 issued server command: gamemode 1
+2026-09-23 12:31:16 [INFO] Player288: Game mode changed to creative for Player288
+2026-09-23 12:31:26 [WARNING] class net.minecraft.server.NetServerHandler wasn't prepared to deal with a class net.minecraft.network.packet.Packet107CreativeSetSlot
+2026-09-23 12:34:33 [INFO] Stopping server
+2026-09-23 12:34:33 [INFO] Saving chunks
+2026-09-23 13:05:49 [INFO] Starting minecraft server InSlands v250901
+2026-09-23 13:05:49 [INFO] Loading properties
+2026-09-23 13:05:49 [INFO] Starting Minecraft server on *:25565
+2026-09-23 13:05:49 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2026-09-23 13:05:49 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2026-09-23 13:05:49 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2026-09-23 13:05:49 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2026-09-23 13:05:49 [INFO] Preparing level "world"
+2026-09-23 13:05:49 [INFO] ** DIM 0
+2026-09-23 13:05:50 [INFO] Loading existing world
+2026-09-23 13:05:50 [INFO] ** DIM 1
+2026-09-23 13:05:50 [INFO] Loading existing world
+2026-09-23 13:05:50 [INFO] Done (772793700ns)! For help, type "help" or "?"
+2026-09-23 13:06:06 [WARNING] Failed to load player data for Player841
+2026-09-23 13:06:06 [INFO] Player841 [/127.0.0.1:51682] logged in with entity id 404 at (-1.5, 0.6200000047683716, 8.5)
+2026-09-23 14:15:56 [INFO] Starting minecraft server InSlands v250901
+2026-09-23 14:15:56 [INFO] Loading properties
+2026-09-23 14:15:56 [INFO] Starting Minecraft server on *:25565
+2026-09-23 14:15:56 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2026-09-23 14:15:56 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2026-09-23 14:15:56 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2026-09-23 14:15:56 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2026-09-23 14:15:56 [INFO] Preparing level "world"
+2026-09-23 14:15:56 [INFO] ** DIM 0
+2026-09-23 14:16:05 [INFO] Starting minecraft server InSlands v250901
+2026-09-23 14:16:05 [INFO] Loading properties
+2026-09-23 14:16:05 [INFO] Starting Minecraft server on *:25565
+2026-09-23 14:16:05 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2026-09-23 14:16:05 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2026-09-23 14:16:05 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2026-09-23 14:16:05 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2026-09-23 14:16:05 [INFO] Preparing level "world"
+2026-09-23 14:16:05 [INFO] ** DIM 0
+2026-09-23 14:16:05 [INFO] Loading existing world
+2026-09-23 14:16:06 [INFO] ** DIM 1
+2026-09-23 14:16:06 [INFO] Loading existing world
+2026-09-23 14:16:06 [INFO] Done (483078600ns)! For help, type "help" or "?"
+2026-09-23 14:53:53 [INFO] Stopping server
+2026-09-23 14:53:53 [INFO] Saving chunks
+2026-09-23 14:54:48 [INFO] Starting minecraft server InSlands v250901
+2026-09-23 14:54:48 [INFO] Loading properties
+2026-09-23 14:54:48 [INFO] Starting Minecraft server on *:25565
+2026-09-23 14:54:48 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2026-09-23 14:54:48 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2026-09-23 14:54:48 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2026-09-23 14:54:48 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2026-09-23 14:54:48 [INFO] Preparing level "world"
+2026-09-23 14:54:48 [INFO] ** DIM 0
+2026-09-23 14:54:49 [INFO] Loading existing world
+2026-09-23 14:54:49 [INFO] ** DIM 1
+2026-09-23 14:54:49 [INFO] Loading existing world
+2026-09-23 14:54:49 [INFO] Done (464673900ns)! For help, type "help" or "?"
+2026-09-23 14:54:55 [INFO] CONSOLE: Opping popoch
+2026-09-23 14:55:00 [WARNING] Failed to load player data for popoch
+2026-09-23 14:55:00 [INFO] popoch [/127.0.0.1:62432] logged in with entity id 404 at (168.5, 70.62000000476837, 111.5)
+2026-09-23 14:55:20 [INFO] popoch lost connection: disconnect.genericReason
+2026-09-23 14:55:21 [INFO] Stopping server
+2026-09-23 14:55:21 [INFO] Saving chunks
+2026-09-23 14:55:59 [INFO] Starting minecraft server InSlands v250901
+2026-09-23 14:55:59 [INFO] Loading properties
+2026-09-23 14:55:59 [INFO] Starting Minecraft server on *:25565
+2026-09-23 14:55:59 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2026-09-23 14:55:59 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2026-09-23 14:55:59 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2026-09-23 14:55:59 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2026-09-23 14:55:59 [INFO] Preparing level "world"
+2026-09-23 14:55:59 [INFO] ** DIM 0
+2026-09-23 14:55:59 [INFO] Loading existing world
+2026-09-23 14:56:00 [INFO] ** DIM 1
+2026-09-23 14:56:00 [INFO] Loading existing world
+2026-09-23 14:56:00 [INFO] Done (685807600ns)! For help, type "help" or "?"
+2026-09-23 14:56:10 [INFO] popoch [/127.0.0.1:58941] logged in with entity id 525 at (170.74001925612245, 65.0, 117.24733238611927)
+2026-09-23 14:56:18 [INFO] popoch issued server command: gamemode 1
+2026-09-23 14:56:18 [INFO] popoch: Game mode changed to creative for popoch
+2026-09-23 14:57:08 [INFO] popoch issued server command: time set 0
+2026-09-23 14:57:36 [WARNING] popoch moved wrongly!
+2026-09-23 14:57:43 [INFO] popoch issued server command: gamemode 0
+2026-09-23 14:57:43 [INFO] popoch: Game mode changed to survival for popoch
+2026-09-23 14:58:17 [WARNING] popoch was kicked for floating too long!
+2026-09-23 14:58:24 [INFO] Stopping server
+2026-09-23 14:58:24 [INFO] Saving chunks
+2026-09-23 15:00:44 [INFO] Starting minecraft server InSlands v250901
+2026-09-23 15:00:44 [INFO] Loading properties
+2026-09-23 15:00:44 [INFO] Starting Minecraft server on *:25565
+2026-09-23 15:00:44 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2026-09-23 15:00:44 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2026-09-23 15:00:44 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2026-09-23 15:00:44 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2026-09-23 15:00:44 [INFO] Preparing level "world"
+2026-09-23 15:00:44 [INFO] ** DIM 0
+2026-09-23 15:00:44 [INFO] Loading existing world
+2026-09-23 15:00:44 [INFO] ** DIM 1
+2026-09-23 15:00:44 [INFO] Loading existing world
+2026-09-23 15:00:45 [INFO] Done (659905500ns)! For help, type "help" or "?"
+2026-09-23 15:00:54 [INFO] popoch [/127.0.0.1:63532] logged in with entity id 604 at (164.6096771780409, 67.00000004768373, 118.21533643518664)
+2026-09-23 15:01:45 [INFO] Stopping server
+2026-09-23 15:01:45 [INFO] Saving chunks
+2026-09-23 16:23:05 [INFO] Starting minecraft server InSlands v250901
+2026-09-23 16:23:05 [INFO] Loading properties
+2026-09-23 16:23:05 [INFO] Starting Minecraft server on *:25565
+2026-09-23 16:23:05 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2026-09-23 16:23:06 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2026-09-23 16:23:06 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2026-09-23 16:23:06 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2026-09-23 16:23:06 [INFO] Preparing level "world"
+2026-09-23 16:23:06 [INFO] ** DIM 0
+2026-09-23 16:23:06 [INFO] Loading existing world
+2026-09-23 16:23:06 [INFO] ** DIM 1
+2026-09-23 16:23:06 [INFO] Loading existing world
+2026-09-23 16:23:06 [INFO] Done (581105800ns)! For help, type "help" or "?"
+2026-09-23 16:23:13 [INFO] popoch [/127.0.0.1:55575] logged in with entity id 835 at (172.34375, 65.0, 111.4375)
+2026-09-23 16:23:57 [INFO] popoch lost connection: disconnect.quitting
+2026-09-23 16:24:07 [INFO] Stopping server
+2026-09-23 16:24:07 [INFO] Saving chunks
