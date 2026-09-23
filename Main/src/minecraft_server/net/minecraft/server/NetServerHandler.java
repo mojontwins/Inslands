@@ -14,6 +14,7 @@ import net.minecraft.network.packet.Packet101CloseWindow;
 import net.minecraft.network.packet.Packet102WindowClick;
 import net.minecraft.network.packet.Packet103SetSlot;
 import net.minecraft.network.packet.Packet106Transaction;
+import net.minecraft.network.packet.Packet107CreativeSetSlot;
 import net.minecraft.network.packet.Packet10Flying;
 import net.minecraft.network.packet.Packet130UpdateSign;
 import net.minecraft.network.packet.Packet13PlayerLookMove;
@@ -708,6 +709,21 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 		ItemStack itemStack = new ItemStack(packet.itemID, packet.itemAmount, packet.itemDamage);
 		this.playerEntity.inventory.setInventorySlotContents(packet.slot, itemStack);
 		System.out.println ("Put " + itemStack + " into slot " + packet.slot);
+	}
+
+	public void handleCreativeSetSlot(Packet107CreativeSetSlot packet) {
+		if(!this.playerEntity.isCreative) {
+			return;
+		}
+		ItemStack itemStack = packet.itemStack;
+		if(packet.slot == -1) {
+			if(itemStack != null) {
+				this.playerEntity.dropPlayerItem(itemStack);
+			}
+		} else if(packet.slot >= 0 && packet.slot < this.playerEntity.inventorySlots.inventorySlots.size()) {
+			this.playerEntity.inventorySlots.getSlot(packet.slot).putStack(itemStack);
+		}
+		this.playerEntity.inventory.onInventoryChanged();
 	}
 
 	public boolean isServerHandler() {
