@@ -105,14 +105,9 @@ public class WorldClient extends World {
 	public void doPreChunk(int i1, int i2, boolean z3) {
 		if(z3) {
 			this.chunkProviderClient.prepareChunk(i1, i2);
-		} else {
-			this.chunkProviderClient.unloadChunk(i1, i2);
-		}
+		} 
 
-		if(!z3) {
-			this.markBlocksDirty(i1 * 16, 0, i2 * 16, i1 * 16 + 15, 128, i2 * 16 + 15);
-		}
-
+		// "False" (unload) prechunk packets are ignored.
 	}
 
 	public boolean spawnEntityInWorld(Entity entity1) {

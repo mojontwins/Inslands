@@ -69,17 +69,7 @@ public class ChunkProviderServer implements IChunkProvider {
 	 * respawn-capable dimension.
 	 */
 	public void dropChunk(int chunkX, int chunkZ) {
-		if(this.world.worldProvider.canRespawnHere()) {
-			ChunkCoordinates spawnPoint = this.world.getSpawnPoint();
-			int distanceX = chunkX * 16 + 8 - spawnPoint.posX;
-			int distanceZ = chunkZ * 16 + 8 - spawnPoint.posZ;
-			short protectRadius = 128;
-			if(distanceX >= -protectRadius && distanceX <= protectRadius && distanceZ >= -protectRadius && distanceZ <= protectRadius) {
-				return;
-			}
-		}
-
-		this.droppedChunksSet.add(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ));
+		// Never with limited worlds
 	}
 
 	public void unloadAllChunks() {
@@ -238,27 +228,7 @@ public class ChunkProviderServer implements IChunkProvider {
 	}
 
 	public boolean unload100OldestChunks() {
-		if(!this.world.levelSaving) {
-			for(int i = 0; i < 100; ++i) {
-				if(!this.droppedChunksSet.isEmpty()) {
-					Integer hash = this.droppedChunksSet.iterator().next();
-					Chunk chunk = this.chunksById.get(hash);
-					chunk.onChunkUnload();
-					this.saveChunkData(chunk);
-					this.saveChunkExtraData(chunk);
-					this.world.evictHeightQuery(chunk.xPosition, chunk.zPosition);
-					this.droppedChunksSet.remove(hash);
-					this.chunksById.remove(hash);
-					this.loadedChunks.remove(chunk);
-				}
-			}
-
-			if(this.chunkLoader != null) {
-				this.chunkLoader.chunkTick();
-			}
-		}
-
-		return this.chunkGenerator.unload100OldestChunks();
+		return false;
 	}
 
 	public boolean canSave() {

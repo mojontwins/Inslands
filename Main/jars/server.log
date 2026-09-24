@@ -4755,3 +4755,26 @@ java.lang.NullPointerException
 2026-09-23 16:23:57 [INFO] popoch lost connection: disconnect.quitting
 2026-09-23 16:24:07 [INFO] Stopping server
 2026-09-23 16:24:07 [INFO] Saving chunks
+2026-09-23 22:40:10 [INFO] Starting minecraft server InSlands v250901
+2026-09-23 22:40:10 [INFO] Loading properties
+2026-09-23 22:40:10 [INFO] Starting Minecraft server on *:25565
+2026-09-23 22:40:10 [WARNING] **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+2026-09-23 22:40:10 [WARNING] The server will make no attempt to authenticate usernames. Beware.
+2026-09-23 22:40:10 [WARNING] While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+2026-09-23 22:40:10 [WARNING] To change this, set "online-mode" to "true" in the server.settings file.
+2026-09-23 22:40:10 [INFO] Preparing level "world"
+2026-09-23 22:40:10 [INFO] ** DIM 0
+2026-09-23 22:40:10 [INFO] Loading existing world
+2026-09-23 22:40:10 [INFO] ** DIM 1
+2026-09-23 22:40:10 [INFO] Loading existing world
+2026-09-23 22:40:10 [INFO] Done (684668900ns)! For help, type "help" or "?"
+2026-09-23 22:40:18 [INFO] popoch [/127.0.0.1:60709] logged in with entity id 1000 at (192.09375, 64.125, 99.46875)
+2026-09-23 22:41:52 [INFO] popoch lost connection: disconnect.quitting
+2026-09-23 22:41:55 [INFO] popoch [/127.0.0.1:50207] logged in with entity id 2029 at (227.8125, 68.0, 85.59375)
+2026-09-23 22:42:20 [INFO] popoch issued server command: gamemode 1
+2026-09-23 22:42:20 [INFO] popoch: Game mode changed to creative for popoch
+2026-09-23 22:43:02 [INFO] popoch lost connection: disconnect.quitting
+2026-09-23 22:43:12 [INFO] popoch [/127.0.0.1:50253] logged in with entity id 3006 at (230.96875, 67.0, 84.75)
+2026-09-23 22:44:29 [INFO] popoch lost connection: disconnect.genericReason
+2026-09-23 22:44:59 [INFO] Stopping server
+2026-09-23 22:44:59 [INFO] Saving chunks

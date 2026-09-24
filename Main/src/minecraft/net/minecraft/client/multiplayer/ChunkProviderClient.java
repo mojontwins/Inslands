@@ -44,14 +44,7 @@ public class ChunkProviderClient implements IChunkProvider {
 	}
 
 	public void unloadChunk(int i1, int i2) {
-		Chunk chunk3 = this.provideChunk(i1, i2);
-		if(!chunk3.getIsChunkRendered()) {
-			chunk3.onChunkUnload();
-		}
-
-		this.chunkMapping.remove(new ChunkCoordIntPair(i1, i2));
-		this.chunkListing.remove(chunk3);
-		this.worldObj.evictHeightQuery(i1, i2);
+		// Worlds are fixed size and never unload!
 	}
 
 	public Chunk prepareChunk(int chunkX, int chunkZ) {
