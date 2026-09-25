@@ -36,6 +36,10 @@ public class NetLoginHandler extends NetHandler {
 	public NetLoginHandler(MinecraftServer minecraftServer1, Socket socket2, String string3) throws IOException {
 		this.mcServer = minecraftServer1;
 		this.netManager = new NetworkManager(socket2, string3, this);
+		// Server-side connection tuning (the shared NetworkManager class carries the
+		// client defaults; this server lives with far bigger buffers).
+		this.netManager.overflowLimit = 4194304;
+		this.netManager.maxReadPackets = 100;
 	}
 
 	public void tryLogin() {

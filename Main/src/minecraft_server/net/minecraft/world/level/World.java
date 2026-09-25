@@ -110,7 +110,7 @@ public class World implements IBlockAccess {
 	 * {@link #tickFrozenEntity}).  Defaults to 8, the same radius as block ticks and mob
 	 * spawns.
 	 */
-	public int entitySimulationRadiusChunks = 3;
+	public int entitySimulationRadiusChunks = 8;
 
 	public boolean colouredAthmospherics;
 	public long thisSessionTicks;

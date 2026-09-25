@@ -37,6 +37,11 @@ public class NetworkManager {
 	private int noInputTicks = 0;
 	private int estimatedRemaining = 0;
 
+	/** Max inbound-buffer estimate before the connection is dropped as an overflow. */
+	public int overflowLimit = 1048576;
+	/** Max packets drained per processReadPackets pass. */
+	public int maxReadPackets = 1000;
+
 	private int slowWriteDelay = 50;
 
 	public NetworkManager(Socket socket1, String s, NetHandler netHandler3) throws IOException {
@@ -172,7 +177,7 @@ public class NetworkManager {
 	}
 
 	public void processReadPackets() {
-		if(this.estimatedRemaining > 4194304) {
+		if(this.estimatedRemaining > this.overflowLimit) {
 			this.close("disconnect.overflow", new Object[0]);
 		}
 
@@ -184,7 +189,7 @@ public class NetworkManager {
 			this.noInputTicks = 0;
 		}
 
-		int n = 100;
+		int n = this.maxReadPackets;
 
 		while(!this.incoming.isEmpty() && n-- >= 0) {
 			Packet packet = (Packet)this.incoming.remove(0);

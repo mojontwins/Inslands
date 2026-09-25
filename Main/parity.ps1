@@ -10,12 +10,11 @@ $Root = Split-Path -Parent $PSScriptRoot
 $Client = Join-Path $Root "Main\src\minecraft\net\minecraft"
 $Server = Join-Path $Root "Main\src\minecraft_server\net\minecraft"
 
-# Intentional client/server asymmetries. Each entry is the path relative to
-# net\minecraft\ in both trees.
-$AllowList = @(
-    "\network\NetworkManager.java",       # overflow cap (1MB client / 4MB server), drain (1000/100), server-only countQueuedPackets()
-    "\world\level\World.java"             # entitySimulationRadiusChunks (8 client / 3 server)
-)
+# Intentional client/server asymmetries. Each entry would be a path relative to
+# net\minecraft\ in both trees. The principle: shared classes must be identical;
+# side-specific behavior lives in net.minecraft.client / net.minecraft.server
+# packages, so there should be no need for entries here. Keep it empty.
+$AllowList = @()
 
 $Offenders = @()
 Get-ChildItem -Recurse -Filter *.java $Client | ForEach-Object {

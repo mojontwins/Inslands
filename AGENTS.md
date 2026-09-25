@@ -25,7 +25,7 @@ All building happens inside Eclipse:
 
 ## Source layout
 
-There are **two independent source trees** — client and server. Shared game logic exists in both and must be kept in sync manually. **Before every build/export, run `powershell -ExecutionPolicy Bypass -File Main\parity.ps1`** — it fails on any drift between the shared classes. The only allowed client/server asymmetries are listed in the script's allowlist (NetworkManager perf tuning, World entitySimulationRadiusChunks); any new intentional asymmetry belongs there, not in silent divergence.
+There are **two independent source trees** — client and server. Shared game logic exists in both and must be kept in sync manually. **Before every build/export, run `powershell -ExecutionPolicy Bypass -File Main\parity.ps1`** — it fails on any drift between the shared classes. The rule: a shared class must be byte-identical in both trees; anything that genuinely must differ between sides belongs in `net.minecraft.client` (client tree) or `net.minecraft.server` (server tree) packages, never as diverging copies in the shared namespace. The script's allowlist should therefore stay empty; set per-side tuning from side-specific code (e.g. `NetLoginHandler` sets `NetworkManager.overflowLimit`/`maxReadPackets`). Any new intentional asymmetry belongs in a side package, not in the allowlist.
 
 ```
 Main/src/
