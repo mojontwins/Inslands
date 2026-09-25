@@ -97,7 +97,7 @@ public class BlockWorldPortal extends Block {
 			try {
 				LevelThemeGlobalSettings.loadThemeById(themeId);
 				stub.setThemeId(themeId);
-				if(sizeId >= 0 && sizeId <= 4) {
+				if(sizeId >= 0 && sizeId <= WorldSize.maxPortalSizeID) {
 					WorldSize.setSizeById(sizeId);
 					stub.setWorldSizeInChunks(WorldSize.xChunks, WorldSize.zChunks);
 				}

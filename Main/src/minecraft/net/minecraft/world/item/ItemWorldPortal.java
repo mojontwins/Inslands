@@ -5,6 +5,7 @@ import java.util.Random;
 
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.level.World;
+import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.WorldType;
 import net.minecraft.world.level.creative.CreativeTabs;
 import net.minecraft.world.level.theme.LevelThemeSettings;
@@ -85,7 +86,7 @@ public class ItemWorldPortal extends ItemBlock {
 			worldTypeId = creatable.isEmpty() ? WorldType.DEFAULT.id : creatable.get(random.nextInt(creatable.size()));
 		}
 
-		int sizeId = random.nextInt(5);
+		int sizeId = WorldSize.getRandomPortalSizeID(random);
 
 		int worldId = BlockWorldPortal.placeNewWorldPortal(world, x, y, z, themeId, sizeId, worldTypeId);
 		if(worldId < 0) return false;

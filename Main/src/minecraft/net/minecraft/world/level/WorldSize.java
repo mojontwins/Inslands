@@ -1,9 +1,12 @@
 package net.minecraft.world.level;
 
+import java.util.Random;
+
 import net.minecraft.world.level.chunk.IChunkProvider;
 import net.minecraft.world.level.levelgen.ChunkProviderHell;
 
 public class WorldSize {
+	public static final int maxPortalSizeID = 2;
 	public static int xChunks;
 	public static int zChunks;
 	
@@ -98,6 +101,10 @@ public class WorldSize {
 	
 	public static int getTotalChunks() {
 		return xChunks * zChunks;
+	}
+
+	public static int getRandomPortalSizeID(Random random) {
+		return random.nextInt(maxPortalSizeID + 1);
 	}
 
 	public static void setSizeById(int sizeId) {
