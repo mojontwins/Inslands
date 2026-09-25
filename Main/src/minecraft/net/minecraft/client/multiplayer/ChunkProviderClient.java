@@ -35,12 +35,8 @@ public class ChunkProviderClient implements IChunkProvider {
 
 	@SuppressWarnings("unused")
 	public boolean chunkExists(int i1, int i2) {
-		if(this != null) {
-			return true;
-		} else {
-			ChunkCoordIntPair chunkCoordIntPair3 = new ChunkCoordIntPair(i1, i2);
-			return this.chunkMapping.containsKey(chunkCoordIntPair3);
-		}
+		// Worlds are fixed size and never unload: every island chunk is loaded.
+		return true;
 	}
 
 	public void unloadChunk(int i1, int i2) {

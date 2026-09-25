@@ -5,7 +5,6 @@ import java.util.List;
 
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet50PreChunk;
-import net.minecraft.network.packet.Packet51MapChunk;
 import net.minecraft.network.packet.Packet52MultiBlockChange;
 import net.minecraft.network.packet.Packet53BlockChange;
 import net.minecraft.world.level.chunk.ChunkCoordIntPair;
@@ -40,13 +39,13 @@ class PlayerInstance {
 
 	public void addPlayer(EntityPlayerMP entityPlayerMP1) {
 		if(this.players.contains(entityPlayerMP1)) {
-			throw new IllegalStateException("Failed to add player. " + entityPlayerMP1 + " already is in chunk " + this.chunkX + ", " + this.chunkZ);
-		} else {
-			entityPlayerMP1.listeningChunks.add(this.currentChunk);
-			entityPlayerMP1.playerNetServerHandler.sendPacket(new Packet50PreChunk(this.currentChunk.chunkXPos, this.currentChunk.chunkZPos, true));
-			this.players.add(entityPlayerMP1);
-			entityPlayerMP1.loadedChunks.add(this.currentChunk);
+			return;
 		}
+
+		entityPlayerMP1.listeningChunks.add(this.currentChunk);
+		entityPlayerMP1.playerNetServerHandler.sendPacket(new Packet50PreChunk(this.currentChunk.chunkXPos, this.currentChunk.chunkZPos, true));
+		this.players.add(entityPlayerMP1);
+		entityPlayerMP1.queueChunkForSync(this.currentChunk);
 	}
 
 	public void removePlayer(EntityPlayerMP entityPlayerMP1) {
@@ -59,17 +58,15 @@ class PlayerInstance {
 					PlayerManager.getPlayerInstancesToUpdate(this.playerManager).remove(this);
 				}
 
-				//Removed
-				//this.playerManager.getMinecraftServer().chunkProviderServer.dropChunk(this.chunkX, this.chunkZ);
+//Removed
+			//this.playerManager.getMinecraftServer().chunkProviderServer.dropChunk(this.chunkX, this.chunkZ);
 			}
 
-			//Removed
-			/*
 			entityPlayerMP1.loadedChunks.remove(this.currentChunk);
 			if(entityPlayerMP1.listeningChunks.contains(this.currentChunk)) {
+				entityPlayerMP1.listeningChunks.remove(this.currentChunk);
 				entityPlayerMP1.playerNetServerHandler.sendPacket(new Packet50PreChunk(this.chunkX, this.chunkZ, false));
 			}
-			*/
 
 		}
 	}
@@ -121,11 +118,11 @@ class PlayerInstance {
 	}
 
 	public void sendPacketToPlayersInInstance(Packet packet1) {
+		// Fixed-size worlds are always in memory, so every member of this chunk's
+		// instance is fully synced at all times: no streaming gate here.
 		for(int i2 = 0; i2 < this.players.size(); ++i2) {
 			EntityPlayerMP entityPlayerMP3 = (EntityPlayerMP)this.players.get(i2);
-			if(entityPlayerMP3.listeningChunks.contains(this.currentChunk) && !entityPlayerMP3.loadedChunks.contains(this.currentChunk)) {
-				entityPlayerMP3.playerNetServerHandler.sendPacket(packet1);
-			}
+			entityPlayerMP3.playerNetServerHandler.sendPacket(packet1);
 		}
 
 	}
@@ -136,6 +133,7 @@ class PlayerInstance {
 			int i2;
 			int i3;
 			int i4;
+			int i5;
 			if(this.numBlocksToUpdate == 1) {
 				i2 = this.chunkX * 16 + this.minX;
 				i3 = this.minY;
@@ -145,32 +143,15 @@ class PlayerInstance {
 					this.updateTileEntity(worldServer1.getBlockTileEntity(i2, i3, i4));
 				}
 			} else {
-				int i5;
-				if(this.numBlocksToUpdate == 10) {
-					this.minY = this.minY / 2 * 2;
-					this.maxY = (this.maxY / 2 + 1) * 2;
-					i2 = this.minX + this.chunkX * 16;
-					i3 = this.minY;
-					i4 = this.minZ + this.chunkZ * 16;
-					i5 = this.maxX - this.minX + 1;
-					int i6 = this.maxY - this.minY + 2;
-					int i7 = this.maxZ - this.minZ + 1;
-					this.sendPacketToPlayersInInstance(new Packet51MapChunk(i2, i3, i4, i5, i6, i7, worldServer1));
-					List<TileEntity> list8 = worldServer1.getTileEntityList(i2, i3, i4, i2 + i5, i3 + i6, i4 + i7);
+				this.sendPacketToPlayersInInstance(new Packet52MultiBlockChange(this.chunkX, this.chunkZ, this.blocksToUpdate, this.numBlocksToUpdate, worldServer1));
 
-					for(int i9 = 0; i9 < list8.size(); ++i9) {
-						this.updateTileEntity((TileEntity)list8.get(i9));
-					}
-				} else {
-					this.sendPacketToPlayersInInstance(new Packet52MultiBlockChange(this.chunkX, this.chunkZ, this.blocksToUpdate, this.numBlocksToUpdate, worldServer1));
-
-					for(i2 = 0; i2 < this.numBlocksToUpdate; ++i2) {
-						i3 = this.chunkX * 16 + (this.numBlocksToUpdate >> 12 & 15);
-						i4 = this.numBlocksToUpdate & 255;
-						i5 = this.chunkZ * 16 + (this.numBlocksToUpdate >> 8 & 15);
-						if(Block.isBlockContainer[worldServer1.getBlockID(i3, i4, i5)]) {
-							this.updateTileEntity(worldServer1.getBlockTileEntity(i3, i4, i5));
-						}
+				for(i2 = 0; i2 < this.numBlocksToUpdate; ++i2) {
+					short s4 = this.blocksToUpdate[i2];
+					i3 = this.chunkX * 16 + (s4 >> 12 & 15);
+					i4 = s4 & 255;
+					i5 = this.chunkZ * 16 + (s4 >> 8 & 15);
+					if(Block.isBlockContainer[worldServer1.getBlockID(i3, i4, i5)]) {
+						this.updateTileEntity(worldServer1.getBlockTileEntity(i3, i4, i5));
 					}
 				}
 			}

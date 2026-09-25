@@ -6,10 +6,13 @@ import java.util.Set;
 
 import net.minecraft.client.SaveHandlerMP;
 import net.minecraft.client.gui.GameSettings;
+import net.minecraft.network.packet.Packet14BlockDig;
 import net.minecraft.network.packet.Packet255KickDisconnect;
+import net.minecraft.network.packet.Packet51MapChunk;
 import net.minecraft.world.MCHash;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.IWorldAccess;
+import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.Seasons;
 import net.minecraft.world.level.Weather;
 import net.minecraft.world.level.World;
@@ -25,6 +28,10 @@ public class WorldClient extends World {
 	private MCHash entityHashSet = new MCHash();
 	private Set<Entity> entityList = new HashSet<Entity>();
 	private Set<Entity> entitySpawnQueue = new HashSet<Entity>();
+	private LinkedList<Packet51MapChunk> terrainChunkQueue = new LinkedList<Packet51MapChunk>();
+	public int terrainChunksTotal;
+	public int terrainChunksReceived;
+	private static final int terrainChunksPerTick = 6;
 
 	public WorldClient(NetClientHandler netClientHandler1, WorldSettings worldSettings2, int i4, GameSettings gameSettings) {
 		super(new SaveHandlerMP(), "MpServer", WorldProvider.getProviderForDimension(i4), (WorldSettings)worldSettings2);
@@ -60,17 +67,56 @@ public class WorldClient extends World {
 		}
 
 		this.sendQueue.processReadPackets();
+		this.applyPendingTerrainChunks();
+
+		boolean terrainDumpPending = !this.terrainChunkQueue.isEmpty();
 
 		for(i2 = 0; i2 < this.blocksToReceive.size(); ++i2) {
 			WorldBlockPositionType worldBlockPositionType4 = (WorldBlockPositionType)this.blocksToReceive.get(i2);
 			if(--worldBlockPositionType4.field_1206_d == 0) {
-				super.setBlockAndMetadata(worldBlockPositionType4.posX, worldBlockPositionType4.posY, worldBlockPositionType4.posZ, worldBlockPositionType4.blockID, worldBlockPositionType4.metadata);
-				super.markBlockNeedsUpdate(worldBlockPositionType4.posX, worldBlockPositionType4.posY, worldBlockPositionType4.posZ);
+				// While the whole-island dump is still streaming in, an unconfirmed edit is
+				// almost always the overloaded server running behind, not a real desync; firing
+				// status-3 requests here just buries the server further. The pending region is
+				// refreshed when its chunk arrives, so drop the entry silently.
+				if(!terrainDumpPending) {
+					System.out.println ("No server confirmation for " + worldBlockPositionType4.posX + "," + worldBlockPositionType4.posY + "," + worldBlockPositionType4.posZ + " (predicted " + worldBlockPositionType4.blockID + ":" + worldBlockPositionType4.metadata + ") - requesting authoritative block");
+					this.sendQueue.addToSendQueue(new Packet14BlockDig(3, worldBlockPositionType4.posX, worldBlockPositionType4.posY, worldBlockPositionType4.posZ, 0, null, 0.0F, 0.0F, 0.0F));
+				}
+
 				this.blocksToReceive.remove(i2--);
 			}
 		}
 
 		this.chunkProviderClient.unload100OldestChunks();
+	}
+
+	// Whole-island dumps are queued by NetClientHandler.handleMapChunk() and applied
+	// a few per tick here: applying them all at once inside processReadPackets()
+	// stalls the main thread for seconds (fps collapse) and starves the network
+	// reader thread, which backs up the server send queue until disconnect.overflow.
+	public void queueChunkForApply(Packet51MapChunk packet51MapChunk1) {
+		if(this.terrainChunksTotal <= 0) {
+			this.terrainChunksTotal = WorldSize.xChunks * WorldSize.zChunks;
+		}
+
+		this.terrainChunkQueue.add(packet51MapChunk1);
+	}
+
+	private void applyPendingTerrainChunks() {
+		if(this.terrainChunksTotal <= 0) {
+			this.terrainChunksTotal = WorldSize.xChunks * WorldSize.zChunks;
+		}
+
+		int applied = 0;
+
+		while(applied < terrainChunksPerTick && !this.terrainChunkQueue.isEmpty()) {
+			Packet51MapChunk packet51MapChunk1 = (Packet51MapChunk)this.terrainChunkQueue.removeFirst();
+			this.invalidateBlockReceiveRegion(packet51MapChunk1.xPosition, packet51MapChunk1.yPosition, packet51MapChunk1.zPosition, packet51MapChunk1.xPosition + packet51MapChunk1.xSize - 1, packet51MapChunk1.yPosition + packet51MapChunk1.ySize - 1, packet51MapChunk1.zPosition + packet51MapChunk1.zSize - 1);
+			this.setChunkData(packet51MapChunk1.xPosition, packet51MapChunk1.yPosition, packet51MapChunk1.zPosition, packet51MapChunk1.xSize, packet51MapChunk1.ySize, packet51MapChunk1.zSize, packet51MapChunk1.chunk);
+			++this.terrainChunksReceived;
+			++applied;
+		}
+
 	}
 
 	public void invalidateBlockReceiveRegion(int i1, int i2, int i3, int i4, int i5, int i6) {

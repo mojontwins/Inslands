@@ -1,6 +1,9 @@
 package net.minecraft.server;
 
 import net.minecraft.network.packet.Packet53BlockChange;
+import java.util.List;
+import net.minecraft.world.phys.AxisAlignedBB;
+import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.World;
@@ -10,6 +13,7 @@ public class ItemInWorldManager {
 	private WorldServer thisWorld;
 	public EntityPlayer thisPlayer;
 	private int initialDamage;
+	private static int lastDigLog = 0;
 	private int curBlockX;
 	private int curBlockY;
 	private int curBlockZ;
@@ -131,7 +135,21 @@ public class ItemInWorldManager {
 				((EntityPlayerMP)this.thisPlayer).playerNetServerHandler.sendPacket(new Packet53BlockChange(x, y, z, this.thisWorld));
 			}
 		}
-	
+
+		if(wasRemoved && System.currentTimeMillis() - lastDigLog > 500L) {
+			lastDigLog = (int)System.currentTimeMillis();
+			List listA = this.thisWorld.getEntitiesWithinAABBExcludingEntity(this.thisPlayer, AxisAlignedBB.getBoundingBoxFromPool((double)x - 2.0D, (double)y - 2.0D, (double)z - 2.0D, (double)x + 3.0D, (double)y + 3.0D, (double)z + 3.0D));
+			int itemsNear = 0;
+			if(listA != null) {
+				for(int qi = 0; qi < listA.size(); ++qi) {
+					if(listA.get(qi) instanceof EntityItem) {
+						++itemsNear;
+					}
+				}
+			}
+			((EntityPlayerMP)this.thisPlayer).mcServer.logger.log(java.util.logging.Level.WARNING, "[dig] block=" + blockID + " harvested at " + x + "," + y + "," + z + " itemsNear=" + itemsNear);
+		}
+
 		return wasRemoved;
 	}
 

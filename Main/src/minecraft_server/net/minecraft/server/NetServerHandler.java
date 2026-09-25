@@ -60,6 +60,7 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 	private double lastPosY;
 	private double lastPosZ;
 	private boolean hasMoved = true;
+	private int stuckDiagCount = 0;
 	private Map<Integer, Short> s_field_10_k = new HashMap<Integer, Short>();
 
 	public NetServerHandler(MinecraftServer minecraftServer1, NetworkManager networkManager2,
@@ -100,9 +101,17 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 		double d3;
 		if(!this.hasMoved) {
 			d3 = packet10Flying1.yPosition - this.lastPosY;
-			if (packet10Flying1.xPosition == this.lastPosX && d3 * d3 < 0.01D
-					&& packet10Flying1.zPosition == this.lastPosZ) {
+			double ddx = packet10Flying1.xPosition - this.lastPosX;
+			double ddz = packet10Flying1.zPosition - this.lastPosZ;
+			double dvy = (double)this.playerEntity.yOffset;
+			boolean bMatchY = d3 * d3 < 0.36D || (d3 - dvy) * (d3 - dvy) < 0.36D
+					|| (d3 + dvy) * (d3 + dvy) < 0.36D;
+			if(ddx * ddx + ddz * ddz < 4.0D && bMatchY) {
 				this.hasMoved = true;
+				this.mcServer.logger.log(java.util.logging.Level.WARNING, "[fly] hasMoved=true at " + packet10Flying1.xPosition + "," + packet10Flying1.yPosition + "," + packet10Flying1.zPosition + " (last " + this.lastPosX + "," + this.lastPosY + "," + this.lastPosZ + ")");
+			} else if(this.stuckDiagCount < 5) {
+				++this.stuckDiagCount;
+				this.mcServer.logger.log(java.util.logging.Level.WARNING, "[stuck] pkt=" + packet10Flying1.xPosition + "," + packet10Flying1.yPosition + "," + packet10Flying1.zPosition + " last=" + this.lastPosX + "," + this.lastPosY + "," + this.lastPosZ + " dy=" + d3 + " ddx=" + ddx + " ddz=" + ddz);
 			}
 		}
 
@@ -208,8 +217,10 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 			double d17 = d9 - this.playerEntity.posZ;
 			double d19 = d13 * d13 + d15 * d15 + d17 * d17;
 			if(d19 > 100.0D && !this.playerEntity.isCreative) {
-				logger.warning(this.playerEntity.username + " moved too quickly!");
-				this.kickPlayer("You moved too quickly :( (Hacking?)");
+				// Streaming shoves / stray pre-echo packets can claim a large jump;
+				// snap back instead of booting the player.
+				logger.warning(this.playerEntity.username + " moved too quickly - snapping back!");
+				this.teleportTo(this.lastPosX, this.lastPosY, this.lastPosZ, this.playerEntity.rotationYaw, this.playerEntity.rotationPitch);
 				return;
 			}
 
@@ -227,7 +238,7 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 			d17 = d9 - this.playerEntity.posZ;
 			d19 = d13 * d13 + d15 * d15 + d17 * d17;
 			boolean z23 = false;
-			if(d19 > 0.0625D && !this.playerEntity.isPlayerSleeping()) {
+			if(d19 > 0.5D && !this.playerEntity.isPlayerSleeping()) {
 				z23 = true;
 				logger.warning(this.playerEntity.username + " moved wrongly!");
 				System.out.println("Got position " + d5 + ", " + d7 + ", " + d9);
@@ -235,7 +246,11 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 						+ this.playerEntity.posZ);
 			}
 
-			this.playerEntity.setPositionAndRotation(d5, d7, d9, f11, f12);
+			// Use the collision-resolved height, not the raw client claim: the
+			// client can drift sub-half-block below our feet while its streaming
+			// terrain settles, and snapping down into the ground here turns that
+			// drift into a permanent teleport/lock loop.
+			this.playerEntity.setPositionAndRotation(d5, this.playerEntity.posY, d9, f11, f12);
 			boolean z24 = worldServer2.getCollidingBoundingBoxes(this.playerEntity,
 					this.playerEntity.boundingBox.copy().getInsetBoundingBox((double) f21, (double) f21, (double) f21))
 					.size() == 0;
@@ -275,6 +290,19 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 		this.playerEntity.setPositionAndRotation(d1, d3, d5, f7, f8);
 		this.playerEntity.playerNetServerHandler
 				.sendPacket(new Packet13PlayerLookMove(d1, d3 + (double) 1.62F, d3, d5, f7, f8, false));
+	}
+
+	/**
+	 * Locks the position (like teleportTo) without echoing it to the client yet.
+	 * Used at join/teleport so the "Downloading terrain" screen stays up until the
+	 * whole-island dump has been sent; the real echo comes via EntityPlayerMP.updateTerrainSync().
+	 */
+	public void teleportToNoEcho(double d1, double d3, double d5, float f7, float f8) {
+		this.hasMoved = false;
+		this.lastPosX = d1;
+		this.lastPosY = d3;
+		this.lastPosZ = d5;
+		this.playerEntity.setPositionAndRotation(d1, d3, d5, f7, f8);
 	}
 
 	public void handleBlockDig(Packet14BlockDig packet14BlockDig1) {

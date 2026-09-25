@@ -184,11 +184,15 @@ public class NetworkManager {
 			this.noInputTicks = 0;
 		}
 
-		int n = 100;
+		int n = 1000;
 
 		while(!this.incoming.isEmpty() && n-- >= 0) {
 			Packet packet = (Packet)this.incoming.remove(0);
 			packet.processPacket(this.packetListener);
+		}
+
+		if(this.incoming.size() > 2000) {
+			System.out.println("[net] client inbound backlog=" + this.incoming.size());
 		}
 
 		this.wakeThreads();

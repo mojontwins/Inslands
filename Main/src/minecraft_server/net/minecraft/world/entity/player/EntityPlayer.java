@@ -383,6 +383,9 @@ public abstract class EntityPlayer extends EntityLiving {
 		this.cameraPitch += (f2 - this.cameraPitch) * 0.8F;
 		if(this.health > 0) {
 			List<Entity> list3 = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(1.0D, 0.0D, 1.0D));
+			if(!this.worldObj.isRemote && this.ticksExisted % 20 == 0) {
+				System.out.println("[pickup] player=" + this.username + " pos=" + this.posX + "," + this.posY + "," + this.posZ + " found=" + (list3 == null ? -1 : list3.size()) + (list3 != null && list3.size() > 0 ? " first=" + list3.get(0).getClass().getName() : ""));
+			}
 			if(list3 != null) {
 				for(int i4 = 0; i4 < list3.size(); ++i4) {
 					Entity entity5 = (Entity)list3.get(i4);

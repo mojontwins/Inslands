@@ -1252,7 +1252,9 @@ public abstract class Minecraft implements Runnable {
 
 			// Player current chunk coordinates are updated during world tick
 			// And I need them to prune the entities to update list
-			if(!this.isGamePaused) {
+			// theWorld may have been swapped to null mid-tick (e.g. a disconnect
+			// handler running inside processReadPackets), so re-check it here.
+			if(!this.isGamePaused && this.theWorld != null) {
 				if(this.theWorld.lightningFlash > 0) {
 					--this.theWorld.lightningFlash;
 				}

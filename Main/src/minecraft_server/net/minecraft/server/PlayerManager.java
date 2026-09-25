@@ -1,9 +1,12 @@
 package net.minecraft.server;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import net.minecraft.world.level.dimension.WorldProvider;
+import net.minecraft.world.level.WorldSize;
+import net.minecraft.world.level.chunk.ChunkCoordIntPair;
+import net.minecraft.world.level.chunk.IChunkProvider;
 
 public class PlayerManager {
 	public List<EntityPlayerMP> players = new ArrayList<EntityPlayerMP>();
@@ -13,6 +16,18 @@ public class PlayerManager {
 	private int playerDimension;
 	private int playerViewRadius;
 	private final int[][] xzDirectionsConst = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+	private int islandMinX;
+	private int islandMaxX;
+	private int islandMinZ;
+	private int islandMaxZ;
+
+	private void fetchIslandBounds() {
+		IChunkProvider generator = this.getMinecraftServer().getChunkProvider().getChunkProviderGenerate();
+		this.islandMinX = WorldSize.getXChunkMinForReal(generator);
+		this.islandMaxX = WorldSize.getXChunkMaxForReal(generator);
+		this.islandMinZ = WorldSize.getZChunkMinForReal(generator);
+		this.islandMaxZ = WorldSize.getZChunkMaxForReal(generator);
+	}
 
 	public PlayerManager(MinecraftServer minecraftServer1, int i2, int i3) {
 		if(i3 > 15) {
@@ -36,14 +51,6 @@ public class PlayerManager {
 		}
 
 		this.playerInstancesToUpdate.clear();
-		if(this.players.isEmpty()) {
-			WorldServer worldServer3 = this.mcServer.getWorldManager(this.playerDimension);
-			WorldProvider worldProvider2 = worldServer3.worldProvider;
-			if(!worldProvider2.canRespawnHere()) {
-				worldServer3.chunkProviderServer.unloadAllChunks();
-			}
-		}
-
 	}
 
 	private PlayerInstance getPlayerInstance(int i1, int i2, boolean z3) {
@@ -68,49 +75,39 @@ public class PlayerManager {
 	}
 
 	public void addPlayer(EntityPlayerMP entityPlayerMP1) {
-		int i2 = (int)entityPlayerMP1.posX >> 4;
-		int i3 = (int)entityPlayerMP1.posZ >> 4;
 		entityPlayerMP1.managedPosX = entityPlayerMP1.posX;
 		entityPlayerMP1.managedPosZ = entityPlayerMP1.posZ;
-		int i4 = 0;
-		int i5 = this.playerViewRadius;
-		int i6 = 0;
-		int i7 = 0;
-		this.getPlayerInstance(i2, i3, true).addPlayer(entityPlayerMP1);
+		this.fetchIslandBounds();
 
-		int i8;
-		for(i8 = 1; i8 <= i5 * 2; ++i8) {
-			for(int i9 = 0; i9 < 2; ++i9) {
-				int[] i10 = this.xzDirectionsConst[i4++ % 4];
-
-				for(int i11 = 0; i11 < i8; ++i11) {
-					i6 += i10[0];
-					i7 += i10[1];
-					this.getPlayerInstance(i2 + i6, i3 + i7, true).addPlayer(entityPlayerMP1);
+		int playerCX = (int)entityPlayerMP1.posX >> 4;
+		int playerCZ = (int)entityPlayerMP1.posZ >> 4;
+		for(int dx = -this.playerViewRadius; dx <= this.playerViewRadius; ++dx) {
+			for(int dz = -this.playerViewRadius; dz <= this.playerViewRadius; ++dz) {
+				int cx = playerCX + dx;
+				int cz = playerCZ + dz;
+				if(cx >= this.islandMinX && cx < this.islandMaxX && cz >= this.islandMinZ && cz < this.islandMaxZ) {
+					this.getPlayerInstance(cx, cz, true).addPlayer(entityPlayerMP1);
 				}
 			}
-		}
-
-		i4 %= 4;
-
-		for(i8 = 0; i8 < i5 * 2; ++i8) {
-			i6 += this.xzDirectionsConst[i4][0];
-			i7 += this.xzDirectionsConst[i4][1];
-			this.getPlayerInstance(i2 + i6, i3 + i7, true).addPlayer(entityPlayerMP1);
 		}
 
 		this.players.add(entityPlayerMP1);
 	}
 
 	public void removePlayer(EntityPlayerMP entityPlayerMP1) {
-		int i2 = (int)entityPlayerMP1.managedPosX >> 4;
-		int i3 = (int)entityPlayerMP1.managedPosZ >> 4;
+		this.fetchIslandBounds();
 
-		for(int i4 = i2 - this.playerViewRadius; i4 <= i2 + this.playerViewRadius; ++i4) {
-			for(int i5 = i3 - this.playerViewRadius; i5 <= i3 + this.playerViewRadius; ++i5) {
-				PlayerInstance playerInstance6 = this.getPlayerInstance(i4, i5, false);
-				if(playerInstance6 != null) {
-					playerInstance6.removePlayer(entityPlayerMP1);
+		int playerCX = (int)entityPlayerMP1.posX >> 4;
+		int playerCZ = (int)entityPlayerMP1.posZ >> 4;
+		for(int dx = -this.playerViewRadius; dx <= this.playerViewRadius; ++dx) {
+			for(int dz = -this.playerViewRadius; dz <= this.playerViewRadius; ++dz) {
+				int cx = playerCX + dx;
+				int cz = playerCZ + dz;
+				if(cx >= this.islandMinX && cx < this.islandMaxX && cz >= this.islandMinZ && cz < this.islandMaxZ) {
+					PlayerInstance playerInstance6 = this.getPlayerInstance(cx, cz, false);
+					if(playerInstance6 != null) {
+						playerInstance6.removePlayer(entityPlayerMP1);
+					}
 				}
 			}
 		}
@@ -125,36 +122,55 @@ public class PlayerManager {
 	}
 
 	public void updateMountedMovingPlayer(EntityPlayerMP entityPlayerMP1) {
-		int i2 = (int)entityPlayerMP1.posX >> 4;
-		int i3 = (int)entityPlayerMP1.posZ >> 4;
-		double d4 = entityPlayerMP1.managedPosX - entityPlayerMP1.posX;
-		double d6 = entityPlayerMP1.managedPosZ - entityPlayerMP1.posZ;
-		double d8 = d4 * d4 + d6 * d6;
-		if(d8 >= 64.0D) {
-			int i10 = (int)entityPlayerMP1.managedPosX >> 4;
-			int i11 = (int)entityPlayerMP1.managedPosZ >> 4;
-			int i12 = i2 - i10;
-			int i13 = i3 - i11;
-			if(i12 != 0 || i13 != 0) {
-				for(int i14 = i2 - this.playerViewRadius; i14 <= i2 + this.playerViewRadius; ++i14) {
-					for(int i15 = i3 - this.playerViewRadius; i15 <= i3 + this.playerViewRadius; ++i15) {
-						if(!this.isOutsidePlayerViewRadius(i14, i15, i10, i11)) {
-							this.getPlayerInstance(i14, i15, true).addPlayer(entityPlayerMP1);
-						}
+		int playerCX = (int)entityPlayerMP1.posX >> 4;
+		int playerCZ = (int)entityPlayerMP1.posZ >> 4;
+		int managedCX = (int)entityPlayerMP1.managedPosX >> 4;
+		int managedCZ = (int)entityPlayerMP1.managedPosZ >> 4;
+		if(playerCX == managedCX && playerCZ == managedCZ) {
+			return;
+		}
 
-						if(!this.isOutsidePlayerViewRadius(i14 - i12, i15 - i13, i2, i3)) {
-							PlayerInstance playerInstance16 = this.getPlayerInstance(i14 - i12, i15 - i13, false);
-							if(playerInstance16 != null) {
-								playerInstance16.removePlayer(entityPlayerMP1);
-							}
-						}
+		this.fetchIslandBounds();
+		int radius = this.playerViewRadius;
+		int dCX = playerCX - managedCX;
+		int dCZ = playerCZ - managedCZ;
+
+		for(int dx = -radius; dx <= radius; ++dx) {
+			for(int dz = -radius; dz <= radius; ++dz) {
+				int newX = playerCX + dx;
+				int newZ = playerCZ + dz;
+				int oldX = newX - dCX;
+				int oldZ = newZ - dCZ;
+				boolean inNew = newX >= this.islandMinX && newX < this.islandMaxX && newZ >= this.islandMinZ && newZ < this.islandMaxZ;
+				boolean inOld = oldX >= this.islandMinX && oldX < this.islandMaxX && oldZ >= this.islandMinZ && oldZ < this.islandMaxZ;
+
+				if(inNew && !inOld) {
+					this.getPlayerInstance(newX, newZ, true).addPlayer(entityPlayerMP1);
+				} else if(!inNew && inOld) {
+					PlayerInstance playerInstance6 = this.getPlayerInstance(oldX, oldZ, false);
+					if(playerInstance6 != null) {
+						playerInstance6.removePlayer(entityPlayerMP1);
 					}
 				}
-
-				entityPlayerMP1.managedPosX = entityPlayerMP1.posX;
-				entityPlayerMP1.managedPosZ = entityPlayerMP1.posZ;
 			}
 		}
+
+		Iterator<ChunkCoordIntPair> iterator = new ArrayList<ChunkCoordIntPair>(entityPlayerMP1.listeningChunks).iterator();
+		while(iterator.hasNext()) {
+			ChunkCoordIntPair pair = iterator.next();
+			int dx = pair.chunkXPos - playerCX;
+			int dz = pair.chunkZPos - playerCZ;
+			if(dx < -radius || dx > radius || dz < -radius || dz > radius || pair.chunkXPos < this.islandMinX || pair.chunkXPos >= this.islandMaxX || pair.chunkZPos < this.islandMinZ || pair.chunkZPos >= this.islandMaxZ) {
+				PlayerInstance playerInstance6 = this.getPlayerInstance(pair.chunkXPos, pair.chunkZPos, false);
+				if(playerInstance6 != null) {
+					playerInstance6.removePlayer(entityPlayerMP1);
+				}
+				entityPlayerMP1.listeningChunks.remove(pair);
+			}
+		}
+
+		entityPlayerMP1.managedPosX = entityPlayerMP1.posX;
+		entityPlayerMP1.managedPosZ = entityPlayerMP1.posZ;
 	}
 
 	public int getMaxTrackingDistance() {

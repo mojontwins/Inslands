@@ -19,6 +19,7 @@ public class Packet51MapChunk extends Packet {
 	public int zSize;
 	public byte[] chunk;
 	private int chunkSize;
+	public static int deflateLevel = 1;
 
 	public Packet51MapChunk() {
 		this.shouldDelay = true;
@@ -33,7 +34,7 @@ public class Packet51MapChunk extends Packet {
 		this.ySize = i5;
 		this.zSize = i6;
 		byte[] b8 = world7.getChunkData(i1, i2, i3, i4, i5, i6);
-		Deflater deflater9 = new Deflater(-1);
+		Deflater deflater9 = new Deflater(deflateLevel);
 
 		try {
 			deflater9.setInput(b8);

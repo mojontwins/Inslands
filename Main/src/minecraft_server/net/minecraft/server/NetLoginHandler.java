@@ -112,7 +112,14 @@ public class NetLoginHandler extends NetHandler {
 			this.mcServer.configManager.sendPacketToAllPlayers(new Packet3Chat("\u00a7e" + entityPlayerMP.username + " joined the game."));
 			this.mcServer.configManager.playerLoggedIn(entityPlayerMP);
 			
-			netServerHandler.teleportTo(entityPlayerMP.posX, entityPlayerMP.posY, entityPlayerMP.posZ, entityPlayerMP.rotationYaw, entityPlayerMP.rotationPitch);
+			// Keep the client pinned on the download screen (no echo yet): its own
+			// whole-island dump is streamed, then updateTerrainSync() releases
+			// the spawn echo. Echoing early makes the client act before terrain
+			// arrives, get shoved by the spawning mob crowd, and trip the
+			// speed check. The stuck issue was fixed by feet-aligned boxes and
+			// tolerance, not by the echo timing.
+			netServerHandler.teleportToNoEcho(entityPlayerMP.posX, entityPlayerMP.posY, entityPlayerMP.posZ, entityPlayerMP.rotationYaw, entityPlayerMP.rotationPitch);
+			entityPlayerMP.startTerrainSync(entityPlayerMP.posX, entityPlayerMP.posY, entityPlayerMP.posZ, entityPlayerMP.rotationYaw, entityPlayerMP.rotationPitch);
 			netServerHandler.sendPacket(new Packet99SetCreativeMode(entityPlayerMP.isCreative));
 
 			this.mcServer.networkServer.addPlayer(netServerHandler);

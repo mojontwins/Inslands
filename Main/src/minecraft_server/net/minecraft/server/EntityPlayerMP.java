@@ -17,6 +17,7 @@ import net.minecraft.network.packet.Packet200Statistic;
 import net.minecraft.network.packet.Packet22Collect;
 import net.minecraft.network.packet.Packet39AttachEntity;
 import net.minecraft.network.packet.Packet3Chat;
+import net.minecraft.network.packet.Packet13PlayerLookMove;
 import net.minecraft.network.packet.Packet51MapChunk;
 import net.minecraft.network.packet.Packet5PlayerInventory;
 import net.minecraft.network.packet.Packet8UpdateHealth;
@@ -55,6 +56,15 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 	public double managedPosZ;
 	public List<ChunkCoordIntPair> loadedChunks = new LinkedList<ChunkCoordIntPair>();
 	public Set<ChunkCoordIntPair> listeningChunks = new HashSet<ChunkCoordIntPair>();
+	public long chunksStreamed = 0L;
+	public boolean terrainSyncPending = false;
+	private long lastMpTickLog = 0L;
+	private long lastTerrainSyncTime = 0L;
+	private double syncPendingPosX;
+	private double syncPendingPosY;
+	private double syncPendingPosZ;
+	private float syncPendingYaw;
+	private float syncPendingPitch;
 	private int lastHealth = -99999999;
 	private int lastFreezeLevel = -99999999;
 	private int ticksOfInvuln = 60;
@@ -170,25 +180,10 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 			}
 		}
 
-		if(z1 && !this.loadedChunks.isEmpty()) {
-			ChunkCoordIntPair chunkCoordIntPair7 = (ChunkCoordIntPair)this.loadedChunks.get(0);
-			if(chunkCoordIntPair7 != null) {
-				boolean z8 = false;
-				if(this.playerNetServerHandler.countDelayedPackets() < 4) {
-					z8 = true;
-				}
-
-				if(z8) {
-					WorldServer worldServer9 = this.mcServer.getWorldManager(this.dimension);
-					this.loadedChunks.remove(chunkCoordIntPair7);
-					this.playerNetServerHandler.sendPacket(new Packet51MapChunk(chunkCoordIntPair7.chunkXPos * 16, 0, chunkCoordIntPair7.chunkZPos * 16, 16, 128, 16, worldServer9));
-					List<TileEntity> list5 = worldServer9.getTileEntityList(chunkCoordIntPair7.chunkXPos * 16, 0, chunkCoordIntPair7.chunkZPos * 16, chunkCoordIntPair7.chunkXPos * 16 + 16, 128, chunkCoordIntPair7.chunkZPos * 16 + 16);
-
-					for(int i6 = 0; i6 < list5.size(); ++i6) {
-						this.getTileEntityInfo((TileEntity)list5.get(i6));
-					}
-				}
-			}
+		if(z1) {
+			// Terrain sync (the join / teleport island dump) is driven from
+			// ServerConfigurationManager.onTick via updateTerrainSync(), so it
+			// progresses even if the client is idle behind "Downloading terrain".
 		}
 
 		if(this.inPortal) {
@@ -248,8 +243,90 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 
 	}
 
+	// Fixed-size world sync: the whole island is dumped to the client exactly once
+	// per join / teleport, driven from the server tick loop, never by movement.
+
+	public synchronized void queueChunkForSync(ChunkCoordIntPair pair) {
+		this.loadedChunks.add(pair);
+	}
+
+	public synchronized void clearTerrainSyncQueue() {
+		this.loadedChunks.clear();
+	}
+
+	public void startTerrainSync(double x, double y, double z, float yaw, float pitch) {
+		this.syncPendingPosX = x;
+		this.syncPendingPosY = y;
+		this.syncPendingPosZ = z;
+		this.syncPendingYaw = yaw;
+		this.syncPendingPitch = pitch;
+		this.terrainSyncPending = true;
+	}
+
+	public void updateTerrainSync() {
+		if(this.loadedChunks.isEmpty()) {
+			if(this.terrainSyncPending) {
+				this.terrainSyncPending = false;
+				this.lastTerrainSyncTime = System.currentTimeMillis();
+				this.playerNetServerHandler.sendPacket(new Packet13PlayerLookMove(this.syncPendingPosX, this.syncPendingPosY + 1.62D, this.syncPendingPosY, this.syncPendingPosZ, this.syncPendingYaw, this.syncPendingPitch, false));
+				this.mcServer.logger.log(java.util.logging.Level.WARNING, "[echo] " + this.username + " sent P13 x=" + this.syncPendingPosX + " y=" + this.syncPendingPosY + " z=" + this.syncPendingPosZ);
+				System.out.println(this.username + " terrain sync complete, released.");
+			}
+			return;
+		}
+
+		long now = System.currentTimeMillis();
+		if(now - this.lastTerrainSyncTime < 25L) {
+			return;
+		}
+
+		int drained = 0;
+		while(drained < 2 && !this.loadedChunks.isEmpty() && this.playerNetServerHandler.countDelayedPackets() < 16) {
+			ChunkCoordIntPair next;
+			synchronized(this.loadedChunks) {
+				if(this.loadedChunks.isEmpty()) {
+					break;
+				}
+				next = (ChunkCoordIntPair)this.loadedChunks.get(0);
+				this.loadedChunks.remove(0);
+			}
+
+			WorldServer worldServer9 = this.mcServer.getWorldManager(this.dimension);
+			this.playerNetServerHandler.sendPacket(new Packet51MapChunk(next.chunkXPos * 16, 0, next.chunkZPos * 16, 16, 128, 16, worldServer9));
+			++this.chunksStreamed;
+			List<TileEntity> list5 = worldServer9.getTileEntityList(next.chunkXPos * 16, 0, next.chunkZPos * 16, next.chunkXPos * 16 + 16, 128, next.chunkZPos * 16 + 16);
+			for(int i6 = 0; i6 < list5.size(); ++i6) {
+				this.getTileEntityInfo((TileEntity)list5.get(i6));
+			}
+			++drained;
+		}
+
+		this.lastTerrainSyncTime = now;
+
+		if(this.loadedChunks.isEmpty() && this.chunksStreamed > 0) {
+			System.out.println(this.username + " terrain dump complete: " + this.chunksStreamed + " map chunks");
+			this.chunksStreamed = 0L;
+		}
+
+		if(this.loadedChunks.isEmpty() && this.terrainSyncPending) {
+			this.terrainSyncPending = false;
+			this.playerNetServerHandler.sendPacket(new Packet13PlayerLookMove(this.syncPendingPosX, this.syncPendingPosY + 1.62D, this.syncPendingPosY, this.syncPendingPosZ, this.syncPendingYaw, this.syncPendingPitch, false));
+			this.mcServer.logger.log(java.util.logging.Level.WARNING, "[echo] " + this.username + " sent P13 x=" + this.syncPendingPosX + " y=" + this.syncPendingPosY + " z=" + this.syncPendingPosZ);
+			System.out.println(this.username + " terrain sync complete, released.");
+		}
+	}
+
 	public void onLivingUpdate() {
+		// Server keeps player positions in feet coordinates; align the collision
+		// box with the feet so movement/anti-cheat match what the client reports.
+		this.yOffset = 0.0F;
 		super.onLivingUpdate();
+		long now = System.currentTimeMillis();
+		if(now - this.lastMpTickLog > 1000L) {
+			this.lastMpTickLog = now;
+			List<Entity> list3 = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(1.0D, 0.0D, 1.0D));
+			this.mcServer.logger.log(java.util.logging.Level.WARNING, "[mpTick] " + this.username + " pos=" + this.posX + "," + this.posY + "," + this.posZ + " onGround=" + this.onGround + " near=" + (list3 == null ? -1 : list3.size()));
+		}
 	}
 
 	public void onItemPickup(Entity entity1, int i2) {

@@ -30,6 +30,15 @@ public class NetworkListenThread {
 		this.playerList.add(netServerHandler1);
 	}
 
+	public int getTotalQueuedPackets() {
+		int i1 = 0;
+		for(int i2 = 0; i2 < this.playerList.size(); ++i2) {
+			i1 += ((NetServerHandler)this.playerList.get(i2)).netManager.countQueuedPackets();
+		}
+
+		return i1;
+	}
+
 	private void addPendingConnection(NetLoginHandler netLoginHandler1) {
 		if(netLoginHandler1 == null) {
 			throw new IllegalArgumentException("Got null pendingconnection!");

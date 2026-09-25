@@ -139,6 +139,7 @@ public class NetworkManager {
 
 	private void handleException(Exception exception1) {
 		exception1.printStackTrace();
+		java.util.logging.Logger.getLogger("Minecraft").log(java.util.logging.Level.WARNING, "[net] exception on connection " + this.address, exception1);
 		this.close("disconnect.genericReason", new Object[]{"Internal exception: " + exception1.toString()});
 	}
 
@@ -172,7 +173,7 @@ public class NetworkManager {
 	}
 
 	public void processReadPackets() {
-		if(this.estimatedRemaining > 1048576) {
+		if(this.estimatedRemaining > 4194304) {
 			this.close("disconnect.overflow", new Object[0]);
 		}
 
@@ -211,6 +212,10 @@ public class NetworkManager {
 
 	public int countDelayedPackets() {
 		return this.outgoing_slow.size();
+	}
+
+	public int countQueuedPackets() {
+		return this.outgoing.size() + this.outgoing_slow.size();
 	}
 
 	public void wakeThreads() {

@@ -200,11 +200,13 @@ public class ServerConfigurationManager {
 		}
 
 		entityPlayerMP4.playerNetServerHandler.sendPacket(new Packet9Respawn(entityPlayerMP4.dimension));
-		entityPlayerMP4.playerNetServerHandler.teleportTo(entityPlayerMP4.posX, entityPlayerMP4.posY, entityPlayerMP4.posZ, entityPlayerMP4.rotationYaw, entityPlayerMP4.rotationPitch);
+		entityPlayerMP4.playerNetServerHandler.teleportToNoEcho(entityPlayerMP4.posX, entityPlayerMP4.posY, entityPlayerMP4.posZ, entityPlayerMP4.rotationYaw, entityPlayerMP4.rotationPitch);
 		this.joinNewPlayerManager(entityPlayerMP4, worldServer5);
+		entityPlayerMP4.clearTerrainSyncQueue();
 		this.getPlayerManager(entityPlayerMP4.dimension).addPlayer(entityPlayerMP4);
 		worldServer5.spawnEntityInWorld(entityPlayerMP4);
 		this.playerEntities.add(entityPlayerMP4);
+		entityPlayerMP4.startTerrainSync(entityPlayerMP4.posX, entityPlayerMP4.posY, entityPlayerMP4.posZ, entityPlayerMP4.rotationYaw, entityPlayerMP4.rotationPitch);
 		entityPlayerMP4.sendUpdateTimeAndWeather();
 		entityPlayerMP4.s_func_22068_s();
 		return entityPlayerMP4;
@@ -295,23 +297,35 @@ public class ServerConfigurationManager {
 		}
 
 		this.s_func_28172_a(entityPlayerMP1);
-		entityPlayerMP1.playerNetServerHandler.teleportTo(entityPlayerMP1.posX, entityPlayerMP1.posY, entityPlayerMP1.posZ, entityPlayerMP1.rotationYaw, entityPlayerMP1.rotationPitch);
+		entityPlayerMP1.playerNetServerHandler.teleportToNoEcho(entityPlayerMP1.posX, entityPlayerMP1.posY, entityPlayerMP1.posZ, entityPlayerMP1.rotationYaw, entityPlayerMP1.rotationPitch);
 		entityPlayerMP1.setWorldHandler(destWorld);
 		this.joinNewPlayerManager(entityPlayerMP1, destWorld);
+
+		// Whole-island membership is per dimension: unregister from the source
+		// island and register with the destination island, then dump it.
+		this.getPlayerManager(sourceId).removePlayer(entityPlayerMP1);
+		entityPlayerMP1.clearTerrainSyncQueue();
+		this.getPlayerManager(destId).addPlayer(entityPlayerMP1);
 
 		// Sync theme, size and day of year with the destination world.
 		WorldInfo syncInfo = destWorld.getWorldInfo();
 		entityPlayerMP1.playerNetServerHandler.sendPacket(new Packet93FiniteWorldSettings(syncInfo.getThemeId(), WorldSize.getSizeId(syncInfo.getWorldWidthChunks(), syncInfo.getWorldLengthChunks())));
 		entityPlayerMP1.playerNetServerHandler.sendPacket(new Packet95UpdateDayOfTheYear(syncInfo.getDayOfTheYear()));
 
+		entityPlayerMP1.startTerrainSync(entityPlayerMP1.posX, entityPlayerMP1.posY, entityPlayerMP1.posZ, entityPlayerMP1.rotationYaw, entityPlayerMP1.rotationPitch);
 		this.s_func_30008_g(entityPlayerMP1);
 	}
 
-	public void onTick() {
+public void onTick() {
 		for(PlayerManager playerManager1 : this.playerManagerObj.values()) {
 			playerManager1.updatePlayerInstances();
 		}
 
+		// Fixed-size worlds: drive each player's island dump from the tick loop so
+		// it always progresses, even while the client idles on "Downloading terrain".
+		for(EntityPlayerMP player : this.playerEntities) {
+			player.updateTerrainSync();
+		}
 	}
 
 	public void markBlockNeedsUpdate(int i1, int i2, int i3, int i4) {

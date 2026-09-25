@@ -110,7 +110,7 @@ public class World implements IBlockAccess {
 	 * {@link #tickFrozenEntity}).  Defaults to 8, the same radius as block ticks and mob
 	 * spawns.
 	 */
-	public int entitySimulationRadiusChunks = 8;
+	public int entitySimulationRadiusChunks = 3;
 
 	public boolean colouredAthmospherics;
 	public long thisSessionTicks;
@@ -142,8 +142,14 @@ public class World implements IBlockAccess {
 	public final StarlightEngine blockLight = new StarlightEngine(false, this);
 	public final StarlightEngine skyLight = new StarlightEngine(true, this);
 
-	private int updatedEntities;
+	public int updatedEntities;
+	public long slowestEntityNanos;
+	public String slowestEntityName = "";
 	public boolean printedEntityStats;
+	public int hardEntityCap = 1000;
+	public int cachedLivingCount;
+	public int cachedItemCount;
+	public int cachedOtherCount;
 	
 	public WorldChunkManager getWorldChunkManager() {
 		return this.worldProvider.worldChunkMgr;
@@ -1505,10 +1511,20 @@ public class World implements IBlockAccess {
 	 * own: the authoritative server sends the destroy packets.
 	 */
 	private void tickFrozenEntity(Entity entity) {
-		if(!entity.isDead && !this.isRemote && entity instanceof EntityLiving) {
-			EntityLiving living = (EntityLiving)entity;
-			++living.entityAge;
-			living.despawnEntity();
+		if(!entity.isDead && !this.isRemote) {
+			if(entity instanceof EntityLiving) {
+				EntityLiving living = (EntityLiving)entity;
+				++living.entityAge;
+				living.despawnEntity();
+			} else if(entity instanceof net.minecraft.world.entity.item.EntityItem) {
+				// Frozen items must still age so they despawn after 6000 ticks instead
+				// of accumulating in the save forever.
+				net.minecraft.world.entity.item.EntityItem item = (net.minecraft.world.entity.item.EntityItem)entity;
+				++item.age;
+				if(item.age >= 6000) {
+					item.setEntityDead();
+				}
+			}
 		}
 	}
 
@@ -1545,9 +1561,45 @@ public class World implements IBlockAccess {
 			}
 		}
 
+		// Hard safety cap: a runaway spawner/leak must never be able to grow the
+		// world to the point where ticking every entity freezes the server. Mark
+		// the excess (non-player, unridden) dead from the tail; the removal pass
+		// below and the entity tracker clean them up through the normal path.
+		if(!this.isRemote) {
+			int livingCount = 0;
+			int itemCount = 0;
+			int otherCount = 0;
+			for(int countIndex = 0; countIndex < this.loadedEntityList.size(); ++countIndex) {
+				Entity countEntity = (Entity)this.loadedEntityList.get(countIndex);
+				if(countEntity instanceof EntityLiving && !(countEntity instanceof EntityPlayer)) {
+					++livingCount;
+				} else if(countEntity instanceof net.minecraft.world.entity.item.EntityItem) {
+					++itemCount;
+				} else {
+					++otherCount;
+				}
+			}
+			this.cachedLivingCount = livingCount;
+			this.cachedItemCount = itemCount;
+			this.cachedOtherCount = otherCount;
+
+			if(livingCount > this.hardEntityCap) {
+				int excess = livingCount - this.hardEntityCap;
+				for(int cullIndex = this.loadedEntityList.size() - 1; cullIndex >= 0 && excess > 0; --cullIndex) {
+					Entity cullEntity = (Entity)this.loadedEntityList.get(cullIndex);
+					if(cullEntity instanceof EntityLiving && !(cullEntity instanceof EntityPlayer) && cullEntity.riddenByEntity == null) {
+						cullEntity.isDead = true;
+						--excess;
+					}
+				}
+			}
+		}
+
 		// Process loaded entities
 
 		this.updatedEntities = 0;
+		this.slowestEntityNanos = 0L;
+		this.slowestEntityName = "";
 		for(index = 0; index < this.loadedEntityList.size(); ++index) {
 			entity = (Entity)this.loadedEntityList.get(index);
 
@@ -1565,7 +1617,14 @@ public class World implements IBlockAccess {
 						activeChunks.contains(ChunkCoordIntPair.chunkXZ2Int(entity.chunkCoordX, entity.chunkCoordZ));
 
 				if(active) {
+					long entityStart = System.nanoTime();
 					this.updateEntity(entity);
+					long entityNanos = System.nanoTime() - entityStart;
+					if(entityNanos > this.slowestEntityNanos) {
+						this.slowestEntityNanos = entityNanos;
+						this.slowestEntityName = entity.getClass().getName();
+					}
+
 					this.updatedEntities++;
 				} else {
 					// Frozen: no AI, no movement, no collisions - only age and maybe despawn.
@@ -2448,7 +2507,7 @@ public class World implements IBlockAccess {
 				z2 = WorldSize.zChunks - 1;
 			}
 
-			for (x = x1; x <= z2; ++x) {
+			for (x = x1; x <= x2; ++x) {
 				for (z = z1; z <= z2; ++z) {
 					if (this.chunkExists(x, z)) {
 						this.positionsToUpdate.add(new ChunkCoordIntPair(x, z));

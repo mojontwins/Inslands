@@ -154,7 +154,7 @@ public class NetClientHandler extends NetHandler {
 		this.worldClient.isRemote = true;
 		this.mc.changeWorld(this.worldClient);
 		this.mc.thePlayer.dimension = packet1Login1.dimension;
-		this.mc.displayGuiScreen(new GuiDownloadTerrain(this));
+		this.mc.displayGuiScreen(new GuiDownloadTerrain(this, this.worldClient));
 		this.mc.thePlayer.entityId = packet1Login1.protocolVersion;
 	}
 
@@ -473,13 +473,8 @@ public class NetClientHandler extends NetHandler {
 	}
 
 	public void handleMapChunk(Packet51MapChunk packet51MapChunk1) {
-		this.worldClient.invalidateBlockReceiveRegion(packet51MapChunk1.xPosition, packet51MapChunk1.yPosition,
-				packet51MapChunk1.zPosition, packet51MapChunk1.xPosition + packet51MapChunk1.xSize - 1,
-				packet51MapChunk1.yPosition + packet51MapChunk1.ySize - 1,
-				packet51MapChunk1.zPosition + packet51MapChunk1.zSize - 1);
-		this.worldClient.setChunkData(packet51MapChunk1.xPosition, packet51MapChunk1.yPosition,
-				packet51MapChunk1.zPosition, packet51MapChunk1.xSize, packet51MapChunk1.ySize, packet51MapChunk1.zSize,
-				packet51MapChunk1.chunk);
+		// Whole-island dumps are applied incrementally in WorldClient.tick() instead.
+		this.worldClient.queueChunkForApply(packet51MapChunk1);
 	}
 
 	public void handleBlockChange(Packet53BlockChange packet53BlockChange1) {
@@ -700,7 +695,7 @@ public class NetClientHandler extends NetHandler {
 			this.worldClient.isRemote = true;
 			this.mc.changeWorld(this.worldClient);
 			this.mc.thePlayer.dimension = packet9Respawn1.dimension;
-			this.mc.displayGuiScreen(new GuiDownloadTerrain(this));
+			this.mc.displayGuiScreen(new GuiDownloadTerrain(this, this.worldClient));
 		}
 
 		this.mc.respawn(true, packet9Respawn1.dimension);

@@ -368,6 +368,26 @@ public class MinecraftServer implements Runnable, ICommandListener {
 		Vec3D.initialize();
 		++this.deathTime;
 
+		long tWorldTick = 0L;
+		long tWorldEnt = 0L;
+		long tNet = 0L;
+		long tCfg = 0L;
+		long tTrack = 0L;
+		long tPlayers = 0L;
+		long sectionStart = System.currentTimeMillis();
+		long lastSlow = 0L;
+		long now;
+		boolean slow = false;
+		long tWorldMark;
+		int entCount = 0;
+		int activeEntCount = 0;
+		int tileCount = 0;
+		int livingEntCount = 0;
+		int itemEntCount = 0;
+		int otherEntCount = 0;
+		long slowEntNanos = 0L;
+		String slowEntName = "";
+
 		for(WorldServer worldServer7 : this.worldMngr.values()) {
 			if(worldServer7 == null) continue;
 			int worldId = worldServer7.worldProvider.dimensionId;
@@ -396,26 +416,57 @@ public class MinecraftServer implements Runnable, ICommandListener {
 				this.configManager.sendPacketToAllPlayersInDimension(new Packet4UpdateTime(worldServer7.getWorldTime()), worldId);
 			}
 
+			tWorldMark = System.currentTimeMillis();
 			int dayOfTheYear = worldInfo != null ? worldInfo.getDayOfTheYear() : Seasons.dayOfTheYear;
 			worldServer7.tick();
 			if(worldInfo != null && worldInfo.getDayOfTheYear() != dayOfTheYear) {
 				this.configManager.sendPacketToAllPlayersInDimension(new Packet95UpdateDayOfTheYear(worldInfo.getDayOfTheYear()), worldId);
 			}
+			tWorldTick += System.currentTimeMillis() - tWorldMark;
 
+			tWorldMark = System.currentTimeMillis();
 			worldServer7.updateEntities();
+			tWorldEnt += System.currentTimeMillis() - tWorldMark;
+			entCount += worldServer7.loadedEntityList.size();
+			activeEntCount += worldServer7.updatedEntities;
+			livingEntCount += worldServer7.cachedLivingCount;
+			itemEntCount += worldServer7.cachedItemCount;
+			otherEntCount += worldServer7.cachedOtherCount;
+			tileCount += worldServer7.loadedTileEntityList.size();
+			if(worldServer7.slowestEntityNanos > slowEntNanos) {
+				slowEntNanos = worldServer7.slowestEntityNanos;
+				slowEntName = worldServer7.slowestEntityName;
+			}
 		}
 
+		tWorldMark = System.currentTimeMillis();
 		this.networkServer.handleNetworkListenThread();
-		this.configManager.onTick();
+		tNet += System.currentTimeMillis() - tWorldMark;
 
+		tWorldMark = System.currentTimeMillis();
+		this.configManager.onTick();
+		tCfg += System.currentTimeMillis() - tWorldMark;
+
+		tWorldMark = System.currentTimeMillis();
 		for(EntityTracker entityTracker2 : this.entityTracker.values()) {
 			if(entityTracker2 != null) {
 				entityTracker2.updateTrackedEntities();
 			}
 		}
+		tTrack += System.currentTimeMillis() - tWorldMark;
 
+		tWorldMark = System.currentTimeMillis();
 		for(i6 = 0; i6 < this.playersOnline.size(); ++i6) {
 			((IUpdatePlayerListBox)this.playersOnline.get(i6)).update();
+		}
+		tPlayers += System.currentTimeMillis() - tWorldMark;
+
+		now = System.currentTimeMillis();
+		long totalTick = now - sectionStart;
+		slow = totalTick > 49L || tWorldTick > 25L || tWorldEnt > 25L || tNet > 25L || tCfg > 25L || tTrack > 25L || tPlayers > 25L;
+		if(slow && now - lastSlow > 1000L) {
+			lastSlow = now;
+			logger.log(Level.WARNING, "[perf] dt=" + this.deathTime + " players=" + this.playersOnline.size() + " wTick=" + tWorldTick + "ms wEnt=" + tWorldEnt + "ms net=" + tNet + "ms cfg=" + tCfg + "ms track=" + tTrack + "ms player=" + tPlayers + "ms TOTAL=" + totalTick + "ms netQueued=" + this.networkServer.getTotalQueuedPackets() + " ents=" + entCount + " active=" + activeEntCount + " living=" + livingEntCount + " items=" + itemEntCount + " other=" + otherEntCount + " tiles=" + tileCount + " slow=" + (slowEntNanos / 1000000L) + "ms(" + slowEntName + ")");
 		}
 
 		try {
