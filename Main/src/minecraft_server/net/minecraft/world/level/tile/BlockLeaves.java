@@ -64,7 +64,7 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, 
 
 	/** Scratch grid reused across ticks (the block is a singleton, so one array serves). */
 	private final int[] adjacency = new int[GRID * GRID * GRID];
-
+	
 	protected BlockLeaves(int id, int blockIndex) {
 		super(id, blockIndex, Material.leaves, false);
 		this.setTickOnLoad(true);
@@ -137,7 +137,7 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, 
 			// Only a leaf a removed log has flagged needs re-checking; the rest stay put.
 			if ((metadata & DECAY_CHECK_BIT) == 0) {
 				return;
-				}
+			}
 
 			// Classify the neighbourhood: 0 = log, -2 = leaves, -1 = anything else.
 			// Any wood-material block counts as a log (hollow/chipped logs included),
@@ -150,10 +150,10 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, 
 					adjacency[cursor] = 0;
 				} else if (block instanceof BlockLeaves) {
 					adjacency[cursor] = -2;
-							} else {
+				} else {
 					adjacency[cursor] = -1;
-					}
 				}
+			}
 
 			// Flood from each log (distance 0) outward through leaves, at most RADIUS steps.
 			for (int distance = 1; distance <= RADIUS; ++distance) {
@@ -164,20 +164,20 @@ public class BlockLeaves extends BlockLeavesBase implements IBlockWithSubtypes, 
 							int neighbor = cursor + stride;
 							if (adjacency[neighbor] == -2) {
 								adjacency[neighbor] = distance;
-									}
-									}
-									}
-									}
-									}
+							}
+						}
+					}
+				}
+			}
 
 			if (adjacency[CENTER] >= 0) {
 				// Still tethered to a log: keep the leaves and clear the re-check mark.
 				world.setBlockMetadata(x, y, z, metadata & ~DECAY_CHECK_BIT);
-				} else {
-					this.removeLeaves(world, x, y, z);
-				}
+			} else {
+				this.removeLeaves(world, x, y, z);
 			}
 		}
+	}
 
 	private void removeLeaves(World world, int i, int j, int k) {
 		this.dropBlockAsItem(world, i, j, k, world.getBlockMetadata(i, j, k));

@@ -1,6 +1,7 @@
 package net.minecraft.world.entity.mob.boss;
 
 import com.mojang.nbt.NBTTagCompound;
+
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.mob.slime.EntitySlime;
@@ -10,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.entity.TileEntityChest;
+import net.minecraft.world.stats.AchievementList;
 
 public class EntitySecretBoss extends EntitySlime {
 	int lvl = 0;
@@ -230,5 +232,15 @@ public class EntitySecretBoss extends EntitySlime {
 
 	protected float getSoundVolume() {
 		return 0.6F;
+	}
+	
+	@Override
+	public void onDeath(Entity entity) {
+		if(entity instanceof EntityPlayer) {
+			EntityPlayer entityPlayer = (EntityPlayer) entity;
+			entityPlayer.triggerAchievement(AchievementList.slimeBoss);
+		}
+		
+		super.onDeath(entity);
 	}
 }

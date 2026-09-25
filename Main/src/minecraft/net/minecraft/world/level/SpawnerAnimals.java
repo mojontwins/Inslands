@@ -108,7 +108,7 @@ public final class SpawnerAnimals {
 				continue;
 			}
 
-			totalSpawned += trySpawnCreatureType(world, creatureType, spawnPoint, activeEntities, hordeSize);
+			totalSpawned += trySpawnCreatureType(world, creatureType, spawnPoint, activeEntities, maxEntities, hordeSize);
 		}
 
 		return totalSpawned;
@@ -129,10 +129,17 @@ public final class SpawnerAnimals {
 		return true;
 	}
 
-	private static int trySpawnCreatureType(World world, EnumCreatureType creatureType, ChunkCoordinates spawnPoint, int activeEntities, int hordeSize) {
+	private static int trySpawnCreatureType(World world, EnumCreatureType creatureType, ChunkCoordinates spawnPoint, int activeEntities, int maxEntities, int hordeSize) {
 		int totalSpawned = 0;
+		int budget = maxEntities - activeEntities;
+		if(budget <= 0) {
+			return 0;
+		}
 
 		for(ChunkCoordIntPair chunkCoords : eligibleChunksForSpawning) {
+			if(totalSpawned >= budget) {
+				break;
+			}
 			Chunk spawningChunk = world.getChunkFromChunkCoords(chunkCoords.chunkXPos, chunkCoords.chunkZPos);
 			BiomeGenBase biome = spawningChunk.getBiomeGenAt(8, 8);
 			List<SpawnListEntry> spawnList = biome.getSpawnableList(creatureType);
@@ -210,9 +217,9 @@ public final class SpawnerAnimals {
 					++spawnedInChunk;
 					world.spawnEntityInWorld(entity);
 					creatureSpecificInit(entity, world, xFloat, yFloat, zFloat);
-					totalSpawned += spawnedInChunk;
+					++totalSpawned;
 
-					if(spawnedInChunk >= entity.getMaxSpawnedInChunk()) {
+					if(spawnedInChunk >= entity.getMaxSpawnedInChunk() || totalSpawned >= budget) {
 						break;
 					}
 				}

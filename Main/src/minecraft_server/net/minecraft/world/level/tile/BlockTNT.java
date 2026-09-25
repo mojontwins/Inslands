@@ -67,5 +67,4 @@ public class BlockTNT extends Block {
 
 		super.onBlockClicked(world1, i2, i3, i4, entityPlayer5);
 	}
-
 }

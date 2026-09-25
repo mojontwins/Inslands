@@ -25,7 +25,7 @@ All building happens inside Eclipse:
 
 ## Source layout
 
-There are **two independent source trees** — client and server. Shared game logic exists in both and must be kept in sync manually.
+There are **two independent source trees** — client and server. Shared game logic exists in both and must be kept in sync manually. **Before every build/export, run `powershell -ExecutionPolicy Bypass -File Main\parity.ps1`** — it fails on any drift between the shared classes. The only allowed client/server asymmetries are listed in the script's allowlist (NetworkManager perf tuning, World entitySimulationRadiusChunks); any new intentional asymmetry belongs there, not in silent divergence.
 
 ```
 Main/src/

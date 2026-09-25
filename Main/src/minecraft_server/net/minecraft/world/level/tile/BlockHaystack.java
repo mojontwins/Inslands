@@ -19,7 +19,7 @@ public class BlockHaystack extends Block {
 	public int getBlockTextureFromSideAndMetadata(int side, int metadata) {
 		// If meta == 0 -> side 0, 1 == ends, rest = sides.
 		if(metadata == 0) return (side <= 1 ? this.blockIndexInTexture + 1 : this.blockIndexInTexture);		
-		
+
 		// otherwise, custom renderer will ask for side == 0 meaning sides, side == 1 meaning ends.
 		
 		// This changed with the new renderer

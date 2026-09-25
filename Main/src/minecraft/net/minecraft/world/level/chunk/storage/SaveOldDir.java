@@ -13,6 +13,12 @@ public class SaveOldDir extends SaveHandler {
 
 	public IChunkLoader getChunkLoader(WorldProvider worldProvider1) {
 		String folder = worldProvider1.getSaveFolderName();
+		// Linked worlds live in their own "DIM-<id>" save directory which already IS
+		// the world folder; when the provider reports that same folder name, do not
+		// nest a second time under the save directory.
+		if(folder != null && folder.equals(this.getSaveDirectory().getName())) {
+			folder = null;
+		}
 		File file2 = folder == null ? this.getSaveDirectory() : new File(this.getSaveDirectory(), folder);
 		file2.mkdirs();
 		return new McRegionChunkLoader(file2);

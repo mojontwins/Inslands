@@ -12,22 +12,22 @@ class NetworkReaderThread extends Thread {
 		synchronized(NetworkManager.threadCounterLock) {
 			++NetworkManager.numReadThreads;
 		}
-
-			try {
+		
+		try {
 			while(NetworkManager.isRunning(this.netManager) && !NetworkManager.isServerTerminating(this.netManager)) {
 				while(NetworkManager.readTick(this.netManager)) {
 				}
-
+				
 				try {
 					sleep(2L); // Vanilla was: 100L
 				} catch (InterruptedException interruptedException15) {
 				}
 			}
-			} finally {
-					synchronized(NetworkManager.threadCounterLock) {
-						--NetworkManager.numReadThreads;
-					}
-				}
-
+		} finally {
+			synchronized(NetworkManager.threadCounterLock) {
+				--NetworkManager.numReadThreads;
+			}
+		}
+	
 	}
 }

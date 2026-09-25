@@ -42,7 +42,7 @@ public class BlockSeat extends Block {
 		ts.setTilePos(x, y, z);
 		world.spawnEntityInWorld(ts);
 		entityPlayer.mountEntity(ts);
-		
+
 		return true;
 	}
 }

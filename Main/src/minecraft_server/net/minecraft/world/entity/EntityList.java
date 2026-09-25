@@ -245,7 +245,7 @@ public class EntityList {
 		addMapping(EntityMovingPiston.class, "MovingPiston", 119);
 		
 		// More stuff
-		addMapping(EntityTriton.class, "Triton", 120);
+		addMapping(EntityTriton.class, "Triton", 129);
 		addMapping(EntityHauntedCow.class, "HauntedCow", 121);
 		
 		// Ice palace
