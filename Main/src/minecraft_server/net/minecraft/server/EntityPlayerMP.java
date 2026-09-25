@@ -269,19 +269,14 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 				this.terrainSyncPending = false;
 				this.lastTerrainSyncTime = System.currentTimeMillis();
 				this.playerNetServerHandler.sendPacket(new Packet13PlayerLookMove(this.syncPendingPosX, this.syncPendingPosY + 1.62D, this.syncPendingPosY, this.syncPendingPosZ, this.syncPendingYaw, this.syncPendingPitch, false));
-				this.mcServer.logger.log(java.util.logging.Level.WARNING, "[echo] " + this.username + " sent P13 x=" + this.syncPendingPosX + " y=" + this.syncPendingPosY + " z=" + this.syncPendingPosZ);
-				System.out.println(this.username + " terrain sync complete, released.");
 			}
 			return;
 		}
 
 		long now = System.currentTimeMillis();
-		if(now - this.lastTerrainSyncTime < 25L) {
-			return;
-		}
 
 		int drained = 0;
-		while(drained < 2 && !this.loadedChunks.isEmpty() && this.playerNetServerHandler.countDelayedPackets() < 16) {
+		while(drained < 16 && !this.loadedChunks.isEmpty() && this.playerNetServerHandler.countDelayedPackets() < 16) {
 			ChunkCoordIntPair next;
 			synchronized(this.loadedChunks) {
 				if(this.loadedChunks.isEmpty()) {
@@ -303,16 +298,9 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 
 		this.lastTerrainSyncTime = now;
 
-		if(this.loadedChunks.isEmpty() && this.chunksStreamed > 0) {
-			System.out.println(this.username + " terrain dump complete: " + this.chunksStreamed + " map chunks");
-			this.chunksStreamed = 0L;
-		}
-
 		if(this.loadedChunks.isEmpty() && this.terrainSyncPending) {
 			this.terrainSyncPending = false;
 			this.playerNetServerHandler.sendPacket(new Packet13PlayerLookMove(this.syncPendingPosX, this.syncPendingPosY + 1.62D, this.syncPendingPosY, this.syncPendingPosZ, this.syncPendingYaw, this.syncPendingPitch, false));
-			this.mcServer.logger.log(java.util.logging.Level.WARNING, "[echo] " + this.username + " sent P13 x=" + this.syncPendingPosX + " y=" + this.syncPendingPosY + " z=" + this.syncPendingPosZ);
-			System.out.println(this.username + " terrain sync complete, released.");
 		}
 	}
 
@@ -321,12 +309,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		// box with the feet so movement/anti-cheat match what the client reports.
 		this.yOffset = 0.0F;
 		super.onLivingUpdate();
-		long now = System.currentTimeMillis();
-		if(now - this.lastMpTickLog > 1000L) {
-			this.lastMpTickLog = now;
-			List<Entity> list3 = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(1.0D, 0.0D, 1.0D));
-			this.mcServer.logger.log(java.util.logging.Level.WARNING, "[mpTick] " + this.username + " pos=" + this.posX + "," + this.posY + "," + this.posZ + " onGround=" + this.onGround + " near=" + (list3 == null ? -1 : list3.size()));
-		}
 	}
 
 	public void onItemPickup(Entity entity1, int i2) {

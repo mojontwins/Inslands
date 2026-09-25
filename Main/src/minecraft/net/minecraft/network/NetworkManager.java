@@ -191,10 +191,6 @@ public class NetworkManager {
 			packet.processPacket(this.packetListener);
 		}
 
-		if(this.incoming.size() > 2000) {
-			System.out.println("[net] client inbound backlog=" + this.incoming.size());
-		}
-
 		this.wakeThreads();
 		if(this.disconnected && this.incoming.isEmpty()) {
 			this.packetListener.handleErrorMessage(this.disconnectReason, this.disconnectReasonObjects);

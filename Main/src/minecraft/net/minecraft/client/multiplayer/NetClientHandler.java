@@ -430,7 +430,10 @@ public class NetClientHandler extends NetHandler {
 			this.mc.thePlayer.prevPosY = this.mc.thePlayer.posY;
 			this.mc.thePlayer.prevPosZ = this.mc.thePlayer.posZ;
 			this.field_1210_g = true;
-			this.mc.displayGuiScreen((GuiScreen) null);
+			// Keep the download screen until the whole-island terrain has been
+			// applied; GuiDownloadTerrain dismisses itself once the apply queue
+			// drains, so no world "streams in" under the player.
+			this.worldClient.terrainSyncAck = true;
 		}
 
 	}
@@ -601,7 +604,10 @@ public class NetClientHandler extends NetHandler {
 		float yaw = (float)(packet.yaw * 360) / 256.0F;
 		float pitch = (float)(packet.pitch * 360) / 256.0F;
 
-		EntityLiving theEntity = (EntityLiving)EntityList.createEntityByID(packet.type, this.mc.theWorld);
+		EntityLiving theEntity = (EntityLiving)EntityList.createEntityByID(packet.type, this.worldClient);
+		if(theEntity == null) {
+			return;
+		}
 		theEntity.serverPosX = packet.xPosition;
 		theEntity.serverPosY = packet.yPosition;
 		theEntity.serverPosZ = packet.zPosition;
@@ -624,7 +630,10 @@ public class NetClientHandler extends NetHandler {
 		float yaw = (float)(packet.yaw * 360) / 256.0F;
 		float pitch = (float)(packet.pitch * 360) / 256.0F;
 
-		EntityArmoredMob theEntity = (EntityArmoredMob)EntityList.createEntityByID(packet.type, this.mc.theWorld);
+		EntityArmoredMob theEntity = (EntityArmoredMob)EntityList.createEntityByID(packet.type, this.worldClient);
+		if(theEntity == null) {
+			return;
+		}
 		theEntity.serverPosX = packet.xPosition;
 		theEntity.serverPosY = packet.yPosition;
 		theEntity.serverPosZ = packet.zPosition;

@@ -464,10 +464,6 @@ public class MinecraftServer implements Runnable, ICommandListener {
 		now = System.currentTimeMillis();
 		long totalTick = now - sectionStart;
 		slow = totalTick > 49L || tWorldTick > 25L || tWorldEnt > 25L || tNet > 25L || tCfg > 25L || tTrack > 25L || tPlayers > 25L;
-		if(slow && now - lastSlow > 1000L) {
-			lastSlow = now;
-			logger.log(Level.WARNING, "[perf] dt=" + this.deathTime + " players=" + this.playersOnline.size() + " wTick=" + tWorldTick + "ms wEnt=" + tWorldEnt + "ms net=" + tNet + "ms cfg=" + tCfg + "ms track=" + tTrack + "ms player=" + tPlayers + "ms TOTAL=" + totalTick + "ms netQueued=" + this.networkServer.getTotalQueuedPackets() + " ents=" + entCount + " active=" + activeEntCount + " living=" + livingEntCount + " items=" + itemEntCount + " other=" + otherEntCount + " tiles=" + tileCount + " slow=" + (slowEntNanos / 1000000L) + "ms(" + slowEntName + ")");
-		}
 
 		try {
 			this.commandLineParser();

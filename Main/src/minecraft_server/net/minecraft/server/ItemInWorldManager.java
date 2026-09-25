@@ -136,20 +136,6 @@ public class ItemInWorldManager {
 			}
 		}
 
-		if(wasRemoved && System.currentTimeMillis() - lastDigLog > 500L) {
-			lastDigLog = (int)System.currentTimeMillis();
-			List listA = this.thisWorld.getEntitiesWithinAABBExcludingEntity(this.thisPlayer, AxisAlignedBB.getBoundingBoxFromPool((double)x - 2.0D, (double)y - 2.0D, (double)z - 2.0D, (double)x + 3.0D, (double)y + 3.0D, (double)z + 3.0D));
-			int itemsNear = 0;
-			if(listA != null) {
-				for(int qi = 0; qi < listA.size(); ++qi) {
-					if(listA.get(qi) instanceof EntityItem) {
-						++itemsNear;
-					}
-				}
-			}
-			((EntityPlayerMP)this.thisPlayer).mcServer.logger.log(java.util.logging.Level.WARNING, "[dig] block=" + blockID + " harvested at " + x + "," + y + "," + z + " itemsNear=" + itemsNear);
-		}
-
 		return wasRemoved;
 	}
 

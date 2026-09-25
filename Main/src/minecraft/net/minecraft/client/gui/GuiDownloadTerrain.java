@@ -32,6 +32,10 @@ public class GuiDownloadTerrain extends GuiScreen {
 			this.netHandler.processReadPackets();
 		}
 
+		if(this.worldClient != null && this.worldClient.terrainSyncAck && this.worldClient.isTerrainSyncComplete()) {
+			this.mc.displayGuiScreen((GuiScreen) null);
+		}
+
 	}
 
 	protected void actionPerformed(GuiButton guiButton1) {

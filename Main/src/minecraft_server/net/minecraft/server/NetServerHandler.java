@@ -108,10 +108,6 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 					|| (d3 + dvy) * (d3 + dvy) < 0.36D;
 			if(ddx * ddx + ddz * ddz < 4.0D && bMatchY) {
 				this.hasMoved = true;
-				this.mcServer.logger.log(java.util.logging.Level.WARNING, "[fly] hasMoved=true at " + packet10Flying1.xPosition + "," + packet10Flying1.yPosition + "," + packet10Flying1.zPosition + " (last " + this.lastPosX + "," + this.lastPosY + "," + this.lastPosZ + ")");
-			} else if(this.stuckDiagCount < 5) {
-				++this.stuckDiagCount;
-				this.mcServer.logger.log(java.util.logging.Level.WARNING, "[stuck] pkt=" + packet10Flying1.xPosition + "," + packet10Flying1.yPosition + "," + packet10Flying1.zPosition + " last=" + this.lastPosX + "," + this.lastPosY + "," + this.lastPosZ + " dy=" + d3 + " ddx=" + ddx + " ddz=" + ddz);
 			}
 		}
 
@@ -219,7 +215,6 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 			if(d19 > 100.0D && !this.playerEntity.isCreative) {
 				// Streaming shoves / stray pre-echo packets can claim a large jump;
 				// snap back instead of booting the player.
-				logger.warning(this.playerEntity.username + " moved too quickly - snapping back!");
 				this.teleportTo(this.lastPosX, this.lastPosY, this.lastPosZ, this.playerEntity.rotationYaw, this.playerEntity.rotationPitch);
 				return;
 			}
@@ -240,10 +235,6 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 			boolean z23 = false;
 			if(d19 > 0.5D && !this.playerEntity.isPlayerSleeping()) {
 				z23 = true;
-				logger.warning(this.playerEntity.username + " moved wrongly!");
-				System.out.println("Got position " + d5 + ", " + d7 + ", " + d9);
-				System.out.println("Expected " + this.playerEntity.posX + ", " + this.playerEntity.posY + ", "
-						+ this.playerEntity.posZ);
 			}
 
 			// Use the collision-resolved height, not the raw client claim: the
@@ -717,9 +708,7 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 	public void handleUpdateAnimalName(Packet91UpdateAnimalName packet) {
 		WorldServer worldServer = this.mcServer.getWorldManager(this.playerEntity.dimension);
 		Entity entity = worldServer.getEntityByID(packet.entityId);
-		if(entity == null || !(entity instanceof EntityCreature)) {
-			System.out.println ("Received name " + packet.name + " for non existing creature " + packet.entityId);
-		} else {
+		if(entity != null && entity instanceof EntityCreature) {
 			((EntityCreature) entity).setName(packet.name);
 		}
 	}
@@ -736,7 +725,6 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 	public void handleSetInventorySlot(Packet97SetInventorySlot packet) {
 		ItemStack itemStack = new ItemStack(packet.itemID, packet.itemAmount, packet.itemDamage);
 		this.playerEntity.inventory.setInventorySlotContents(packet.slot, itemStack);
-		System.out.println ("Put " + itemStack + " into slot " + packet.slot);
 	}
 
 	public void handleCreativeSetSlot(Packet107CreativeSetSlot packet) {

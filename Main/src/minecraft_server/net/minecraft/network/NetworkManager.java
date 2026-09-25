@@ -139,7 +139,6 @@ public class NetworkManager {
 
 	private void handleException(Exception exception1) {
 		exception1.printStackTrace();
-		java.util.logging.Logger.getLogger("Minecraft").log(java.util.logging.Level.WARNING, "[net] exception on connection " + this.address, exception1);
 		this.close("disconnect.genericReason", new Object[]{"Internal exception: " + exception1.toString()});
 	}
 

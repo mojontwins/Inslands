@@ -31,7 +31,15 @@ public class WorldClient extends World {
 	private LinkedList<Packet51MapChunk> terrainChunkQueue = new LinkedList<Packet51MapChunk>();
 	public int terrainChunksTotal;
 	public int terrainChunksReceived;
-	private static final int terrainChunksPerTick = 6;
+	// Set by NetClientHandler once the server has sent the spawn position; the
+	// download screen stays up until the whole-island apply queue is drained.
+	public boolean terrainSyncAck = false;
+
+	public boolean isTerrainSyncComplete() {
+		return this.terrainChunkQueue.isEmpty()
+				|| (this.terrainChunksTotal > 0 && this.terrainChunksReceived >= this.terrainChunksTotal);
+	}
+	private static final int terrainChunksPerTick = 24;
 
 	public WorldClient(NetClientHandler netClientHandler1, WorldSettings worldSettings2, int i4, GameSettings gameSettings) {
 		super(new SaveHandlerMP(), "MpServer", WorldProvider.getProviderForDimension(i4), (WorldSettings)worldSettings2);
@@ -79,7 +87,6 @@ public class WorldClient extends World {
 				// status-3 requests here just buries the server further. The pending region is
 				// refreshed when its chunk arrives, so drop the entry silently.
 				if(!terrainDumpPending) {
-					System.out.println ("No server confirmation for " + worldBlockPositionType4.posX + "," + worldBlockPositionType4.posY + "," + worldBlockPositionType4.posZ + " (predicted " + worldBlockPositionType4.blockID + ":" + worldBlockPositionType4.metadata + ") - requesting authoritative block");
 					this.sendQueue.addToSendQueue(new Packet14BlockDig(3, worldBlockPositionType4.posX, worldBlockPositionType4.posY, worldBlockPositionType4.posZ, 0, null, 0.0F, 0.0F, 0.0F));
 				}
 
