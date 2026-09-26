@@ -57,6 +57,16 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 
 public class LevelRenderer implements IWorldAccess {
+	/**
+	 * Horizontal squeeze applied to the celestial plane (sun/moon) before drawing it.
+	 * Vanilla b1.7.3 draws them as flat 60x60 (moon 40x40) quads 100 blocks away, which
+	 * subtends ~33 degrees and so covers half the screen as soon as the celestial angle
+	 * is anywhere near 0.25. The fixed-daylight themes (Forest, Caves) pin the angle at
+	 * 0.24 permanently, so the huge vanilla sun/moon is the only thing ever seen.
+	 * Squeezing X/Z keeps the vanilla sizes, the sun/moon/blood-moon ratios and the
+	 * y=100 distance, and yields a ~12 degree sun and a ~8 degree moon.
+	 */
+	private static final float CELESTIAL_SIZE = 0.35F;
 	public List<TileEntity> tileEntities = new ArrayList<TileEntity>();
 	public World worldObj;
 	public RenderEngine renderEngine;
@@ -799,14 +809,18 @@ public class LevelRenderer implements IWorldAccess {
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 			GL11.glPushMatrix();
 			
-			// Sun and moon with additive blending, dimmed while it rains. During a blood moon the
-			// moon turns red and grows to 2.5x its normal size.
-			
-			float daylightFactor = 1.0F - this.worldObj.getRainStrength(partialTicks);
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, daylightFactor);
-			GL11.glRotatef(this.worldObj.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
-
-			float sunMoonSize = 30.0F;
+		// Sun and moon with additive blending, dimmed while it rains. During a blood moon the
+		// moon turns red and grows to 2.5x its normal size. Both are drawn inside a
+		// CELESTIAL_SIZE squeeze of the celestial plane so they keep the vanilla proportions
+		// without covering half the sky.
+		
+		float daylightFactor = 1.0F - this.worldObj.getRainStrength(partialTicks);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, daylightFactor);
+		GL11.glRotatef(this.worldObj.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
+		GL11.glPushMatrix();
+		GL11.glScaled(CELESTIAL_SIZE, 1.0F, CELESTIAL_SIZE);
+		
+		float sunMoonSize = 30.0F;
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.renderEngine.getTexture("/terrain/sun.png"));
 			tessellator.startDrawingQuads();
 			tessellator.addVertexWithUV((double)(-sunMoonSize), 100.0D, (double)(-sunMoonSize), 0.0D, 0.0D);
@@ -827,6 +841,7 @@ public class LevelRenderer implements IWorldAccess {
 			tessellator.addVertexWithUV((double)sunMoonSize, -100.0D, (double)(-sunMoonSize), 0.0D, 0.0D);
 			tessellator.addVertexWithUV((double)(-sunMoonSize), -100.0D, (double)(-sunMoonSize), 1.0D, 0.0D);
 			tessellator.draw();
+			GL11.glPopMatrix();
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			
 			// Stars

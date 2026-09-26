@@ -6,6 +6,7 @@ import net.minecraft.world.entity.player.EntityPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemTool;
+import net.minecraft.world.level.IBlockAccess;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.material.Material;
 
@@ -16,9 +17,19 @@ public class BlockTFMazestone2 extends Block implements IGroundSubstitute {
 		super(id, texture, Material.rock);
 	}
 
+	private static Block getMimicBlock(int meta) {
+		int index = meta & 0xf;
+		return index < mimicIDs.length ? Block.blocksList[mimicIDs[index]] : null;
+	}
+
+	public int getBlockTexture(IBlockAccess blockAccess, int x, int y, int z, int side) {
+		Block mimic = getMimicBlock(blockAccess.getBlockMetadata(x, y, z));
+		return mimic != null ? mimic.getBlockTexture(blockAccess, x, y, z, side) : super.getBlockTexture(blockAccess, x, y, z, side);
+	}
+
 	public int getBlockTextureFromSideAndMetadata(int side, int meta) {
-		Block mimic = Block.blocksList[mimicIDs[meta]];
-		return mimic != null && mimic.isOpaqueCube() ? mimic.getBlockTextureFromSide(side) : super.getBlockTextureFromSideAndMetadata(side, meta);
+		Block mimic = getMimicBlock(meta);
+		return mimic != null ? mimic.getBlockTextureFromSideAndMetadata(side, 0) : super.getBlockTextureFromSideAndMetadata(side, meta);
 	}
 
 	public int quantityDropped(Random random) {
@@ -31,7 +42,7 @@ public class BlockTFMazestone2 extends Block implements IGroundSubstitute {
 			cei.damageItem(8, entityplayer);
 		}
 
-		Block mimic = Block.blocksList[mimicIDs[meta]];
+		Block mimic = getMimicBlock(meta);
 		if(mimic != null) {
 			mimic.harvestBlock(world, entityplayer, x, y, z, 0);
 		} else {

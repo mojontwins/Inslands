@@ -321,10 +321,37 @@ public abstract class EntityLiving extends Entity {
 			limbSwingAmount *= -1.0F;
 		}
 
-		this.prevRotationYaw += MathHelper.wrapDegrees(this.rotationYaw - this.prevRotationYaw);
-		this.prevRenderYawOffset += MathHelper.wrapDegrees(this.renderYawOffset - this.prevRenderYawOffset);
-		this.prevRotationPitch += MathHelper.wrapDegrees(this.rotationPitch - this.prevRotationPitch);
-		this.prevRotationYawHead += MathHelper.wrapDegrees(this.rotationYawHead - this.prevRotationYawHead);
+		while(this.rotationYaw - this.prevRotationYaw < -180.0F) {
+			this.prevRotationYaw -= 360.0F;
+		}
+
+		while(this.rotationYaw - this.prevRotationYaw >= 180.0F) {
+			this.prevRotationYaw += 360.0F;
+		}
+
+		while(this.renderYawOffset - this.prevRenderYawOffset < -180.0F) {
+			this.prevRenderYawOffset -= 360.0F;
+		}
+
+		while(this.renderYawOffset - this.prevRenderYawOffset >= 180.0F) {
+			this.prevRenderYawOffset += 360.0F;
+		}
+
+		while(this.rotationPitch - this.prevRotationPitch < -180.0F) {
+			this.prevRotationPitch -= 360.0F;
+		}
+
+		while(this.rotationPitch - this.prevRotationPitch >= 180.0F) {
+			this.prevRotationPitch += 360.0F;
+		}
+
+		while(this.rotationYawHead - this.prevRotationYawHead < -180.0F) {
+			this.prevRotationYawHead -= 360.0F;
+		}
+
+		while(this.rotationYawHead - this.prevRotationYawHead >= 180.0F) {
+			this.prevRotationYawHead += 360.0F;
+		}
 
 		this.rotationUnused += limbSwingAmount;
 	}

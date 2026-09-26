@@ -608,6 +608,7 @@ public class NetClientHandler extends NetHandler {
 		if(theEntity == null) {
 			return;
 		}
+		theEntity.isMultiplayerEntity = true;
 		theEntity.serverPosX = packet.xPosition;
 		theEntity.serverPosY = packet.yPosition;
 		theEntity.serverPosZ = packet.zPosition;
@@ -634,6 +635,7 @@ public class NetClientHandler extends NetHandler {
 		if(theEntity == null) {
 			return;
 		}
+		theEntity.isMultiplayerEntity = true;
 		theEntity.serverPosX = packet.xPosition;
 		theEntity.serverPosY = packet.yPosition;
 		theEntity.serverPosZ = packet.zPosition;
@@ -949,6 +951,10 @@ public class NetClientHandler extends NetHandler {
 
 	public boolean isServerHandler() {
 		return false;
+	}
+
+	public boolean hasReceivedFirstMove() {
+		return this.field_1210_g;
 	}
 	
 	public void handleFiniteWorldSettings(Packet93FiniteWorldSettings packet) {

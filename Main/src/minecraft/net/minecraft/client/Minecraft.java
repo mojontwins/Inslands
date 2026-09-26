@@ -1927,6 +1927,12 @@ this.playerController.func_6473_b(this.thePlayer);
 		this.thePlayer.isCreative = oldPlayer.isCreative;
 		this.thePlayer.enableCheats = oldPlayer.enableCheats;
 		this.thePlayer.enableCraftingGuide = oldPlayer.enableCraftingGuide;
+		// §5.11: travelling respawns the client player (Packet9Respawn) and the server
+		// re-sends the whole inventory afterwards, so items are already back by the time
+		// the terrain download ends. The hotbar selection is not part of that re-sync
+		// and the server keeps its own value, so carry it over to avoid the highlight
+		// snapping back to slot 0 and a mismatch on the server's held-item slot.
+		this.thePlayer.inventory.currentItem = oldPlayer.inventory.currentItem;
 
 		this.thePlayer.dimension = i2;
 		this.renderViewEntity = this.thePlayer;
