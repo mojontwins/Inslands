@@ -5,6 +5,8 @@ Main/jars/resources/*
 Main/jars/saves/*
 Main/jars/world/*
 Main/jars/stats/*
+Main/jars/*.log*
+Main/jars/*.lck
 Main/temp/*
 Main/workspace/Client/bin/*
 Main/workspace/Server/bin/*
