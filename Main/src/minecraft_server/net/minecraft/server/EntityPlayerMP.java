@@ -247,7 +247,9 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 	// per join / teleport, driven from the server tick loop, never by movement.
 
 	public synchronized void queueChunkForSync(ChunkCoordIntPair pair) {
-		this.loadedChunks.add(pair);
+		if(!this.loadedChunks.contains(pair)) {
+			this.loadedChunks.add(pair);
+		}
 	}
 
 	public synchronized void clearTerrainSyncQueue() {

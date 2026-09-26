@@ -79,15 +79,14 @@ public class PlayerManager {
 		entityPlayerMP1.managedPosZ = entityPlayerMP1.posZ;
 		this.fetchIslandBounds();
 
-		int playerCX = (int)entityPlayerMP1.posX >> 4;
-		int playerCZ = (int)entityPlayerMP1.posZ >> 4;
-		for(int dx = -this.playerViewRadius; dx <= this.playerViewRadius; ++dx) {
-			for(int dz = -this.playerViewRadius; dz <= this.playerViewRadius; ++dz) {
-				int cx = playerCX + dx;
-				int cz = playerCZ + dz;
-				if(cx >= this.islandMinX && cx < this.islandMaxX && cz >= this.islandMinZ && cz < this.islandMaxZ) {
-					this.getPlayerInstance(cx, cz, true).addPlayer(entityPlayerMP1);
-				}
+		// Whole-island membership: the island is always fully in memory, so every
+		// entry (login, travel, re-entry) announces and queues every chunk. Stale
+		// memberships from a previous visit must still resend, because the client
+		// shows a fresh WorldClient per dimension change.
+		entityPlayerMP1.clearTerrainSyncQueue();
+		for(int cx = this.islandMinX; cx < this.islandMaxX; ++cx) {
+			for(int cz = this.islandMinZ; cz < this.islandMaxZ; ++cz) {
+				this.getPlayerInstance(cx, cz, true).addPlayer(entityPlayerMP1);
 			}
 		}
 
@@ -97,17 +96,11 @@ public class PlayerManager {
 	public void removePlayer(EntityPlayerMP entityPlayerMP1) {
 		this.fetchIslandBounds();
 
-		int playerCX = (int)entityPlayerMP1.posX >> 4;
-		int playerCZ = (int)entityPlayerMP1.posZ >> 4;
-		for(int dx = -this.playerViewRadius; dx <= this.playerViewRadius; ++dx) {
-			for(int dz = -this.playerViewRadius; dz <= this.playerViewRadius; ++dz) {
-				int cx = playerCX + dx;
-				int cz = playerCZ + dz;
-				if(cx >= this.islandMinX && cx < this.islandMaxX && cz >= this.islandMinZ && cz < this.islandMaxZ) {
-					PlayerInstance playerInstance6 = this.getPlayerInstance(cx, cz, false);
-					if(playerInstance6 != null) {
-						playerInstance6.removePlayer(entityPlayerMP1);
-					}
+		for(int cx = this.islandMinX; cx < this.islandMaxX; ++cx) {
+			for(int cz = this.islandMinZ; cz < this.islandMaxZ; ++cz) {
+				PlayerInstance playerInstance6 = this.getPlayerInstance(cx, cz, false);
+				if(playerInstance6 != null) {
+					playerInstance6.removePlayer(entityPlayerMP1);
 				}
 			}
 		}

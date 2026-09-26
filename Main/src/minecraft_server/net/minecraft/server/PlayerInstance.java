@@ -38,13 +38,15 @@ class PlayerInstance {
 	}
 
 	public void addPlayer(EntityPlayerMP entityPlayerMP1) {
-		if(this.players.contains(entityPlayerMP1)) {
-			return;
+		if(!this.players.contains(entityPlayerMP1)) {
+			this.players.add(entityPlayerMP1);
 		}
 
+		// Always re-announce and re-queue: the client builds a brand-new WorldClient
+		// on every dimension entry, so even an instance with stale membership from a
+		// previous visit must resend the PreChunk and push the chunk into the sync dump.
 		entityPlayerMP1.listeningChunks.add(this.currentChunk);
 		entityPlayerMP1.playerNetServerHandler.sendPacket(new Packet50PreChunk(this.currentChunk.chunkXPos, this.currentChunk.chunkZPos, true));
-		this.players.add(entityPlayerMP1);
 		entityPlayerMP1.queueChunkForSync(this.currentChunk);
 	}
 
