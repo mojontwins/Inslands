@@ -22,6 +22,7 @@ import net.minecraft.network.packet.Packet9Respawn;
 import net.minecraft.network.packet.Packet93FiniteWorldSettings;
 import net.minecraft.network.packet.Packet95UpdateDayOfTheYear;
 import net.minecraft.world.entity.player.EntityPlayer;
+import net.minecraft.world.level.PortalRegistry;
 import net.minecraft.world.level.WorldInfo;
 import net.minecraft.world.level.WorldSize;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
@@ -218,9 +219,13 @@ public class ServerConfigurationManager {
 		if(destId == sourceId) return;
 
 		// Broken or stale linked-world destination: fall back to the main world.
-		if(destId >= 2 && !new File(new File("."), "DIM-" + destId + File.separator + "level.dat").isFile()) {
-			if(sourceId == 0) return;
-			destId = 0;
+		if(destId >= 2) {
+			File portalBase = PortalRegistry.getBaseSaveDirectory(entityPlayerMP1.worldObj);
+			if(portalBase == null) portalBase = new File(".");
+			if(!new File(portalBase, "DIM-" + destId + File.separator + "level.dat").isFile()) {
+				if(sourceId == 0) return;
+				destId = 0;
+			}
 		}
 
 		boolean toNether = destId == 1;

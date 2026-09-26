@@ -558,7 +558,9 @@ public class MinecraftServer implements Runnable, ICommandListener {
 		// (SaveOldDir skips the provider folder when it matches its own directory name).
 		logger.info("Loading DIM " + worldId + " (" + name + ")");
 		GlobalVars.initializeGameFlags();
-		SaveOldDir handler = new SaveOldDir(new File("."), "DIM-" + worldId, true);
+		File portalBase = PortalRegistry.getBaseSaveDirectory(mainWorld);
+		if(portalBase == null) portalBase = new File(".");
+		SaveOldDir handler = new SaveOldDir(portalBase, "DIM-" + worldId, true);
 		WorldServer world = new WorldServerMulti(this, handler, name, worldId, settings, mainWorld);
 		WorldInfo worldInfo = world.getWorldInfo();
 		if(worldInfo != null) {

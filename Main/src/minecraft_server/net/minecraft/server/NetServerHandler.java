@@ -41,6 +41,7 @@ import net.minecraft.world.inventory.InventoryPlayer;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.PortalRegistry;
 import net.minecraft.world.level.chunk.ChunkCoordinates;
 import net.minecraft.world.level.tile.Block;
 import net.minecraft.world.level.tile.entity.TileEntity;
@@ -601,7 +602,9 @@ public class NetServerHandler extends NetHandler implements ICommandListener {
 			// Dying in the nether returns the player to the world they came from;
 			// dying anywhere else respawns them in that same world.
 			int i2 = this.playerEntity.dimension == 1 ? this.playerEntity.netherReturnWorldId : this.playerEntity.dimension;
-			if(i2 < 0 || i2 >= 2 && i2 != this.playerEntity.dimension && !new File(new File("."), "DIM-" + i2 + File.separator + "level.dat").isFile()) {
+			File portalBase = PortalRegistry.getBaseSaveDirectory(this.playerEntity.worldObj);
+			if(portalBase == null) portalBase = new File(".");
+			if(i2 < 0 || i2 >= 2 && i2 != this.playerEntity.dimension && !new File(portalBase, "DIM-" + i2 + File.separator + "level.dat").isFile()) {
 				i2 = 0;
 			}
 
